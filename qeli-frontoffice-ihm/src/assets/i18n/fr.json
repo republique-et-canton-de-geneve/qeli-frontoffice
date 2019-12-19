@@ -1,0 +1,55 @@
+{
+  "home": {
+    "title": "Questionaire d'éligibilité"
+  },
+  "layout": {
+    "footer": {
+      "annuaire": "Annuaire",
+      "catalogueEdemarches": "Catalogue des e-démarches",
+      "conditionsGenerales": "Conditions générales",
+      "informationsGenerales": "Informations générales",
+      "titre": "République et canton de Genève",
+      "traduction": "Traduction"
+    },
+    "header": {
+      "title": "République et canton de Genève"
+    },
+    "toolbar": {
+      "home": "Plus d'informations",
+      "link": "https://www.ge.ch/node/10471"
+    }
+  },
+  "question": {
+    "nom": {
+      "label": "Nom",
+      "help": "Votre nom de famille",
+      "error": {
+        "required": "Le nom doit être fourni"
+      }
+    },
+    "prenom": {
+      "label": "Prénom",
+      "error": {
+        "required": "Le prénom doit être fourni"
+      }
+    },
+    "dateNaissance": {
+      "label": "Date de naissance",
+      "error": {
+        "required": "La date de naissance doit être fourni"
+      }
+    },
+    "etatCivil": {
+      "label": "État civil",
+      "option": {
+        "marie": "Marié/e",
+        "celibataire": "Célibataire/e",
+        "divorce": "Divorcé/e"
+      }
+    }
+  },
+  "form": {
+    "required": "Ce champ est requis.",
+    "submit": "Envoyer"
+  }
+}

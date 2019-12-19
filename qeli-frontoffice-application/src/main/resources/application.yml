@@ -1,0 +1,29 @@
+application:
+  name: qeli-frontoffice
+
+social.tools.frontoffice:
+  ihm-resource-location: /formulaire
+  ihm-context-path: /formulaire
+  send-error-message: false
+
+spring:
+  application:
+    admin:
+      enabled: false
+
+  jmx:
+    enabled: false
+
+server:
+  port: 443
+
+  error:
+    whitelabel:
+      enabled: false
+
+  servlet:
+    context-path: /
+    session:
+      cookie:
+        http-only: true
+        secure: true

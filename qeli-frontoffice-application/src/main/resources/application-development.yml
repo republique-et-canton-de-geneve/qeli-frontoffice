@@ -1,0 +1,11 @@
+social.tools.frontoffice:
+  ihm-resource-location: classpath:/formulaire
+
+server:
+  port: 8080
+
+  servlet:
+    context-path: /qeli
+
+  ssl:
+    enabled: false

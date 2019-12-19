@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.6.RELEASE</version>
+    </parent>
+
+    <groupId>ch.ge.social.qeli</groupId>
+    <artifactId>qeli-frontoffice</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>qeli-frontoffice</name>
+    <description>Archetype pour l'initialisation rapide d'un frontoffice.</description>
+    <url>***REMOVED***/DEVELOPPEUR-SOCIAL/qeli-frontoffice-archetype</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Action Sociale - État de Genève</name>
+            <email>LS-OCSIN-SCLI-SCLI_DCS-AS.DEVELOPPEUR@etat.ge.ch</email>
+            <organization>OCSIN-SCLI-DCS-AS</organization>
+            <organizationUrl>https://www.ge.ch</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <url>***REMOVED***/DEVELOPPEUR-SOCIAL/as-frontoffice-archetype</url>
+    </scm>
+
+    <distributionManagement>
+        <!-- cf settings.xml pour les définitions des repositories -->
+        <repository>
+            <id>internal.project.release</id>
+            <name>internal.project.release</name>
+            <url>${maven2Repository_projet}/project_release</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>internal.project.snapshot</id>
+            <name>internal.project.snapshot</name>
+            <url>${maven2Repository_projet}/project_snapshot</url>
+        </snapshotRepository>
+
+        <site>
+            <id>projects_Website</id>
+            <url>dav:***REMOVED***/content/sites/projects_Website/ch/ge/cti/melusine/${project.artifactId}/${project.version}</url>
+        </site>
+    </distributionManagement>
+
+    <properties>
+        <!-- Build parameters -->
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+
+        <!-- IHM test parameters -->
+        <maven.test.skip>false</maven.test.skip>
+        <ihm.test.skip>${maven.test.skip}</ihm.test.skip>
+
+        <!-- SonarQube parameters -->
+        <sonar.jacoco.reportPaths>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPaths>
+
+        <!-- Plugins versions -->
+        <gitflow-maven-plugin.version>1.11.0</gitflow-maven-plugin.version>
+        <gmavenplus-plugin.version>1.6.2</gmavenplus-plugin.version>
+        <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+
+        <!-- Plugin JAR dependencies versions -->
+        <asm.version>7.0</asm.version>
+        <javax-interceptor-api.version>1.2.2</javax-interceptor-api.version>
+
+        <!-- JAR dependencies versions -->
+
+        <!-- Additional dependencies versions -->
+        <as-tools.version>0.0.2</as-tools.version>
+        <ct_springmvc_theme_internet.version>2.0.4</ct_springmvc_theme_internet.version>
+        <guava.version>27.0.1-jre</guava.version>
+        <javassist.version>3.23.1-GA</javassist.version>
+        <mapstruct.version>1.3.0.Final</mapstruct.version>
+        <xmlschema-core.version>2.2.4</xmlschema-core.version>
+
+        <!-- Test dependencies versions -->
+        <cglib.version>3.2.9</cglib.version>
+        <spock.version>1.2-groovy-2.5</spock.version>
+        <objenesis.version>3.0.1</objenesis.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Frontoffice modules -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>qeli-frontoffice-application</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <type>war</type>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>qeli-frontoffice-ihm</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <type>war</type>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>qeli-frontoffice-rest</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>qeli-frontoffice-service</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>qeli-frontoffice-service-api</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Additional dependencies -->
+            <dependency>
+                <groupId>ch.ge.social.tools</groupId>
+                <artifactId>as-tools-bom</artifactId>
+                <version>${as-tools.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.ws.xmlschema</groupId>
+                <artifactId>xmlschema-core</artifactId>
+                <version>${xmlschema-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.version}</version>
+            </dependency>
+
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib-nodep</artifactId>
+                <version>${cglib.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.objenesis</groupId>
+                <artifactId>objenesis</artifactId>
+                <version>${objenesis.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-core</artifactId>
+                <version>${spock.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-spring</artifactId>
+                <version>${spock.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>pl.project13.maven</groupId>
+                    <artifactId>git-commit-id-plugin</artifactId>
+                    <configuration>
+                        <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                        <commitIdGenerationMode>flat</commitIdGenerationMode>
+                        <abbrevLength>8</abbrevLength>
+                        <gitDescribe>
+                            <skip>true</skip>
+                        </gitDescribe>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.amashchenko.maven.plugin</groupId>
+                    <artifactId>gitflow-maven-plugin</artifactId>
+                    <version>${gitflow-maven-plugin.version}</version>
+                    <configuration>
+                        <argLine>-Dihm.test.skip=${ihm.test.skip}</argLine>
+                        <pushRemote>false</pushRemote>
+                        <commitDevelopmentVersionAtStart>true</commitDevelopmentVersionAtStart>
+                        <useSnapshotInHotfix>true</useSnapshotInHotfix>
+                        <useSnapshotInRelease>true</useSnapshotInRelease>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.gmavenplus</groupId>
+                    <artifactId>gmavenplus-plugin</artifactId>
+                    <version>${gmavenplus-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <doclint>all,-reference</doclint>
+                    <!-- Silence error javax.interceptor.InterceptorBinding not found -->
+                    <!--    see https://stackoverflow.com/questions/27808734 -->
+                    <additionalDependencies>
+                        <additionalDependency>
+                            <groupId>javax.interceptor</groupId>
+                            <artifactId>javax.interceptor-api</artifactId>
+                            <version>${javax-interceptor-api.version}</version>
+                        </additionalDependency>
+                    </additionalDependencies>
+                    <failOnError>false</failOnError>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                        <version>${asm.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <configuration>
+                    <targetBytecode>1.8</targetBytecode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>addTestSources</goal>
+                            <goal>compileTests</goal>
+                            <goal>removeTestStubs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <append>true</append>
+                    <destFile>${sonar.jacoco.reportPaths}</destFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>agent-for-unit-tests</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+  <modules>
+    <module>qeli-frontoffice-application</module>
+    <module>qeli-frontoffice-ihm</module>
+    <module>qeli-frontoffice-rest</module>
+    <module>qeli-frontoffice-service</module>
+    <module>qeli-frontoffice-service-api</module>
+  </modules>
+</project>

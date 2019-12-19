@@ -1,0 +1,7 @@
+<div class="container">
+  <h1>{{ "home.title" | translate }}</h1>
+
+  <app-dynamic-form [questions]="questions"
+                    (onSubmit)="onSubmit($event)">
+  </app-dynamic-form>
+</div>

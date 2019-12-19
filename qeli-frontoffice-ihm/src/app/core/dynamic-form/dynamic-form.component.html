@@ -1,0 +1,16 @@
+<div>
+  <form (ngSubmit)="onSubmit.emit(form.value)" [formGroup]="form">
+
+    <div *ngFor="let question of questions" class="form-row">
+      <app-dynamic-question [question]="question" [form]="form"></app-dynamic-question>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit"
+              [disabled]="!form.valid"
+              class="btn btn-primary">
+        {{ 'form.submit' | translate }}
+      </button>
+    </div>
+  </form>
+</div>
