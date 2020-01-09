@@ -1,6 +1,9 @@
 {
   "home": {
-    "title": "Questionaire d'éligibilité"
+    "title": "Questionaire d'éligibilité",
+    "result": {
+      "presentation": "Le résultat du questionnaire d'éligibilité est :"
+    }
   },
   "layout": {
     "footer": {
@@ -50,6 +53,8 @@
   },
   "form": {
     "required": "Ce champ est requis.",
-    "submit": "Envoyer"
+    "submit": "Envoyer",
+    "previous": "Aller à la question précedente",
+    "next": "Passer à la question suivante "
   }
 }

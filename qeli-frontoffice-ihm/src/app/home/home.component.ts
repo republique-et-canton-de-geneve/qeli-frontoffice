@@ -11,6 +11,7 @@ import { DateQuestion } from '../core/question/date-question.model';
 })
 export class HomeComponent implements OnInit {
   questions: QuestionBase<any>[];
+  result: any;
 
   constructor() {
 
@@ -24,9 +25,4 @@ export class HomeComponent implements OnInit {
       new DropdownQuestion({key: 'etatCivil', required: false, options: ["marie", "celibataire", "divorce"]})
     ];
   }
-
-  public onSubmit(result: any) {
-    console.log(result);
-  }
-
 }

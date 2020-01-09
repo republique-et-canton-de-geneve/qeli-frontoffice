@@ -13,6 +13,7 @@ export class DynamicFormComponent implements OnInit {
   @Output() onSubmit: EventEmitter<any> = new EventEmitter();
 
   form: FormGroup;
+  currentQuestionIndex = 0;
 
   constructor() {
 
@@ -27,5 +28,17 @@ export class DynamicFormComponent implements OnInit {
     });
 
     this.form = new FormGroup(group);
+  }
+
+  isValid(question: QuestionBase<any>) {
+    return this.form.controls[question.key].valid;
+  }
+
+  nextQuestion() {
+    if (this.currentQuestionIndex + 1 < this.questions.length) {
+      this.currentQuestionIndex++;
+    } else {
+      this.onSubmit.emit(this.form.value);
+    }
   }
 }
