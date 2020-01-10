@@ -1,8 +1,9 @@
-import { FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 export class QuestionBase<T> {
   defaultValue: T;
   key: string;
+  code: string;
   validators: ValidatorFn[];
   skip: (form: FormGroup) => boolean;
   help: boolean;
@@ -11,6 +12,7 @@ export class QuestionBase<T> {
   constructor(options: {
     defaultValue?: T,
     key?: string,
+    code?: string,
     validators?: ValidatorFn[],
     skip?: (form: FormGroup) => boolean,
     help?: boolean,
@@ -18,6 +20,7 @@ export class QuestionBase<T> {
   } = {}) {
     this.defaultValue = options.defaultValue;
     this.key = options.key;
+    this.code = options.code;
     this.validators = options.validators ? options.validators : [];
     this.skip = options.skip ? options.skip : () => false;
     this.help = !!options.help;
@@ -26,5 +29,9 @@ export class QuestionBase<T> {
 
   get required() {
     return this.validators.includes(Validators.required);
+  }
+
+  toFormControl(): AbstractControl {
+    return new FormControl(this.defaultValue || null, this.validators);
   }
 }

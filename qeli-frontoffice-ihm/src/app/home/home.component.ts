@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionBase } from '../core/question/question-base.model';
-import { TextQuestion } from '../core/question/text-question.model';
-import { DropdownQuestion } from '../core/question/dropdown-question.model';
-import { DateQuestion } from '../core/question/date-question.model';
-import { FormGroup, Validators } from '@angular/forms';
+import { CheckboxGroupQuestion } from '../core/question/checkbox-group-question.model';
 
 @Component({
   selector: 'app-home',
@@ -20,14 +17,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.questions = [
+      new CheckboxGroupQuestion({
+        key: 'prestations',
+        code: '0101',
+        options: [
+          'subside', 'avance', 'allocationLogement', 'subventionHm', 'pcAvsAi', 'bourses', 'pcFam', 'aideSociale'
+        ],
+        help: true
+      })
+      /*,
       new DateQuestion({
         key: 'dateNaissance',
         validators: [Validators.required]
-      }),
-      new TextQuestion({
-        key: 'nom',
-        validators: [Validators.required],
-        help: true
       }),
       new TextQuestion({
         key: 'prenom',
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit {
       new DropdownQuestion({
         key: 'etatCivil',
         options: ["marie", "celibataire", "divorce"]
-      })
+      })*/
     ];
   }
 }

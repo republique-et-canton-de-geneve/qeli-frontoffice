@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -15,7 +15,9 @@ export class DynamicFormComponent implements OnInit {
   form: FormGroup;
   currentQuestionIndex = 0;
 
-  constructor() {
+  constructor(
+    private formBuilder: FormBuilder
+  ) {
 
   }
 
@@ -23,7 +25,7 @@ export class DynamicFormComponent implements OnInit {
     let group: any = {};
 
     this.questions.forEach(question => {
-      group[question.key] = new FormControl(question.defaultValue || '', question.validators);
+      group[question.key] = question.toFormControl();
     });
 
     this.form = new FormGroup(group);
