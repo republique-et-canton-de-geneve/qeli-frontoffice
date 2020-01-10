@@ -8,6 +8,7 @@
   <div class="form-navigation-controls">
     <div class="previous-question">
       <button class="btn btn-primary"
+              (click)="previousQuestion()"
               [disabled]="currentQuestionIndex <= 0">
         <i class="fa fa-chevron-left"></i> {{ 'form.previous' | translate }}
       </button>
@@ -21,5 +22,4 @@
       </button>
     </div>
   </div>
-
 </div>
