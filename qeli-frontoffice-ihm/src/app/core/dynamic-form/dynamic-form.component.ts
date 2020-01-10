@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -23,8 +23,7 @@ export class DynamicFormComponent implements OnInit {
     let group: any = {};
 
     this.questions.forEach(question => {
-      group[question.key] = question.required ? new FormControl(question.defaultValue || '', Validators.required)
-                                              : new FormControl(question.defaultValue || '');
+      group[question.key] = new FormControl(question.defaultValue || '', question.validators);
     });
 
     this.form = new FormGroup(group);
@@ -36,7 +35,9 @@ export class DynamicFormComponent implements OnInit {
 
   nextQuestion() {
     if (this.currentQuestionIndex + 1 < this.questions.length) {
-      this.currentQuestionIndex++;
+      this.currentQuestionIndex = this.questions.findIndex(
+        ((value, index) => index > this.currentQuestionIndex && !value.skip(this.form))
+      );
     } else {
       this.onSubmit.emit(this.form.value);
     }

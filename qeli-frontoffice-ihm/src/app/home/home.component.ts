@@ -3,6 +3,7 @@ import { QuestionBase } from '../core/question/question-base.model';
 import { TextQuestion } from '../core/question/text-question.model';
 import { DropdownQuestion } from '../core/question/dropdown-question.model';
 import { DateQuestion } from '../core/question/date-question.model';
+import { FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -19,10 +20,24 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.questions = [
-      new TextQuestion({key: 'nom', required: true, help: true}),
-      new TextQuestion({key: 'prenom', required: true}),
-      new DateQuestion({key: 'dateNaissance', required: true}),
-      new DropdownQuestion({key: 'etatCivil', required: false, options: ["marie", "celibataire", "divorce"]})
+      new DateQuestion({
+        key: 'dateNaissance',
+        validators: [Validators.required]
+      }),
+      new TextQuestion({
+        key: 'nom',
+        validators: [Validators.required],
+        help: true
+      }),
+      new TextQuestion({
+        key: 'prenom',
+        validators: [Validators.required],
+        skip: (form: FormGroup) => form.value.nom === 'SKIP'
+      }),
+      new DropdownQuestion({
+        key: 'etatCivil',
+        options: ["marie", "celibataire", "divorce"]
+      })
     ];
   }
 }
