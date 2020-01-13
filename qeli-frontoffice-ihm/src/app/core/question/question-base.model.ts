@@ -1,23 +1,37 @@
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+
 export class QuestionBase<T> {
   defaultValue: T;
   key: string;
-  // TODO Add validators other than `required`.
-  // TODO Add isDisplayed method that takes the current model as param.
-  required: boolean;
+  code: string;
+  validators: ValidatorFn[];
+  skip: (form: FormGroup) => boolean;
   help: boolean;
   controlType: string;
 
   constructor(options: {
     defaultValue?: T,
     key?: string,
-    required?: boolean,
+    code?: string,
+    validators?: ValidatorFn[],
+    skip?: (form: FormGroup) => boolean,
     help?: boolean,
     controlType?: string
   } = {}) {
     this.defaultValue = options.defaultValue;
     this.key = options.key;
-    this.required = !!options.required;
+    this.code = options.code;
+    this.validators = options.validators ? options.validators : [];
+    this.skip = options.skip ? options.skip : () => false;
     this.help = !!options.help;
     this.controlType = options.controlType;
+  }
+
+  get required() {
+    return this.validators.includes(Validators.required);
+  }
+
+  toFormControl(): AbstractControl {
+    return new FormControl(this.defaultValue || null, this.validators);
   }
 }

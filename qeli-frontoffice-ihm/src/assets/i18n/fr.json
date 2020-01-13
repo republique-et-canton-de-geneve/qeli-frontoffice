@@ -1,6 +1,9 @@
 {
   "home": {
-    "title": "Questionaire d'éligibilité"
+    "title": "Questionaire d'éligibilité",
+    "result": {
+      "presentation": "Le résultat du questionnaire d'éligibilité est :"
+    }
   },
   "layout": {
     "footer": {
@@ -20,36 +23,34 @@
     }
   },
   "question": {
-    "nom": {
-      "label": "Nom",
-      "help": "Votre nom de famille",
-      "error": {
-        "required": "Le nom doit être fourni"
-      }
-    },
-    "prenom": {
-      "label": "Prénom",
-      "error": {
-        "required": "Le prénom doit être fourni"
+    "prestations": {
+      "label": "Touchez-vous déjà une ou plusieurs prestations sociales ?",
+      "help": "Prestations complémentaires fédérales et cantonales AVS / AI : les prestations complémentaires fédérales et cantonales à l'assurance-vieillesse, survivants et invalidité sont des prestations sociales. Elles sont délivrées par la confédération et/ou par le canton aux rentiers AVS/AI (personnes bénéficiant de rentes de l'assurance-vieillesse et survivants ou de l'assurance-invalidité) lorsque les rentes et autres revenus ne permettent pas la couverture des besoins vitaux.",
+      "option": {
+        "subsides": "Subsides d'assurance-maladie",
+        "avances": "Avances de pensions alimentaires",
+        "allocationLogement": "Allocation logement",
+        "subventionHm": "Subvention habitation mixte (HM)",
+        "pcAvsAi": "Prestations complémentaires AVS/AI",
+        "bourses": "Bourses d'études",
+        "pcFam": "Prestations complémentaires familiales",
+        "aideSociale": "Aide Sociale"
       }
     },
     "dateNaissance": {
-      "label": "Date de naissance",
+      "label": "Quelle est votre date de naissance ?",
+      "help": "Si vous ne connaissez pas la date exacte, merci de mettre le 1er jour du mois.",
       "error": {
-        "required": "La date de naissance doit être fourni"
-      }
-    },
-    "etatCivil": {
-      "label": "État civil",
-      "option": {
-        "marie": "Marié/e",
-        "celibataire": "Célibataire/e",
-        "divorce": "Divorcé/e"
+        "required": "Votre date de naissance doit être fournie",
+        "past": "Votre date de naissance ne peut pas être dans le futur",
+        "minYear": "Année de naissance incorrecte"
       }
     }
   },
   "form": {
     "required": "Ce champ est requis.",
-    "submit": "Envoyer"
+    "submit": "Envoyer",
+    "previous": "Aller à la question précedente",
+    "next": "Passer à la question suivante "
   }
 }

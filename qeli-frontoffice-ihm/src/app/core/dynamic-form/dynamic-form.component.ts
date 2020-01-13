@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -13,8 +13,11 @@ export class DynamicFormComponent implements OnInit {
   @Output() onSubmit: EventEmitter<any> = new EventEmitter();
 
   form: FormGroup;
+  currentQuestionIndex = 0;
 
-  constructor() {
+  constructor(
+    private formBuilder: FormBuilder
+  ) {
 
   }
 
@@ -22,10 +25,34 @@ export class DynamicFormComponent implements OnInit {
     let group: any = {};
 
     this.questions.forEach(question => {
-      group[question.key] = question.required ? new FormControl(question.defaultValue || '', Validators.required)
-                                              : new FormControl(question.defaultValue || '');
+      group[question.key] = question.toFormControl();
     });
 
     this.form = new FormGroup(group);
+  }
+
+  isValid(question: QuestionBase<any>) {
+    return this.form.controls[question.key].valid;
+  }
+
+  nextQuestion() {
+    const nextIndex = this.questions.findIndex(
+      ((value, index) => index > this.currentQuestionIndex && !value.skip(this.form))
+    );
+
+    if (nextIndex === -1) {
+      this.currentQuestionIndex = this.questions.length - 1;
+      this.onSubmit.emit(this.form.value);
+    } else {
+      this.currentQuestionIndex = nextIndex;
+    }
+  }
+
+  previousQuestion() {
+    const reverseIndex = this.questions.slice(0, this.currentQuestionIndex).reverse().findIndex(
+      (value) => !value.skip(this.form)
+    );
+
+    this.currentQuestionIndex = reverseIndex === -1 ? 0 : this.currentQuestionIndex - reverseIndex - 1;
   }
 }
