@@ -38,17 +38,12 @@
       }
     },
     "dateNaissance": {
-      "label": "Date de naissance",
+      "label": "Quelle est votre date de naissance ?",
+      "help": "Si vous ne connaissez pas la date exacte, merci de mettre le 1er jour du mois.",
       "error": {
-        "required": "La date de naissance doit être fourni"
-      }
-    },
-    "etatCivil": {
-      "label": "État civil",
-      "option": {
-        "marie": "Marié/e",
-        "celibataire": "Célibataire/e",
-        "divorce": "Divorcé/e"
+        "required": "Votre date de naissance doit être fournie",
+        "past": "Votre date de naissance ne peut pas être dans le futur",
+        "minYear": "Année de naissance incorrecte"
       }
     }
   },

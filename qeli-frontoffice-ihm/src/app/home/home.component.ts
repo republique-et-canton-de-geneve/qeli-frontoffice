@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionBase } from '../core/question/question-base.model';
 import { CheckboxGroupQuestion } from '../core/question/checkbox-group-question.model';
+import { DateQuestion } from '../core/question/date-question.model';
+import { Validators } from '@angular/forms';
+import { QeliValidators } from '../core/validator/qeli-validators';
 
 @Component({
   selector: 'app-home',
@@ -21,24 +24,17 @@ export class HomeComponent implements OnInit {
         key: 'prestations',
         code: '0101',
         options: [
-          'subside', 'avance', 'allocationLogement', 'subventionHm', 'pcAvsAi', 'bourses', 'pcFam', 'aideSociale'
+          'subsides', 'avances', 'allocationLogement', 'subventionHm', 'pcAvsAi', 'bourses', 'pcFam', 'aideSociale'
         ],
         help: true
-      })
-      /*,
+      }),
       new DateQuestion({
         key: 'dateNaissance',
-        validators: [Validators.required]
-      }),
-      new TextQuestion({
-        key: 'prenom',
-        validators: [Validators.required],
-        skip: (form: FormGroup) => form.value.nom === 'SKIP'
-      }),
-      new DropdownQuestion({
-        key: 'etatCivil',
-        options: ["marie", "celibataire", "divorce"]
-      })*/
+        code: '0201',
+        validators: [Validators.required, QeliValidators.past, QeliValidators.minYear(130)],
+        skip: form => !Object.values(form.value['prestations']).includes(false),
+        help: true
+      })
     ];
   }
 }

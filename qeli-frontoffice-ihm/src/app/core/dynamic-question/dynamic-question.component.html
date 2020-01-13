@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <div class="help-block" *ngIf="!isValid">
+  <div class="error-block" *ngIf="!isValid">
     <span *ngFor="let error of errors" class="text-danger">
       {{ 'question.' + question.key + '.error.' + error | translate }}
     </span>
