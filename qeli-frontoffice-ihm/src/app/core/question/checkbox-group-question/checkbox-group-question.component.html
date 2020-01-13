@@ -1,0 +1,10 @@
+<div [formGroup]="form">
+  <div [formGroupName]="question.key">
+    <div *ngFor="let option of question.options" class="checkbox">
+      <label>
+        <input type="checkbox" [formControlName]="option">
+        {{ 'question.' + question.key + '.option.' + option | translate }}
+      </label>
+    </div>
+  </div>
+</div>

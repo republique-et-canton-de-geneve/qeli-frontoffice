@@ -1,4 +1,4 @@
-import { QuestionBase } from './question-base.model';
+import { QuestionBase } from '../question-base.model';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 
 export class CheckboxGroupQuestion extends QuestionBase<string[]> {

@@ -1,4 +1,4 @@
-<div [formGroup]="form" class="form-group">
+<div class="form-group">
   <label class="control-label"
          [ngClass]="!isValid ? 'text-danger' : ''"
          [attr.for]="question.key">
@@ -10,42 +10,8 @@
 
   <p *ngIf="question.help" class="help-block">{{ 'question.' + question.key + '.help' | translate }}</p>
 
-  <div [ngSwitch]="question.controlType"
-       [ngClass]="!isValid ? 'error' : ''">
-
-    <input *ngSwitchCase="'textbox'"
-           [id]="question.key"
-           [placeholder]="question.placeholder"
-           [formControlName]="question.key"
-           [type]="question.type"
-           class="form-control">
-
-    <input *ngSwitchCase="'date'"
-           [id]="question.key"
-           [formControlName]="question.key"
-           type="date"
-           class="form-control">
-
-    <select *ngSwitchCase="'dropdown'"
-            [id]="question.key"
-            [formControlName]="question.key"
-            class="form-control form-select">
-      <option *ngFor="let option of question.options"
-              [value]="option">
-        {{ 'question.' + question.key + '.option.' + option | translate }}
-      </option>
-    </select>
-
-    <div *ngSwitchCase="'checkbox-group'"
-         [formGroupName]="question.key">
-      <div *ngFor="let option of question.options; let i = index"
-           class="checkbox">
-        <label>
-          <input type="checkbox" [formControlName]="option">
-          {{ 'question.' + question.key + '.option.' + option | translate }}
-        </label>
-      </div>
-    </div>
+  <div [ngClass]="!isValid ? 'error' : ''">
+    <ng-template app-question-host></ng-template>
   </div>
 
   <div class="error-block" *ngIf="!isValid">
