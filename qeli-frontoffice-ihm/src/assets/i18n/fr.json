@@ -45,6 +45,21 @@
         "past": "Votre date de naissance ne peut pas être dans le futur",
         "minYear": "Année de naissance incorrecte"
       }
+    },
+    "etatCivil": {
+      "label": "Quel est votre état civil ?",
+      "help": "Séparé : de fait ou par jugement ? Attention : pour PC fam, ne doivent plus habiter à la même adresse sinon considérés comme mariés.",
+      "option": {
+        "celibataire": "Célibataire",
+        "marie": "Marié(e)",
+        "divorce": "Divorcé(e)",
+        "separe": "Séparé(e)",
+        "partenariatEnregistre": "En partenariat enregistré",
+        "veuf": "Veuf(ve)"
+      },
+      "error": {
+        "required": "Votre état civil doit être fourni"
+      }
     }
   },
   "form": {

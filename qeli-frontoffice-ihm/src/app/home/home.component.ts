@@ -4,6 +4,8 @@ import { CheckboxGroupQuestion } from '../core/question/checkbox-group-question.
 import { DateQuestion } from '../core/question/date-question.model';
 import { Validators } from '@angular/forms';
 import { QeliValidators } from '../core/validator/qeli-validators';
+import { DropdownQuestion } from '../core/question/dropdown-question.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +36,29 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required, QeliValidators.past, QeliValidators.minYear(130)],
         skip: form => !Object.values(form.value['prestations']).includes(false),
         help: true
-      })
+      }),
+      new DropdownQuestion({
+        key: 'etatCivil',
+        code: '0301',
+        options: [
+          'celibataire', 'marie', 'divorce', 'separe', 'partenariatEnregistre', 'veuf'
+        ],
+        skip: form => {
+          const prestations = form.value['prestations'];
+          const dateNaissance = form.value['dateNaissance'] && moment(form.value['dateNaissance'], 'YYYY-MM-DD');
+          const isMineur = dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
+
+          if (isMineur) {
+            return !Object.entries(prestations)
+                          .filter(entry => entry[0] !== 'aideSociale')
+                          .map(entry => entry[1])
+                          .includes(false);
+          } else {
+            return !Object.values(prestations).includes(false)
+          }
+        },
+        help: true
+      }),
     ];
   }
 }
