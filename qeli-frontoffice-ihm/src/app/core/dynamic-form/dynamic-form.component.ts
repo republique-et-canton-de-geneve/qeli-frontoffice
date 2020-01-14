@@ -53,4 +53,14 @@ export class DynamicFormComponent implements OnInit {
 
     this.currentQuestionIndex = reverseIndex === -1 ? 0 : this.currentQuestionIndex - reverseIndex - 1;
   }
+
+  onKeyUp(event: KeyboardEvent) {
+    if (event.key === "Enter" && this.isValid(this.currentQuestion)) {
+      this.nextQuestion();
+    }
+  }
+
+  get currentQuestion() {
+    return this.questions[this.currentQuestionIndex];
+  }
 }
