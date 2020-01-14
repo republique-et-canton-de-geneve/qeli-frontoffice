@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { QuestionBase } from '../question/question-base.model';
 import { QuestionDirective } from '../question/question.directive';
@@ -10,9 +10,9 @@ import { QuestionRegistry } from '../question/question-registry';
   templateUrl: './dynamic-question.component.html',
   styleUrls: ['./dynamic-question.component.scss']
 })
-export class DynamicQuestionComponent implements OnInit {
-  @Input() question: QuestionBase<any>;
+export class DynamicQuestionComponent {
   @Input() form: FormGroup;
+  question: QuestionBase<any>;
 
   @ViewChild(QuestionDirective) questionDirective: QuestionDirective;
 
@@ -20,7 +20,9 @@ export class DynamicQuestionComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  @Input("question")
+  set loadQuestion(question: QuestionBase<any>) {
+    this.question = question;
     this.loadComponent();
   }
 

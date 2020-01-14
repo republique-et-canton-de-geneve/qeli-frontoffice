@@ -1,6 +1,7 @@
 <div [formGroup]="form">
   <select [id]="question.key"
           [formControlName]="question.key"
+          #dropdownInput
           class="form-control form-select">
     <option *ngFor="let option of question.options"
             [value]="option">
