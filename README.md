@@ -101,6 +101,36 @@ Pour le mode non-interactive il faut rajouter l'argument `-B`,  si le paramètre
 mvn -B gitflow:release
 ```
 
+## Livrable standalone (Windows)
+
+Pour construire un livrable windows veuillez exécuter la commande suivante :
+
+```bash
+mvn clean package -Pstandalone
+```
+
+Avec un proxy il faut éxecuter cette commande ainsi :
+
+```bash
+export JVM_PROXY_FLAGS="-Dhttp.proxyHost=$HTTP_PROXY_HOST  \
+                        -Dhttp.proxyPort=$HTTP_PROXY_PORT  \
+                        -Dhttps.proxyHost=$HTTP_PROXY_HOST \
+                        -Dhttps.proxyPort=$HTTP_PROXY_PORT"
+
+mvn clean package -Pstandalone $JVM_PROXY_FLAGS
+```
+
+Un livrable windows en format `ZIP` sera disponible sur :
+`qeli-frontoffice-application/target/qeli-frontoffice-application-windows.zip`.
+
+Décompresser le fichier et double click sur le fichier
+`qeli-frontoffice-application.cmd` pour démarrer le server en mode standalone.
+
+L'IHM est disponible sur: http://localhost:8080/qeli/frontoffice
+
+Pour arrêter le server fermer la fenêtre du terminal.
+
+
 ## Références
 
 - Gitflow cheatsheet : https://danielkummer.github.io/git-flow-cheatsheet/
