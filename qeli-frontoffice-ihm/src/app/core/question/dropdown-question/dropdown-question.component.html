@@ -1,0 +1,10 @@
+<div [formGroup]="form">
+  <select [id]="question.key"
+          [formControlName]="question.key"
+          class="form-control form-select">
+    <option *ngFor="let option of question.options"
+            [value]="option">
+      {{ 'question.' + question.key + '.option.' + option | translate }}
+    </option>
+  </select>
+</div>

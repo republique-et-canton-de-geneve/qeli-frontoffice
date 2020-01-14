@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionBase } from '../core/question/question-base.model';
-import { CheckboxGroupQuestion } from '../core/question/checkbox-group-question.model';
-import { DateQuestion } from '../core/question/date-question.model';
+import { CheckboxGroupQuestion } from '../core/question/checkbox-group-question/checkbox-group-question.model';
+import { DateQuestion } from '../core/question/date-question/date-question.model';
 import { Validators } from '@angular/forms';
 import { QeliValidators } from '../core/validator/qeli-validators';
-import { DropdownQuestion } from '../core/question/dropdown-question.model';
+import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-question.model';
 import * as moment from 'moment';
 
 @Component({

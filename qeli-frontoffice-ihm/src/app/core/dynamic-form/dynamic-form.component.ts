@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -15,9 +15,7 @@ export class DynamicFormComponent implements OnInit {
   form: FormGroup;
   currentQuestionIndex = 0;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {
+  constructor() {
 
   }
 
