@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
         key: 'dateNaissance',
         code: '0201',
         validators: [Validators.required, QeliValidators.past, QeliValidators.minYear(130)],
-        skip: form => this.hasPrestation(form, 'aideSociale'),
+        skip: form => this.hasPrestations(form, ['aideSociale']),
         help: true
       }),
       new DropdownQuestion({
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
         options: [
           'celibataire', 'marie', 'divorce', 'separe', 'partenariatEnregistre', 'veuf'
         ],
-        skip: form => this.isMineur(form) || this.hasAllPrestations(form),
+        skip: form => this.isMineur(form) || this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']),
         help: true
       }),
     ];
@@ -54,8 +54,11 @@ export class HomeComponent implements OnInit {
     return dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
   }
 
-  hasPrestation(form: FormGroup, prestation: string) {
-    return form.value['prestations'][prestation];
+  hasPrestations(form: FormGroup, prestations: string[]) {
+    return !Object.entries(form.value['prestations'])
+                  .filter(entry => prestations.includes(entry[0]))
+                  .map(entry => entry[1])
+                  .includes(false);
   }
 
   hasAllPrestations(form: FormGroup) {
