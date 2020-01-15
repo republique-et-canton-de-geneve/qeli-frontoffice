@@ -1,4 +1,4 @@
-# Frontoffice du questionaire d'eligibilité (QELI)
+# Frontoffice du questionnaire d'eligibilité (QELI)
 
 - [Liste de modules](#liste-de-modules)
 - [Construction](#construction)
@@ -10,10 +10,13 @@
 
 - [qeli-frontoffice-application](qeli-frontoffice-application) : Ce module se charge
 de la construction et livraison du front office pour le deployment.
+- [qeli-frontoffice-cypress](qeli-frontoffice-cypress) : Module pour la configuration
+des scenarii de tests de l'application par le métier.
+Voir le [qeli-frontoffice-cypress/README.md](qeli-frontoffice-cypress/README.md).
 - [qeli-frontoffice-ihm](qeli-frontoffice-ihm) : L'IHM du front office destiné aux
 gestionnaires.
 - [qeli-frontoffice-rest](qeli-frontoffice-rest) : Les services REST.
-- [qeli-frontoffice-service](qeli-frontoffice-service) : Implémantation de la couche
+- [qeli-frontoffice-service](qeli-frontoffice-service) : Implémentation de la couche
 métier du front office.
 - [qeli-frontoffice-service-api](qeli-frontoffice-service-api) : Interface de la couche
 métier du front office.
@@ -72,7 +75,7 @@ L'application web application sera disponible sur :
 La stratégie de branching de l'application est git flow.
 
 Pour livrer une nouvelle version il suffit de suivre le workflow release. Un plugin
-maven a été rajouté pour faciliter cette tâche. 
+maven a été rajouté pour faciliter cette tâche.
 
 - Pour créer une branch de release exécuter la commande suivante :
 
@@ -155,7 +158,7 @@ mvn clean install -Dmaven.test.skip=true
 
 Cela permet de sauter les test Java ainsi que les tests IHM.
 
-###### Sauter les tets IHM
+###### Sauter les tests IHM
 
 Pour sauter uniquement les tests IHM veuillez  utiliser le paramètre `ihm.test.skip`,
 comme sur la commande suivante :
@@ -198,5 +201,5 @@ registry=***REMOVED***/content/repositories/npmjs/
 
 ### Problèmes avec node-saas
 
-En cas de problème avec node-saas, exécuter la commande suivante 
+En cas de problème avec node-saas, exécuter la commande suivante
 `npm rebuild node-sass`.

@@ -29,5 +29,15 @@ pipeline {
         }
       }
     }
+    stage('Cypress Verify') {
+      steps {
+        sh "cd qeli-frontoffice-cypress && npm run cy:verify"
+      }
+    }
+    stage('Cypress Tests') {
+      steps {
+        sh "cd qeli-frontoffice-cypress && nohup npm run start:ci & npm run cy:run:ci"
+      }
+    }
   }
 }
