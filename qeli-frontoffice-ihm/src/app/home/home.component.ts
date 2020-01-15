@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { QuestionBase } from '../core/question/question-base.model';
 import { CheckboxGroupQuestion } from '../core/question/checkbox-group-question/checkbox-group-question.model';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
-import { Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { QeliValidators } from '../core/validator/qeli-validators';
 import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-question.model';
 import * as moment from 'moment';
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
         key: 'dateNaissance',
         code: '0201',
         validators: [Validators.required, QeliValidators.past, QeliValidators.minYear(130)],
-        skip: form => !Object.values(form.value['prestations']).includes(false),
+        skip: form => this.hasPrestations(form, ['aideSociale']),
         help: true
       }),
       new DropdownQuestion({
@@ -43,22 +43,26 @@ export class HomeComponent implements OnInit {
         options: [
           'celibataire', 'marie', 'divorce', 'separe', 'partenariatEnregistre', 'veuf'
         ],
-        skip: form => {
-          const prestations = form.value['prestations'];
-          const dateNaissance = form.value['dateNaissance'] && moment(form.value['dateNaissance'], 'YYYY-MM-DD');
-          const isMineur = dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
-
-          if (isMineur) {
-            return !Object.entries(prestations)
-                          .filter(entry => entry[0] !== 'aideSociale')
-                          .map(entry => entry[1])
-                          .includes(false);
-          } else {
-            return !Object.values(prestations).includes(false)
-          }
-        },
+        validators: [Validators.required],
+        skip: form => this.isMineur(form) || this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']),
         help: true
       }),
     ];
+  }
+
+  isMineur(form: FormGroup) {
+    const dateNaissance = form.value['dateNaissance'] && moment(form.value['dateNaissance'], 'YYYY-MM-DD');
+    return dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
+  }
+
+  hasPrestations(form: FormGroup, prestations: string[]) {
+    return !Object.entries(form.value['prestations'])
+                  .filter(entry => prestations.includes(entry[0]))
+                  .map(entry => entry[1])
+                  .includes(false);
+  }
+
+  hasAllPrestations(form: FormGroup) {
+    return !Object.values(form.value['prestations']).includes(false);
   }
 }
