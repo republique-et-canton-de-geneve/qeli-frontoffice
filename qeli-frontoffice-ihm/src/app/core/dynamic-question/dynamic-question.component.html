@@ -1,7 +1,7 @@
 <div class="form-group">
   <label class="control-label"
          [ngClass]="!isValid ? 'text-danger' : ''"
-         [attr.for]="question.key">
+         [attr.for]="question.code + '_' + question.key">
     {{ 'question.' + question.key + '.label' | translate }}
     <span *ngIf="question.required"
           class="form-required"
