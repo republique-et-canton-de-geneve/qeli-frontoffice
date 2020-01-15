@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
         options: [
           'celibataire', 'marie', 'divorce', 'separe', 'partenariatEnregistre', 'veuf'
         ],
+        validators: [Validators.required],
         skip: form => this.isMineur(form) || this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']),
         help: true
       }),
