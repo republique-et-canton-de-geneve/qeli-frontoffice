@@ -3,7 +3,7 @@
     <app-dynamic-question [question]="currentQuestion" [form]="form"></app-dynamic-question>
   </form>
 
-  <div class="form-navigation-controls">
+  <div class="form-navigation-controls" (keyup)="$event.preventDefault()">
     <div class="previous-question">
       <button class="btn btn-primary"
               (click)="previousQuestion()"
