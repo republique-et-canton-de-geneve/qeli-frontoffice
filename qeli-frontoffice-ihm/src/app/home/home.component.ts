@@ -7,6 +7,8 @@ import { QeliValidators } from '../core/validator/qeli-validators';
 import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-question.model';
 import * as moment from 'moment';
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
+import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
+import { Pays, PAYS_AELE_UE, PAYS_CONVETIONE } from '../core/common/pays.model';
 
 @Component({
   selector: 'app-home',
@@ -54,8 +56,27 @@ export class HomeComponent implements OnInit {
         code: '0401',
         skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses']),
         help: true
+      }),
+      new RadioQuestion({
+        key: 'refugie',
+        code: '0402',
+        options: ['oui', 'non', 'inconnu'],
+        skip: form => this.isSuisse(form) || this.isUEOrAELE(form) || this.isPayConventione(form),
+        help: true
       })
     ];
+  }
+
+  isSuisse(form: FormGroup) {
+    return (form.value['nationalite']['pays'] as string[]).includes(Pays.CH);
+  }
+
+  isUEOrAELE(form: FormGroup) {
+    return (form.value['nationalite']['pays'] as string[]).some(pay => PAYS_AELE_UE.includes(pay));
+  }
+
+  isPayConventione(form: FormGroup) {
+    return (form.value['nationalite']['pays'] as string[]).some(pay => PAYS_CONVETIONE.includes(pay));
   }
 
   isMineur(form: FormGroup) {
