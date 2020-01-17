@@ -93,12 +93,24 @@
         "inconnu": "Je ne sais pas"
       },
       "error": {
-        "required": "Ce champ est requis"
+        "required": "Ce champ est obligatorie"
+      }
+    },
+    "permisBPlus5Ans": {
+      "label": "Avez-vous un permis B depuis plus de 5 ans ?",
+      "help": "Permis B : permis de séjour délivrée aux résidents longue durée par l'office cantonal de la population et de la migration (OCPM))",
+      "option": {
+        "oui": "Oui",
+        "non": "Non",
+        "inconnu": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatorie"
       }
     }
   },
   "form": {
-    "required": "Ce champ est requis",
+    "required": "Ce champ est obligatorie",
     "submit": "Envoyer",
     "previous": "Aller à la question précedente",
     "next": "Passer à la question suivante "
