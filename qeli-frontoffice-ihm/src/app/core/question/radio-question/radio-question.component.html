@@ -1,0 +1,8 @@
+<div [formGroup]="form">
+  <div *ngFor="let option of question.options" class="radio-inline">
+    <label>
+      <input type="radio" [value]="option" [formControlName]="question.key" #radioButtons>
+      {{ 'question.' + question.key + '.option.' + option | translate }}
+    </label>
+  </div>
+</div>

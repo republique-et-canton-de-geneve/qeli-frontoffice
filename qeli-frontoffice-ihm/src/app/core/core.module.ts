@@ -12,6 +12,7 @@ import { DateQuestionComponent } from './question/date-question/date-question.co
 import { DropdownQuestionComponent } from './question/dropdown-question/dropdown-question.component';
 import { TextQuestionComponent } from './question/text-question/text-question.component';
 import { NationaliteQuestionComponent } from './question/nationalite-question/nationalite-question.component';
+import { RadioQuestionComponent } from './question/radio-question/radio-question.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -45,6 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DynamicFormComponent,
     DynamicQuestionComponent,
     NationaliteQuestionComponent,
+    RadioQuestionComponent,
     TextQuestionComponent
   ],
   entryComponents: [
@@ -54,6 +56,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DynamicFormComponent,
     DynamicQuestionComponent,
     NationaliteQuestionComponent,
+    RadioQuestionComponent,
     TextQuestionComponent
   ]
 })

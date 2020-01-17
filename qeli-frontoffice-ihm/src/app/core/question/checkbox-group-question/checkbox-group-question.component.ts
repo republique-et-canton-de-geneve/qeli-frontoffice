@@ -14,9 +14,9 @@ export class CheckboxGroupQuestionComponent implements QuestionComponent<any>, A
   @Input() question: CheckboxGroupQuestion;
   @Input() form: FormGroup;
 
-  @ViewChildren('checkboxInput') checkboxInput: QueryList<ElementRef>;
+  @ViewChildren('checkboxInputs') checkboxInputs: QueryList<ElementRef>;
 
   ngAfterViewInit(): void {
-    this.checkboxInput.toArray()[0].nativeElement.focus();
+    this.checkboxInputs.toArray()[0].nativeElement.focus();
   }
 }

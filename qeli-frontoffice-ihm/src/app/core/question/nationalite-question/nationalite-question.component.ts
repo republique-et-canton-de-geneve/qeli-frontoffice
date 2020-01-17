@@ -1,6 +1,4 @@
-import {
-  AfterViewInit, Component, ElementRef, Input, OnDestroy, QueryList, ViewChild, ViewChildren
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { RegisterQuestionComponent } from '../question-registry';
 import { QuestionComponent } from '../question.component';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -60,11 +58,11 @@ export class NationaliteQuestionComponent implements QuestionComponent<any>, Aft
   }
 
   hasPays() {
-    return (this.paysArray.value as []).filter(e => e !== null).length > 0;
+    return !this.hasUnsetPays();
   }
 
   hasUnsetPays() {
-    return (this.paysArray.value as []).filter(e => e === null).length > 0;
+    return (this.paysArray.value as string[]).includes(null);
   }
 
 }
