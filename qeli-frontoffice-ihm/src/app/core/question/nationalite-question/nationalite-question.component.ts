@@ -58,7 +58,7 @@ export class NationaliteQuestionComponent implements QuestionComponent<any>, Aft
   }
 
   hasPays() {
-    return !(this.paysArray.value as string[]).includes(null);
+    return !this.hasUnsetPays();
   }
 
   hasUnsetPays() {
