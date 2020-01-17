@@ -83,10 +83,22 @@
       "error": {
         "required": "Votre statut de réfugié doit être fourni"
       }
+    },
+    "permisBEtudes": {
+      "label": "Avez-vous un permis B pour raison d'études ?",
+      "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour délivré aux résidents longue durée qui font des études dans le canton par l'office cantonal de la population et de la migration (OCPM)).",
+      "option": {
+        "oui": "Oui",
+        "non": "Non",
+        "inconnu": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est requis"
+      }
     }
   },
   "form": {
-    "required": "Ce champ est requis.",
+    "required": "Ce champ est requis",
     "submit": "Envoyer",
     "previous": "Aller à la question précedente",
     "next": "Passer à la question suivante "

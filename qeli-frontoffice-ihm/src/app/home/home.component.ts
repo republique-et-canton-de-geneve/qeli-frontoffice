@@ -61,10 +61,33 @@ export class HomeComponent implements OnInit {
         key: 'refugie',
         code: '0402',
         options: ['oui', 'non', 'inconnu'],
-        skip: form => this.isSuisse(form) || this.isUEOrAELE(form) || this.isPayConventione(form),
+        validators: [Validators.required],
+        skip: form => this.isSuisse(form) ||
+                      this.isUEOrAELE(form) ||
+                      this.isPayConventione(form),
+        help: true
+      }),
+      new RadioQuestion({
+        key: 'permisBEtudes',
+        code: '0405',
+        options: ['oui', 'non', 'inconnu'],
+        validators: [Validators.required],
+        skip: form => this.hasPrestations(form, ['bourses']) ||
+                      this.isSuisse(form) ||
+                      this.isRefugie(form) ||
+                      this.isApatride(form),
         help: true
       })
     ];
+  }
+
+  isRefugie(form: FormGroup) {
+    return form.value['refugie'] === 'oui';
+  }
+
+  isApatride(form: FormGroup) {
+    const nationalite = form.value['nationalite'];
+    return nationalite ? nationalite['apatride'] : false;
   }
 
   isSuisse(form: FormGroup) {
