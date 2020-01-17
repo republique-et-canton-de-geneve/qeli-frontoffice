@@ -44,7 +44,8 @@ export class HomeComponent implements OnInit {
           'celibataire', 'marie', 'divorce', 'separe', 'partenariatEnregistre', 'veuf'
         ],
         validators: [Validators.required],
-        skip: form => this.isMineur(form) || this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']),
+        skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']) ||
+                      (this.isMineur(form) && !this.hasPrestations(form, ['aideSociale'])),
         help: true
       }),
     ];
