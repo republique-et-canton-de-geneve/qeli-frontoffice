@@ -64,7 +64,8 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         skip: form => this.isSuisse(form) ||
                       this.isUEOrAELE(form) ||
-                      this.isPayConventione(form),
+                      this.isPayConventione(form) ||
+                      this.isApatride(form),
         help: true
       }),
       new RadioQuestion({
@@ -87,19 +88,25 @@ export class HomeComponent implements OnInit {
 
   isApatride(form: FormGroup) {
     const nationalite = form.value['nationalite'];
-    return nationalite ? nationalite['apatride'] : false;
+    return nationalite ? !!nationalite['apatride'] : false;
   }
 
   isSuisse(form: FormGroup) {
-    return (form.value['nationalite']['pays'] as string[]).includes(Pays.CH);
+    const nationalite = form.value['nationalite'];
+    const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+    return paysValues ? paysValues.includes(Pays.CH) : false;
   }
 
   isUEOrAELE(form: FormGroup) {
-    return (form.value['nationalite']['pays'] as string[]).some(pay => PAYS_AELE_UE.includes(pay));
+    const nationalite = form.value['nationalite'];
+    const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+    return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
   }
 
   isPayConventione(form: FormGroup) {
-    return (form.value['nationalite']['pays'] as string[]).some(pay => PAYS_CONVETIONE.includes(pay));
+    const nationalite = form.value['nationalite'];
+    const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+    return paysValues ? paysValues.some(pays => PAYS_CONVETIONE.includes(pays)) : false;
   }
 
   isMineur(form: FormGroup) {
