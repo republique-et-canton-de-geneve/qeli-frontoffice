@@ -6,6 +6,7 @@ import { FormGroup, Validators } from '@angular/forms';
 import { QeliValidators } from '../core/validator/qeli-validators';
 import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-question.model';
 import * as moment from 'moment';
+import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 
 @Component({
   selector: 'app-home',
@@ -48,6 +49,12 @@ export class HomeComponent implements OnInit {
                       (this.isMineur(form) && !this.hasPrestations(form, ['aideSociale'])),
         help: true
       }),
+      new NationaliteQuestion({
+        key: 'nationalite',
+        code: '0401',
+        skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses']),
+        help: true
+      })
     ];
   }
 
