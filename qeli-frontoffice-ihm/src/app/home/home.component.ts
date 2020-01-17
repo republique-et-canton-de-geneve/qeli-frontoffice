@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
         key: 'refugie',
         code: '0402',
         options: ['oui', 'non', 'inconnu'],
+        validators: [Validators.required],
         skip: form => this.isSuisse(form) ||
                       this.isUEOrAELE(form) ||
                       this.isPayConventione(form),
@@ -70,6 +71,7 @@ export class HomeComponent implements OnInit {
         key: 'permisBEtudes',
         code: '0405',
         options: ['oui', 'non', 'inconnu'],
+        validators: [Validators.required],
         skip: form => this.hasPrestations(form, ['bourses']) ||
                       this.isSuisse(form) ||
                       this.isRefugie(form) ||
