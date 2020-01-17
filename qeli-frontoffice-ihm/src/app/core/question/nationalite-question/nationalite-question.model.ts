@@ -4,7 +4,7 @@ import { Pays } from '../../common/pays.model';
 
 export class NationaliteQuestion extends QuestionBase<string> {
   controlType = 'nationalite';
-  paysOptions = Object.keys(Pays);
+  paysOptions = Object.values(Pays);
 
   constructor(options: {} = {}) {
     super(options);
