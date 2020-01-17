@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/for
 
 export class NationaliteQuestion extends QuestionBase<string> {
   controlType = 'nationalite';
-  pays = Object.keys(Pays);
+  paysOptions = Object.keys(Pays);
 
   constructor(options: {} = {}) {
     super(options);

@@ -7,14 +7,14 @@
               [attr.disabled]="!isLast ? 'disabled' : null"
               #selectPays
               class="form-control form-select">
-        <option *ngFor="let pay of question.pays"
-                [value]="pay">
-          {{ 'common.pays.' + pay | translate }}
+        <option *ngFor="let pays of question.paysOptions"
+                [value]="pays">
+          {{ 'common.pays.' + pays | translate }}
         </option>
       </select>
 
       <button class="btn btn-primary"
-              [disabled]="isApatride || numberOfNationalites >= maxNumberOfNaationalites || hasUnsetPays()"
+              [disabled]="isApatride || numberOfNationalites >= maxNumberOfNationalites || hasUnsetPays()"
               [style.visibility]="isLast ? 'visible' : 'hidden'"
               (click)="addPaysControl()">
         <i class="fa fa-plus"></i> {{ 'common.ajouterNationalite' | translate }}

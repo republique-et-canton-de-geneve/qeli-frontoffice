@@ -20,7 +20,7 @@ export class NationaliteQuestionComponent implements QuestionComponent<any>, Aft
   @ViewChildren('selectPays') selectPays: QueryList<ElementRef>;
 
   numberOfNationalites = 1;
-  maxNumberOfNaationalites = 3;
+  maxNumberOfNationalites = 3;
 
   ngAfterViewInit() {
     this.selectPays.toArray()[0].nativeElement.focus();
@@ -53,7 +53,7 @@ export class NationaliteQuestionComponent implements QuestionComponent<any>, Aft
   }
 
   addPaysControl() {
-    if (this.numberOfNationalites < this.maxNumberOfNaationalites) {
+    if (this.numberOfNationalites < this.maxNumberOfNationalites) {
       this.paysArray.push(new FormControl());
       this.numberOfNationalites += 1;
     }
