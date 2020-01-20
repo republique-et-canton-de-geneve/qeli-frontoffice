@@ -3,11 +3,15 @@
   "version": "0.0.1",
   "description": "Cypress avec Cucumber pour tester l'application web",
   "scripts": {
-    "cy:run" : "cypress run",
-    "cy:run:ci" : "cypress run --env configFile=ci",
     "cy:verify": "cypress verify",
     "cy:version": "cypress version",
-    "start:ci": "cd ../qeli-frontoffice-application && mvn spring-boot:run -Pdevelopment"
+    "cy:open:ci": "CYPRESS_ENV=ci npm run cy:open",
+    "cy:open:prod": "CYPRESS_ENV=prod npm run cy:open",
+    "cy:open": "cypress open",
+    "cy:run:ci": "CYPRESS_ENV=ci npm run test",
+    "cy:run:prod": "CYPRESS_ENV=prod npm run test",
+    "test": "cypress run",
+    "test:pull-features": "git submodule update --remote features-metier && cp -rf features-metier/* cypress/integration && node ./scripts/remove-old-features.js"
   },
   "private": true,
   "dependencies": {

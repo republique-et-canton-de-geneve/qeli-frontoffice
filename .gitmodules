@@ -1,0 +1,3 @@
+[submodule "qeli-frontoffice-cypress/features-metier"]
+	path = qeli-frontoffice-cypress/features-metier
+	url = git@argon.ceti.etat-ge.ch:DEVELOPPEUR-SOCIAL/10818-qeli/qeli-scenarii-metier.git
