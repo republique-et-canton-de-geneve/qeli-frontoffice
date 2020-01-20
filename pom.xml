@@ -323,6 +323,7 @@
     </build>
   <modules>
     <module>qeli-frontoffice-application</module>
+    <module>qeli-frontoffice-cypress</module>
     <module>qeli-frontoffice-ihm</module>
     <module>qeli-frontoffice-rest</module>
     <module>qeli-frontoffice-service</module>
