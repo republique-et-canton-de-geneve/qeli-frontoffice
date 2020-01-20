@@ -100,13 +100,12 @@
                             <executable>npm</executable>
                             <arguments>
                                 <argument>config</argument>
-                                <argument>ls</argument>
-                                <argument>-l</argument>
+                                <argument>list</argument>
                             </arguments>
                         </configuration>
                     </execution>
 
-                    <!-- Ensure `npm install` is called during the resource generation phase -->
+                    <!-- Ensure `npm ci` is called during the resource generation phase -->
                     <execution>
                         <id>npm-init</id>
                         <goals>
@@ -116,7 +115,7 @@
                         <configuration>
                             <executable>npm</executable>
                             <arguments>
-                                <argument>install</argument>
+                                <argument>ci</argument>
                             </arguments>
                         </configuration>
                     </execution>
