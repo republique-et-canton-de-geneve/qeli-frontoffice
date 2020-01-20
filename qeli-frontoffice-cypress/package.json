@@ -5,13 +5,12 @@
   "scripts": {
     "cy:verify": "cypress verify",
     "cy:version": "cypress version",
-    "cy:open:ci": "CYPRESS_ENV=ci npm run cy:open",
-    "cy:open:prod": "CYPRESS_ENV=prod npm run cy:open",
+    "cy:open:ci": "QELI_ENV=ci npm run cy:open",
+    "cy:open:prod": "QELI_ENV=prod npm run cy:open",
     "cy:open": "cypress open",
-    "cy:run:ci": "CYPRESS_ENV=ci npm run test",
-    "cy:run:prod": "CYPRESS_ENV=prod npm run test",
-    "test": "cypress run",
-    "test:pull-features": "git submodule update --remote features-metier && cp -rf features-metier/* cypress/integration && node ./scripts/remove-old-features.js"
+    "cy:run:ci": "QELI_ENV=ci npm run test",
+    "cy:run:prod": "QELI_ENV=prod npm run test",
+    "test": "cypress run"
   },
   "private": true,
   "dependencies": {

@@ -20,8 +20,8 @@ module.exports = (on, config) => {
 
   on('file:preprocessor', cucumber());
 
-  // accept a CYPRESS_ENV value or use development by default
-  const file = config.env.CYPRESS_ENV || 'dev';
+  // accept a QELI_ENV value or use development by default
+  const file = config.env.QELI_ENV || 'dev';
 
   return getConfigurationByFile(file);
 };
