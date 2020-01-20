@@ -48,7 +48,11 @@ export class HomeComponent implements OnInit {
         ],
         validators: [Validators.required],
         skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']) ||
-                      (this.isMineur(form) && !this.hasPrestations(form, ['aideSociale'])),
+                      (
+                        this.isMineur(form) &&
+                        !this.hasPrestations(form, ['aideSociale']) &&
+                        this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam'])
+                      ),
         help: true
       }),
       new NationaliteQuestion({
@@ -62,7 +66,8 @@ export class HomeComponent implements OnInit {
         code: '0402',
         options: ['oui', 'non', 'inconnu'],
         validators: [Validators.required],
-        skip: form => this.isSuisse(form) ||
+        skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses']) ||
+                      this.isSuisse(form) ||
                       this.isUEOrAELE(form) ||
                       this.isPayConventione(form) ||
                       this.isApatride(form),
