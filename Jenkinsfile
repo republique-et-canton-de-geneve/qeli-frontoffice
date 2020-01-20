@@ -13,6 +13,7 @@ pipeline {
   tools {
     maven 'Maven 3.2.1'
     jdk 'Java 1.8'
+    nodejs 'NodeJS 11.15.0'
   }
   stages {
     stage('Build') {
