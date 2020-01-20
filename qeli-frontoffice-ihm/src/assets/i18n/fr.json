@@ -93,7 +93,7 @@
         "inconnu": "Je ne sais pas"
       },
       "error": {
-        "required": "Ce champ est obligatorie"
+        "required": "Ce champ est obligatoire"
       }
     },
     "permisBPlus5Ans": {
@@ -105,12 +105,12 @@
         "inconnu": "Je ne sais pas"
       },
       "error": {
-        "required": "Ce champ est obligatorie"
+        "required": "Ce champ est obligatoire"
       }
     }
   },
   "form": {
-    "required": "Ce champ est obligatorie",
+    "required": "Ce champ est obligatoire",
     "submit": "Envoyer",
     "previous": "Aller à la question précedente",
     "next": "Passer à la question suivante "
