@@ -33,7 +33,7 @@ scenarii (`.feature`) : [qeli-scenarii-metier][qeli-scenarii-metier]
 
 ## Exemple de scénario
 
-Voir le [README.md](features-metier/README.md) du sous-module.
+Voir le [README.md](cypress/integration/features-metier/README.md) du sous-module.
 
 
 ## Exécution
@@ -60,5 +60,5 @@ npm run cy:run:ci
 [cypress-doc]: https://docs.cypress.io/
 [cucumber-doc]: https://cucumber.io/docs/cucumber/
 [cypress-cucumber-pp]: https://www.npmjs.com/package/cypress-cucumber-preprocessor
-[qeli-scenarii-metier]: ***REMOVED***/DEVELOPPEUR-SOCIAL/qeli-scenarii-metier
+[qeli-scenarii-metier]: ***REMOVED***/DEVELOPPEUR-SOCIAL/10818-qeli/qeli-scenarii-metier
 [gherkin-doc]: https://cucumber.io/docs/gherkin/reference/
