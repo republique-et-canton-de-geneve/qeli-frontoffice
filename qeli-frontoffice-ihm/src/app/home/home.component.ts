@@ -48,7 +48,11 @@ export class HomeComponent implements OnInit {
         ],
         validators: [Validators.required],
         skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']) ||
-                      (this.isMineur(form) && !this.hasPrestations(form, ['aideSociale'])),
+                      (
+                        this.isMineur(form) &&
+                        !this.hasPrestations(form, ['aideSociale']) &&
+                        this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam'])
+                      ),
         help: true
       }),
       new NationaliteQuestion({
