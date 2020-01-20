@@ -78,6 +78,17 @@ export class HomeComponent implements OnInit {
                       this.isRefugie(form) ||
                       this.isApatride(form),
         help: true
+      }),
+      new RadioQuestion({
+        key: 'permisBPlus5Ans',
+        code: '0406',
+        options: ['oui', 'non', 'inconnu'],
+        validators: [Validators.required],
+        skip: form => this.hasPrestations(form, ['bourses']) ||
+                      this.isSuisse(form) ||
+                      this.isRefugie(form) ||
+                      this.isApatride(form),
+        help: true
       })
     ];
   }
