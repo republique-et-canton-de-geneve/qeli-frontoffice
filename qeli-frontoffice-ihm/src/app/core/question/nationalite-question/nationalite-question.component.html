@@ -6,7 +6,8 @@
       <select [formControlName]="i"
               [attr.disabled]="!isLast ? 'disabled' : null"
               #selectPays
-              class="form-control form-select">
+              class="form-control form-select"
+              [attr.data-cy]="question.code + '_' + question.key">
         <option *ngFor="let pays of question.paysOptions"
                 [value]="pays">
           {{ 'common.pays.' + pays | translate }}
