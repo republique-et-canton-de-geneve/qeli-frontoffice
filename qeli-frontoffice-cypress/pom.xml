@@ -58,7 +58,7 @@
                         </configuration>
                     </execution>
 
-                    <!-- Ensure `npm install` is called during the resource generation phase -->
+                    <!-- Ensure `npm ci` is called during the resource generation phase -->
                     <execution>
                         <id>npm-init</id>
                         <goals>
@@ -69,7 +69,7 @@
                             <skip>${skipTests}</skip>
                             <executable>npm</executable>
                             <arguments>
-                                <argument>install</argument>
+                                <argument>ci</argument>
                             </arguments>
                         </configuration>
                     </execution>
