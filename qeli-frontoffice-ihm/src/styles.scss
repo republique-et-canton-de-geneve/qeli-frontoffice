@@ -1,3 +1,23 @@
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  position: static;
+}
+
+#page {
+  margin-bottom: 376px;
+  padding-bottom: 66px;
+}
+
+footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
 .btn-primary[disabled]:hover {
   color: #fff !important;
 }
@@ -7,4 +27,12 @@ input[type="time"].form-control,
 input[type="datetime-local"].form-control,
 input[type="month"].form-control {
   line-height: 22px;
+}
+
+div.error {
+  background-color: transparent;
+}
+
+.radio-inline > label {
+  font-weight: normal;
 }

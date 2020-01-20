@@ -6,6 +6,9 @@ import { FormGroup, Validators } from '@angular/forms';
 import { QeliValidators } from '../core/validator/qeli-validators';
 import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-question.model';
 import * as moment from 'moment';
+import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
+import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
+import { Pays, PAYS_AELE_UE, PAYS_CONVETIONE } from '../core/common/pays.model';
 
 @Component({
   selector: 'app-home',
@@ -44,10 +47,66 @@ export class HomeComponent implements OnInit {
           'celibataire', 'marie', 'divorce', 'separe', 'partenariatEnregistre', 'veuf'
         ],
         validators: [Validators.required],
-        skip: form => this.isMineur(form) || this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']),
+        skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']) ||
+                      (this.isMineur(form) && !this.hasPrestations(form, ['aideSociale'])),
         help: true
       }),
+      new NationaliteQuestion({
+        key: 'nationalite',
+        code: '0401',
+        skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses']),
+        help: true
+      }),
+      new RadioQuestion({
+        key: 'refugie',
+        code: '0402',
+        options: ['oui', 'non', 'inconnu'],
+        validators: [Validators.required],
+        skip: form => this.isSuisse(form) ||
+                      this.isUEOrAELE(form) ||
+                      this.isPayConventione(form) ||
+                      this.isApatride(form),
+        help: true
+      }),
+      new RadioQuestion({
+        key: 'permisBEtudes',
+        code: '0405',
+        options: ['oui', 'non', 'inconnu'],
+        validators: [Validators.required],
+        skip: form => this.hasPrestations(form, ['bourses']) ||
+                      this.isSuisse(form) ||
+                      this.isRefugie(form) ||
+                      this.isApatride(form),
+        help: true
+      })
     ];
+  }
+
+  isRefugie(form: FormGroup) {
+    return form.value['refugie'] === 'oui';
+  }
+
+  isApatride(form: FormGroup) {
+    const nationalite = form.value['nationalite'];
+    return nationalite ? !!nationalite['apatride'] : false;
+  }
+
+  isSuisse(form: FormGroup) {
+    const nationalite = form.value['nationalite'];
+    const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+    return paysValues ? paysValues.includes(Pays.CH) : false;
+  }
+
+  isUEOrAELE(form: FormGroup) {
+    const nationalite = form.value['nationalite'];
+    const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+    return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
+  }
+
+  isPayConventione(form: FormGroup) {
+    const nationalite = form.value['nationalite'];
+    const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+    return paysValues ? paysValues.some(pays => PAYS_CONVETIONE.includes(pays)) : false;
   }
 
   isMineur(form: FormGroup) {
