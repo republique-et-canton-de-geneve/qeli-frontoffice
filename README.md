@@ -12,7 +12,6 @@
 de la construction et livraison du front office pour le deployment.
 - [qeli-frontoffice-cypress](qeli-frontoffice-cypress) : Module pour la configuration
 des scenarii de tests d'intégration de l'application.
-Voir le [qeli-frontoffice-cypress/README.md](qeli-frontoffice-cypress/README.md).
 - [qeli-frontoffice-ihm](qeli-frontoffice-ihm) : L'IHM du front office destiné aux
 gestionnaires.
 - [qeli-frontoffice-rest](qeli-frontoffice-rest) : Les services REST.
@@ -30,6 +29,15 @@ métier du front office.
 - Node
 
 ## Comment construire
+
+Récupérer la dernière version du sous-module des scenarii de test Cypress :
+
+```bash
+git submodule init
+git submodule update
+```
+
+Build :
 
 ```bash
 mvn clean install
@@ -139,14 +147,14 @@ Pour arrêter le server fermer la fenêtre du terminal.
 - Gitflow cheatsheet : https://danielkummer.github.io/git-flow-cheatsheet/
 - Gitflow maven plugin : https://github.com/aleksandr-m/gitflow-maven-plugin
 
-# Astuces
+## Astuces
 
-## Références de la charte graphique
+### Références de la charte graphique
 
 - https://outil.ge.ch/site/charte-internet/
 - https://outil.ge.ch/site/charte-internet/version/2.4/
 
-## Sauter les tests
+### Sauter les tests
 
 ```bash
 mvn clean install -DskipTests=true
@@ -161,7 +169,7 @@ comme sur la commande suivante :
 mvn clean install -Dihm.test.skip=true
 ```
 
-## Sauter la compilation de l'IHM
+### Sauter la compilation de l'IHM
 
 Il est possible de construire l'application en sautant la compilation de l'IHM,
 pour cela éxecuter la commande suivante :
@@ -177,7 +185,7 @@ mvn clean install -pl '!qeli-frontoffice-cypress'
 mvn clean install -pl '!qeli-frontoffice-ihm,!qeli-frontoffice-cypress'
 ```
 
-## Style du code
+### Style du code
 
 Le style du code est défini par le fichier [.editorconfig](.editorconfig) à la racine
 du projet.

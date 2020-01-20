@@ -1,8 +1,13 @@
-# QELI Cypress : Test d'intégration 
+# QELI Cypress : Test d'intégration
 
 Ce module a pour but d'exécuter des scenarii de tests **écrits par le métier**.
 
-## Configuration
+Le dépôt dédié [qeli-scenarii-metier][qeli-scenarii-metier] regroupe les fichiers
+(`.feature`) modifiables par les utilisateurs métiers.
+Il est importé en sous-module dans [cypress/integration/].
+
+
+## Structure
 
 La configuration des outils suivants a été mise en place pour répondre à ce besoin :
 
@@ -13,9 +18,8 @@ Development).
 * [cypress-cucumber-preprocessor][cypress-cucumber-pp] intègre les tests Cucumber
 (avec la syntaxe  [Gherkin][gherkin-doc]) à Cypress.
 
-## Structure
 
-### Configuration
+## Configuration
 
 * `cypress.json` : configuration globale de Cypress.
 * `cypress/config/cypress.default.json` : configuration par défaut.
@@ -23,16 +27,9 @@ Development).
 * `cypress/config/cypress.rec.json` : configuration de l'environment de recette.
 * `cypress/config/cypress.prod.json` : configuration de l'environment de production.
 
-### Tests pour les utilisateurs métiers
-
-Un dépôt dédié importé en sous-module dans le projet regroupe les fichiers de
-scenarii (`.feature`) : [qeli-scenarii-metier][qeli-scenarii-metier].
-
-Voir le [README.md](cypress/integration/features-metier/README.md) du sous-module.
-
 ## Exécution
 
-Les tests d'intégration sont liés à la phase `integration-test` de maven, il suffit
+Les tests d'intégration sont liés à la phase `integration-test` de Maven, il suffit
 d'éxecuter la commande suivante :
 
 ```bash
@@ -40,9 +37,9 @@ mvn clean verify
 ```
 
 une instance de [qeli-frontoffice-application](../qeli-frontoffice-application) sera
-démarrer sur le port 8080.
+démarrée sur le port 8080.
 
-Pour éxecuter les tests sur une instance existante utilisez `npm` directement :
+Pour exécuter les tests sur une instance existante utilisez `npm` directement :
 
 Pour exécuter les tests en ligne de commande :
 
@@ -50,7 +47,7 @@ Pour exécuter les tests en ligne de commande :
 npm run cy:run
 ```
 
-le fichier `./config/cypress.local.json` est résérver pour personnaliser la
+le fichier `./config/cypress.local.json` est réserver pour personnaliser la
 configuration et il sera ignoré par git, pour en créer un :
 
 ```bash
@@ -63,9 +60,9 @@ et pour l'utiliser :
 npm run cy:run -- --env qeli-env=local
 ```
 
-### Ouvrir l'interface cypress
+### Ouvrir l'interface Cypress
 
-La commande suivante permet de démarrer cypress en mode graphique :
+La commande suivante permet de démarrer Cypress en mode graphique :
 
 ```bash
 npm run cy:open
@@ -87,21 +84,23 @@ npm run cy:open -- --env qeli-env=rec
 npm run cy:open -- --env qeli-env=prod
 ```
 
-# Astuces
 
-## Installation avec binaire
+## Astuces
 
-Il est possible que le script d'installation de cypress échoue. Dans ce cas vous
-pouvez l'installer manuellement en téléchargeant le binaire depuis : 
-https://www.cypress.io/ 
+### Installation avec binaire
 
-Ensuite il faut renseigner la varaible d'environment`CYPRESS_INSTALL_BINARY` avant
-lancer l'installation :
+Il est possible que le script d'installation de Cypress échoue. Dans ce cas vous
+pouvez l'installer manuellement en téléchargeant le binaire depuis :
+https://www.cypress.io/
+
+Ensuite il faut renseigner la variable d'environment `CYPRESS_INSTALL_BINARY` avant
+de lancer l'installation :
 
 ```bash
 export CYPRESS_INSTALL_BINARY=/home/$USER/Downloads/cypress.zip
 npm install
 ```
+
 
 [cypress-doc]: https://docs.cypress.io/
 [cucumber-doc]: https://cucumber.io/docs/cucumber/
