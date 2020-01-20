@@ -30,7 +30,7 @@ Development).
 ## Exécution
 
 Les tests d'intégration sont liés à la phase `integration-test` de Maven, il suffit
-d'éxecuter la commande suivante :
+d'exécuter la commande suivante :
 
 ```bash
 mvn clean verify
@@ -47,7 +47,7 @@ Pour exécuter les tests en ligne de commande :
 npm run cy:run
 ```
 
-le fichier `./config/cypress.local.json` est réserver pour personnaliser la
+le fichier `./config/cypress.local.json` est réservé pour personnaliser la
 configuration et il sera ignoré par git, pour en créer un :
 
 ```bash

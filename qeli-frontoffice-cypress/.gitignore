@@ -1,4 +1,4 @@
 cypress/screenshots
 cypress/videos
-config/cypress.local.json
-fixtures
+cypress/config/cypress.local.json
+cypress/fixtures
