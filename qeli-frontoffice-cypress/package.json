@@ -3,14 +3,10 @@
   "version": "0.0.1",
   "description": "Cypress avec Cucumber pour tester l'application web",
   "scripts": {
-    "cy:verify": "cypress verify",
-    "cy:version": "cypress version",
-    "cy:open:ci": "QELI_ENV=ci npm run cy:open",
-    "cy:open:prod": "QELI_ENV=prod npm run cy:open",
     "cy:open": "cypress open",
-    "cy:run:ci": "QELI_ENV=ci npm run test",
-    "cy:run:prod": "QELI_ENV=prod npm run test",
-    "test": "cypress run"
+    "cy:run": "cypress run",
+    "cy:verify": "cypress verify",
+    "cy:version": "cypress version"
   },
   "private": true,
   "dependencies": {

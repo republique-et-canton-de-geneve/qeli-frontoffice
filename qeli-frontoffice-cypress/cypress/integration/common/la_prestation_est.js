@@ -1,4 +1,4 @@
-import { Then } from "cypress-cucumber-preprocessor/steps";
+import {Then} from "cypress-cucumber-preprocessor/steps";
 
 Then(`La prestation {string} est {string}`, (codePrestation, possibleImpossible) => {
   console.log(codePrestation + " " + possibleImpossible)

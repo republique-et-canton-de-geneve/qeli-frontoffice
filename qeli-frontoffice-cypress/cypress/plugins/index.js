@@ -10,7 +10,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 function getConfigurationByFile(file) {
-  const pathToConfigFile = path.resolve('cypress/config/', `cypress.${file}.json`);
+  const pathToConfigFile = path.resolve('cypress/config/', `cypress.${file || 'default'}.json`);
   return fs.readJson(pathToConfigFile);
 }
 
@@ -18,10 +18,9 @@ module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
 
+  // Register cucumber preprocessor
   on('file:preprocessor', cucumber());
 
-  // accept a QELI_ENV value or use development by default
-  const file = config.env.QELI_ENV || 'dev';
-
-  return getConfigurationByFile(file);
-};
+  // Resolve the configuration file
+  return getConfigurationByFile(config.env['qeli-env']);
+}

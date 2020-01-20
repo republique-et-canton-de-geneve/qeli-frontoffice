@@ -17,7 +17,10 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh "mvn clean source:jar deploy -s ${env.USER_SETTINGS_DIR}social_settings.xml -Dihm.test.skip=true"
+        sh "mvn clean package -s ${env.USER_SETTINGS_DIR}social_settings.xml \
+                              -pl '!qeli-frontoffice-cypress'                \
+                              -Dihm.test.skip=true"
+
         junit '**/target/surefire-reports/*.xml'
         step([$class: 'JacocoPublisher'])
       }
@@ -61,15 +64,24 @@ pipeline {
       }
     }
 
-    stage('Cypress Verify') {
+    stage('Integration tests') {
       steps {
-        sh "cd qeli-frontoffice-cypress && npm run cy:verify"
+        sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
+                       -Dihm.test.skip=true                           \
+                       -Dsurefire.test.skip=true"
       }
     }
 
-    stage('Cypress Tests') {
+    stage('Deploy artifact') {
+      when {
+        anyOf {
+          branch 'develop'
+          branch 'master'
+        }
+      }
+
       steps {
-        sh "cd qeli-frontoffice-cypress && nohup npm run start:ci & npm run cy:run:ci"
+        sh "mvn clean source:jar deploy -s ${env.USER_SETTINGS_DIR}social_settings.xml -DskipTests=true"
       }
     }
   }

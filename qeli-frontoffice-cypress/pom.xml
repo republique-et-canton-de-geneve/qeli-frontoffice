@@ -10,9 +10,16 @@
     </parent>
 
     <artifactId>qeli-frontoffice-cypress</artifactId>
+    <packaging>war</packaging>
 
-    <properties>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>qeli-frontoffice-application</artifactId>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -42,6 +49,7 @@
                         </goals>
                         <phase>validate</phase>
                         <configuration>
+                            <skip>${skipTests}</skip>
                             <executable>npm</executable>
                             <arguments>
                                 <argument>config</argument>
@@ -58,6 +66,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
+                            <skip>${skipTests}</skip>
                             <executable>npm</executable>
                             <arguments>
                                 <argument>install</argument>
@@ -65,7 +74,7 @@
                         </configuration>
                     </execution>
 
-                    <!-- Call `npm run sync-pom-version` to synchronize the package.json version -->
+                    <!-- Call `npm version` to synchronize the package.json version -->
                     <execution>
                         <id>npm-sync-version</id>
                         <goals>
@@ -84,6 +93,76 @@
                                 <argument>--allow-same-version</argument>
                             </arguments>
                         </configuration>
+                    </execution>
+
+                    <!-- Ensure `npm install` is called during the resource generation phase -->
+                    <execution>
+                        <id>npm-cypress-run</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>cy:run</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <overlays>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>qeli-frontoffice-application</artifactId>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <skip>${skipTests}</skip>
+                    <webApp>
+                        <contextPath>/qeli</contextPath>
+                    </webApp>
+                    <httpConnector>
+                        <port>8080</port>
+                    </httpConnector>
+                    <stopKey>quit</stopKey>
+                    <stopPort>9000</stopPort>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-jetty</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

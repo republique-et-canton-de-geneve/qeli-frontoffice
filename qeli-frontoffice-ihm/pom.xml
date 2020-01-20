@@ -120,7 +120,7 @@
                         </configuration>
                     </execution>
 
-                    <!-- Call `npm run sync-pom-version` to synchronize the package.json version -->
+                    <!-- Call `npm version` to synchronize the package.json version -->
                     <execution>
                         <id>npm-sync-version</id>
                         <goals>

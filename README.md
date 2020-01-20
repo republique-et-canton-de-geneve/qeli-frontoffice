@@ -11,7 +11,7 @@
 - [qeli-frontoffice-application](qeli-frontoffice-application) : Ce module se charge
 de la construction et livraison du front office pour le deployment.
 - [qeli-frontoffice-cypress](qeli-frontoffice-cypress) : Module pour la configuration
-des scenarii de tests de l'application par le métier.
+des scenarii de tests d'intégration de l'application.
 Voir le [qeli-frontoffice-cypress/README.md](qeli-frontoffice-cypress/README.md).
 - [qeli-frontoffice-ihm](qeli-frontoffice-ihm) : L'IHM du front office destiné aux
 gestionnaires.
@@ -148,17 +148,11 @@ Pour arrêter le server fermer la fenêtre du terminal.
 
 ## Sauter les tests
 
-Pour construire l'application sans exécuter les tests veuillez  utiliser le
-paramètre `maven.test.skip` au lieu de `skipTests`, comme sur la commande
-suivante :
-
 ```bash
-mvn clean install -Dmaven.test.skip=true
+mvn clean install -DskipTests=true
 ```
 
-Cela permet de sauter les test Java ainsi que les tests IHM.
-
-###### Sauter les tests IHM
+### Sauter les tests IHM
 
 Pour sauter uniquement les tests IHM veuillez  utiliser le paramètre `ihm.test.skip`,
 comme sur la commande suivante :
@@ -173,7 +167,14 @@ Il est possible de construire l'application en sautant la compilation de l'IHM,
 pour cela éxecuter la commande suivante :
 
 ```bash
+# Sauter la compilation de l'ihm
 mvn clean install -pl '!qeli-frontoffice-ihm'
+
+# Sauter la compilation des tests d'intégration
+mvn clean install -pl '!qeli-frontoffice-cypress'
+
+# Sauter la compilation de l'ihm et des tests d'intégration
+mvn clean install -pl '!qeli-frontoffice-ihm,!qeli-frontoffice-cypress'
 ```
 
 ## Style du code
