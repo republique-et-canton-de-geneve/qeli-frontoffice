@@ -32,7 +32,8 @@ pipeline {
 
       steps {
         withSonarQubeEnv('Sonarqube') {
-          sh "mvn ${env.SONAR_MAVEN_GOAL} -Dsonar.host.url=${env.SONAR_HOST_URL}"
+          sh "mvn ${env.SONAR_MAVEN_GOAL} -Dsonar.host.url=${env.SONAR_HOST_URL} \
+                                          -pl '!qeli-frontoffice-cypress' "
         }
       }
     }
@@ -67,6 +68,7 @@ pipeline {
 
     stage('Integration tests') {
       steps {
+        sh 'git submodule update --init'
         sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
                        -Dihm.test.skip=true                           \
                        -Dsurefire.test.skip=true"
