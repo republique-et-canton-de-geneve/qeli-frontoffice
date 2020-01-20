@@ -100,7 +100,8 @@
                             <executable>npm</executable>
                             <arguments>
                                 <argument>config</argument>
-                                <argument>list</argument>
+                                <argument>ls</argument>
+                                <argument>-l</argument>
                             </arguments>
                         </configuration>
                     </execution>
