@@ -71,6 +71,7 @@ export class HomeComponent implements OnInit {
                       this.isUEOrAELE(form) ||
                       this.isPayConventione(form) ||
                       this.isApatride(form),
+        inline: true,
         help: true
       }),
       new RadioQuestion({
@@ -82,6 +83,7 @@ export class HomeComponent implements OnInit {
                       this.isSuisse(form) ||
                       this.isRefugie(form) ||
                       this.isApatride(form),
+        inline: true,
         help: true
       }),
       new RadioQuestion({
@@ -93,6 +95,7 @@ export class HomeComponent implements OnInit {
                       this.isSuisse(form) ||
                       this.isRefugie(form) ||
                       this.isApatride(form),
+        inline: true,
         help: true
       }),
       new CheckboxGroupQuestion({
@@ -109,7 +112,27 @@ export class HomeComponent implements OnInit {
         skip: form => this.hasPrestations(form, ['bourses', 'pcFam', 'aideSociale']),
         help: true
       }),
+      new RadioQuestion({
+        key: 'scolarite',
+        code: '0701',
+        hasNone: true,
+        validators: [Validators.required],
+        options: [
+          'scolariteObligatorie', 'formationContinue', 'formaitonDoctorale', 'maitriseUniversitaire', 'aucune'
+        ],
+        skip: form => this.hasPrestations(form, ['bourses']) ||
+                      this.hasActivites(form, ['etudiant']) ||
+                      form.value['permisBPlus5Ans'] === 'non',
+        help: true
+      })
     ];
+  }
+
+  hasActivites(form: FormGroup, activites: string[]) {
+    return !Object.entries(form.value['activite'])
+                  .filter(entry => activites.includes(entry[0]))
+                  .map(entry => entry[1])
+                  .includes(false);
   }
 
   isRefugie(form: FormGroup) {
