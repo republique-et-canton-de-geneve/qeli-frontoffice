@@ -1,6 +1,8 @@
 # QELI Cypress : Test d'intégration
 
 Ce module a pour but d'exécuter des scenarii de tests **écrits par le métier**.
+L'objectif est de simuler le remplissage du questionnaire de manière automatique et
+contrôler le résultat de chaque scénario.
 
 Le dépôt dédié [qeli-scenarii-metier][qeli-scenarii-metier] regroupe les fichiers
 (`.feature`) modifiables par les utilisateurs métiers.
@@ -19,6 +21,70 @@ Development).
 (avec la syntaxe  [Gherkin][gherkin-doc]) à Cypress.
 
 
+## Tests Cypress
+
+### vérifier
+
+* l'affichage ou non des questions
+
+```js
+cy.get('label[for="0101_prestations"').should('be.visible');
+cy.get('label[for="0201_dateNaissance"').should('not.be.visible');
+```
+
+* le libellé des questions :
+
+```js
+cy.get('label[for="0301_etatCivil"').should('contain', 'Quel est votre état civil?');
+```
+
+* si un champ est obligatoire ou non :
+
+```js
+cy.get('label[for="0101_prestations"').find('span').should('have.class', 'required');
+```
+
+* les réponses possibles aux questions :
+
+```js
+cy.get('#0301_etatCivil > option').eq(0).should('contain', 'Célibataire');
+cy.get('#0301_etatCivil > option').eq(1).should('contain', 'Marié(e)');
+```
+
+* l'état d'un bouton :
+
+```js
+cy.get('[data-cy=previousQuestion]').should('be.disabled');
+```
+
+
+### interagir
+
+* remplir un champ texte :
+
+```js
+cy.get('input[type=text]').type(answer);
+```
+
+* cocher une checkbox :
+
+```js
+cy.get('[data-cy=0101_prestations_bourses]').check();
+```
+
+* sélectionner la valeur d'une liste :
+
+```js
+cy.get('select').select(answer);
+```
+
+* cliquer sur un bouton :
+
+```js
+cy.get('[data-cy=nextQuestion]').click();
+```
+
+
 ## Configuration
 
 * `cypress.json` : configuration globale de Cypress.
@@ -26,6 +92,7 @@ Development).
 * `cypress/config/cypress.dev.json` : configuration de l'environment de dev.
 * `cypress/config/cypress.rec.json` : configuration de l'environment de recette.
 * `cypress/config/cypress.prod.json` : configuration de l'environment de production.
+
 
 ## Exécution
 
@@ -71,7 +138,7 @@ npm run cy:open
 Il est possible de spécifier le fichier de configuration, si besoin, ainsi :
 
 ```bash
-# Lancer les tests sur une instance local
+# Lancer les tests sur une instance locale
 npm run cy:open -- --env qeli-env=local
 
 # Lancer les tests sur l'instance de dev
@@ -84,6 +151,7 @@ npm run cy:open -- --env qeli-env=rec
 npm run cy:open -- --env qeli-env=prod
 ```
 
+---
 
 ## Astuces
 
