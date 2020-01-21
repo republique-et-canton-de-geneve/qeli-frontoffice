@@ -1,5 +1,5 @@
 pipeline {
-  agent { label 'master' }
+  agent { label 'CypressAgent' }
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
