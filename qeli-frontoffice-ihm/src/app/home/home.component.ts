@@ -94,7 +94,21 @@ export class HomeComponent implements OnInit {
                       this.isRefugie(form) ||
                       this.isApatride(form),
         help: true
-      })
+      }),
+      new CheckboxGroupQuestion({
+        key: 'activite',
+        code: '0601',
+        hasNone: true,
+        validators: [
+          Validators.required,
+          QeliValidators.atLeastOneSelected(['etudiant', 'emploi', 'chomage', 'retraite', 'invalide', 'sans', 'arret'])
+        ],
+        options: [
+          'etudiant', 'emploi', 'chomage', 'retraite', 'invalide', 'sans', 'arret'
+        ],
+        skip: form => this.hasPrestations(form, ['bourses', 'pcFam', 'aideSociale']),
+        help: true
+      }),
     ];
   }
 

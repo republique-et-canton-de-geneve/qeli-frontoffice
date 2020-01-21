@@ -1,11 +1,11 @@
 <div [formGroup]="form">
   <div [formGroupName]="question.key">
-    <div *ngFor="let x of [].constructor(numberOfNationalites); index as i; last as isLast"
+    <div *ngFor="let x of [].constructor(numberOfNationalites); index as i; last as isLast; first as isFirst"
          class="nationalite-selection-box"
          formArrayName="pays">
       <select [formControlName]="i"
               [attr.disabled]="!isLast ? 'disabled' : null"
-              #selectPays
+              [focusOnInit]="isFirst"
               class="form-control form-select">
         <option *ngFor="let pays of question.paysOptions"
                 [value]="pays">
