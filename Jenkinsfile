@@ -9,6 +9,7 @@ pipeline {
     NO_PROXY = '***REMOVED***'
     QELI_LAB_HOST = '***REMOVED***'
     QELI_CREDENTIALS = credentials('45d84cd5-cffc-429c-8ec8-a1a8852ed903')
+    CYPRESS_CACHE_FOLDER = '~/.cache'
   }
   tools {
     maven 'Maven 3.2.1'
