@@ -68,7 +68,6 @@ pipeline {
 
     stage('Integration tests') {
       steps {
-        sh 'git submodule update --init'
         sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
                        -Dihm.test.skip=true                           \
                        -Dsurefire.test.skip=true"
