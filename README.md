@@ -33,8 +33,7 @@ métier du front office.
 Récupérer la dernière version du sous-module des scenarii de test Cypress :
 
 ```bash
-git submodule init
-git submodule update
+git submodule update --init
 ```
 
 Build :
