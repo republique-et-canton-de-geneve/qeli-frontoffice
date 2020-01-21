@@ -1,7 +1,7 @@
 <div [formGroup]="form">
-  <div *ngFor="let option of question.options" class="radio-inline">
+  <div *ngFor="let option of question.options; first as isFirst" class="radio-inline">
     <label>
-      <input type="radio" [value]="option" [formControlName]="question.key" #radioButtons>
+      <input type="radio" [value]="option" [formControlName]="question.key" [focusOnInit]="isFirst">
       {{ 'question.' + question.key + '.option.' + option | translate }}
     </label>
   </div>

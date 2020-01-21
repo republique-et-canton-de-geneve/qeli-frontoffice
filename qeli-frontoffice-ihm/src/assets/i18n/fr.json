@@ -107,6 +107,26 @@
       "error": {
         "required": "Ce champ est obligatoire"
       }
+    },
+    "activite": {
+      "label": "Quelle est votre activité ?",
+      "help": "Etudiant : personne en formation.",
+      "option": {
+        "etudiant": "Etudiant",
+        "emploi": "Emploi",
+        "chomage": "Chômage",
+        "retraite": "Retraité (Rente AVS)",
+        "invalide": "Invalide (Rente AI)",
+        "sans": "Au foyer / Sans activité",
+        "arret": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain",
+        "none": "Aucune des réponses précédentes"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "atLeastOneSelected": "Au moins une activité doit être selectionnée"
+      },
+      "noneDetailLabel": "Veuillez spécifier votre activité :",
+      "noneDetailPlaceholder": ""
     }
   },
   "form": {

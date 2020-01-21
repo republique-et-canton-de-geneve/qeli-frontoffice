@@ -3,11 +3,13 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 
 export class CheckboxGroupQuestion extends QuestionBase<any> {
   controlType = 'checkbox-group';
+  hasNone: boolean;
   options: string[];
 
   constructor(options: {} = {}) {
     super(options);
     this.options = options['options'] || [];
+    this.hasNone = !!options['hasNone'];
     this.defaultValue = !this.defaultValue ? [] : this.defaultValue;
   }
 
@@ -18,6 +20,19 @@ export class CheckboxGroupQuestion extends QuestionBase<any> {
       group[option] = new FormControl(this.defaultValue.includes(option))
     });
 
-    return new FormGroup(group, this.validators);
+    if (this.hasNone) {
+      group['none'] = new FormControl(this.defaultValue.includes('none'));
+      group['noneDetail'] = new FormControl();
+    }
+
+    return new FormGroup(group, this.validators.concat(
+      (control) => {
+        if (control.value['none'] && (!control.value['noneDetail'] || control.value['noneDetail'] === '')) {
+          return {'required': true};
+        }
+
+        return null;
+      }
+    ));
   }
 }

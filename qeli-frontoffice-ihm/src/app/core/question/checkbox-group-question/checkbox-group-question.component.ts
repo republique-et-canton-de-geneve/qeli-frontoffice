@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionComponent } from '../question.component';
 import { CheckboxGroupQuestion } from './checkbox-group-question.model';
 import { FormGroup } from '@angular/forms';
@@ -10,13 +10,29 @@ import { RegisterQuestionComponent } from '../question-registry';
   templateUrl: './checkbox-group-question.component.html',
   styleUrls: ['./checkbox-group-question.component.scss']
 })
-export class CheckboxGroupQuestionComponent implements QuestionComponent<any>, AfterViewInit {
+export class CheckboxGroupQuestionComponent implements QuestionComponent<any> {
   @Input() question: CheckboxGroupQuestion;
   @Input() form: FormGroup;
 
-  @ViewChildren('checkboxInputs') checkboxInputs: QueryList<ElementRef>;
+  get isNone() {
+    return !!this.form.value[this.question.key]['none'];
+  }
 
-  ngAfterViewInit(): void {
-    this.checkboxInputs.toArray()[0].nativeElement.focus();
+  onNoneChanged() {
+    if (this.isNone) {
+      this.optionControls.forEach(control => control.setValue(false));
+    } else {
+      (this.form.controls[this.question.key] as FormGroup).controls['noneDetail'].setValue('');
+    }
+
+    this.form.controls[this.question.key].markAsPristine();
+  }
+
+  get optionControls() {
+    const optionControls = (this.form.controls[this.question.key] as FormGroup).controls;
+
+    return Object.keys(optionControls)
+                 .filter(key => key !== 'none' && key !== 'noneDetail')
+                 .map(key => optionControls[key]);
   }
 }
