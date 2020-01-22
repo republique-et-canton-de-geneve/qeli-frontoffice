@@ -1,7 +1,7 @@
 <div [formGroup]="form">
-  <select [id]="question.code + '_' + question.key"
+  <select [id]="question.key"
           [formControlName]="question.key"
-          #dropdownInput
+          focusOnInit="true"
           class="form-control form-select"
           [attr.data-cy]="question.code + '_' + question.key">
     <option *ngFor="let option of question.options"

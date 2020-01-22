@@ -27,7 +27,7 @@ export class DynamicQuestionComponent {
   }
 
   get isValid() {
-    return this.form.controls[this.question.key].untouched ||
+    return this.form.controls[this.question.key].pristine ||
            this.form.controls[this.question.key].valid;
   }
 

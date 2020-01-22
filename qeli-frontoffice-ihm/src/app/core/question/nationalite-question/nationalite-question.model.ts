@@ -19,6 +19,7 @@ export class NationaliteQuestion extends QuestionBase<string> {
 
     return new FormGroup(group, this.validators.concat(
       (control: AbstractControl) => {
+
         if (control.value['apatride'] !== true &&
             (!control.value['pays'] || (control.value['pays'] as string[]).every(e => e === null))
         ) {
