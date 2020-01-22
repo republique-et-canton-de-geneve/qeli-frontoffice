@@ -1,9 +1,10 @@
 import { QuestionBase } from '../question-base.model';
+import { QuestionOption } from '../option.model';
 
 export class RadioQuestion extends QuestionBase<string> {
   controlType = 'radio';
   inline: boolean;
-  options: string[];
+  options: QuestionOption[];
 
   constructor(options: {} = {}) {
     super(options);

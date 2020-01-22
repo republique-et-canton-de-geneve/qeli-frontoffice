@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { Pays, PAYS_AELE_UE, PAYS_CONVETIONE } from '../core/common/pays.model';
+import { QuestionOption } from '../core/question/option.model';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,7 @@ export class HomeComponent implements OnInit {
         code: '0101',
         options: [
           'subsides', 'avances', 'allocationLogement', 'subventionHm', 'pcAvsAi', 'bourses', 'pcFam', 'aideSociale'
-        ],
+        ].map(label => new QuestionOption({label: label})),
         help: true
       }),
       new DateQuestion({
@@ -64,7 +65,7 @@ export class HomeComponent implements OnInit {
       new RadioQuestion({
         key: 'refugie',
         code: '0402',
-        options: ['oui', 'non', 'inconnu'],
+        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
         validators: [Validators.required],
         skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses']) ||
                       this.isSuisse(form) ||
@@ -77,7 +78,7 @@ export class HomeComponent implements OnInit {
       new RadioQuestion({
         key: 'permisBEtudes',
         code: '0405',
-        options: ['oui', 'non', 'inconnu'],
+        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
         validators: [Validators.required],
         skip: form => this.hasPrestations(form, ['bourses']) ||
                       this.isSuisse(form) ||
@@ -89,7 +90,7 @@ export class HomeComponent implements OnInit {
       new RadioQuestion({
         key: 'permisBPlus5Ans',
         code: '0406',
-        options: ['oui', 'non', 'inconnu'],
+        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
         validators: [Validators.required],
         skip: form => this.hasPrestations(form, ['bourses']) ||
                       this.isSuisse(form) ||
@@ -108,7 +109,7 @@ export class HomeComponent implements OnInit {
         ],
         options: [
           'etudiant', 'emploi', 'chomage', 'retraite', 'invalide', 'sans', 'arret'
-        ],
+        ].map(label => new QuestionOption({label: label})),
         skip: form => this.hasPrestations(form, ['bourses', 'pcFam', 'aideSociale']),
         help: true
       }),
@@ -117,9 +118,11 @@ export class HomeComponent implements OnInit {
         code: '0701',
         hasNone: true,
         validators: [Validators.required],
-        options: [
-          'scolariteObligatorie', 'formationContinue', 'formaitonDoctorale', 'maitriseUniversitaire', 'aucune'
-        ],
+        options: ['scolariteObligatorie',
+                  'formationContinue',
+                  'formaitonDoctorale',
+                  'maitriseUniversitaire'].map(label => new QuestionOption({label: label, help: true}))
+                                          .concat(new QuestionOption({label: 'aucune'})),
         skip: form => this.hasPrestations(form, ['bourses']) ||
                       this.hasActivites(form, ['etudiant']) ||
                       form.value['permisBPlus5Ans'] === 'non',

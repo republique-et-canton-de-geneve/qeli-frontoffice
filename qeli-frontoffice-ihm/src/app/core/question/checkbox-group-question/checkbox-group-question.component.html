@@ -4,10 +4,14 @@
       <label>
         <input type="checkbox"
                [attr.disabled]="isNone ? 'disabled' : null"
-               [formControlName]="option"
+               [formControlName]="option.label"
                [focusOnInit]="isFirst">
-        {{ 'question.' + question.key + '.option.' + option | translate }}
+        {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
       </label>
+
+      <p *ngIf="option.help" class="help-block">
+        {{ 'question.' + question.key + '.option.' + option.label + '.help' | translate }}
+      </p>
     </div>
 
     <div *ngIf="question.hasNone" class="checkbox none-option">

@@ -1,10 +1,11 @@
 import { QuestionBase } from '../question-base.model';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { QuestionOption } from '../option.model';
 
 export class CheckboxGroupQuestion extends QuestionBase<any> {
   controlType = 'checkbox-group';
   hasNone: boolean;
-  options: string[];
+  options: QuestionOption[];
 
   constructor(options: {} = {}) {
     super(options);
@@ -17,7 +18,7 @@ export class CheckboxGroupQuestion extends QuestionBase<any> {
     let group: any = {};
 
     this.options.forEach(option => {
-      group[option] = new FormControl(this.defaultValue.includes(option))
+      group[option.label] = new FormControl(this.defaultValue.includes(option.label))
     });
 
     if (this.hasNone) {
