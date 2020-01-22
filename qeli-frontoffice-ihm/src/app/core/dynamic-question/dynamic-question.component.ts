@@ -35,6 +35,11 @@ export class DynamicQuestionComponent {
     return Object.keys(this.form.controls[this.question.key].errors);
   }
 
+  get questionTranslationKey() {
+    const altText = this.question.altText(this.form);
+    return `question.${this.question.key}.${altText ? 'altText.' + altText : 'label'}`;
+  }
+
   loadComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
       QuestionRegistry[this.question.controlType]
