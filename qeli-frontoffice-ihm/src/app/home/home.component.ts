@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { Pays, PAYS_AELE_UE, PAYS_CONVETIONE } from '../core/common/pays.model';
+import { QuestionOption } from '../core/question/option.model';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,7 @@ export class HomeComponent implements OnInit {
         code: '0101',
         options: [
           'subsides', 'avances', 'allocationLogement', 'subventionHm', 'pcAvsAi', 'bourses', 'pcFam', 'aideSociale'
-        ],
+        ].map(label => new QuestionOption({label: label})),
         help: true
       }),
       new DateQuestion({
@@ -64,35 +65,38 @@ export class HomeComponent implements OnInit {
       new RadioQuestion({
         key: 'refugie',
         code: '0402',
-        options: ['oui', 'non', 'inconnu'],
+        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
         validators: [Validators.required],
         skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses']) ||
                       this.isSuisse(form) ||
                       this.isUEOrAELE(form) ||
                       this.isPayConventione(form) ||
                       this.isApatride(form),
+        inline: true,
         help: true
       }),
       new RadioQuestion({
         key: 'permisBEtudes',
         code: '0405',
-        options: ['oui', 'non', 'inconnu'],
+        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
         validators: [Validators.required],
         skip: form => this.hasPrestations(form, ['bourses']) ||
                       this.isSuisse(form) ||
                       this.isRefugie(form) ||
                       this.isApatride(form),
+        inline: true,
         help: true
       }),
       new RadioQuestion({
         key: 'permisBPlus5Ans',
         code: '0406',
-        options: ['oui', 'non', 'inconnu'],
+        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
         validators: [Validators.required],
         skip: form => this.hasPrestations(form, ['bourses']) ||
                       this.isSuisse(form) ||
                       this.isRefugie(form) ||
                       this.isApatride(form),
+        inline: true,
         help: true
       }),
       new CheckboxGroupQuestion({
@@ -105,11 +109,33 @@ export class HomeComponent implements OnInit {
         ],
         options: [
           'etudiant', 'emploi', 'chomage', 'retraite', 'invalide', 'sans', 'arret'
-        ],
+        ].map(label => new QuestionOption({label: label})),
         skip: form => this.hasPrestations(form, ['bourses', 'pcFam', 'aideSociale']),
         help: true
       }),
+      new RadioQuestion({
+        key: 'scolarite',
+        code: '0701',
+        hasNone: true,
+        validators: [Validators.required],
+        options: ['scolariteObligatoire',
+                  'formationContinue',
+                  'formationDoctorale',
+                  'maitriseUniversitaire'].map(label => new QuestionOption({label: label, help: true}))
+                                          .concat(new QuestionOption({label: 'aucune'})),
+        skip: form => this.hasPrestations(form, ['bourses']) ||
+                      !this.hasActivites(form, ['etudiant']) ||
+                      form.value['permisBPlus5Ans'] === 'non',
+        help: true
+      })
     ];
+  }
+
+  hasActivites(form: FormGroup, activites: string[]) {
+    return !Object.entries(form.value['activite'])
+                  .filter(entry => activites.includes(entry[0]))
+                  .map(entry => entry[1])
+                  .includes(false);
   }
 
   isRefugie(form: FormGroup) {
