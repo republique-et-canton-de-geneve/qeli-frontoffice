@@ -141,6 +141,16 @@ export class HomeComponent implements OnInit {
         inline: true,
         help: true
       }),
+      new RadioQuestion({
+        key: 'parentsHabiteFranceTravailleSuisse',
+        code: '1404',
+        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        skip: form => form.value['permisBEtudes'] === 'non' ||
+                      form.value['scolarite'] !== 'aucune',
+        inline: true,
+        help: true
+      })
     ];
   }
 
