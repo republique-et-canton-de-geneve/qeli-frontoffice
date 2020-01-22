@@ -33,7 +33,8 @@
       <label>
         <input type="checkbox"
                formControlName="apatride"
-               (change)="onApatrideChanged()">
+               (change)="onApatrideChanged()"
+               [attr.data-cy]="question.code + '_' + question.key + '_apatride'">
         {{ 'question.' + question.key + '.apatride.label' | translate }}
       </label>
       <p class="help-block">{{ 'question.' + question.key + '.apatride.help' | translate }}</p>
