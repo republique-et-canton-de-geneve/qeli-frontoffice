@@ -5,7 +5,8 @@
         <input type="checkbox"
                [attr.disabled]="isNone ? 'disabled' : null"
                [formControlName]="option.label"
-               [focusOnInit]="isFirst">
+               [focusOnInit]="isFirst"
+               [attr.data-cy]="option.label">
         {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
       </label>
 
@@ -19,7 +20,7 @@
         <input type="checkbox"
                formControlName="none"
                (change)="onNoneChanged()"
-               [attr.data-cy]="option">
+               [attr.data-cy]="option.label">
         {{ 'question.' + question.key + '.option.none' | translate }}
       </label>
     </div>
