@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RegisterQuestionComponent } from '../question-registry';
 import { QuestionComponent } from '../question.component';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -10,19 +10,12 @@ import { NationaliteQuestion } from './nationalite-question.model';
   templateUrl: './nationalite-question.component.html',
   styleUrls: ['./nationalite-question.component.scss']
 })
-export class NationaliteQuestionComponent implements QuestionComponent<any>, AfterViewInit {
+export class NationaliteQuestionComponent implements QuestionComponent<any> {
   @Input() question: NationaliteQuestion;
   @Input() form: FormGroup;
 
-  @ViewChild('checkboxApatride') checkboxApatride: ElementRef;
-  @ViewChildren('selectPays') selectPays: QueryList<ElementRef>;
-
   numberOfNationalites = 1;
   maxNumberOfNationalites = 3;
-
-  ngAfterViewInit() {
-    this.selectPays.toArray()[0].nativeElement.focus();
-  }
 
   get isApatride() {
     return this.form.value[this.question.key]['apatride'];

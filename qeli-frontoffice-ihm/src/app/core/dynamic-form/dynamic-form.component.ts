@@ -34,15 +34,17 @@ export class DynamicFormComponent implements OnInit {
   }
 
   nextQuestion() {
-    const nextIndex = this.questions.findIndex(
-      ((value, index) => index > this.currentQuestionIndex && !value.skip(this.form))
-    );
+    if (this.isValid(this.currentQuestion)) {
+      const nextIndex = this.questions.findIndex(
+        ((value, index) => index > this.currentQuestionIndex && !value.skip(this.form))
+      );
 
-    if (nextIndex === -1) {
-      this.currentQuestionIndex = this.questions.length - 1;
-      this.onSubmit.emit(this.form.value);
-    } else {
-      this.currentQuestionIndex = nextIndex;
+      if (nextIndex === -1) {
+        this.currentQuestionIndex = this.questions.length - 1;
+        this.onSubmit.emit(this.form.value);
+      } else {
+        this.currentQuestionIndex = nextIndex;
+      }
     }
   }
 

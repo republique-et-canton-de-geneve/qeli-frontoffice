@@ -13,6 +13,7 @@ import { DropdownQuestionComponent } from './question/dropdown-question/dropdown
 import { TextQuestionComponent } from './question/text-question/text-question.component';
 import { NationaliteQuestionComponent } from './question/nationalite-question/nationalite-question.component';
 import { RadioQuestionComponent } from './question/radio-question/radio-question.component';
+import { FocusOnInitDirective } from './common/init.directive';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -40,6 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   declarations: [
     QuestionDirective,
+    FocusOnInitDirective,
     CheckboxGroupQuestionComponent,
     DateQuestionComponent,
     DropdownQuestionComponent,

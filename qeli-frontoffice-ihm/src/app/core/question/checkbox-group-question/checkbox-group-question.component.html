@@ -1,10 +1,43 @@
 <div [formGroup]="form">
   <div [formGroupName]="question.key" [attr.data-cy]="question.code + '_' + question.key">
-    <div *ngFor="let option of question.options" class="checkbox">
+    <div *ngFor="let option of question.options; first as isFirst" class="checkbox">
       <label>
-        <input type="checkbox" [formControlName]="option" #checkboxInputs [attr.data-cy]="option">
-        {{ 'question.' + question.key + '.option.' + option | translate }}
+        <input type="checkbox"
+               [attr.disabled]="isNone ? 'disabled' : null"
+               [formControlName]="option.label"
+               [focusOnInit]="isFirst">
+        {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
       </label>
+
+      <p *ngIf="option.help" class="help-block">
+        {{ 'question.' + question.key + '.option.' + option.label + '.help' | translate }}
+      </p>
+    </div>
+
+    <div *ngIf="question.hasNone" class="checkbox none-option">
+      <label>
+        <input type="checkbox"
+               formControlName="none"
+               (change)="onNoneChanged()"
+               [attr.data-cy]="option">
+        {{ 'question.' + question.key + '.option.none' | translate }}
+      </label>
+    </div>
+
+    <div *ngIf="isNone">
+      <label class="control-label" for="noneDetail">
+        {{ 'question.' + question.key + '.noneDetailLabel' | translate }}
+        <span class="form-required"
+              title="{{ 'form.required' | translate }}">*</span>
+      </label>
+
+      <input id="noneDetail"
+             focusOnInit="true"
+             formControlName="noneDetail"
+             [placeholder]="'question.' + question.key + '.noneDetailPlaceholder' | translate"
+             type="text"
+             maxlength="255"
+             class="form-control">
     </div>
   </div>
 </div>
