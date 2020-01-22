@@ -98,7 +98,7 @@
     },
     "permisBPlus5Ans": {
       "label": "Avez-vous un permis B depuis plus de 5 ans ?",
-      "help": "Permis B : permis de séjour délivrée aux résidents longue durée par l'office cantonal de la population et de la migration (OCPM))",
+      "help": "Permis B : permis de séjour délivrée aux résidents longue durée par l'office cantonal de la population et de la migration (OCPM)).",
       "option": {
         "oui": "Oui",
         "non": "Non",
@@ -149,10 +149,25 @@
           "help": "En anglais master of advanced studies MAS, est un diplôme universitaire."
         },
         "aucune": "Aucune de ces réponses"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
       }
     },
-    "error": {
-      "required": "Ce champ est obligatoire"
+    "fonctionnaireInternational": {
+      "label": "Vous-même ou l'un de vos parents est-il fonctionnaire international ?",
+      "altText": {
+        "avecConjoint": "Vous-même, votre conjoint ou l'un de vos parents est-il fonctionnaire international ?"
+      },
+      "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
+      "option": {
+        "oui": "Oui",
+        "non": "Non",
+        "inconnu": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
     }
   },
   "form": {
