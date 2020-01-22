@@ -132,7 +132,7 @@
       "label": "Votre demande concerne :",
       "help": "",
       "option": {
-        "scolariteObligatorie": {
+        "scolariteObligatoire": {
           "label": "La scolarité obligatoire",
           "help": "La scolarité obligatoire dure onze ans et est gratuite pour tous les enfants. Elle comprend le degré primaire et le degré secondaire I. Le degré primaire commence par l’école enfantine, qui dure deux ans, ou par un cycle élémentaire."
         },
@@ -140,7 +140,7 @@
           "label": "Une formation continue à des fins professionnelles",
           "help": "Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
         },
-        "formaitonDoctorale": {
+        "formationDoctorale": {
           "label": "Une formation doctorale",
           "help": "Le doctorat est généralement le grade universitaire le plus élevé. Il consiste en une formation par la recherche, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue. Cette formation constitue une expérience professionnelle de recherche et offre, après soutenance de thèse, le grade de Docteur."
         },

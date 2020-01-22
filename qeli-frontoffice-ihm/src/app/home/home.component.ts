@@ -118,9 +118,9 @@ export class HomeComponent implements OnInit {
         code: '0701',
         hasNone: true,
         validators: [Validators.required],
-        options: ['scolariteObligatorie',
+        options: ['scolariteObligatoire',
                   'formationContinue',
-                  'formaitonDoctorale',
+                  'formationDoctorale',
                   'maitriseUniversitaire'].map(label => new QuestionOption({label: label, help: true}))
                                           .concat(new QuestionOption({label: 'aucune'})),
         skip: form => this.hasPrestations(form, ['bourses']) ||
