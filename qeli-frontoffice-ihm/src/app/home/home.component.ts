@@ -124,7 +124,7 @@ export class HomeComponent implements OnInit {
                   'maitriseUniversitaire'].map(label => new QuestionOption({label: label, help: true}))
                                           .concat(new QuestionOption({label: 'aucune'})),
         skip: form => this.hasPrestations(form, ['bourses']) ||
-                      this.hasActivites(form, ['etudiant']) ||
+                      !this.hasActivites(form, ['etudiant']) ||
                       form.value['permisBPlus5Ans'] === 'non',
         help: true
       })
