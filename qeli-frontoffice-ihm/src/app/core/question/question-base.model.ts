@@ -5,6 +5,7 @@ export class QuestionBase<T> {
   key: string;
   code: string;
   validators: ValidatorFn[];
+  altText: (form: FormGroup) => string;
   skip: (form: FormGroup) => boolean;
   help: boolean;
   controlType: string;
@@ -14,6 +15,7 @@ export class QuestionBase<T> {
     key?: string,
     code?: string,
     validators?: ValidatorFn[],
+    altText?: (form: FormGroup) => string;
     skip?: (form: FormGroup) => boolean,
     help?: boolean,
     controlType?: string
@@ -22,6 +24,7 @@ export class QuestionBase<T> {
     this.key = options.key;
     this.code = options.code;
     this.validators = options.validators ? options.validators : [];
+    this.altText = options.altText ? options.altText : () => null;
     this.skip = options.skip ? options.skip : () => false;
     this.help = !!options.help;
     this.controlType = options.controlType;

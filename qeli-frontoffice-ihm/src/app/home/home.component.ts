@@ -127,8 +127,25 @@ export class HomeComponent implements OnInit {
                       !this.hasActivites(form, ['etudiant']) ||
                       form.value['permisBPlus5Ans'] === 'non',
         help: true
-      })
+      }),
+      new RadioQuestion({
+        key: 'fonctionnaireInternational',
+        code: '1403',
+        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        altText: form => this.hasConjoint(form) ? 'avecConjoint' : null,
+        skip: form => !this.hasActivites(form, ['etudiant']) ||
+                      this.hasPrestations(form, ['bourses']) ||
+                      form.value['permisBPlus5Ans'] === 'non' ||
+                      form.value['scolarite'] !== 'aucune',
+        inline: true,
+        help: true
+      }),
     ];
+  }
+
+  hasConjoint(form: FormGroup) {
+    return form.value['etatCivil'] === 'marie' || form.value['etatCivil'] === 'partenariatEnregistre';
   }
 
   hasActivites(form: FormGroup, activites: string[]) {
