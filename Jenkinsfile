@@ -33,7 +33,7 @@ pipeline {
       steps {
         withSonarQubeEnv('Sonarqube') {
           sh "mvn ${env.SONAR_MAVEN_GOAL} -Dsonar.host.url=${env.SONAR_HOST_URL} \
-                                          -pl '!qeli-frontoffice-cypress' "
+                                          -pl '!qeli-frontoffice-cypress'"
         }
       }
     }
@@ -67,6 +67,7 @@ pipeline {
     }
 
     stage('Integration tests') {
+      when { expression { return false } }
       steps {
         sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
                        -Dihm.test.skip=true                           \
@@ -83,7 +84,8 @@ pipeline {
       }
 
       steps {
-        sh "mvn clean source:jar deploy -s ${env.USER_SETTINGS_DIR}social_settings.xml -DskipTests=true"
+        sh "mvn clean source:jar deploy -s ${env.USER_SETTINGS_DIR}social_settings.xml -DskipTests=true  \
+                                        -pl '!qeli-frontoffice-cypress'"
       }
     }
   }
