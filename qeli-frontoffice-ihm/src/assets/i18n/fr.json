@@ -168,6 +168,18 @@
       "error": {
         "required": "Ce champ est obligatoire"
       }
+    },
+    "parentsHabiteFranceTravailleSuisse": {
+      "label": "Est-ce que l'un de vos parents habite en France et travaille en Suisse ?",
+      "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
+      "option": {
+        "oui": "Oui",
+        "non": "Non",
+        "inconnu": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
     }
   },
   "form": {
