@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
 import { FormGroup } from '@angular/forms';
+import { Prestation } from '../common/prestation.model';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -13,6 +14,10 @@ export class DynamicFormComponent implements OnInit {
   @Output() onSubmit: EventEmitter<any> = new EventEmitter();
 
   form: FormGroup;
+
+  prestationEligible = Object.values(Prestation);
+  prestationEligibleHistoryStack: Prestation[][] = [];
+  indexHistoryStack: number[] = [];
   currentQuestionIndex = 0;
 
   constructor() {
@@ -35,8 +40,34 @@ export class DynamicFormComponent implements OnInit {
 
   nextQuestion() {
     if (this.isValid(this.currentQuestion)) {
-      const nextIndex = this.questions.findIndex(
-        ((value, index) => index > this.currentQuestionIndex && !value.skip(this.form))
+
+      this.indexHistoryStack.push(this.currentQuestionIndex);
+      this.prestationEligibleHistoryStack.push(this.prestationEligible);
+
+      this.prestationEligible = this.prestationEligible.filter(prestation => {
+        const eligibilite = this.currentQuestion.eligibilite.filter(
+          eligibilite => eligibilite.prestation === prestation
+        );
+        console.log(eligibilite);
+        return eligibilite.length === 0 || eligibilite.every(eligibilite => eligibilite.isEligible((this.form)))
+      });
+
+
+      const nextIndex = this.questions.findIndex((question, index) => {
+          if (index > this.currentQuestionIndex) {
+            if (question.eligibilite.some(el => this.prestationEligible.includes(el.prestation))) {
+              const answer = question.defaultAnswer ? question.defaultAnswer(this.form) : undefined;
+
+              if (!answer) {
+                return true;
+              }
+
+              this.form.controls[question.key].setValue(answer);
+            }
+          }
+
+          return false;
+        }
       );
 
       if (nextIndex === -1) {
@@ -49,11 +80,10 @@ export class DynamicFormComponent implements OnInit {
   }
 
   previousQuestion() {
-    const reverseIndex = this.questions.slice(0, this.currentQuestionIndex).reverse().findIndex(
-      (value) => !value.skip(this.form)
-    );
-
-    this.currentQuestionIndex = reverseIndex === -1 ? 0 : this.currentQuestionIndex - reverseIndex - 1;
+    this.currentQuestionIndex = (this.indexHistoryStack.length > 0) ? this.indexHistoryStack.pop() : 0;
+    this.prestationEligible = (this.prestationEligibleHistoryStack.length > 0) ?
+                              this.prestationEligibleHistoryStack.pop() :
+                              Object.values(Prestation);
   }
 
   onKeyUp(event: KeyboardEvent) {
