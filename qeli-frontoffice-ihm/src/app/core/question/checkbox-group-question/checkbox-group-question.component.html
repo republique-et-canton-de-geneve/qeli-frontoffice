@@ -1,11 +1,12 @@
 <div [formGroup]="form">
-  <div [formGroupName]="question.key">
+  <div [formGroupName]="question.key" [attr.data-cy]="question.code + '_' + question.key">
     <div *ngFor="let option of question.options; first as isFirst" class="checkbox">
       <label>
         <input type="checkbox"
                [attr.disabled]="isNone ? 'disabled' : null"
                [formControlName]="option.label"
-               [focusOnInit]="isFirst">
+               [focusOnInit]="isFirst"
+               [attr.data-cy]="option.label">
         {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
       </label>
 
@@ -18,7 +19,8 @@
       <label>
         <input type="checkbox"
                formControlName="none"
-               (change)="onNoneChanged()">
+               (change)="onNoneChanged()"
+               data-cy="none">
         {{ 'question.' + question.key + '.option.none' | translate }}
       </label>
     </div>
@@ -36,7 +38,8 @@
              [placeholder]="'question.' + question.key + '.noneDetailPlaceholder' | translate"
              type="text"
              maxlength="255"
-             class="form-control">
+             class="form-control"
+             data-cy="noneDetail">
     </div>
   </div>
 </div>

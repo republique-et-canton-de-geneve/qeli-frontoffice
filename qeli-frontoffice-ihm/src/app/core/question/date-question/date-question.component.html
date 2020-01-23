@@ -1,7 +1,8 @@
 <div [formGroup]="form">
-  <input [id]="question.key"
+  <input [id]="question.code + '_' + question.key"
          [formControlName]="question.key"
          focusOnInit="true"
          type="date"
-         class="form-control">
+         class="form-control"
+         [attr.data-cy]="question.code + '_' + question.key">
 </div>

@@ -1,5 +1,5 @@
 <div [formGroup]="form">
-  <input [id]="question.key"
+  <input [id]="question.code + '_' + question.key"
          [formGroup]="form"
          [formControlName]="question.key"
          [placeholder]="question.placeholder"

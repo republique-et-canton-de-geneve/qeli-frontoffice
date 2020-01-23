@@ -1,8 +1,9 @@
 <div [formGroup]="form">
-  <select [id]="question.key"
+  <select [id]="question.code + '_' + question.key"
           [formControlName]="question.key"
           focusOnInit="true"
-          class="form-control form-select">
+          class="form-control form-select"
+          [attr.data-cy]="question.code + '_' + question.key">
     <option *ngFor="let option of question.options"
             [value]="option">
       {{ 'question.' + question.key + '.option.' + option | translate }}

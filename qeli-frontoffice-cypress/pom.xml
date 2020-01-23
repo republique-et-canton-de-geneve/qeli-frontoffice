@@ -9,68 +9,20 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>qeli-frontoffice-ihm</artifactId>
+    <artifactId>qeli-frontoffice-cypress</artifactId>
     <packaging>war</packaging>
 
-    <properties>
-        <npm.build.directory>dist/</npm.build.directory>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>qeli-frontoffice-application</artifactId>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${project.basedir}</directory>
-                            <includes>
-                                <include>${npm.build.directory}</include>
-                            </includes>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <webResources>
-                        <resource>
-                            <directory>${npm.build.directory}/${project.artifactId}</directory>
-                            <targetPath>formulaire</targetPath>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>ch.ge.cti.ct</groupId>
-                                    <artifactId>ct_springmvc_theme_internet</artifactId>
-                                    <version>${ct_springmvc_theme_internet.version}</version>
-                                    <outputDirectory>src/assets/charte/</outputDirectory>
-                                    <excludes>META-INF/,WEB-INF/,maven_project.properties</excludes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -97,6 +49,7 @@
                         </goals>
                         <phase>validate</phase>
                         <configuration>
+                            <skip>${skipTests}</skip>
                             <executable>npm</executable>
                             <arguments>
                                 <argument>config</argument>
@@ -113,6 +66,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
+                            <skip>${skipTests}</skip>
                             <executable>npm</executable>
                             <arguments>
                                 <argument>ci</argument>
@@ -141,52 +95,74 @@
                         </configuration>
                     </execution>
 
-                    <!-- Call `npm run build` to build the Angular application -->
+                    <!-- Ensure `npm install` is called during the resource generation phase -->
                     <execution>
-                        <id>npm-build</id>
+                        <id>npm-cypress-run</id>
                         <goals>
                             <goal>exec</goal>
                         </goals>
-                        <phase>compile</phase>
+                        <phase>integration-test</phase>
                         <configuration>
+                            <skip>${skipTests}</skip>
                             <executable>npm</executable>
                             <arguments>
                                 <argument>run</argument>
-                                <argument>build</argument>
+                                <argument>cy:run</argument>
                             </arguments>
                         </configuration>
                     </execution>
+                </executions>
+            </plugin>
 
-                    <!-- Call `npm run test` to run the unit tests -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <overlays>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>qeli-frontoffice-application</artifactId>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <configuration>
+                    <skip>${skipTests}</skip>
+                    <webApp>
+                        <contextPath>/qeli</contextPath>
+                    </webApp>
+                    <httpConnector>
+                        <port>8080</port>
+                    </httpConnector>
+                    <stopKey>quit</stopKey>
+                    <stopPort>9000</stopPort>
+                </configuration>
+                <executions>
                     <execution>
-                        <id>npm-test</id>
+                        <id>start-jetty</id>
+                        <phase>pre-integration-test</phase>
                         <goals>
-                            <goal>exec</goal>
+                            <goal>start</goal>
                         </goals>
-                        <phase>test</phase>
-                        <configuration>
-                            <skip>${ihm.test.skip}</skip>
-                            <executable>npm</executable>
-                            <arguments>
-                                <argument>run</argument>
-                                <argument>test</argument>
-                            </arguments>
-                        </configuration>
                     </execution>
-
-                    <!-- Call `npm run start` to run the server -->
                     <execution>
-                        <id>npm-start</id>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
                         <goals>
-                            <goal>exec</goal>
+                            <goal>stop</goal>
                         </goals>
-                        <configuration>
-                            <executable>npm</executable>
-                            <arguments>
-                                <argument>run</argument>
-                                <argument>start</argument>
-                            </arguments>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
