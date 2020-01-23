@@ -13,11 +13,15 @@ pipeline {
   tools {
     maven 'Maven 3.2.1'
     jdk 'Java 1.8'
+    nodejs 'NodeJS 11.15.0'
   }
   stages {
     stage('Build') {
       steps {
-        sh "mvn clean source:jar deploy -s ${env.USER_SETTINGS_DIR}social_settings.xml -Dihm.test.skip=true"
+        sh "mvn clean package -s ${env.USER_SETTINGS_DIR}social_settings.xml \
+                              -pl '!qeli-frontoffice-cypress'                \
+                              -Dihm.test.skip=true"
+
         junit '**/target/surefire-reports/*.xml'
         step([$class: 'JacocoPublisher'])
       }
@@ -28,7 +32,8 @@ pipeline {
 
       steps {
         withSonarQubeEnv('Sonarqube') {
-          sh "mvn ${env.SONAR_MAVEN_GOAL} -Dsonar.host.url=${env.SONAR_HOST_URL}"
+          sh "mvn ${env.SONAR_MAVEN_GOAL} -Dsonar.host.url=${env.SONAR_HOST_URL} \
+                                          -pl '!qeli-frontoffice-cypress'"
         }
       }
     }
@@ -58,6 +63,29 @@ pipeline {
           sshCommand remote: remote,
                      command: "cd /home/${remote.user}/ && sh ./deploy.sh </dev/null >./qeli-frontoffice.log 2>&1 &"
         }
+      }
+    }
+
+    stage('Integration tests') {
+      when { expression { return false } }
+      steps {
+        sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
+                       -Dihm.test.skip=true                           \
+                       -Dsurefire.test.skip=true"
+      }
+    }
+
+    stage('Deploy artifact') {
+      when {
+        anyOf {
+          branch 'develop'
+          branch 'master'
+        }
+      }
+
+      steps {
+        sh "mvn clean source:jar deploy -s ${env.USER_SETTINGS_DIR}social_settings.xml -DskipTests=true  \
+                                        -pl '!qeli-frontoffice-cypress'"
       }
     }
   }
