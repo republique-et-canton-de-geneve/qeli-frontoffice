@@ -7,9 +7,7 @@ const SELECT = 'select';
 /**
  * Récupère un élément depuis son attribut data-cy
  */
-Cypress.Commands.add('dataCy', (value) => {
-  return cy.get(`[data-cy=${value}]`)
-});
+Cypress.Commands.add('dataCy', (value) => cy.get(`[data-cy=${value}]`));
 
 /**
  * Clique sur le bouton suivant du formulaire
@@ -53,7 +51,7 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
     }
 
     if (validate) {
-      cy.clickNext()
+      cy.clickNext();
     }
 
   });

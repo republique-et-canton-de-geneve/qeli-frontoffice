@@ -20,7 +20,7 @@
         <input type="checkbox"
                formControlName="none"
                (change)="onNoneChanged()"
-               [attr.data-cy]="option.label">
+               data-cy="none">
         {{ 'question.' + question.key + '.option.none' | translate }}
       </label>
     </div>
@@ -38,7 +38,8 @@
              [placeholder]="'question.' + question.key + '.noneDetailPlaceholder' | translate"
              type="text"
              maxlength="255"
-             class="form-control">
+             class="form-control"
+             data-cy="noneDetail">
     </div>
   </div>
 </div>

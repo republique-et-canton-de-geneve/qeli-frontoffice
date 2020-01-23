@@ -1,8 +1,9 @@
 <div class="form-group">
+  <!-- TODO Utiliser data-cy pour référence le tag au lieu de changer l'attribut for ?-->
   <label class="control-label"
          [ngClass]="!isValid ? 'text-danger' : ''"
          [attr.for]="question.code + '_' + question.key">
-    {{ 'question.' + question.key + '.label' | translate }}
+    {{ questionTranslationKey | translate }}
     <span *ngIf="question.required"
           class="form-required"
           title="{{ 'form.required' | translate }}">*</span>
