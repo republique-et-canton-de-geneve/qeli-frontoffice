@@ -10,6 +10,11 @@ const SELECT = 'select';
 Cypress.Commands.add('dataCy', (value) => cy.get(`[data-cy=${value}]`));
 
 /**
+ * Récupère un élément depuis son attribut data-cy-label
+ */
+Cypress.Commands.add('dataCyLabel', (value) => cy.get(`[data-cy-label=${value}]`));
+
+/**
  * Clique sur le bouton suivant du formulaire
  */
 Cypress.Commands.add('clickNext', () => cy.get('[data-cy=nextQuestion]').click());
