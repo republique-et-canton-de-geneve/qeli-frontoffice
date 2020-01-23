@@ -24,7 +24,7 @@ Development).
 ## Tests Cypress
 
 Note: On utilise des [commandes personnalisées][cypress-custom-commands] définies
-dans [cypress/support/commands.js].
+dans [cypress/support/commands.js](cypress/support/commands.js).
 
 ### vérifier
 
