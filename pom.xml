@@ -84,6 +84,7 @@
         <gitflow-maven-plugin.version>1.11.0</gitflow-maven-plugin.version>
         <gmavenplus-plugin.version>1.6.2</gmavenplus-plugin.version>
         <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+        <jetty-maven-plugin.version>9.4.11.v20180605</jetty-maven-plugin.version>
 
         <!-- Plugin JAR dependencies versions -->
         <asm.version>7.0</asm.version>
@@ -234,7 +235,7 @@
                 <plugin>
                     <groupId>org.eclipse.jetty</groupId>
                     <artifactId>jetty-maven-plugin</artifactId>
-                    <version>9.4.11.v20180605</version>
+                    <version>${jetty-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
