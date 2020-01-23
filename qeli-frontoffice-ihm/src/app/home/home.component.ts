@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestionBase } from '../core/question/question-base.model';
+import { Eligibilite, QuestionBase } from '../core/question/question-base.model';
 import { CheckboxGroupQuestion } from '../core/question/checkbox-group-question/checkbox-group-question.model';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import { FormGroup, Validators } from '@angular/forms';
@@ -10,6 +10,11 @@ import { NationaliteQuestion } from '../core/question/nationalite-question/natio
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { Pays, PAYS_AELE_UE, PAYS_CONVETIONE } from '../core/common/pays.model';
 import { QuestionOption } from '../core/question/option.model';
+import { Prestation } from '../core/common/prestation.model';
+import { EtatCivil } from '../core/common/etat-civil.model';
+import { ReponseProgressive } from '../core/common/reponse-progressive.model';
+import { Activite } from '../core/common/activite.model';
+import { Scolarite } from '../core/common/scolarite.model';
 
 @Component({
   selector: 'app-home',
@@ -29,127 +34,145 @@ export class HomeComponent implements OnInit {
       new CheckboxGroupQuestion({
         key: 'prestations',
         code: '0101',
-        options: [
-          'subsides', 'avances', 'allocationLogement', 'subventionHm', 'pcAvsAi', 'bourses', 'pcFam', 'aideSociale'
-        ].map(label => new QuestionOption({label: label})),
-        help: true
+        help: true,
+        options: Object.keys(Prestation).map(prestation => new QuestionOption({label: prestation})),
+        eligibilite: Object.values(Prestation).map(
+          prestation => new Eligibilite(prestation, (form: FormGroup) => !this.hasPrestations(form, [prestation]))
+        )
       }),
       new DateQuestion({
         key: 'dateNaissance',
         code: '0201',
+        help: true,
         validators: [Validators.required, QeliValidators.past, QeliValidators.minYear(130)],
-        skip: form => this.hasPrestations(form, ['aideSociale']),
-        help: true
+        eligibilite: [
+          new Eligibilite(Prestation.AIDE_SOCIALE, (form: FormGroup) => !this.isMineur(form))
+        ]
       }),
       new DropdownQuestion({
         key: 'etatCivil',
         code: '0301',
-        options: [
-          'celibataire', 'marie', 'divorce', 'separe', 'partenariatEnregistre', 'veuf'
-        ],
+        help: true,
+        options: Object.keys(EtatCivil),
         validators: [Validators.required],
-        skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam', 'aideSociale']) ||
-                      (
-                        this.isMineur(form) &&
-                        !this.hasPrestations(form, ['aideSociale']) &&
-                        this.hasPrestations(form, ['pcAvsAi', 'bourses', 'pcFam'])
-                      ),
-        help: true
+        eligibilite: [
+          new Eligibilite(Prestation.PC_AVS_AI, () => true),
+          new Eligibilite(Prestation.BOURSES, () => true),
+          new Eligibilite(Prestation.PC_FAM, () => true),
+          new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
+        ]
       }),
       new NationaliteQuestion({
         key: 'nationalite',
         code: '0401',
-        skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses']),
-        help: true
+        help: true,
+        eligibilite: [
+          new Eligibilite(Prestation.PC_AVS_AI, () => true),
+          new Eligibilite(Prestation.BOURSES, () => true)
+        ]
       }),
       new RadioQuestion({
         key: 'refugie',
         code: '0402',
-        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
-        validators: [Validators.required],
-        skip: form => this.hasPrestations(form, ['pcAvsAi', 'bourses']) ||
-                      this.isSuisse(form) ||
-                      this.isUEOrAELE(form) ||
-                      this.isPayConventione(form) ||
-                      this.isApatride(form),
+        help: true,
         inline: true,
-        help: true
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        defaultAnswer: (form: FormGroup) => (this.isSuisse(form) ||
+                                             this.isUEOrAELE(form) ||
+                                             this.isPayConventione(form) ||
+                                             this.isApatride(form)) ? ReponseProgressive.NON : null,
+        eligibilite: [
+          new Eligibilite(Prestation.PC_AVS_AI, () => true),
+          new Eligibilite(Prestation.BOURSES, () => true)
+        ]
       }),
       new RadioQuestion({
         key: 'permisBEtudes',
         code: '0405',
-        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
-        validators: [Validators.required],
-        skip: form => this.hasPrestations(form, ['bourses']) ||
-                      this.isSuisse(form) ||
-                      this.isRefugie(form) ||
-                      this.isApatride(form),
+        help: true,
         inline: true,
-        help: true
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        defaultAnswer: (form: FormGroup) => (this.isSuisse(form) ||
+                                             this.isRefugie(form) ||
+                                             this.isApatride(form)) ? ReponseProgressive.INCONNU : null,
+        eligibilite: [
+          new Eligibilite(Prestation.BOURSES, () => true)
+        ]
       }),
       new RadioQuestion({
         key: 'permisBPlus5Ans',
         code: '0406',
-        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
-        validators: [Validators.required],
-        skip: form => this.hasPrestations(form, ['bourses']) ||
-                      this.isSuisse(form) ||
-                      this.isRefugie(form) ||
-                      this.isApatride(form),
+        help: true,
         inline: true,
-        help: true
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        defaultAnswer: (form: FormGroup) => (this.isSuisse(form) ||
+                                             this.isRefugie(form) ||
+                                             this.isApatride(form)) ? ReponseProgressive.INCONNU : null,
+        eligibilite: [
+          new Eligibilite(
+            Prestation.BOURSES, (form: FormGroup) => ReponseProgressive.NON !== form.value['permisBPlus5Ans']
+          )
+        ]
       }),
       new CheckboxGroupQuestion({
         key: 'activite',
         code: '0601',
+        help: true,
         hasNone: true,
         validators: [
           Validators.required,
-          QeliValidators.atLeastOneSelected(['etudiant', 'emploi', 'chomage', 'retraite', 'invalide', 'sans', 'arret'])
+          QeliValidators.atLeastOneSelected(Object.keys(Activite))
         ],
-        options: [
-          'etudiant', 'emploi', 'chomage', 'retraite', 'invalide', 'sans', 'arret'
-        ].map(label => new QuestionOption({label: label})),
-        skip: form => this.hasPrestations(form, ['bourses', 'pcFam', 'aideSociale']),
-        help: true
+        options: Object.keys(Activite).map(label => new QuestionOption({label: label})),
+        eligibilite: [
+          new Eligibilite(Prestation.BOURSES, (form: FormGroup) => this.hasActivites(form, [Activite.ETUDIANT])),
+          new Eligibilite(Prestation.PC_FAM, () => true),
+          new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
+        ]
       }),
       new RadioQuestion({
         key: 'scolarite',
         code: '0701',
+        help: true,
         hasNone: true,
         validators: [Validators.required],
-        options: ['scolariteObligatoire',
-                  'formationContinue',
-                  'formationDoctorale',
-                  'maitriseUniversitaire'].map(label => new QuestionOption({label: label, help: true}))
-                                          .concat(new QuestionOption({label: 'aucune'})),
-        skip: form => this.hasPrestations(form, ['bourses']) ||
-                      !this.hasActivites(form, ['etudiant']) ||
-                      form.value['permisBPlus5Ans'] === 'non',
-        help: true
+        options: Object.values(Scolarite)
+                       .filter(scolarite => scolarite !== Scolarite.AUCUNE)
+                       .map(scolarite => new QuestionOption({label: Scolarite[scolarite], help: true}))
+                       .concat(new QuestionOption({label: Scolarite[Scolarite.AUCUNE]})),
+        eligibilite: [
+          new Eligibilite(Prestation.BOURSES, (form: FormGroup) => this.aucuneScolarite(form))
+        ]
       }),
       new RadioQuestion({
         key: 'fonctionnaireInternational',
         code: '1403',
-        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
         validators: [Validators.required],
         altText: form => this.hasConjoint(form) ? 'avecConjoint' : null,
-        skip: form => !this.hasActivites(form, ['etudiant']) ||
-                      this.hasPrestations(form, ['bourses']) ||
-                      form.value['permisBPlus5Ans'] === 'non' ||
-                      form.value['scolarite'] !== 'aucune',
-        inline: true,
-        help: true
+        eligibilite: [
+          new Eligibilite(Prestation.BOURSES, (form: FormGroup) => !this.isFonctionnaireInternational(form))
+        ]
       }),
       new RadioQuestion({
         key: 'parentsHabiteFranceTravailleSuisse',
         code: '1404',
-        options: ['oui', 'non', 'inconnu'].map(label => new QuestionOption({label: label})),
-        validators: [Validators.required],
-        skip: form => form.value['permisBEtudes'] === 'non' ||
-                      form.value['scolarite'] !== 'aucune',
+        help: true,
         inline: true,
-        help: true
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        defaultAnswer: (form: FormGroup) => !this.hasPermisBEtudes(form) ? ReponseProgressive.INCONNU : null,
+        eligibilite: [
+          new Eligibilite(
+            Prestation.BOURSES,
+            (form: FormGroup) => form.value['fonctionnaireInternational'] !== ReponseProgressive[ReponseProgressive.NON]
+          )
+        ]
       })
     ];
   }
@@ -158,9 +181,21 @@ export class HomeComponent implements OnInit {
     return form.value['etatCivil'] === 'marie' || form.value['etatCivil'] === 'partenariatEnregistre';
   }
 
-  hasActivites(form: FormGroup, activites: string[]) {
+  hasPermisBEtudes(form: FormGroup) {
+    return form.value['permisBEtudes'] === ReponseProgressive[ReponseProgressive.OUI];
+  }
+
+  isFonctionnaireInternational(form: FormGroup) {
+    return form.value['fonctionnaireInternational'] === ReponseProgressive[ReponseProgressive.OUI];
+  }
+
+  aucuneScolarite(form: FormGroup) {
+    return form.value['scolarite'] === Scolarite[Scolarite.AUCUNE];
+  }
+
+  hasActivites(form: FormGroup, activites: Activite[]) {
     return !Object.entries(form.value['activite'])
-                  .filter(entry => activites.includes(entry[0]))
+                  .filter(entry => activites.includes(Activite[entry[0]]))
                   .map(entry => entry[1])
                   .includes(false);
   }
@@ -197,14 +232,10 @@ export class HomeComponent implements OnInit {
     return dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
   }
 
-  hasPrestations(form: FormGroup, prestations: string[]) {
+  hasPrestations(form: FormGroup, prestations: Prestation[]) {
     return !Object.entries(form.value['prestations'])
-                  .filter(entry => prestations.includes(entry[0]))
+                  .filter(entry => prestations.includes(Prestation[entry[0]]))
                   .map(entry => entry[1])
                   .includes(false);
-  }
-
-  hasAllPrestations(form: FormGroup) {
-    return !Object.values(form.value['prestations']).includes(false);
   }
 }
