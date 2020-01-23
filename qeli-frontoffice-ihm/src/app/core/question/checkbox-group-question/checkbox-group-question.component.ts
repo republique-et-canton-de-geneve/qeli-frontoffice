@@ -15,7 +15,7 @@ export class CheckboxGroupQuestionComponent implements QuestionComponent<any> {
   @Input() form: FormGroup;
 
   get isNone() {
-    return !!this.form.value[this.question.key]['none'];
+    return !!this.form.value[this.question.key]['NONE'];
   }
 
   onNoneChanged() {
@@ -32,7 +32,7 @@ export class CheckboxGroupQuestionComponent implements QuestionComponent<any> {
     const optionControls = (this.form.controls[this.question.key] as FormGroup).controls;
 
     return Object.keys(optionControls)
-                 .filter(key => key !== 'none' && key !== 'noneDetail')
+                 .filter(key => key !== 'NONE' && key !== 'noneDetail')
                  .map(key => optionControls[key]);
   }
 }
