@@ -22,13 +22,13 @@ export class CheckboxGroupQuestion extends QuestionBase<any> {
     });
 
     if (this.hasNone) {
-      group['none'] = new FormControl(this.defaultValue.includes('none'));
+      group['NONE'] = new FormControl(this.defaultValue.includes('NONE'));
       group['noneDetail'] = new FormControl();
     }
 
     return new FormGroup(group, this.validators.concat(
       (control) => {
-        if (control.value['none'] && (!control.value['noneDetail'] || control.value['noneDetail'] === '')) {
+        if (control.value['NONE'] && (!control.value['noneDetail'] || control.value['noneDetail'] === '')) {
           return {'required': true};
         }
 
