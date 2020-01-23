@@ -23,25 +23,29 @@ Development).
 
 ## Tests Cypress
 
+Note: On utilise des [commandes personnalisées][cypress-custom-commands] définies
+dans [cypress/support/commands.js].
+
 ### vérifier
 
 * l'affichage ou non des questions
 
 ```js
-cy.get('label[for="0101_prestations"').should('be.visible');
-cy.get('label[for="0201_dateNaissance"').should('not.be.visible');
+cy.dataCyLabel('0101_prestations').should('be.visible')
+cy.dataCyLabel('0101_prestations').should('not.be.visible')
 ```
 
 * le libellé des questions :
 
 ```js
-cy.get('label[for="0301_etatCivil"').should('contain', 'Quel est votre état civil?');
+cy.dataCyLabel('0301_etatCivil').should('contain', 'Quel est votre état civil?');
 ```
 
-* si un champ est obligatoire ou non :
+* si une question est obligatoire ou non :
 
 ```js
-cy.get('label[for="0101_prestations"').find('span').should('have.class', 'required');
+cy.dataCyLabel('0301_etatCivil').find('span').should('have.class', 'form-required');
+cy.dataCyLabel('0301_etatCivil').find('span').should('not.have.class', 'form-required');
 ```
 
 * les réponses possibles aux questions :
@@ -57,7 +61,6 @@ cy.get('#0301_etatCivil > option').eq(1).should('contain', 'Marié(e)');
 cy.get('[data-cy=previousQuestion]').should('be.disabled');
 ```
 
-
 ### interagir
 
 * remplir un champ texte :
@@ -69,7 +72,7 @@ cy.get('input[type=text]').type(answer);
 * cocher une checkbox :
 
 ```js
-cy.get('[data-cy=0101_prestations_bourses]').check();
+cy.dataCy('0101_prestations').find('input[type=checkbox]').check();
 ```
 
 * sélectionner la valeur d'une liste :
@@ -82,6 +85,10 @@ cy.get('select').select(answer);
 
 ```js
 cy.get('[data-cy=nextQuestion]').click();
+cy.clickNext();
+
+cy.get('[data-cy=previousQuestion]').click();
+cy.clickPrevious();
 ```
 
 
@@ -175,3 +182,4 @@ npm install
 [cypress-cucumber-pp]: https://www.npmjs.com/package/cypress-cucumber-preprocessor
 [qeli-scenarii-metier]: ***REMOVED***/DEVELOPPEUR-SOCIAL/10818-qeli/qeli-scenarii-metier
 [gherkin-doc]: https://cucumber.io/docs/gherkin/reference/
+[cypress-custom-commands]: https://docs.cypress.io/api/cypress-api/custom-commands.html
