@@ -18,10 +18,10 @@
     <div *ngIf="question.hasNone" class="checkbox none-option">
       <label>
         <input type="checkbox"
-               formControlName="none"
+               formControlName="NONE"
                (change)="onNoneChanged()"
-               data-cy="none">
-        {{ 'question.' + question.key + '.option.none' | translate }}
+               data-cy="NONE">
+        {{ 'question.' + question.key + '.option.NONE' | translate }}
       </label>
     </div>
 

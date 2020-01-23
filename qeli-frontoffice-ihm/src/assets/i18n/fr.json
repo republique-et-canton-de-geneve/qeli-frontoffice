@@ -27,14 +27,14 @@
       "label": "Touchez-vous déjà une ou plusieurs prestations sociales ?",
       "help": "Prestations complémentaires fédérales et cantonales AVS / AI : les prestations complémentaires fédérales et cantonales à l'assurance-vieillesse, survivants et invalidité sont des prestations sociales. Elles sont délivrées par la confédération et/ou par le canton aux rentiers AVS/AI (personnes bénéficiant de rentes de l'assurance-vieillesse et survivants ou de l'assurance-invalidité) lorsque les rentes et autres revenus ne permettent pas la couverture des besoins vitaux.",
       "option": {
-        "subsides": "Subsides d'assurance-maladie",
-        "avances": "Avances de pensions alimentaires",
-        "allocationLogement": "Allocation logement",
-        "subventionHm": "Subvention habitation mixte (HM)",
-        "pcAvsAi": "Prestations complémentaires AVS/AI",
-        "bourses": "Bourses d'études",
-        "pcFam": "Prestations complémentaires familiales",
-        "aideSociale": "Aide Sociale"
+        "SUBSIDES": "Subsides d'assurance-maladie",
+        "AVANCES": "Avances de pensions alimentaires",
+        "ALLOCATION_LOGEMENT": "Allocation logement",
+        "SUBVENTION_HM": "Subvention habitation mixte (HM)",
+        "PC_AVS_AI": "Prestations complémentaires AVS/AI",
+        "BOURSES": "Bourses d'études",
+        "PC_FAM": "Prestations complémentaires familiales",
+        "AIDE_SOCIALE": "Aide Sociale"
       }
     },
     "dateNaissance": {
@@ -50,12 +50,12 @@
       "label": "Quel est votre état civil ?",
       "help": "Séparé : de fait ou par jugement ? Attention : pour PC fam, ne doivent plus habiter à la même adresse sinon considérés comme mariés.",
       "option": {
-        "celibataire": "Célibataire",
-        "marie": "Marié(e)",
-        "divorce": "Divorcé(e)",
-        "separe": "Séparé(e)",
-        "partenariatEnregistre": "En partenariat enregistré",
-        "veuf": "Veuf(ve)"
+        "CELIBATAIRE": "Célibataire",
+        "MARIE": "Marié(e)",
+        "DIVORCE": "Divorcé(e)",
+        "SEPARE": "Séparé(e)",
+        "PARTENARIAT_ENREGISTRE": "En partenariat enregistré",
+        "VOEUF": "Veuf(ve)"
       },
       "error": {
         "required": "Votre état civil doit être fourni"
@@ -76,9 +76,9 @@
       "label": "Etes-vous réfugié ?",
       "help": "Réfugié : Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et de la migration (OCPM)). Si votre demande d'asile est en cours xxxxx.",
       "option": {
-        "oui": "Oui",
-        "non": "Non",
-        "inconnu": "Je ne sais pas"
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
       },
       "error": {
         "required": "Votre statut de réfugié doit être fourni"
@@ -88,9 +88,9 @@
       "label": "Avez-vous un permis B pour raison d'études ?",
       "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour délivré aux résidents longue durée qui font des études dans le canton par l'office cantonal de la population et de la migration (OCPM)).",
       "option": {
-        "oui": "Oui",
-        "non": "Non",
-        "inconnu": "Je ne sais pas"
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -100,9 +100,9 @@
       "label": "Avez-vous un permis B depuis plus de 5 ans ?",
       "help": "Permis B : permis de séjour délivrée aux résidents longue durée par l'office cantonal de la population et de la migration (OCPM)).",
       "option": {
-        "oui": "Oui",
-        "non": "Non",
-        "inconnu": "Je ne sais pas"
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -112,14 +112,14 @@
       "label": "Quelle est votre activité ?",
       "help": "Etudiant : personne en formation.",
       "option": {
-        "etudiant": "Etudiant",
-        "emploi": "Emploi",
-        "chomage": "Chômage",
-        "retraite": "Retraité (Rente AVS)",
-        "invalide": "Invalide (Rente AI)",
-        "sans": "Au foyer / Sans activité",
-        "arret": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain",
-        "none": "Aucune des réponses précédentes"
+        "ETUDIANT": "Etudiant",
+        "EMPLOI": "Emploi",
+        "CHOMAGE": "Chômage",
+        "RETRAITE": "Retraité (Rente AVS)",
+        "INVALIDE": "Invalide (Rente AI)",
+        "SANS": "Au foyer / Sans activité",
+        "ARRET": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain",
+        "NONE": "Aucune des réponses précédentes"
       },
       "error": {
         "required": "Votre activité doit être fournie",
@@ -132,23 +132,23 @@
       "label": "Votre demande concerne :",
       "help": "",
       "option": {
-        "scolariteObligatoire": {
+        "SCOLARITE_OBLIGATOIRE": {
           "label": "La scolarité obligatoire",
           "help": "La scolarité obligatoire dure onze ans et est gratuite pour tous les enfants. Elle comprend le degré primaire et le degré secondaire I. Le degré primaire commence par l’école enfantine, qui dure deux ans, ou par un cycle élémentaire."
         },
-        "formationContinue": {
+        "FORMATION_CONTINUE": {
           "label": "Une formation continue à des fins professionnelles",
           "help": "Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
         },
-        "formationDoctorale": {
+        "FORMATION_DOCTORALE": {
           "label": "Une formation doctorale",
           "help": "Le doctorat est généralement le grade universitaire le plus élevé. Il consiste en une formation par la recherche, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue. Cette formation constitue une expérience professionnelle de recherche et offre, après soutenance de thèse, le grade de Docteur."
         },
-        "maitriseUniversitaire": {
+        "MAITRISE_UNIVERSITAIRE": {
           "label": "Une maitrise universitaire d'études avancées de formation approfondie",
           "help": "En anglais master of advanced studies MAS, est un diplôme universitaire."
         },
-        "aucune": "Aucune de ces réponses"
+        "AUCUNE": "Aucune de ces réponses"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -161,9 +161,9 @@
       },
       "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
       "option": {
-        "oui": "Oui",
-        "non": "Non",
-        "inconnu": "Je ne sais pas"
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -173,9 +173,9 @@
       "label": "Est-ce que l'un de vos parents habite en France et travaille en Suisse ?",
       "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
       "option": {
-        "oui": "Oui",
-        "non": "Non",
-        "inconnu": "Je ne sais pas"
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
       },
       "error": {
         "required": "Ce champ est obligatoire"
