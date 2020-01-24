@@ -221,8 +221,6 @@
                     <artifactId>gitflow-maven-plugin</artifactId>
                     <version>${gitflow-maven-plugin.version}</version>
                     <configuration>
-                        <argLine>-Dihm.test.skip=${ihm.test.skip}</argLine>
-                        <pushRemote>false</pushRemote>
                         <commitDevelopmentVersionAtStart>true</commitDevelopmentVersionAtStart>
                         <useSnapshotInHotfix>true</useSnapshotInHotfix>
                         <useSnapshotInRelease>true</useSnapshotInRelease>
