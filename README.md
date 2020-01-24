@@ -155,18 +155,20 @@ Pour arrêter le server fermer la fenêtre du terminal.
 
 ### Sauter les tests
 
+L'argument `skipTests` désactive tous les tests pendant la compilation :
+
 ```bash
 mvn clean install -DskipTests=true
 ```
 
-### Sauter les tests IHM
+Il est aussi possible de désactiver les tests Java, IHM et Cypress individuellement :
 
-Pour sauter uniquement les tests IHM veuillez  utiliser le paramètre `ihm.test.skip`,
-comme sur la commande suivante :
-
-```bash
-mvn clean install -Dihm.test.skip=true
-```
+* `ihm.test.skip` : désactive les tests IHM, e.g. :
+`mvn clean install -Dihm.test.skip=true`
+* `cypress.test.skip` : désactive les tests d'intégration Cypress, e.g. :
+`mvn clean install -Dihm.test.skip=true`
+* `surefire.test.skip` : désactive les Java, e.g. :
+`mvn clean install -Dihm.test.skip=true`
 
 ### Sauter la compilation de l'IHM
 
