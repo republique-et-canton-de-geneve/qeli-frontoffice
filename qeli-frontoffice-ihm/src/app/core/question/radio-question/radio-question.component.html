@@ -1,0 +1,18 @@
+<div [formGroup]="form">
+  <div *ngFor="let option of question.options; first as isFirst"
+       [class]="question.inline ? 'radio-inline' : 'radio'"
+       [attr.data-cy]="question.code + '_' + question.key">
+    <label>
+      <input type="radio"
+             [value]="option.label"
+             [formControlName]="question.key"
+             [focusOnInit]="isFirst"
+             [attr.data-cy]="option.label">
+      {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
+    </label>
+
+    <p *ngIf="option.help" class="help-block">
+      {{ 'question.' + question.key + '.option.' + option.label + '.help' | translate }}
+    </p>
+  </div>
+</div>

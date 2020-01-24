@@ -1,7 +1,7 @@
-import { QuestionBase } from './question-base.model';
+import { QuestionBase } from '../question-base.model';
 
 export class TextQuestion extends QuestionBase<string> {
-  controlType = 'textbox';
+  controlType = 'text';
   placeholder: string;
   type: string;
 

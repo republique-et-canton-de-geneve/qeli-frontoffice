@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --source-map=true",
-    "build": "ng build --prod --base-href=/qeli/formulaire/ --verbose",
+    "build": "ng build --prod --base-href=/qeli/formulaire/ --no-progress",
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",

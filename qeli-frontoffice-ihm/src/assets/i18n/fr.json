@@ -1,6 +1,9 @@
 {
   "home": {
-    "title": "Questionaire d'éligibilité"
+    "title": "Questionnaire d'éligibilité",
+    "result": {
+      "presentation": "Le résultat du questionnaire d'éligibilité est :"
+    }
   },
   "layout": {
     "footer": {
@@ -20,36 +23,373 @@
     }
   },
   "question": {
-    "nom": {
-      "label": "Nom",
-      "help": "Votre nom de famille",
-      "error": {
-        "required": "Le nom doit être fourni"
-      }
-    },
-    "prenom": {
-      "label": "Prénom",
-      "error": {
-        "required": "Le prénom doit être fourni"
+    "prestations": {
+      "label": "Touchez-vous déjà une ou plusieurs prestations sociales ?",
+      "help": "Prestations complémentaires fédérales et cantonales AVS / AI : les prestations complémentaires fédérales et cantonales à l'assurance-vieillesse, survivants et invalidité sont des prestations sociales. Elles sont délivrées par la confédération et/ou par le canton aux rentiers AVS/AI (personnes bénéficiant de rentes de l'assurance-vieillesse et survivants ou de l'assurance-invalidité) lorsque les rentes et autres revenus ne permettent pas la couverture des besoins vitaux.",
+      "option": {
+        "SUBSIDES": "Subsides d'assurance-maladie",
+        "AVANCES": "Avances de pensions alimentaires",
+        "ALLOCATION_LOGEMENT": "Allocation logement",
+        "SUBVENTION_HM": "Subvention habitation mixte (HM)",
+        "PC_AVS_AI": "Prestations complémentaires AVS/AI",
+        "BOURSES": "Bourses d'études",
+        "PC_FAM": "Prestations complémentaires familiales",
+        "AIDE_SOCIALE": "Aide Sociale"
       }
     },
     "dateNaissance": {
-      "label": "Date de naissance",
+      "label": "Quelle est votre date de naissance ?",
+      "help": "Si vous ne connaissez pas la date exacte, merci de mettre le 1er jour du mois.",
       "error": {
-        "required": "La date de naissance doit être fourni"
+        "required": "Votre date de naissance doit être fournie",
+        "past": "Votre date de naissance ne peut pas être dans le futur",
+        "minYear": "Année de naissance incorrecte"
       }
     },
     "etatCivil": {
-      "label": "État civil",
+      "label": "Quel est votre état civil ?",
+      "help": "Séparé : de fait ou par jugement ? Attention : pour PC fam, ne doivent plus habiter à la même adresse sinon considérés comme mariés.",
       "option": {
-        "marie": "Marié/e",
-        "celibataire": "Célibataire/e",
-        "divorce": "Divorcé/e"
+        "CELIBATAIRE": "Célibataire",
+        "MARIE": "Marié(e)",
+        "DIVORCE": "Divorcé(e)",
+        "SEPARE": "Séparé(e)",
+        "PARTENARIAT_ENREGISTRE": "En partenariat enregistré",
+        "VOEUF": "Veuf(ve)"
+      },
+      "error": {
+        "required": "Votre état civil doit être fourni"
+      }
+    },
+    "nationalite": {
+      "label": "Quelle est votre nationalité ?",
+      "help": "Nationalité : Etat dont vous possédez un passeport valide. Si vous avez plusieurs nationalités indiquez les toutes.",
+      "apatride": {
+        "label": "Je suis apatride",
+        "help": "Vous n'avez pas de nationalité (statut reconnu par l'OCPM : office cantonal de la population et de la migration)."
+      },
+      "error": {
+        "required": "Votre nationalité doit être fournie"
+      }
+    },
+    "refugie": {
+      "label": "Etes-vous réfugié ?",
+      "help": "Réfugié : Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et de la migration (OCPM)). Si votre demande d'asile est en cours xxxxx.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Votre statut de réfugié doit être fourni"
+      }
+    },
+    "permisBEtudes": {
+      "label": "Avez-vous un permis B pour raison d'études ?",
+      "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour délivré aux résidents longue durée qui font des études dans le canton par l'office cantonal de la population et de la migration (OCPM)).",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "permisBPlus5Ans": {
+      "label": "Avez-vous un permis B depuis plus de 5 ans ?",
+      "help": "Permis B : permis de séjour délivrée aux résidents longue durée par l'office cantonal de la population et de la migration (OCPM)).",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "activite": {
+      "label": "Quelle est votre activité ?",
+      "help": "Etudiant : personne en formation.",
+      "option": {
+        "ETUDIANT": "Etudiant",
+        "EMPLOI": "Emploi",
+        "CHOMAGE": "Chômage",
+        "RETRAITE": "Retraité (Rente AVS)",
+        "INVALIDE": "Invalide (Rente AI)",
+        "SANS": "Au foyer / Sans activité",
+        "ARRET": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain",
+        "NONE": "Aucune des réponses précédentes"
+      },
+      "error": {
+        "required": "Votre activité doit être fournie",
+        "atLeastOneSelected": "Au moins une activité doit être selectionnée"
+      },
+      "noneDetailLabel": "Veuillez spécifier votre activité :",
+      "noneDetailPlaceholder": ""
+    },
+    "scolarite": {
+      "label": "Votre demande concerne :",
+      "help": "",
+      "option": {
+        "SCOLARITE_OBLIGATOIRE": {
+          "label": "La scolarité obligatoire",
+          "help": "La scolarité obligatoire dure onze ans et est gratuite pour tous les enfants. Elle comprend le degré primaire et le degré secondaire I. Le degré primaire commence par l’école enfantine, qui dure deux ans, ou par un cycle élémentaire."
+        },
+        "FORMATION_CONTINUE": {
+          "label": "Une formation continue à des fins professionnelles",
+          "help": "Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
+        },
+        "FORMATION_DOCTORALE": {
+          "label": "Une formation doctorale",
+          "help": "Le doctorat est généralement le grade universitaire le plus élevé. Il consiste en une formation par la recherche, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue. Cette formation constitue une expérience professionnelle de recherche et offre, après soutenance de thèse, le grade de Docteur."
+        },
+        "MAITRISE_UNIVERSITAIRE": {
+          "label": "Une maitrise universitaire d'études avancées de formation approfondie",
+          "help": "En anglais master of advanced studies MAS, est un diplôme universitaire."
+        },
+        "AUCUNE": "Aucune de ces réponses"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "fonctionnaireInternational": {
+      "label": "Vous-même ou l'un de vos parents est-il fonctionnaire international ?",
+      "altText": {
+        "avecConjoint": "Vous-même, votre conjoint ou l'un de vos parents est-il fonctionnaire international ?"
+      },
+      "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "parentsHabiteFranceTravailleSuisse": {
+      "label": "Est-ce que l'un de vos parents habite en France et travaille en Suisse ?",
+      "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
       }
     }
   },
   "form": {
-    "required": "Ce champ est requis.",
-    "submit": "Envoyer"
+    "required": "Ce champ est obligatoire",
+    "submit": "Envoyer",
+    "previous": "Aller à la question précedente",
+    "next": "Passer à la question suivante "
+  },
+  "common": {
+    "ajouterNationalite": "Ajouter une autre nationalité",
+    "supprimerNationalite": "Supprimer cette nationalité",
+    "pays": {
+      "af": "Afghanistan",
+      "za": "Afrique du Sud",
+      "al": "Albanie",
+      "dz": "Algérie",
+      "de": "Allemagne",
+      "ad": "Andorre",
+      "ao": "Angola",
+      "ag": "Antigua-et-Barbuda",
+      "sa": "Arabie saoudite",
+      "ar": "Argentine",
+      "am": "Arménie",
+      "au": "Australie",
+      "at": "Autriche",
+      "az": "Azerbaïdjan",
+      "bs": "Bahamas",
+      "bh": "Bahreïn",
+      "bd": "Bangladesh",
+      "bb": "Barbade",
+      "be": "Belgique",
+      "bz": "Belize",
+      "bj": "Bénin",
+      "bt": "Bhoutan",
+      "by": "Biélorussie",
+      "mm": "Birmanie",
+      "bo": "Bolivie",
+      "ba": "Bosnie-Herzégovine",
+      "bw": "Botswana",
+      "br": "Brésil",
+      "bn": "Brunéi",
+      "bg": "Bulgarie",
+      "bf": "Burkina Faso",
+      "bi": "Burundi",
+      "kh": "Cambodge",
+      "cm": "Cameroun",
+      "ca": "Canada",
+      "cv": "Cap-Vert",
+      "cl": "Chili",
+      "cn": "Chine",
+      "cy": "Chypre",
+      "co": "Colombie",
+      "km": "Comores",
+      "cg": "Congo (Brazzaville)",
+      "cd": "Congo (Kinshasa)",
+      "kp": "Corée du Nord",
+      "kr": "Corée du Sud",
+      "cr": "Costa Rica",
+      "ci": "Côte d'Ivoire",
+      "hr": "Croatie",
+      "cu": "Cuba",
+      "dk": "Danemark",
+      "dj": "Djibouti",
+      "dm": "Dominique",
+      "eg": "Égypte",
+      "ae": "Émirats arabes unis",
+      "ec": "Équateur",
+      "er": "Érythrée",
+      "es": "Espagne",
+      "ee": "Estonie",
+      "us": "États-Unis",
+      "et": "Éthiopie",
+      "fj": "Fidji",
+      "fi": "Finlande",
+      "fr": "France",
+      "ga": "Gabon",
+      "gm": "Gambie",
+      "ge": "Géorgie",
+      "gh": "Ghana",
+      "gr": "Grèce",
+      "gd": "Grenade",
+      "gt": "Guatemala",
+      "gn": "Guinée",
+      "gw": "Guinée-Bissau",
+      "gq": "Guinée équatoriale",
+      "gy": "Guyana",
+      "ht": "Haïti",
+      "hn": "Honduras",
+      "hu": "Hongrie",
+      "ck": "Îles Cook",
+      "mh": "Îles Marshall",
+      "sb": "Îles Salomon",
+      "in": "Inde",
+      "id": "Indonésie",
+      "iq": "Irak",
+      "ir": "Iran",
+      "ie": "Irlande",
+      "is": "Islande",
+      "il": "Israël",
+      "it": "Italie",
+      "jm": "Jamaïque",
+      "jp": "Japon",
+      "jo": "Jordanie",
+      "kz": "Kazakhstan",
+      "ke": "Kenya",
+      "kg": "Kirghizistan",
+      "ki": "Kiribati",
+      "xk": "Kosovo",
+      "kw": "Koweït",
+      "la": "Laos",
+      "ls": "Lesotho",
+      "lv": "Lettonie",
+      "lb": "Liban",
+      "lr": "Libéria",
+      "ly": "Libye",
+      "li": "Liechtenstein",
+      "lt": "Lituanie",
+      "lu": "Luxembourg",
+      "mk": "Macédoine du Nord",
+      "mg": "Madagascar",
+      "my": "Malaisie",
+      "mw": "Malawi",
+      "mv": "Maldives",
+      "ml": "Mali",
+      "mt": "Malte",
+      "ma": "Maroc",
+      "mu": "Maurice",
+      "mr": "Mauritanie",
+      "mx": "Mexique",
+      "fm": "Micronésie",
+      "md": "Moldavie",
+      "mc": "Monaco",
+      "mn": "Mongolie",
+      "me": "Monténégro",
+      "mz": "Mozambique",
+      "na": "Namibie",
+      "nr": "Nauru",
+      "np": "Népal",
+      "ni": "Nicaragua",
+      "ne": "Niger",
+      "ng": "Nigéria",
+      "no": "Norvège",
+      "nz": "Nouvelle-Zélande",
+      "om": "Oman",
+      "ug": "Ouganda",
+      "uz": "Ouzbékistan",
+      "pk": "Pakistan",
+      "pw": "Palaos",
+      "ps": "Palestine",
+      "pa": "Panama",
+      "pg": "Papouasie-Nouvelle-Guinée",
+      "py": "Paraguay",
+      "nl": "Pays-Bas",
+      "pe": "Pérou",
+      "ph": "Philippines",
+      "pl": "Pologne",
+      "pt": "Portugal",
+      "qa": "Qatar",
+      "cf": "République centrafricaine",
+      "do": "République dominicaine",
+      "ro": "Roumanie",
+      "gb": "Royaume-Uni",
+      "ru": "Russie",
+      "rw": "Rwanda",
+      "lc": "Sainte-Lucie",
+      "kn": "Saint-Kitts-et-Nevis",
+      "sm": "Saint-Marin",
+      "vc": "Saint-Vincent-et-les-Grenadines",
+      "sv": "Salvador",
+      "ws": "Samoa",
+      "st": "Sao Tomé-et-Principe",
+      "sn": "Sénégal",
+      "rs": "Serbie",
+      "sc": "Seychelles",
+      "sl": "Sierra Leone",
+      "sg": "Singapour",
+      "sk": "Slovaquie",
+      "si": "Slovénie",
+      "so": "Somalie",
+      "sd": "Soudan",
+      "ss": "Soudan du Sud",
+      "lk": "Sri Lanka",
+      "se": "Suède",
+      "ch": "Suisse",
+      "sr": "Suriname",
+      "sz": "Swaziland",
+      "sy": "Syrie",
+      "tj": "Tadjikistan",
+      "tw": "Taïwan",
+      "tz": "Tanzanie",
+      "td": "Tchad",
+      "cz": "Tchéquie",
+      "th": "Thaïlande",
+      "tl": "Timor oriental",
+      "tg": "Togo",
+      "to": "Tonga",
+      "tt": "Trinité-et-Tobago",
+      "tn": "Tunisie",
+      "tm": "Turkménistan",
+      "tr": "Turquie",
+      "tv": "Tuvalu",
+      "ua": "Ukraine",
+      "uy": "Uruguay",
+      "vu": "Vanuatu",
+      "va": "Vatican",
+      "ve": "Venezuela",
+      "vn": "Vietnam",
+      "ye": "Yémen",
+      "zm": "Zambie",
+      "zw": "Zimbabwe"
+    }
   }
 }

@@ -1,16 +1,25 @@
-<div>
-  <form (ngSubmit)="onSubmit.emit(form.value)" [formGroup]="form">
+<div class="dynamic-form" (keyup)="onKeyUp($event)">
+  <form [formGroup]="form">
+    <app-dynamic-question [question]="currentQuestion" [form]="form"></app-dynamic-question>
+  </form>
 
-    <div *ngFor="let question of questions" class="form-row">
-      <app-dynamic-question [question]="question" [form]="form"></app-dynamic-question>
-    </div>
-
-    <div class="form-actions">
-      <button type="submit"
-              [disabled]="!form.valid"
-              class="btn btn-primary">
-        {{ 'form.submit' | translate }}
+  <div class="form-navigation-controls" (keyup)="$event.preventDefault()">
+    <div class="previous-question">
+      <button class="btn btn-primary"
+              data-cy='previousQuestion'
+              (click)="previousQuestion()"
+              [disabled]="currentQuestionIndex <= 0">
+        <i class="fa fa-chevron-left"></i> {{ 'form.previous' | translate }}
       </button>
     </div>
-  </form>
+
+    <div class="next-question">
+      <button class="btn btn-primary"
+              data-cy='nextQuestion'
+              [disabled]="!isValid(currentQuestion)"
+              (click)="nextQuestion()">
+        {{ 'form.next' | translate }} <i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
 </div>

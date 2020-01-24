@@ -1,7 +1,12 @@
 <div class="container">
   <h1>{{ "home.title" | translate }}</h1>
 
-  <app-dynamic-form [questions]="questions"
-                    (onSubmit)="onSubmit($event)">
+  <app-dynamic-form *ngIf="!result"
+                    [questions]="questions"
+                    (onSubmit)="result = $event">
   </app-dynamic-form>
+
+  <app-form-result *ngIf="result"
+                   [result]="result">
+  </app-form-result>
 </div>

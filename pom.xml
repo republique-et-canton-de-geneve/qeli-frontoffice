@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,7 +11,7 @@
 
     <groupId>ch.ge.social.qeli</groupId>
     <artifactId>qeli-frontoffice</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>pom</packaging>
 
     <name>qeli-frontoffice</name>
@@ -34,6 +35,15 @@
         <url>***REMOVED***/DEVELOPPEUR-SOCIAL/as-frontoffice-archetype</url>
     </scm>
 
+    <modules>
+        <module>qeli-frontoffice-application</module>
+        <module>qeli-frontoffice-cypress</module>
+        <module>qeli-frontoffice-ihm</module>
+        <module>qeli-frontoffice-rest</module>
+        <module>qeli-frontoffice-service</module>
+        <module>qeli-frontoffice-service-api</module>
+    </modules>
+
     <distributionManagement>
         <!-- cf settings.xml pour les définitions des repositories -->
         <repository>
@@ -50,7 +60,9 @@
 
         <site>
             <id>projects_Website</id>
-            <url>dav:***REMOVED***/content/sites/projects_Website/ch/ge/cti/melusine/${project.artifactId}/${project.version}</url>
+            <url>
+                dav:***REMOVED***/content/sites/projects_Website/ch/ge/cti/melusine/${project.artifactId}/${project.version}
+            </url>
         </site>
     </distributionManagement>
 
@@ -62,8 +74,9 @@
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 
         <!-- IHM test parameters -->
-        <maven.test.skip>false</maven.test.skip>
-        <ihm.test.skip>${maven.test.skip}</ihm.test.skip>
+        <surefire.test.skip>${skipTests}</surefire.test.skip>
+        <ihm.test.skip>${skipTests}</ihm.test.skip>
+        <cypress.test.skip>${skipTests}</cypress.test.skip>
 
         <!-- SonarQube parameters -->
         <sonar.jacoco.reportPaths>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPaths>
@@ -72,6 +85,7 @@
         <gitflow-maven-plugin.version>1.11.0</gitflow-maven-plugin.version>
         <gmavenplus-plugin.version>1.6.2</gmavenplus-plugin.version>
         <jacoco-maven-plugin.version>0.8.2</jacoco-maven-plugin.version>
+        <jetty-maven-plugin.version>9.4.11.v20180605</jetty-maven-plugin.version>
 
         <!-- Plugin JAR dependencies versions -->
         <asm.version>7.0</asm.version>
@@ -99,29 +113,35 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-application</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>0.0.1</version>
+                <type>war</type>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>qeli-frontoffice-cypress</artifactId>
+                <version>0.0.1</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-ihm</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>0.0.1</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-rest</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>0.0.1</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>0.0.1</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service-api</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>0.0.1</version>
             </dependency>
 
             <!-- Additional dependencies -->
@@ -201,8 +221,6 @@
                     <artifactId>gitflow-maven-plugin</artifactId>
                     <version>${gitflow-maven-plugin.version}</version>
                     <configuration>
-                        <argLine>-Dihm.test.skip=${ihm.test.skip}</argLine>
-                        <pushRemote>false</pushRemote>
                         <commitDevelopmentVersionAtStart>true</commitDevelopmentVersionAtStart>
                         <useSnapshotInHotfix>true</useSnapshotInHotfix>
                         <useSnapshotInRelease>true</useSnapshotInRelease>
@@ -212,6 +230,11 @@
                     <groupId>org.codehaus.gmavenplus</groupId>
                     <artifactId>gmavenplus-plugin</artifactId>
                     <version>${gmavenplus-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <version>${jetty-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -273,6 +296,9 @@
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>${surefire.test.skip}</skipTests>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.ow2.asm</groupId>
@@ -316,11 +342,4 @@
             </plugin>
         </plugins>
     </build>
-  <modules>
-    <module>qeli-frontoffice-application</module>
-    <module>qeli-frontoffice-ihm</module>
-    <module>qeli-frontoffice-rest</module>
-    <module>qeli-frontoffice-service</module>
-    <module>qeli-frontoffice-service-api</module>
-  </modules>
 </project>

@@ -19,20 +19,33 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "favicon.ico",
+                "input": "src/assets/charte/resources/common/",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/i18n/",
+                "output": "/assets/i18n/"
+              }
             ],
             "styles": [
+              "src/assets/charte/resources/common/css/style.css",
+              "src/assets/charte/resources/common/css/font-awesome.min.css",
+              "src/assets/charte/resources/specific/css/custom_form_style.css",
               "src/styles.scss"
             ],
             "scripts": []
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.prod.ts"
-              }],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

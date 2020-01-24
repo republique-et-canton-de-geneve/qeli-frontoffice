@@ -1,50 +1,23 @@
-<div [formGroup]="form" class="form-group">
+<div class="form-group">
   <label class="control-label"
          [ngClass]="!isValid ? 'text-danger' : ''"
-         [attr.for]="question.key">
-    {{ 'question.' + question.key + '.label' | translate }}
+         [attr.for]="question.key"
+         [attr.data-cy-label]="question.code + '_' + question.key">
+    {{ questionTranslationKey | translate }}
     <span *ngIf="question.required"
           class="form-required"
           title="{{ 'form.required' | translate }}">*</span>
   </label>
 
-  <div [ngSwitch]="question.controlType"
-       [ngClass]="!isValid ? 'error' : ''">
+  <p *ngIf="question.help" class="help-block">{{ 'question.' + question.key + '.help' | translate }}</p>
 
-    <input *ngSwitchCase="'textbox'"
-           class="form-control"
-           [ngClass]="!isValid ? 'error' : ''"
-           [id]="question.key"
-           [placeholder]="question.placeholder"
-           [formControlName]="question.key"
-           [type]="question.type">
-
-    <input *ngSwitchCase="'date'"
-           class="form-control"
-           [ngClass]="!isValid ? 'error' : ''"
-           [id]="question.key"
-           [formControlName]="question.key"
-           type="date">
-
-    <select *ngSwitchCase="'dropdown'"
-            class="form-control form-select"
-            [ngClass]="!isValid ? 'error' : ''"
-            [id]="question.key"
-            [formControlName]="question.key">
-      <option *ngFor="let option of question.options"
-              [value]="option">
-        {{ 'question.' + question.key + '.option.' + option | translate }}
-      </option>
-    </select>
+  <div [ngClass]="!isValid ? 'error' : ''">
+    <ng-template app-question-host></ng-template>
   </div>
 
-  <div class="help-block" *ngIf="!isValid">
+  <div class="error-block" *ngIf="!isValid">
     <span *ngFor="let error of errors" class="text-danger">
       {{ 'question.' + question.key + '.error.' + error | translate }}
     </span>
   </div>
-
-  <p *ngIf="question.help" class="help-block">{{ 'question.' + question.key + '.help' | translate }}</p>
-
-  <hr class="clearfix">
 </div>

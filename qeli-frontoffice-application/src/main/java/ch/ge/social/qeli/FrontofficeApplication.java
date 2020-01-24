@@ -9,10 +9,10 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * Classe de démarrage du frontoffice.
  */
 @SpringBootApplication
-public class FrontofiiceApplication extends SpringBootServletInitializer {
+public class FrontofficeApplication extends SpringBootServletInitializer {
 
   public static void main(String[] args) {
-    SpringApplication.run(FrontofiiceApplication.class, args);
+    SpringApplication.run(FrontofficeApplication.class, args);
   }
 
   @Override
