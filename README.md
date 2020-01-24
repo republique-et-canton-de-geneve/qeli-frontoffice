@@ -1,4 +1,4 @@
-# Frontoffice du questionaire d'eligibilité (QELI)
+# Frontoffice du questionnaire d'eligibilité (QELI)
 
 - [Liste de modules](#liste-de-modules)
 - [Construction](#construction)
@@ -10,10 +10,12 @@
 
 - [qeli-frontoffice-application](qeli-frontoffice-application) : Ce module se charge
 de la construction et livraison du front office pour le deployment.
+- [qeli-frontoffice-cypress](qeli-frontoffice-cypress) : Module pour la configuration
+des scenarii de tests d'intégration de l'application.
 - [qeli-frontoffice-ihm](qeli-frontoffice-ihm) : L'IHM du front office destiné aux
 gestionnaires.
 - [qeli-frontoffice-rest](qeli-frontoffice-rest) : Les services REST.
-- [qeli-frontoffice-service](qeli-frontoffice-service) : Implémantation de la couche
+- [qeli-frontoffice-service](qeli-frontoffice-service) : Implémentation de la couche
 métier du front office.
 - [qeli-frontoffice-service-api](qeli-frontoffice-service-api) : Interface de la couche
 métier du front office.
@@ -27,6 +29,14 @@ métier du front office.
 - Node
 
 ## Comment construire
+
+Récupérer la dernière version du sous-module des scenarii de test Cypress :
+
+```bash
+git submodule update --init
+```
+
+Build :
 
 ```bash
 mvn clean install
@@ -72,7 +82,7 @@ L'application web application sera disponible sur :
 La stratégie de branching de l'application est git flow.
 
 Pour livrer une nouvelle version il suffit de suivre le workflow release. Un plugin
-maven a été rajouté pour faciliter cette tâche. 
+maven a été rajouté pour faciliter cette tâche.
 
 - Pour créer une branch de release exécuter la commande suivante :
 
@@ -101,49 +111,82 @@ Pour le mode non-interactive il faut rajouter l'argument `-B`,  si le paramètre
 mvn -B gitflow:release
 ```
 
+## Livrable standalone (Windows)
+
+Pour construire un livrable windows veuillez exécuter la commande suivante :
+
+```bash
+mvn clean package -Pstandalone
+```
+
+Avec un proxy il faut éxecuter cette commande ainsi :
+
+```bash
+export JVM_PROXY_FLAGS="-Dhttp.proxyHost=$HTTP_PROXY_HOST  \
+                        -Dhttp.proxyPort=$HTTP_PROXY_PORT  \
+                        -Dhttps.proxyHost=$HTTP_PROXY_HOST \
+                        -Dhttps.proxyPort=$HTTP_PROXY_PORT"
+
+mvn clean package -Pstandalone $JVM_PROXY_FLAGS
+```
+
+Un livrable windows en format `ZIP` sera disponible sur :
+`qeli-frontoffice-application/target/qeli-frontoffice-application-windows.zip`.
+
+Décompresser le fichier et double click sur le fichier
+`qeli-frontoffice-application.cmd` pour démarrer le server en mode standalone.
+
+L'IHM est disponible sur: http://localhost:8080/qeli/frontoffice
+
+Pour arrêter le server fermer la fenêtre du terminal.
+
+
 ## Références
 
 - Gitflow cheatsheet : https://danielkummer.github.io/git-flow-cheatsheet/
 - Gitflow maven plugin : https://github.com/aleksandr-m/gitflow-maven-plugin
 
-# Astuces
+## Astuces
 
-## Références de la charte graphique
+### Références de la charte graphique
 
 - https://outil.ge.ch/site/charte-internet/
 - https://outil.ge.ch/site/charte-internet/version/2.4/
 
-## Sauter les tests
+### Sauter les tests
 
-Pour construire l'application sans exécuter les tests veuillez  utiliser le
-paramètre `maven.test.skip` au lieu de `skipTests`, comme sur la commande
-suivante :
+L'argument `skipTests` désactive tous les tests pendant la compilation :
 
 ```bash
-mvn clean install -Dmaven.test.skip=true
+mvn clean install -DskipTests=true
 ```
 
-Cela permet de sauter les test Java ainsi que les tests IHM.
+Il est aussi possible de désactiver les tests Java, IHM et Cypress individuellement :
 
-###### Sauter les tets IHM
+* `ihm.test.skip` : désactive les tests IHM, e.g. :
+`mvn clean install -Dihm.test.skip=true`
+* `cypress.test.skip` : désactive les tests d'intégration Cypress, e.g. :
+`mvn clean install -Dihm.test.skip=true`
+* `surefire.test.skip` : désactive les Java, e.g. :
+`mvn clean install -Dihm.test.skip=true`
 
-Pour sauter uniquement les tests IHM veuillez  utiliser le paramètre `ihm.test.skip`,
-comme sur la commande suivante :
-
-```bash
-mvn clean install -Dihm.test.skip=true
-```
-
-## Sauter la compilation de l'IHM
+### Sauter la compilation de l'IHM
 
 Il est possible de construire l'application en sautant la compilation de l'IHM,
 pour cela éxecuter la commande suivante :
 
 ```bash
+# Sauter la compilation de l'ihm
 mvn clean install -pl '!qeli-frontoffice-ihm'
+
+# Sauter la compilation des tests d'intégration
+mvn clean install -pl '!qeli-frontoffice-cypress'
+
+# Sauter la compilation de l'ihm et des tests d'intégration
+mvn clean install -pl '!qeli-frontoffice-ihm,!qeli-frontoffice-cypress'
 ```
 
-## Style du code
+### Style du code
 
 Le style du code est défini par le fichier [.editorconfig](.editorconfig) à la racine
 du projet.
@@ -168,5 +211,5 @@ registry=***REMOVED***/content/repositories/npmjs/
 
 ### Problèmes avec node-saas
 
-En cas de problème avec node-saas, exécuter la commande suivante 
+En cas de problème avec node-saas, exécuter la commande suivante
 `npm rebuild node-sass`.

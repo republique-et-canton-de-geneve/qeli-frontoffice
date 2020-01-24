@@ -1,0 +1,2 @@
+logging:
+  file: ./${application.name}

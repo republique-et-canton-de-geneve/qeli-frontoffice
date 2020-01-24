@@ -1,4 +1,4 @@
-import { QuestionBase } from './question-base.model';
+import { QuestionBase } from '../question-base.model';
 
 export class DateQuestion extends QuestionBase<Date> {
   controlType = 'date';

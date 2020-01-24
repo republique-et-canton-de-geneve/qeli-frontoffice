@@ -1,23 +1,55 @@
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Prestation } from '../common/prestation.model';
+
 export class QuestionBase<T> {
+  controlType: string;
   defaultValue: T;
   key: string;
-  // TODO Add validators other than `required`.
-  // TODO Add isDisplayed method that takes the current model as param.
-  required: boolean;
+  code: string;
   help: boolean;
-  controlType: string;
+  validators: ValidatorFn[];
+  altText: (form: FormGroup) => string;
+  // TODO Peut-être changer à skip et laisser les questions sans réponse quand elles n'ont pas de relevances
+  defaultAnswer: (form: FormGroup) => any;
+  eligibilite: Eligibilite[];
 
   constructor(options: {
+    controlType?: string,
     defaultValue?: T,
     key?: string,
-    required?: boolean,
+    code?: string,
     help?: boolean,
-    controlType?: string
+    validators?: ValidatorFn[],
+    altText?: (form: FormGroup) => string,
+    defaultAnswer?: (form: FormGroup) => any,
+    eligibilite?: Eligibilite[]
   } = {}) {
+    this.controlType = options.controlType;
     this.defaultValue = options.defaultValue;
     this.key = options.key;
-    this.required = !!options.required;
+    this.code = options.code;
     this.help = !!options.help;
-    this.controlType = options.controlType;
+    this.validators = options.validators ? options.validators : [];
+    this.altText = options.altText ? options.altText : () => null;
+    this.defaultAnswer = options.defaultAnswer;
+    this.eligibilite = options.eligibilite ? options.eligibilite : [];
+  }
+
+  get required() {
+    return this.validators.includes(Validators.required);
+  }
+
+  toFormControl(): AbstractControl {
+    return new FormControl(this.defaultValue || null, this.validators);
+  }
+}
+
+export class Eligibilite {
+  prestation: Prestation;
+  isEligible: (form: FormGroup) => boolean;
+
+  constructor(prestation: Prestation, isEligible: (form: FormGroup) => boolean) {
+    this.prestation = prestation;
+    this.isEligible = isEligible;
   }
 }

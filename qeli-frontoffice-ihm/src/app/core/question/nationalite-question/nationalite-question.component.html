@@ -1,0 +1,44 @@
+<div [formGroup]="form">
+  <div [formGroupName]="question.key">
+    <div *ngFor="let x of [].constructor(numberOfNationalites); index as i; last as isLast; first as isFirst"
+         class="nationalite-selection-box"
+         formArrayName="pays">
+      <select [formControlName]="i"
+              [attr.disabled]="!isLast ? 'disabled' : null"
+              [focusOnInit]="isFirst"
+              class="form-control form-select"
+              [attr.data-cy]="question.code + '_' + question.key">
+        <option *ngFor="let pays of question.paysOptions"
+                [value]="pays">
+          {{ 'common.pays.' + pays | translate }}
+        </option>
+      </select>
+
+      <button class="btn btn-primary"
+              [disabled]="isApatride || numberOfNationalites >= maxNumberOfNationalites || hasUnsetPays()"
+              [style.visibility]="isLast ? 'visible' : 'hidden'"
+              (click)="addPaysControl()">
+        <i class="fa fa-plus"></i> {{ 'common.ajouterNationalite' | translate }}
+      </button>
+      <button class="btn btn-danger"
+              [attr.aria-label]="'common.supprimerNationalite' | translate"
+              [disabled]="isApatride || !isLast || !hasPays()"
+              [style.visibility]="isLast ? 'visible' : 'hidden'"
+              (click)="popOrClearPaysControl()">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+               formControlName="apatride"
+               (change)="onApatrideChanged()"
+               [attr.data-cy]="question.code + '_' + question.key + '_apatride'">
+        {{ 'question.' + question.key + '.apatride.label' | translate }}
+      </label>
+      <p class="help-block">{{ 'question.' + question.key + '.apatride.help' | translate }}</p>
+    </div>
+  </div>
+
+</div>
