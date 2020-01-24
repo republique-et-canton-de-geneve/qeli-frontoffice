@@ -76,6 +76,7 @@
         <!-- IHM test parameters -->
         <surefire.test.skip>${skipTests}</surefire.test.skip>
         <ihm.test.skip>${skipTests}</ihm.test.skip>
+        <cypress.test.skip>${skipTests}</cypress.test.skip>
 
         <!-- SonarQube parameters -->
         <sonar.jacoco.reportPaths>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPaths>

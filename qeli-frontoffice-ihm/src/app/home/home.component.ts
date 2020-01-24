@@ -124,7 +124,7 @@ export class HomeComponent implements OnInit {
         hasNone: true,
         validators: [
           Validators.required,
-          QeliValidators.atLeastOneSelected(Object.keys(Activite))
+          QeliValidators.atLeastOneSelected(Object.keys(Activite).concat('NONE'))
         ],
         options: Object.keys(Activite).map(label => new QuestionOption({label: label})),
         eligibilite: [
@@ -142,7 +142,7 @@ export class HomeComponent implements OnInit {
         options: Object.values(Scolarite)
                        .filter(scolarite => scolarite !== Scolarite.AUCUNE)
                        .map(scolarite => new QuestionOption({label: Scolarite[scolarite], help: true}))
-                       .concat(new QuestionOption({label: Scolarite[Scolarite.AUCUNE]})),
+                       .concat(new QuestionOption({label: Scolarite.AUCUNE})),
         eligibilite: [
           new Eligibilite(Prestation.BOURSES, (form: FormGroup) => this.aucuneScolarite(form))
         ]
@@ -170,7 +170,7 @@ export class HomeComponent implements OnInit {
         eligibilite: [
           new Eligibilite(
             Prestation.BOURSES,
-            (form: FormGroup) => form.value['fonctionnaireInternational'] !== ReponseProgressive[ReponseProgressive.NON]
+            (form: FormGroup) => form.value['fonctionnaireInternational'] !== ReponseProgressive.NON
           )
         ]
       })
@@ -178,19 +178,20 @@ export class HomeComponent implements OnInit {
   }
 
   hasConjoint(form: FormGroup) {
-    return form.value['etatCivil'] === 'marie' || form.value['etatCivil'] === 'partenariatEnregistre';
+    return form.value['etatCivil'] === EtatCivil.MARIE ||
+           form.value['etatCivil'] === EtatCivil.PARTENARIAT_ENREGISTRE;
   }
 
   hasPermisBEtudes(form: FormGroup) {
-    return form.value['permisBEtudes'] === ReponseProgressive[ReponseProgressive.OUI];
+    return form.value['permisBEtudes'] === ReponseProgressive.OUI;
   }
 
   isFonctionnaireInternational(form: FormGroup) {
-    return form.value['fonctionnaireInternational'] === ReponseProgressive[ReponseProgressive.OUI];
+    return form.value['fonctionnaireInternational'] === ReponseProgressive.OUI;
   }
 
   aucuneScolarite(form: FormGroup) {
-    return form.value['scolarite'] === Scolarite[Scolarite.AUCUNE];
+    return form.value['scolarite'] === Scolarite.AUCUNE;
   }
 
   hasActivites(form: FormGroup, activites: Activite[]) {
@@ -201,7 +202,7 @@ export class HomeComponent implements OnInit {
   }
 
   isRefugie(form: FormGroup) {
-    return form.value['refugie'] === 'oui';
+    return form.value['refugie'] === ReponseProgressive.OUI;
   }
 
   isApatride(form: FormGroup) {
