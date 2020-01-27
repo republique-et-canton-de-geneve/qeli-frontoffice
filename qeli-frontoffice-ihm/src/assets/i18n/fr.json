@@ -195,7 +195,19 @@
     },
     "exempteImpot": {
       "label": "Etes-vous exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
-      "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.\n\nExempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe",
+      "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.\n\nExempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "taxeOfficeAFC": {
+      "label": "Etes-vous taxé d'office par l'administration fiscale cantonale (AFC) en {{ annee }} ?",
+      "help": "Taxation d'office : Sanction prise contre le contribuable qui n'a pas effectué de déclaration : le fisc lui-même procède à une estimation du revenu, du profit ou de la valeur imposable, au moyen des éléments d'information en sa possession.",
       "option": {
         "OUI": "Oui",
         "NON": "Non",

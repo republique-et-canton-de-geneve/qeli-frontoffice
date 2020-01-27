@@ -9,6 +9,7 @@ export class QuestionBase<T> {
   help: boolean;
   validators: ValidatorFn[];
   altText: (form: FormGroup) => string;
+  labelParameters: any;
   // TODO Peut-être changer à skip et laisser les questions sans réponse quand elles n'ont pas de relevances
   defaultAnswer: (form: FormGroup) => any;
   eligibilite: Eligibilite[];
@@ -21,6 +22,7 @@ export class QuestionBase<T> {
     help?: boolean,
     validators?: ValidatorFn[],
     altText?: (form: FormGroup) => string,
+    labelParameters?: any,
     defaultAnswer?: (form: FormGroup) => any,
     eligibilite?: Eligibilite[]
   } = {}) {
@@ -31,6 +33,7 @@ export class QuestionBase<T> {
     this.help = !!options.help;
     this.validators = options.validators ? options.validators : [];
     this.altText = options.altText ? options.altText : () => null;
+    this.labelParameters = options.labelParameters ? options.labelParameters : {};
     this.defaultAnswer = options.defaultAnswer;
     this.eligibilite = options.eligibilite ? options.eligibilite : [];
   }
