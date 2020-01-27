@@ -161,6 +161,19 @@ export class HomeComponent implements OnInit {
         ]
       }),
       new RadioQuestion({
+        key: 'exempteImpot',
+        code: '1401',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.SUBSIDES, (form: FormGroup) => form.value['exempteImpot'] !== ReponseProgressive.OUI
+          )
+        ]
+      }),
+      new RadioQuestion({
         key: 'fonctionnaireInternational',
         code: '1403',
         help: true,

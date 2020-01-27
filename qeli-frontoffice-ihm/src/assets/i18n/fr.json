@@ -192,6 +192,18 @@
       "error": {
         "required": "Ce champ est obligatoire"
       }
+    },
+    "exempteImpot": {
+      "label": "Etes-vous exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
+      "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.\n\nExempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
     }
   },
   "form": {
