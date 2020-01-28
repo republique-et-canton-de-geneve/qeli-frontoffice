@@ -1,0 +1,36 @@
+.panel {
+  margin-bottom: 1rem;
+
+  .panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+
+    .toggle-button {
+      border: 2px solid;
+      width: 28px;
+      height: 28px;
+      border-radius: 28px;
+      text-align: center;
+    }
+
+    .title-icon {
+      margin-right: 1rem;
+    }
+  }
+
+  &.panel-success .panel-heading:hover {
+    background-color: #d6e9c6;
+  }
+
+  &.panel-primary .panel-heading:hover {
+    background-color: #d6e9c6;
+  }
+
+  &.panel-warning .panel-heading:hover {
+    background-color: #faebcc;
+  }
+
+}

@@ -1,4 +1,31 @@
 <div>
-  <span>{{ 'home.result.presentation' | translate }}</span>
-  <pre>{{ result | json }}</pre>
+  <h3>{{ 'home.result.title' | translate }}</h3>
+
+  <div *ngIf="result.prestationEligible.length > 0">
+    <p>
+      <b>{{ 'home.result.eligibilite.oui' | translate }}</b>
+    </p>
+    <result-block *ngFor="let prestation of result.prestationEligible"
+                  type="success"
+                  title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}">
+      <p>{{ 'home.result.prestation.' + prestation + '.content' | translate }}</p>
+    </result-block>
+  </div>
+
+  <hr>
+  <p>
+    <b *ngIf="result.prestationEligible.length > 0">{{ 'home.result.eligibilite.non' | translate }}</b>
+    <b *ngIf="result.prestationEligible.length === 0">{{ 'home.result.eligibilite.aucune' | translate }}</b>
+  </p>
+  <result-block *ngFor="let prestation of prestationsRefusees"
+                type="danger"
+                title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}">
+    <p>{{ 'home.result.prestation.' + prestation + '.content' | translate }}</p>
+  </result-block>
+
+  <hr>
+  <p>
+    <b>{{ 'home.result.reponses' | translate }}</b>
+  </p>
+  <pre>{{ result.data | json }}</pre>
 </div>
