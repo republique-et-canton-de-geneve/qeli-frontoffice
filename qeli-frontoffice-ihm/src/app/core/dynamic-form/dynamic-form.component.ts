@@ -72,7 +72,10 @@ export class DynamicFormComponent implements OnInit {
 
       if (nextIndex === -1) {
         this.currentQuestionIndex = this.questions.length - 1;
-        this.onSubmit.emit(this.form.value);
+        this.onSubmit.emit({
+          data: this.form.value,
+          prestationEligible: this.prestationEligible
+        });
       } else {
         this.currentQuestionIndex = nextIndex;
       }

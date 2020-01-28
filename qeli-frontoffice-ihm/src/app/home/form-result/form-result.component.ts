@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Prestation } from '../../core/common/prestation.model';
 
 @Component({
   selector: 'app-form-result',
@@ -7,9 +8,16 @@ import { Component, Input } from '@angular/core';
 })
 export class FormResultComponent {
 
-  @Input() result: any;
+  @Input() result: {
+    prestationEligible: Prestation[],
+    data: any
+  };
 
   constructor() {
 
+  }
+
+  get prestationsRefusees() {
+    return Object.values(Prestation).filter(prestation => !this.result.prestationEligible.includes(prestation))
   }
 }

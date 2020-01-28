@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { HomeComponent } from './home.component';
 import { CoreModule } from '../core/core.module';
 import { FormResultComponent } from './form-result/form-result.component';
+import { ResultBlockComponent } from './form-result/result-block/result-block.component';
 
 @NgModule({
   imports: [
@@ -9,10 +10,12 @@ import { FormResultComponent } from './form-result/form-result.component';
   ],
   declarations: [
     HomeComponent,
-    FormResultComponent
+    FormResultComponent,
+    ResultBlockComponent
   ],
   entryComponents: [
-    FormResultComponent
+    FormResultComponent,
+    ResultBlockComponent
   ]
 })
 export class HomeModule {
