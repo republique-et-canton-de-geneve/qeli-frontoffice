@@ -3,7 +3,7 @@
          [ngClass]="!isValid ? 'text-danger' : ''"
          [attr.for]="question.key"
          [attr.data-cy-label]="question.code + '_' + question.key">
-    {{ questionTranslationKey | translate }}
+    {{ questionTranslationKey | translate:question.labelParameters }}
     <span *ngIf="question.required"
           class="form-required"
           title="{{ 'form.required' | translate }}">*</span>

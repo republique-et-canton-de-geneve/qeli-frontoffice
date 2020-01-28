@@ -148,6 +148,48 @@ export class HomeComponent implements OnInit {
         ]
       }),
       new RadioQuestion({
+        key: 'assuranceMaladieSuisse',
+        code: '1101',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.SUBSIDES, (form: FormGroup) => form.value['assuranceMaladieSuisse'] !== ReponseProgressive.NON
+          )
+        ]
+      }),
+      new RadioQuestion({
+        key: 'exempteImpot',
+        code: '1401',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.SUBSIDES, (form: FormGroup) => form.value['exempteImpot'] !== ReponseProgressive.OUI
+          )
+        ]
+      }),
+      new RadioQuestion({
+        key: 'taxeOfficeAFC',
+        code: '1402',
+        help: true,
+        inline: true,
+        labelParameters: {
+          annee: moment().subtract(2, 'year').get('year')
+        },
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.SUBSIDES, (form: FormGroup) => form.value['taxeOfficeAFC'] !== ReponseProgressive.OUI
+          )
+        ]
+      }),
+      new RadioQuestion({
         key: 'fonctionnaireInternational',
         code: '1403',
         help: true,
