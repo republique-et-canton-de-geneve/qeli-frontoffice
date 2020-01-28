@@ -1,6 +1,6 @@
 {
   "name": "@ch.ge.social.tools/qeli-frontoffice-ihm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --source-map=true",
