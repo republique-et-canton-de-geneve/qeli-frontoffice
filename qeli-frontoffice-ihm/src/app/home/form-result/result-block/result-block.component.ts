@@ -7,11 +7,12 @@ import { Component, Input } from '@angular/core';
 })
 export class ResultBlockComponent {
   @Input() title: string;
-  @Input() type: 'danger' | 'success' | 'info';
+  @Input() subtitle: string;
+  @Input() type: 'warning' | 'success' | 'info';
   showDetails = false;
 
   get danger() {
-    return this.type === 'danger'
+    return this.type === 'warning'
   }
 
   get info() {
