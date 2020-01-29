@@ -187,6 +187,19 @@ export class HomeComponent implements OnInit {
         ]
       }),
       new RadioQuestion({
+        key: 'droitPensionAlimentaire',
+        code: '1201',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.AVANCES, (form: FormGroup) => form.value['droitPensionAlimentaire'] !== ReponseProgressive.NON
+          )
+        ]
+      }),
+      new RadioQuestion({
         key: 'exempteImpot',
         code: '1401',
         help: true,
