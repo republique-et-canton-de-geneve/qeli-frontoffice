@@ -164,6 +164,25 @@
         "BOURSES": "Vous avez indiqué avoir un permis B de moins de 5 ans."
       }
     },
+    "domicileCantonGE": {
+      "label": "Votre domicile officiel est-il dans le canton de Genève ?",
+      "help": "Domicile : vous avez une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AVANCES": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "PC_AVS_AI": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "PC_FAM": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève."
+      }
+    },
     "activite": {
       "label": "Quelle est votre activité ?",
       "help": "Etudiant : personne en formation.",
