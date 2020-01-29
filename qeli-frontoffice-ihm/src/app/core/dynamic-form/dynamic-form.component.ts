@@ -15,8 +15,8 @@ export class DynamicFormComponent implements OnInit {
 
   form: FormGroup;
 
-  prestationEligible = Object.values(Prestation);
-  prestationEligibleHistoryStack: Prestation[][] = [];
+  prestationsRefusees: { prestation: Prestation, questionKey: string }[] = [];
+  prestationsRefuseesStack: { prestation: Prestation, questionKey: string }[][] = [];
   indexHistoryStack: number[] = [];
   currentQuestionIndex = 0;
 
@@ -38,18 +38,30 @@ export class DynamicFormComponent implements OnInit {
     return this.form.controls[question.key].valid;
   }
 
+  get prestationEligible() {
+    return Object.values(Prestation).filter(
+      prestation => !this.prestationsRefusees.some(
+        prestationRefusee => prestationRefusee.prestation === prestation
+      )
+    );
+  }
+
   nextQuestion() {
     if (this.isValid(this.currentQuestion)) {
 
       this.indexHistoryStack.push(this.currentQuestionIndex);
-      this.prestationEligibleHistoryStack.push(this.prestationEligible);
+      this.prestationsRefuseesStack.push(this.prestationsRefusees);
 
-      this.prestationEligible = this.prestationEligible.filter(prestation => {
+      this.prestationEligible.filter(prestation => {
         const eligibilite = this.currentQuestion.eligibilite.filter(
           eligibilite => eligibilite.prestation === prestation
         );
-        console.log(eligibilite);
-        return eligibilite.length === 0 || eligibilite.every(eligibilite => eligibilite.isEligible((this.form)))
+        return (eligibilite.length > 0 && !eligibilite.every(eligibilite => eligibilite.isEligible((this.form))));
+      }).forEach(prestationRefusee => {
+        this.prestationsRefusees.push({
+          prestation: prestationRefusee,
+          questionKey: this.currentQuestion.key
+        });
       });
 
 
@@ -72,7 +84,10 @@ export class DynamicFormComponent implements OnInit {
 
       if (nextIndex === -1) {
         this.currentQuestionIndex = this.questions.length - 1;
-        this.onSubmit.emit(this.form.value);
+        this.onSubmit.emit({
+          data: this.form.value,
+          prestationsRefusees: this.prestationsRefusees
+        });
       } else {
         this.currentQuestionIndex = nextIndex;
       }
@@ -81,9 +96,9 @@ export class DynamicFormComponent implements OnInit {
 
   previousQuestion() {
     this.currentQuestionIndex = (this.indexHistoryStack.length > 0) ? this.indexHistoryStack.pop() : 0;
-    this.prestationEligible = (this.prestationEligibleHistoryStack.length > 0) ?
-                              this.prestationEligibleHistoryStack.pop() :
-                              Object.values(Prestation);
+    this.prestationsRefuseesStack = (this.prestationsRefuseesStack.length > 0) ?
+                                    this.prestationsRefuseesStack.pop() :
+                                    Object.values(Prestation);
   }
 
   onKeyUp(event: KeyboardEvent) {

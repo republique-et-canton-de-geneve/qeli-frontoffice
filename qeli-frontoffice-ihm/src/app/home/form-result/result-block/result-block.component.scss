@@ -1,0 +1,45 @@
+.panel {
+  margin-bottom: 1rem;
+  text-align: justify;
+
+  .panel-heading {
+    cursor: pointer;
+
+    .panel-row.title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+
+      .toggle-button {
+        border: 2px solid;
+        width: 28px;
+        height: 28px;
+        border-radius: 28px;
+        text-align: center;
+      }
+
+      .title-icon {
+        margin-right: 1rem;
+      }
+    }
+
+    .panel-row.subtitle {
+      margin-left: 2.5rem;
+      margin-right: 3rem;
+    }
+  }
+
+  &.panel-success .panel-heading:hover {
+    background-color: #d6e9c6;
+  }
+
+  &.panel-info .panel-heading:hover {
+    background-color: #bce8f1;
+  }
+
+  &.panel-warning .panel-heading:hover {
+    background-color: #faebcc;
+  }
+
+}
