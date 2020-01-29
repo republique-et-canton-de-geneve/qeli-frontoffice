@@ -7,17 +7,31 @@ import { Prestation } from '../../core/common/prestation.model';
   styleUrls: ['./form-result.component.scss']
 })
 export class FormResultComponent {
-
-  @Input() result: {
-    prestationEligible: Prestation[],
-    data: any
-  };
+  formResult: { prestationsRefusees: { prestation: Prestation, questionKey: string }[]; data: any };
+  prestationEligible: Prestation[];
+  prestationDejaPercues: Prestation[];
+  prestationsRefusees: { prestation: Prestation, questionKey: string }[];
 
   constructor() {
 
   }
 
-  get prestationsRefusees() {
-    return Object.values(Prestation).filter(prestation => !this.result.prestationEligible.includes(prestation))
+  @Input()
+  set result(result: { prestationsRefusees: { prestation: Prestation, questionKey: string }[]; data: any }) {
+    this.formResult = result;
+
+    this.prestationEligible = Object.values(Prestation).filter(
+      prestation => !result.prestationsRefusees.some(
+        prestationRefusee => prestationRefusee.prestation === prestation
+      )
+    );
+
+    this.prestationDejaPercues = result.prestationsRefusees.filter(
+      prestationRefusee => prestationRefusee.questionKey === 'prestations'
+    ).map(prestationRefusee => prestationRefusee.prestation);
+
+    this.prestationsRefusees = result.prestationsRefusees.filter(
+      prestationRefusee => prestationRefusee.questionKey !== 'prestations'
+    );
   }
 }

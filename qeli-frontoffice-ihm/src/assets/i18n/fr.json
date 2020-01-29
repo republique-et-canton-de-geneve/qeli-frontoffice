@@ -6,7 +6,7 @@
       "eligibilite": {
         "oui": "D'après ce que vous avez répondu, vous pourriez béneficier des préstations suivantes :",
         "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas béneficier des préstations suivantes :",
-        "aucune": "D'après ce que vous avez répondu, vous ne pourrez probablement pas béneficier d'aucune des préstations :"
+        "deja": "D'après ce que vous avez répondu, vous béneficiez déjà des préstations suivantes :"
       },
       "prestation": {
         "SUBSIDES": {
@@ -75,6 +75,16 @@
         "BOURSES": "Bourses d'études",
         "PC_FAM": "Prestations complémentaires familiales",
         "AIDE_SOCIALE": "Aide Sociale"
+      },
+      "motifRefus": {
+        "SUBSIDES": "Vous avez indiqué que vous touhchez déjà des subsides d'assurance-maladie.",
+        "AVANCES": "Vous avez indiqué que vous touhchez déjà des avances de pensions alimentaires.",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous touhchez déjà des allocation logement.",
+        "SUBVENTION_HM": "Vous avez indiqué que vous touhchez déjà des subvention habitation mixte (HM).",
+        "PC_AVS_AI": "Vous avez indiqué que vous touhchez déjà des prestations complémentaires AVS/AI.",
+        "BOURSES": "Vous avez indiqué que vous touhchez déjà des bourses d'études.",
+        "PC_FAM": "Vous avez indiqué que vous touhchez déjà des prestations complémentaires familiales.",
+        "AIDE_SOCIALE": "Vous avez indiqué que vous touhchez déjà des aide sociale."
       }
     },
     "dateNaissance": {
@@ -84,6 +94,9 @@
         "required": "Votre date de naissance doit être fournie",
         "past": "Votre date de naissance ne peut pas être dans le futur",
         "minYear": "Année de naissance incorrecte"
+      },
+      "motifRefus": {
+        "AIDE_SOCIALE": "Vous avez indiqué que vous êtes mineur."
       }
     },
     "etatCivil": {
@@ -146,6 +159,9 @@
       },
       "error": {
         "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué avoir un permis B de moins de 5 ans."
       }
     },
     "activite": {
@@ -161,12 +177,15 @@
         "ARRET": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain",
         "NONE": "Aucune des réponses précédentes"
       },
+      "motifRefus": {
+        "BOURSES": "Vous devez être étudiant(e) pour bénéficier d'une bourse d'études."
+      },
+      "noneDetailLabel": "Veuillez spécifier votre activité :",
+      "noneDetailPlaceholder": "",
       "error": {
         "required": "Votre activité doit être fournie",
         "atLeastOneSelected": "Au moins une activité doit être selectionnée"
-      },
-      "noneDetailLabel": "Veuillez spécifier votre activité :",
-      "noneDetailPlaceholder": ""
+      }
     },
     "scolarite": {
       "label": "Votre demande concerne :",
@@ -190,32 +209,8 @@
         },
         "AUCUNE": "Aucune de ces réponses"
       },
-      "error": {
-        "required": "Ce champ est obligatoire"
-      }
-    },
-    "fonctionnaireInternational": {
-      "label": "Vous-même ou l'un de vos parents est-il fonctionnaire international ?",
-      "altText": {
-        "avecConjoint": "Vous-même, votre conjoint ou l'un de vos parents est-il fonctionnaire international ?"
-      },
-      "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
-      "error": {
-        "required": "Ce champ est obligatoire"
-      }
-    },
-    "parentsHabiteFranceTravailleSuisse": {
-      "label": "Est-ce que l'un de vos parents habite en France et travaille en Suisse ?",
-      "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
+      "motifRefus": {
+        "BOURSES": "La formation que vous avez indiqué suivre ne peut pas faire objet d'une bourse."
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -231,6 +226,9 @@
       },
       "error": {
         "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "SUBSIDES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)."
       }
     },
     "exempteImpot": {
@@ -243,6 +241,9 @@
       },
       "error": {
         "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "SUBSIDES": "Vous avez indiqué être exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)."
       }
     },
     "taxeOfficeAFC": {
@@ -255,6 +256,42 @@
       },
       "error": {
         "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "SUBSIDES": "Vous avez indiqué être taxé d'office par l'administration fiscale cantonale (AFC)."
+      }
+    },
+    "fonctionnaireInternational": {
+      "label": "Vous-même ou l'un de vos parents est-il fonctionnaire international ?",
+      "altText": {
+        "avecConjoint": "Vous-même, votre conjoint ou l'un de vos parents est-il fonctionnaire international ?"
+      },
+      "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que vous-même (votre conjoint) ou l'un de vos parents est-il fonctionnaire international."
+      }
+    },
+    "parentsHabiteFranceTravailleSuisse": {
+      "label": "Est-ce que l'un de vos parents habite en France et travaille en Suisse ?",
+      "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que vos parents ne sont pas contribuable sur le canton de Genève."
       }
     }
   },

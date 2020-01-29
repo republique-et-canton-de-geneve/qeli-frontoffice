@@ -1,31 +1,44 @@
 <div>
   <h3>{{ 'home.result.title' | translate }}</h3>
 
-  <div *ngIf="result.prestationEligible.length > 0">
+  <div *ngIf="prestationEligible.length > 0">
     <p>
       <b>{{ 'home.result.eligibilite.oui' | translate }}</b>
     </p>
-    <result-block *ngFor="let prestation of result.prestationEligible"
+    <result-block *ngFor="let prestation of prestationEligible"
                   type="success"
                   title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}">
       <p>{{ 'home.result.prestation.' + prestation + '.content' | translate }}</p>
     </result-block>
   </div>
 
-  <hr>
-  <p>
-    <b *ngIf="result.prestationEligible.length > 0">{{ 'home.result.eligibilite.non' | translate }}</b>
-    <b *ngIf="result.prestationEligible.length === 0">{{ 'home.result.eligibilite.aucune' | translate }}</b>
-  </p>
-  <result-block *ngFor="let prestation of prestationsRefusees"
-                type="danger"
-                title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}">
-    <p>{{ 'home.result.prestation.' + prestation + '.content' | translate }}</p>
-  </result-block>
+  <div *ngIf="prestationsRefusees.length > 0">
+    <hr>
+    <p>
+      <b>{{ 'home.result.eligibilite.non' | translate }}</b>
+    </p>
+    <result-block *ngFor="let prestationRefusee of prestationsRefusees"
+                  type="warning"
+                  title="{{ 'home.result.prestation.' + prestationRefusee.prestation + '.title' | translate }}"
+                  subtitle="{{ 'question.' + prestationRefusee.questionKey + '.motifRefus.' + prestationRefusee.prestation | translate }}">
+      <p>{{ 'home.result.prestation.' + prestationRefusee.prestation + '.content' | translate }}</p>
+    </result-block>
+  </div>
 
-  <hr>
+  <div *ngIf="prestationDejaPercues.length > 0">
+    <hr>
+    <p>
+      <b *ngIf="prestationDejaPercues.length > 0">{{ 'home.result.eligibilite.deja' | translate }}</b>
+    </p>
+    <result-block *ngFor="let prestation of prestationDejaPercues"
+                  type="info"
+                  title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}">
+      <p>{{ 'home.result.prestation.' + prestation + '.content' | translate }}</p>
+    </result-block>
+    <hr>
+  </div>
   <p>
     <b>{{ 'home.result.reponses' | translate }}</b>
   </p>
-  <pre>{{ result.data | json }}</pre>
+  <pre>{{ formResult.data | json }}</pre>
 </div>
