@@ -3,8 +3,8 @@
     <app-dynamic-question [question]="currentQuestion" [form]="form"></app-dynamic-question>
   </form>
 
-  <div class="form-navigation-controls" (keyup)="$event.preventDefault()">
-    <div class="previous-question">
+  <div class="form-navigation-controls row" (keyup)="$event.preventDefault()">
+    <div class="previous-question col-xs-12 col-sm-6">
       <button class="btn btn-primary"
               data-cy='previousQuestion'
               (click)="previousQuestion()"
@@ -13,7 +13,7 @@
       </button>
     </div>
 
-    <div class="next-question">
+    <div class="next-question col-xs-12 col-sm-6 text-right">
       <button class="btn btn-primary"
               data-cy='nextQuestion'
               [disabled]="!isValid(currentQuestion)"
