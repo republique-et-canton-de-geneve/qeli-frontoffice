@@ -247,7 +247,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AVANCES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)."
+        "SUBSIDES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)."
       }
     },
     "droitPensionAlimentaire": {
@@ -255,14 +255,27 @@
       "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s)\n\n.",
       "option": {
         "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
+        "NON": "Non"
       },
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
         "AVANCES": "Vous avez indiqué n'avoir pas le droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s)."
+      }
+    },
+    "recoisEniterementPensionAlimentaire": {
+      "label": "Recevez-vous entièrement le montant des pensions alimentaires ?",
+      "help": "Pensions entièrement payées : tous les montants qui vous sont dus vous ont été versés.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires  auxquelles vous avez le droit."
       }
     },
     "exempteImpot": {
