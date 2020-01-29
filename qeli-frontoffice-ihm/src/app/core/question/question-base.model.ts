@@ -3,7 +3,6 @@ import { Prestation } from '../common/prestation.model';
 
 export class QuestionBase<T> {
   controlType: string;
-  defaultValue: T;
   key: string;
   code: string;
   help: boolean;
@@ -16,7 +15,6 @@ export class QuestionBase<T> {
 
   constructor(options: {
     controlType?: string,
-    defaultValue?: T,
     key?: string,
     code?: string,
     help?: boolean,
@@ -27,7 +25,6 @@ export class QuestionBase<T> {
     eligibilite?: Eligibilite[]
   } = {}) {
     this.controlType = options.controlType;
-    this.defaultValue = options.defaultValue;
     this.key = options.key;
     this.code = options.code;
     this.help = !!options.help;
@@ -42,8 +39,8 @@ export class QuestionBase<T> {
     return this.validators.includes(Validators.required);
   }
 
-  toFormControl(): AbstractControl {
-    return new FormControl(this.defaultValue || null, this.validators);
+  toFormControl(defaultValue:T): AbstractControl {
+    return new FormControl(defaultValue, this.validators);
   }
 }
 

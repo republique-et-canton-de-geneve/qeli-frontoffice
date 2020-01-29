@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RegisterQuestionComponent } from '../question-registry';
 import { QuestionComponent } from '../question.component';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -10,7 +10,7 @@ import { NationaliteQuestion } from './nationalite-question.model';
   templateUrl: './nationalite-question.component.html',
   styleUrls: ['./nationalite-question.component.scss']
 })
-export class NationaliteQuestionComponent implements QuestionComponent<any> {
+export class NationaliteQuestionComponent implements OnInit, QuestionComponent<any> {
   @Input() question: NationaliteQuestion;
   @Input() form: FormGroup;
 
@@ -19,6 +19,10 @@ export class NationaliteQuestionComponent implements QuestionComponent<any> {
 
   get isApatride() {
     return this.form.value[this.question.key]['apatride'];
+  }
+
+  ngOnInit() {
+    this.numberOfNationalites = this.form.value[this.question.key]['pays'].length;
   }
 
   onApatrideChanged() {
