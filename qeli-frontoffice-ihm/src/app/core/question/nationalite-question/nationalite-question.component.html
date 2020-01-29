@@ -15,10 +15,11 @@
       </select>
 
       <button class="btn btn-primary"
+              [attr.aria-label]="'common.ajouterNationalite' | translate"
               [disabled]="isApatride || numberOfNationalites >= maxNumberOfNationalites || hasUnsetPays()"
               [style.visibility]="isLast ? 'visible' : 'hidden'"
               (click)="addPaysControl()">
-        <i class="fa fa-plus"></i> {{ 'common.ajouterNationalite' | translate }}
+        <i class="fa fa-plus"></i><span class="btn-text">{{ 'common.ajouterNationalite' | translate }}</span>
       </button>
       <button class="btn btn-danger"
               [attr.aria-label]="'common.supprimerNationalite' | translate"

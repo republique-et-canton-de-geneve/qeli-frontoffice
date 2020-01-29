@@ -8,14 +8,12 @@ body {
 }
 
 #page {
-  margin-bottom: 376px;
+  min-height: calc(100vh - 534px);
   padding-bottom: 66px;
 }
 
 footer {
   width: 100%;
-  position: absolute;
-  bottom: 0;
 }
 
 .btn-primary[disabled]:hover {
