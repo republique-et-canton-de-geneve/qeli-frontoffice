@@ -117,6 +117,32 @@ export class HomeComponent implements OnInit {
           )
         ]
       }),
+
+      new RadioQuestion({
+        key: 'domicileCantonGE',
+        code: '0501',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.AVANCES, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          ),
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          ),
+          new Eligibilite(
+            Prestation.PC_AVS_AI, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          ),
+          new Eligibilite(
+            Prestation.PC_FAM, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          ),
+          new Eligibilite(
+            Prestation.AIDE_SOCIALE, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          )
+        ]
+      }),
       new CheckboxGroupQuestion({
         key: 'activite',
         code: '0601',
