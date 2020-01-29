@@ -1,14 +1,13 @@
-.form-navigation-controls {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  * {
-    margin-right: 20px
+.form-navigation-controls button {
+  @media only screen and (max-width: 640px) {
+    width: 100%;
   }
+}
 
-  *:last-child {
-    margin-right: 0;
-  }
+.next-question > .btn > i {
+  margin-left: 0.5rem;
+}
+
+.previous-question > .btn > i {
+  margin-right: 0.5rem;
 }
