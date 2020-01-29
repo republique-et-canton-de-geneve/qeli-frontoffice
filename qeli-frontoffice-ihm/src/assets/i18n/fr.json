@@ -247,7 +247,22 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)."
+        "AVANCES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)."
+      }
+    },
+    "droitPensionAlimentaire": {
+      "label": "Avez-vous aujourd'hui droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s) ?",
+      "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s)\n\n.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AVANCES": "Vous avez indiqué n'avoir pas le droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s)."
       }
     },
     "exempteImpot": {
