@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
 import { FormGroup } from '@angular/forms';
 import { Prestation } from '../common/prestation.model';
+import { QuestionnaireService } from '../questionnaire.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -20,18 +22,30 @@ export class DynamicFormComponent implements OnInit {
   indexHistoryStack: number[] = [];
   currentQuestionIndex = 0;
 
-  constructor() {
-
+  constructor(
+    private questionnaireService: QuestionnaireService,
+    private route: ActivatedRoute
+  ) {
   }
 
   ngOnInit() {
-    let group: any = {};
+    this.route.queryParams.subscribe(params => {
+      let group: any = {};
+      const formData = this.questionnaireService.decryptQueryParamData(params);
 
-    this.questions.forEach(question => {
-      group[question.key] = question.toFormControl();
+      if (formData) {
+        this.prestationsRefusees = formData.prestationsRefusees;
+        this.prestationsRefuseesStack = formData.prestationsRefuseesStack;
+        this.indexHistoryStack = formData.indexHistoryStack;
+        this.currentQuestionIndex = formData.currentQuestionIndex;
+      }
+
+      this.questions.forEach(question => {
+        group[question.key] = question.toFormControl((formData ? formData.value[question.key] : null));
+      });
+
+      this.form = new FormGroup(group);
     });
-
-    this.form = new FormGroup(group);
   }
 
   isValid(question: QuestionBase<any>) {
@@ -91,6 +105,8 @@ export class DynamicFormComponent implements OnInit {
       } else {
         this.currentQuestionIndex = nextIndex;
       }
+
+      this.questionnaireService.updateUrl(this.formStateToQueryParam());
     }
   }
 
@@ -99,6 +115,8 @@ export class DynamicFormComponent implements OnInit {
     this.prestationsRefuseesStack = (this.prestationsRefuseesStack.length > 0) ?
                                     this.prestationsRefuseesStack.pop() :
                                     Object.values(Prestation);
+
+    this.questionnaireService.updateUrl(this.formStateToQueryParam());
   }
 
   onKeyUp(event: KeyboardEvent) {
@@ -110,4 +128,18 @@ export class DynamicFormComponent implements OnInit {
   get currentQuestion() {
     return this.questions[this.currentQuestionIndex];
   }
+
+  /**
+   * Formate les données de l'état du formulaire dans le format attendu par le queryParam
+   */
+  formStateToQueryParam(): {} {
+    return {
+      value: this.form.value,
+      prestationsRefusees: this.prestationsRefusees,
+      prestationsRefuseesStack: this.prestationsRefuseesStack,
+      indexHistoryStack: this.indexHistoryStack,
+      currentQuestionIndex: this.currentQuestionIndex
+    };
+  }
+
 }
