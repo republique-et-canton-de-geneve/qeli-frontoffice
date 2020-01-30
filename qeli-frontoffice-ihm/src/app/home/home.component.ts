@@ -201,7 +201,7 @@ export class HomeComponent implements OnInit {
         ]
       }),
       new RadioQuestion({
-        key: 'recoisEniterementPensionAlimentaire',
+        key: 'recoisEntierementPensionAlimentaire',
         code: '1202',
         help: true,
         inline: true,
@@ -210,7 +210,7 @@ export class HomeComponent implements OnInit {
         eligibilite: [
           new Eligibilite(
             Prestation.AVANCES,
-            (form: FormGroup) => form.value['recoisEniterementPensionAlimentaire'] === ReponseBinaire.NON
+            (form: FormGroup) => form.value['recoisEntierementPensionAlimentaire'] === ReponseBinaire.NON
           )
         ]
       }),
