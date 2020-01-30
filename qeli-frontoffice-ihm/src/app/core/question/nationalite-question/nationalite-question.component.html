@@ -4,7 +4,7 @@
          class="nationalite-selection-box"
          formArrayName="pays">
       <select [formControlName]="i"
-              [attr.disabled]="!isLast ? 'disabled' : null"
+              [attr.disabled]="isApatride || !isLast ? 'disabled' : null"
               [focusOnInit]="isFirst"
               class="form-control form-select"
               [attr.data-cy]="question.code + '_' + question.key">

@@ -11,19 +11,18 @@ export class CheckboxGroupQuestion extends QuestionBase<any> {
     super(options);
     this.options = options['options'] || [];
     this.hasNone = !!options['hasNone'];
-    this.defaultValue = !this.defaultValue ? [] : this.defaultValue;
   }
 
-  toFormControl(): AbstractControl {
+  toFormControl(defaultValue: any): AbstractControl {
     let group: any = {};
 
     this.options.forEach(option => {
-      group[option.label] = new FormControl(this.defaultValue.includes(option.label))
+      group[option.label] = new FormControl(defaultValue ? defaultValue[option.label] : false)
     });
 
     if (this.hasNone) {
-      group['NONE'] = new FormControl(this.defaultValue.includes('NONE'));
-      group['noneDetail'] = new FormControl();
+      group['NONE'] = new FormControl(defaultValue ? defaultValue['NONE'] : false);
+      group['noneDetail'] = new FormControl(defaultValue ? defaultValue['noneDetail'] : false);
     }
 
     return new FormGroup(group, this.validators.concat(

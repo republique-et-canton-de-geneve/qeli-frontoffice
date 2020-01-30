@@ -2,7 +2,7 @@ import { QuestionBase } from '../question-base.model';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Pays } from '../../common/pays.model';
 
-export class NationaliteQuestion extends QuestionBase<string> {
+export class NationaliteQuestion extends QuestionBase<any> {
   controlType = 'nationalite';
   paysOptions = Object.values(Pays);
 
@@ -10,12 +10,13 @@ export class NationaliteQuestion extends QuestionBase<string> {
     super(options);
   }
 
-  toFormControl(): AbstractControl {
+  toFormControl(defaultValue: any): AbstractControl {
     let group: any = {};
 
-    group['apatride'] = new FormControl(false);
-    group['pays'] = new FormArray([new FormControl()]);
-
+    group['apatride'] = new FormControl(defaultValue ? defaultValue.apatride : false);
+    group['pays'] = new FormArray(
+      defaultValue && defaultValue.pays ? defaultValue.pays.map(pay => new FormControl(pay)) : [new FormControl()]
+    );
 
     return new FormGroup(group, this.validators.concat(
       (control: AbstractControl) => {
