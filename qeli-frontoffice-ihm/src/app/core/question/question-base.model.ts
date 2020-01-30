@@ -39,7 +39,7 @@ export class QuestionBase<T> {
     return this.validators.includes(Validators.required);
   }
 
-  toFormControl(defaultValue:T): AbstractControl {
+  toFormControl(defaultValue: T): AbstractControl {
     return new FormControl(defaultValue, this.validators);
   }
 }
