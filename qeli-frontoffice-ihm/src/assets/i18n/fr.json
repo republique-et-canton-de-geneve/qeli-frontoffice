@@ -264,7 +264,7 @@
         "AVANCES": "Vous avez indiqué n'avoir pas le droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s)."
       }
     },
-    "recoisEniterementPensionAlimentaire": {
+    "recoisEntierementPensionAlimentaire": {
       "label": "Recevez-vous entièrement le montant des pensions alimentaires ?",
       "help": "Pensions entièrement payées : tous les montants qui vous sont dus vous ont été versés.",
       "option": {
@@ -275,7 +275,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires  auxquelles vous avez le droit."
+        "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires auxquelles vous avez le droit."
       }
     },
     "exempteImpot": {
