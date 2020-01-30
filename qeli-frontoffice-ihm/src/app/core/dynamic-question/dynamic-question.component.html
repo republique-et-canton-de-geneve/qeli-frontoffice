@@ -15,7 +15,9 @@
     <ng-template app-question-host></ng-template>
   </div>
 
-  <div class="error-block" *ngIf="!isValid">
+  <div *ngIf="!isValid"
+       class="error-block"
+       data-cy-label="validation_message">
     <span *ngFor="let error of errors" class="text-danger">
       {{ 'question.' + question.key + '.error.' + error | translate }}
     </span>
