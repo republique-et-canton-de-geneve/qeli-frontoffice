@@ -164,6 +164,25 @@
         "BOURSES": "Vous avez indiqué avoir un permis B de moins de 5 ans."
       }
     },
+    "domicileCantonGE": {
+      "label": "Votre domicile officiel est-il dans le canton de Genève ?",
+      "help": "Domicile : vous avez une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AVANCES": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "PC_AVS_AI": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "PC_FAM": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève."
+      }
+    },
     "activite": {
       "label": "Quelle est votre activité ?",
       "help": "Etudiant : personne en formation.",
@@ -229,6 +248,34 @@
       },
       "motifRefus": {
         "SUBSIDES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)."
+      }
+    },
+    "droitPensionAlimentaire": {
+      "label": "Avez-vous aujourd'hui droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s) ?",
+      "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s)\n\n.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AVANCES": "Vous avez indiqué n'avoir pas le droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s)."
+      }
+    },
+    "recoisEntierementPensionAlimentaire": {
+      "label": "Recevez-vous entièrement le montant des pensions alimentaires ?",
+      "help": "Pensions entièrement payées : tous les montants qui vous sont dus vous ont été versés.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires auxquelles vous avez le droit."
       }
     },
     "exempteImpot": {

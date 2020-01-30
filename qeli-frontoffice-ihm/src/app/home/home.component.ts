@@ -12,7 +12,7 @@ import { Pays, PAYS_AELE_UE, PAYS_CONVETIONE } from '../core/common/pays.model';
 import { QuestionOption } from '../core/question/option.model';
 import { Prestation } from '../core/common/prestation.model';
 import { EtatCivil } from '../core/common/etat-civil.model';
-import { ReponseProgressive } from '../core/common/reponse-progressive.model';
+import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
 import { Activite } from '../core/common/activite.model';
 import { Scolarite } from '../core/common/scolarite.model';
 
@@ -117,6 +117,33 @@ export class HomeComponent implements OnInit {
           )
         ]
       }),
+
+      new RadioQuestion({
+        key: 'domicileCantonGE',
+        code: '0501',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.AVANCES, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          ),
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          ),
+          new Eligibilite(
+            Prestation.PC_AVS_AI, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          ),
+          new Eligibilite(
+            Prestation.PC_FAM, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          ),
+          new Eligibilite(
+            Prestation.AIDE_SOCIALE, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+          )
+        ]
+      }),
       new CheckboxGroupQuestion({
         key: 'activite',
         code: '0601',
@@ -157,6 +184,33 @@ export class HomeComponent implements OnInit {
         eligibilite: [
           new Eligibilite(
             Prestation.SUBSIDES, (form: FormGroup) => form.value['assuranceMaladieSuisse'] !== ReponseProgressive.NON
+          )
+        ]
+      }),
+      new RadioQuestion({
+        key: 'droitPensionAlimentaire',
+        code: '1201',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.AVANCES, (form: FormGroup) => form.value['droitPensionAlimentaire'] === ReponseBinaire.OUI
+          )
+        ]
+      }),
+      new RadioQuestion({
+        key: 'recoisEntierementPensionAlimentaire',
+        code: '1202',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.AVANCES,
+            (form: FormGroup) => form.value['recoisEntierementPensionAlimentaire'] === ReponseBinaire.NON
           )
         ]
       }),
