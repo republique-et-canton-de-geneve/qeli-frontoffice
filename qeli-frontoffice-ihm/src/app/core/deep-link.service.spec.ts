@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { QuestionnaireService } from './questionnaire.service';
+import { DeepLinkService } from './deep-link.service';
 
-describe('QuestionnaireService', () => {
+describe('DeepLinkService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: QuestionnaireService = TestBed.get(QuestionnaireService);
+    const service: DeepLinkService = TestBed.get(DeepLinkService);
     expect(service).toBeTruthy();
   });
 });

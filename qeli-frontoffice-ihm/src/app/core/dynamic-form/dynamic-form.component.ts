@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
 import { FormGroup } from '@angular/forms';
 import { Prestation } from '../common/prestation.model';
-import { QuestionnaireService } from '../questionnaire.service';
+import { DeepLinkService } from '../deep-link.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -23,7 +23,7 @@ export class DynamicFormComponent implements OnInit {
   currentQuestionIndex = 0;
 
   constructor(
-    private questionnaireService: QuestionnaireService,
+    private deepLinkService: DeepLinkService,
     private route: ActivatedRoute
   ) {
   }
@@ -31,7 +31,7 @@ export class DynamicFormComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       let group: any = {};
-      const formData = this.questionnaireService.decryptQueryParamData(params);
+      const formData = this.deepLinkService.decryptQueryParamData(params);
 
       if (formData) {
         this.prestationsRefusees = formData.prestationsRefusees;
@@ -106,7 +106,7 @@ export class DynamicFormComponent implements OnInit {
         this.currentQuestionIndex = nextIndex;
       }
 
-      this.questionnaireService.updateUrl(this.formStateToQueryParam());
+      this.deepLinkService.updateUrl(this.formStateToQueryParam());
     }
   }
 
@@ -116,7 +116,7 @@ export class DynamicFormComponent implements OnInit {
                                     this.prestationsRefuseesStack.pop() :
                                     Object.values(Prestation);
 
-    this.questionnaireService.updateUrl(this.formStateToQueryParam());
+    this.deepLinkService.updateUrl(this.formStateToQueryParam());
   }
 
   onKeyUp(event: KeyboardEvent) {

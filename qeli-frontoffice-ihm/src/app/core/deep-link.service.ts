@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class QuestionnaireService {
+export class DeepLinkService {
 
   constructor(private router: Router) {
   }
