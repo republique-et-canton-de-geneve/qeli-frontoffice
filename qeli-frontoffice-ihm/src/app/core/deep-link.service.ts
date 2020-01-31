@@ -10,7 +10,7 @@ export class DeepLinkService {
   }
 
   /**
-   * Construit le lien profond (deep dInk) avec les paramètres de la requête (queryParams)
+   * Construit le lien profond (deep link) avec les paramètres de la requête (queryParams)
    *
    * @return string L'URL courante
    */
@@ -29,7 +29,7 @@ export class DeepLinkService {
 
 
   /**
-   * Encrypte (base64) et compresse (gwip) les valeurs du formulaire
+   * Encrypte (base64) les valeurs du formulaire
    *
    * @param data
    * @return string Chaîne encodée et compressée
