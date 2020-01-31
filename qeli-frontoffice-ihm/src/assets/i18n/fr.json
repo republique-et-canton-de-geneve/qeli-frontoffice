@@ -346,7 +346,14 @@
     "required": "Ce champ est obligatoire",
     "submit": "Envoyer",
     "previous": "Aller à la question précedente",
-    "next": "Passer à la question suivante "
+    "next": "Passer à la question suivante",
+    "deepLink": {
+      "copyLink" : "Sauvegarder votre progression courante avec le lien du formulaire",
+      "copyHelpText" : "Ce lien vous permet de revenir compléter votre saisie ultérieurement sans perdre vos réponses",
+      "copyButton" : "Copier dans le presse-papiers",
+      "copyButtonAlt" : "Copié dans le presse-papiers!",
+      "copySuccessMessage" : "Le lien a été copié dans votre presse-papiers."
+    }
   },
   "common": {
     "ajouterNationalite": "Ajouter une autre nationalité",

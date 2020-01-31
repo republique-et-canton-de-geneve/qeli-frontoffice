@@ -1,0 +1,28 @@
+<div class="deep-link row">
+  <div class="col-xs-12 col-sm-6"></div>
+  <div class="col-xs-12 col-sm-6 text-right">
+    <a (click)="showCopyPanel = !showCopyPanel" class="btn btn-default btn-block">
+      <i class="fa fa-link"></i>
+      {{ 'form.deepLink.copyLink'| translate }}
+    </a>
+
+    <div class="form-group" *ngIf="showCopyPanel === true">
+      <div class="col-md-6 col col-1">
+        <input class="deep-link-input form-control" type="text" id="deep-link-input" value="{{ deepLink }}" readonly
+               #deepLinkInput>
+      </div>
+      <div class="col-md-6 col col-2">
+        <a [ngClass]="(isCopied === true) ? 'btn btn-info' : 'btn btn-info'"
+           (click)="copyDeepLink(deepLinkInput)">
+          <i class="fa fa-copy"></i>
+          {{ copyButtonText }}
+        </a>
+      </div>
+      <div class="col-md-12 col text-left">
+        <label class="help-block" for="deep-link-input">{{ 'form.deepLink.copyHelpText'| translate }}
+          <span class="form-required" title="{{ 'form.deepLink.copyHelpText'| translate }}"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

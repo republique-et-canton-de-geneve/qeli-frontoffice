@@ -10,12 +10,32 @@ export class DeepLinkService {
   }
 
   /**
-   * Met à jour l'URL courante en encryptant en base64 les paramètres de la requête (queryParams)
+   * Construit le lien profond (deep dInk) avec les paramètres de la requête (queryParams)
+   *
+   * @return string L'URL courante
+   */
+  getCurrentDeepLink() {
+    return location.href;
+  }
+
+  /**
+   * Met à jour l'URL courante avec les valeurs du formulaire encryptés en paramètres de la requête (queryParams)
    *
    * @param data {}
    */
   updateUrl(data: {}): void {
-    this.router.navigate(['/'], {queryParams: {data: btoa(JSON.stringify(data))}});
+    this.router.navigate([], {queryParams: {data: this.encryptParams(data)}});
+  }
+
+
+  /**
+   * Encrypte (base64) et compresse (gwip) les valeurs du formulaire
+   *
+   * @param data
+   * @return string Chaîne encodée et compressée
+   */
+  encryptParams(data: {}) {
+    return btoa(JSON.stringify(data));
   }
 
   /**
