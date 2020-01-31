@@ -15,6 +15,7 @@ import { EtatCivil } from '../core/common/etat-civil.model';
 import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
 import { Activite } from '../core/common/activite.model';
 import { Scolarite } from '../core/common/scolarite.model';
+import { Logement } from '../core/common/logement.model';
 
 @Component({
   selector: 'app-home',
@@ -172,6 +173,20 @@ export class HomeComponent implements OnInit {
                        .concat(new QuestionOption({label: Scolarite.AUCUNE})),
         eligibilite: [
           new Eligibilite(Prestation.BOURSES, (form: FormGroup) => this.aucuneScolarite(form))
+        ]
+      }),
+      new RadioQuestion({
+        key: 'proprietaireOuLocataireLogement',
+        code: '1001',
+        help: true,
+        inline: true,
+        options: Object.keys(Logement).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => form.value['proprietaireOuLocataireLogement'] !== Logement.PROPRIETAIRE
+          )
         ]
       }),
       new RadioQuestion({
