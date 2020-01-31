@@ -35,6 +35,7 @@ export class DeepLinkService {
    * @return string Chaîne encodée et compressée
    */
   encryptParams(data: {}) {
+    data = this.removeEmptyJson(data);
     return btoa(JSON.stringify(data));
   }
 
@@ -46,5 +47,18 @@ export class DeepLinkService {
   decryptQueryParamData(queryParam) {
     return queryParam && queryParam['data'] ? JSON.parse(atob(queryParam['data'])) : null;
   }
+
+  /**
+   * Nettoie les clefs vides ou nulles du Json
+   *
+   * @param data
+   */
+  removeEmptyJson(data) {
+    Object.entries(data).forEach(([key, val]) =>
+      (val && typeof val === 'object') && this.removeEmptyJson(val) ||
+      (val === null || val === "") && delete data[key]
+    );
+    return data;
+  };
 
 }
