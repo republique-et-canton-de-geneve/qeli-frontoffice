@@ -303,6 +303,21 @@
         "required": "Ce champ est obligatoire"
       }
     },
+    "montantLoyerFixeOuVariable": {
+      "label": "Le montant de votre loyer est-il fixe ou variable en fonction de votre revenu (HLM, HBM, HM, appartement de la Gérance immobilière municipale) ?",
+      "help": "Loyer fixé en fonction de votre revenu si vous habitez dans :<br><ul><li>un HBM (habitation bon marché) subventionné par l'Etat, destiné aux personnes à revenus modestes. Son loyer est contrôlé de façon permanente.</li><li>un HLM (habitation à loyer modéré) destiné aux personnes à revenus modérés, subventionné par l'Etat pendant une période de 20 ans</li><li>ou un HM (habitation mixte) destiné aux personnes à revenus moyens, dont le loyer peut être subventionné par l'Etat pendant une période de 25 ans</li><li>un logement géré par la GIM (Gestion immobilière municipale)</li></ul>",
+      "option": {
+        "FIXE": "Loyer fixe",
+        "EN_FONCTION_REVENU": "Loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué avoir un montant de loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
     "assuranceMaladieSuisse": {
       "label": "Avez-vous une assurance-maladie suisse (LAMal) ?",
       "help": "Affiliation à l'assurance-maladie : En Suisse, l'assurance de base pour les soins (LAMal) en cas de maladie et d'accident est obligatoire. Toute personne, dès sa prise de domicile en Suisse, est tenue d'être assurée pour les soins en cas de maladie et d'accident. Etre affilié signifie avoir souscrit à une police d'assurance-maladie suisse. Par exemple, Assura, CSS, Helsana ou Mutuel.",
