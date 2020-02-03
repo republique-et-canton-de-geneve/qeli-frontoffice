@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DeepLinkService } from '../deep-link.service';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-deep-link',
@@ -11,39 +10,28 @@ import { TranslateService } from '@ngx-translate/core';
 export class DeepLinkComponent implements OnInit {
   isCopied: boolean = false;
   showCopyPanel: boolean = false;
-  copyButtonText: string;
+
+  @ViewChild('deepLinkInput') deepLinkInput: ElementRef;
 
   constructor(
     private deepLinkService: DeepLinkService,
-    private route: ActivatedRoute,
-    private translate: TranslateService
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
-    this.translate.get('form.deepLink.copyButton').subscribe((text: string) => {
-      this.copyButtonText = text
-    });
-
     this.route.queryParams.subscribe(() => {
       this.showCopyPanel = false;
+      this.isCopied = false;
     });
   }
 
-  copyDeepLink(linkInputElement) {
-    this.translate.get('form.deepLink.copyButtonAlt').subscribe((text: string) => {
-      this.copyButtonText = text
-    });
+  copyDeepLink() {
     this.isCopied = true;
-    linkInputElement.select();
+    this.deepLinkInput.nativeElement.select();
     document.execCommand('copy');
-    linkInputElement.setSelectionRange(0, 0);
-    setTimeout(() => {
-      this.translate.get('form.deepLink.copyButton').subscribe((text: string) => {
-        this.copyButtonText = text
-      });
-      this.isCopied = false;
-    }, 5000);
+    this.deepLinkInput.nativeElement.setSelectionRange(0, 0);
+    setTimeout(() => this.isCopied = false, 5000);
   }
 
   get deepLink() {
