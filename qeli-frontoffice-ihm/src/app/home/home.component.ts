@@ -472,7 +472,7 @@ export class HomeComponent implements OnInit {
       limite = 8000;
     }
     if (form.value['enfantsACharge'] && form.value['enfantsACharge'] > 0) {
-      limite = form.value['enfantsACharge'] * 2000;
+      limite += form.value['enfantsACharge'] * 2000;
     }
     if (limite > 10000) {
       limite = 10000;
