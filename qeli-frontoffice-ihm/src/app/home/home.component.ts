@@ -17,6 +17,7 @@ import { Activite } from '../core/common/activite.model';
 import { Scolarite } from '../core/common/scolarite.model';
 import { Logement } from '../core/common/logement.model';
 import { TextQuestion } from '../core/question/text-question/text-question.model';
+import { Loyer } from '../core/common/loyer.model';
 
 @Component({
   selector: 'app-home',
@@ -243,6 +244,19 @@ export class HomeComponent implements OnInit {
           new Eligibilite(
             Prestation.ALLOCATION_LOGEMENT,
             (form: FormGroup) => form.value['appartementHabitationMixte'] !== ReponseProgressive.OUI
+          )
+        ]
+      }),
+      new RadioQuestion({
+        key: 'montantLoyerFixeOuVariable',
+        code: '1006',
+        help: true,
+        options: Object.keys(Loyer).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => form.value['montantLoyerFixeOuVariable'] !== Loyer.EN_FONCTION_REVENU
           )
         ]
       }),
