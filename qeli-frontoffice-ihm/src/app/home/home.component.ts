@@ -233,6 +233,20 @@ export class HomeComponent implements OnInit {
         ]
       }),
       new RadioQuestion({
+        key: 'appartementHabitationMixte',
+        code: '1005',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => form.value['appartementHabitationMixte'] !== ReponseProgressive.OUI
+          )
+        ]
+      }),
+      new RadioQuestion({
         key: 'assuranceMaladieSuisse',
         code: '1101',
         help: true,
