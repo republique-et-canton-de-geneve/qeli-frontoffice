@@ -305,6 +305,36 @@ export class HomeComponent implements OnInit {
         ]
       }),
       new RadioQuestion({
+        key: 'fortuneSuperieureA',
+        code: '1302',
+        help: true,
+        inline: true,
+        labelParameters: {
+          limite: (form: FormGroup) => this.getLimiteFortune(form)
+        },
+        options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.AIDE_SOCIALE, (form: FormGroup) => form.value['fortuneSuperieureA'] !== ReponseBinaire.OUI
+          )
+        ]
+      }),
+      new RadioQuestion({
+        key: 'impotFortune',
+        code: '1301',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        defaultAnswer: (form: FormGroup) => (this.notHasFortuneTropEleve(form)) ? ReponseProgressive.NON : null,
+        eligibilite: [
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT, (form: FormGroup) => form.value['impotFortune'] !== ReponseProgressive.OUI
+          )
+        ]
+      }),
+      new RadioQuestion({
         key: 'exempteImpot',
         code: '1401',
         help: true,
@@ -432,4 +462,22 @@ export class HomeComponent implements OnInit {
     return !((nbPieces - nbPersonnes) > 2);
   }
 
+  notHasFortuneTropEleve(form: FormGroup) {
+    return form.value['fortuneSuperieureA'] === ReponseProgressive.NON;
+  }
+
+  getLimiteFortune(form: FormGroup): number {
+    let limite = 4000;
+    if ([EtatCivil.MARIE, EtatCivil.PARTENARIAT_ENREGISTRE].includes(form.value['etatCivil'])) {
+      limite = 8000;
+    }
+    if (form.value['enfantsACharge'] && form.value['enfantsACharge'] > 0) {
+      limite += form.value['enfantsACharge'] * 2000;
+    }
+    if (limite > 10000) {
+      limite = 10000;
+    }
+
+    return limite;
+  }
 }

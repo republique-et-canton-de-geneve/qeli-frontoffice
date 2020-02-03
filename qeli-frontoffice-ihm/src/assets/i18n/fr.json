@@ -110,7 +110,7 @@
         "DIVORCE": "Divorcé(e)",
         "SEPARE": "Séparé(e)",
         "PARTENARIAT_ENREGISTRE": "En partenariat enregistré",
-        "VOEUF": "Veuf(ve)"
+        "VEUF": "Veuf(ve)"
       },
       "error": {
         "required": "Votre état civil doit être fourni"
@@ -361,6 +361,35 @@
       },
       "motifRefus": {
         "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires auxquelles vous avez le droit."
+      }
+    },
+    "fortuneSuperieureA": {
+      "label": "Avez-vous une fortune supérieure à {{ limite }}.- ?",
+      "help": "Fortune : le montant de vos comptes en banque, de vos comptes postaux et de vos biens immobiliers (maison, appartement) est-il plus élevé que {{ limite }}.- ?",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AIDE_SOCIALE": "Vous avez indiqué avoir une fortune trop élevée"
+      }
+    },
+    "impotFortune": {
+      "label": "Payez-vous des impôts sur la fortune ?",
+      "help": "Fortune imposable : au-delà d'un certain montant, vous devez payer un impôt sur la fortune. Payez-vous un impôt sur la fortune ?",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué payer des impôts sur la fortune."
       }
     },
     "exempteImpot": {
