@@ -272,7 +272,20 @@
         "required": "Ce champ est obligatoire",
         "pattern": "Veuillez saisir un nombre",
         "min": "La saisie ne peut être négative",
-        "max": "Saisie trop élevée"
+        "max": "Erreur dans la saisie du nombre de personnes"
+      }
+    },
+    "nombreDePiecesLogement": {
+      "label": "Combien de pièces a votre logement ?",
+      "help": "Le nombre de pièces est mentionné sur votre bail.",
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué un nombre de personnes trop important par rapport au nombre de pièces de votre logement"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Veuillez saisir un nombre",
+        "min": "Il ne peut y avoir moins d'une pièce",
+        "max": "Erreur dans la saisie du nombre de pièces"
       }
     },
     "assuranceMaladieSuisse": {
