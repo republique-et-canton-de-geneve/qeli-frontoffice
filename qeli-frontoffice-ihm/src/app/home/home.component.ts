@@ -38,16 +38,21 @@ export class HomeComponent implements OnInit {
         key: 'prestations',
         code: '0101',
         help: true,
-        options: Object.keys(Prestation).map(prestation => new QuestionOption({label: prestation})),
+        options: Object.keys(Prestation)
+                       .map(prestation => new QuestionOption({label: prestation})),
         eligibilite: Object.values(Prestation).map(
-          prestation => new Eligibilite(prestation, (form: FormGroup) => !this.hasPrestations(form, [prestation]))
+          prestation => new Eligibilite(prestation,
+            (form: FormGroup) => !this.hasPrestations(form,
+              [prestation]))
         )
       }),
       new DateQuestion({
         key: 'dateNaissance',
         code: '0201',
         help: true,
-        validators: [Validators.required, QeliValidators.past, QeliValidators.minYear(130)],
+        maxDate: new Date(),
+        minDate: moment().subtract(130, 'year').toDate(),
+        validators: [Validators.required],
         eligibilite: [
           new Eligibilite(Prestation.AIDE_SOCIALE, (form: FormGroup) => !this.isMineur(form))
         ]
@@ -99,7 +104,8 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         defaultAnswer: (form: FormGroup) => (this.isSuisse(form) ||
                                              this.isRefugie(form) ||
-                                             this.isApatride(form)) ? ReponseProgressive.INCONNU : null,
+                                             this.isApatride(form)) ? ReponseProgressive.INCONNU :
+                                            null,
         eligibilite: [
           new Eligibilite(Prestation.BOURSES, () => true)
         ]
@@ -113,10 +119,12 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         defaultAnswer: (form: FormGroup) => (this.isSuisse(form) ||
                                              this.isRefugie(form) ||
-                                             this.isApatride(form)) ? ReponseProgressive.INCONNU : null,
+                                             this.isApatride(form)) ? ReponseProgressive.INCONNU :
+                                            null,
         eligibilite: [
           new Eligibilite(
-            Prestation.BOURSES, (form: FormGroup) => ReponseProgressive.NON !== form.value['permisBPlus5Ans']
+            Prestation.BOURSES,
+            (form: FormGroup) => ReponseProgressive.NON !== form.value['permisBPlus5Ans']
           )
         ]
       }),
@@ -130,20 +138,24 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         eligibilite: [
           new Eligibilite(
-            Prestation.AVANCES, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+            Prestation.AVANCES,
+            (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
           ),
           new Eligibilite(
             Prestation.ALLOCATION_LOGEMENT,
             (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
           ),
           new Eligibilite(
-            Prestation.PC_AVS_AI, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+            Prestation.PC_AVS_AI,
+            (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
           ),
           new Eligibilite(
-            Prestation.PC_FAM, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+            Prestation.PC_FAM,
+            (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
           ),
           new Eligibilite(
-            Prestation.AIDE_SOCIALE, (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
+            Prestation.AIDE_SOCIALE,
+            (form: FormGroup) => ReponseProgressive.NON !== form.value['domicileCantonGE']
           )
         ]
       }),
@@ -158,7 +170,8 @@ export class HomeComponent implements OnInit {
         ],
         options: Object.keys(Activite).map(label => new QuestionOption({label: label})),
         eligibilite: [
-          new Eligibilite(Prestation.BOURSES, (form: FormGroup) => this.hasActivites(form, [Activite.ETUDIANT])),
+          new Eligibilite(Prestation.BOURSES,
+            (form: FormGroup) => this.hasActivites(form, [Activite.ETUDIANT])),
           new Eligibilite(Prestation.PC_FAM, () => true),
           new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
         ]
@@ -171,7 +184,8 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         options: Object.values(Scolarite)
                        .filter(scolarite => scolarite !== Scolarite.AUCUNE)
-                       .map(scolarite => new QuestionOption({label: Scolarite[scolarite], help: true}))
+                       .map(
+                         scolarite => new QuestionOption({label: Scolarite[scolarite], help: true}))
                        .concat(new QuestionOption({label: Scolarite.AUCUNE})),
         eligibilite: [
           new Eligibilite(Prestation.BOURSES, (form: FormGroup) => this.aucuneScolarite(form))
@@ -269,7 +283,8 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         eligibilite: [
           new Eligibilite(
-            Prestation.SUBSIDES, (form: FormGroup) => form.value['assuranceMaladieSuisse'] !== ReponseProgressive.NON
+            Prestation.SUBSIDES,
+            (form: FormGroup) => form.value['assuranceMaladieSuisse'] !== ReponseProgressive.NON
           )
         ]
       }),
@@ -282,7 +297,8 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         eligibilite: [
           new Eligibilite(
-            Prestation.AVANCES, (form: FormGroup) => form.value['droitPensionAlimentaire'] === ReponseBinaire.OUI
+            Prestation.AVANCES,
+            (form: FormGroup) => form.value['droitPensionAlimentaire'] === ReponseBinaire.OUI
           )
         ]
       }),
@@ -296,7 +312,8 @@ export class HomeComponent implements OnInit {
         eligibilite: [
           new Eligibilite(
             Prestation.AVANCES,
-            (form: FormGroup) => form.value['recoisEntierementPensionAlimentaire'] === ReponseBinaire.NON
+            (form: FormGroup) => form.value['recoisEntierementPensionAlimentaire'] ===
+                                 ReponseBinaire.NON
           )
         ]
       }),
@@ -309,7 +326,8 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         eligibilite: [
           new Eligibilite(
-            Prestation.SUBSIDES, (form: FormGroup) => form.value['exempteImpot'] !== ReponseProgressive.OUI
+            Prestation.SUBSIDES,
+            (form: FormGroup) => form.value['exempteImpot'] !== ReponseProgressive.OUI
           )
         ]
       }),
@@ -325,7 +343,8 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         eligibilite: [
           new Eligibilite(
-            Prestation.SUBSIDES, (form: FormGroup) => form.value['taxeOfficeAFC'] !== ReponseProgressive.OUI
+            Prestation.SUBSIDES,
+            (form: FormGroup) => form.value['taxeOfficeAFC'] !== ReponseProgressive.OUI
           )
         ]
       }),
@@ -338,7 +357,8 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         altText: form => this.hasConjoint(form) ? 'avecConjoint' : null,
         eligibilite: [
-          new Eligibilite(Prestation.BOURSES, (form: FormGroup) => !this.isFonctionnaireInternational(form))
+          new Eligibilite(Prestation.BOURSES,
+            (form: FormGroup) => !this.isFonctionnaireInternational(form))
         ]
       }),
       new RadioQuestion({
@@ -348,7 +368,8 @@ export class HomeComponent implements OnInit {
         inline: true,
         options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
         validators: [Validators.required],
-        defaultAnswer: (form: FormGroup) => !this.hasPermisBEtudes(form) ? ReponseProgressive.INCONNU : null,
+        defaultAnswer: (form: FormGroup) => !this.hasPermisBEtudes(form) ?
+                                            ReponseProgressive.INCONNU : null,
         eligibilite: [
           new Eligibilite(
             Prestation.BOURSES,

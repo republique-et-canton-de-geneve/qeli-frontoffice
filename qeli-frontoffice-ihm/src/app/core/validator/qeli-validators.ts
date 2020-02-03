@@ -2,21 +2,32 @@ import { AbstractControl } from '@angular/forms';
 import * as moment from 'moment';
 
 export class QeliValidators {
-  static past(control: AbstractControl) {
+  static date(control: AbstractControl) {
     if (control && control.value) {
       const date = moment(control.value, 'YYYY-MM-DD', true);
-      return !moment().isAfter(date) ? {'past': true} : null;
+      return !date.isValid() ? {'invalidDate': true} : null;
     }
 
     return null;
   }
 
-  static minYear(year: number) {
+  static maxDate(maxDate: Date) {
     return (control: AbstractControl) => {
       if (control && control.value) {
-        const date = moment(control.value, 'YYYY-MM-DD', true);
-        const minDate = moment().subtract(year, 'year');
-        return !minDate.isBefore(date) ? {'minYear': minDate} : null;
+        const date = moment(control.value.toString(), 'YYYY-MM-DD', true);
+        return moment(maxDate).isBefore(date) ? {'maxDate': true} : null;
+      }
+
+      return null;
+    };
+  }
+
+  static minDate(minDate: Date) {
+    return (control: AbstractControl) => {
+      console.log(control.value);
+      if (control && control.value) {
+        const date = moment(control.value.toString(), 'YYYY-MM-DD', true);
+        return moment(minDate).isAfter(date) ? {'minDate': true} : null;
       }
 
       return null;
