@@ -185,6 +185,33 @@
         "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève."
       }
     },
+    "residenceEffectiveCantonGE": {
+      "label": "Avez-vous votre résidence effective dans le canton de Genève ?",
+      "help": "Résidence effective : votre logement se trouve bien dans le canton de Genève.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève."
+      }
+    },
+    "enfantsACharge": {
+      "label": "Combien d'enfants à charge avez-vous ?",
+      "help": "Enfant à charge : enfant de moins de 18 ans ou enfant entre 18 et 25 ans en formation",
+      "motifRefus": {
+        "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Veuillez saisir un nombre",
+        "min": "Erreur dans la saisie : nombre négatif interdit",
+        "max": "Erreur dans la saisie : nombre trop élevé"
+      }
+    },
     "activite": {
       "label": "Quelle est votre activité ?",
       "help": "Etudiant : personne en formation.",
