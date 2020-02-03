@@ -33,7 +33,6 @@
             "styles": [
               "src/assets/charte/resources/common/css/style.css",
               "src/assets/charte/resources/common/css/font-awesome.min.css",
-              "src/assets/charte/resources/specific/css/custom_form_style.css",
               "src/styles.scss"
             ],
             "scripts": []

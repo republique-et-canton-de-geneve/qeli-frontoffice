@@ -47,7 +47,9 @@ export class HomeComponent implements OnInit {
         key: 'dateNaissance',
         code: '0201',
         help: true,
-        validators: [Validators.required, QeliValidators.past, QeliValidators.minYear(130)],
+        maxDate: new Date(),
+        minDate: moment().subtract(130, 'year').toDate(),
+        validators: [Validators.required],
         eligibilite: [
           new Eligibilite(Prestation.AIDE_SOCIALE, (form: FormGroup) => !this.isMineur(form))
         ]
@@ -158,7 +160,8 @@ export class HomeComponent implements OnInit {
         ],
         options: Object.keys(Activite).map(label => new QuestionOption({label: label})),
         eligibilite: [
-          new Eligibilite(Prestation.BOURSES, (form: FormGroup) => this.hasActivites(form, [Activite.ETUDIANT])),
+          new Eligibilite(Prestation.BOURSES,
+            (form: FormGroup) => this.hasActivites(form, [Activite.ETUDIANT])),
           new Eligibilite(Prestation.PC_FAM, () => true),
           new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
         ]
@@ -269,7 +272,8 @@ export class HomeComponent implements OnInit {
         validators: [Validators.required],
         eligibilite: [
           new Eligibilite(
-            Prestation.SUBSIDES, (form: FormGroup) => form.value['assuranceMaladieSuisse'] !== ReponseProgressive.NON
+            Prestation.SUBSIDES,
+            (form: FormGroup) => form.value['assuranceMaladieSuisse'] !== ReponseProgressive.NON
           )
         ]
       }),

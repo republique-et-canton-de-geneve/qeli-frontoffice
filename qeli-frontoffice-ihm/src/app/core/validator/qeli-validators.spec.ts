@@ -1,18 +1,28 @@
 import { QeliValidators } from './qeli-validators';
 import { AbstractControl } from '@angular/forms';
+import * as moment from 'moment';
 
 describe('QeliValidators', () => {
-  it('past devrait retourner une erreur si la date est dans le futur', () => {
-    expect(QeliValidators.past(null)).toEqual(null);
-    expect(QeliValidators.past(<AbstractControl>{value: null})).toEqual(null);
-    expect(QeliValidators.past(<AbstractControl>{value: '2010-01-01'})).toEqual(null);
-    expect(QeliValidators.past(<AbstractControl>{value: '2200-01-01'})).toEqual({'past': true});
+
+  it('minDate devrait retourner un erreur si la date est inferieur à 2010-01-01', () => {
+    const minDate = moment('2010-01-01').toDate();
+
+    expect(QeliValidators.minDate(minDate)(null)).toEqual(null);
+    expect(QeliValidators.minDate(minDate)(<AbstractControl>{value: null})).toBeNull();
+    expect(QeliValidators.minDate(minDate)(<AbstractControl>{value: 'abc'})).toBeNull();
+    expect(QeliValidators.minDate(minDate)(<AbstractControl>{value: '2010-01-01'})).toBeNull();
+    expect(QeliValidators.minDate(minDate)(<AbstractControl>{value: '2010-01-02'})).toBeNull();
+    expect(QeliValidators.minDate(minDate)(<AbstractControl>{value: '1900-01-01'})).toEqual({'minDate': true});
   });
 
-  it('minYear devrait retourner une erreur si la date est inférieure à -130 ans', () => {
-    expect(QeliValidators.minYear(130)(null)).toEqual(null);
-    expect(QeliValidators.minYear(130)(<AbstractControl>{value: null})).toEqual(null);
-    expect(QeliValidators.minYear(130)(<AbstractControl>{value: '2010-01-01'})).toEqual(null);
-    expect(QeliValidators.minYear(130)(<AbstractControl>{value: '1800-01-01'})).not.toBeNull();
+  it('maxDate devrait retourner un erreur si la date est superieur à 2010-01-01', () => {
+    const maxDate = moment('2010-01-01').toDate();
+
+    expect(QeliValidators.maxDate(maxDate)(null)).toEqual(null);
+    expect(QeliValidators.maxDate(maxDate)(<AbstractControl>{value: null})).toBeNull();
+    expect(QeliValidators.maxDate(maxDate)(<AbstractControl>{value: 'abc'})).toBeNull();
+    expect(QeliValidators.maxDate(maxDate)(<AbstractControl>{value: '2010-01-01'})).toBeNull();
+    expect(QeliValidators.maxDate(maxDate)(<AbstractControl>{value: '2010-01-02'})).toEqual({'maxDate': true});
+    expect(QeliValidators.maxDate(maxDate)(<AbstractControl>{value: '1900-01-01'})).toBeNull();
   });
 });

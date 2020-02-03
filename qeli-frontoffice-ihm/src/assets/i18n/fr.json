@@ -92,8 +92,10 @@
       "help": "Si vous ne connaissez pas la date exacte, merci de mettre le 1er jour du mois.",
       "error": {
         "required": "Votre date de naissance doit être fournie",
-        "past": "Votre date de naissance ne peut pas être dans le futur",
-        "minYear": "Année de naissance incorrecte"
+        "maxDate": "Votre date de naissance ne peut pas être dans le futur",
+        "minDate": "Année de naissance incorrecte",
+        "invalidDate": "Date de naissance incorrecte",
+        "Mask error": ""
       },
       "motifRefus": {
         "AIDE_SOCIALE": "Vous avez indiqué que vous êtes mineur."
