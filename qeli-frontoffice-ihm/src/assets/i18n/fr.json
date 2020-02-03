@@ -271,7 +271,7 @@
       "error": {
         "required": "Ce champ est obligatoire",
         "pattern": "Veuillez saisir un nombre",
-        "min": "La saisie ne peut être négative",
+        "min": "Il ne peut y avoir moins d'une personne",
         "max": "Erreur dans la saisie du nombre de personnes"
       }
     },
