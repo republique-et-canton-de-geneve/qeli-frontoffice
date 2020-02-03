@@ -206,8 +206,8 @@
         "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge"
       },
       "error": {
-        "required": "Ce champ est obligatoire",
-        "pattern": "Veuillez saisir un nombre",
+        "required": "Merci de saisir le nombre d'enfants à charge",
+        "pattern": "Merci de saisir le nombre d'enfants à charge",
         "min": "Erreur dans la saisie : nombre négatif interdit",
         "max": "Erreur dans la saisie : nombre trop élevé"
       }
@@ -298,8 +298,8 @@
       "label": "Combien de personnes vivent dans votre logement ?",
       "help": "N'oubliez pas de vous compter.",
       "error": {
-        "required": "Ce champ est obligatoire",
-        "pattern": "Veuillez saisir un nombre",
+        "required": "Merci de saisir le nombre de personnes",
+        "pattern": "Merci de saisir le nombre de personnes",
         "min": "Il ne peut y avoir moins d'une personne",
         "max": "Erreur dans la saisie du nombre de personnes"
       }
@@ -311,8 +311,8 @@
         "ALLOCATION_LOGEMENT": "Vous avez indiqué un nombre de personnes trop important par rapport au nombre de pièces de votre logement"
       },
       "error": {
-        "required": "Ce champ est obligatoire",
-        "pattern": "Veuillez saisir un nombre",
+        "required": "Merci de saisir le nombre de pièces",
+        "pattern": "Merci de saisir le nombre de pièces",
         "min": "Il ne peut y avoir moins d'une pièce",
         "max": "Erreur dans la saisie du nombre de pièces"
       }
