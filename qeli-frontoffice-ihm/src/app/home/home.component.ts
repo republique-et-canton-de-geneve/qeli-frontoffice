@@ -16,6 +16,7 @@ import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model
 import { Activite } from '../core/common/activite.model';
 import { Scolarite } from '../core/common/scolarite.model';
 import { Logement } from '../core/common/logement.model';
+import { TextQuestion } from '../core/question/text-question/text-question.model';
 
 @Component({
   selector: 'app-home',
@@ -201,6 +202,19 @@ export class HomeComponent implements OnInit {
             Prestation.ALLOCATION_LOGEMENT,
             (form: FormGroup) => form.value['bailLogementAVotreNom'] !== ReponseProgressive.NON
           )
+        ]
+      }),
+      new TextQuestion({
+        key: 'nombreDePersonnesLogement',
+        code: '1003',
+        help: true,
+        type: 'number',
+        validators: [Validators.required,
+                     Validators.pattern('[0-9]'),
+                     Validators.min(0),
+                     Validators.max(999)],
+        eligibilite: [
+          new Eligibilite(Prestation.ALLOCATION_LOGEMENT, (form: FormGroup) => true)
         ]
       }),
       new RadioQuestion({

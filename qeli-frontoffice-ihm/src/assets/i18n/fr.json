@@ -265,6 +265,16 @@
         "required": "Ce champ est obligatoire"
       }
     },
+    "nombreDePersonnesLogement": {
+      "label": "Combien de personnes vivent dans votre logement ?",
+      "help": "N'oubliez pas de vous compter.",
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Veuillez saisir un nombre",
+        "min": "La saisie ne peut être négative",
+        "max": "Saisie trop élevée"
+      }
+    },
     "assuranceMaladieSuisse": {
       "label": "Avez-vous une assurance-maladie suisse (LAMal) ?",
       "help": "Affiliation à l'assurance-maladie : En Suisse, l'assurance de base pour les soins (LAMal) en cas de maladie et d'accident est obligatoire. Toute personne, dès sa prise de domicile en Suisse, est tenue d'être assurée pour les soins en cas de maladie et d'accident. Etre affilié signifie avoir souscrit à une police d'assurance-maladie suisse. Par exemple, Assura, CSS, Helsana ou Mutuel.",
