@@ -149,6 +149,33 @@ export class HomeComponent implements OnInit {
           )
         ]
       }),
+      new RadioQuestion({
+        key: 'residenceEffectiveCantonGE',
+        code: '0504',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.AIDE_SOCIALE, (form: FormGroup) => form.value['residenceEffectiveCantonGE'] !== ReponseBinaire.NON
+          )
+        ]
+      }),
+      new TextQuestion({
+        key: 'enfantsACharge',
+        code: '0505',
+        help: true,
+        type: 'number',
+        validators: [Validators.required,
+                     Validators.pattern('[0-9]'),
+                     Validators.min(0),
+                     Validators.max(20)],
+        eligibilite: [
+          new Eligibilite(Prestation.PC_FAM, (form: FormGroup) => form.value['enfantsACharge'] > 0
+          )
+        ]
+      }),
       new CheckboxGroupQuestion({
         key: 'activite',
         code: '0601',
