@@ -168,7 +168,7 @@ export class HomeComponent implements OnInit {
         help: true,
         type: 'number',
         validators: [Validators.required,
-                     Validators.pattern('[0-9]*'),
+                     Validators.pattern('\-?[0-9]*'),
                      Validators.min(0),
                      Validators.max(20)],
         eligibilite: [
@@ -241,7 +241,7 @@ export class HomeComponent implements OnInit {
         help: true,
         type: 'number',
         validators: [Validators.required,
-                     Validators.pattern('[0-9]*'),
+                     Validators.pattern('\-?[0-9]*'),
                      Validators.min(1),
                      Validators.max(20)],
         eligibilite: [
@@ -254,7 +254,7 @@ export class HomeComponent implements OnInit {
         help: true,
         type: 'number',
         validators: [Validators.required,
-                     Validators.pattern('[0-9]*'),
+                     Validators.pattern('\-?[0-9]*(\.[0-9]+)?'),
                      Validators.min(1),
                      Validators.max(20)],
         eligibilite: [
