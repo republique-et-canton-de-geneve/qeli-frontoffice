@@ -4,9 +4,9 @@
     "result": {
       "title": "Résultat",
       "eligibilite": {
-        "oui": "D'après ce que vous avez répondu, vous pourriez béneficier des préstations suivantes :",
-        "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas béneficier des préstations suivantes :",
-        "deja": "D'après ce que vous avez répondu, vous béneficiez déjà des préstations suivantes :"
+        "oui": "D'après ce que vous avez répondu, vous pourriez bénéficier des prestations suivantes :",
+        "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas bénéficier des prestations suivantes :",
+        "deja": "D'après ce que vous avez répondu, vous bénéficiez déjà des prestations suivantes :"
       },
       "prestation": {
         "SUBSIDES": {
@@ -245,6 +245,21 @@
       },
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous êtes propriétaire de votre logement"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "bailLogementAVotreNom": {
+      "label": "Le bail de votre logement est-il à votre nom ?",
+      "help": "Votre nom figure sur le bail à loyer du logement que vous occupez. Si vous êtes un sous-locataire déclaré à la régie, vous êtes également considéré comme titulaire du bail.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que le bail de votre logement n'est pas à votre nom"
       },
       "error": {
         "required": "Ce champ est obligatoire"
