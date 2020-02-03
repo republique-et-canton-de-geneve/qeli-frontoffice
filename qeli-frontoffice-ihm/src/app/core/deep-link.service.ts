@@ -10,12 +10,33 @@ export class DeepLinkService {
   }
 
   /**
-   * Met à jour l'URL courante en encryptant en base64 les paramètres de la requête (queryParams)
+   * Construit le lien profond (deep link) avec les paramètres de la requête (queryParams)
+   *
+   * @return string L'URL courante
+   */
+  getCurrentDeepLink() {
+    return location.href;
+  }
+
+  /**
+   * Met à jour l'URL courante avec les valeurs du formulaire encryptés en paramètres de la requête (queryParams)
    *
    * @param data {}
    */
   updateUrl(data: {}): void {
-    this.router.navigate(['/'], {queryParams: {data: btoa(JSON.stringify(data))}});
+    this.router.navigate([], {queryParams: {data: this.encryptParams(data)}});
+  }
+
+
+  /**
+   * Encrypte (base64) les valeurs du formulaire
+   *
+   * @param data
+   * @return string Chaîne encodée et compressée
+   */
+  encryptParams(data: {}) {
+    data = this.removeEmptyJson(data);
+    return btoa(JSON.stringify(data));
   }
 
   /**
@@ -26,5 +47,18 @@ export class DeepLinkService {
   decryptQueryParamData(queryParam) {
     return queryParam && queryParam['data'] ? JSON.parse(atob(queryParam['data'])) : null;
   }
+
+  /**
+   * Nettoie les clefs vides ou nulles du Json
+   *
+   * @param data
+   */
+  removeEmptyJson(data) {
+    Object.entries(data).forEach(([key, val]) =>
+      (val && typeof val === 'object') && this.removeEmptyJson(val) ||
+      (val === null || val === "") && delete data[key]
+    );
+    return data;
+  };
 
 }
