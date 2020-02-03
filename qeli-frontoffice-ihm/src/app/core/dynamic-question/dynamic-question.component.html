@@ -11,7 +11,7 @@
 
   <p *ngIf="question.help" class="help-block" [innerHtml]="'question.' + question.key + '.help' | translate"></p>
 
-  <div [ngClass]="!isValid ? 'error' : ''">
+  <div>
     <ng-template app-question-host></ng-template>
   </div>
 
