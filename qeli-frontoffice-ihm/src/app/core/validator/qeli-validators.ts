@@ -24,7 +24,6 @@ export class QeliValidators {
 
   static minDate(minDate: Date) {
     return (control: AbstractControl) => {
-      console.log(control.value);
       if (control && control.value) {
         const date = moment(control.value.toString(), 'YYYY-MM-DD', true);
         return moment(minDate).isAfter(date) ? {'minDate': true} : null;
