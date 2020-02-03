@@ -34,14 +34,14 @@ export class DynamicFormComponent implements OnInit {
       const formData = this.deepLinkService.decryptQueryParamData(params);
 
       if (formData) {
-        this.prestationsRefusees = formData.prestationsRefusees;
-        this.prestationsRefuseesStack = formData.prestationsRefuseesStack;
-        this.indexHistoryStack = formData.indexHistoryStack;
-        this.currentQuestionIndex = formData.currentQuestionIndex;
+        this.prestationsRefusees = formData.pr;
+        this.prestationsRefuseesStack = formData.prs;
+        this.indexHistoryStack = formData.ihs;
+        this.currentQuestionIndex = formData.cqi;
       }
 
       this.questions.forEach(question => {
-        group[question.key] = question.toFormControl((formData ? formData.value[question.key] : null));
+        group[question.key] = question.toFormControl((formData ? formData.v[question.key] : null));
       });
 
       this.form = new FormGroup(group);
@@ -134,11 +134,11 @@ export class DynamicFormComponent implements OnInit {
    */
   formStateToQueryParam(): {} {
     return {
-      value: this.form.value,
-      prestationsRefusees: this.prestationsRefusees,
-      prestationsRefuseesStack: this.prestationsRefuseesStack,
-      indexHistoryStack: this.indexHistoryStack,
-      currentQuestionIndex: this.currentQuestionIndex
+      v: this.form.value,
+      pr: this.prestationsRefusees,
+      prs: this.prestationsRefuseesStack,
+      ihs: this.indexHistoryStack,
+      cqi: this.currentQuestionIndex
     };
   }
 

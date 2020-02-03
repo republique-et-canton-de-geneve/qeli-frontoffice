@@ -14,6 +14,7 @@ import { TextQuestionComponent } from './question/text-question/text-question.co
 import { NationaliteQuestionComponent } from './question/nationalite-question/nationalite-question.component';
 import { RadioQuestionComponent } from './question/radio-question/radio-question.component';
 import { FocusOnInitDirective } from './common/init.directive';
+import { DeepLinkComponent } from './deep-link/deep-link.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -38,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DynamicFormComponent,
     HttpClientModule,
     TranslateModule,
+    DeepLinkComponent
   ],
   declarations: [
     QuestionDirective,
@@ -49,7 +51,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DynamicQuestionComponent,
     NationaliteQuestionComponent,
     RadioQuestionComponent,
-    TextQuestionComponent
+    TextQuestionComponent,
+    DeepLinkComponent
   ],
   entryComponents: [
     CheckboxGroupQuestionComponent,
