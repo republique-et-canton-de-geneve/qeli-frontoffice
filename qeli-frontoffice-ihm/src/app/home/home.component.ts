@@ -217,6 +217,21 @@ export class HomeComponent implements OnInit {
           new Eligibilite(Prestation.ALLOCATION_LOGEMENT, (form: FormGroup) => true)
         ]
       }),
+      new TextQuestion({
+        key: 'nombreDePiecesLogement',
+        code: '1004',
+        help: true,
+        type: 'number',
+        validators: [Validators.required,
+                     Validators.pattern('[0-9]'),
+                     Validators.min(1),
+                     Validators.max(20)],
+        eligibilite: [
+          new Eligibilite(Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => this.isRatioPiecesPersonnesLogementAcceptable(form)
+          )
+        ]
+      }),
       new RadioQuestion({
         key: 'assuranceMaladieSuisse',
         code: '1101',
@@ -378,4 +393,11 @@ export class HomeComponent implements OnInit {
                   .map(entry => entry[1])
                   .includes(false);
   }
+
+  isRatioPiecesPersonnesLogementAcceptable(form: FormGroup) {
+    const nbPersonnes = parseInt(form.value['nombreDePersonnesLogement']);
+    const nbPieces = parseInt(form.value['nombreDePiecesLogement']);
+    return !((nbPieces - nbPersonnes) > 2);
+  }
+
 }
