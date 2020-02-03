@@ -15,6 +15,9 @@ import { EtatCivil } from '../core/common/etat-civil.model';
 import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
 import { Activite } from '../core/common/activite.model';
 import { Scolarite } from '../core/common/scolarite.model';
+import { Logement } from '../core/common/logement.model';
+import { TextQuestion } from '../core/question/text-question/text-question.model';
+import { Loyer } from '../core/common/loyer.model';
 
 @Component({
   selector: 'app-home',
@@ -172,6 +175,89 @@ export class HomeComponent implements OnInit {
                        .concat(new QuestionOption({label: Scolarite.AUCUNE})),
         eligibilite: [
           new Eligibilite(Prestation.BOURSES, (form: FormGroup) => this.aucuneScolarite(form))
+        ]
+      }),
+      new RadioQuestion({
+        key: 'proprietaireOuLocataireLogement',
+        code: '1001',
+        help: true,
+        inline: true,
+        options: Object.keys(Logement).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => form.value['proprietaireOuLocataireLogement'] !== Logement.PROPRIETAIRE
+          )
+        ]
+      }),
+      new RadioQuestion({
+        key: 'bailLogementAVotreNom',
+        code: '1002',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => form.value['bailLogementAVotreNom'] !== ReponseProgressive.NON
+          )
+        ]
+      }),
+      new TextQuestion({
+        key: 'nombreDePersonnesLogement',
+        code: '1003',
+        help: true,
+        type: 'number',
+        validators: [Validators.required,
+                     Validators.pattern('[0-9]'),
+                     Validators.min(1),
+                     Validators.max(20)],
+        eligibilite: [
+          new Eligibilite(Prestation.ALLOCATION_LOGEMENT, (form: FormGroup) => true)
+        ]
+      }),
+      new TextQuestion({
+        key: 'nombreDePiecesLogement',
+        code: '1004',
+        help: true,
+        type: 'number',
+        validators: [Validators.required,
+                     Validators.pattern('[0-9]'),
+                     Validators.min(1),
+                     Validators.max(20)],
+        eligibilite: [
+          new Eligibilite(Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => this.isRatioPiecesPersonnesLogementAcceptable(form)
+          )
+        ]
+      }),
+      new RadioQuestion({
+        key: 'appartementHabitationMixte',
+        code: '1005',
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => form.value['appartementHabitationMixte'] !== ReponseProgressive.OUI
+          )
+        ]
+      }),
+      new RadioQuestion({
+        key: 'montantLoyerFixeOuVariable',
+        code: '1006',
+        help: true,
+        options: Object.keys(Loyer).map(label => new QuestionOption({label: label})),
+        validators: [Validators.required],
+        eligibilite: [
+          new Eligibilite(
+            Prestation.ALLOCATION_LOGEMENT,
+            (form: FormGroup) => form.value['montantLoyerFixeOuVariable'] !== Loyer.EN_FONCTION_REVENU
+          )
         ]
       }),
       new RadioQuestion({
@@ -335,4 +421,11 @@ export class HomeComponent implements OnInit {
                   .map(entry => entry[1])
                   .includes(false);
   }
+
+  isRatioPiecesPersonnesLogementAcceptable(form: FormGroup) {
+    const nbPersonnes = parseInt(form.value['nombreDePersonnesLogement']);
+    const nbPieces = parseInt(form.value['nombreDePiecesLogement']);
+    return !((nbPieces - nbPersonnes) > 2);
+  }
+
 }

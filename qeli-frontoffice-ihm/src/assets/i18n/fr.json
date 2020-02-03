@@ -4,9 +4,9 @@
     "result": {
       "title": "Résultat",
       "eligibilite": {
-        "oui": "D'après ce que vous avez répondu, vous pourriez béneficier des préstations suivantes :",
-        "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas béneficier des préstations suivantes :",
-        "deja": "D'après ce que vous avez répondu, vous béneficiez déjà des préstations suivantes :"
+        "oui": "D'après ce que vous avez répondu, vous pourriez bénéficier des prestations suivantes :",
+        "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas bénéficier des prestations suivantes :",
+        "deja": "D'après ce que vous avez répondu, vous bénéficiez déjà des prestations suivantes :"
       },
       "prestation": {
         "SUBSIDES": {
@@ -230,6 +230,89 @@
       },
       "motifRefus": {
         "BOURSES": "La formation que vous avez indiqué suivre ne peut pas faire objet d'une bourse."
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "proprietaireOuLocataireLogement": {
+      "label": "Etes-vous propriétaire ou locataire de votre logement ?",
+      "help": "Logement : l'appartement ou la maison dans laquelle vous habitez.",
+      "option": {
+        "PROPRIETAIRE": "Propriétaire",
+        "LOCATAIRE_SOUS_LOCATAIRE": "Locataire, sous-locataire",
+        "AUTRE": "Autre"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous êtes propriétaire de votre logement"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "bailLogementAVotreNom": {
+      "label": "Le bail de votre logement est-il à votre nom ?",
+      "help": "Votre nom figure sur le bail à loyer du logement que vous occupez. Si vous êtes un sous-locataire déclaré à la régie, vous êtes également considéré comme titulaire du bail.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que le bail de votre logement n'est pas à votre nom"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "nombreDePersonnesLogement": {
+      "label": "Combien de personnes vivent dans votre logement ?",
+      "help": "N'oubliez pas de vous compter.",
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Veuillez saisir un nombre",
+        "min": "Il ne peut y avoir moins d'une personne",
+        "max": "Erreur dans la saisie du nombre de personnes"
+      }
+    },
+    "nombreDePiecesLogement": {
+      "label": "Combien de pièces a votre logement ?",
+      "help": "Le nombre de pièces est mentionné sur votre bail.",
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué un nombre de personnes trop important par rapport au nombre de pièces de votre logement"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Veuillez saisir un nombre",
+        "min": "Il ne peut y avoir moins d'une pièce",
+        "max": "Erreur dans la saisie du nombre de pièces"
+      }
+    },
+    "appartementHabitationMixte": {
+      "label": "Etes-vous dans un appartement en habitation mixte (HM) ?",
+      "help": "Logement en habitation mixte (HM) : La subvention personnalisée habitation mixte est une aide personnalisée versée par l'Etat à un locataire de logement HM.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué être dans un appartement en habitation mixte (HM)"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "montantLoyerFixeOuVariable": {
+      "label": "Le montant de votre loyer est-il fixe ou variable en fonction de votre revenu (HLM, HBM, HM, appartement de la Gérance immobilière municipale) ?",
+      "help": "Loyer fixé en fonction de votre revenu si vous habitez dans :<br><ul><li>un HBM (habitation bon marché) subventionné par l'Etat, destiné aux personnes à revenus modestes. Son loyer est contrôlé de façon permanente.</li><li>un HLM (habitation à loyer modéré) destiné aux personnes à revenus modérés, subventionné par l'Etat pendant une période de 20 ans</li><li>ou un HM (habitation mixte) destiné aux personnes à revenus moyens, dont le loyer peut être subventionné par l'Etat pendant une période de 25 ans</li><li>un logement géré par la GIM (Gestion immobilière municipale)</li></ul>",
+      "option": {
+        "FIXE": "Loyer fixe",
+        "EN_FONCTION_REVENU": "Loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué avoir un montant de loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)"
       },
       "error": {
         "required": "Ce champ est obligatoire"

@@ -9,7 +9,7 @@
           title="{{ 'form.required' | translate }}">*</span>
   </label>
 
-  <p *ngIf="question.help" class="help-block">{{ 'question.' + question.key + '.help' | translate }}</p>
+  <p *ngIf="question.help" class="help-block" [innerHtml]="'question.' + question.key + '.help' | translate"></p>
 
   <div [ngClass]="!isValid ? 'error' : ''">
     <ng-template app-question-host></ng-template>
