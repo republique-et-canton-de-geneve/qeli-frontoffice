@@ -4,5 +4,5 @@ export enum EtatCivil {
   DIVORCE                = 'DIVORCE',
   SEPARE                 = 'SEPARE',
   PARTENARIAT_ENREGISTRE = 'PARTENARIAT_ENREGISTRE',
-  VOEUF                  = 'VOEUF'
+  VEUF                  = 'VEUF'
 }
