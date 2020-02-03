@@ -40,6 +40,19 @@ export class DynamicQuestionComponent {
     return `question.${this.question.key}.${altText ? 'altText.' + altText : 'label'}`;
   }
 
+  get questionLabelParameters() {
+    let labelParametersResult = {};
+    Object.keys(this.question.labelParameters).forEach(labelParam => {
+      if (typeof this.question.labelParameters[labelParam] === 'function') {
+        labelParametersResult[labelParam] = this.question.labelParameters[labelParam](this.form);
+      } else {
+        labelParametersResult[labelParam] = this.question.labelParameters[labelParam];
+      }
+    });
+
+    return labelParametersResult;
+  }
+
   loadComponent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
       QuestionRegistry[this.question.controlType]
