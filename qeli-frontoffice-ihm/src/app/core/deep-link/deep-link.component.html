@@ -12,10 +12,10 @@
                #deepLinkInput>
       </div>
       <div class="col-md-6 col col-2">
-        <a [ngClass]="(isCopied === true) ? 'btn btn-info' : 'btn btn-info'"
-           (click)="copyDeepLink(deepLinkInput)">
+        <a class='btn btn-info'
+           (click)="copyDeepLink()">
           <i class="fa fa-copy"></i>
-          {{ copyButtonText }}
+          {{ 'form.deepLink.' + (isCopied ? 'copyButtonAlt' : 'copyButton') | translate }}
         </a>
       </div>
       <div class="col-md-12 col text-left">
