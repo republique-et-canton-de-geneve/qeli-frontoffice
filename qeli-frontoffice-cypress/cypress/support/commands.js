@@ -1,35 +1,48 @@
+/// <reference types="./support" />
+
 const TEXTBOX = 'input[type=text]';
 const RADIO = 'input[type=radio]';
 const CHECKBOX = 'input[type=checkbox]';
 const DATE = 'input[type=date]';
 const SELECT = 'select';
 
-/**
- * Récupère un élément depuis son attribut data-cy
- */
+const url = Cypress.config('baseUrl');
+
 Cypress.Commands.add('dataCy', (value) => cy.get(`[data-cy=${value}]`));
 
-/**
- * Récupère un élément depuis son attribut data-cy-label
- */
 Cypress.Commands.add('dataCyLabel', (value) => cy.get(`[data-cy-label=${value}]`));
 
-/**
- * Clique sur le bouton suivant du formulaire
- */
+Cypress.Commands.add('getPrestationParEligibilite', (eligibilite, prestation) => {
+  cy.get(`[data-cy-${eligibilite}=${prestation}]`);
+});
+
+Cypress.Commands.add('isPrestationHasEtat', (etat, prestation) => {
+  if (prestation.indexOf(';') !== -1) {
+    const prestations = prestation.split(';');
+    prestations.forEach((presta, i) => {
+      cy.getPrestationParEligibilite(etat, presta).should('be.visible')
+    });
+  } else {
+    cy.getPrestationParEligibilite(etat, prestation).should('be.visible')
+  }
+});
+
+Cypress.Commands.add('isPrestationEligible', (prestation) => {
+  cy.isPrestationHasEtat(Cypress.env('PRESTATIONS_ELIGIBLES'), prestation);
+});
+Cypress.Commands.add('isPrestationRefusee', (prestation) => {
+  cy.isPrestationHasEtat(Cypress.env('PRESTATIONS_REFUSEES'), prestation);
+});
+Cypress.Commands.add('isPrestationPercue', (prestation) => {
+  cy.isPrestationHasEtat(Cypress.env('PRESTATIONS_PERCUES'), prestation);
+});
+
 Cypress.Commands.add('clickNext', () => cy.get('[data-cy=nextQuestion]').should('not.be.disabled').click());
 
-/**
- * Clique sur le bouton précédent du formulaire
- */
 Cypress.Commands.add('clickPrevious', () => cy.get('[data-cy=clickPrevious]').click());
 
-/**
- * Réponds à une question de type nationalité du formulaire
- *
- * @param question couple 'code + key' de la question, exemple : "0101_prestations"
- * @param answer réponse à la question, peut être une liste de valeurs séparée par une virgule
- */
+Cypress.Commands.add('connectionFormulaire', () => cy.visit(url));
+
 Cypress.Commands.add('answerNationalite', (question, answer) => {
   if (answer.indexOf(',') !== -1) {
     const nationalites = answer.split(',');
@@ -46,13 +59,6 @@ Cypress.Commands.add('answerNationalite', (question, answer) => {
   }
 });
 
-/**
- * Réponds à une question du formulaire
- *
- * @param question couple 'code + key' de la question, exemple : "0101_prestations"
- * @param answer réponse à la question, peut être une liste de valeurs séparée par une virgule pour les checkbox
- * @param validate valide ou non la question courante pour passer à la suivante (bouton suivant)
- */
 Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
 
   cy.dataCy(question).then(($elem) => {
@@ -62,6 +68,8 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
       } else if ($elem.find(CHECKBOX).length) {
         if (answer.indexOf(',') !== -1) { // handle array of string (multiple answers)
           answer.split(',').forEach((option) => cy.get('[data-cy=' + option + ']').check());
+        } else if (answer.indexOf(';') !== -1) { // handle array of string (multiple answers)
+          answer.split(';').forEach((option) => cy.get('[data-cy=' + option + ']').check());
         } else {
           cy.dataCy(answer).check();
         }
