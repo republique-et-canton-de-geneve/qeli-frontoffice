@@ -3,6 +3,7 @@ import { HomeComponent } from './home.component';
 import { CoreModule } from '../core/core.module';
 import { FormResultComponent } from './form-result/form-result.component';
 import { ResultBlockComponent } from './form-result/result-block/result-block.component';
+import { NavigationComponent } from './navigation/navigation.component';
 
 @NgModule({
   imports: [
@@ -11,11 +12,13 @@ import { ResultBlockComponent } from './form-result/result-block/result-block.co
   declarations: [
     HomeComponent,
     FormResultComponent,
-    ResultBlockComponent
+    ResultBlockComponent,
+    NavigationComponent
   ],
   entryComponents: [
     FormResultComponent,
-    ResultBlockComponent
+    ResultBlockComponent,
+    NavigationComponent
   ]
 })
 export class HomeModule {

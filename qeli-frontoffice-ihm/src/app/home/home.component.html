@@ -1,13 +1,15 @@
-<div class="container">
-  <h1>{{ "home.title" | translate }}</h1>
+<app-navigation [questions]="questions"
+                [formState]="formState">
+</app-navigation>
 
-  <app-dynamic-form *ngIf="!result"
+<div class="container">
+  <app-dynamic-form *ngIf="!formState || !formState.done"
                     [questions]="questions"
-                    (onSubmit)="result = $event">
+                    (onQuestionChanged)="formState = $event">
   </app-dynamic-form>
 
-  <app-form-result *ngIf="result"
-                   [result]="result">
+  <app-form-result *ngIf="formState && formState.done"
+                   [result]="formState">
   </app-form-result>
 
   <app-deep-link></app-deep-link>
