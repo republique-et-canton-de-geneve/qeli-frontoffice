@@ -6,7 +6,8 @@ contrôler le résultat de chaque scénario.
 
 Le dépôt dédié [qeli-scenarii-metier][qeli-scenarii-metier] regroupe les fichiers
 (`.feature`) modifiables par les utilisateurs métiers.
-Il est importé en sous-module dans [cypress/integration/].
+Il est importé en tant que sous-module Git dans
+[cypress/integration/](./cypress/integration/).
 
 
 ## Structure
@@ -89,6 +90,25 @@ cy.clickNext();
 
 cy.get('[data-cy=previousQuestion]').click();
 cy.clickPrevious();
+```
+
+### manipuler des données avec un Datatable
+
+> https://github.com/cucumber/cucumber-js/blob/master/src/models/data_table.ts
+
+```gherkin
+  Quand je remplis mon adresse:
+    | rue    | Rue des champs |
+    | numero | 1              |
+    | ville  | Genève         |
+```
+
+```javascript
+  When("je remplis mon adresse:", (dataTable) => {
+    const obj = { rue: 'Rue des champs', numero: 1, ville: 'Genève' };
+    let adresse = dataTable.rowsHash();
+    cy.expect(obj).to.deep.equal(adresse);
+  });
 ```
 
 
