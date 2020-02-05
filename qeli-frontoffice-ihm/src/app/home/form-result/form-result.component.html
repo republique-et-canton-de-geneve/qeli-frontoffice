@@ -7,7 +7,8 @@
     </p>
     <result-block *ngFor="let prestation of prestationEligible"
                   type="success"
-                  title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}">
+                  title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}"
+                  [attr.data-cy-prestations-eligibles]="prestation">
       <p>{{ 'home.result.prestation.' + prestation + '.content' | translate }}</p>
     </result-block>
   </div>
@@ -20,7 +21,8 @@
     <result-block *ngFor="let prestationRefusee of prestationsRefusees"
                   type="warning"
                   title="{{ 'home.result.prestation.' + prestationRefusee.prestation + '.title' | translate }}"
-                  subtitle="{{ 'question.' + prestationRefusee.questionKey + '.motifRefus.' + prestationRefusee.prestation | translate }}">
+                  subtitle="{{ 'question.' + prestationRefusee.questionKey + '.motifRefus.' + prestationRefusee.prestation | translate }}"
+                  [attr.data-cy-prestations-refusees]="prestationRefusee">
       <p>{{ 'home.result.prestation.' + prestationRefusee.prestation + '.content' | translate }}</p>
     </result-block>
   </div>
@@ -32,7 +34,8 @@
     </p>
     <result-block *ngFor="let prestation of prestationDejaPercues"
                   type="info"
-                  title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}">
+                  title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}"
+                  [attr.data-cy-prestations-percues]="prestation">
       <p>{{ 'home.result.prestation.' + prestation + '.content' | translate }}</p>
     </result-block>
     <hr>

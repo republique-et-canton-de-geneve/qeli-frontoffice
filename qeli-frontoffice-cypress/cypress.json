@@ -1,5 +1,10 @@
 {
   "projectId": "3395",
-  "testFiles": "**/*.feature",
-  "video": false
+  "testFiles": "**/*.{feature,features}",
+  "video": false,
+  "env": {
+    "PRESTATIONS_ELIGIBLES": "prestations-eligibles",
+    "PRESTATIONS_REFUSEES": "prestations-refusees",
+    "PRESTATIONS_PERCUES": "prestations-percues"
+  }
 }
