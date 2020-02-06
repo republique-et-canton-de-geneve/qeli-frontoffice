@@ -126,6 +126,22 @@
                         </configuration>
                     </execution>
 
+                    <!-- Run `npm rebuild node-sass` to download the binding for the CI environment. -->
+                    <execution>
+                        <id>npm-rebuild-node-sass</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>rebuild</argument>
+                                <argument>node-sass</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
                     <!-- Call `npm run build` to build the Angular application -->
                     <execution>
                         <id>npm-build</id>
