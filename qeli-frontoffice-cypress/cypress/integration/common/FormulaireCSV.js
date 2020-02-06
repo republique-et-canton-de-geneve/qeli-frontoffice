@@ -1,5 +1,5 @@
 import { Given, Then } from 'cypress-cucumber-preprocessor/steps';
-
+import { StatutPrestation } from './statut-prestation';
 const neatCSV = require('neat-csv');
 
 let donnees;
@@ -30,14 +30,10 @@ Then('je contrôle mes scenarii sur le formulaire', () => {
 
       if (valeur && valeur.trim() !== '') {
         switch (clef) {
-          case Cypress.env('PRESTATIONS_ELIGIBLES'):
-            cy.isPrestationEligible(valeur);
-            break;
-          case Cypress.env('PRESTATIONS_REFUSEES'):
-            cy.isPrestationRefusee(valeur);
-            break;
-          case Cypress.env('PRESTATIONS_PERCUES'):
-            cy.isPrestationPercue(valeur);
+          case StatutPrestation.ELIGIBLE:
+          case StatutPrestation.REFUSEE:
+          case StatutPrestation.PERCUE:
+            cy.checkStatutPrestation(clef, valeur);
             break;
           default:
             cy.answerQuestion(clef, valeur, true);

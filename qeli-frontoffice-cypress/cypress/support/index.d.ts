@@ -28,29 +28,10 @@ declare namespace Cypress {
 
     /**
      * Vérifie l'affichage du résultat d'une ou plusieurs prestations par état (éligible, perçue, refusée)
-     * @param etat Etat de l'éligibilitée (voir les variables d'environnement dans le fichier cypress.json)
+     * @param statut Statut de l'éligibilitée
      * @param prestation Prestation(s) testée(s)
      */
-    isPrestationHasEtat(etat: string, prestation: string): Chainable<any>
-
-    /**
-     * Vérifie l'affichage du résultat d'une ou plusieurs prestations éligibles
-     * @param prestation Prestation(s) testée(s)
-     */
-    isPrestationEligible(prestation: string): Chainable<any>
-
-    /**
-     * Vérifie l'affichage du résultat d'une ou plusieurs prestations refusées
-     * @param prestation Prestation(s) testée(s)
-     */
-    isPrestationRefusee(prestation: string): Chainable<any>
-
-    /**
-     * Vérifie l'affichage du résultat d'une ou plusieurs prestations déjà perçues
-     * @param prestation Prestation(s) testée(s)
-     */
-    isPrestationPercue(prestation: string): Chainable<any>
-
+    checkStatutPrestation(statut: string, prestation: string): Chainable<any>
 
     /**
      * Clique sur le bouton suivant du formulaire
