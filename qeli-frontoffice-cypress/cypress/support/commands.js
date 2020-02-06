@@ -16,25 +16,15 @@ Cypress.Commands.add('getPrestationParEligibilite', (eligibilite, prestation) =>
   cy.get(`[data-cy-${eligibilite}=${prestation}]`);
 });
 
-Cypress.Commands.add('isPrestationHasEtat', (etat, prestation) => {
+Cypress.Commands.add('checkStatutPrestation', (statut, prestation) => {
   if ([',',';'].some(char => prestation.includes(char))) {
     const prestations = prestation.split(/[,]|[;]/);
     prestations.forEach((presta, i) => {
-      cy.getPrestationParEligibilite(etat, presta).should('be.visible')
+      cy.getPrestationParEligibilite(statut, presta).should('exist')
     });
   } else {
-    cy.getPrestationParEligibilite(etat, prestation).should('be.visible')
+    cy.getPrestationParEligibilite(statut, prestation).should('exist')
   }
-});
-
-Cypress.Commands.add('isPrestationEligible', (prestation) => {
-  cy.isPrestationHasEtat(Cypress.env('PRESTATIONS_ELIGIBLES'), prestation);
-});
-Cypress.Commands.add('isPrestationRefusee', (prestation) => {
-  cy.isPrestationHasEtat(Cypress.env('PRESTATIONS_REFUSEES'), prestation);
-});
-Cypress.Commands.add('isPrestationPercue', (prestation) => {
-  cy.isPrestationHasEtat(Cypress.env('PRESTATIONS_PERCUES'), prestation);
 });
 
 Cypress.Commands.add('clickNext', () => cy.get('[data-cy=nextQuestion]').should('not.be.disabled').click());
