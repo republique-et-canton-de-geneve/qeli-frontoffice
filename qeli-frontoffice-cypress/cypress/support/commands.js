@@ -17,8 +17,8 @@ Cypress.Commands.add('getPrestationParEligibilite', (eligibilite, prestation) =>
 });
 
 Cypress.Commands.add('isPrestationHasEtat', (etat, prestation) => {
-  if (prestation.indexOf(';') !== -1) {
-    const prestations = prestation.split(';');
+  if ([',',';'].some(char => prestation.includes(char))) {
+    const prestations = prestation.split(/[,]|[;]/);
     prestations.forEach((presta, i) => {
       cy.getPrestationParEligibilite(etat, presta).should('be.visible')
     });
@@ -44,8 +44,8 @@ Cypress.Commands.add('clickPrevious', () => cy.get('[data-cy=clickPrevious]').cl
 Cypress.Commands.add('connectionFormulaire', () => cy.visit(url));
 
 Cypress.Commands.add('answerNationalite', (question, answer) => {
-  if (answer.indexOf(',') !== -1) {
-    const nationalites = answer.split(',');
+  if ([',',';'].some(char => answer.includes(char))) {
+    const nationalites = answer.split(/[,]|[;]/);
     nationalites.forEach((nationalite, i) => {
       cy.get(`[data-cy=${question}_select_nationalite_${i}]`).select(nationalite);
       if (i < nationalites.length - 1) {
@@ -66,10 +66,8 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
       if ($elem[0].getAttribute('data-cy-type') === 'nationalite') {
         cy.answerNationalite(question, answer);
       } else if ($elem.find(CHECKBOX).length) {
-        if (answer.indexOf(',') !== -1) { // handle array of string (multiple answers)
-          answer.split(',').forEach((option) => cy.get('[data-cy=' + option + ']').check());
-        } else if (answer.indexOf(';') !== -1) { // handle array of string (multiple answers)
-          answer.split(';').forEach((option) => cy.get('[data-cy=' + option + ']').check());
+        if ([',',';'].some(char => answer.includes(char))) { // handle array of string (multiple answers)
+          answer.split(/[,]|[;]/).forEach((option) => cy.get('[data-cy=' + option + ']').check());
         } else {
           cy.dataCy(answer).check();
         }
