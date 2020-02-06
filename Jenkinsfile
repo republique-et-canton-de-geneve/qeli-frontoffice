@@ -76,7 +76,6 @@ pipeline {
     }
 
     stage('Integration tests') {
-      when { expression { return false } }
       steps {
         sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
                        -Dihm.test.skip=true                           \
