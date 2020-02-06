@@ -193,8 +193,8 @@ const DomicileQuestions: QuestionBase<any>[] = [
                  Validators.min(0),
                  Validators.max(20)],
     eligibilite: [
-      new Eligibilite(Prestation.PC_FAM, (value: any) => value['enfantsACharge'] > 0
-      )
+      new Eligibilite(Prestation.PC_FAM, (value: any) => value['enfantsACharge'] > 0),
+      new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
     ]
   })
 ];
