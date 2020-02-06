@@ -2,9 +2,10 @@ import { Prestation } from '../common/prestation.model';
 
 export interface FormState {
   data: any;
-  indexHistory: number[];
   currentIndex: number;
+  indexHistory: number[];
   prestationsRefusees: Refus[];
+  prestationsRefuseesStack: Refus[][];
   done: boolean;
 }
 

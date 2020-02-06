@@ -8,30 +8,30 @@ import { FormState } from '../../core/dynamic-form/form-state.model';
   styleUrls: ['./form-result.component.scss']
 })
 export class FormResultComponent {
-  formResult: FormState;
   prestationEligible: Prestation[];
   prestationDejaPercues: Prestation[];
   prestationsRefusees: { prestation: Prestation, questionKey: string }[];
+  reponses: any;
 
   constructor() {
 
   }
 
   @Input()
-  set result(result: FormState) {
-    this.formResult = result;
+  set formState(formState: FormState) {
+    this.reponses = formState.data;
 
     this.prestationEligible = Object.values(Prestation).filter(
-      prestation => !result.prestationsRefusees.some(
+      prestation => !formState.prestationsRefusees.some(
         prestationRefusee => prestationRefusee.prestation === prestation
       )
     );
 
-    this.prestationDejaPercues = result.prestationsRefusees.filter(
+    this.prestationDejaPercues = formState.prestationsRefusees.filter(
       prestationRefusee => prestationRefusee.questionKey === 'prestations'
     ).map(prestationRefusee => prestationRefusee.prestation);
 
-    this.prestationsRefusees = result.prestationsRefusees.filter(
+    this.prestationsRefusees = formState.prestationsRefusees.filter(
       prestationRefusee => prestationRefusee.questionKey !== 'prestations'
     );
   }
