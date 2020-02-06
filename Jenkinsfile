@@ -1,5 +1,9 @@
 pipeline {
-  agent { label 'master' }
+  agent {
+    node {
+      label 'CypressAgent'
+    }
+  }
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
@@ -9,6 +13,9 @@ pipeline {
     NO_PROXY = '***REMOVED***'
     QELI_LAB_HOST = '***REMOVED***'
     QELI_CREDENTIALS = credentials('45d84cd5-cffc-429c-8ec8-a1a8852ed903')
+    NODEJS_HOME = tool name: 'NodeJS 11.15.0', type: 'nodejs'
+    CYPRESS_CACHE_FOLDER = '***REMOVED***'
+    CYPRESS_INSTALL_BINARY = '3.8.2'
   }
   tools {
     maven 'Maven 3.2.1'

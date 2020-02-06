@@ -209,7 +209,9 @@ strict-ssl=false
 registry=***REMOVED***/content/repositories/npmjs/
  ```
 
-### Problèmes avec node-saas
+### Problèmes avec node-sass
 
-En cas de problème avec node-saas, exécuter la commande suivante
+En cas de problème avec node-sass, exécuter la commande suivante
 `npm rebuild node-sass`.
+
+Cette commande est intégrée dans une phase Maven du module qeli-frontoffice-ihm.
