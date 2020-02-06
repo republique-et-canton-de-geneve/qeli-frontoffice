@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Prestation } from '../../core/common/prestation.model';
+import { FormState } from '../../core/dynamic-form/form-state.model';
 
 @Component({
   selector: 'app-form-result',
@@ -7,7 +8,7 @@ import { Prestation } from '../../core/common/prestation.model';
   styleUrls: ['./form-result.component.scss']
 })
 export class FormResultComponent {
-  formResult: { prestationsRefusees: { prestation: Prestation, questionKey: string }[]; data: any };
+  formResult: FormState;
   prestationEligible: Prestation[];
   prestationDejaPercues: Prestation[];
   prestationsRefusees: { prestation: Prestation, questionKey: string }[];
@@ -17,7 +18,7 @@ export class FormResultComponent {
   }
 
   @Input()
-  set result(result: { prestationsRefusees: { prestation: Prestation, questionKey: string }[]; data: any }) {
+  set result(result: FormState) {
     this.formResult = result;
 
     this.prestationEligible = Object.values(Prestation).filter(
