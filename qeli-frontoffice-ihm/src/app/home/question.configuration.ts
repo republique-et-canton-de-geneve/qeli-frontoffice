@@ -182,6 +182,20 @@ const DomicileQuestions: QuestionBase<any>[] = [
         Prestation.AIDE_SOCIALE, (value: any) => value['residenceEffectiveCantonGE'] !== ReponseBinaire.NON
       )
     ]
+  }),
+  new TextQuestion({
+    key: 'enfantsACharge',
+    code: '0505',
+    help: true,
+    type: 'number',
+    validators: [Validators.required,
+                 Validators.pattern('\-?[0-9]*'),
+                 Validators.min(0),
+                 Validators.max(20)],
+    eligibilite: [
+      new Eligibilite(Prestation.PC_FAM, (value: any) => value['enfantsACharge'] > 0
+      )
+    ]
   })
 ];
 
