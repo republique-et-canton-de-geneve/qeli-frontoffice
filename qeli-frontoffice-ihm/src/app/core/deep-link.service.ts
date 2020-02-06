@@ -36,6 +36,7 @@ export class DeepLinkService {
    */
   encryptParams(data: {}) {
     data = this.removeEmptyJson(data);
+    console.log(data);
     return btoa(JSON.stringify(data));
   }
 

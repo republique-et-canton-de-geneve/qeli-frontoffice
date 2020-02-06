@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { Prestation } from '../common/prestation.model';
 import { DeepLinkService } from '../deep-link.service';
 import { ActivatedRoute } from '@angular/router';
+import { FormState, Refus } from './form-state.model';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -13,19 +14,22 @@ import { ActivatedRoute } from '@angular/router';
 export class DynamicFormComponent implements OnInit {
 
   @Input() questions: QuestionBase<any>[] = [];
-  @Output() onSubmit: EventEmitter<any> = new EventEmitter();
+  @Output() onQuestionChanged: EventEmitter<FormState> = new EventEmitter();
 
   form: FormGroup;
+  formState: FormState = {
+    data: {},
+    indexHistory: [],
+    currentIndex: 0,
+    prestationsRefusees: [],
+    done: false
+  };
 
-  prestationsRefusees: { prestation: Prestation, questionKey: string }[] = [];
-  prestationsRefuseesStack: { prestation: Prestation, questionKey: string }[][] = [];
-  indexHistoryStack: number[] = [];
-  currentQuestionIndex = 0;
+  prestationsRefuseesStack: Refus[][] = [];
 
   constructor(
     private deepLinkService: DeepLinkService,
-    private route: ActivatedRoute
-  ) {
+    private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -34,10 +38,10 @@ export class DynamicFormComponent implements OnInit {
       const formData = this.deepLinkService.decryptQueryParamData(params);
 
       if (formData) {
-        this.prestationsRefusees = formData.pr;
+        this.formState.prestationsRefusees = formData.pr;
+        this.formState.indexHistory = formData.ihs;
+        this.formState.currentIndex = formData.cqi;
         this.prestationsRefuseesStack = formData.prs;
-        this.indexHistoryStack = formData.ihs;
-        this.currentQuestionIndex = formData.cqi;
       }
 
       this.questions.forEach(question => {
@@ -45,6 +49,7 @@ export class DynamicFormComponent implements OnInit {
       });
 
       this.form = new FormGroup(group);
+      this.onFormChanged();
     });
   }
 
@@ -54,7 +59,7 @@ export class DynamicFormComponent implements OnInit {
 
   get prestationEligible() {
     return Object.values(Prestation).filter(
-      prestation => !this.prestationsRefusees.some(
+      prestation => !this.formState.prestationsRefusees.some(
         prestationRefusee => prestationRefusee.prestation === prestation
       )
     );
@@ -63,26 +68,26 @@ export class DynamicFormComponent implements OnInit {
   nextQuestion() {
     if (this.isValid(this.currentQuestion)) {
 
-      this.indexHistoryStack.push(this.currentQuestionIndex);
-      this.prestationsRefuseesStack.push(this.prestationsRefusees);
+      this.formState.indexHistory.push(this.formState.currentIndex);
+      this.prestationsRefuseesStack.push(this.formState.prestationsRefusees.slice(0));
 
       this.prestationEligible.filter(prestation => {
         const eligibilite = this.currentQuestion.eligibilite.filter(
           eligibilite => eligibilite.prestation === prestation
         );
-        return (eligibilite.length > 0 && !eligibilite.every(eligibilite => eligibilite.isEligible((this.form))));
+        return (eligibilite.length > 0 && !eligibilite.every(eligibilite => eligibilite.isEligible((this.form.value))));
       }).forEach(prestationRefusee => {
-        this.prestationsRefusees.push({
+        this.formState.prestationsRefusees.push({
           prestation: prestationRefusee,
           questionKey: this.currentQuestion.key
         });
       });
 
 
-      const nextIndex = this.questions.findIndex((question, index) => {
-          if (index > this.currentQuestionIndex) {
+      this.formState.currentIndex = this.questions.findIndex((question, index) => {
+          if (index > this.formState.currentIndex) {
             if (question.eligibilite.some(el => this.prestationEligible.includes(el.prestation))) {
-              const answer = question.defaultAnswer ? question.defaultAnswer(this.form) : undefined;
+              const answer = question.defaultAnswer ? question.defaultAnswer(this.form.value) : undefined;
 
               if (!answer) {
                 return true;
@@ -96,27 +101,23 @@ export class DynamicFormComponent implements OnInit {
         }
       );
 
-      if (nextIndex === -1) {
-        this.currentQuestionIndex = this.questions.length - 1;
-        this.onSubmit.emit({
-          data: this.form.value,
-          prestationsRefusees: this.prestationsRefusees
-        });
-      } else {
-        this.currentQuestionIndex = nextIndex;
-      }
-
       this.deepLinkService.updateUrl(this.formStateToQueryParam());
+      this.onFormChanged();
     }
   }
 
-  previousQuestion() {
-    this.currentQuestionIndex = (this.indexHistoryStack.length > 0) ? this.indexHistoryStack.pop() : 0;
-    this.prestationsRefuseesStack = (this.prestationsRefuseesStack.length > 0) ?
-                                    this.prestationsRefuseesStack.pop() :
-                                    Object.values(Prestation);
+  onFormChanged() {
+    this.formState.data = this.form.value;
+    this.formState.done = this.formState.currentIndex === -1;
+    this.onQuestionChanged.emit(this.formState);
+  }
 
+  previousQuestion() {
+    this.formState.currentIndex = (this.formState.indexHistory.length > 0) ? this.formState.indexHistory.pop() : 0;
+    this.formState.prestationsRefusees =
+      (this.prestationsRefuseesStack.length > 0) ? this.prestationsRefuseesStack.pop() : [];
     this.deepLinkService.updateUrl(this.formStateToQueryParam());
+    this.onFormChanged();
   }
 
   onKeyUp(event: KeyboardEvent) {
@@ -126,7 +127,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   get currentQuestion() {
-    return this.questions[this.currentQuestionIndex];
+    return this.questions[this.formState.currentIndex];
   }
 
   /**
@@ -135,10 +136,10 @@ export class DynamicFormComponent implements OnInit {
   formStateToQueryParam(): {} {
     return {
       v: this.form.value,
-      pr: this.prestationsRefusees,
+      pr: this.formState.prestationsRefusees,
       prs: this.prestationsRefuseesStack,
-      ihs: this.indexHistoryStack,
-      cqi: this.currentQuestionIndex
+      ihs: this.formState.indexHistory,
+      cqi: this.formState.currentIndex
     };
   }
 
