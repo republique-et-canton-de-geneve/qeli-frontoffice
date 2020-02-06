@@ -15,8 +15,8 @@ import { NationaliteQuestionComponent } from './question/nationalite-question/na
 import { RadioQuestionComponent } from './question/radio-question/radio-question.component';
 import { FocusOnInitDirective } from './common/init.directive';
 import { DeepLinkComponent } from './deep-link/deep-link.component';
-import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { BootstrapModule } from '../bootstrap/bootstrap.module';
 
 export const ngxMaskModuleOptions: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -30,7 +30,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbDatepickerModule,
+    BootstrapModule,
     NgxMaskModule.forRoot(ngxMaskModuleOptions),
     TranslateModule.forRoot({
       loader: {
