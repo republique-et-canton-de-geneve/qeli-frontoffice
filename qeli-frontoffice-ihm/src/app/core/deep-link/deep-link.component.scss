@@ -1,20 +1,17 @@
-.deep-link {
-  margin-top: 1em;
-}
-
-.deep-link-input {
-  margin: 5px 0;
+.deep-link-pop-in {
+  padding: 0.2rem 0.8rem 0.6rem 0.8rem;
 }
 
 .deep-link-input[readonly] {
   background-color: #fff;
+  border-color: #e5e5e5;
 }
 
-.deep-link label {
+label.help-block {
   font-weight: normal;
-  font-style: italic;
+  text-align: justify;
 }
 
-.col {
-  padding: 0;
+.deep-link-btn {
+  margin: 0;
 }
