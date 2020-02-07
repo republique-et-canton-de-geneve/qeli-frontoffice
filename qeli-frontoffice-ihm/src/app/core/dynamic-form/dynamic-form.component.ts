@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
 import { FormGroup } from '@angular/forms';
 import { Prestation } from '../common/prestation.model';
-import { FormState } from './form-state.model';
+import { FormState, Refus } from './form-state.model';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -36,7 +36,7 @@ export class DynamicFormComponent implements OnInit {
 
   get prestationEligible() {
     return Object.values(Prestation).filter(
-      prestation => !this.formState.prestationsRefusees.some(
+      prestation => !this.prestationsRefusees.some(
         prestationRefusee => prestationRefusee.prestation === prestation
       )
     );
@@ -45,8 +45,8 @@ export class DynamicFormComponent implements OnInit {
   nextQuestion() {
     if (this.isValid(this.currentQuestion)) {
 
-      this.formState.indexHistory.push(this.formState.currentIndex);
-      this.formState.prestationsRefuseesStack.push(this.formState.prestationsRefusees.slice(0));
+      this.indexHistory.push(this.currentQuestionIndex);
+      this.prestationsRefuseesStack.push(this.prestationsRefusees.slice(0));
 
       this.prestationEligible.filter(prestation => {
         const eligibilite = this.currentQuestion.eligibilite.filter(
@@ -54,15 +54,15 @@ export class DynamicFormComponent implements OnInit {
         );
         return (eligibilite.length > 0 && !eligibilite.every(eligibilite => eligibilite.isEligible((this.form.value))));
       }).forEach(prestationRefusee => {
-        this.formState.prestationsRefusees.push({
+        this.prestationsRefusees.push({
           prestation: prestationRefusee,
           questionKey: this.currentQuestion.key
         });
       });
 
 
-      this.formState.currentIndex = this.questions.findIndex((question, index) => {
-          if (index > this.formState.currentIndex) {
+      this.currentQuestionIndex = this.questions.findIndex((question, index) => {
+          if (index > this.currentQuestionIndex) {
             if (question.eligibilite.some(el => this.prestationEligible.includes(el.prestation))) {
               const answer = question.defaultAnswer ? question.defaultAnswer(this.form.value) : undefined;
 
@@ -84,25 +84,24 @@ export class DynamicFormComponent implements OnInit {
 
   onFormChanged() {
     this.formState.data = this.form.value;
-    this.formState.done = this.formState.currentIndex === -1;
+    this.formState.done = this.currentQuestionIndex === -1;
 
     this.onQuestionChanged.emit(this.formState);
   }
 
   previousQuestion() {
-    this.formState.currentIndex = (this.formState.indexHistory.length > 0) ? this.formState.indexHistory.pop() : 0;
-    this.formState.prestationsRefusees =
-      (this.formState.prestationsRefuseesStack.length > 0) ? this.formState.prestationsRefuseesStack.pop() : [];
+    this.currentQuestionIndex = (this.indexHistory.length > 0) ? this.indexHistory.pop() : 0;
+    this.prestationsRefusees = (this.prestationsRefuseesStack.length > 0) ? this.prestationsRefuseesStack.pop() : [];
 
     this.onFormChanged();
   }
 
   navigateToQuestion(targetQuestion: QuestionBase<any>) {
     const targetQuestionIndex = this.questions.findIndex(question => targetQuestion.code === question.code);
-    const stackIndex = this.formState.indexHistory.findIndex(index => index === targetQuestionIndex);
+    const stackIndex = this.indexHistory.findIndex(index => index === targetQuestionIndex);
 
-    this.formState.indexHistory = this.formState.indexHistory.slice(0, stackIndex + 1);
-    this.formState.prestationsRefuseesStack = this.formState.prestationsRefuseesStack.slice(0, stackIndex + 1);
+    this.indexHistory = this.indexHistory.slice(0, stackIndex + 1);
+    this.prestationsRefuseesStack = this.prestationsRefuseesStack.slice(0, stackIndex + 1);
 
     this.previousQuestion();
   }
@@ -114,7 +113,39 @@ export class DynamicFormComponent implements OnInit {
   }
 
   get currentQuestion() {
-    return this.questions[this.formState.currentIndex];
+    return this.formState.done ? null : this.questions[this.currentQuestionIndex];
+  }
+
+  get currentQuestionIndex() {
+    return this.formState.currentIndex;
+  }
+
+  set currentQuestionIndex(currentIndex: number) {
+    this.formState.currentIndex = currentIndex;
+  }
+
+  get indexHistory() {
+    return this.formState.indexHistory;
+  }
+
+  set indexHistory(value: number[]) {
+    this.formState.indexHistory = value;
+  }
+
+  get prestationsRefusees() {
+    return this.formState.prestationsRefusees;
+  }
+
+  set prestationsRefusees(value: Refus[]) {
+    this.formState.prestationsRefusees = value;
+  }
+
+  get prestationsRefuseesStack() {
+    return this.formState.prestationsRefuseesStack;
+  }
+
+  set prestationsRefuseesStack(value: Refus[][]) {
+    this.formState.prestationsRefuseesStack = value;
   }
 
 }
