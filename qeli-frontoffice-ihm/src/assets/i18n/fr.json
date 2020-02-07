@@ -1,8 +1,70 @@
 {
   "home": {
-    "title": "Questionnaire d'éligibilité",
     "result": {
-      "presentation": "Le résultat du questionnaire d'éligibilité est :"
+      "title": "Résultat",
+      "eligibilite": {
+        "oui": "D'après ce que vous avez répondu, vous pourriez bénéficier des prestations suivantes :",
+        "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas bénéficier des prestations suivantes :",
+        "deja": "D'après ce que vous avez répondu, vous bénéficiez déjà des prestations suivantes :"
+      },
+      "prestation": {
+        "SUBSIDES": {
+          "title": "Subsides d'assurance-maladie",
+          "content": "Le subside d'assurance-maladie est en principe attribué automatiquement en fonction du revenu déterminant unifié (RDU). Il permet de réduire le montant que vous devez payer pour l'assurance de base obligatoire."
+        },
+        "AVANCES": {
+          "title": "Avances de pensions alimentaires",
+          "content": "Aide gratuitement le créancier d'aliments à recouvrer les pensions qui lui sont dues lorsque le débiteur néglige son obligation d'entretien."
+        },
+        "ALLOCATION_LOGEMENT": {
+          "title": "Allocation logement",
+          "content": "L'allocation logement est une aide financière personnalisée consentie par l'Etat en faveur du locataire dont le loyer représente une charge trop lourde eu égard à son revenu et à sa fortune et qui n'a pas trouvé, au préalable, de logement moins cher sans inconvénients majeurs."
+        },
+        "SUBVENTION_HM": {
+          "title": "Subvention habitation mixte (HM)",
+          "content": "Un logement HM correspond, de par son niveau de loyer à un appartement de type HLM. Toutefois, en lieu et place d'une subvention à l'exploitation versée au propriétaire de l'immeuble, l'Etat de Genève accorde, pendant 25 ans au maximum, une subvention aux locataires qui en remplissent les conditions d'octroi."
+        },
+        "PC_AVS_AI": {
+          "title": "Prestations complémentaires AVS/AI",
+          "content": "Les prestations complémentaires (PC) à l’assurance vieillesse et survivants (AVS) et à l’assurance invalidité (AI) sont accordées lorsque les rentes et autres revenus ne couvrent pas les besoins vitaux."
+        },
+        "BOURSES": {
+          "title": "Bourses d'études",
+          "content": "Vous avez besoin d'une aide financière pour entreprendre ou poursuivre une formation après la scolarité obligatoire? En fonction de votre situation familiale et personnelle, vous pourriez bénéficier d'une aide pour votre projet dans une école de formation générale (collège, ECG...) ou professionnelle, dans une Haute écoles spécialisée (HES) ou à l'Université."
+        },
+        "PC_FAM": {
+          "title": "Prestations complémentaires familiales",
+          "content": "Les prestations complémentaires cantonales familiales garantissent un \"revenu minimum d'aide sociale\" aux ménages avec enfant-s. Elles sont destinées aux familles n'ayant pas les revenus suffisants pour couvrir leurs besoins vitaux. "
+        },
+        "AIDE_SOCIALE": {
+          "title": "Aide Sociale",
+          "content": "L'aide sociale vient en aide aux personnes qui ont des difficultés sociales ou sont dépourvues des moyens nécessaires pour satisfaire leurs besoins vitaux et personnels indispensables. Cette aide peut se limiter à un soutien social ou comporter également une aide financière."
+        }
+      },
+      "reponses": "Veuillez retrouver ci-dessous un résumé des réponses que vous avez donné au questionnaire :"
+    },
+    "navigation": {
+      "title": "Questionnaire d'éligibilité",
+      "categorie": {
+        "SITUATION_PERSONELLE": "Situation personelle",
+        "COMPLEMENTS": "Précisions / compléments"
+      },
+      "subcategorie": {
+        "PRESTATION": "Prestations",
+        "AGE": "Age",
+        "ETAT_CIVIL": "Etat civil",
+        "NATIONALITE": "Nationalité / permis",
+        "DOMICILE": "Domicile",
+        "ACTIVITE": "Activité",
+        "FORMATION": "Formation",
+        "RENTES": "Rentes",
+        "SITUATION_PROFESSIONNELLE": "Situation professionnelle",
+        "LOGEMENT": "Logement",
+        "ASSURANCE_MALADIE": "Assurance maladie",
+        "PENSION_ALIMENTAIRE": "Pension alimentaire",
+        "MONTANT_FORTUNE": "Montant fortune",
+        "SITUATION_FISCALE": "Situation fiscale"
+      }
     }
   },
   "layout": {
@@ -35,6 +97,16 @@
         "BOURSES": "Bourses d'études",
         "PC_FAM": "Prestations complémentaires familiales",
         "AIDE_SOCIALE": "Aide Sociale"
+      },
+      "motifRefus": {
+        "SUBSIDES": "Vous avez indiqué que vous touhchez déjà des subsides d'assurance-maladie.",
+        "AVANCES": "Vous avez indiqué que vous touhchez déjà des avances de pensions alimentaires.",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous touhchez déjà des allocation logement.",
+        "SUBVENTION_HM": "Vous avez indiqué que vous touhchez déjà des subvention habitation mixte (HM).",
+        "PC_AVS_AI": "Vous avez indiqué que vous touhchez déjà des prestations complémentaires AVS/AI.",
+        "BOURSES": "Vous avez indiqué que vous touhchez déjà des bourses d'études.",
+        "PC_FAM": "Vous avez indiqué que vous touhchez déjà des prestations complémentaires familiales.",
+        "AIDE_SOCIALE": "Vous avez indiqué que vous touhchez déjà des aide sociale."
       }
     },
     "dateNaissance": {
@@ -42,8 +114,13 @@
       "help": "Si vous ne connaissez pas la date exacte, merci de mettre le 1er jour du mois.",
       "error": {
         "required": "Votre date de naissance doit être fournie",
-        "past": "Votre date de naissance ne peut pas être dans le futur",
-        "minYear": "Année de naissance incorrecte"
+        "maxDate": "Votre date de naissance ne peut pas être dans le futur",
+        "minDate": "Année de naissance incorrecte",
+        "invalidDate": "Date de naissance incorrecte",
+        "Mask error": ""
+      },
+      "motifRefus": {
+        "AIDE_SOCIALE": "Vous avez indiqué que vous êtes mineur."
       }
     },
     "etatCivil": {
@@ -55,7 +132,7 @@
         "DIVORCE": "Divorcé(e)",
         "SEPARE": "Séparé(e)",
         "PARTENARIAT_ENREGISTRE": "En partenariat enregistré",
-        "VOEUF": "Veuf(ve)"
+        "VEUF": "Veuf(ve)"
       },
       "error": {
         "required": "Votre état civil doit être fourni"
@@ -106,6 +183,55 @@
       },
       "error": {
         "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué avoir un permis B de moins de 5 ans."
+      }
+    },
+    "domicileCantonGE": {
+      "label": "Votre domicile officiel est-il dans le canton de Genève ?",
+      "help": "Domicile : vous avez une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AVANCES": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "PC_AVS_AI": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "PC_FAM": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
+        "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève."
+      }
+    },
+    "residenceEffectiveCantonGE": {
+      "label": "Avez-vous votre résidence effective dans le canton de Genève ?",
+      "help": "Résidence effective : votre logement se trouve bien dans le canton de Genève.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève."
+      }
+    },
+    "enfantsACharge": {
+      "label": "Combien d'enfants à charge avez-vous ?",
+      "help": "Enfant à charge : enfant de moins de 18 ans ou enfant entre 18 et 25 ans en formation",
+      "motifRefus": {
+        "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge"
+      },
+      "error": {
+        "required": "Merci de saisir le nombre d'enfants à charge",
+        "pattern": "Merci de saisir le nombre d'enfants à charge",
+        "min": "Erreur dans la saisie : nombre négatif interdit",
+        "max": "Erreur dans la saisie : nombre trop élevé"
       }
     },
     "activite": {
@@ -121,12 +247,15 @@
         "ARRET": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain",
         "NONE": "Aucune des réponses précédentes"
       },
+      "motifRefus": {
+        "BOURSES": "Vous devez être étudiant(e) pour bénéficier d'une bourse d'études."
+      },
+      "noneDetailLabel": "Veuillez spécifier votre activité :",
+      "noneDetailPlaceholder": "",
       "error": {
         "required": "Votre activité doit être fournie",
         "atLeastOneSelected": "Au moins une activité doit être selectionnée"
-      },
-      "noneDetailLabel": "Veuillez spécifier votre activité :",
-      "noneDetailPlaceholder": ""
+      }
     },
     "scolarite": {
       "label": "Votre demande concerne :",
@@ -150,8 +279,196 @@
         },
         "AUCUNE": "Aucune de ces réponses"
       },
+      "motifRefus": {
+        "BOURSES": "La formation que vous avez indiqué suivre ne peut pas faire objet d'une bourse."
+      },
       "error": {
         "required": "Ce champ est obligatoire"
+      }
+    },
+    "proprietaireOuLocataireLogement": {
+      "label": "Etes-vous propriétaire ou locataire de votre logement ?",
+      "help": "Logement : l'appartement ou la maison dans laquelle vous habitez.",
+      "option": {
+        "PROPRIETAIRE": "Propriétaire",
+        "LOCATAIRE_SOUS_LOCATAIRE": "Locataire, sous-locataire",
+        "AUTRE": "Autre"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous êtes propriétaire de votre logement"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "bailLogementAVotreNom": {
+      "label": "Le bail de votre logement est-il à votre nom ?",
+      "help": "Votre nom figure sur le bail à loyer du logement que vous occupez. Si vous êtes un sous-locataire déclaré à la régie, vous êtes également considéré comme titulaire du bail.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que le bail de votre logement n'est pas à votre nom"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "nombreDePersonnesLogement": {
+      "label": "Combien de personnes vivent dans votre logement ?",
+      "help": "N'oubliez pas de vous compter.",
+      "error": {
+        "required": "Merci de saisir le nombre de personnes",
+        "pattern": "Merci de saisir le nombre de personnes",
+        "min": "Il ne peut y avoir moins d'une personne",
+        "max": "Erreur dans la saisie du nombre de personnes"
+      }
+    },
+    "nombreDePiecesLogement": {
+      "label": "Combien de pièces a votre logement ?",
+      "help": "Le nombre de pièces est mentionné sur votre bail.",
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué un nombre de personnes trop important par rapport au nombre de pièces de votre logement"
+      },
+      "error": {
+        "required": "Merci de saisir le nombre de pièces",
+        "pattern": "Merci de saisir le nombre de pièces",
+        "min": "Il ne peut y avoir moins d'une pièce",
+        "max": "Erreur dans la saisie du nombre de pièces"
+      }
+    },
+    "appartementHabitationMixte": {
+      "label": "Etes-vous dans un appartement en habitation mixte (HM) ?",
+      "help": "Logement en habitation mixte (HM) : La subvention personnalisée habitation mixte est une aide personnalisée versée par l'Etat à un locataire de logement HM.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué être dans un appartement en habitation mixte (HM)"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "montantLoyerFixeOuVariable": {
+      "label": "Le montant de votre loyer est-il fixe ou variable en fonction de votre revenu (HLM, HBM, HM, appartement de la Gérance immobilière municipale) ?",
+      "help": "Loyer fixé en fonction de votre revenu si vous habitez dans :<br><ul><li>un HBM (habitation bon marché) subventionné par l'Etat, destiné aux personnes à revenus modestes. Son loyer est contrôlé de façon permanente.</li><li>un HLM (habitation à loyer modéré) destiné aux personnes à revenus modérés, subventionné par l'Etat pendant une période de 20 ans</li><li>ou un HM (habitation mixte) destiné aux personnes à revenus moyens, dont le loyer peut être subventionné par l'Etat pendant une période de 25 ans</li><li>un logement géré par la GIM (Gestion immobilière municipale)</li></ul>",
+      "option": {
+        "FIXE": "Loyer fixe",
+        "EN_FONCTION_REVENU": "Loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué avoir un montant de loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "assuranceMaladieSuisse": {
+      "label": "Avez-vous une assurance-maladie suisse (LAMal) ?",
+      "help": "Affiliation à l'assurance-maladie : En Suisse, l'assurance de base pour les soins (LAMal) en cas de maladie et d'accident est obligatoire. Toute personne, dès sa prise de domicile en Suisse, est tenue d'être assurée pour les soins en cas de maladie et d'accident. Etre affilié signifie avoir souscrit à une police d'assurance-maladie suisse. Par exemple, Assura, CSS, Helsana ou Mutuel.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "SUBSIDES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)."
+      }
+    },
+    "droitPensionAlimentaire": {
+      "label": "Avez-vous aujourd'hui droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s) ?",
+      "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s)\n\n.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AVANCES": "Vous avez indiqué n'avoir pas le droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s)."
+      }
+    },
+    "recoisEntierementPensionAlimentaire": {
+      "label": "Recevez-vous entièrement le montant des pensions alimentaires ?",
+      "help": "Pensions entièrement payées : tous les montants qui vous sont dus vous ont été versés.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires auxquelles vous avez le droit."
+      }
+    },
+    "fortuneSuperieureA": {
+      "label": "Avez-vous une fortune supérieure à {{ limite }}.- ?",
+      "help": "Fortune : le montant de vos comptes en banque, de vos comptes postaux et de vos biens immobiliers (maison, appartement) est-il plus élevé que le montant affiché ?<br>Les limites sont de Fr. 4'000.- pour une personne seule, Fr. 8'000.- pour un couple, Fr. 2'000.- pour chaque enfant à charge, mais au maximum Fr. 10'000.-.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "AIDE_SOCIALE": "Vous avez indiqué avoir une fortune trop élevée"
+      }
+    },
+    "impotFortune": {
+      "label": "Payez-vous des impôts sur la fortune ?",
+      "help": "Fortune imposable : au-delà d'un certain montant, vous devez payer un impôt sur la fortune. Payez-vous un impôt sur la fortune ?",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué payer des impôts sur la fortune."
+      }
+    },
+    "exempteImpot": {
+      "label": "Etes-vous exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
+      "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.\n\nExempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "SUBSIDES": "Vous avez indiqué être exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)."
+      }
+    },
+    "taxeOfficeAFC": {
+      "label": "Etes-vous taxé d'office par l'administration fiscale cantonale (AFC) en {{ annee }} ?",
+      "help": "Taxation d'office : Sanction prise contre le contribuable qui n'a pas effectué de déclaration : le fisc lui-même procède à une estimation du revenu, du profit ou de la valeur imposable, au moyen des éléments d'information en sa possession.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "SUBSIDES": "Vous avez indiqué être taxé d'office par l'administration fiscale cantonale (AFC)."
       }
     },
     "fonctionnaireInternational": {
@@ -167,6 +484,9 @@
       },
       "error": {
         "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que vous-même (votre conjoint) ou l'un de vos parents est-il fonctionnaire international."
       }
     },
     "parentsHabiteFranceTravailleSuisse": {
@@ -179,6 +499,9 @@
       },
       "error": {
         "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que vos parents ne sont pas contribuable sur le canton de Genève."
       }
     }
   },
@@ -186,7 +509,12 @@
     "required": "Ce champ est obligatoire",
     "submit": "Envoyer",
     "previous": "Aller à la question précedente",
-    "next": "Passer à la question suivante "
+    "next": "Passer à la question suivante",
+    "deepLink": {
+      "copyLink": "Sauvegarder votre progression courante avec le lien du formulaire",
+      "copyHelpText": "Ce lien vous permet de revenir compléter votre saisie ultérieurement sans perdre vos réponses",
+      "copyButton": "Copier"
+    }
   },
   "common": {
     "ajouterNationalite": "Ajouter une autre nationalité",
@@ -244,14 +572,14 @@
       "dk": "Danemark",
       "dj": "Djibouti",
       "dm": "Dominique",
-      "eg": "Égypte",
-      "ae": "Émirats arabes unis",
-      "ec": "Équateur",
-      "er": "Érythrée",
+      "eg": "Egypte",
+      "ae": "Emirats arabes unis",
+      "ec": "Equateur",
+      "er": "Erythrée",
       "es": "Espagne",
       "ee": "Estonie",
-      "us": "États-Unis",
-      "et": "Éthiopie",
+      "us": "Etats-Unis",
+      "et": "Ethiopie",
       "fj": "Fidji",
       "fi": "Finlande",
       "fr": "France",

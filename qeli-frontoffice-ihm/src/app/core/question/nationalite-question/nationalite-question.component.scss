@@ -3,12 +3,20 @@
   align-items: center;
   justify-content: space-between;
 
-  * {
-    margin-right: 10px;
+  > * {
+    margin-right: 1rem;
   }
 
 
-  *:last-child {
+  > *:last-child {
     margin-right: 0;
+  }
+}
+
+.btn-text {
+  margin-left: 1rem;
+
+  @media only screen and (max-width: 640px) {
+    display: none;
   }
 }

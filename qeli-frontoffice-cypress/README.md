@@ -6,7 +6,8 @@ contrôler le résultat de chaque scénario.
 
 Le dépôt dédié [qeli-scenarii-metier][qeli-scenarii-metier] regroupe les fichiers
 (`.feature`) modifiables par les utilisateurs métiers.
-Il est importé en sous-module dans [cypress/integration/].
+Il est importé en tant que sous-module Git dans
+[cypress/integration](./cypress/integration/).
 
 
 ## Structure
@@ -21,10 +22,13 @@ Development).
 (avec la syntaxe  [Gherkin][gherkin-doc]) à Cypress.
 
 
-## Tests Cypress
+## Tests Cypress + Cucumber
 
 Note: On utilise des [commandes personnalisées][cypress-custom-commands] définies
 dans [cypress/support/commands.js](cypress/support/commands.js).
+
+Les correspondances de phrases Cucumber sont définies dans
+[cypress/integration/common](cypress/integration/common).
 
 ### vérifier
 
@@ -89,6 +93,28 @@ cy.clickNext();
 
 cy.get('[data-cy=previousQuestion]').click();
 cy.clickPrevious();
+```
+
+### manipuler des données avec un tableau
+
+Cucumber offre la possibilité d'utiliser en entrée un type
+[DataTable][cucumber-DataTable], exemple :
+
+```gherkin
+  Quand je remplis mon adresse:
+    | rue    | Rue des champs |
+    | numero | 1              |
+    | ville  | Genève         |
+```
+
+Mapping de la phrase :
+
+```js
+  When("je remplis mon adresse:", (dataTable) => {
+    const obj = { rue: 'Rue des champs', numero: 1, ville: 'Genève' };
+    let adresse = dataTable.rowsHash();
+    cy.expect(obj).to.deep.equal(adresse);
+  });
 ```
 
 
@@ -178,8 +204,9 @@ npm install
 
 
 [cypress-doc]: https://docs.cypress.io/
-[cucumber-doc]: https://cucumber.io/docs/cucumber/
-[cypress-cucumber-pp]: https://www.npmjs.com/package/cypress-cucumber-preprocessor
-[qeli-scenarii-metier]: ***REMOVED***/DEVELOPPEUR-SOCIAL/10818-qeli/qeli-scenarii-metier
-[gherkin-doc]: https://cucumber.io/docs/gherkin/reference/
 [cypress-custom-commands]: https://docs.cypress.io/api/cypress-api/custom-commands.html
+[cypress-cucumber-pp]: https://www.npmjs.com/package/cypress-cucumber-preprocessor
+[cucumber-doc]: https://cucumber.io/docs/cucumber/
+[cucumber-DataTable]: https://github.com/cucumber/cucumber-js/blob/master/src/models/data_table.ts
+[gherkin-doc]: https://cucumber.io/docs/gherkin/reference/
+[qeli-scenarii-metier]: ***REMOVED***/DEVELOPPEUR-SOCIAL/10818-qeli/qeli-scenarii-metier
