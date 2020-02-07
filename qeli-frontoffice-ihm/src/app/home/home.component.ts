@@ -42,6 +42,15 @@ export class HomeComponent implements OnInit {
           prestationsRefuseesStack: formData.prs,
           done: formData.cqi === -1
         };
+      } else {
+        this.formState = {
+          data: {},
+          currentIndex: 0,
+          indexHistory: [],
+          prestationsRefusees: [],
+          prestationsRefuseesStack: [],
+          done: false
+        };
       }
     });
   }

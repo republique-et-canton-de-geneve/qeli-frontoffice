@@ -1,5 +1,5 @@
 <div class="dynamic-form" (keyup)="onKeyUp($event)">
-  <div *ngIf="form">
+  <div *ngIf="form && currentQuestion">
     <form [formGroup]="form">
       <app-dynamic-question [question]="currentQuestion" [form]="form"></app-dynamic-question>
     </form>
