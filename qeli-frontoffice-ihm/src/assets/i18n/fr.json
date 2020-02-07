@@ -414,7 +414,7 @@
     },
     "fortuneSuperieureA": {
       "label": "Avez-vous une fortune supérieure à {{ limite }}.- ?",
-      "help": "Fortune : le montant de vos comptes en banque, de vos comptes postaux et de vos biens immobiliers (maison, appartement) est-il plus élevé que {{ limite }}.- ?",
+      "help": "Fortune : le montant de vos comptes en banque, de vos comptes postaux et de vos biens immobiliers (maison, appartement) est-il plus élevé que le montant affiché ?<br>Les limites sont de Fr. 4'000.- pour une personne seule, Fr. 8'000.- pour un couple, Fr. 2'000.- pour chaque enfant à charge, mais au maximum Fr. 10'000.-.",
       "option": {
         "OUI": "Oui",
         "NON": "Non"
