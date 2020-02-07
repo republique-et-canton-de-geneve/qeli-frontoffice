@@ -4,7 +4,7 @@
 </app-navigation>
 
 <div class="container">
-  <app-dynamic-form *ngIf="!formState.done"
+  <app-dynamic-form [hidden]="formState.done"
                     [questions]="questions"
                     [formState]="formState"
                     (onQuestionChanged)="onQuestionChanged($event)"
