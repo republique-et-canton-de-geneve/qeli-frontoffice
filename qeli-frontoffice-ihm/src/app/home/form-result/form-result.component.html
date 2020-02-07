@@ -1,10 +1,15 @@
 <div>
-  <h3>{{ 'home.result.title' | translate }}</h3>
+  <div class="row form-result-title">
+    <div class="col-xs-12 col-sm-8">
+      <h2>{{ 'home.result.title' | translate }}</h2>
+    </div>
+    <div class="hidden-xs col-sm-4 text-right">
+      <app-deep-link></app-deep-link>
+    </div>
+  </div>
 
   <div *ngIf="prestationEligible.length > 0">
-    <p>
-      <b>{{ 'home.result.eligibilite.oui' | translate }}</b>
-    </p>
+    <h3>{{ 'home.result.eligibilite.oui' | translate }}</h3>
     <result-block *ngFor="let prestation of prestationEligible"
                   type="success"
                   title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}"
@@ -15,9 +20,7 @@
 
   <div *ngIf="prestationsRefusees.length > 0">
     <hr>
-    <p>
-      <b>{{ 'home.result.eligibilite.non' | translate }}</b>
-    </p>
+    <h3>{{ 'home.result.eligibilite.non' | translate }}</h3>
     <result-block *ngFor="let prestationRefusee of prestationsRefusees"
                   type="warning"
                   title="{{ 'home.result.prestation.' + prestationRefusee.prestation + '.title' | translate }}"
@@ -29,9 +32,7 @@
 
   <div *ngIf="prestationDejaPercues.length > 0">
     <hr>
-    <p>
-      <b *ngIf="prestationDejaPercues.length > 0">{{ 'home.result.eligibilite.deja' | translate }}</b>
-    </p>
+    <h3 *ngIf="prestationDejaPercues.length > 0">{{ 'home.result.eligibilite.deja' | translate }}</h3>
     <result-block *ngFor="let prestation of prestationDejaPercues"
                   type="info"
                   title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}"
@@ -40,8 +41,7 @@
     </result-block>
     <hr>
   </div>
-  <p>
-    <b>{{ 'home.result.reponses' | translate }}</b>
-  </p>
+
+  <h3>{{ 'home.result.reponses' | translate }}</h3>
   <pre>{{ reponses | json }}</pre>
 </div>

@@ -37,7 +37,8 @@ ul.item-list {
 
     a {
       cursor: pointer;
-      display: block;
+      display: flex;
+      align-items: baseline;
       padding: 0.6rem 0;
       transition: all;
       transition-duration: 300ms;
@@ -64,13 +65,13 @@ ul.item-list {
     &:last-child {
       border-bottom: 1px solid #b2b2b2;
     }
-  }
 
-  ul li {
-    padding-left: 3rem;
+    ul {
+      padding-left: 3rem;
 
-    &:last-child {
-      border-bottom: 0;
+      li:last-child {
+        border-bottom: 0;
+      }
     }
   }
 }

@@ -513,9 +513,7 @@
     "deepLink": {
       "copyLink": "Sauvegarder votre progression courante avec le lien du formulaire",
       "copyHelpText": "Ce lien vous permet de revenir compléter votre saisie ultérieurement sans perdre vos réponses",
-      "copyButton": "Copier dans le presse-papiers",
-      "copyButtonAlt": "Copié dans le presse-papiers!",
-      "copySuccessMessage": "Le lien a été copié dans votre presse-papiers."
+      "copyButton": "Copier"
     }
   },
   "common": {

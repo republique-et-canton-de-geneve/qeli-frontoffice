@@ -1,28 +1,37 @@
-<div class="deep-link row">
-  <div class="col-xs-12 col-sm-6"></div>
-  <div class="col-xs-12 col-sm-6 text-right">
-    <a (click)="showCopyPanel = !showCopyPanel" class="btn btn-default btn-block">
-      <i class="fa fa-link"></i>
-      {{ 'form.deepLink.copyLink'| translate }}
-    </a>
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle"
+          (click)="showCopyPanel = !showCopyPanel"
+          type="button"
+          title="{{ 'form.deepLink.copyLink'| translate }}"
+          id="dropdownMenuButton"
+          aria-haspopup="true"
+          [attr.aria-expanded]="showCopyPanel">
+    <i class="fa fa-link"></i>
+  </button>
 
-    <div class="form-group" *ngIf="showCopyPanel === true">
-      <div class="col-md-6 col col-1">
-        <input class="deep-link-input form-control" type="text" id="deep-link-input" value="{{ deepLink }}" readonly
-               #deepLinkInput>
-      </div>
-      <div class="col-md-6 col col-2">
-        <a class='btn btn-info'
-           (click)="copyDeepLink()">
+  <div *ngIf="showCopyPanel === true"
+       class="deep-link-pop-in dropdown-menu pull-right show"
+       aria-labelledby="dropdownMenuButton">
+
+    <label class="help-block" for="deep-link-input">
+      {{ 'form.deepLink.copyHelpText'| translate }}
+    </label>
+
+    <div class="input-group">
+      <input class="deep-link-input form-control"
+             type="text"
+             id="deep-link-input"
+             value="{{ deepLink }}"
+             readonly
+             #deepLinkInput>
+      <div class="input-group-addon has-btn">
+        <button class="btn btn-info"
+                type="button"
+                (click)="copyDeepLink()"
+                title="{{ 'form.deepLink.copyButton'| translate }}"
+                id="deep-link-btn">
           <i class="fa fa-copy"></i>
-          {{ 'form.deepLink.' + (isCopied ? 'copyButtonAlt' : 'copyButton') | translate }}
-        </a>
-      </div>
-      <div class="col-md-12 col text-left">
-        <label class="help-block" for="deep-link-input">{{ 'form.deepLink.copyHelpText'| translate }}
-          <span class="form-required" title="{{ 'form.deepLink.copyHelpText'| translate }}"></span>
-        </label>
+        </button>
       </div>
     </div>
   </div>
-</div>
