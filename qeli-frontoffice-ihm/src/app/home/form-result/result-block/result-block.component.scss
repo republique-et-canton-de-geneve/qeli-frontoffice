@@ -1,0 +1,40 @@
+.panel {
+  margin-bottom: 1rem;
+  text-align: justify;
+
+  .panel-heading {
+    cursor: pointer;
+
+    .panel-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      position: relative;
+
+      .panel-row-text {
+        flex: 1;
+      }
+
+      .panel-row-icon {
+        margin-right: 0.5rem;
+      }
+
+      .panel-row-toggle-btn {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+  &.panel-success .panel-heading:hover {
+    background-color: #d6e9c6;
+  }
+
+  &.panel-info .panel-heading:hover {
+    background-color: #bce8f1;
+  }
+
+  &.panel-warning .panel-heading:hover {
+    background-color: #faebcc;
+  }
+
+}

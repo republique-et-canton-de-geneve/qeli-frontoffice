@@ -1,0 +1,37 @@
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle"
+          (click)="showCopyPanel = !showCopyPanel"
+          type="button"
+          title="{{ 'form.deepLink.copyLink'| translate }}"
+          id="dropdownMenuButton"
+          aria-haspopup="true"
+          [attr.aria-expanded]="showCopyPanel">
+    <i class="fa fa-link"></i>
+  </button>
+
+  <div *ngIf="showCopyPanel === true"
+       class="deep-link-pop-in dropdown-menu pull-right show"
+       aria-labelledby="dropdownMenuButton">
+
+    <label class="help-block" for="deep-link-input">
+      {{ 'form.deepLink.copyHelpText'| translate }}
+    </label>
+
+    <div class="input-group">
+      <input class="deep-link-input form-control"
+             type="text"
+             id="deep-link-input"
+             value="{{ deepLink }}"
+             readonly
+             #deepLinkInput>
+      <div class="input-group-addon has-btn">
+        <button class="btn btn-info"
+                type="button"
+                (click)="copyDeepLink()"
+                title="{{ 'form.deepLink.copyButton'| translate }}"
+                id="deep-link-btn">
+          <i class="fa fa-copy"></i>
+        </button>
+      </div>
+    </div>
+  </div>

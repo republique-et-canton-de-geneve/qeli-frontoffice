@@ -24,7 +24,9 @@ registerLocaleData(localeFrCH);
     HomeModule,
     RouterModule
   ],
-  providers: [{provide: LOCALE_ID, useValue: "fr-CH"}],
+  providers: [
+    {provide: LOCALE_ID, useValue: "fr-CH"}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
