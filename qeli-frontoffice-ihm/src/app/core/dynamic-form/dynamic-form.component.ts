@@ -2,9 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
 import { FormGroup } from '@angular/forms';
 import { Prestation } from '../common/prestation.model';
-import { DeepLinkService } from '../deep-link.service';
-import { ActivatedRoute } from '@angular/router';
-import { FormState, Refus } from './form-state.model';
+import { FormState } from './form-state.model';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -14,43 +12,22 @@ import { FormState, Refus } from './form-state.model';
 export class DynamicFormComponent implements OnInit {
 
   @Input() questions: QuestionBase<any>[] = [];
+  @Input() formState: FormState;
   @Output() onQuestionChanged: EventEmitter<FormState> = new EventEmitter();
 
   form: FormGroup;
-  formState: FormState = {
-    data: {},
-    indexHistory: [],
-    currentIndex: 0,
-    prestationsRefusees: [],
-    done: false
-  };
 
-  prestationsRefuseesStack: Refus[][] = [];
-
-  constructor(
-    private deepLinkService: DeepLinkService,
-    private route: ActivatedRoute) {
+  constructor() {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      let group: any = {};
-      const formData = this.deepLinkService.decryptQueryParamData(params);
+    let group: any = {};
 
-      if (formData) {
-        this.formState.prestationsRefusees = formData.pr;
-        this.formState.indexHistory = formData.ihs;
-        this.formState.currentIndex = formData.cqi;
-        this.prestationsRefuseesStack = formData.prs;
-      }
-
-      this.questions.forEach(question => {
-        group[question.key] = question.toFormControl((formData ? formData.v[question.key] : null));
-      });
-
-      this.form = new FormGroup(group);
-      this.onFormChanged();
+    this.questions.forEach(question => {
+      group[question.key] = question.toFormControl((this.formState ? this.formState.data[question.key] : null));
     });
+
+    this.form = new FormGroup(group);
   }
 
   isValid(question: QuestionBase<any>) {
@@ -69,7 +46,7 @@ export class DynamicFormComponent implements OnInit {
     if (this.isValid(this.currentQuestion)) {
 
       this.formState.indexHistory.push(this.formState.currentIndex);
-      this.prestationsRefuseesStack.push(this.formState.prestationsRefusees.slice(0));
+      this.formState.prestationsRefuseesStack.push(this.formState.prestationsRefusees.slice(0));
 
       this.prestationEligible.filter(prestation => {
         const eligibilite = this.currentQuestion.eligibilite.filter(
@@ -101,7 +78,6 @@ export class DynamicFormComponent implements OnInit {
         }
       );
 
-      this.deepLinkService.updateUrl(this.formStateToQueryParam());
       this.onFormChanged();
     }
   }
@@ -109,15 +85,26 @@ export class DynamicFormComponent implements OnInit {
   onFormChanged() {
     this.formState.data = this.form.value;
     this.formState.done = this.formState.currentIndex === -1;
+
     this.onQuestionChanged.emit(this.formState);
   }
 
   previousQuestion() {
     this.formState.currentIndex = (this.formState.indexHistory.length > 0) ? this.formState.indexHistory.pop() : 0;
     this.formState.prestationsRefusees =
-      (this.prestationsRefuseesStack.length > 0) ? this.prestationsRefuseesStack.pop() : [];
-    this.deepLinkService.updateUrl(this.formStateToQueryParam());
+      (this.formState.prestationsRefuseesStack.length > 0) ? this.formState.prestationsRefuseesStack.pop() : [];
+
     this.onFormChanged();
+  }
+
+  navigateToQuestion(targetQuestion: QuestionBase<any>) {
+    const targetQuestionIndex = this.questions.findIndex(question => targetQuestion.code === question.code);
+    const stackIndex = this.formState.indexHistory.findIndex(index => index === targetQuestionIndex);
+
+    this.formState.indexHistory = this.formState.indexHistory.slice(0, stackIndex + 1);
+    this.formState.prestationsRefuseesStack = this.formState.prestationsRefuseesStack.slice(0, stackIndex + 1);
+
+    this.previousQuestion();
   }
 
   onKeyUp(event: KeyboardEvent) {
@@ -128,19 +115,6 @@ export class DynamicFormComponent implements OnInit {
 
   get currentQuestion() {
     return this.questions[this.formState.currentIndex];
-  }
-
-  /**
-   * Formate les données de l'état du formulaire dans le format attendu par le queryParam
-   */
-  formStateToQueryParam(): {} {
-    return {
-      v: this.form.value,
-      pr: this.formState.prestationsRefusees,
-      prs: this.prestationsRefuseesStack,
-      ihs: this.formState.indexHistory,
-      cqi: this.formState.currentIndex
-    };
   }
 
 }

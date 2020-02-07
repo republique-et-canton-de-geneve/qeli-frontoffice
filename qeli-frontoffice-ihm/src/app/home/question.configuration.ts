@@ -186,6 +186,8 @@ const DomicileQuestions: QuestionBase<any>[] = [
   new TextQuestion({
     key: 'enfantsACharge',
     code: '0505',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.DOMICILE,
     help: true,
     type: 'number',
     validators: [Validators.required,

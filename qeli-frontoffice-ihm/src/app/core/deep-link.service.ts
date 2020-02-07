@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +22,13 @@ export class DeepLinkService {
    * Met à jour l'URL courante avec les valeurs du formulaire encryptés en paramètres de la requête (queryParams)
    *
    * @param data {}
+   * @param route
    */
-  updateUrl(data: {}): void {
-    this.router.navigate([], {queryParams: {data: this.encryptParams(data)}});
+  updateUrl(data: any, route: ActivatedRoute): void {
+    this.router.navigate([], {
+      queryParams: {data: this.encryptParams(data)},
+      relativeTo: route
+    });
   }
 
 
@@ -32,21 +36,21 @@ export class DeepLinkService {
    * Encrypte (base64) les valeurs du formulaire
    *
    * @param data
+   *
    * @return string Chaîne encodée et compressée
    */
-  encryptParams(data: {}) {
+  encryptParams(data: any) {
     data = this.removeEmptyJson(data);
-    console.log(data);
     return btoa(JSON.stringify(data));
   }
 
   /**
    * Décrypte les paramètres de la requête (queryParam)
    *
-   * @param queryParam {}|null
+   * @param queryParams {}|null
    */
-  decryptQueryParamData(queryParam) {
-    return queryParam && queryParam['data'] ? JSON.parse(atob(queryParam['data'])) : null;
+  decryptQueryParamsData(queryParams: any) {
+    return queryParams && queryParams['data'] ? JSON.parse(atob(queryParams['data'])) : null;
   }
 
   /**
@@ -54,7 +58,7 @@ export class DeepLinkService {
    *
    * @param data
    */
-  removeEmptyJson(data) {
+  removeEmptyJson(data: any) {
     Object.entries(data).forEach(([key, val]) =>
       (val && typeof val === 'object') && this.removeEmptyJson(val) ||
       (val === null || val === "") && delete data[key]
