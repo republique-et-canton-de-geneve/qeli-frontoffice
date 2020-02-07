@@ -23,4 +23,4 @@ module.exports = (on, config) => {
 
   // Resolve the configuration file
   return getConfigurationByFile(config.env['qeli-env']);
-}
+};
