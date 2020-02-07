@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { QuestionComponent } from '../question.component';
 import { DateQuestion } from './date-question.model';
 import { FormGroup } from '@angular/forms';
@@ -14,7 +14,7 @@ import { NgbDateTransformer } from './ngb-date.transformer';
   templateUrl: './date-question.component.html',
   styleUrls: ['./date-question.component.scss']
 })
-export class DateQuestionComponent implements QuestionComponent<Date>, OnInit {
+export class DateQuestionComponent implements QuestionComponent<string>, OnInit, AfterViewInit {
   @Input() question: DateQuestion;
   @Input() form: FormGroup;
   showDatePicker = false;
@@ -26,12 +26,20 @@ export class DateQuestionComponent implements QuestionComponent<Date>, OnInit {
   }
 
   ngOnInit(): void {
-    this.form.controls[this.question.key].valueChanges.subscribe(value => {
-      const date = moment(value, 'YYYY-MM-DD', true);
-      if (this.textInputDate && date.isValid()) {
-        this.textInputDate.nativeElement.value = date.format('DD.MM.YYYY');
-      }
-    });
+    this.form.controls[this.question.key].valueChanges.subscribe(this.updateTextInputData.bind(this));
+  }
+
+  ngAfterViewInit(): void {
+    if (this.form.value[this.question.key]) {
+      this.updateTextInputData(this.form.value[this.question.key]);
+    }
+  }
+
+  private updateTextInputData(value: string) {
+    const date = moment(value, 'YYYY-MM-DD', true);
+    if (this.textInputDate && date.isValid()) {
+      this.textInputDate.nativeElement.value = date.format('DD.MM.YYYY');
+    }
   }
 
   onTypingDate(input: string) {

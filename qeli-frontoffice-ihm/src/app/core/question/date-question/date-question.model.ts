@@ -1,7 +1,7 @@
 import { QuestionBase } from '../question-base.model';
 import { QeliValidators } from '../../validator/qeli-validators';
 
-export class DateQuestion extends QuestionBase<Date> {
+export class DateQuestion extends QuestionBase<string> {
   controlType = 'date';
   maxDate: Date;
   minDate: Date;
