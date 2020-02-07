@@ -1,21 +1,22 @@
 <div class="panel" [ngClass]="{ 'panel-success': success, 'panel-warning': danger, 'panel-info': info}">
   <div class="panel-heading" (click)="showDetails = !showDetails">
-    <div class="panel-row title">
-      <span>
-        <i class="fa title-icon" [ngClass]="{
+    <div class="panel-row">
+      <i class="fa panel-row-icon" [ngClass]="{
           'fa-check-circle': success,
           'fa-times-circle': danger,
           'fa-info-circle': info
         }"></i>
-        <b>{{ title }}</b>
-      </span>
-      <span class="toggle-button">
-        <i class="fa" [ngClass]="{ 'fa-chevron-circle-up': showDetails, 'fa-chevron-circle-down': !showDetails }"></i>
-      </span>
-    </div>
 
-    <div class="panel-row subtitle" *ngIf="subtitle">
-      {{ subtitle }}
+      <div class="panel-row-text">
+        <b>{{ title }}</b>
+        <div *ngIf="subtitle">
+          {{ subtitle }}
+        </div>
+      </div>
+
+      <div class="panel-row-toggle-btn">
+        <i class="fa" [ngClass]="{ 'fa-chevron-circle-up': showDetails, 'fa-chevron-circle-down': !showDetails }"></i>
+      </div>
     </div>
   </div>
   <div *ngIf="showDetails" class="panel-body">

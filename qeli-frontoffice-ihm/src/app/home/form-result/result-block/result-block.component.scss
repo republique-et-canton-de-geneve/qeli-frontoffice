@@ -5,20 +5,23 @@
   .panel-heading {
     cursor: pointer;
 
-    .panel-row.title {
+    .panel-row {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
       position: relative;
 
-      .title-icon {
-        margin-right: 1rem;
+      .panel-row-text {
+        flex: 1;
       }
-    }
 
-    .panel-row.subtitle {
-      margin-left: 2.5rem;
-      margin-right: 3rem;
+      .panel-row-icon {
+        margin-right: 0.5rem;
+      }
+
+      .panel-row-toggle-btn {
+        margin-left: 0.5rem;
+      }
     }
   }
 

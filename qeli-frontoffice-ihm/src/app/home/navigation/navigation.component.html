@@ -36,11 +36,13 @@
                     {{ 'home.navigation.subcategorie.' + subcategorie.name | translate }}
                   </a>
                   <ul [ngbCollapse]="subcategorie.collapsed">
-                    <li *ngFor="let question of subcategorie.questions">
+                    <li *ngFor="let question of subcategorie.questions" class="leaf">
                       <a [ngClass]="isCurrentQuestion(question) ? 'disabled' : 'text-success'"
                          (click)="selectQuestion(question)">
                         <i class="fa" [ngClass]="isCurrentQuestion(question) ? 'fa-question-circle' : 'fa-check-circle'"></i>
-                        {{ question.getTranslationKey(reponses) | translate:question.createLabelParameters(reponses) }}
+                        <span>
+                          {{ question.getTranslationKey(reponses) | translate:question.createLabelParameters(reponses) }}
+                        </span>
                       </a>
                     </li>
                   </ul>
