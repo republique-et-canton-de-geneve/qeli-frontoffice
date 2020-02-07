@@ -1,6 +1,6 @@
 <div class="form-group">
-  <div class="row">
-    <div class="col-xs-9">
+  <div class="row question-title">
+    <div class="col-xs-12 col-sm-8">
       <label class="control-label"
              [ngClass]="!isValid ? 'text-danger' : ''"
              [attr.for]="question.key"
@@ -11,25 +11,22 @@
               title="{{ 'form.required' | translate }}">*</span>
       </label>
     </div>
-    <div class="col-xs-3 text-right">
+    <div class="hidden-xs col-sm-4 text-right">
       <app-deep-link></app-deep-link>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <p *ngIf="question.help"
-         class="help-block"
-         [innerHtml]="'question.' + question.key + '.help' | translate:question.createLabelParameters(form.value)">
-      </p>
-      <ng-template app-question-host></ng-template>
-    </div>
 
-    <div *ngIf="!isValid"
-         class="error-block col-xs-12"
-         data-cy-label="validation_message">
+  <p *ngIf="question.help" class="help-block"
+     [innerHtml]="'question.' + question.key + '.help' | translate:question.createLabelParameters(form.value)">
+  </p>
+
+  <ng-template app-question-host></ng-template>
+
+  <div *ngIf="!isValid"
+       class="error-block"
+       data-cy-label="validation_message">
       <span *ngFor="let error of errors" class="text-danger">
         {{ 'question.' + question.key + '.error.' + error | translate }}
       </span>
-    </div>
   </div>
 </div>
