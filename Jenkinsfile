@@ -36,9 +36,7 @@ pipeline {
     }
 
     stage('Sonar') {
-      when { expression { return false } }
-      // TODO Attendre au rédemerrage de l'agent le 10.02.2020
-      // when { branch 'develop' }
+      when { branch 'develop' }
 
       steps {
         withSonarQubeEnv('Sonarqube') {
