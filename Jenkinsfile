@@ -26,10 +26,8 @@ pipeline {
 
     // DEV credentials
     QELI_DEV_A_HOST = 'RH712TOMC75A'
-    QELI_DEV_A_CREDENTIALS = credentials('45d84cd5-cffc-429c-8ec8-a1a8852ed903')
-
     QELI_DEV_B_HOST = 'RH712TOMC75B'
-    QELI_DEV_B_CREDENTIALS = credentials('45d84cd5-cffc-429c-8ec8-a1a8852ed903')
+    QELI_DEV_CREDENTIALS = credentials('38c09e92-ea6a-4e8f-9d31-8ef1aa27be97')
   }
 
   tools {
@@ -127,8 +125,8 @@ pipeline {
               def remote = [:]
               remote.name = 'qeli-dev'
               remote.host = env.QELI_DEV_A_HOST
-              remote.user = env.QELI_DEV_A_CREDENTIALS_USR
-              remote.password = env.QELI_DEV_A_CREDENTIALS_PSW
+              remote.user = env.QELI_DEV_CREDENTIALS_USR
+              remote.password = env.QELI_DEV_CREDENTIALS_PSW
               remote.allowAnyHosts = true
 
               sshPut remote: remote,
@@ -150,8 +148,8 @@ pipeline {
               def remote = [:]
               remote.name = 'qeli-dev'
               remote.host = env.QELI_DEV_B_HOST
-              remote.user = env.QELI_DEV_B_CREDENTIALS_USR
-              remote.password = env.QELI_DEV_B_CREDENTIALS_PSW
+              remote.user = env.QELI_DEV_CREDENTIALS_USR
+              remote.password = env.QELI_DEV_CREDENTIALS_PSW
               remote.allowAnyHosts = true
 
               sshPut remote: remote,
