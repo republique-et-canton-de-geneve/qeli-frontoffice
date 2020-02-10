@@ -64,6 +64,7 @@ pipeline {
     }
 
     stage('Integration tests') {
+      when { expression { return false } }
       steps {
         sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
                        -Dihm.test.skip=true                           \
@@ -102,7 +103,7 @@ pipeline {
               remote.allowAnyHosts = true
 
               sshPut remote: remote,
-                     from: './qeli-frontoffice-application/target/qeli-frontoffice-application-*.war',
+                     from: './qeli-frontoffice-application/target/qeli-frontoffice-application.war',
                      into: "/home/${remote.user}/qeli-frontoffice-application.war",
                      override: true
 
@@ -118,7 +119,6 @@ pipeline {
         }
 
         stage('DEV A') {
-          when { branch 'master' }
 
           steps {
             script {
@@ -130,18 +130,17 @@ pipeline {
               remote.allowAnyHosts = true
 
               sshPut remote: remote,
-                     from: './qeli-frontoffice-application/target/qeli-frontoffice-application-*.war',
-                     into: "***REMOVED***/webapps/livraison/",
+                     from: './qeli-frontoffice-application/target/qeli-frontoffice-application.war',
+                     into: '***REMOVED***/livraison/qeli-frontoffice-application.war',
                      override: true
 
-              sshScipt remote: remote,
-                       script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
+              sshScript remote: remote,
+                        script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
             }
           }
         }
 
         stage('DEV B') {
-          when { branch 'master' }
 
           steps {
             script {
@@ -154,11 +153,11 @@ pipeline {
 
               sshPut remote: remote,
                      from: './qeli-frontoffice-application/target/qeli-frontoffice-application.war',
-                     into: "***REMOVED***/webapps/livraison/",
+                     into: '***REMOVED***/livraison/qeli-frontoffice-application.war',
                      override: true
 
-              sshScipt remote: remote,
-                       script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
+              sshScript remote: remote,
+                        script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
             }
           }
         }
