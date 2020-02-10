@@ -1,10 +1,10 @@
 {
   "name": "@ch.ge.social.tools/qeli-frontoffice-ihm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --source-map=true",
-    "build": "ng build --prod --base-href=/qeli/formulaire/ --no-progress",
+    "build": "ng build --prod --base-href=/socialqeli_pub/formulaire/ --no-progress",
     "test": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
