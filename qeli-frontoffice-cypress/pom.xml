@@ -125,7 +125,7 @@
                 <configuration>
                     <skip>${cypress.test.skip}</skip>
                     <webApp>
-                        <contextPath>/qeli</contextPath>
+                        <contextPath>/socialqeli_pub</contextPath>
                     </webApp>
                     <httpConnector>
                         <port>8080</port>
