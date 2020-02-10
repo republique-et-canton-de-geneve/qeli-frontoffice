@@ -59,11 +59,11 @@ mvn spring-boot:run -Pdevelopment
 
 #### Rest API
 
-Le REST API sera disponible sur: http://localhost:8080/qeli/api/
+Le REST API sera disponible sur: http://localhost:8080/socialqeli_pub/api/
 
 #### IHM
 
-L'IHM sera disponible sur: http://localhost:8080/qeli/formulaire/
+L'IHM sera disponible sur: http://localhost:8080/socialqeli_pub/formulaire/
 
 #### Frontend
 
@@ -136,7 +136,7 @@ Un livrable windows en format `ZIP` sera disponible sur :
 Décompresser le fichier et double click sur le fichier
 `qeli-frontoffice-application.cmd` pour démarrer le server en mode standalone.
 
-L'IHM est disponible sur: http://localhost:8080/qeli/frontoffice
+L'IHM est disponible sur: http://localhost:8080/socialqeli_pub/frontoffice
 
 Pour arrêter le server fermer la fenêtre du terminal.
 
