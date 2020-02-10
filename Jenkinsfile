@@ -36,9 +36,7 @@ pipeline {
     }
 
     stage('Sonar') {
-      when { expression { return false } }
-      // TODO Problème dans l'agent Cypress
-      // when { branch 'develop' }
+      when { branch 'develop' }
 
       steps {
         withSonarQubeEnv('Sonarqube') {
