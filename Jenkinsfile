@@ -1,9 +1,6 @@
 pipeline {
-  agent {
-    node {
-      label 'CypressAgent'
-    }
-  }
+  agent { label 'master' }
+
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
@@ -50,9 +47,7 @@ pipeline {
     }
 
     stage('Sonar') {
-      when { expression { return false } }
-      // TODO Problème dans l'agent Cypress
-      // when { branch 'develop' }
+      when { branch 'develop' }
 
       steps {
         withSonarQubeEnv('Sonarqube') {
@@ -64,7 +59,8 @@ pipeline {
     }
 
     stage('Integration tests') {
-      when { expression { return false } }
+      agent { label 'CypressAgent' }
+
       steps {
         sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
                        -Dihm.test.skip=true                           \
@@ -90,7 +86,7 @@ pipeline {
 
     stage('Deploy') {
       parallel {
-        stage('LAB') {
+        stage('LAB Instance') {
           when { branch 'develop' }
 
           steps {
@@ -118,7 +114,8 @@ pipeline {
           }
         }
 
-        stage('DEV A') {
+        stage('DEV Instance A') {
+          when { branch 'master' }
 
           steps {
             script {
@@ -140,7 +137,8 @@ pipeline {
           }
         }
 
-        stage('DEV B') {
+        stage('DEV Instance B') {
+          when { branch 'master' }
 
           steps {
             script {
