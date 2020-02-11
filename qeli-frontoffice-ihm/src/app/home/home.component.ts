@@ -55,16 +55,20 @@ export class HomeComponent implements OnInit {
         };
       }
 
-      this.trackPreviousFormAnswer(this.previousQuestion);
-      this.trackingService.trackPageView(this.formState.done, this.questions[this.formState.currentIndex], this.formState.prestationsRefusees);
+      this.trackPreviousFormAnswer();
+
+      if (!this.formState.done) { // question page :
+        this.trackingService.trackQuestion(this.questions[this.formState.currentIndex]);
+      } else { // result page :
+        this.trackingService.trackResult(this.formState.prestationsRefusees);
+      }
     });
   }
 
-  trackPreviousFormAnswer(previousQuestion: QuestionBase<any>) {
-    if (previousQuestion) {
-      const previousQuestionCodeKey = previousQuestion.code + '_' + previousQuestion.key;
-      const humanReadableAnswer = this.getHumanReadableAnswerForQuestion(previousQuestion, ';');
-      this.trackingService.trackAnswer(previousQuestionCodeKey, humanReadableAnswer);
+  trackPreviousFormAnswer() {
+    if (this.previousQuestion) {
+      const humanReadableAnswer = this.getHumanReadableAnswerForQuestion(this.previousQuestion, ';');
+      this.trackingService.trackAnswer(this.previousQuestion, humanReadableAnswer);
     }
   }
 
