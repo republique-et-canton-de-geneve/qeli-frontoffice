@@ -13,6 +13,16 @@
 
       .panel-row-text {
         flex: 1;
+
+        h4 {
+          margin: 0;
+          text-align: left;
+          font-size: 16px;
+
+          @media (max-width: 640px) {
+            font-size: 14px;
+          }
+        }
       }
 
       .panel-row-icon {
