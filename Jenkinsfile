@@ -94,8 +94,8 @@ pipeline {
               def remote = [:]
               remote.name = 'qeli-lab'
               remote.host = env.QELI_LAB_HOST
-              remote.user = env.QELI_CREDENTIALS_USR
-              remote.password = env.QELI_CREDENTIALS_PSW
+              remote.user = env.QELI_LAB_CREDENTIALS_USR
+              remote.password = env.QELI_LAB_CREDENTIALS_PSW
               remote.allowAnyHosts = true
 
               sshPut remote: remote,
