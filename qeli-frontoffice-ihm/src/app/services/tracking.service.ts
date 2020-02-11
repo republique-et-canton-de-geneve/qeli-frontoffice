@@ -3,7 +3,7 @@ import { MatomoInjector, MatomoTracker } from 'ngx-matomo';
 import { QuestionBase } from '../core/question/question-base.model';
 import { environment } from '../../environments/environment';
 import { Refus } from '../core/dynamic-form/form-state.model';
-import { Prestation } from '../core/common/prestation.model';
+import PrestationsUtils from '../core/common/prestations-utils';
 
 export const SCOPE_PAGE = 'page';
 export const TRACK_FORM = 'Formulaire';
@@ -66,24 +66,17 @@ export class TrackingService {
    * @param prestationsRefusees
    */
   trackResult(prestationsRefusees: Refus[]) {
-    const reponsesEligible = Object.values(Prestation).filter(
-      prestation => !prestationsRefusees.some(
-        prestationRefusee => prestationRefusee.prestation === prestation
-      )
-    );
+    const reponsesEligibles = PrestationsUtils.getPrestationsEligibles(prestationsRefusees);
+    const reponsesRefusees = PrestationsUtils.getPrestationsRefusees(prestationsRefusees)
+                                             .map(prestationRefusee => prestationRefusee.prestation);
 
-    const reponsesDejaPercues = prestationsRefusees.filter(
-      prestationRefusee => prestationRefusee.questionKey === 'prestations'
-    ).map(prestationRefusee => prestationRefusee.prestation);
-
-    const reponsesRefusees = prestationsRefusees.filter(
-      prestationRefusee => prestationRefusee.questionKey !== 'prestations'
-    ).map(prestationRefusee => prestationRefusee.prestation);
+    const reponsesDejaPercues = PrestationsUtils.getPrestationsDejaPercues(prestationsRefusees)
+                                                .map(prestationRefusee => prestationRefusee.prestation);
 
     const trackingUrl = location.href.split('?')[0] + TRACK_RESULT;
     this.matomoTracker.setCustomUrl(trackingUrl);
 
-    this.matomoTracker.setCustomVariable(1, "prestations-eligibles", reponsesEligible.join(';'), SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(1, "prestations-eligibles", reponsesEligibles.join(';'), SCOPE_PAGE);
     this.matomoTracker.setCustomVariable(2, "prestations-refusees", reponsesRefusees.join(';'), SCOPE_PAGE);
     this.matomoTracker.setCustomVariable(3, "prestations-percues", reponsesDejaPercues.join(';'), SCOPE_PAGE);
 
