@@ -1,1 +1,1 @@
-start ${jre.release}-jre\bin\java -jar app\${artifactId}.war --spring.profiles.active=development,standalone
+start ${jre.release}-jre\bin\java -jar app\${artifactId}.${packaging} --spring.profiles.active=development,standalone

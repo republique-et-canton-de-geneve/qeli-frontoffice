@@ -5,7 +5,7 @@ server:
   port: 8080
 
   servlet:
-    context-path: /qeli
+    context-path: /socialqeli_pub
 
   ssl:
     enabled: false
