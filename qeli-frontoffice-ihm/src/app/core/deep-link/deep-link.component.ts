@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DeepLinkService } from '../deep-link.service';
+import { DeepLinkService } from '../../services/deep-link.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
