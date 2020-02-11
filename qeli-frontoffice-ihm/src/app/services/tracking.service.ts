@@ -20,14 +20,14 @@ export class TrackingService {
   }
 
   /**
-   * Inject tracking code
+   * Injecte le code de traçage
    */
   initMatomo() {
     this.matomoInjector.init(environment.matomoServer, environment.matomoSiteId);
   }
 
   /**
-   * Track a question page view or a result page view
+   * Trace une question ou résultat
    *
    * @param formCompleted
    * @param lastQuestion
