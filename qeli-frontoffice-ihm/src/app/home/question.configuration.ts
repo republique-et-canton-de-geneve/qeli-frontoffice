@@ -496,7 +496,7 @@ const SituationFiscaleQuestions: QuestionBase<any>[] = [
     eligibilite: [
       new Eligibilite(
         Prestation.BOURSES,
-        (value: any) => value['fonctionnaireInternational'] !== ReponseProgressive.NON
+        (value: any) => value['parentsHabiteFranceTravailleSuisse'] !== ReponseProgressive.NON
       )
     ]
   })
