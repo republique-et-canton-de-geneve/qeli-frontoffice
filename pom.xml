@@ -73,7 +73,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 
-        <!-- IHM test parameters -->
+        <!-- Test parameters -->
         <surefire.test.skip>${skipTests}</surefire.test.skip>
         <ihm.test.skip>${skipTests}</ihm.test.skip>
         <cypress.test.skip>${skipTests}</cypress.test.skip>
@@ -307,6 +307,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
