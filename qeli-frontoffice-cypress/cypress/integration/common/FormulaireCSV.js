@@ -22,6 +22,7 @@ Given("j'utilise le jeu de données {string}", (fichier) => {
 
 Then('je contrôle mes scenarii sur le formulaire', () => {
   scenarios.forEach((scenario) => {
+    cy.log(scenario);
     cy.connectionFormulaire();
 
     donnees.forEach((row) => {
