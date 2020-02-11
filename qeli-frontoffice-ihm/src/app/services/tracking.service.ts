@@ -5,15 +5,17 @@ import { environment } from '../../environments/environment';
 import { Refus } from '../core/dynamic-form/form-state.model';
 import { Prestation } from '../core/common/prestation.model';
 
+export const SCOPE_PAGE = 'page';
+export const TRACK_FORM = 'Formulaire';
+export const TRACK_QUESTION = 'question';
+export const TRACK_ANSWER = 'reponse';
+export const TRACK_RESULT = 'resultat';
+
 @Injectable({
   providedIn: 'root'
 })
 export class TrackingService {
 
-  readonly FORM = 'Formulaire';
-  readonly QUESTION = 'question';
-  readonly ANSWER = 'reponse';
-  readonly RESULT = 'resultat';
 
   constructor(private matomoInjector: MatomoInjector,
               private matomoTracker: MatomoTracker) {
@@ -27,21 +29,6 @@ export class TrackingService {
   }
 
   /**
-   * Trace une question ou résultat
-   *
-   * @param formCompleted
-   * @param lastQuestion
-   * @param prestationsRefusees
-   */
-  trackPageView(formCompleted: boolean, lastQuestion: QuestionBase<any>, prestationsRefusees: Refus[]) {
-    if (!formCompleted) {
-      this.trackQuestion(lastQuestion);
-    } else {
-      this.trackResult(prestationsRefusees);
-    }
-  }
-
-  /**
    * Trace un évènement avec la catégorie Formulaire, une action (Question, Résultat, Réponse...), un nom optionnel et
    * une valeur numérique optionnelle.
    *
@@ -49,30 +36,29 @@ export class TrackingService {
    * @param [name]
    * @param [value]
    */
-  trackEvent(action: string, name?: string, value?: number) {
-    this.matomoTracker.trackEvent(this.FORM, action, name, value);
+  private trackEvent(action: string, name?: string, value?: number) {
+    this.matomoTracker.trackEvent(TRACK_FORM, action, name, value);
   }
 
   /**
    * Trace la question courante via un titre de page et une url personnalisés
-   * @param lastQuestion
+   * @param question
    */
-  trackQuestion(lastQuestion: QuestionBase<any>) {
-    const questionCodeKey = lastQuestion.code + '_' + lastQuestion.key;
-    const trackingUrl = location.href.split('?')[0] + this.QUESTION + '/' + lastQuestion.code + '_' + lastQuestion.key;
+  trackQuestion(question: QuestionBase<any>) {
+    const trackingUrl = location.href.split('?')[0] + TRACK_QUESTION + '/' + question.codeKey;
     this.matomoTracker.setCustomUrl(trackingUrl);
-    this.matomoTracker.trackPageView(this.QUESTION + '/' + questionCodeKey);
+    this.matomoTracker.trackPageView(TRACK_QUESTION + '/' + question.codeKey);
   }
 
   /**
    * Trace la réponse à une question via un évènement
-   * @param questionCodeKey
+   * @param question
    * @param answer
    */
-  trackAnswer(questionCodeKey: string, answer: string) {
-    this.matomoTracker.setCustomVariable(1, questionCodeKey, answer, 'page');
-    this.trackEvent(this.ANSWER, questionCodeKey);
-    this.matomoTracker.deleteCustomVariable(1, 'page');
+  trackAnswer(question: QuestionBase<any>, answer: string) {
+    this.matomoTracker.setCustomVariable(1, question.codeKey, answer, SCOPE_PAGE);
+    this.trackEvent(TRACK_ANSWER, question.codeKey);
+    this.matomoTracker.deleteCustomVariable(1, SCOPE_PAGE);
   }
 
   /**
@@ -94,18 +80,18 @@ export class TrackingService {
       prestationRefusee => prestationRefusee.questionKey !== 'prestations'
     ).map(prestationRefusee => prestationRefusee.prestation);
 
-    const trackingUrl = location.href.split('?')[0] + this.RESULT;
+    const trackingUrl = location.href.split('?')[0] + TRACK_RESULT;
     this.matomoTracker.setCustomUrl(trackingUrl);
 
-    this.matomoTracker.setCustomVariable(1, "prestations-eligibles", reponsesEligible.join(';'), 'page');
-    this.matomoTracker.setCustomVariable(2, "prestations-refusees", reponsesRefusees.join(';'), 'page');
-    this.matomoTracker.setCustomVariable(3, "prestations-percues", reponsesDejaPercues.join(';'), 'page');
+    this.matomoTracker.setCustomVariable(1, "prestations-eligibles", reponsesEligible.join(';'), SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(2, "prestations-refusees", reponsesRefusees.join(';'), SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(3, "prestations-percues", reponsesDejaPercues.join(';'), SCOPE_PAGE);
 
-    this.matomoTracker.trackPageView(this.RESULT);
+    this.matomoTracker.trackPageView(TRACK_RESULT);
 
-    this.matomoTracker.deleteCustomVariable(1, 'page');
-    this.matomoTracker.deleteCustomVariable(2, 'page');
-    this.matomoTracker.deleteCustomVariable(3, 'page');
+    this.matomoTracker.deleteCustomVariable(1, SCOPE_PAGE);
+    this.matomoTracker.deleteCustomVariable(2, SCOPE_PAGE);
+    this.matomoTracker.deleteCustomVariable(3, SCOPE_PAGE);
     this.matomoTracker.trackGoal(1, 0);
   }
 

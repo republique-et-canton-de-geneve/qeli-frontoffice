@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  matomoServer: 'https://etat-ge.ch/siteofficielmatomo/',
+  matomoServer: '***REMOVED***',
   matomoSiteId: 15
 };
