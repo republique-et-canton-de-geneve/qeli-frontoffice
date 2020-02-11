@@ -2,12 +2,15 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DeepLinkService } from '../deep-link.service';
 import { ActivatedRoute } from '@angular/router';
 
+let COUNT = 0;
+
 @Component({
   selector: 'app-deep-link',
   templateUrl: './deep-link.component.html',
   styleUrls: ['./deep-link.component.scss']
 })
 export class DeepLinkComponent implements OnInit {
+  id: number;
   isCopied: boolean = false;
   showCopyPanel: boolean = false;
 
@@ -17,6 +20,7 @@ export class DeepLinkComponent implements OnInit {
     private deepLinkService: DeepLinkService,
     private route: ActivatedRoute
   ) {
+    this.id = COUNT++;
   }
 
   ngOnInit() {

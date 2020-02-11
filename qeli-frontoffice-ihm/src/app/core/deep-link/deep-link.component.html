@@ -14,14 +14,14 @@
        class="deep-link-pop-in dropdown-menu pull-right show"
        aria-labelledby="dropdownMenuButton">
 
-    <label class="help-block" for="deep-link-input">
+    <label class="help-block" [attr.for]="'deep-link-input-' + id">
       {{ 'form.deepLink.copyHelpText'| translate }}
     </label>
 
     <div class="input-group">
       <input class="deep-link-input form-control"
              type="text"
-             id="deep-link-input"
+             [attr.id]="'deep-link-input-' + id"
              value="{{ deepLink }}"
              readonly
              #deepLinkInput>
