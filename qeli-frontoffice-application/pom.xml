@@ -155,7 +155,6 @@
             </build>
         </profile>
 
-        <!-- TODO Temporary solution -->
         <profile>
             <id>standalone</id>
 

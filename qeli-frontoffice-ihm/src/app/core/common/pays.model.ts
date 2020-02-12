@@ -202,9 +202,10 @@ export enum Pays {
 export const PAYS_CONVETIONE = [
   Pays.AU, // Australie
   Pays.BA, // Bosnie-Herzégovine
+  Pays.BR, // Brésil
   Pays.CA, // Canada
   Pays.CL, // Chili
-  Pays.HR, // Croatie
+  Pays.XK, // Kosovo
   Pays.JP, // Japon
   Pays.MK, // Macédoine
   Pays.ME, // Montenegro
@@ -222,6 +223,7 @@ export const PAYS_AELE_UE = [
   Pays.BE, // Belgique
   Pays.BG, // Bulgarie
   Pays.CY, // Chypre
+  Pays.HR, // Croatie
   Pays.DK, // Danemark
   Pays.ES, // Espagne
   Pays.EE, // Estonie
