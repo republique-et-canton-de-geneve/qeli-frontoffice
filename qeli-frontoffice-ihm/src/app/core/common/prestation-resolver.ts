@@ -1,15 +1,15 @@
 import { Prestation } from './prestation.model';
-import { Refus } from '../dynamic-form/form-state.model';
+import { Refus } from './form-state.model';
 
-export const PRESTATIONS = 'prestations';
+const PRESTATIONS_QUESTION_KEY = 'prestations';
 
-export default class PrestationsUtils {
+export class PrestationResolver {
 
   /**
-   * Retourne la liste des Prestations éligibles, depuis les prestations refusées
+   * Retourne la liste des prestations éligibles, depuis les prestations refusées
    * @param prestationsRefusees
    */
-  static getPrestationsEligibles(prestationsRefusees: Refus[]): Prestation[] {
+  static findPrestationsEligibles(prestationsRefusees: Refus[]): Prestation[] {
     return Object.values(Prestation).filter(
       prestation => !prestationsRefusees.some(
         prestationRefusee => prestationRefusee.prestation === prestation
@@ -21,9 +21,9 @@ export default class PrestationsUtils {
    * Retourne la liste des Refus de Prestations (non éligibles), depuis les prestations refusées
    * @param prestationsRefusees
    */
-  static getPrestationsRefusees(prestationsRefusees: Refus[]): Refus[] {
+  static findPrestationsRefusees(prestationsRefusees: Refus[]): Refus[] {
     return prestationsRefusees.filter(
-      prestationRefusee => prestationRefusee.questionKey !== PRESTATIONS
+      prestationRefusee => prestationRefusee.questionKey !== PRESTATIONS_QUESTION_KEY
     );
   }
 
@@ -31,9 +31,9 @@ export default class PrestationsUtils {
    * Retourne la liste des Refus de Prestations (non éligibles car déjà perçues), depuis les prestations refusées
    * @param prestationsRefusees
    */
-  static getPrestationsDejaPercues(prestationsRefusees: Refus[]): Refus[] {
+  static findPrestationsDejaPercues(prestationsRefusees: Refus[]): Refus[] {
     return prestationsRefusees.filter(
-      prestationRefusee => prestationRefusee.questionKey === PRESTATIONS
+      prestationRefusee => prestationRefusee.questionKey === PRESTATIONS_QUESTION_KEY
     )
   }
 

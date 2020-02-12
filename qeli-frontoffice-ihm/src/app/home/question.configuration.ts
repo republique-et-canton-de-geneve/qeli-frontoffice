@@ -11,17 +11,17 @@ import {
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
 import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-question.model';
-import { EtatCivil } from '../core/common/etat-civil.model';
+import { EtatCivil } from './model/etat-civil.model';
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { RequerantRefugie } from '../core/common/requerant-refugie.model';
-import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
+import { ReponseBinaire, ReponseProgressive } from './model/reponse.model';
 import { QeliValidators } from '../core/validator/qeli-validators';
-import { Activite } from '../core/common/activite.model';
-import { Scolarite } from '../core/common/scolarite.model';
-import { Logement } from '../core/common/logement.model';
+import { Activite } from './model/activite.model';
+import { Scolarite } from './model/scolarite.model';
+import { Logement } from './model/logement.model';
 import { TextQuestion } from '../core/question/text-question/text-question.model';
-import { Loyer } from '../core/common/loyer.model';
+import { Loyer } from './model/loyer.model';
 import { Categorie, Subcategorie } from '../core/question/question-categorie.model';
 
 const PrestationQuestions: QuestionBase<any>[] = [

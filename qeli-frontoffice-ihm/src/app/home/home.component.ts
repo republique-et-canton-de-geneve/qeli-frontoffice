@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuestionBase } from '../core/question/question-base.model';
 import { AllQuestions } from './question.configuration';
-import { FormState } from '../core/dynamic-form/form-state.model';
+import { FormState } from '../core/common/form-state.model';
 import { DynamicFormComponent } from '../core/dynamic-form/dynamic-form.component';
 import { ActivatedRoute } from '@angular/router';
-import { DeepLinkService } from '../services/deep-link.service';
-import { TrackingService } from '../services/tracking.service';
+import { DeepLinkService } from '../service/deep-link.service';
+import { TrackingService } from '../service/tracking.service';
 
 @Component({
   selector: 'app-home',
@@ -25,11 +25,9 @@ export class HomeComponent implements OnInit {
     done: false
   };
 
-  constructor(
-    private deepLinkService: DeepLinkService,
-    private route: ActivatedRoute,
-    private trackingService: TrackingService
-    ) {
+  constructor(private deepLinkService: DeepLinkService,
+              private route: ActivatedRoute,
+              private trackingService: TrackingService) {
   }
 
   ngOnInit() {
@@ -67,13 +65,13 @@ export class HomeComponent implements OnInit {
 
   trackPreviousFormAnswer() {
     if (this.previousQuestion) {
-      const humanReadableAnswer = this.getHumanReadableAnswerForQuestion(this.previousQuestion, ';');
+      const humanReadableAnswer = this.getHumanReadableAnswerForQuestion(this.previousQuestion);
       this.trackingService.trackAnswer(this.previousQuestion, humanReadableAnswer);
     }
   }
 
   get previousQuestion(): QuestionBase<any> {
-    const previousQuestionIndex = this.formState.indexHistory[this.formState.indexHistory.length-1];
+    const previousQuestionIndex = this.formState.indexHistory[this.formState.indexHistory.length - 1];
     return this.questions[previousQuestionIndex];
   }
 
@@ -83,18 +81,18 @@ export class HomeComponent implements OnInit {
    * @param question
    * @param separator
    */
-  getHumanReadableAnswerForQuestion(question: QuestionBase<any>, separator: string): string {
+  getHumanReadableAnswerForQuestion(question: QuestionBase<any>): string {
     let humanReadableAnswer = '';
     const questionAnswerValue = this.formState.data[question.key];
     switch (question.controlType) {
       case 'checkbox-group':
         let checkboxAnswer = [];
-        Object.keys(questionAnswerValue).forEach((formAnswer)=> {
+        Object.keys(questionAnswerValue).forEach((formAnswer) => {
           if (questionAnswerValue[formAnswer]) {
             checkboxAnswer.push(formAnswer);
           }
         });
-        humanReadableAnswer = checkboxAnswer.join(separator);
+        humanReadableAnswer = checkboxAnswer.join(';');
         break;
       case 'nationalite':
         if (questionAnswerValue['apatride']) {
@@ -106,7 +104,7 @@ export class HomeComponent implements OnInit {
               nationatiteAnswer.push(formAnswer);
             }
           });
-          humanReadableAnswer = nationatiteAnswer.join(separator);
+          humanReadableAnswer = nationatiteAnswer.join(';');
         }
         break;
       case 'radio':

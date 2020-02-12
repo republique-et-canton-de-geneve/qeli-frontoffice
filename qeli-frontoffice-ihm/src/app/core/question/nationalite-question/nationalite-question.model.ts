@@ -1,6 +1,6 @@
 import { QuestionBase } from '../question-base.model';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
-import { Pays } from '../../common/pays.model';
+import { Pays } from './pays.model';
 
 export class NationaliteQuestion extends QuestionBase<any> {
   controlType = 'nationalite';

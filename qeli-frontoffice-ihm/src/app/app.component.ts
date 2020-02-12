@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TrackingService } from './services/tracking.service';
+import { TrackingService } from './service/tracking.service';
 
 @Component({
   selector: 'app-root',
