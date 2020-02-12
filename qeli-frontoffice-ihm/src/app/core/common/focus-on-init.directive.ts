@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
-import { BowserService } from './bowser.service';
+import { BowserService } from '../../services/bowser.service';
 
 @Directive({
   selector: '[focusOnInit]'
