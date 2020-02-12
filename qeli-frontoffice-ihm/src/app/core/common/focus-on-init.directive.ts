@@ -1,18 +1,21 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+import { BowserService } from './bowser.service';
 
 @Directive({
-  selector: '[focusOnInit]',
+  selector: '[focusOnInit]'
 })
 export class FocusOnInitDirective implements OnInit {
 
   @Input() focusOnInit: boolean = true;
 
-  constructor(private el: ElementRef) {
+  constructor(
+    private el: ElementRef,
+    private bowserService: BowserService) {
 
   }
 
   ngOnInit(): void {
-    if (this.focusOnInit) {
+    if (!this.bowserService.mobile && this.focusOnInit) {
       this.el.nativeElement.focus();
     }
   }

@@ -13,7 +13,7 @@ import { DropdownQuestionComponent } from './question/dropdown-question/dropdown
 import { TextQuestionComponent } from './question/text-question/text-question.component';
 import { NationaliteQuestionComponent } from './question/nationalite-question/nationalite-question.component';
 import { RadioQuestionComponent } from './question/radio-question/radio-question.component';
-import { FocusOnInitDirective } from './common/init.directive';
+import { FocusOnInitDirective } from './common/focus-on-init.directive';
 import { DeepLinkComponent } from './deep-link/deep-link.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { BootstrapModule } from '../bootstrap/bootstrap.module';

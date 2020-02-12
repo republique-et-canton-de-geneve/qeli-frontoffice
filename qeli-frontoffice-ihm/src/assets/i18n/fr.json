@@ -512,6 +512,7 @@
     "next": "Passer à la question suivante",
     "deepLink": {
       "copyLink": "Sauvegarder votre progression courante avec le lien du formulaire",
+      "copyLinkShort": "Sauvegarder votre progression",
       "copyHelpText": "Ce lien vous permet de revenir compléter votre saisie ultérieurement sans perdre vos réponses",
       "copyButton": "Copier"
     }
