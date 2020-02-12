@@ -22,7 +22,7 @@ export class CheckboxGroupQuestion extends QuestionBase<any> {
 
     if (this.hasNone) {
       group['NONE'] = new FormControl(defaultValue ? defaultValue['NONE'] : false);
-      group['noneDetail'] = new FormControl(defaultValue ? defaultValue['noneDetail'] : false);
+      group['noneDetail'] = new FormControl(defaultValue ? defaultValue['noneDetail'] : null);
     }
 
     return new FormGroup(group, this.validators.concat(
