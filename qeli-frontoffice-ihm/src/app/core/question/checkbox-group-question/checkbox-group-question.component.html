@@ -3,10 +3,12 @@
     <div *ngFor="let option of question.options; first as isFirst" class="checkbox">
       <label>
         <input type="checkbox"
-               [attr.disabled]="isNone ? 'disabled' : null"
-               [formControlName]="option.label"
+               [attr.disabled]="isNoneSelected ? 'disabled' : null"
                [focusOnInit]="isFirst"
-               [attr.data-cy]="option.label">
+               [value]="option.label"
+               (change)="onOptionChanged($event.currentTarget.value, $event.currentTarget.checked)"
+               [attr.data-cy]="option.label"
+               #optionCheckboxes>
         {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
       </label>
 
@@ -18,14 +20,14 @@
     <div *ngIf="question.hasNone" class="checkbox none-option">
       <label>
         <input type="checkbox"
-               formControlName="NONE"
+               formControlName="none"
                (change)="onNoneChanged()"
                data-cy="NONE">
         {{ 'question.' + question.key + '.option.NONE' | translate }}
       </label>
     </div>
 
-    <div *ngIf="isNone">
+    <div *ngIf="isNoneSelected">
       <label class="control-label" for="noneDetail">
         {{ 'question.' + question.key + '.noneDetailLabel' | translate }}
         <span class="form-required"

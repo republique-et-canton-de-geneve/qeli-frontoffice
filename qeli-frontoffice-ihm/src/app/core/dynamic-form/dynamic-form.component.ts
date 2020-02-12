@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
 import { FormGroup } from '@angular/forms';
 import { Prestation } from '../common/prestation.model';
-import { FormState, Refus } from './form-state.model';
+import { FormState, Refus } from '../common/form-state.model';
+import { PrestationResolver } from '../common/prestation-resolver';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -34,55 +35,54 @@ export class DynamicFormComponent implements OnInit {
     return this.form.controls[question.key].valid;
   }
 
-  get prestationEligible() {
-    return Object.values(Prestation).filter(
-      prestation => !this.prestationsRefusees.some(
-        prestationRefusee => prestationRefusee.prestation === prestation
-      )
-    );
-  }
-
   nextQuestion() {
     if (this.isValid(this.currentQuestion)) {
 
       this.indexHistory.push(this.currentQuestionIndex);
       this.prestationsRefuseesStack.push(this.prestationsRefusees.slice(0));
 
-      this.prestationEligible.filter(prestation => {
-        const eligibilite = this.currentQuestion.eligibilite.filter(
-          eligibilite => eligibilite.prestation === prestation
-        );
-        return (eligibilite.length > 0 && !eligibilite.every(eligibilite => eligibilite.isEligible((this.form.value))));
-      }).forEach(prestationRefusee => {
-        this.prestationsRefusees.push({
-          prestation: prestationRefusee,
-          questionKey: this.currentQuestion.key
-        });
-      });
-
-
-      this.currentQuestionIndex = this.questions.findIndex((question, index) => {
-          if (index > this.currentQuestionIndex) {
-            if (question.eligibilite.some(el => this.prestationEligible.includes(el.prestation))) {
-              const answer = question.defaultAnswer ? question.defaultAnswer(this.form.value) : undefined;
-
-              if (!answer) {
-                return true;
-              }
-
-              this.form.controls[question.key].setValue(answer);
-            }
-          }
-
-          return false;
-        }
+      this.prestationsRefusees = this.prestationsRefusees.concat(
+        this.prestationEligible.filter(
+          prestation => this.isRefuseeForCurrentQuestion(prestation)
+        ).map(
+          prestationRefusee => new Refus(prestationRefusee, this.currentQuestion.key)
+        )
       );
 
-      this.onFormChanged();
+      this.currentQuestionIndex = this.findNextQuestionIndex();
+      this.emitQuestionChanged();
     }
   }
 
-  onFormChanged() {
+  private isRefuseeForCurrentQuestion(prestation: Prestation) {
+    const eligibilite = this.currentQuestion.eligibilite.filter(
+      eligibilite => eligibilite.prestation === prestation
+    );
+
+    return eligibilite.length > 0 &&
+           !eligibilite.every(eligibilite => eligibilite.isEligible((this.form.value)));
+  }
+
+  private findNextQuestionIndex() {
+    return this.questions.findIndex((question, index) => {
+        if (index > this.currentQuestionIndex) {
+          if (question.eligibilite.some(el => this.prestationEligible.includes(el.prestation))) {
+            const answer = question.defaultAnswer ? question.defaultAnswer(this.form.value) : undefined;
+
+            if (!answer) {
+              return true;
+            }
+
+            this.form.controls[question.key].setValue(answer);
+          }
+        }
+
+        return false;
+      }
+    );
+  }
+
+  private emitQuestionChanged() {
     this.formState.data = this.form.value;
     this.formState.done = this.currentQuestionIndex === -1;
 
@@ -93,7 +93,7 @@ export class DynamicFormComponent implements OnInit {
     this.currentQuestionIndex = (this.indexHistory.length > 0) ? this.indexHistory.pop() : 0;
     this.prestationsRefusees = (this.prestationsRefuseesStack.length > 0) ? this.prestationsRefuseesStack.pop() : [];
 
-    this.onFormChanged();
+    this.emitQuestionChanged();
   }
 
   navigateToQuestion(targetQuestion: QuestionBase<any>) {
@@ -146,6 +146,10 @@ export class DynamicFormComponent implements OnInit {
 
   set prestationsRefuseesStack(value: Refus[][]) {
     this.formState.prestationsRefuseesStack = value;
+  }
+
+  get prestationEligible() {
+    return PrestationResolver.findPrestationsEligibles(this.prestationsRefusees);
   }
 
 }

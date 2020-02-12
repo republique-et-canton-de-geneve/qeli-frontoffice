@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormState } from '../../core/dynamic-form/form-state.model';
+import { FormState } from '../../core/common/form-state.model';
 import { QuestionBase } from '../../core/question/question-base.model';
 import { CategorieTree } from './categorie-tree.model';
 

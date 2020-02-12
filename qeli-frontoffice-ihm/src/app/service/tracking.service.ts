@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatomoInjector, MatomoTracker } from 'ngx-matomo';
 import { QuestionBase } from '../core/question/question-base.model';
 import { environment } from '../../environments/environment';
-import { Refus } from '../core/dynamic-form/form-state.model';
-import PrestationsUtils from '../core/common/prestations-utils';
+import { Refus } from '../core/common/form-state.model';
+import { PrestationResolver } from '../core/common/prestation-resolver';
 
 const SCOPE_PAGE = 'page';
 const TRACK_FORM = 'Formulaire';
@@ -66,12 +66,12 @@ export class TrackingService {
    * @param prestationsRefusees
    */
   trackResult(prestationsRefusees: Refus[]) {
-    const reponsesEligibles = PrestationsUtils.getPrestationsEligibles(prestationsRefusees);
-    const reponsesRefusees = PrestationsUtils.getPrestationsRefusees(prestationsRefusees)
-                                             .map(prestationRefusee => prestationRefusee.prestation);
+    const reponsesEligibles = PrestationResolver.findPrestationsEligibles(prestationsRefusees);
+    const reponsesRefusees = PrestationResolver.findPrestationsRefusees(prestationsRefusees)
+                                               .map(prestationRefusee => prestationRefusee.prestation);
 
-    const reponsesDejaPercues = PrestationsUtils.getPrestationsDejaPercues(prestationsRefusees)
-                                                .map(prestationDejaPercue => prestationDejaPercue.prestation);
+    const reponsesDejaPercues = PrestationResolver.findPrestationsDejaPercues(prestationsRefusees)
+                                                  .map(prestationDejaPercue => prestationDejaPercue.prestation);
 
     const trackingUrl = location.href.split('?')[0] + TRACK_RESULT;
     this.matomoTracker.setCustomUrl(trackingUrl);
