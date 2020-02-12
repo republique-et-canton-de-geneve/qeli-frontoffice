@@ -1,5 +1,5 @@
 <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle"
+  <button class="btn btn-default dropdown-toggle copy-link-toggle"
           (click)="showCopyPanel = !showCopyPanel"
           type="button"
           title="{{ 'form.deepLink.copyLink'| translate }}"
@@ -7,20 +7,21 @@
           aria-haspopup="true"
           [attr.aria-expanded]="showCopyPanel">
     <i class="fa fa-link"></i>
+    <span class="visible-xs-inline-block hidden-sm">{{ 'form.deepLink.copyLinkShort'| translate }}</span>
   </button>
 
   <div *ngIf="showCopyPanel === true"
        class="deep-link-pop-in dropdown-menu pull-right show"
        aria-labelledby="dropdownMenuButton">
 
-    <label class="help-block" for="deep-link-input">
+    <label class="help-block" [attr.for]="'deep-link-input-' + id">
       {{ 'form.deepLink.copyHelpText'| translate }}
     </label>
 
     <div class="input-group">
       <input class="deep-link-input form-control"
              type="text"
-             id="deep-link-input"
+             [attr.id]="'deep-link-input-' + id"
              value="{{ deepLink }}"
              readonly
              #deepLinkInput>
