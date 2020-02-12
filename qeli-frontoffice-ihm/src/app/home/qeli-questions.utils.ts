@@ -60,8 +60,12 @@ export function isPaysConventione(value: any) {
 export function isPaysNonConventione(value: any) {
   const nationalite = value['nationalite'];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
-  return paysValues ? paysValues.some(pays =>
-    (Object.values(Pays).includes(pays) && !PAYS_AELE_UE.includes(pays))) : false;
+  return paysValues ? paysValues.some(pays => (getPaysNonConventiones().includes(pays))) : false;
+}
+
+function getPaysNonConventiones() {
+  return Object.values(Pays)
+               .filter(pays => (!PAYS_CONVENTIONES.includes(pays) && !PAYS_AELE_UE.includes(pays) && Pays.CH !== pays));
 }
 
 export function isMineur(value: any) {

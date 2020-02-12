@@ -94,9 +94,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     help: true,
     options: Object.keys(RequerantRefugie).map(label => new QuestionOption({label: label})),
     validators: [Validators.required],
-    defaultAnswer: (value: any) => (isSuisse(value) ||
-                                    (!isPaysConventione(value) &&
-                                     !isPaysNonConventione(value))) ? RequerantRefugie.AUCUN : null,
+    defaultAnswer: (value: any) => (!isPaysConventione(value) &&
+                                    !isPaysNonConventione(value)) ? RequerantRefugie.AUCUN : null,
     eligibilite: [
       new Eligibilite(Prestation.PC_AVS_AI, () => true)
     ]
