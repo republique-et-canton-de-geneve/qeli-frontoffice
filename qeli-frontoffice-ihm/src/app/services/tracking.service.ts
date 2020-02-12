@@ -5,11 +5,11 @@ import { environment } from '../../environments/environment';
 import { Refus } from '../core/dynamic-form/form-state.model';
 import PrestationsUtils from '../core/common/prestations-utils';
 
-export const SCOPE_PAGE = 'page';
-export const TRACK_FORM = 'Formulaire';
-export const TRACK_QUESTION = 'question';
-export const TRACK_ANSWER = 'reponse';
-export const TRACK_RESULT = 'resultat';
+const SCOPE_PAGE = 'page';
+const TRACK_FORM = 'Formulaire';
+const TRACK_QUESTION = 'question';
+const TRACK_ANSWER = 'reponse';
+const TRACK_RESULT = 'resultat';
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +71,7 @@ export class TrackingService {
                                              .map(prestationRefusee => prestationRefusee.prestation);
 
     const reponsesDejaPercues = PrestationsUtils.getPrestationsDejaPercues(prestationsRefusees)
-                                                .map(prestationRefusee => prestationRefusee.prestation);
+                                                .map(prestationDejaPercue => prestationDejaPercue.prestation);
 
     const trackingUrl = location.href.split('?')[0] + TRACK_RESULT;
     this.matomoTracker.setCustomUrl(trackingUrl);

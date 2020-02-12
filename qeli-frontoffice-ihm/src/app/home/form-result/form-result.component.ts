@@ -27,6 +27,6 @@ export class FormResultComponent {
     this.prestationsRefusees = PrestationsUtils.getPrestationsRefusees(formState.prestationsRefusees);
 
     this.prestationDejaPercues = PrestationsUtils.getPrestationsDejaPercues(formState.prestationsRefusees)
-                                                 .map(prestationRefusee => prestationRefusee.prestation);
+                                                 .map(prestationDejaPercue => prestationDejaPercue.prestation);
   }
 }
