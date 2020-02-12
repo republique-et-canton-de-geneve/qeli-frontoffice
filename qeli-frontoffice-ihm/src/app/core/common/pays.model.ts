@@ -199,7 +199,7 @@ export enum Pays {
   ZW = "zw"
 }
 
-export const PAYS_CONVETIONE = [
+export const PAYS_CONVENTIONES = [
   Pays.AU, // Australie
   Pays.BA, // Bosnie-Herzégovine
   Pays.BR, // Brésil
@@ -215,7 +215,7 @@ export const PAYS_CONVETIONE = [
   Pays.TR, // Turquie
   Pays.UY, // Uruguay
   Pays.US  // USA
-].map(pay => pay.toString());
+].map(pays => pays.toString());
 
 export const PAYS_AELE_UE = [
   Pays.DE, // Allemagne
@@ -249,4 +249,4 @@ export const PAYS_AELE_UE = [
   Pays.SK, // Slovaquie
   Pays.SI, // Slovénie
   Pays.SE  // Suède
-].map(pay => pay.toString());
+].map(pays => pays.toString());

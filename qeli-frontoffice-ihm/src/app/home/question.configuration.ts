@@ -5,8 +5,8 @@ import { Eligibilite, QuestionBase } from '../core/question/question-base.model'
 import { Validators } from '@angular/forms';
 import {
   aucuneScolarite, getLimiteFortune, hasActivites, hasConjoint, hasPermisBEtudes, hasPrestations, isApatride,
-  isFonctionnaireInternational, isMineur, isPayConventione, isRatioPiecesPersonnesLogementAcceptable, isRefugie,
-  isSuisse, isUEOrAELE, notHasFortuneTropEleve
+  isFonctionnaireInternational, isMineur, isPaysConventione, isPaysNonConventione,
+  isRatioPiecesPersonnesLogementAcceptable, isRefugie, isSuisse, notHasFortuneTropEleve
 } from './qeli-questions.utils';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -14,6 +14,7 @@ import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-qu
 import { EtatCivil } from '../core/common/etat-civil.model';
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
+import { RequerantRefugie } from '../core/common/requerant-refugie.model';
 import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
 import { QeliValidators } from '../core/validator/qeli-validators';
 import { Activite } from '../core/common/activite.model';
@@ -91,16 +92,13 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.NATIONALITE,
     help: true,
-    inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(RequerantRefugie).map(label => new QuestionOption({label: label})),
     validators: [Validators.required],
     defaultAnswer: (value: any) => (isSuisse(value) ||
-                                    isUEOrAELE(value) ||
-                                    isPayConventione(value) ||
-                                    isApatride(value)) ? ReponseProgressive.NON : null,
+                                    (!isPaysConventione(value) &&
+                                     !isPaysNonConventione(value))) ? RequerantRefugie.AUCUN : null,
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI, () => true),
-      new Eligibilite(Prestation.BOURSES, () => true)
+      new Eligibilite(Prestation.PC_AVS_AI, () => true)
     ]
   }),
   new RadioQuestion({

@@ -2,7 +2,7 @@ import { EtatCivil } from '../core/common/etat-civil.model';
 import { ReponseProgressive } from '../core/common/reponse.model';
 import { Scolarite } from '../core/common/scolarite.model';
 import { Activite } from '../core/common/activite.model';
-import { Pays, PAYS_AELE_UE, PAYS_CONVETIONE } from '../core/common/pays.model';
+import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/common/pays.model';
 import * as moment from 'moment';
 import { Prestation } from '../core/common/prestation.model';
 
@@ -51,10 +51,17 @@ export function isUEOrAELE(value: any) {
   return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
 }
 
-export function isPayConventione(value: any) {
+export function isPaysConventione(value: any) {
   const nationalite = value['nationalite'];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
-  return paysValues ? paysValues.some(pays => PAYS_CONVETIONE.includes(pays)) : false;
+  return paysValues ? paysValues.some(pays => PAYS_CONVENTIONES.includes(pays)) : false;
+}
+
+export function isPaysNonConventione(value: any) {
+  const nationalite = value['nationalite'];
+  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+  return paysValues ? paysValues.some(pays =>
+    (Object.values(Pays).includes(pays) && !PAYS_AELE_UE.includes(pays))) : false;
 }
 
 export function isMineur(value: any) {
