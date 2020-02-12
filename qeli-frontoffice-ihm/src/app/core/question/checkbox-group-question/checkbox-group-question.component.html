@@ -1,5 +1,5 @@
 <div [formGroup]="form">
-  <div [formGroupName]="question.key" [attr.data-cy]="question.code + '_' + question.key">
+  <div [formGroupName]="question.key" [attr.data-cy]="question.codeKey">
     <div *ngFor="let option of question.options; first as isFirst" class="checkbox">
       <label>
         <input type="checkbox"

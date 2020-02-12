@@ -4,7 +4,8 @@ import { AllQuestions } from './question.configuration';
 import { FormState } from '../core/dynamic-form/form-state.model';
 import { DynamicFormComponent } from '../core/dynamic-form/dynamic-form.component';
 import { ActivatedRoute } from '@angular/router';
-import { DeepLinkService } from '../core/deep-link.service';
+import { DeepLinkService } from '../services/deep-link.service';
+import { TrackingService } from '../services/tracking.service';
 
 @Component({
   selector: 'app-home',
@@ -26,8 +27,9 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private deepLinkService: DeepLinkService,
-    private route: ActivatedRoute) {
-
+    private route: ActivatedRoute,
+    private trackingService: TrackingService
+    ) {
   }
 
   ngOnInit() {
@@ -52,7 +54,69 @@ export class HomeComponent implements OnInit {
           done: false
         };
       }
+
+      this.trackPreviousFormAnswer();
+
+      if (!this.formState.done) { // question page :
+        this.trackingService.trackQuestion(this.questions[this.formState.currentIndex]);
+      } else { // result page :
+        this.trackingService.trackResult(this.formState.prestationsRefusees);
+      }
     });
+  }
+
+  trackPreviousFormAnswer() {
+    if (this.previousQuestion) {
+      const humanReadableAnswer = this.getHumanReadableAnswerForQuestion(this.previousQuestion, ';');
+      this.trackingService.trackAnswer(this.previousQuestion, humanReadableAnswer);
+    }
+  }
+
+  get previousQuestion(): QuestionBase<any> {
+    const previousQuestionIndex = this.formState.indexHistory[this.formState.indexHistory.length-1];
+    return this.questions[previousQuestionIndex];
+  }
+
+  /**
+   * Retourne la réponse à une question lisible pour un humain
+   *
+   * @param question
+   * @param separator
+   */
+  getHumanReadableAnswerForQuestion(question: QuestionBase<any>, separator: string): string {
+    let humanReadableAnswer = '';
+    const questionAnswerValue = this.formState.data[question.key];
+    switch (question.controlType) {
+      case 'checkbox-group':
+        let checkboxAnswer = [];
+        Object.keys(questionAnswerValue).forEach((formAnswer)=> {
+          if (questionAnswerValue[formAnswer]) {
+            checkboxAnswer.push(formAnswer);
+          }
+        });
+        humanReadableAnswer = checkboxAnswer.join(separator);
+        break;
+      case 'nationalite':
+        if (questionAnswerValue['apatride']) {
+          humanReadableAnswer = 'apatride';
+        } else if (questionAnswerValue['pays'] && questionAnswerValue['pays'].length > 0) {
+          let nationatiteAnswer = [];
+          questionAnswerValue['pays'].forEach((formAnswer) => {
+            if (formAnswer) {
+              nationatiteAnswer.push(formAnswer);
+            }
+          });
+          humanReadableAnswer = nationatiteAnswer.join(separator);
+        }
+        break;
+      case 'radio':
+      case 'text':
+      case 'date':
+      case 'dropdown':
+        humanReadableAnswer = questionAnswerValue;
+        break;
+    }
+    return humanReadableAnswer;
   }
 
   onQuestionChanged() {

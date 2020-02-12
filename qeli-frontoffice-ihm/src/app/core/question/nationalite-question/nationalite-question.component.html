@@ -1,6 +1,6 @@
 <div [formGroup]="form">
   <div [formGroupName]="question.key"
-       [attr.data-cy]="question.code + '_' + question.key"
+       [attr.data-cy]="question.codeKey"
        data-cy-type="nationalite">
     <div *ngFor="let x of [].constructor(numberOfNationalites); index as i; last as isLast; first as isFirst"
          class="nationalite-selection-box"
@@ -9,7 +9,7 @@
               [formControlName]="i"
               [attr.disabled]="isApatride || !isLast ? 'disabled' : null"
               [focusOnInit]="isFirst"
-              [attr.data-cy]="question.code + '_' + question.key + '_select_nationalite_' + i">
+              [attr.data-cy]="question.codeKey + '_select_nationalite_' + i">
         <option *ngFor="let pays of question.paysOptions"
                 [value]="pays">
           {{ 'common.pays.' + pays | translate }}
@@ -20,7 +20,7 @@
               [attr.aria-label]="'common.ajouterNationalite' | translate"
               [disabled]="isApatride || numberOfNationalites >= maxNumberOfNationalites || hasUnsetPays()"
               [style.visibility]="isLast ? 'visible' : 'hidden'"
-              [attr.data-cy]="question.code + '_' + question.key + '_ajouter_nationalite_' + i"
+              [attr.data-cy]="question.codeKey + '_ajouter_nationalite_' + i"
               (click)="addPaysControl()">
         <i class="fa fa-plus"></i><span class="btn-text">{{ 'common.ajouterNationalite' | translate }}</span>
       </button>
@@ -28,7 +28,7 @@
               [attr.aria-label]="'common.supprimerNationalite' | translate"
               [disabled]="isApatride || !isLast || !hasPays()"
               [style.visibility]="isLast ? 'visible' : 'hidden'"
-              [attr.data-cy]="question.code + '_' + question.key + '_supprimer_nationalite_' + i"
+              [attr.data-cy]="question.codeKey + '_supprimer_nationalite_' + i"
               (click)="popOrClearPaysControl()">
         <i class="fa fa-trash"></i>
       </button>
@@ -39,7 +39,7 @@
         <input type="checkbox"
                formControlName="apatride"
                (change)="onApatrideChanged()"
-               [attr.data-cy]="question.code + '_' + question.key + '_checkbox_apatride'">
+               [attr.data-cy]="question.codeKey + '_checkbox_apatride'">
         {{ 'question.' + question.key + '.apatride.label' | translate }}
       </label>
       <p class="help-block">{{ 'question.' + question.key + '.apatride.help' | translate }}</p>

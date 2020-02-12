@@ -9,6 +9,7 @@ import { LayoutModule } from './layout/layout.module';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
+import { MatomoModule } from 'ngx-matomo';
 
 registerLocaleData(localeFrCH);
 
@@ -22,7 +23,8 @@ registerLocaleData(localeFrCH);
     CoreModule,
     LayoutModule,
     HomeModule,
-    RouterModule
+    RouterModule,
+    MatomoModule
   ],
   providers: [
     {provide: LOCALE_ID, useValue: "fr-CH"}

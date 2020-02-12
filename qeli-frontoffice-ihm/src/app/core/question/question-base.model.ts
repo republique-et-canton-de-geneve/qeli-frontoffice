@@ -45,6 +45,10 @@ export class QuestionBase<T> {
     return this.validators.includes(Validators.required);
   }
 
+  get codeKey() {
+    return this.code + '_' + this.key;
+  }
+
   getTranslationKey(value: any) {
     const altText = this.altText(value);
     return `question.${this.key}.${altText ? 'altText.' + altText : 'label'}`;

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Prestation } from '../../core/common/prestation.model';
 import { FormState } from '../../core/dynamic-form/form-state.model';
+import PrestationsUtils from '../../core/common/prestations-utils';
 
 @Component({
   selector: 'app-form-result',
@@ -21,18 +22,11 @@ export class FormResultComponent {
   set formState(formState: FormState) {
     this.reponses = formState.data;
 
-    this.prestationEligible = Object.values(Prestation).filter(
-      prestation => !formState.prestationsRefusees.some(
-        prestationRefusee => prestationRefusee.prestation === prestation
-      )
-    );
+    this.prestationEligible = PrestationsUtils.getPrestationsEligibles(formState.prestationsRefusees);
 
-    this.prestationDejaPercues = formState.prestationsRefusees.filter(
-      prestationRefusee => prestationRefusee.questionKey === 'prestations'
-    ).map(prestationRefusee => prestationRefusee.prestation);
+    this.prestationsRefusees = PrestationsUtils.getPrestationsRefusees(formState.prestationsRefusees);
 
-    this.prestationsRefusees = formState.prestationsRefusees.filter(
-      prestationRefusee => prestationRefusee.questionKey !== 'prestations'
-    );
+    this.prestationDejaPercues = PrestationsUtils.getPrestationsDejaPercues(formState.prestationsRefusees)
+                                                 .map(prestationDejaPercue => prestationDejaPercue.prestation);
   }
 }
