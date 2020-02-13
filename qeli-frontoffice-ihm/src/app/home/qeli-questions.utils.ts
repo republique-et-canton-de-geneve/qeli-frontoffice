@@ -5,6 +5,7 @@ import { Activite } from '../core/common/activite.model';
 import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/common/pays.model';
 import * as moment from 'moment';
 import { Prestation } from '../core/common/prestation.model';
+import { RequerantRefugie } from '../core/common/requerant-refugie.model';
 
 export function hasConjoint(value: any) {
   return value['etatCivil'] === EtatCivil.MARIE ||
@@ -31,7 +32,7 @@ export function hasActivites(value: any, activites: Activite[]) {
 }
 
 export function isRefugie(value: any) {
-  return value['refugie'] === ReponseProgressive.OUI;
+  return value['refugie'] === RequerantRefugie.REFUGIE;
 }
 
 export function isApatride(value: any) {
