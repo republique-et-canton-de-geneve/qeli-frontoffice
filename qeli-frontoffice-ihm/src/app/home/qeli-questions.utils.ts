@@ -57,17 +57,6 @@ export function isPaysConventione(value: any) {
   return paysValues ? paysValues.some(pays => PAYS_CONVENTIONES.includes(pays)) : false;
 }
 
-export function isPaysNonConventione(value: any) {
-  const nationalite = value['nationalite'];
-  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
-  return paysValues ? paysValues.some(pays => (getPaysNonConventiones().includes(pays))) : false;
-}
-
-function getPaysNonConventiones() {
-  return Object.values(Pays)
-               .filter(pays => (!PAYS_CONVENTIONES.includes(pays) && !PAYS_AELE_UE.includes(pays) && Pays.CH !== pays));
-}
-
 export function isMineur(value: any) {
   const dateNaissance = value['dateNaissance'] && moment(value['dateNaissance'], 'YYYY-MM-DD');
   return dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);

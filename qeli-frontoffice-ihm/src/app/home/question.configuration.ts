@@ -5,8 +5,8 @@ import { Eligibilite, QuestionBase } from '../core/question/question-base.model'
 import { Validators } from '@angular/forms';
 import {
   aucuneScolarite, getLimiteFortune, hasActivites, hasConjoint, hasPermisBEtudes, hasPrestations, isApatride,
-  isFonctionnaireInternational, isMineur, isPaysConventione, isPaysNonConventione,
-  isRatioPiecesPersonnesLogementAcceptable, isRefugie, isSuisse, notHasFortuneTropEleve
+  isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isRefugie, isSuisse, isUEOrAELE,
+  notHasFortuneTropEleve
 } from './qeli-questions.utils';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -94,8 +94,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     help: true,
     options: Object.keys(RequerantRefugie).map(label => new QuestionOption({label: label})),
     validators: [Validators.required],
-    defaultAnswer: (value: any) => (!isPaysConventione(value) &&
-                                    !isPaysNonConventione(value)) ? RequerantRefugie.AUCUN : null,
+    defaultAnswer: (value: any) => (isSuisse(value) ||
+                                    isUEOrAELE(value)) ? RequerantRefugie.AUCUN : null,
     eligibilite: [
       new Eligibilite(Prestation.PC_AVS_AI, () => true)
     ]
