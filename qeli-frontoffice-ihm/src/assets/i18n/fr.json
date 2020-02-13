@@ -151,7 +151,7 @@
     },
     "refugie": {
       "label": "Etes-vous",
-      "help": "Requérant d'asile : Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM)<br>Réfugié : Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM)). Si votre demande d'asile est en cours, répondre \"non\".",
+      "help": "Requérant d'asile : Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM)<br>Réfugié : Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM)).",
       "option": {
         "REQUERANT_ASILE": "Requérant d'asile",
         "REFUGIE": "Réfugié",
