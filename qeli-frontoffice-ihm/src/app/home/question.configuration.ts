@@ -1,4 +1,6 @@
-import { CheckboxGroupQuestion } from '../core/question/checkbox-group-question/checkbox-group-question.model';
+import {
+  CheckboxGroupQuestion, CheckboxGroupValidators
+} from '../core/question/checkbox-group-question/checkbox-group-question.model';
 import { Prestation } from '../core/common/prestation.model';
 import { QuestionOption } from '../core/question/option.model';
 import { Eligibilite, QuestionBase } from '../core/question/question-base.model';
@@ -16,7 +18,6 @@ import { NationaliteQuestion } from '../core/question/nationalite-question/natio
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { RequerantRefugie } from '../core/common/requerant-refugie.model';
 import { ReponseBinaire, ReponseProgressive } from './model/reponse.model';
-import { QeliValidators } from '../core/validator/qeli-validators';
 import { Activite } from './model/activite.model';
 import { Scolarite } from './model/scolarite.model';
 import { Logement } from './model/logement.model';
@@ -209,7 +210,8 @@ const ActiviteQuestions: QuestionBase<any>[] = [
     hasNone: true,
     validators: [
       Validators.required,
-      QeliValidators.atLeastOneSelected(Object.keys(Activite).concat('NONE'))
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(Activite), true),
+      CheckboxGroupValidators.noneDetailRequired
     ],
     options: Object.keys(Activite).map(label => new QuestionOption({label: label})),
     eligibilite: [

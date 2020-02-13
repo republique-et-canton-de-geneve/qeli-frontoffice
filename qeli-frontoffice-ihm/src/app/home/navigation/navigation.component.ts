@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormState } from '../../core/common/form-state.model';
 import { QuestionBase } from '../../core/question/question-base.model';
 import { CategorieTree } from './categorie-tree.model';
+import { FormatAnswerVisitorFactory } from './format-answer.visitor';
 
 @Component({
   selector: 'app-navigation',
@@ -18,6 +19,10 @@ export class NavigationComponent {
   reponses: any;
 
   navigationCollapsed: boolean = true;
+
+  constructor(private formatAnswerVisitorFactory: FormatAnswerVisitorFactory) {
+
+  }
 
   @Input()
   set formState(formState: FormState) {
@@ -82,4 +87,7 @@ export class NavigationComponent {
     }, []);
   }
 
+  getAnswerForQuestion(question: QuestionBase<any>) {
+    return question.accept(this.formatAnswerVisitorFactory.create(this.reponses));
+  }
 }

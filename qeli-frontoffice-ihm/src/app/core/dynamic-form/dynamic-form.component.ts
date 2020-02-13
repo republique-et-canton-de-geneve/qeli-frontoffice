@@ -25,7 +25,9 @@ export class DynamicFormComponent implements OnInit {
     let group: any = {};
 
     this.questions.forEach(question => {
-      group[question.key] = question.toFormControl((this.formState ? this.formState.data[question.key] : null));
+      group[question.key] = question.toFormControl(
+        this.formState ? this.formState.data[question.key] : null
+      );
     });
 
     this.form = new FormGroup(group);
