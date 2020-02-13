@@ -97,7 +97,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     defaultAnswer: (value: any) => (isSuisse(value) ||
                                     isUEOrAELE(value)) ? RequerantRefugie.AUCUN : null,
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI, () => true)
+      new Eligibilite(Prestation.PC_AVS_AI, () => true),
+      new Eligibilite(Prestation.BOURSES, () => true)
     ]
   }),
   new RadioQuestion({
