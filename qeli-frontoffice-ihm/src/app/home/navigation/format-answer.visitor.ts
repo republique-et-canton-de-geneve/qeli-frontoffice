@@ -54,7 +54,7 @@ export class FormatAnswerVisitor implements QuestionVisitor<string> {
   }
 
   visitDateQuestion(question: DateQuestion): string {
-    return moment(this.findValueForQuestion(question), 'YYYY-MM-DD', true).format('DD-MM-YYYY');
+    return moment(this.findValueForQuestion(question), 'YYYY-MM-DD', true).format('DD.MM.YYYY');
   }
 
   visitDropdownQuestion(question: DropdownQuestion): string {
