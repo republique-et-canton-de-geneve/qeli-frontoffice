@@ -97,6 +97,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     defaultAnswer: (value: any) => (!isPaysConventione(value) &&
                                     !isPaysNonConventione(value)) ? RequerantRefugie.AUCUN : null,
     eligibilite: [
+      new Eligibilite(Prestation.BOURSES,
+        (value: any) => [RequerantRefugie.REFUGIE, RequerantRefugie.INCONNU].includes(value['refugie'])),
       new Eligibilite(Prestation.PC_AVS_AI, () => true)
     ]
   }),
