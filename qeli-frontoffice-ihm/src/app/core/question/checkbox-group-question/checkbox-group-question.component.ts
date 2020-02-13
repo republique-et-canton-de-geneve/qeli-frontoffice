@@ -21,7 +21,7 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
       if (this.formGroup.value['choices'].includes(checkbox.nativeElement.value)) {
         checkbox.nativeElement.checked = true;
       }
-    })
+    });
   }
 
   onNoneChanged() {
@@ -44,6 +44,8 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
         }
       });
     }
+
+    this.formGroup.markAsDirty();
   }
 
   private clearChoices() {
@@ -57,15 +59,15 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
     this.formGroup.controls['noneDetail'].setValue('');
   }
 
-  get formGroup() {
+  private get formGroup() {
     return this.form.controls[this.question.key] as FormGroup;
   }
 
-  get choicesControl() {
+  private get choicesControl() {
     return this.formGroup.controls['choices'] as FormArray;
   }
 
-  get isNoneSelected() {
+  private get isNoneSelected() {
     return !!this.formGroup.value['none'];
   }
 

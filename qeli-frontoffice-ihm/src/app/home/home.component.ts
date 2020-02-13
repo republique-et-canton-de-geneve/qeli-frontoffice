@@ -53,68 +53,30 @@ export class HomeComponent implements OnInit {
         };
       }
 
-      this.trackPreviousFormAnswer();
-
-      if (!this.formState.done) { // question page :
-        this.trackingService.trackQuestion(this.questions[this.formState.currentIndex]);
-      } else { // result page :
-        this.trackingService.trackResult(this.formState.prestationsRefusees);
-      }
+      this.doTracking();
     });
   }
 
-  trackPreviousFormAnswer() {
-    if (this.previousQuestion) {
-      const humanReadableAnswer = this.getHumanReadableAnswerForQuestion(this.previousQuestion);
-      this.trackingService.trackAnswer(this.previousQuestion, humanReadableAnswer);
+  doTracking() {
+    if (!this.formState.done) {
+      const previousQuestion = this.previousQuestion;
+      if (previousQuestion) {
+        this.trackingService.trackAnswer(previousQuestion, this.formState.data);
+      }
+
+      this.trackingService.trackQuestion(this.currentQuestion);
+    } else { // result page :
+      this.trackingService.trackResult(this.formState.prestationsRefusees);
     }
+  }
+
+  get currentQuestion(): QuestionBase<any> {
+    return this.questions[this.formState.currentIndex];
   }
 
   get previousQuestion(): QuestionBase<any> {
     const previousQuestionIndex = this.formState.indexHistory[this.formState.indexHistory.length - 1];
     return this.questions[previousQuestionIndex];
-  }
-
-  /**
-   * Retourne la réponse à une question lisible pour un humain
-   *
-   * @param question
-   * @param separator
-   */
-  getHumanReadableAnswerForQuestion(question: QuestionBase<any>): string {
-    let humanReadableAnswer = '';
-    const questionAnswerValue = this.formState.data[question.key];
-    switch (question.controlType) {
-      case 'checkbox-group':
-        let checkboxAnswer = [];
-        Object.keys(questionAnswerValue).forEach((formAnswer) => {
-          if (questionAnswerValue[formAnswer]) {
-            checkboxAnswer.push(formAnswer);
-          }
-        });
-        humanReadableAnswer = checkboxAnswer.join(';');
-        break;
-      case 'nationalite':
-        if (questionAnswerValue['apatride']) {
-          humanReadableAnswer = 'apatride';
-        } else if (questionAnswerValue['pays'] && questionAnswerValue['pays'].length > 0) {
-          let nationatiteAnswer = [];
-          questionAnswerValue['pays'].forEach((formAnswer) => {
-            if (formAnswer) {
-              nationatiteAnswer.push(formAnswer);
-            }
-          });
-          humanReadableAnswer = nationatiteAnswer.join(';');
-        }
-        break;
-      case 'radio':
-      case 'text':
-      case 'date':
-      case 'dropdown':
-        humanReadableAnswer = questionAnswerValue;
-        break;
-    }
-    return humanReadableAnswer;
   }
 
   onQuestionChanged() {

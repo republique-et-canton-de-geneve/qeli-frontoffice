@@ -42,9 +42,11 @@
                         <i class="fa" [ngClass]="isCurrentQuestion(question) ? 'fa-question-circle' : 'fa-check-circle'"></i>
                         <span>
                           {{ question.getTranslationKey(reponses) | translate:question.createLabelParameters(reponses) }}
+                          <span class="answer-block" *ngIf="!isCurrentQuestion(question)">
+                            {{ getAnswerForQuestion(question) }}
+                          </span>
                         </span>
                       </a>
-                      <span>Answer</span>
                     </li>
                   </ul>
                 </li>
