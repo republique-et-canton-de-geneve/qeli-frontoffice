@@ -16,7 +16,7 @@ import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-qu
 import { EtatCivil } from './model/etat-civil.model';
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
-import { RequerantRefugie } from '../core/common/requerant-refugie.model';
+import { RequerantRefugie } from './model/requerant-refugie.model';
 import { ReponseBinaire, ReponseProgressive } from './model/reponse.model';
 import { Activite } from './model/activite.model';
 import { Scolarite } from './model/scolarite.model';
@@ -96,7 +96,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     options: Object.keys(RequerantRefugie).map(label => new QuestionOption({label: label})),
     validators: [Validators.required],
     defaultAnswer: (value: any) => (isSuisse(value) ||
-                                    isUEOrAELE(value)) ? RequerantRefugie.AUCUN : null,
+                                    isUEOrAELE(value) ||
+                                    isApatride(value)) ? RequerantRefugie.AUCUN : null,
     eligibilite: [
       new Eligibilite(Prestation.PC_AVS_AI, () => true),
       new Eligibilite(Prestation.BOURSES, () => true)

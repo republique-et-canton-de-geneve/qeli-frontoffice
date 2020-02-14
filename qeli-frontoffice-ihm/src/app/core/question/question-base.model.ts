@@ -7,6 +7,7 @@ export abstract class QuestionBase<T> {
   controlType: string;
   key: string;
   code: string;
+  identifier: string;
   categorie?: Categorie;
   subcategorie?: Subcategorie;
   help: boolean;
@@ -32,6 +33,7 @@ export abstract class QuestionBase<T> {
     this.controlType = options.controlType;
     this.key = options.key;
     this.code = options.code;
+    this.identifier = `${this.code}_${this.key}`;
     this.categorie = options.categorie;
     this.subcategorie = options.subcategorie;
     this.help = !!options.help;
@@ -44,10 +46,6 @@ export abstract class QuestionBase<T> {
 
   get required() {
     return this.validators.includes(Validators.required);
-  }
-
-  get codeKey() {
-    return this.code + '_' + this.key;
   }
 
   getTranslationKey(value: any) {
