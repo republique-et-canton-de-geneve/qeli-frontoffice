@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChildren } from '@angular/core';
 import { QuestionComponent } from '../question.component';
 import { CheckboxGroupQuestion } from './checkbox-group-question.model';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../question-registry';
 
 @RegisterQuestionComponent(new CheckboxGroupQuestion().controlType)
@@ -10,29 +10,65 @@ import { RegisterQuestionComponent } from '../question-registry';
   templateUrl: './checkbox-group-question.component.html',
   styleUrls: ['./checkbox-group-question.component.scss']
 })
-export class CheckboxGroupQuestionComponent implements QuestionComponent<any> {
+export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionComponent<any> {
   @Input() question: CheckboxGroupQuestion;
   @Input() form: FormGroup;
 
-  get isNone() {
-    return !!this.form.value[this.question.key]['NONE'];
+  @ViewChildren('optionCheckboxes') optionCheckboxes: ElementRef<HTMLInputElement>[];
+
+  ngAfterViewInit(): void {
+    this.optionCheckboxes.forEach(checkbox => {
+      if (this.formGroup.value['choices'].includes(checkbox.nativeElement.value)) {
+        checkbox.nativeElement.checked = true;
+      }
+    });
   }
 
   onNoneChanged() {
-    if (this.isNone) {
-      this.optionControls.forEach(control => control.setValue(false));
+    if (this.isNoneSelected) {
+      this.clearChoices();
     } else {
-      (this.form.controls[this.question.key] as FormGroup).controls['noneDetail'].setValue('');
+      this.clearNoneDetail();
     }
 
-    this.form.controls[this.question.key].markAsPristine();
+    this.formGroup.markAsPristine();
   }
 
-  get optionControls() {
-    const optionControls = (this.form.controls[this.question.key] as FormGroup).controls;
+  onOptionChanged(value: string, checked: boolean) {
+    if (checked) {
+      this.choicesControl.push(new FormControl(value));
+    } else {
+      this.choicesControl.controls.forEach((ctrl: FormControl, index: number) => {
+        if (ctrl.value === value) {
+          this.choicesControl.removeAt(index);
+        }
+      });
+    }
 
-    return Object.keys(optionControls)
-                 .filter(key => key !== 'NONE' && key !== 'noneDetail')
-                 .map(key => optionControls[key]);
+    this.formGroup.markAsDirty();
   }
+
+  private clearChoices() {
+    const choicesArray = this.choicesControl;
+    while (choicesArray.length !== 0) {
+      choicesArray.removeAt(0);
+    }
+  }
+
+  private clearNoneDetail() {
+    this.formGroup.controls['noneDetail'].setValue('');
+  }
+
+  private get formGroup() {
+    return this.form.controls[this.question.key] as FormGroup;
+  }
+
+  private get choicesControl() {
+    return this.formGroup.controls['choices'] as FormArray;
+  }
+
+  get isNoneSelected() {
+    return !!this.formGroup.value['none'];
+  }
+
 }

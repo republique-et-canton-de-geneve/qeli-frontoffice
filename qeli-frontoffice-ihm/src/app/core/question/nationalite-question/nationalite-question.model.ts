@@ -1,6 +1,7 @@
 import { QuestionBase } from '../question-base.model';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
-import { Pays } from '../../common/pays.model';
+import { Pays } from './pays.model';
+import { QuestionVisitor } from '../question-visitor';
 
 export class NationaliteQuestion extends QuestionBase<any> {
   controlType = 'nationalite';
@@ -34,6 +35,10 @@ export class NationaliteQuestion extends QuestionBase<any> {
 
   get required() {
     return true;
+  }
+
+  accept<E>(visitor: QuestionVisitor<E>): E {
+    return visitor.visitNationaliteQuestion(this);
   }
 }
 

@@ -11,7 +11,7 @@
 
     <groupId>ch.ge.social.qeli</groupId>
     <artifactId>qeli-frontoffice</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <packaging>pom</packaging>
 
     <name>qeli-frontoffice</name>
@@ -73,7 +73,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
 
-        <!-- IHM test parameters -->
+        <!-- Test parameters -->
         <surefire.test.skip>${skipTests}</surefire.test.skip>
         <ihm.test.skip>${skipTests}</ihm.test.skip>
         <cypress.test.skip>${skipTests}</cypress.test.skip>
@@ -113,35 +113,35 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-application</artifactId>
-                <version>0.0.2</version>
+                <version>0.0.3</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-cypress</artifactId>
-                <version>0.0.2</version>
+                <version>0.0.3</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-ihm</artifactId>
-                <version>0.0.2</version>
+                <version>0.0.3</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-rest</artifactId>
-                <version>0.0.2</version>
+                <version>0.0.3</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service</artifactId>
-                <version>0.0.2</version>
+                <version>0.0.3</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service-api</artifactId>
-                <version>0.0.2</version>
+                <version>0.0.3</version>
             </dependency>
 
             <!-- Additional dependencies -->
@@ -307,6 +307,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>

@@ -4,14 +4,14 @@
       <label class="control-label"
              [ngClass]="!isValid ? 'text-danger' : ''"
              [attr.for]="question.key"
-             [attr.data-cy-label]="question.code + '_' + question.key">
+             [attr.data-cy-label]="question.identifier">
         {{ question.getTranslationKey(form.value) | translate:question.createLabelParameters(form.value) }}
         <span *ngIf="question.required"
               class="form-required"
               title="{{ 'form.required' | translate }}">*</span>
       </label>
     </div>
-    <div class="hidden-xs col-sm-4 text-right">
+    <div class="visible-sm visible-md visible-lg col-sm-4 text-right">
       <app-deep-link></app-deep-link>
     </div>
   </div>

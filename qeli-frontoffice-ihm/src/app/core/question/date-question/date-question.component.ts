@@ -5,7 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../question-registry';
 import * as moment from 'moment';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { BowserService } from '../../common/bowser.service';
+import { BowserService } from '../../../service/bowser.service';
 import { NgbDateTransformer } from './ngb-date.transformer';
 
 @RegisterQuestionComponent(new DateQuestion().controlType)

@@ -1,4 +1,4 @@
-import { Prestation } from '../common/prestation.model';
+import { Prestation } from './prestation.model';
 
 export interface FormState {
   data: any;
@@ -9,7 +9,12 @@ export interface FormState {
   done: boolean;
 }
 
-export interface Refus {
+export class Refus {
   prestation: Prestation;
   questionKey: string;
+
+  constructor(prestation: Prestation, questionKey: string) {
+    this.prestation = prestation;
+    this.questionKey = questionKey;
+  }
 }

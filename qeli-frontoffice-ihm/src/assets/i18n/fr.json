@@ -46,7 +46,7 @@
     "navigation": {
       "title": "Questionnaire d'éligibilité",
       "categorie": {
-        "SITUATION_PERSONELLE": "Situation personelle",
+        "SITUATION_PERSONELLE": "Situation personnelle",
         "COMPLEMENTS": "Précisions / compléments"
       },
       "subcategorie": {
@@ -99,14 +99,14 @@
         "AIDE_SOCIALE": "Aide Sociale"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué que vous touhchez déjà des subsides d'assurance-maladie.",
-        "AVANCES": "Vous avez indiqué que vous touhchez déjà des avances de pensions alimentaires.",
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous touhchez déjà des allocation logement.",
-        "SUBVENTION_HM": "Vous avez indiqué que vous touhchez déjà des subvention habitation mixte (HM).",
-        "PC_AVS_AI": "Vous avez indiqué que vous touhchez déjà des prestations complémentaires AVS/AI.",
-        "BOURSES": "Vous avez indiqué que vous touhchez déjà des bourses d'études.",
-        "PC_FAM": "Vous avez indiqué que vous touhchez déjà des prestations complémentaires familiales.",
-        "AIDE_SOCIALE": "Vous avez indiqué que vous touhchez déjà des aide sociale."
+        "SUBSIDES": "Vous avez indiqué que vous touchez déjà des subsides d'assurance-maladie.",
+        "AVANCES": "Vous avez indiqué que vous touchez déjà des avances de pensions alimentaires.",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous touchez déjà des allocation logement.",
+        "SUBVENTION_HM": "Vous avez indiqué que vous touchez déjà des subventions habitation mixte (HM).",
+        "PC_AVS_AI": "Vous avez indiqué que vous touchez déjà des prestations complémentaires AVS/AI.",
+        "BOURSES": "Vous avez indiqué que vous touchez déjà des bourses d'études.",
+        "PC_FAM": "Vous avez indiqué que vous touchez déjà des prestations complémentaires familiales.",
+        "AIDE_SOCIALE": "Vous avez indiqué que vous touchez déjà des aides sociales."
       }
     },
     "dateNaissance": {
@@ -140,7 +140,7 @@
     },
     "nationalite": {
       "label": "Quelle est votre nationalité ?",
-      "help": "Nationalité : Etat dont vous possédez un passeport valide. Si vous avez plusieurs nationalités indiquez les toutes.",
+      "help": "Nationalité : Etat dont vous possédez un passeport.<br>Si vous avez plusieurs nationalités indiquez les toutes.",
       "apatride": {
         "label": "Je suis apatride",
         "help": "Vous n'avez pas de nationalité (statut reconnu par l'OCPM : office cantonal de la population et de la migration)."
@@ -150,11 +150,12 @@
       }
     },
     "refugie": {
-      "label": "Etes-vous réfugié ?",
-      "help": "Réfugié : Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et de la migration (OCPM)). Si votre demande d'asile est en cours xxxxx.",
+      "label": "Etes-vous",
+      "help": "Requérant d'asile : Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM)<br>Réfugié : Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM)).",
       "option": {
-        "OUI": "Oui",
-        "NON": "Non",
+        "REQUERANT_ASILE": "Requérant d'asile",
+        "REFUGIE": "Réfugié",
+        "AUCUN" : "Aucun des deux",
         "INCONNU": "Je ne sais pas"
       },
       "error": {
@@ -230,8 +231,8 @@
       "error": {
         "required": "Merci de saisir le nombre d'enfants à charge",
         "pattern": "Merci de saisir le nombre d'enfants à charge",
-        "min": "Erreur dans la saisie : nombre négatif interdit",
-        "max": "Erreur dans la saisie : nombre trop élevé"
+        "min": "Erreur dans la saisie",
+        "max": "Erreur dans la saisie"
       }
     },
     "activite": {
@@ -254,7 +255,7 @@
       "noneDetailPlaceholder": "",
       "error": {
         "required": "Votre activité doit être fournie",
-        "atLeastOneSelected": "Au moins une activité doit être selectionnée"
+        "atLeastOneSelected": "Au moins une activité doit être sélectionnée"
       }
     },
     "scolarite": {
@@ -490,7 +491,7 @@
       }
     },
     "parentsHabiteFranceTravailleSuisse": {
-      "label": "Est-ce que l'un de vos parents habite en France et travaille en Suisse ?",
+      "label": "Est-ce que l'un de vos parents est frontalier (habite en France et travaille en Suisse) ?",
       "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
       "option": {
         "OUI": "Oui",
@@ -512,6 +513,7 @@
     "next": "Passer à la question suivante",
     "deepLink": {
       "copyLink": "Sauvegarder votre progression courante avec le lien du formulaire",
+      "copyLinkShort": "Sauvegarder votre progression",
       "copyHelpText": "Ce lien vous permet de revenir compléter votre saisie ultérieurement sans perdre vos réponses",
       "copyButton": "Copier"
     }

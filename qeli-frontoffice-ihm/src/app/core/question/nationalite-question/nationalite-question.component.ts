@@ -17,10 +17,6 @@ export class NationaliteQuestionComponent implements OnInit, QuestionComponent<a
   numberOfNationalites = 1;
   maxNumberOfNationalites = 3;
 
-  get isApatride() {
-    return this.form.value[this.question.key]['apatride'];
-  }
-
   ngOnInit() {
     this.numberOfNationalites = this.form.value[this.question.key]['pays'].length;
   }
@@ -36,6 +32,10 @@ export class NationaliteQuestionComponent implements OnInit, QuestionComponent<a
   private get paysArray() {
     const nationaliteControl = (this.form.controls[this.question.key] as FormGroup);
     return nationaliteControl.controls['pays'] as FormArray;
+  }
+
+  get isApatride() {
+    return this.form.value[this.question.key]['apatride'];
   }
 
   popOrClearPaysControl() {

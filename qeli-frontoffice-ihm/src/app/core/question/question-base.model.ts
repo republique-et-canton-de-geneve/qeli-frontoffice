@@ -1,11 +1,13 @@
 import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Prestation } from '../common/prestation.model';
 import { Categorie, Subcategorie } from './question-categorie.model';
+import { QuestionVisitor } from './question-visitor';
 
-export class QuestionBase<T> {
+export abstract class QuestionBase<T> {
   controlType: string;
   key: string;
   code: string;
+  identifier: string;
   categorie?: Categorie;
   subcategorie?: Subcategorie;
   help: boolean;
@@ -31,6 +33,7 @@ export class QuestionBase<T> {
     this.controlType = options.controlType;
     this.key = options.key;
     this.code = options.code;
+    this.identifier = `${this.code}_${this.key}`;
     this.categorie = options.categorie;
     this.subcategorie = options.subcategorie;
     this.help = !!options.help;
@@ -66,6 +69,8 @@ export class QuestionBase<T> {
   toFormControl(defaultValue: T): AbstractControl {
     return new FormControl(defaultValue, this.validators);
   }
+
+  abstract accept<E>(visitor : QuestionVisitor<E>): E;
 }
 
 export class Eligibilite {
