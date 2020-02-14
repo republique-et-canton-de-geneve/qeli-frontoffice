@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuestionBase } from '../core/question/question-base.model';
 import { AllQuestions } from './question.configuration';
-import { FormState } from '../core/dynamic-form/form-state.model';
+import { FormState } from '../core/common/form-state.model';
 import { DynamicFormComponent } from '../core/dynamic-form/dynamic-form.component';
 import { ActivatedRoute } from '@angular/router';
-import { DeepLinkService } from '../core/deep-link.service';
+import { DeepLinkService } from '../service/deep-link.service';
+import { TrackingService } from '../service/tracking.service';
 
 @Component({
   selector: 'app-home',
@@ -24,10 +25,9 @@ export class HomeComponent implements OnInit {
     done: false
   };
 
-  constructor(
-    private deepLinkService: DeepLinkService,
-    private route: ActivatedRoute) {
-
+  constructor(private deepLinkService: DeepLinkService,
+              private route: ActivatedRoute,
+              private trackingService: TrackingService) {
   }
 
   ngOnInit() {
@@ -52,7 +52,31 @@ export class HomeComponent implements OnInit {
           done: false
         };
       }
+
+      this.doTracking();
     });
+  }
+
+  doTracking() {
+    if (!this.formState.done) {
+      const previousQuestion = this.previousQuestion;
+      if (previousQuestion) {
+        this.trackingService.trackAnswer(previousQuestion, this.formState.data);
+      }
+
+      this.trackingService.trackQuestion(this.currentQuestion);
+    } else { // result page :
+      this.trackingService.trackResult(this.formState.prestationsRefusees);
+    }
+  }
+
+  get currentQuestion(): QuestionBase<any> {
+    return this.questions[this.formState.currentIndex];
+  }
+
+  get previousQuestion(): QuestionBase<any> {
+    const previousQuestionIndex = this.formState.indexHistory[this.formState.indexHistory.length - 1];
+    return this.questions[previousQuestionIndex];
   }
 
   onQuestionChanged() {

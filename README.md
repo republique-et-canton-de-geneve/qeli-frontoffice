@@ -59,11 +59,11 @@ mvn spring-boot:run -Pdevelopment
 
 #### Rest API
 
-Le REST API sera disponible sur: http://localhost:8080/qeli/api/
+Le REST API sera disponible sur: http://localhost:8080/socialqeli_pub/api/
 
 #### IHM
 
-L'IHM sera disponible sur: http://localhost:8080/qeli/formulaire/
+L'IHM sera disponible sur: http://localhost:8080/socialqeli_pub/formulaire/
 
 #### Frontend
 
@@ -136,7 +136,7 @@ Un livrable windows en format `ZIP` sera disponible sur :
 Décompresser le fichier et double click sur le fichier
 `qeli-frontoffice-application.cmd` pour démarrer le server en mode standalone.
 
-L'IHM est disponible sur: http://localhost:8080/qeli/frontoffice
+L'IHM est disponible sur: http://localhost:8080/socialqeli_pub/formulaire
 
 Pour arrêter le server fermer la fenêtre du terminal.
 
@@ -166,9 +166,9 @@ Il est aussi possible de désactiver les tests Java, IHM et Cypress individuelle
 * `ihm.test.skip` : désactive les tests IHM, e.g. :
 `mvn clean install -Dihm.test.skip=true`
 * `cypress.test.skip` : désactive les tests d'intégration Cypress, e.g. :
-`mvn clean install -Dihm.test.skip=true`
+`mvn clean install -Dcypress.test.skip=true`
 * `surefire.test.skip` : désactive les Java, e.g. :
-`mvn clean install -Dihm.test.skip=true`
+`mvn clean install -Dsurefire.test.skip=true`
 
 ### Sauter la compilation de l'IHM
 
@@ -191,7 +191,7 @@ mvn clean install -pl '!qeli-frontoffice-ihm,!qeli-frontoffice-cypress'
 Le style du code est défini par le fichier [.editorconfig](.editorconfig) à la racine
 du projet.
 
-Pour certains IDE il faudra installer un plugin qui permettra son intégration.
+Pour certains IDE il faut installer un plugin qui permettra son intégration.
 
 L'information sur le format, les IDE et plugins compatible se trouve ici :
 https://editorconfig.org
@@ -213,5 +213,3 @@ registry=***REMOVED***/content/repositories/npmjs/
 
 En cas de problème avec node-sass, exécuter la commande suivante
 `npm rebuild node-sass`.
-
-Cette commande est intégrée dans une phase Maven du module qeli-frontoffice-ihm.

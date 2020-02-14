@@ -1,26 +1,28 @@
-import { CheckboxGroupQuestion } from '../core/question/checkbox-group-question/checkbox-group-question.model';
+import {
+  CheckboxGroupQuestion, CheckboxGroupValidators
+} from '../core/question/checkbox-group-question/checkbox-group-question.model';
 import { Prestation } from '../core/common/prestation.model';
 import { QuestionOption } from '../core/question/option.model';
 import { Eligibilite, QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
   aucuneScolarite, getLimiteFortune, hasActivites, hasConjoint, hasPermisBEtudes, hasPrestations, isApatride,
-  isFonctionnaireInternational, isMineur, isPayConventione, isRatioPiecesPersonnesLogementAcceptable, isRefugie,
-  isSuisse, isUEOrAELE, notHasFortuneTropEleve
+  isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isRefugie, isSuisse, isUEOrAELE,
+  notHasFortuneTropEleve
 } from './qeli-questions.utils';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
 import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-question.model';
-import { EtatCivil } from '../core/common/etat-civil.model';
+import { EtatCivil } from './model/etat-civil.model';
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
-import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
-import { QeliValidators } from '../core/validator/qeli-validators';
-import { Activite } from '../core/common/activite.model';
-import { Scolarite } from '../core/common/scolarite.model';
-import { Logement } from '../core/common/logement.model';
+import { RequerantRefugie } from './model/requerant-refugie.model';
+import { ReponseBinaire, ReponseProgressive } from './model/reponse.model';
+import { Activite } from './model/activite.model';
+import { Scolarite } from './model/scolarite.model';
+import { Logement } from './model/logement.model';
 import { TextQuestion } from '../core/question/text-question/text-question.model';
-import { Loyer } from '../core/common/loyer.model';
+import { Loyer } from './model/loyer.model';
 import { Categorie, Subcategorie } from '../core/question/question-categorie.model';
 
 const PrestationQuestions: QuestionBase<any>[] = [
@@ -91,13 +93,11 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.NATIONALITE,
     help: true,
-    inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(RequerantRefugie).map(label => new QuestionOption({label: label})),
     validators: [Validators.required],
     defaultAnswer: (value: any) => (isSuisse(value) ||
                                     isUEOrAELE(value) ||
-                                    isPayConventione(value) ||
-                                    isApatride(value)) ? ReponseProgressive.NON : null,
+                                    isApatride(value)) ? RequerantRefugie.AUCUN : null,
     eligibilite: [
       new Eligibilite(Prestation.PC_AVS_AI, () => true),
       new Eligibilite(Prestation.BOURSES, () => true)
@@ -211,7 +211,8 @@ const ActiviteQuestions: QuestionBase<any>[] = [
     hasNone: true,
     validators: [
       Validators.required,
-      QeliValidators.atLeastOneSelected(Object.keys(Activite).concat('NONE'))
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(Activite), true),
+      CheckboxGroupValidators.noneDetailRequired
     ],
     options: Object.keys(Activite).map(label => new QuestionOption({label: label})),
     eligibilite: [
@@ -496,7 +497,7 @@ const SituationFiscaleQuestions: QuestionBase<any>[] = [
     eligibilite: [
       new Eligibilite(
         Prestation.BOURSES,
-        (value: any) => value['fonctionnaireInternational'] !== ReponseProgressive.NON
+        (value: any) => value['parentsHabiteFranceTravailleSuisse'] !== ReponseProgressive.NON
       )
     ]
   })

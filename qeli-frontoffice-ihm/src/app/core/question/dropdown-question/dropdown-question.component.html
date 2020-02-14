@@ -3,9 +3,8 @@
           [formControlName]="question.key"
           focusOnInit="true"
           class="form-control form-select"
-          [attr.data-cy]="question.code + '_' + question.key">
-    <option *ngFor="let option of question.options"
-            [value]="option">
+          [attr.data-cy]="question.identifier">
+    <option *ngFor="let option of question.options" [value]="option">
       {{ 'question.' + question.key + '.option.' + option | translate }}
     </option>
   </select>
