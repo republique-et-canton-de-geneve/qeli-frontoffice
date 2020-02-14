@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
-import { BowserService } from '../../services/bowser.service';
+import { BowserService } from '../../service/bowser.service';
 
 @Directive({
   selector: '[focusOnInit]'
@@ -8,9 +8,8 @@ export class FocusOnInitDirective implements OnInit {
 
   @Input() focusOnInit: boolean = true;
 
-  constructor(
-    private el: ElementRef,
-    private bowserService: BowserService) {
+  constructor(private el: ElementRef,
+              private bowserService: BowserService) {
 
   }
 

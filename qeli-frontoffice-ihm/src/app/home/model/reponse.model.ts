@@ -3,7 +3,6 @@ export enum ReponseBinaire {
   NON = 'NON'
 }
 
-
 export enum ReponseProgressive {
   OUI     = 'OUI',
   NON     = 'NON',

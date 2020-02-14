@@ -1,4 +1,5 @@
 import { QuestionBase } from '../question-base.model';
+import { QuestionVisitor } from '../question-visitor';
 
 export class TextQuestion extends QuestionBase<string> {
   controlType = 'text';
@@ -9,5 +10,9 @@ export class TextQuestion extends QuestionBase<string> {
     super(options);
     this.type = options['type'] || '';
     this.placeholder = options['placeholder'] || '';
+  }
+
+  accept<E>(visitor: QuestionVisitor<E>): E {
+    return visitor.visitTextQuestion(this);
   }
 }
