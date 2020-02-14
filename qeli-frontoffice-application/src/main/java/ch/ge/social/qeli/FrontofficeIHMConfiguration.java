@@ -1,7 +1,6 @@
 package ch.ge.social.qeli;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Preconditions;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +10,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.EncodedResourceResolver;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 /**
@@ -36,7 +36,8 @@ public class FrontofficeIHMConfiguration implements WebMvcConfigurer {
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler(ihmContextPath + "/**")
             .addResourceLocations(ihmResourceLocation + "/")
-            .resourceChain(false)
+            .setCachePeriod(3600)
+            .resourceChain(true)
             .addResolver(new PathResourceResolver() {
               @Override
               protected Resource getResource(String resourcePath, Resource location) throws IOException {
