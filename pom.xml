@@ -11,7 +11,7 @@
 
     <groupId>ch.ge.social.qeli</groupId>
     <artifactId>qeli-frontoffice</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.4</version>
     <packaging>pom</packaging>
 
     <name>qeli-frontoffice</name>
@@ -113,35 +113,35 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-application</artifactId>
-                <version>0.0.4-SNAPSHOT</version>
+                <version>0.0.4</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-cypress</artifactId>
-                <version>0.0.4-SNAPSHOT</version>
+                <version>0.0.4</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-ihm</artifactId>
-                <version>0.0.4-SNAPSHOT</version>
+                <version>0.0.4</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-rest</artifactId>
-                <version>0.0.4-SNAPSHOT</version>
+                <version>0.0.4</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service</artifactId>
-                <version>0.0.4-SNAPSHOT</version>
+                <version>0.0.4</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service-api</artifactId>
-                <version>0.0.4-SNAPSHOT</version>
+                <version>0.0.4</version>
             </dependency>
 
             <!-- Additional dependencies -->

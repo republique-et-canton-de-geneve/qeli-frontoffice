@@ -1,6 +1,6 @@
 {
   "name": "qeli-frontoffice-cypress",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Cypress avec Cucumber pour tester l'application web",
   "scripts": {
     "cy:open": "cypress open",
