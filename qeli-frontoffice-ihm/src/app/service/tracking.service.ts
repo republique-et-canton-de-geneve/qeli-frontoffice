@@ -52,9 +52,9 @@ export class TrackingService {
    * @param question
    */
   trackQuestion(question: QuestionBase<any>) {
-    const trackingUrl = location.href.split('?')[0] + TRACK_QUESTION + '/' + question.codeKey;
+    const trackingUrl = location.href.split('?')[0] + TRACK_QUESTION + '/' + question.identifier;
     this.matomoTracker.setCustomUrl(trackingUrl);
-    this.matomoTracker.trackPageView(TRACK_QUESTION + '/' + question.codeKey);
+    this.matomoTracker.trackPageView(TRACK_QUESTION + '/' + question.identifier);
   }
 
   /**
@@ -66,8 +66,8 @@ export class TrackingService {
   trackAnswer(question: QuestionBase<any>, data: any) {
     const answer = question.accept(new ToTrackingAnswerQuestionVisitor(data));
 
-    this.matomoTracker.setCustomVariable(1, question.codeKey, answer, SCOPE_PAGE);
-    this.trackEvent(TRACK_ANSWER, question.codeKey);
+    this.matomoTracker.setCustomVariable(1, question.identifier, answer, SCOPE_PAGE);
+    this.trackEvent(TRACK_ANSWER, question.identifier);
     this.matomoTracker.deleteCustomVariable(1, SCOPE_PAGE);
   }
 
