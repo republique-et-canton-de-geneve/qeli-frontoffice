@@ -24,6 +24,9 @@ import { Logement } from './model/logement.model';
 import { TextQuestion } from '../core/question/text-question/text-question.model';
 import { Loyer } from './model/loyer.model';
 import { Categorie, Subcategorie } from '../core/question/question-categorie.model';
+import {
+  EnfantsAChargeQuestion, EnfantsAChargeQuestionValidators
+} from '../core/question/enfants-a-charge-question/enfants-a-charge-question.model';
 
 const PrestationQuestions: QuestionBase<any>[] = [
   new CheckboxGroupQuestion({
@@ -104,6 +107,23 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
       new Eligibilite(Prestation.BOURSES, () => true),
       new Eligibilite(Prestation.PC_FAM, () => true),
       new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
+    ]
+  }),
+  new EnfantsAChargeQuestion({
+    key: 'enfantsACharge',
+    code: '0505',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.DOMICILE,
+    help: true,
+    hasNone: true,
+    validators: [EnfantsAChargeQuestionValidators.atLeastOneFilled(
+      ['MOINS_18', '18_25_EN_FORMATION', 'PLUS_25_EN_FORMATION', 'PLUS_18'], true)], //todo: sortir ça
+    fields: ['MOINS_18', '18_25_EN_FORMATION', 'PLUS_25_EN_FORMATION', 'PLUS_18']
+      .map(enfantsACharge => new QuestionOption({label: enfantsACharge})),
+    eligibilite: [
+      new Eligibilite(Prestation.PC_FAM, (value: any) => true), //todo: faire les conditions de sortie PC_FAM
+      new Eligibilite(Prestation.AIDE_SOCIALE, () => true),
+      new Eligibilite(Prestation.BOURSES, () => true)
     ]
   })
 ];
@@ -250,22 +270,6 @@ const DomicileQuestions: QuestionBase<any>[] = [
       new Eligibilite(
         Prestation.AIDE_SOCIALE, (value: any) => value['residenceEffectiveCantonGE'] !== ReponseBinaire.NON
       )
-    ]
-  }),
-  new TextQuestion({
-    key: 'enfantsACharge',
-    code: '0505',
-    categorie: Categorie.SITUATION_PERSONELLE,
-    subcategorie: Subcategorie.DOMICILE,
-    help: true,
-    type: 'number',
-    validators: [Validators.required,
-                 Validators.pattern('\-?[0-9]*'),
-                 Validators.min(0),
-                 Validators.max(20)],
-    eligibilite: [
-      new Eligibilite(Prestation.PC_FAM, (value: any) => value['enfantsACharge'] > 0),
-      new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
     ]
   })
 ];

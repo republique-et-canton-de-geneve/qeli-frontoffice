@@ -9,8 +9,9 @@ import { TextQuestion } from '../../core/question/text-question/text-question.mo
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { QuestionOption } from '../../core/question/option.model';
-import * as moment from 'moment';
 import { ReponseProgressive } from '../../core/common/reponse.model';
+import { EnfantsAChargeQuestion } from '../../core/question/enfants-a-charge-question/enfants-a-charge-question.model';
+import * as moment from 'moment';
 
 @Injectable()
 export class FormatAnswerVisitorFactory {
@@ -86,6 +87,12 @@ export class FormatAnswerVisitor implements QuestionVisitor<string> {
   }
 
   visitTextQuestion(question: TextQuestion): string {
+    return this.findValueForQuestion(question);
+  }
+
+  visitEnfantsAChargeQuestion(question: EnfantsAChargeQuestion): string {
+    // todo 1 :
+    console.log("todo 1 visitEnfantsAChargeQuestion:", this.findValueForQuestion(question));
     return this.findValueForQuestion(question);
   }
 

@@ -1,0 +1,22 @@
+label {
+  font-weight: 500;
+}
+
+label:not(:first-child) {
+  padding-left: 0;
+}
+
+.none-option {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.row {
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+}
+
+hr {
+  margin-bottom: 1rem;
+}

@@ -17,6 +17,7 @@ import { FocusOnInitDirective } from './common/focus-on-init.directive';
 import { DeepLinkComponent } from './deep-link/deep-link.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { BootstrapModule } from '../bootstrap/bootstrap.module';
+import { EnfantsAChargeQuestionComponent } from './question/enfants-a-charge-question/enfants-a-charge-question.component';
 
 export const ngxMaskModuleOptions: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -58,7 +59,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NationaliteQuestionComponent,
     RadioQuestionComponent,
     TextQuestionComponent,
-    DeepLinkComponent
+    DeepLinkComponent,
+    EnfantsAChargeQuestionComponent
   ],
   entryComponents: [
     CheckboxGroupQuestionComponent,
@@ -68,7 +70,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DynamicQuestionComponent,
     NationaliteQuestionComponent,
     RadioQuestionComponent,
-    TextQuestionComponent
+    TextQuestionComponent,
+    EnfantsAChargeQuestionComponent
   ]
 })
 export class CoreModule {
