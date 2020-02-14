@@ -23,7 +23,7 @@ export class NationaliteQuestion extends QuestionBase<any> {
       (control: AbstractControl) => {
 
         if (control.value['apatride'] !== true &&
-            (!control.value['pays'] || (control.value['pays'] as string[]).every(e => e === null))
+            (!control.value['pays'] || (control.value['pays'] as string[]).every(e => !e))
         ) {
           return {'required': true}
         } else {
