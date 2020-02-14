@@ -18,6 +18,7 @@ server:
   port: 443
 
   compression.enabled: true
+  http2.enabled: true
 
   error:
     whitelabel:
