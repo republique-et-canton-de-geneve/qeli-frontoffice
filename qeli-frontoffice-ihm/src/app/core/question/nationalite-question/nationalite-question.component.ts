@@ -35,7 +35,6 @@ export class NationaliteQuestionComponent implements OnInit, QuestionComponent<a
   }
 
   get isApatride() {
-    console.log("hola");
     return this.form.value[this.question.key]['apatride'];
   }
 
