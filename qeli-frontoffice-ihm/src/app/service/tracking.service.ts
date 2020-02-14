@@ -12,6 +12,7 @@ import { NationaliteQuestion } from '../core/question/nationalite-question/natio
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { TextQuestion } from '../core/question/text-question/text-question.model';
 import { ReponseProgressive } from '../core/common/reponse.model';
+import { EnfantsAChargeQuestion } from '../core/question/enfants-a-charge-question/enfants-a-charge-question.model';
 
 const SCOPE_PAGE = 'page';
 const TRACK_FORM = 'Formulaire';
@@ -144,6 +145,12 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
   }
 
   visitTextQuestion(question: TextQuestion): string {
+    return this.findValueForQuestion(question);
+  }
+
+  visitEnfantsAChargeQuestion(question: EnfantsAChargeQuestion): string {
+    // todo 2 :
+    console.log("todo2 visitEnfantsAChargeQuestion:", this.findValueForQuestion(question));
     return this.findValueForQuestion(question);
   }
 

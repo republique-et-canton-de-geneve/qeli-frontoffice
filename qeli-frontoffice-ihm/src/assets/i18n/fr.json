@@ -260,15 +260,23 @@
     },
     "enfantsACharge": {
       "label": "Combien d'enfants à charge avez-vous ?",
-      "help": "Enfant à charge : enfant de moins de 18 ans ou enfant entre 18 et 25 ans en formation",
+      "help": "Enfant à charge : enfant dont vous devez vous occuper. Si vous payez une pension alimentaire pour lui, il n'est plus considéré comme une charge.",
+      "option": {
+        "MOINS_18": "enfant(s) de moins de 18 ans",
+        "18_25_EN_FORMATION": "enfant(s) entre 18 et 25 ans en formation",
+        "PLUS_25_EN_FORMATION": "enfant(s) de plus de 25 ans en formation",
+        "PLUS_18": "enfant(s) de plus de 18 ans PAS en formation",
+        "NONE": "Aucun enfant"
+      },
       "motifRefus": {
         "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge"
       },
       "error": {
         "required": "Merci de saisir le nombre d'enfants à charge",
         "pattern": "Merci de saisir le nombre d'enfants à charge",
-        "min": "Erreur dans la saisie",
-        "max": "Erreur dans la saisie"
+        "min": "Nombre négatif interdit",
+        "max": "Erreur dans la saisie du nombre d'enfants à charge",
+        "atLeastOneFilled": "Merci de saisir le nombre d'enfants à charge"
       }
     },
     "activite": {
