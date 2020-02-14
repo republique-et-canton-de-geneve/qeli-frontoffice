@@ -1,7 +1,7 @@
 <div [formGroup]="form">
   <div *ngFor="let option of question.options; first as isFirst"
        [class]="question.inline ? 'radio radio-inline' : 'radio'"
-       [attr.data-cy]="question.codeKey">
+       [attr.data-cy]="question.identifier">
     <label>
       <input type="radio"
              [value]="option.label"

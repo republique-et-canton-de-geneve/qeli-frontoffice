@@ -67,7 +67,7 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
     return this.formGroup.controls['choices'] as FormArray;
   }
 
-  private get isNoneSelected() {
+  get isNoneSelected() {
     return !!this.formGroup.value['none'];
   }
 
