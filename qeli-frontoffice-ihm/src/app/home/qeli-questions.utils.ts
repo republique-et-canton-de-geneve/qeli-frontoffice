@@ -1,8 +1,8 @@
-import { EtatCivil } from '../core/common/etat-civil.model';
-import { ReponseProgressive } from '../core/common/reponse.model';
-import { Scolarite } from '../core/common/scolarite.model';
-import { Activite } from '../core/common/activite.model';
-import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/common/pays.model';
+import { EtatCivil } from './model/etat-civil.model';
+import { ReponseProgressive } from './model/reponse.model';
+import { Scolarite } from './model/scolarite.model';
+import { Activite } from './model/activite.model';
+import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/question/nationalite-question/pays.model';
 import * as moment from 'moment';
 import { Prestation } from '../core/common/prestation.model';
 import { RequerantRefugie } from '../core/common/requerant-refugie.model';
@@ -25,10 +25,7 @@ export function aucuneScolarite(value: any) {
 }
 
 export function hasActivites(value: any, activites: Activite[]) {
-  return !Object.entries(value['activite'])
-                .filter(entry => activites.includes(Activite[entry[0]]))
-                .map(entry => entry[1])
-                .includes(false);
+  return activites.every(activite => value['activite']['choices'].includes(activite));
 }
 
 export function isRefugie(value: any) {
@@ -64,10 +61,7 @@ export function isMineur(value: any) {
 }
 
 export function hasPrestations(value: any, prestations: Prestation[]) {
-  return !Object.entries(value['prestations'])
-                .filter(entry => prestations.includes(Prestation[entry[0]]))
-                .map(entry => entry[1])
-                .includes(false);
+  return prestations.every(prestation => value['prestations']['choices'].includes(prestation));
 }
 
 export function isRatioPiecesPersonnesLogementAcceptable(value: any) {

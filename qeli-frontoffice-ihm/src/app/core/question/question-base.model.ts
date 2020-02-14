@@ -1,8 +1,9 @@
 import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Prestation } from '../common/prestation.model';
 import { Categorie, Subcategorie } from './question-categorie.model';
+import { QuestionVisitor } from './question-visitor';
 
-export class QuestionBase<T> {
+export abstract class QuestionBase<T> {
   controlType: string;
   key: string;
   code: string;
@@ -70,6 +71,8 @@ export class QuestionBase<T> {
   toFormControl(defaultValue: T): AbstractControl {
     return new FormControl(defaultValue, this.validators);
   }
+
+  abstract accept<E>(visitor : QuestionVisitor<E>): E;
 }
 
 export class Eligibilite {

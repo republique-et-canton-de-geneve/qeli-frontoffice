@@ -1,5 +1,6 @@
 import { QuestionBase } from '../question-base.model';
 import { QeliValidators } from '../../validator/qeli-validators';
+import { QuestionVisitor } from '../question-visitor';
 
 export class DateQuestion extends QuestionBase<string> {
   controlType = 'date';
@@ -20,5 +21,9 @@ export class DateQuestion extends QuestionBase<string> {
     }
 
     this.validators.push(QeliValidators.date);
+  }
+
+  accept<E>(visitor: QuestionVisitor<E>): E {
+    return visitor.visitDateQuestion(this);
   }
 }

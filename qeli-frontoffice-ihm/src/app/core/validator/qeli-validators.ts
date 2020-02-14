@@ -32,14 +32,4 @@ export class QeliValidators {
       return null;
     };
   }
-
-  static atLeastOneSelected(options: string[]) {
-    return (control: AbstractControl) => {
-      if (control && control.value && options.every(option => !control.value[option])) {
-        return {'atLeastOneSelected': true}
-      }
-
-      return null;
-    }
-  }
 }
