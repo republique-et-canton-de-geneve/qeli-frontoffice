@@ -2,14 +2,15 @@
   <div [formGroupName]="question.key"
        [attr.data-cy]="question.identifier"
        data-cy-type="nationalite">
-    <div *ngFor="let x of [].constructor(numberOfNationalites); index as i; last as isLast; first as isFirst"
+    <div *ngFor="let pays of paysArray.value; index as i; last as isLast; first as isFirst"
          class="nationalite-selection-box"
          formArrayName="pays">
       <select class="form-control"
               [formControlName]="i"
-              [attr.disabled]="isApatride || !isLast ? 'disabled' : null"
+              [attr.disabled]="!isLast || isApatride ? 'disabled' : null"
               [focusOnInit]="isFirst"
               [attr.data-cy]="question.identifier + '_select_nationalite_' + i">
+        <option></option>
         <option *ngFor="let pays of question.paysOptions"
                 [value]="pays">
           {{ 'common.pays.' + pays | translate }}
@@ -18,7 +19,7 @@
 
       <button class="btn btn-primary"
               [attr.aria-label]="'common.ajouterNationalite' | translate"
-              [disabled]="isApatride || numberOfNationalites >= maxNumberOfNationalites || hasUnsetPays()"
+              [disabled]="!isLast || numberOfNationalites >= maxNumberOfNationalites || isApatride || !pays"
               [style.visibility]="isLast ? 'visible' : 'hidden'"
               [attr.data-cy]="question.identifier + '_ajouter_nationalite_' + i"
               (click)="addPaysControl()">
@@ -26,7 +27,7 @@
       </button>
       <button class="btn btn-danger"
               [attr.aria-label]="'common.supprimerNationalite' | translate"
-              [disabled]="isApatride || !isLast || !hasPays()"
+              [disabled]="!isLast || isApatride"
               [style.visibility]="isLast ? 'visible' : 'hidden'"
               [attr.data-cy]="question.identifier + '_supprimer_nationalite_' + i"
               (click)="popOrClearPaysControl()">
