@@ -29,7 +29,7 @@ export class NationaliteQuestionComponent implements OnInit, QuestionComponent<a
     }
   }
 
-  private get paysArray() {
+  get paysArray() {
     const nationaliteControl = (this.form.controls[this.question.key] as FormGroup);
     return nationaliteControl.controls['pays'] as FormArray;
   }
@@ -52,14 +52,6 @@ export class NationaliteQuestionComponent implements OnInit, QuestionComponent<a
       this.paysArray.push(new FormControl());
       this.numberOfNationalites += 1;
     }
-  }
-
-  hasPays() {
-    return !this.hasUnsetPays();
-  }
-
-  hasUnsetPays() {
-    return (this.paysArray.value as string[]).includes(null);
   }
 
 }
