@@ -20,10 +20,6 @@
           "title": "Allocation logement",
           "content": "L'allocation logement est une aide financière personnalisée consentie par l'Etat en faveur du locataire dont le loyer représente une charge trop lourde eu égard à son revenu et à sa fortune et qui n'a pas trouvé, au préalable, de logement moins cher sans inconvénients majeurs."
         },
-        "SUBVENTION_HM": {
-          "title": "Subvention habitation mixte (HM)",
-          "content": "Un logement HM correspond, de par son niveau de loyer à un appartement de type HLM. Toutefois, en lieu et place d'une subvention à l'exploitation versée au propriétaire de l'immeuble, l'Etat de Genève accorde, pendant 25 ans au maximum, une subvention aux locataires qui en remplissent les conditions d'octroi."
-        },
         "PC_AVS_AI": {
           "title": "Prestations complémentaires AVS/AI",
           "content": "Les prestations complémentaires (PC) à l’assurance vieillesse et survivants (AVS) et à l’assurance invalidité (AI) sont accordées lorsque les rentes et autres revenus ne couvrent pas les besoins vitaux."
@@ -86,27 +82,33 @@
   },
   "question": {
     "prestations": {
-      "label": "Touchez-vous déjà une ou plusieurs prestations sociales ?",
-      "help": "Prestations complémentaires fédérales et cantonales AVS / AI : les prestations complémentaires fédérales et cantonales à l'assurance-vieillesse, survivants et invalidité sont des prestations sociales. Elles sont délivrées par la confédération et/ou par le canton aux rentiers AVS/AI (personnes bénéficiant de rentes de l'assurance-vieillesse et survivants ou de l'assurance-invalidité) lorsque les rentes et autres revenus ne permettent pas la couverture des besoins vitaux.",
+      "label": "Recevez-vous déjà des prestations sociales ? Si oui, lesquelles ?",
+      "help": "En cas de doute sur une prestation, ne pas cocher la case concernée.<br>Si vous ne savez pas du tout si vous recevez des prestations et lesquelles, cocher \"Non\".",
       "option": {
-        "SUBSIDES": "Subsides d'assurance-maladie",
-        "AVANCES": "Avances de pensions alimentaires",
-        "ALLOCATION_LOGEMENT": "Allocation logement",
-        "SUBVENTION_HM": "Subvention habitation mixte (HM)",
-        "PC_AVS_AI": "Prestations complémentaires AVS/AI",
-        "BOURSES": "Bourses d'études",
-        "PC_FAM": "Prestations complémentaires familiales",
-        "AIDE_SOCIALE": "Aide Sociale"
+        "SUBSIDES": "Subsides d'assurance-maladie (SAM)",
+        "AVANCES": "Avance de pensions alimentaires (SCARPA)",
+        "ALLOCATION_LOGEMENT": "Allocation logement (Office du logement)",
+        "SUBVENTION_HM": "Subvention personnalisée d'habitation mixte (HM) (Office du logement)",
+        "PC_AVS_AI": "Prestations complémentaires AVS/AI (SPC)",
+        "BOURSES": "Bourse d'études (SBPE)",
+        "PC_FAM": "Prestations complémentaires familiales (SPC)",
+        "AIDE_SOCIALE": "Aide sociale (Hospice général ou SPC)"
       },
+      "some": "Oui, je reçois une ou plusieurs préstations (sélectionnez chacune de préstation que vous recevez) :",
+      "none": "Non, je ne reçois aucune prestation",
+      "inconnu": "Je ne sais pas",
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué que vous touchez déjà des subsides d'assurance-maladie.",
-        "AVANCES": "Vous avez indiqué que vous touchez déjà des avances de pensions alimentaires.",
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous touchez déjà des allocation logement.",
-        "SUBVENTION_HM": "Vous avez indiqué que vous touchez déjà des subventions habitation mixte (HM).",
-        "PC_AVS_AI": "Vous avez indiqué que vous touchez déjà des prestations complémentaires AVS/AI.",
-        "BOURSES": "Vous avez indiqué que vous touchez déjà des bourses d'études.",
-        "PC_FAM": "Vous avez indiqué que vous touchez déjà des prestations complémentaires familiales.",
-        "AIDE_SOCIALE": "Vous avez indiqué que vous touchez déjà des aides sociales."
+        "SUBSIDES": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "AVANCES": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "ALLOCATION_LOGEMENT": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "PC_AVS_AI": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "BOURSES": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "PC_FAM": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "AIDE_SOCIALE": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci."
+      },
+      "error": {
+        "required": "Votre activité doit être fournie",
+        "atLeastOneSelected": "Au moins une préstation doit être sélectionnée"
       }
     },
     "dateNaissance": {
@@ -155,7 +157,7 @@
       "option": {
         "REQUERANT_ASILE": "Requérant d'asile",
         "REFUGIE": "Réfugié",
-        "AUCUN" : "Aucun des deux",
+        "AUCUN": "Aucun des deux",
         "INCONNU": "Je ne sais pas"
       },
       "error": {
@@ -245,14 +247,13 @@
         "RETRAITE": "Retraité (Rente AVS)",
         "INVALIDE": "Invalide (Rente AI)",
         "SANS": "Au foyer / Sans activité",
-        "ARRET": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain",
-        "NONE": "Aucune des réponses précédentes"
+        "ARRET": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain"
       },
+      "some": "Sélectionnez chacune de vos activités :",
+      "none": "Aucune des réponses précédentes",
       "motifRefus": {
         "BOURSES": "Vous devez être étudiant(e) pour bénéficier d'une bourse d'études."
       },
-      "noneDetailLabel": "Veuillez spécifier votre activité :",
-      "noneDetailPlaceholder": "",
       "error": {
         "required": "Votre activité doit être fournie",
         "atLeastOneSelected": "Au moins une activité doit être sélectionnée"

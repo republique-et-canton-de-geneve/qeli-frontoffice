@@ -16,17 +16,17 @@
     </div>
   </div>
 
+  <p *ngIf="!isValid"
+     class="error-block"
+     data-cy-label="validation_message">
+      <span *ngFor="let error of errors" class="text-danger">
+        {{ 'question.' + question.key + '.error.' + error | translate }}
+      </span>
+  </p>
+
   <p *ngIf="question.help" class="help-block"
      [innerHtml]="'question.' + question.key + '.help' | translate:question.createLabelParameters(form.value)">
   </p>
 
   <ng-template app-question-host></ng-template>
-
-  <div *ngIf="!isValid"
-       class="error-block"
-       data-cy-label="validation_message">
-      <span *ngFor="let error of errors" class="text-danger">
-        {{ 'question.' + question.key + '.error.' + error | translate }}
-      </span>
-  </div>
 </div>

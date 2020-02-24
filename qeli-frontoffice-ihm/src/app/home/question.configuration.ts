@@ -6,9 +6,9 @@ import { QuestionOption } from '../core/question/option.model';
 import { Eligibilite, QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, getLimiteFortune, hasActivites, hasConjoint, hasPermisBEtudes, hasPrestations, isApatride,
-  isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isRefugie, isSuisse, isUEOrAELE,
-  notHasFortuneTropEleve
+  aucuneScolarite, getLimiteFortune, hasActivites, hasAnyPrestations, hasConjoint, hasPermisBEtudes, hasPrestation,
+  isApatride, isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isRefugie, isSuisse,
+  isUEOrAELE, notHasFortuneTropEleve
 } from './qeli-questions.utils';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -17,7 +17,7 @@ import { EtatCivil } from './model/etat-civil.model';
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { RequerantRefugie } from './model/requerant-refugie.model';
-import { ReponseBinaire, ReponseProgressive } from './model/reponse.model';
+import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
 import { Activite } from './model/activite.model';
 import { Scolarite } from './model/scolarite.model';
 import { Logement } from './model/logement.model';
@@ -32,12 +32,45 @@ const PrestationQuestions: QuestionBase<any>[] = [
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.PRESTATION,
     help: true,
+    hasNone: true,
+    hasInconnu: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(Prestation), true)
+    ],
     options: Object.keys(Prestation).map(prestation => new QuestionOption({label: prestation})),
-    eligibilite: Object.values(Prestation).map(
-      prestation => new Eligibilite(
-        prestation, (value: any) => !hasPrestations(value, [prestation])
-      )
-    )
+    eligibilite: [
+      new Eligibilite(Prestation.SUBSIDES, (value: any) => !hasAnyPrestations(
+        value, [
+          Prestation.SUBSIDES,
+          Prestation.PC_AVS_AI,
+          Prestation.PC_FAM,
+          Prestation.AIDE_SOCIALE
+        ]
+      )),
+      new Eligibilite(Prestation.AVANCES, (value: any) => !hasPrestation(value, Prestation.AVANCES)),
+      new Eligibilite(Prestation.ALLOCATION_LOGEMENT, (value: any) => !hasAnyPrestations(
+        value, [
+          Prestation.ALLOCATION_LOGEMENT,
+          Prestation.SUBVENTION_HM,
+          Prestation.PC_AVS_AI
+        ]
+      )),
+      new Eligibilite(Prestation.PC_AVS_AI, (value: any) => !hasAnyPrestations(
+        value, [
+          Prestation.PC_AVS_AI,
+          Prestation.PC_FAM
+        ]
+      )),
+      new Eligibilite(Prestation.BOURSES, (value: any) => !hasPrestation(value, Prestation.BOURSES)),
+      new Eligibilite(Prestation.PC_FAM, (value: any) => !hasAnyPrestations(
+        value, [
+          Prestation.PC_AVS_AI,
+          Prestation.PC_FAM
+        ]
+      )),
+      new Eligibilite(Prestation.AIDE_SOCIALE, (value: any) => !hasPrestation(value, Prestation.AIDE_SOCIALE))
+    ]
   })
 ];
 
@@ -211,13 +244,11 @@ const ActiviteQuestions: QuestionBase<any>[] = [
     hasNone: true,
     validators: [
       Validators.required,
-      CheckboxGroupValidators.atLeastOneSelected(Object.keys(Activite), true),
-      CheckboxGroupValidators.noneDetailRequired
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(Activite), true)
     ],
     options: Object.keys(Activite).map(label => new QuestionOption({label: label})),
     eligibilite: [
-      new Eligibilite(Prestation.BOURSES,
-        (value: any) => hasActivites(value, [Activite.ETUDIANT])),
+      new Eligibilite(Prestation.BOURSES, (value: any) => hasActivites(value, [Activite.ETUDIANT])),
       new Eligibilite(Prestation.PC_FAM, () => true),
       new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
     ]
