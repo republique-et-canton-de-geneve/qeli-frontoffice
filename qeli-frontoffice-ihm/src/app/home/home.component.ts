@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
 
       this.trackingService.trackQuestion(this.currentQuestion);
     } else { // result page :
-      this.trackingService.trackResult(this.formState.prestationsRefusees);
+      this.trackingService.trackResult(this.formState.prestationsRefusees, this.formState.data);
     }
   }
 
