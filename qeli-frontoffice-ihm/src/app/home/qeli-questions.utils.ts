@@ -1,5 +1,5 @@
 import { EtatCivil } from './model/etat-civil.model';
-import { ReponseProgressive } from '../core/common/reponse.model';
+import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
 import { Scolarite } from './model/scolarite.model';
 import { Activite } from './model/activite.model';
 import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/question/nationalite-question/pays.model';
@@ -49,6 +49,23 @@ export function isUEOrAELE(value: any) {
   return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
 }
 
+export function isConjointApatride(value: any) {
+  const nationalite = value['nationaliteConjoint'];
+  return nationalite ? !!nationalite['apatride'] : false;
+}
+
+export function isConjointSuisse(value: any) {
+  const nationalite = value['nationaliteConjoint'];
+  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+  return paysValues ? paysValues.includes(Pays.CH) : false;
+}
+
+export function isConjointUEOrAELE(value: any) {
+  const nationalite = value['nationaliteConjoint'];
+  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+  return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
+}
+
 export function isPaysConventione(value: any) {
   const nationalite = value['nationalite'];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
@@ -74,18 +91,21 @@ export function isRatioPiecesPersonnesLogementAcceptable(value: any) {
   return !((nbPieces - nbPersonnes) > 2);
 }
 
-export function notHasFortuneTropEleve(value: any) {
-  return value['fortuneSuperieureA'] === ReponseProgressive.NON;
+export function hasFortuneTropEleve(value: any) {
+  return value['fortuneSuperieureA'] === ReponseBinaire.OUI;
 }
 
 export function getLimiteFortune(value: any) {
   let limite = 4000;
-  if ([EtatCivil.MARIE, EtatCivil.PARTENARIAT_ENREGISTRE].includes(value['etatCivil'])) {
+
+  if (hasConjoint(value)) {
     limite = 8000;
   }
+
   if (value['enfantsACharge'] && value['enfantsACharge'] > 0) {
     limite += value['enfantsACharge'] * 2000;
   }
+
   if (limite > 10000) {
     limite = 10000;
   }

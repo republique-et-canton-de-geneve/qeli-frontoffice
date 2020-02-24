@@ -69,13 +69,10 @@ export class DynamicFormComponent implements OnInit {
     return this.questions.findIndex((question, index) => {
         if (index > this.currentQuestionIndex) {
           if (question.eligibilite.some(el => this.prestationEligible.includes(el.prestation))) {
-            const answer = question.defaultAnswer ? question.defaultAnswer(this.form.value) : undefined;
-
-            if (!answer) {
+            if (!question.skip(this.form.value)) {
               return true;
             }
-
-            this.form.controls[question.key].setValue(answer);
+            this.form.setControl(question.key, question.toFormControl(null));
           }
         }
 
