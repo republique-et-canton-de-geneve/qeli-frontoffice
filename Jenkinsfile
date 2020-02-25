@@ -62,10 +62,12 @@ pipeline {
       agent { label 'CypressAgent' }
 
       steps {
-        sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
-                       -Dihm.test.skip=true                           \
-                       -Dsurefire.test.skip=true                      \
-                       -Pci"
+        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+          sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
+                         -Dihm.test.skip=true                           \
+                         -Dsurefire.test.skip=true                      \
+                         -Pci"
+        }
       }
     }
 
@@ -160,7 +162,6 @@ pipeline {
           }
         }
       }
-
     }
   }
 }
