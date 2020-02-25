@@ -153,15 +153,49 @@
     },
     "refugie": {
       "label": "Etes-vous",
-      "help": "Requérant d'asile : Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM)<br>Réfugié : Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM)).",
       "option": {
-        "REQUERANT_ASILE": "Requérant d'asile",
-        "REFUGIE": "Réfugié",
+        "REQUERANT_ASILE": {
+          "label": "Requérant d'asile",
+          "help": "Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM)."
+        },
+        "REFUGIE": {
+          "label": "Réfugié",
+          "help": "Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
+        },
         "AUCUN": "Aucun des deux",
         "INCONNU": "Je ne sais pas"
       },
       "error": {
         "required": "Votre statut de réfugié doit être fourni"
+      }
+    },
+    "nationaliteConjoint": {
+      "label": " Quelle est la nationalité de votre conjoint ?",
+      "help": "Nationalité : Etat dont il/elle possède un passeport.<br>Conjoint : Personne avec laquelle vous êtes mariée ou en partenariat enregistré tel que déclaré à l'office cantonal de la population et des migrations (OCPM).",
+      "apatride": {
+        "label": "Mon conjoint est apatride",
+        "help": "Votre conjoint n'a pas de nationalité (statut reconnu par l'OCPM)."
+      },
+      "error": {
+        "required": "La nationalité de votre conjoint doit être fournie"
+      }
+    },
+    "refugieConjoint": {
+      "label": "Votre conjoint est-il",
+      "option": {
+        "REQUERANT_ASILE": {
+          "label": "Requérant d'asile",
+          "help": "Il/elle a déposé une demande d’asile en Suisse et attend une décision du Secrétariat d’Etat aux migrations (SEM)."
+        },
+        "REFUGIE": {
+          "label": "Réfugié",
+          "help": "Il/elle a obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
+        },
+        "AUCUN": "Aucun des deux",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Le statut de réfugié de votre conjoint doit être fourni"
       }
     },
     "permisBEtudes": {
