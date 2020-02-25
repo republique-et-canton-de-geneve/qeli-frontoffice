@@ -1,5 +1,5 @@
 import { EtatCivil } from './model/etat-civil.model';
-import { ReponseProgressive } from './model/reponse.model';
+import { ReponseProgressive } from '../core/common/reponse.model';
 import { Scolarite } from './model/scolarite.model';
 import { Activite } from './model/activite.model';
 import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/question/nationalite-question/pays.model';
@@ -60,8 +60,12 @@ export function isMineur(value: any) {
   return dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
 }
 
-export function hasPrestations(value: any, prestations: Prestation[]) {
-  return prestations.every(prestation => value['prestations']['choices'].includes(prestation));
+export function hasAnyPrestations(value: any, prestations: Prestation[]) {
+  return prestations.some(prestation => value['prestations']['choices'].includes(prestation));
+}
+
+export function hasPrestation(value: any, prestation: Prestation) {
+  return value['prestations']['choices'].includes(prestation);
 }
 
 export function isRatioPiecesPersonnesLogementAcceptable(value: any) {
