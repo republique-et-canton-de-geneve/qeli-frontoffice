@@ -210,6 +210,7 @@
                     <configuration>
                         <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
                         <commitIdGenerationMode>flat</commitIdGenerationMode>
+                        <failOnNoGitDirectory>false</failOnNoGitDirectory>
                         <abbrevLength>8</abbrevLength>
                         <gitDescribe>
                             <skip>true</skip>

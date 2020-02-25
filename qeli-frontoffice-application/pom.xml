@@ -103,9 +103,6 @@
                         <goals>
                             <goal>revision</goal>
                         </goals>
-                        <configuration>
-                            <failOnNoGitDirectory>false</failOnNoGitDirectory>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
