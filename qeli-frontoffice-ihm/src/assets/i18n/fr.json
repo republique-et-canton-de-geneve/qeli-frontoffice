@@ -94,21 +94,21 @@
         "PC_FAM": "Prestations complémentaires familiales (SPC)",
         "AIDE_SOCIALE": "Aide sociale (Hospice général ou SPC)"
       },
-      "some": "Oui, je reçois une ou plusieurs préstations (sélectionnez chacune de préstation que vous recevez) :",
+      "some": "Oui, je reçois une ou plusieurs prestations (sélectionnez les prestations que vous recevez) :",
       "none": "Non, je ne reçois aucune prestation",
       "inconnu": "Je ne sais pas",
       "motifRefus": {
-        "SUBSIDES": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
-        "AVANCES": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
-        "ALLOCATION_LOGEMENT": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
-        "PC_AVS_AI": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
-        "BOURSES": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
-        "PC_FAM": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci.",
-        "AIDE_SOCIALE": "D'autres préstation que vous touchez déjà vous empêchent de toucher celle-ci."
+        "SUBSIDES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "AVANCES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "ALLOCATION_LOGEMENT": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "PC_AVS_AI": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "BOURSES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "PC_FAM": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci.",
+        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci."
       },
       "error": {
         "required": "Votre activité doit être fournie",
-        "atLeastOneSelected": "Au moins une préstation doit être sélectionnée"
+        "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
       }
     },
     "dateNaissance": {
