@@ -11,6 +11,7 @@ import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-qu
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { TextQuestion } from '../core/question/text-question/text-question.model';
+import { ReponseProgressive } from '../core/common/reponse.model';
 
 const SCOPE_PAGE = 'page';
 const TRACK_FORM = 'Formulaire';
@@ -72,24 +73,23 @@ export class TrackingService {
   }
 
   /**
-   * Trace l'écran de résultat avec les prestations via un titre de page et une url personnalisés
+   * Trace l'écran de résultat avec les prestations via un titre de page et une url personnalisés.
    *
-   * @param prestationsRefusees
+   * @param prestationsRefusees les prestation refusées.
+   * @param data {} les réponses données dans le formulaire.
    */
-  trackResult(prestationsRefusees: Refus[]) {
-    const reponsesEligibles = PrestationResolver.findPrestationsEligibles(prestationsRefusees);
-    const reponsesRefusees = PrestationResolver.findPrestationsRefusees(prestationsRefusees)
-                                               .map(prestationRefusee => prestationRefusee.prestation);
-
-    const reponsesDejaPercues = PrestationResolver.findPrestationsDejaPercues(prestationsRefusees)
-                                                  .map(prestationDejaPercue => prestationDejaPercue.prestation);
+  trackResult(prestationsRefusees: Refus[], data: any) {
+    const prestationEligibles = PrestationResolver.findPrestationsEligibles(prestationsRefusees);
+    const prestationRefusees = PrestationResolver.findPrestationsRefusees(prestationsRefusees, data)
+                                                 .map(prestationRefusee => prestationRefusee.prestation);
+    const prestationDejaPercues = PrestationResolver.findPrestationsDejaPercues(data);
 
     const trackingUrl = location.href.split('?')[0] + TRACK_RESULT;
     this.matomoTracker.setCustomUrl(trackingUrl);
 
-    this.matomoTracker.setCustomVariable(1, "prestations-eligibles", reponsesEligibles.join(';'), SCOPE_PAGE);
-    this.matomoTracker.setCustomVariable(2, "prestations-refusees", reponsesRefusees.join(';'), SCOPE_PAGE);
-    this.matomoTracker.setCustomVariable(3, "prestations-percues", reponsesDejaPercues.join(';'), SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(1, "prestations-eligibles", prestationEligibles.join(';'), SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(2, "prestations-refusees", prestationRefusees.join(';'), SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(3, "prestations-percues", prestationDejaPercues.join(';'), SCOPE_PAGE);
 
     this.matomoTracker.trackPageView(TRACK_RESULT);
 
@@ -113,8 +113,8 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
   visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): string {
     const answer = this.findValueForQuestion(question);
 
-    if (!!answer['none']) {
-      return answer['noneDetail'];
+    if (answer['none'] !== ReponseProgressive.NON) {
+      return answer['none'] === ReponseProgressive.OUI ? 'AUCUNE' : 'INCONNU';
     }
 
     return answer['choices'].join(';');

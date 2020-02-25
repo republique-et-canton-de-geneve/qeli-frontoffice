@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { QuestionOption } from '../../core/question/option.model';
 import * as moment from 'moment';
+import { ReponseProgressive } from '../../core/common/reponse.model';
 
 @Injectable()
 export class FormatAnswerVisitorFactory {
@@ -44,8 +45,10 @@ export class FormatAnswerVisitor implements QuestionVisitor<string> {
   visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): string {
     const answer = this.findValueForQuestion(question);
 
-    if (!!answer['none']) {
-      return answer['noneDetail'];
+    if (answer['none'] !== ReponseProgressive.NON) {
+      return this.translate.instant(
+        `question.${question.key}.${answer['none'] === ReponseProgressive.OUI ? 'none' : 'inconnu'}`
+      );
     }
 
     return answer['choices'].map(

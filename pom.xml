@@ -15,8 +15,8 @@
     <packaging>pom</packaging>
 
     <name>qeli-frontoffice</name>
-    <description>Archetype pour l'initialisation rapide d'un frontoffice.</description>
-    <url>***REMOVED***/DEVELOPPEUR-SOCIAL/qeli-frontoffice-archetype</url>
+    <description>Frontoffice du questionnaire d'eligibilité (QELI).</description>
+    <url>***REMOVED***/DEVELOPPEUR-SOCIAL/qeli-frontoffice</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -32,7 +32,7 @@
         </developer>
     </developers>
     <scm>
-        <url>***REMOVED***/DEVELOPPEUR-SOCIAL/as-frontoffice-archetype</url>
+        <url>***REMOVED***/DEVELOPPEUR-SOCIAL/10818-qeli/qeli-frontoffice</url>
     </scm>
 
     <modules>

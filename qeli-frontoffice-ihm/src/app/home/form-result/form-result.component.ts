@@ -21,12 +21,8 @@ export class FormResultComponent {
   @Input()
   set formState(formState: FormState) {
     this.reponses = formState.data;
-
     this.prestationEligible = PrestationResolver.findPrestationsEligibles(formState.prestationsRefusees);
-
-    this.prestationsRefusees = PrestationResolver.findPrestationsRefusees(formState.prestationsRefusees);
-
-    this.prestationDejaPercues = PrestationResolver.findPrestationsDejaPercues(formState.prestationsRefusees)
-                                                   .map(prestationDejaPercue => prestationDejaPercue.prestation);
+    this.prestationsRefusees = PrestationResolver.findPrestationsRefusees(formState.prestationsRefusees, formState.data);
+    this.prestationDejaPercues = PrestationResolver.findPrestationsDejaPercues(formState.data);
   }
 }
