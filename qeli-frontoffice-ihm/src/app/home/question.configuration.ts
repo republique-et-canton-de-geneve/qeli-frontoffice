@@ -6,9 +6,10 @@ import { QuestionOption } from '../core/question/option.model';
 import { Eligibilite, QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, getLimiteFortune, hasActivites, hasAnyPrestations, hasConjoint, hasPermisBEtudes, hasPrestation,
-  isApatride, isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isRefugie, isSuisse,
-  isUEOrAELE, notHasFortuneTropEleve
+  aucuneScolarite, getLimiteFortune, hasActivites, hasAnyPrestations, hasConjoint, hasFortuneTropEleve,
+  hasPermisBEtudes, hasPrestation, hasPrestations,
+  isApatride, isConjointApatride, isConjointSuisse, isConjointUEOrAELE, isFonctionnaireInternational, isMineur,
+  isRatioPiecesPersonnesLogementAcceptable, isSuisse, isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -125,12 +126,49 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     code: '0402',
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.NATIONALITE,
-    help: true,
-    options: Object.keys(RequerantRefugie).map(label => new QuestionOption({label: label})),
+    options: [
+      new QuestionOption({label: RequerantRefugie.REQUERANT_ASILE, help: true}),
+      new QuestionOption({label: RequerantRefugie.REFUGIE, help: true}),
+      new QuestionOption({label: RequerantRefugie.AUCUN}),
+      new QuestionOption({label: RequerantRefugie.INCONNU})
+    ],
     validators: [Validators.required],
-    defaultAnswer: (value: any) => (isSuisse(value) ||
-                                    isUEOrAELE(value) ||
-                                    isApatride(value)) ? RequerantRefugie.AUCUN : null,
+    skip: (value: any) => isSuisse(value) ||
+                          isUEOrAELE(value) ||
+                          isApatride(value),
+    eligibilite: [
+      new Eligibilite(Prestation.PC_AVS_AI, () => true),
+      new Eligibilite(Prestation.BOURSES, () => true)
+    ]
+  }),
+  new NationaliteQuestion({
+    key: 'nationaliteConjoint',
+    code: '0403',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.NATIONALITE,
+    skip: (value: any) => !hasConjoint(value),
+    help: true,
+    eligibilite: [
+      new Eligibilite(Prestation.PC_AVS_AI, () => true),
+      new Eligibilite(Prestation.BOURSES, () => true)
+    ]
+  }),
+  new RadioQuestion({
+    key: 'refugieConjoint',
+    code: '0404',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.NATIONALITE,
+    options: [
+      new QuestionOption({label: RequerantRefugie.REQUERANT_ASILE, help: true}),
+      new QuestionOption({label: RequerantRefugie.REFUGIE, help: true}),
+      new QuestionOption({label: RequerantRefugie.AUCUN}),
+      new QuestionOption({label: RequerantRefugie.INCONNU})
+    ],
+    validators: [Validators.required],
+    skip: (value: any) => !hasConjoint(value) ||
+                          isConjointSuisse(value) ||
+                          isConjointUEOrAELE(value) ||
+                          isConjointApatride(value),
     eligibilite: [
       new Eligibilite(Prestation.PC_AVS_AI, () => true),
       new Eligibilite(Prestation.BOURSES, () => true)
@@ -145,9 +183,9 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     inline: true,
     options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
     validators: [Validators.required],
-    defaultAnswer: (value: any) => (isSuisse(value) ||
-                                    isRefugie(value) ||
-                                    isApatride(value)) ? ReponseProgressive.INCONNU : null,
+    skip: (value: any) => isSuisse(value) ||
+                          isUEOrAELE(value) ||
+                          isApatride(value),
     eligibilite: [
       new Eligibilite(Prestation.BOURSES, () => true)
     ]
@@ -161,9 +199,9 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     inline: true,
     options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
     validators: [Validators.required],
-    defaultAnswer: (value: any) => (isSuisse(value) ||
-                                    isRefugie(value) ||
-                                    isApatride(value)) ? ReponseProgressive.INCONNU : null,
+    skip: (value: any) => isSuisse(value) ||
+                          isUEOrAELE(value) ||
+                          isApatride(value),
     eligibilite: [
       new Eligibilite(
         Prestation.BOURSES, (value: any) => ReponseProgressive.NON !== value['permisBPlus5Ans']
@@ -187,8 +225,7 @@ const DomicileQuestions: QuestionBase<any>[] = [
         Prestation.AVANCES, (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
       ),
       new Eligibilite(
-        Prestation.ALLOCATION_LOGEMENT,
-        (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
+        Prestation.ALLOCATION_LOGEMENT, (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
       ),
       new Eligibilite(
         Prestation.PC_AVS_AI, (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
@@ -445,7 +482,7 @@ const MontantFortuneQuestions: QuestionBase<any>[] = [
     validators: [Validators.required],
     eligibilite: [
       new Eligibilite(
-        Prestation.AIDE_SOCIALE, (value: any) => value['fortuneSuperieureA'] !== ReponseBinaire.OUI
+        Prestation.AIDE_SOCIALE, (value: any) => !hasFortuneTropEleve(value)
       )
     ]
   }),
@@ -458,7 +495,7 @@ const MontantFortuneQuestions: QuestionBase<any>[] = [
     inline: true,
     options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
     validators: [Validators.required],
-    defaultAnswer: (value: any) => (notHasFortuneTropEleve(value)) ? ReponseProgressive.NON : null,
+    skip: (value: any) => !hasFortuneTropEleve(value),
     eligibilite: [
       new Eligibilite(
         Prestation.ALLOCATION_LOGEMENT, (value: any) => value['impotFortune'] !== ReponseProgressive.OUI
@@ -524,7 +561,7 @@ const SituationFiscaleQuestions: QuestionBase<any>[] = [
     inline: true,
     options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
     validators: [Validators.required],
-    defaultAnswer: (value: any) => !hasPermisBEtudes(value) ? ReponseProgressive.INCONNU : null,
+    skip: (value: any) => !hasPermisBEtudes(value),
     eligibilite: [
       new Eligibilite(
         Prestation.BOURSES,
