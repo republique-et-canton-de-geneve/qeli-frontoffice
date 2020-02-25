@@ -7,9 +7,8 @@ import { Eligibilite, QuestionBase } from '../core/question/question-base.model'
 import { Validators } from '@angular/forms';
 import {
   aucuneScolarite, getLimiteFortune, hasActivites, hasAnyPrestations, hasConjoint, hasFortuneTropEleve,
-  hasPermisBEtudes, hasPrestation, hasPrestations,
-  isApatride, isConjointApatride, isConjointSuisse, isConjointUEOrAELE, isFonctionnaireInternational, isMineur,
-  isRatioPiecesPersonnesLogementAcceptable, isSuisse, isUEOrAELE
+  hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride, isConjointSuisse, isConjointUEOrAELE,
+  isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isSuisse, isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
