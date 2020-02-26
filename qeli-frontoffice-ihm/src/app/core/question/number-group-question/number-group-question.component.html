@@ -1,0 +1,48 @@
+<div [formGroup]="form">
+  <div [formGroupName]="question.key"
+       [attr.data-cy]="question.identifier">
+
+    <div *ngIf="question.hasNone" class="checkbox none-option">
+      <label>
+        <input type="checkbox"
+               formControlName="none"
+               [focusOnInit]="true"
+               (change)="onNoneChanged()"
+               data-cy="NONE">
+        {{ 'question.' + question.key + '.none' | translate }}
+      </label>
+    </div>
+
+    <hr *ngIf="question.hasNone">
+
+    <div *ngFor="let field of question.fields; let i = index; first as isFirst"
+         [ngClass]="!isValid(field) ? 'text-danger' : ''"
+         formGroupName="values">
+
+      <div *ngIf="!isValid(field)"
+           class="error-block"
+           data-cy-label="validation_message">
+        <p *ngFor="let error of getErrorsByField(field)">
+          {{ 'question.' + question.key + '.error.' + error | translate }}
+        </p>
+      </div>
+
+      <div class="input-row">
+        <input class="form-control"
+               [formControlName]="field.label"
+               type="number"
+               (keypress)="isNumber($event)"
+               [min]="field.min" [max]="field.max" step="1"
+               [focusOnInit]="isFirst && !question.hasNone"
+               [attr.id]="'field-' + i"
+               [attr.data-cy]="field.label"
+               [attr.disabled]="isNoneSelected ? 'disabled' : null">
+
+        <label class="form-label" [attr.for]="'field-' + i">
+          {{ 'question.' + question.key + '.field.' + field.label | translate }}
+        </label>
+      </div>
+    </div>
+
+  </div>
+</div>

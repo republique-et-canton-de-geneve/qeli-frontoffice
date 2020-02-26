@@ -9,8 +9,9 @@ import { TextQuestion } from '../../core/question/text-question/text-question.mo
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { QuestionOption } from '../../core/question/option.model';
-import * as moment from 'moment';
 import { ReponseProgressive } from '../../core/common/reponse.model';
+import { NumberGroupQuestion } from '../../core/question/number-group-question/number-group-question.model';
+import * as moment from 'moment';
 
 @Injectable()
 export class FormatAnswerVisitorFactory {
@@ -89,4 +90,16 @@ export class FormatAnswerVisitor implements QuestionVisitor<string> {
     return this.findValueForQuestion(question);
   }
 
+  visitNumberGroupQuestion(question: NumberGroupQuestion): string {
+    const answer = this.findValueForQuestion(question);
+
+    if (!!answer['none']) {
+      return this.translate.instant(`question.${question.key}.none`);
+    }
+
+    return Object.entries(answer['values']).map(entry => {
+      const label = this.translate.instant(`question.${question.key}.field.${entry[0]}`);
+      return `${entry[1]} ${label}`
+    }).join(', ');
+  }
 }

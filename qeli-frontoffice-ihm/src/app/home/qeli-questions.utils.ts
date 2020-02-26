@@ -6,6 +6,7 @@ import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/question/national
 import * as moment from 'moment';
 import { Prestation } from '../core/common/prestation.model';
 import { RequerantRefugie } from './model/requerant-refugie.model';
+import { TypeEnfant } from './model/type-enfant.model';
 
 export function hasConjoint(value: any) {
   return value['etatCivil'] === EtatCivil.MARIE ||
@@ -75,6 +76,24 @@ export function isPaysConventione(value: any) {
 export function isMineur(value: any) {
   const dateNaissance = value['dateNaissance'] && moment(value['dateNaissance'], 'YYYY-MM-DD');
   return dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
+}
+
+export function hasAnyEnfantOfType(value: any, types: TypeEnfant[]) {
+  const enfantsACharge = value['enfantsACharge'];
+
+  if (enfantsACharge) {
+    return !enfantsACharge['none'] && Object.entries(enfantsACharge['values'])
+                                            .filter(entry => types.includes(TypeEnfant[entry[0]]))
+                                            .map(entry => entry[1])
+                                            .some(value => value > 0);
+  }
+
+  return null;
+}
+
+export function hasEnfants(value: any) {
+  const enfantsACharge = value['enfantsACharge'];
+  return enfantsACharge ? !enfantsACharge['none'] : null;
 }
 
 export function hasAnyPrestations(value: any, prestations: Prestation[]) {
