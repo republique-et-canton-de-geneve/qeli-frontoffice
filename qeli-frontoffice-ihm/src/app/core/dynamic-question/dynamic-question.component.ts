@@ -4,7 +4,6 @@ import { QuestionBase } from '../question/question-base.model';
 import { QuestionDirective } from '../question/question.directive';
 import { QuestionComponent } from '../question/question.component';
 import { QuestionRegistry } from '../question/question-registry';
-import { QuestionOption } from '../question/option.model';
 
 @Component({
   selector: 'app-dynamic-question',
@@ -33,10 +32,8 @@ export class DynamicQuestionComponent {
   }
 
   get errors() {
-    if (this.form.controls[this.question.key].errors) {
-      return Object.keys(this.form.controls[this.question.key].errors);
-    }
-    return null;
+    const errors = this.form.controls[this.question.key].errors;
+    return errors ? Object.keys(errors) : [];
   }
 
   loadComponent() {

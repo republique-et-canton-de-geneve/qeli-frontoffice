@@ -6,9 +6,10 @@ import { QuestionOption } from '../core/question/option.model';
 import { Eligibilite, QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, getLimiteFortune, hasActivites, hasAnyPrestations, hasConjoint, hasFortuneTropEleve,
-  hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride, isConjointSuisse, isConjointUEOrAELE,
-  isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isSuisse, isUEOrAELE
+  aucuneScolarite, getLimiteFortune, hasActivites, hasAnyEnfantOfType, hasAnyPrestations, hasConjoint,
+  hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride, isConjointSuisse,
+  isConjointUEOrAELE, isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isSuisse,
+  isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -25,8 +26,9 @@ import { TextQuestion } from '../core/question/text-question/text-question.model
 import { Loyer } from './model/loyer.model';
 import { Categorie, Subcategorie } from '../core/question/question-categorie.model';
 import {
-  EnfantsAChargeQuestion, EnfantsAChargeQuestionValidators
-} from '../core/question/enfants-a-charge-question/enfants-a-charge-question.model';
+  NumberField, NumberGroupQuestion, NumberGroupQuestionValidators
+} from '../core/question/number-group-question/number-group-question.model';
+import { TypeEnfant } from './model/type-enfant.model';
 
 const PrestationQuestions: QuestionBase<any>[] = [
   new CheckboxGroupQuestion({
@@ -103,27 +105,35 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
     options: Object.keys(EtatCivil),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI, () => true),
-      new Eligibilite(Prestation.BOURSES, () => true),
-      new Eligibilite(Prestation.PC_FAM, () => true),
-      new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
+      new Eligibilite(Prestation.PC_AVS_AI),
+      new Eligibilite(Prestation.BOURSES),
+      new Eligibilite(Prestation.PC_FAM),
+      new Eligibilite(Prestation.AIDE_SOCIALE)
     ]
   }),
-  new EnfantsAChargeQuestion({
+  new NumberGroupQuestion({
     key: 'enfantsACharge',
     code: '0505',
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.DOMICILE,
     help: true,
     hasNone: true,
-    validators: [EnfantsAChargeQuestionValidators.atLeastOneFilled(
-      ['MOINS_18', '18_25_EN_FORMATION', 'PLUS_25_EN_FORMATION', 'PLUS_18'], true)], //todo: sortir ça
-    fields: ['MOINS_18', '18_25_EN_FORMATION', 'PLUS_25_EN_FORMATION', 'PLUS_18']
-      .map(enfantsACharge => new QuestionOption({label: enfantsACharge})),
+    validators: [
+      Validators.required,
+      NumberGroupQuestionValidators.atLeastOneFilled(Object.keys(TypeEnfant), true)
+    ],
+    fields: Object.keys(TypeEnfant).map(
+      prestation => new NumberField({label: prestation, max: 20, min: 0})
+    ),
     eligibilite: [
-      new Eligibilite(Prestation.PC_FAM, (value: any) => true), //todo: faire les conditions de sortie PC_FAM
-      new Eligibilite(Prestation.AIDE_SOCIALE, () => true),
-      new Eligibilite(Prestation.BOURSES, () => true)
+      new Eligibilite(Prestation.PC_FAM, (value: any) => hasAnyEnfantOfType(
+        value, [
+          TypeEnfant.MOINS_18,
+          TypeEnfant.ENTRE_18_25_EN_FORMATION
+        ]
+      )),
+      new Eligibilite(Prestation.AIDE_SOCIALE),
+      new Eligibilite(Prestation.BOURSES)
     ]
   })
 ];
@@ -136,8 +146,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.NATIONALITE,
     help: true,
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI, () => true),
-      new Eligibilite(Prestation.BOURSES, () => true)
+      new Eligibilite(Prestation.PC_AVS_AI),
+      new Eligibilite(Prestation.BOURSES)
     ]
   }),
   new RadioQuestion({
@@ -156,8 +166,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
                           isUEOrAELE(value) ||
                           isApatride(value),
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI, () => true),
-      new Eligibilite(Prestation.BOURSES, () => true)
+      new Eligibilite(Prestation.PC_AVS_AI),
+      new Eligibilite(Prestation.BOURSES)
     ]
   }),
   new NationaliteQuestion({
@@ -168,8 +178,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     skip: (value: any) => !hasConjoint(value),
     help: true,
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI, () => true),
-      new Eligibilite(Prestation.BOURSES, () => true)
+      new Eligibilite(Prestation.PC_AVS_AI),
+      new Eligibilite(Prestation.BOURSES)
     ]
   }),
   new RadioQuestion({
@@ -189,8 +199,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
                           isConjointUEOrAELE(value) ||
                           isConjointApatride(value),
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI, () => true),
-      new Eligibilite(Prestation.BOURSES, () => true)
+      new Eligibilite(Prestation.PC_AVS_AI),
+      new Eligibilite(Prestation.BOURSES)
     ]
   }),
   new RadioQuestion({
@@ -206,7 +216,7 @@ const NationaliteQuestions: QuestionBase<any>[] = [
                           isUEOrAELE(value) ||
                           isApatride(value),
     eligibilite: [
-      new Eligibilite(Prestation.BOURSES, () => true)
+      new Eligibilite(Prestation.BOURSES)
     ]
   }),
   new RadioQuestion({
@@ -289,8 +299,8 @@ const ActiviteQuestions: QuestionBase<any>[] = [
     options: Object.keys(Activite).map(label => new QuestionOption({label: label})),
     eligibilite: [
       new Eligibilite(Prestation.BOURSES, (value: any) => hasActivites(value, [Activite.ETUDIANT])),
-      new Eligibilite(Prestation.PC_FAM, () => true),
-      new Eligibilite(Prestation.AIDE_SOCIALE, () => true)
+      new Eligibilite(Prestation.PC_FAM),
+      new Eligibilite(Prestation.AIDE_SOCIALE)
     ]
   })
 ];
@@ -364,7 +374,7 @@ const LogementQuestions: QuestionBase<any>[] = [
                  Validators.min(1),
                  Validators.max(20)],
     eligibilite: [
-      new Eligibilite(Prestation.ALLOCATION_LOGEMENT, (value: any) => true)
+      new Eligibilite(Prestation.ALLOCATION_LOGEMENT)
     ]
   }),
   new TextQuestion({

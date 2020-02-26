@@ -12,7 +12,7 @@ import { NationaliteQuestion } from '../core/question/nationalite-question/natio
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { TextQuestion } from '../core/question/text-question/text-question.model';
 import { ReponseProgressive } from '../core/common/reponse.model';
-import { EnfantsAChargeQuestion } from '../core/question/enfants-a-charge-question/enfants-a-charge-question.model';
+import { NumberGroupQuestion } from '../core/question/number-group-question/number-group-question.model';
 
 const SCOPE_PAGE = 'page';
 const TRACK_FORM = 'Formulaire';
@@ -133,7 +133,7 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
     const value = this.findValueForQuestion(question);
 
     if (!!value['apatride']) {
-      return 'apatride';
+      return 'APATRIDE';
     }
 
     return value['pays'] ? value['pays'].join(';') : null;
@@ -148,10 +148,16 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
     return this.findValueForQuestion(question);
   }
 
-  visitEnfantsAChargeQuestion(question: EnfantsAChargeQuestion): string {
-    // todo 2 :
-    console.log("todo2 visitEnfantsAChargeQuestion:", this.findValueForQuestion(question));
-    return this.findValueForQuestion(question);
+  visitNumberGroupQuestion(question: NumberGroupQuestion): string {
+    const answer = this.findValueForQuestion(question);
+
+    if (!!answer['none']) {
+      return 'AUCUN';
+    }
+
+    return Object.entries(answer['values']).map(entry => {
+      return `${entry[0]}=${entry[1]}`
+    }).join('; ');
   }
 
 }
