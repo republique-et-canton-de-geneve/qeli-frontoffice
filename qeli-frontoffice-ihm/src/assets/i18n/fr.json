@@ -140,6 +140,38 @@
         "required": "Votre état civil doit être fourni"
       }
     },
+    "enfantsACharge": {
+      "label": "Combien d'enfants à charge avez-vous ?",
+      "help": "Enfant à charge : enfant dont vous devez vous occuper. Si vous payez une pension alimentaire pour lui, il n'est plus considéré comme une charge.",
+      "field": {
+        "MOINS_18": "enfant(s) de moins de 18 ans",
+        "ENTRE_18_25_EN_FORMATION": "enfant(s) entre 18 et 25 ans en formation",
+        "PLUS_25_EN_FORMATION": "enfant(s) de plus de 25 ans en formation",
+        "PLUS_18": "enfant(s) de plus de 18 ans PAS en formation"
+      },
+      "none": "Aucun enfant",
+      "motifRefus": {
+        "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge."
+      },
+      "error": {
+        "required": "Merci de saisir le nombre d'enfants à charge",
+        "pattern": "Merci de saisir le nombre d'enfants à charge",
+        "min": "Nombre négatif interdit",
+        "max": "Erreur dans la saisie du nombre d'enfants à charge",
+        "atLeastOneFilled": "Merci de saisir le nombre d'enfants à charge"
+      }
+    },
+    "concubinageAutreParent": {
+      "label": "Vivez-vous en concubinage avec l’autre parent de votre(vos) enfant(s) ?",
+      "help": "Concubinage : vous vivez (faites domicile commun) avec la personne avec laquelle vous êtes en couple, sans être marié ou en partenariat enregistré.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
     "nationalite": {
       "label": "Quelle est votre nationalité ?",
       "help": "Nationalité : Etat dont vous possédez un passeport.<br>Si vous avez plusieurs nationalités indiquez les toutes.",
@@ -256,27 +288,6 @@
       },
       "motifRefus": {
         "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève."
-      }
-    },
-    "enfantsACharge": {
-      "label": "Combien d'enfants à charge avez-vous ?",
-      "help": "Enfant à charge : enfant dont vous devez vous occuper. Si vous payez une pension alimentaire pour lui, il n'est plus considéré comme une charge.",
-      "field": {
-        "MOINS_18": "enfant(s) de moins de 18 ans",
-        "ENTRE_18_25_EN_FORMATION": "enfant(s) entre 18 et 25 ans en formation",
-        "PLUS_25_EN_FORMATION": "enfant(s) de plus de 25 ans en formation",
-        "PLUS_18": "enfant(s) de plus de 18 ans PAS en formation"
-      },
-      "none": "Aucun enfant",
-      "motifRefus": {
-        "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge."
-      },
-      "error": {
-        "required": "Merci de saisir le nombre d'enfants à charge",
-        "pattern": "Merci de saisir le nombre d'enfants à charge",
-        "min": "Nombre négatif interdit",
-        "max": "Erreur dans la saisie du nombre d'enfants à charge",
-        "atLeastOneFilled": "Merci de saisir le nombre d'enfants à charge"
       }
     },
     "activite": {
@@ -430,7 +441,7 @@
     },
     "droitPensionAlimentaire": {
       "label": "Avez-vous aujourd'hui droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s) ?",
-      "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s)\n\n.",
+      "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s).",
       "option": {
         "OUI": "Oui",
         "NON": "Non"
@@ -487,7 +498,7 @@
     },
     "exempteImpot": {
       "label": "Etes-vous exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
-      "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.\n\nExempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
+      "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.<br>Exempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
       "option": {
         "OUI": "Oui",
         "NON": "Non",
