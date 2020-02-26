@@ -32,7 +32,8 @@ export class DynamicQuestionComponent {
   }
 
   get errors() {
-    return Object.keys(this.form.controls[this.question.key].errors);
+    const errors = this.form.controls[this.question.key].errors;
+    return errors ? Object.keys(errors) : [];
   }
 
   loadComponent() {
