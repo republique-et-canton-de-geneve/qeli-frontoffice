@@ -4,7 +4,7 @@ import { DropdownQuestion } from './dropdown-question/dropdown-question.model';
 import { NationaliteQuestion } from './nationalite-question/nationalite-question.model';
 import { RadioQuestion } from './radio-question/radio-question.model';
 import { TextQuestion } from './text-question/text-question.model';
-import { EnfantsAChargeQuestion } from './enfants-a-charge-question/enfants-a-charge-question.model';
+import { NumberGroupQuestion } from './number-group-question/number-group-question.model';
 
 /**
  * L'interface visiteur déclare un ensemble de méthodes de visite qui correspondent aux classes des questions.
@@ -66,12 +66,12 @@ export interface QuestionVisitor<T> {
   visitTextQuestion(question: TextQuestion): T;
 
   /**
-   * Une méthode pour visiter les question du type: {@link EnfantsAChargeQuestion}.
+   * Une méthode pour visiter les question du type: {@link NumberGroupQuestion}.
    *
-   * @param {EnfantsAChargeQuestion} question la question à visiter
+   * @param {NumberGroupQuestion} question la question à visiter
    *
    * @return le résultat du traitement de la question.
    */
-  visitEnfantsAChargeQuestion(question: EnfantsAChargeQuestion): T;
+  visitNumberGroupQuestion(question: NumberGroupQuestion): T;
 }
 
