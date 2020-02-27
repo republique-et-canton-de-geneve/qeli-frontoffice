@@ -6,7 +6,7 @@ import { QuestionOption } from '../core/question/option.model';
 import { Eligibilite, QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, getLimiteFortune, hasActivites, hasAnyEnfantOfType, hasAnyPrestations, hasConjoint,
+  aucuneScolarite, getLimiteFortune, hasActivites, hasAnyEnfantOfType, hasAnyPrestations, hasConjoint, hasEnfants,
   hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride, isConjointSuisse,
   isConjointUEOrAELE, isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isSuisse,
   isUEOrAELE
@@ -115,7 +115,7 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
     key: 'enfantsACharge',
     code: '0505',
     categorie: Categorie.SITUATION_PERSONELLE,
-    subcategorie: Subcategorie.DOMICILE,
+    subcategorie: Subcategorie.ETAT_CIVIL,
     help: true,
     hasNone: true,
     validators: [
@@ -126,7 +126,7 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
       prestation => new NumberField({label: prestation, max: 20, min: 0})
     ),
     eligibilite: [
-      new Eligibilite(Prestation.PC_FAM, (value: any) => hasAnyEnfantOfType(
+      new Eligibilite(Prestation.PC_FAM, (value: any) => !hasEnfants(value) || hasAnyEnfantOfType(
         value, [
           TypeEnfant.MOINS_18,
           TypeEnfant.ENTRE_18_25_EN_FORMATION
@@ -134,6 +134,20 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
       )),
       new Eligibilite(Prestation.AIDE_SOCIALE),
       new Eligibilite(Prestation.BOURSES)
+    ]
+  }),
+  new RadioQuestion({
+    key: 'concubinageAutreParent',
+    code: '0506',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.ETAT_CIVIL,
+    help: true,
+    inline: true,
+    skip: (value: any) => hasConjoint(value) || !hasEnfants(value),
+    options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+    validators: [Validators.required],
+    eligibilite: [
+      new Eligibilite(Prestation.PC_FAM)
     ]
   })
 ];
