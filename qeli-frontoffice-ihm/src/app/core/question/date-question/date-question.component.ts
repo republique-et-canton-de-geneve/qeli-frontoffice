@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { BowserService } from '../../../service/bowser.service';
 import { NgbDateTransformer } from './ngb-date.transformer';
+import { QuestionOption } from '../option.model';
 
 @RegisterQuestionComponent(new DateQuestion().controlType)
 @Component({
@@ -26,12 +27,12 @@ export class DateQuestionComponent implements QuestionComponent<string>, OnInit,
   }
 
   ngOnInit(): void {
-    this.form.controls[this.question.key].valueChanges.subscribe(this.updateTextInputData.bind(this));
+    this.dateControl.valueChanges.subscribe(this.updateTextInputData.bind(this));
   }
 
   ngAfterViewInit(): void {
-    if (this.form.value[this.question.key]) {
-      this.updateTextInputData(this.form.value[this.question.key]);
+    if (this.dateControl.value) {
+      this.updateTextInputData(this.dateControl.value);
     }
   }
 
@@ -39,6 +40,8 @@ export class DateQuestionComponent implements QuestionComponent<string>, OnInit,
     const date = moment(value, 'YYYY-MM-DD', true);
     if (this.textInputDate && date.isValid()) {
       this.textInputDate.nativeElement.value = date.format('DD.MM.YYYY');
+    } else {
+      this.textInputDate.nativeElement.value = '##.##.####';
     }
   }
 
@@ -49,25 +52,39 @@ export class DateQuestionComponent implements QuestionComponent<string>, OnInit,
   }
 
   onDateTyped(input: string) {
-    this.form.controls[this.question.key].setValue(
+    this.dateControl.setValue(
       moment(input, 'DD.MM.YYYY', true).format('YYYY-MM-DD')
     );
 
-    this.form.controls[this.question.key].markAsDirty();
+    this.dateControl.markAsDirty();
   }
 
   onDatePicked(input: NgbDate) {
-    this.form.controls[this.question.key].setValue(
+    this.dateControl.setValue(
       moment(NgbDateTransformer.parse(input)).format('YYYY-MM-DD')
     );
+  }
+
+  onShortcutChanged(checked: boolean, shortcut: QuestionOption) {
+    if (checked && shortcut !== null) {
+      this.dateControl.setValue(null);
+    }
   }
 
   get useNativeInputDate() {
     return this.bowserService.mobile;
   }
 
+  private get formGroup() {
+    return this.form.controls[this.question.key] as FormGroup;
+  }
+
+  get dateControl() {
+    return this.formGroup.controls['value'];
+  }
+
   get startDate() {
-    const startDate = moment(this.form.value[this.question.key], 'YYYY-MM-DD', true);
+    const startDate = moment(this.dateControl.value, 'YYYY-MM-DD', true);
 
     if (startDate.isValid()) {
       return NgbDateTransformer.toNgbDate(startDate.toDate());
@@ -80,5 +97,18 @@ export class DateQuestionComponent implements QuestionComponent<string>, OnInit,
 
   get maxDate() {
     return NgbDateTransformer.toNgbDate(this.question.maxDate);
+  }
+
+  get isShortcutSelected() {
+    return this.formGroup.value['shortcut'] !== null &&
+           this.formGroup.value['shortcut'] !== undefined;
+  }
+
+  get isDateValid() {
+    return this.dateControl.pristine || this.dateControl.valid;
+  }
+
+  get dateErrors() {
+    return !this.isDateValid ? Object.keys(this.dateControl.errors) : null;
   }
 }

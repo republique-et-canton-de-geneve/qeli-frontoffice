@@ -73,8 +73,12 @@ export function isPaysConventione(value: any) {
   return paysValues ? paysValues.some(pays => PAYS_CONVENTIONES.includes(pays)) : false;
 }
 
+function getDate(value: any, questionKey: string) {
+  return value[questionKey] && moment(value[questionKey]['value'], 'YYYY-MM-DD');
+}
+
 export function isMineur(value: any) {
-  const dateNaissance = value['dateNaissance'] && moment(value['dateNaissance'], 'YYYY-MM-DD');
+  const dateNaissance = getDate(value, 'dateNaissance');
   return dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
 }
 
@@ -130,4 +134,20 @@ export function getLimiteFortune(value: any) {
   }
 
   return limite;
+}
+
+export function habiteGeneveDepuis5ans(value: any) {
+  const dateArriveData = value['dateArriveGeneve'];
+
+  if (dateArriveData['shortcut'] === 'INCONNU') {
+    return true;
+  }
+
+  const dateArriveGeneve = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
+                           getDate(value, 'dateNaissance') :
+                           getDate(value, 'dateArriveGeneve');
+
+  return dateArriveGeneve && moment().subtract(5, 'year')
+                                     .endOf('day')
+                                     .isAfter(moment(dateArriveGeneve));
 }

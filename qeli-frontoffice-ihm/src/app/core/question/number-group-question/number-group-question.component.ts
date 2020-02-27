@@ -36,7 +36,6 @@ export class NumberGroupQuestionComponent implements QuestionComponent<any> {
 
   isNumber(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
-    console.log(target.value);
     if (event.key === '-' && target.value.length > 0) {
       return false;
     }
