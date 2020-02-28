@@ -29,8 +29,9 @@ export function hasActivites(value: any, activites: Activite[]) {
   return activites.every(activite => value['activite']['choices'].includes(activite));
 }
 
-export function isRefugie(value: any) {
-  return value['refugie'] === RequerantRefugie.REFUGIE;
+export function isRefugieOrRequerantAsile(value: any) {
+  return value['refugie'] === RequerantRefugie.REFUGIE ||
+         value['refugie'] === RequerantRefugie.REQUERANT_ASILE;
 }
 
 export function isApatride(value: any) {
@@ -98,6 +99,19 @@ export function hasAnyEnfantOfType(value: any, types: TypeEnfant[]) {
 export function hasEnfants(value: any) {
   const enfantsACharge = value['enfantsACharge'];
   return enfantsACharge ? !enfantsACharge['none'] : null;
+}
+
+export function getNbrEnfantsACharge(value: any, types: TypeEnfant[]) {
+  const enfantsACharge = value['enfantsACharge'];
+
+  if (enfantsACharge && !enfantsACharge['none']) {
+    return Object.entries(enfantsACharge['values'])
+                 .filter(entry => types.includes(TypeEnfant[entry[0]]))
+                 .map(entry => entry[1] as number)
+                 .reduce((current, total) => current + total, 0);
+  }
+
+  return 0;
 }
 
 export function hasAnyPrestations(value: any, prestations: Prestation[]) {

@@ -6,10 +6,10 @@ import { QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
   aucuneScolarite, getLimiteFortune, habiteGeneveDepuis5ans, hasActivites, hasAnyEnfantOfType, hasAnyPrestations,
-  hasConjoint, hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride,
-  isConjointSuisse,
-  isConjointUEOrAELE, isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isSuisse,
-  isUEOrAELE
+  hasConjoint, hasEnfants,
+  hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride, isConjointSuisse,
+  isConjointUEOrAELE, isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable,
+  isRefugieOrRequerantAsile, isSuisse, isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -164,8 +164,9 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
           TypeEnfant.ENTRE_18_25_EN_FORMATION
         ])
       },
-      {prestation: Prestation.AIDE_SOCIALE},
-      {prestation: Prestation.BOURSES}
+      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.BOURSES},
+      {prestation: Prestation.AIDE_SOCIALE}
     ]
   }),
   new RadioQuestion({
@@ -259,7 +260,7 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     skip: (value: any) => isSuisse(value) ||
-                          isUEOrAELE(value) ||
+                          isRefugieOrRequerantAsile(value) ||
                           isApatride(value),
     eligibilite: [
       {prestation: Prestation.BOURSES}
@@ -275,7 +276,7 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     skip: (value: any) => isSuisse(value) ||
-                          isUEOrAELE(value) ||
+                          isRefugieOrRequerantAsile(value) ||
                           isApatride(value),
     eligibilite: [
       {
@@ -302,19 +303,19 @@ const DomicileQuestions: QuestionBase<any>[] = [
         isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
       },
       {
-        eligibilite: Prestation.ALLOCATION_LOGEMENT,
+        prestation: Prestation.ALLOCATION_LOGEMENT,
         isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
       },
       {
-        eligibilite: Prestation.PC_AVS_AI,
+        prestation: Prestation.PC_AVS_AI,
         isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
       },
       {
-        eligibilite: Prestation.PC_FAM,
+        prestation: Prestation.PC_FAM,
         isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
       },
       {
-        eligibilite: Prestation.AIDE_SOCIALE,
+        prestation: Prestation.AIDE_SOCIALE,
         isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
       }
     ]
@@ -590,7 +591,7 @@ const MontantFortuneQuestions: QuestionBase<any>[] = [
     inline: true,
     options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
-    skip: (value: any) => !hasFortuneTropEleve(value),
+    skip: (value: any) => value['fortuneSuperieureA'] !== null && !hasFortuneTropEleve(value),
     eligibilite: [
       {
         prestation: Prestation.ALLOCATION_LOGEMENT,
