@@ -1,8 +1,6 @@
 <div [formGroup]="form">
 
-
-  <div [formGroupName]="question.key"
-       [attr.data-cy]="question.identifier">
+  <div [formGroupName]="question.key">
 
     <div class="radio" *ngIf="question.shortcuts.length > 0">
       <label>
@@ -64,7 +62,6 @@
 
     <div *ngFor="let shortcut of question.shortcuts">
       <hr>
-
       <div class="radio">
         <label>
           <input type="radio"
