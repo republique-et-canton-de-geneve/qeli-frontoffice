@@ -276,6 +276,25 @@
         "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève."
       }
     },
+    "dateArriveGeneve": {
+      "label": "Quelle est la date officielle de votre arrivée à Genève ?",
+      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
+      "shortcut": {
+        "DEPUIS_NAISSANCE": "Depuis ma naissance",
+        "INCONNU": "Je ne sais pas"
+      },
+      "defaultShortcut": "Ma date officielle d'arrivée à Genève est le :",
+      "error": {
+        "required": "Votre date de d'arrivée à Genève doit être fournie",
+        "maxDate": "Votre date de d'arrivée à Genève ne peut pas être dans le futur",
+        "minDate": "Date d'arrivée à Genève incorrecte",
+        "invalidDate": "Date d'arrivée à Genève incorrecte",
+        "Mask error": ""
+      },
+      "motifRefus": {
+        "PC_FAM": "Votre date officielle d'arrivée à Genève est trop récente."
+      }
+    },
     "residenceEffectiveCantonGE": {
       "label": "Avez-vous votre résidence effective dans le canton de Genève ?",
       "help": "Résidence effective : votre logement se trouve bien dans le canton de Genève.",

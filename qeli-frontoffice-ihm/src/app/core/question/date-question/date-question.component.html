@@ -1,35 +1,78 @@
 <div [formGroup]="form">
-  <div *ngIf="useNativeInputDate">
-    <input [id]="question.key"
-           [formControlName]="question.key"
-           type="date"
-           class="form-control"
-           [attr.data-cy]="question.identifier">
-  </div>
 
-  <div *ngIf="!useNativeInputDate" class="input-group">
-    <input [id]="question.key"
-           focusOnInit="true"
-           type="text"
-           class="form-control"
-           #textInputDate
-           (keyup)="onTypingDate(textInputDate.value)"
-           (change)="onDateTyped(textInputDate.value)"
-           [specialCharacters]="['.']" [showMaskTyped]="true"
-           mask="00.00.0000" placeHolderCharacter="#"
-           [attr.data-cy]="question.identifier">
+  <div [formGroupName]="question.key">
 
-    <div class="input-group-addon has-btn">
-      <button class="btn btn-info" type="button" (click)="showDatePicker = !showDatePicker">
-        <i class="fa fa-calendar"></i>
-      </button>
+    <div class="radio" *ngIf="question.shortcuts.length > 0">
+      <label>
+        <input type="radio"
+               [value]="null"
+               formControlName="shortcut"
+               (change)="onShortcutChanged($event.currentTarget.checked, null)"
+               data-cy="NO_SHORTCUT">
+        {{ 'question.' + question.key + '.defaultShortcut' | translate }}
+      </label>
     </div>
 
-    <ngb-datepicker *ngIf="showDatePicker"
-                    class="dropdown-menu pull-right show"
-                    [startDate]="startDate"
-                    [minDate]="minDate"
-                    [maxDate]="maxDate"
-                    (select)="onDatePicked($event); showDatePicker = false"></ngb-datepicker>
+    <div *ngIf="!isDateValid && dateErrors.length > 0"
+         class="error-block text-danger"
+         data-cy-label="validation_message">
+      <p *ngFor="let error of dateErrors">
+        {{ 'question.' + question.key + '.error.' + error | translate }}
+      </p>
+    </div>
+
+    <div *ngIf="useNativeInputDate">
+      <input [id]="question.key"
+             [attr.disabled]="isShortcutSelected ? 'disabled' : null"
+             formControlName="value"
+             type="date"
+             class="form-control"
+             [attr.data-cy]="question.identifier">
+    </div>
+
+    <div *ngIf="!useNativeInputDate" class="input-group">
+      <input [id]="question.key"
+             [attr.disabled]="isShortcutSelected ? 'disabled' : null"
+             focusOnInit="true"
+             type="text"
+             class="form-control"
+             #textInputDate
+             (keyup)="onTypingDate(textInputDate.value)"
+             (change)="onDateTyped(textInputDate.value)"
+             [specialCharacters]="['.']" [showMaskTyped]="true"
+             mask="00.00.0000" placeHolderCharacter="#"
+             [attr.data-cy]="question.identifier">
+
+      <div class="input-group-addon has-btn">
+        <button class="btn btn-info"
+                [attr.disabled]="isShortcutSelected ? 'disabled' : null"
+                type="button"
+                (click)="showDatePicker = !showDatePicker">
+          <i class="fa fa-calendar"></i>
+        </button>
+      </div>
+
+      <ngb-datepicker *ngIf="showDatePicker"
+                      class="dropdown-menu pull-right show"
+                      [startDate]="startDate"
+                      [minDate]="minDate"
+                      [maxDate]="maxDate"
+                      (select)="onDatePicked($event); showDatePicker = false"></ngb-datepicker>
+    </div>
+
+    <div *ngFor="let shortcut of question.shortcuts">
+      <hr>
+      <div class="radio">
+        <label>
+          <input type="radio"
+                 [value]="shortcut.label"
+                 formControlName="shortcut"
+                 (change)="onShortcutChanged($event.currentTarget.checked, shortcut)"
+                 [attr.data-cy]="shortcut.label">
+          {{ 'question.' + question.key + '.shortcut.' + shortcut.label | translate }}
+        </label>
+      </div>
+    </div>
+
   </div>
 </div>

@@ -2,14 +2,14 @@ import {
   CheckboxGroupQuestion, CheckboxGroupValidators
 } from '../core/question/checkbox-group-question/checkbox-group-question.model';
 import { Prestation } from '../core/common/prestation.model';
-import { QuestionOption } from '../core/question/option.model';
-import { Eligibilite, QuestionBase } from '../core/question/question-base.model';
+import { QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, getLimiteFortune, hasActivites, hasAnyEnfantOfType, hasAnyPrestations, hasConjoint, hasEnfants,
+  aucuneScolarite, getLimiteFortune, habiteGeneveDepuis5ans, hasActivites, hasAnyEnfantOfType, hasAnyPrestations,
+  hasConjoint, hasEnfants,
   hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride, isConjointSuisse,
-  isConjointUEOrAELE, isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isSuisse,
-  isUEOrAELE
+  isConjointUEOrAELE, isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable,
+  isRefugieOrRequerantAsile, isSuisse, isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -29,6 +29,7 @@ import {
   NumberField, NumberGroupQuestion, NumberGroupQuestionValidators
 } from '../core/question/number-group-question/number-group-question.model';
 import { TypeEnfant } from './model/type-enfant.model';
+import { QuestionOption } from '../core/question/option.model';
 
 const PrestationQuestions: QuestionBase<any>[] = [
   new CheckboxGroupQuestion({
@@ -43,38 +44,59 @@ const PrestationQuestions: QuestionBase<any>[] = [
       Validators.required,
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(Prestation), true)
     ],
-    options: Object.keys(Prestation).map(prestation => new QuestionOption({label: prestation})),
+    options: Object.keys(Prestation).map(prestation => ({label: prestation})),
     eligibilite: [
-      new Eligibilite(Prestation.SUBSIDES, (value: any) => !hasAnyPrestations(
-        value, [
-          Prestation.SUBSIDES,
-          Prestation.PC_AVS_AI,
-          Prestation.PC_FAM,
-          Prestation.AIDE_SOCIALE
-        ]
-      )),
-      new Eligibilite(Prestation.AVANCES, (value: any) => !hasPrestation(value, Prestation.AVANCES)),
-      new Eligibilite(Prestation.ALLOCATION_LOGEMENT, (value: any) => !hasAnyPrestations(
-        value, [
-          Prestation.ALLOCATION_LOGEMENT,
-          Prestation.SUBVENTION_HM,
-          Prestation.PC_AVS_AI
-        ]
-      )),
-      new Eligibilite(Prestation.PC_AVS_AI, (value: any) => !hasAnyPrestations(
-        value, [
-          Prestation.PC_AVS_AI,
-          Prestation.PC_FAM
-        ]
-      )),
-      new Eligibilite(Prestation.BOURSES, (value: any) => !hasPrestation(value, Prestation.BOURSES)),
-      new Eligibilite(Prestation.PC_FAM, (value: any) => !hasAnyPrestations(
-        value, [
-          Prestation.PC_AVS_AI,
-          Prestation.PC_FAM
-        ]
-      )),
-      new Eligibilite(Prestation.AIDE_SOCIALE, (value: any) => !hasPrestation(value, Prestation.AIDE_SOCIALE))
+      {
+        prestation: Prestation.SUBSIDES,
+        isEligible: (value: any) => !hasAnyPrestations(
+          value, [
+            Prestation.SUBSIDES,
+            Prestation.PC_AVS_AI,
+            Prestation.PC_FAM,
+            Prestation.AIDE_SOCIALE
+          ]
+        )
+      },
+      {
+        prestation: Prestation.AVANCES,
+        isEligible: (value: any) => !hasPrestation(value, Prestation.AVANCES)
+      },
+      {
+        prestation: Prestation.ALLOCATION_LOGEMENT,
+        isEligible: (value: any) => !hasAnyPrestations(
+          value, [
+            Prestation.ALLOCATION_LOGEMENT,
+            Prestation.SUBVENTION_HM,
+            Prestation.PC_AVS_AI
+          ]
+        )
+      },
+      {
+        prestation: Prestation.PC_AVS_AI,
+        isEligible: (value: any) => !hasAnyPrestations(
+          value, [
+            Prestation.PC_AVS_AI,
+            Prestation.PC_FAM
+          ]
+        )
+      },
+      {
+        prestation: Prestation.BOURSES,
+        isEligible: (value: any) => !hasPrestation(value, Prestation.BOURSES)
+      },
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => !hasAnyPrestations(
+          value, [
+            Prestation.PC_AVS_AI,
+            Prestation.PC_FAM
+          ]
+        )
+      },
+      {
+        prestation: Prestation.AIDE_SOCIALE,
+        isEligible: (value: any) => !hasPrestation(value, Prestation.AIDE_SOCIALE)
+      }
     ]
   })
 ];
@@ -90,7 +112,16 @@ const AgeQuestions: QuestionBase<any>[] = [
     minDate: moment().subtract(130, 'year').toDate(),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(Prestation.AIDE_SOCIALE, (value: any) => !isMineur(value))
+      {prestation: Prestation.SUBSIDES},
+      {prestation: Prestation.AVANCES},
+      {prestation: Prestation.ALLOCATION_LOGEMENT},
+      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.BOURSES},
+      {prestation: Prestation.PC_FAM},
+      {
+        prestation: Prestation.AIDE_SOCIALE,
+        isEligible: (value: any) => !isMineur(value)
+      }
     ]
   })
 ];
@@ -105,10 +136,10 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
     options: Object.keys(EtatCivil),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI),
-      new Eligibilite(Prestation.BOURSES),
-      new Eligibilite(Prestation.PC_FAM),
-      new Eligibilite(Prestation.AIDE_SOCIALE)
+      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.BOURSES},
+      {prestation: Prestation.PC_FAM},
+      {prestation: Prestation.AIDE_SOCIALE}
     ]
   }),
   new NumberGroupQuestion({
@@ -126,14 +157,16 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
       prestation => new NumberField({label: prestation, max: 20, min: 0})
     ),
     eligibilite: [
-      new Eligibilite(Prestation.PC_FAM, (value: any) => !hasEnfants(value) || hasAnyEnfantOfType(
-        value, [
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => !hasEnfants(value) || hasAnyEnfantOfType(value, [
           TypeEnfant.MOINS_18,
           TypeEnfant.ENTRE_18_25_EN_FORMATION
-        ]
-      )),
-      new Eligibilite(Prestation.AIDE_SOCIALE),
-      new Eligibilite(Prestation.BOURSES)
+        ])
+      },
+      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.BOURSES},
+      {prestation: Prestation.AIDE_SOCIALE}
     ]
   }),
   new RadioQuestion({
@@ -144,10 +177,10 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
     help: true,
     inline: true,
     skip: (value: any) => hasConjoint(value) || !hasEnfants(value),
-    options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseBinaire).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(Prestation.PC_FAM)
+      {prestation: Prestation.PC_FAM}
     ]
   })
 ];
@@ -160,8 +193,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.NATIONALITE,
     help: true,
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI),
-      new Eligibilite(Prestation.BOURSES)
+      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.BOURSES}
     ]
   }),
   new RadioQuestion({
@@ -170,18 +203,18 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.NATIONALITE,
     options: [
-      new QuestionOption({label: RequerantRefugie.REQUERANT_ASILE, help: true}),
-      new QuestionOption({label: RequerantRefugie.REFUGIE, help: true}),
-      new QuestionOption({label: RequerantRefugie.AUCUN}),
-      new QuestionOption({label: RequerantRefugie.INCONNU})
+      {label: RequerantRefugie.REQUERANT_ASILE, help: true},
+      {label: RequerantRefugie.REFUGIE, help: true},
+      {label: RequerantRefugie.AUCUN},
+      {label: RequerantRefugie.INCONNU}
     ],
     validators: [Validators.required],
     skip: (value: any) => isSuisse(value) ||
                           isUEOrAELE(value) ||
                           isApatride(value),
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI),
-      new Eligibilite(Prestation.BOURSES)
+      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.BOURSES}
     ]
   }),
   new NationaliteQuestion({
@@ -192,8 +225,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     skip: (value: any) => !hasConjoint(value),
     help: true,
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI),
-      new Eligibilite(Prestation.BOURSES)
+      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.BOURSES}
     ]
   }),
   new RadioQuestion({
@@ -202,10 +235,10 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.NATIONALITE,
     options: [
-      new QuestionOption({label: RequerantRefugie.REQUERANT_ASILE, help: true}),
-      new QuestionOption({label: RequerantRefugie.REFUGIE, help: true}),
-      new QuestionOption({label: RequerantRefugie.AUCUN}),
-      new QuestionOption({label: RequerantRefugie.INCONNU})
+      {label: RequerantRefugie.REQUERANT_ASILE, help: true},
+      {label: RequerantRefugie.REFUGIE, help: true},
+      {label: RequerantRefugie.AUCUN},
+      {label: RequerantRefugie.INCONNU}
     ],
     validators: [Validators.required],
     skip: (value: any) => !hasConjoint(value) ||
@@ -213,8 +246,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
                           isConjointUEOrAELE(value) ||
                           isConjointApatride(value),
     eligibilite: [
-      new Eligibilite(Prestation.PC_AVS_AI),
-      new Eligibilite(Prestation.BOURSES)
+      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.BOURSES}
     ]
   }),
   new RadioQuestion({
@@ -224,13 +257,13 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.NATIONALITE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     skip: (value: any) => isSuisse(value) ||
-                          isUEOrAELE(value) ||
+                          isRefugieOrRequerantAsile(value) ||
                           isApatride(value),
     eligibilite: [
-      new Eligibilite(Prestation.BOURSES)
+      {prestation: Prestation.BOURSES}
     ]
   }),
   new RadioQuestion({
@@ -240,15 +273,16 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.NATIONALITE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     skip: (value: any) => isSuisse(value) ||
-                          isUEOrAELE(value) ||
+                          isRefugieOrRequerantAsile(value) ||
                           isApatride(value),
     eligibilite: [
-      new Eligibilite(
-        Prestation.BOURSES, (value: any) => ReponseProgressive.NON !== value['permisBPlus5Ans']
-      )
+      {
+        prestation: Prestation.BOURSES,
+        isEligible: (value: any) => ReponseProgressive.NON !== value['permisBPlus5Ans']
+      }
     ]
   })
 ];
@@ -261,24 +295,49 @@ const DomicileQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.DOMICILE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.AVANCES, (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
-      ),
-      new Eligibilite(
-        Prestation.ALLOCATION_LOGEMENT, (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
-      ),
-      new Eligibilite(
-        Prestation.PC_AVS_AI, (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
-      ),
-      new Eligibilite(
-        Prestation.PC_FAM, (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
-      ),
-      new Eligibilite(
-        Prestation.AIDE_SOCIALE, (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
-      )
+      {
+        prestation: Prestation.AVANCES,
+        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
+      },
+      {
+        prestation: Prestation.ALLOCATION_LOGEMENT,
+        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
+      },
+      {
+        prestation: Prestation.PC_AVS_AI,
+        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
+      },
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
+      },
+      {
+        prestation: Prestation.AIDE_SOCIALE,
+        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
+      }
+    ]
+  }),
+  new DateQuestion({
+    key: 'dateArriveGeneve',
+    code: '0502',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.DOMICILE,
+    help: true,
+    maxDate: new Date(),
+    minDate: moment().subtract(130, 'year').toDate(),
+    shortcuts: [
+      {label: 'DEPUIS_NAISSANCE'},
+      {label: 'INCONNU'}
+    ],
+    validators: [Validators.required],
+    eligibilite: [
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => habiteGeneveDepuis5ans(value)
+      }
     ]
   }),
   new RadioQuestion({
@@ -288,12 +347,13 @@ const DomicileQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.DOMICILE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseBinaire).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.AIDE_SOCIALE, (value: any) => value['residenceEffectiveCantonGE'] !== ReponseBinaire.NON
-      )
+      {
+        prestation: Prestation.AIDE_SOCIALE,
+        isEligible: (value: any) => value['residenceEffectiveCantonGE'] !== ReponseBinaire.NON
+      }
     ]
   })
 ];
@@ -310,11 +370,14 @@ const ActiviteQuestions: QuestionBase<any>[] = [
       Validators.required,
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(Activite), true)
     ],
-    options: Object.keys(Activite).map(label => new QuestionOption({label: label})),
+    options: Object.keys(Activite).map(label => ({label: label})),
     eligibilite: [
-      new Eligibilite(Prestation.BOURSES, (value: any) => hasActivites(value, [Activite.ETUDIANT])),
-      new Eligibilite(Prestation.PC_FAM),
-      new Eligibilite(Prestation.AIDE_SOCIALE)
+      {
+        prestation: Prestation.BOURSES,
+        isEligible: (value: any) => hasActivites(value, [Activite.ETUDIANT])
+      },
+      {prestation: Prestation.PC_FAM},
+      {prestation: Prestation.AIDE_SOCIALE}
     ]
   })
 ];
@@ -330,10 +393,13 @@ const formationQuestions: QuestionBase<any>[] = [
     validators: [Validators.required],
     options: Object.values(Scolarite)
                    .filter(scolarite => scolarite !== Scolarite.AUCUNE)
-                   .map(scolarite => new QuestionOption({label: Scolarite[scolarite], help: true}))
-                   .concat(new QuestionOption({label: Scolarite.AUCUNE})),
+                   .map(scolarite => ({label: Scolarite[scolarite], help: true} as QuestionOption))
+                   .concat({label: Scolarite.AUCUNE} as QuestionOption),
     eligibilite: [
-      new Eligibilite(Prestation.BOURSES, (value: any) => aucuneScolarite(value))
+      {
+        prestation: Prestation.BOURSES,
+        isEligible: (value: any) => aucuneScolarite(value)
+      }
     ]
   })
 ];
@@ -351,13 +417,13 @@ const LogementQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.LOGEMENT,
     help: true,
     inline: true,
-    options: Object.keys(Logement).map(label => new QuestionOption({label: label})),
+    options: Object.keys(Logement).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.ALLOCATION_LOGEMENT,
-        (value: any) => value['proprietaireOuLocataireLogement'] !== Logement.PROPRIETAIRE
-      )
+      {
+        prestation: Prestation.ALLOCATION_LOGEMENT,
+        isEligible: (value: any) => value['proprietaireOuLocataireLogement'] !== Logement.PROPRIETAIRE
+      }
     ]
   }),
   new RadioQuestion({
@@ -367,13 +433,13 @@ const LogementQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.LOGEMENT,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.ALLOCATION_LOGEMENT,
-        (value: any) => value['bailLogementAVotreNom'] !== ReponseProgressive.NON
-      )
+      {
+        prestation: Prestation.ALLOCATION_LOGEMENT,
+        isEligible: (value: any) => value['bailLogementAVotreNom'] !== ReponseProgressive.NON
+      }
     ]
   }),
   new TextQuestion({
@@ -388,7 +454,7 @@ const LogementQuestions: QuestionBase<any>[] = [
                  Validators.min(1),
                  Validators.max(20)],
     eligibilite: [
-      new Eligibilite(Prestation.ALLOCATION_LOGEMENT)
+      {prestation: Prestation.ALLOCATION_LOGEMENT}
     ]
   }),
   new TextQuestion({
@@ -403,9 +469,10 @@ const LogementQuestions: QuestionBase<any>[] = [
                  Validators.min(1),
                  Validators.max(20)],
     eligibilite: [
-      new Eligibilite(Prestation.ALLOCATION_LOGEMENT,
-        (value: any) => isRatioPiecesPersonnesLogementAcceptable(value)
-      )
+      {
+        prestation: Prestation.ALLOCATION_LOGEMENT,
+        isEligible: (value: any) => isRatioPiecesPersonnesLogementAcceptable(value)
+      }
     ]
   }),
   new RadioQuestion({
@@ -415,13 +482,13 @@ const LogementQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.LOGEMENT,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.ALLOCATION_LOGEMENT,
-        (value: any) => value['appartementHabitationMixte'] !== ReponseProgressive.OUI
-      )
+      {
+        prestation: Prestation.ALLOCATION_LOGEMENT,
+        isEligible: (value: any) => value['appartementHabitationMixte'] !== ReponseProgressive.OUI
+      }
     ]
   }),
   new RadioQuestion({
@@ -430,13 +497,13 @@ const LogementQuestions: QuestionBase<any>[] = [
     categorie: Categorie.COMPLEMENTS,
     subcategorie: Subcategorie.LOGEMENT,
     help: true,
-    options: Object.keys(Loyer).map(label => new QuestionOption({label: label})),
+    options: Object.keys(Loyer).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.ALLOCATION_LOGEMENT,
-        (value: any) => value['montantLoyerFixeOuVariable'] !== Loyer.EN_FONCTION_REVENU
-      )
+      {
+        prestation: Prestation.ALLOCATION_LOGEMENT,
+        isEligible: (value: any) => value['montantLoyerFixeOuVariable'] !== Loyer.EN_FONCTION_REVENU
+      }
     ]
   })
 ];
@@ -449,13 +516,13 @@ const AssuranceMaladieQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.ASSURANCE_MALADIE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.SUBSIDES,
-        (value: any) => value['assuranceMaladieSuisse'] !== ReponseProgressive.NON
-      )
+      {
+        prestation: Prestation.SUBSIDES,
+        isEligible: (value: any) => value['assuranceMaladieSuisse'] !== ReponseProgressive.NON
+      }
     ]
   })
 ];
@@ -468,12 +535,13 @@ const PensionAlimentaireQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.PENSION_ALIMENTAIRE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseBinaire).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.AVANCES, (value: any) => value['droitPensionAlimentaire'] === ReponseBinaire.OUI
-      )
+      {
+        prestation: Prestation.AVANCES,
+        isEligible: (value: any) => value['droitPensionAlimentaire'] === ReponseBinaire.OUI
+      }
     ]
   }),
   new RadioQuestion({
@@ -483,13 +551,13 @@ const PensionAlimentaireQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.PENSION_ALIMENTAIRE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseBinaire).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.AVANCES,
-        (value: any) => value['recoisEntierementPensionAlimentaire'] === ReponseBinaire.NON
-      )
+      {
+        prestation: Prestation.AVANCES,
+        isEligible: (value: any) => value['recoisEntierementPensionAlimentaire'] === ReponseBinaire.NON
+      }
     ]
   })
 ];
@@ -505,12 +573,13 @@ const MontantFortuneQuestions: QuestionBase<any>[] = [
     labelParameters: {
       limite: (value: any) => getLimiteFortune(value)
     },
-    options: Object.keys(ReponseBinaire).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseBinaire).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.AIDE_SOCIALE, (value: any) => !hasFortuneTropEleve(value)
-      )
+      {
+        prestation: Prestation.AIDE_SOCIALE,
+        isEligible: (value: any) => !hasFortuneTropEleve(value)
+      }
     ]
   }),
   new RadioQuestion({
@@ -520,13 +589,14 @@ const MontantFortuneQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.MONTANT_FORTUNE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
-    skip: (value: any) => !hasFortuneTropEleve(value),
+    skip: (value: any) => value['fortuneSuperieureA'] !== null && !hasFortuneTropEleve(value),
     eligibilite: [
-      new Eligibilite(
-        Prestation.ALLOCATION_LOGEMENT, (value: any) => value['impotFortune'] !== ReponseProgressive.OUI
-      )
+      {
+        prestation: Prestation.ALLOCATION_LOGEMENT,
+        isEligible: (value: any) => value['impotFortune'] !== ReponseProgressive.OUI
+      }
     ]
   })
 ];
@@ -539,12 +609,13 @@ const SituationFiscaleQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.SITUATION_FISCALE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.SUBSIDES, (value: any) => value['exempteImpot'] !== ReponseProgressive.OUI
-      )
+      {
+        prestation: Prestation.SUBSIDES,
+        isEligible: (value: any) => value['exempteImpot'] !== ReponseProgressive.OUI
+      }
     ]
   }),
   new RadioQuestion({
@@ -557,12 +628,13 @@ const SituationFiscaleQuestions: QuestionBase<any>[] = [
     labelParameters: {
       annee: moment().subtract(2, 'year').get('year')
     },
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     eligibilite: [
-      new Eligibilite(
-        Prestation.SUBSIDES, (value: any) => value['taxeOfficeAFC'] !== ReponseProgressive.OUI
-      )
+      {
+        prestation: Prestation.SUBSIDES,
+        isEligible: (value: any) => value['taxeOfficeAFC'] !== ReponseProgressive.OUI
+      }
     ]
   }),
   new RadioQuestion({
@@ -572,11 +644,14 @@ const SituationFiscaleQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.SITUATION_FISCALE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     altText: value => hasConjoint(value) ? 'avecConjoint' : null,
     eligibilite: [
-      new Eligibilite(Prestation.BOURSES, (value: any) => !isFonctionnaireInternational(value))
+      {
+        prestation: Prestation.BOURSES,
+        isEligible: (value: any) => !isFonctionnaireInternational(value)
+      }
     ]
   }),
   new RadioQuestion({
@@ -586,14 +661,14 @@ const SituationFiscaleQuestions: QuestionBase<any>[] = [
     subcategorie: Subcategorie.SITUATION_FISCALE,
     help: true,
     inline: true,
-    options: Object.keys(ReponseProgressive).map(label => new QuestionOption({label: label})),
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     skip: (value: any) => !hasPermisBEtudes(value),
     eligibilite: [
-      new Eligibilite(
-        Prestation.BOURSES,
-        (value: any) => value['parentsHabiteFranceTravailleSuisse'] !== ReponseProgressive.NON
-      )
+      {
+        prestation: Prestation.BOURSES,
+        isEligible: (value: any) => value['parentsHabiteFranceTravailleSuisse'] !== ReponseProgressive.NON
+      }
     ]
   })
 ];

@@ -75,10 +75,5 @@ export abstract class QuestionBase<T> {
 
 export class Eligibilite {
   prestation: Prestation;
-  isEligible: (value: any) => boolean;
-
-  constructor(prestation: Prestation, isEligible: (value: any) => boolean = () => true) {
-    this.prestation = prestation;
-    this.isEligible = isEligible;
-  }
+  isEligible?: (value: any) => boolean;
 }
