@@ -55,7 +55,7 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
     if (answer.trim().length > 0) {
       if ($elem[0].getAttribute('data-cy-type') === 'nationalite') {
         cy.answerNationalite(question, answer);
-      } else if ($elem.find(CHECKBOX).length) {
+      } else if ($elem.find(CHECKBOX).length > 0) {
         if ([',',';'].some(char => answer.includes(char))) { // handle array of string (multiple answers)
           answer.split(/[,]|[;]/).forEach((option) => cy.get('[data-cy=' + option + ']').check());
         } else {
