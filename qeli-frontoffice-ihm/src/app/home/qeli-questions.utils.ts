@@ -102,9 +102,9 @@ export function hasEnfants(value: any) {
 }
 
 export function getNbrEnfantsACharge(value: any, types: TypeEnfant[]) {
-  const enfantsACharge = value['enfantsACharge'];
+  if (hasEnfants(value)) {
+    const enfantsACharge = value['enfantsACharge'];
 
-  if (enfantsACharge && !enfantsACharge['none']) {
     return Object.entries(enfantsACharge['values'])
                  .filter(entry => types.includes(TypeEnfant[entry[0]]))
                  .map(entry => entry[1] as number)
@@ -133,21 +133,10 @@ export function hasFortuneTropEleve(value: any) {
 }
 
 export function getLimiteFortune(value: any) {
-  let limite = 4000;
+  const nbrEnfantsACharge = getNbrEnfantsACharge(value, Object.values(TypeEnfant));
+  const limiteFortune = 4000 + (nbrEnfantsACharge * 2000) + (hasConjoint(value) ? 4000 : 0);
 
-  if (hasConjoint(value)) {
-    limite = 8000;
-  }
-
-  if (value['enfantsACharge'] && value['enfantsACharge'] > 0) {
-    limite += value['enfantsACharge'] * 2000;
-  }
-
-  if (limite > 10000) {
-    limite = 10000;
-  }
-
-  return limite;
+  return Math.min(limiteFortune, 10000);
 }
 
 export function habiteGeneveDepuis5ans(value: any) {
