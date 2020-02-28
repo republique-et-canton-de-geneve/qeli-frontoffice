@@ -82,7 +82,6 @@ export class NumberGroupQuestionValidators {
   static atLeastOneFilled(options: string[], hasNone: boolean = false) {
     return (control: AbstractControl) => {
       if (control && control.value) {
-        console.log(control.value);
         const atLeastOneOption = options.some(option => {
           const value = control.value['values'][option];
           return value !== null && value !== undefined;

@@ -29,8 +29,9 @@ export function hasActivites(value: any, activites: Activite[]) {
   return activites.every(activite => value['activite']['choices'].includes(activite));
 }
 
-export function isRefugie(value: any) {
-  return value['refugie'] === RequerantRefugie.REFUGIE;
+export function isRefugieOrRequerantAsile(value: any) {
+  return value['refugie'] === RequerantRefugie.REFUGIE ||
+         value['refugie'] === RequerantRefugie.REQUERANT_ASILE;
 }
 
 export function isApatride(value: any) {
@@ -73,8 +74,12 @@ export function isPaysConventione(value: any) {
   return paysValues ? paysValues.some(pays => PAYS_CONVENTIONES.includes(pays)) : false;
 }
 
+function getDate(value: any, questionKey: string) {
+  return value[questionKey] && moment(value[questionKey]['value'], 'YYYY-MM-DD');
+}
+
 export function isMineur(value: any) {
-  const dateNaissance = value['dateNaissance'] && moment(value['dateNaissance'], 'YYYY-MM-DD');
+  const dateNaissance = getDate(value, 'dateNaissance');
   return dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
 }
 
@@ -96,6 +101,19 @@ export function hasEnfants(value: any) {
   return enfantsACharge ? !enfantsACharge['none'] : null;
 }
 
+export function getNbrEnfantsACharge(value: any, types: TypeEnfant[]) {
+  if (hasEnfants(value)) {
+    const enfantsACharge = value['enfantsACharge'];
+
+    return Object.entries(enfantsACharge['values'])
+                 .filter(entry => types.includes(TypeEnfant[entry[0]]))
+                 .map(entry => entry[1] as number)
+                 .reduce((current, total) => current + total, 0);
+  }
+
+  return 0;
+}
+
 export function hasAnyPrestations(value: any, prestations: Prestation[]) {
   return prestations.some(prestation => value['prestations']['choices'].includes(prestation));
 }
@@ -115,19 +133,24 @@ export function hasFortuneTropEleve(value: any) {
 }
 
 export function getLimiteFortune(value: any) {
-  let limite = 4000;
+  const nbrEnfantsACharge = getNbrEnfantsACharge(value, Object.values(TypeEnfant));
+  const limiteFortune = 4000 + (nbrEnfantsACharge * 2000) + (hasConjoint(value) ? 4000 : 0);
 
-  if (hasConjoint(value)) {
-    limite = 8000;
+  return Math.min(limiteFortune, 10000);
+}
+
+export function habiteGeneveDepuis5ans(value: any) {
+  const dateArriveData = value['dateArriveGeneve'];
+
+  if (dateArriveData['shortcut'] === 'INCONNU') {
+    return true;
   }
 
-  if (value['enfantsACharge'] && value['enfantsACharge'] > 0) {
-    limite += value['enfantsACharge'] * 2000;
-  }
+  const dateArriveGeneve = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
+                           getDate(value, 'dateNaissance') :
+                           getDate(value, 'dateArriveGeneve');
 
-  if (limite > 10000) {
-    limite = 10000;
-  }
-
-  return limite;
+  return dateArriveGeneve && moment().subtract(5, 'year')
+                                     .endOf('day')
+                                     .isAfter(moment(dateArriveGeneve));
 }

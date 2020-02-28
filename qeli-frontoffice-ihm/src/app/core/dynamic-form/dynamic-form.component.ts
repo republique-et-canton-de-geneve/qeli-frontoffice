@@ -61,8 +61,9 @@ export class DynamicFormComponent implements OnInit {
       eligibilite => eligibilite.prestation === prestation
     );
 
-    return eligibilite.length > 0 &&
-           !eligibilite.every(eligibilite => eligibilite.isEligible((this.form.value)));
+    return eligibilite.length > 0 && !eligibilite.every(
+      eligibilite => !eligibilite.isEligible || eligibilite.isEligible((this.form.value))
+    );
   }
 
   private findNextQuestionIndex() {
