@@ -320,7 +320,7 @@ const DomicileQuestions: QuestionBase<any>[] = [
     ]
   }),
   new DateQuestion({
-    key: 'dateArriveGeneve',
+    key: 'dateArriveeGeneve',
     code: '0502',
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.DOMICILE,
@@ -396,6 +396,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
           TypeRevenus.AI_INVALIDITE
         ])
       },
+      {prestation: Prestation.PC_AVS_AI},
       {
         prestation: Prestation.PC_FAM,
         isEligible: (value: any) => !hasAnyRevenus(value, [
