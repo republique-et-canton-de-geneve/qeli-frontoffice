@@ -140,17 +140,17 @@ export function getLimiteFortune(value: any) {
 }
 
 export function habiteGeneveDepuis5ans(value: any) {
-  const dateArriveData = value['dateArriveGeneve'];
+  const dateArriveData = value['dateArriveeGeneve'];
 
   if (dateArriveData['shortcut'] === 'INCONNU') {
     return true;
   }
 
-  const dateArriveGeneve = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
+  const dateArriveeGeneve = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
                            getDate(value, 'dateNaissance') :
-                           getDate(value, 'dateArriveGeneve');
+                           getDate(value, 'dateArriveeGeneve');
 
-  return dateArriveGeneve && moment().subtract(5, 'year')
+  return dateArriveeGeneve && moment().subtract(5, 'year')
                                      .endOf('day')
-                                     .isAfter(moment(dateArriveGeneve));
+                                     .isAfter(moment(dateArriveeGeneve));
 }

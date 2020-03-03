@@ -216,11 +216,11 @@
       "label": "Votre conjoint est-il",
       "option": {
         "REQUERANT_ASILE": {
-          "label": "Requérant d'asile",
+          "label": "Oui, il(elle) est requérant d'asile",
           "help": "Il/elle a déposé une demande d’asile en Suisse et attend une décision du Secrétariat d’Etat aux migrations (SEM)."
         },
         "REFUGIE": {
-          "label": "Réfugié",
+          "label": "Oui, il(elle) est réfugié",
           "help": "Il/elle a obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
         },
         "AUCUN": "Aucun des deux",
@@ -276,7 +276,7 @@
         "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève."
       }
     },
-    "dateArriveGeneve": {
+    "dateArriveeGeneve": {
       "label": "Quelle est la date officielle de votre arrivée à Genève ?",
       "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
       "shortcut": {
