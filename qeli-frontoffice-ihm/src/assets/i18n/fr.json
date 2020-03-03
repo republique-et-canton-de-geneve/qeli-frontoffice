@@ -51,7 +51,7 @@
         "ETAT_CIVIL": "Etat civil",
         "NATIONALITE": "Nationalité / permis",
         "DOMICILE": "Domicile",
-        "ACTIVITE": "Activité",
+        "REVENUS": "Revenus",
         "FORMATION": "Formation",
         "RENTES": "Rentes",
         "SITUATION_PROFESSIONNELLE": "Situation professionnelle",
@@ -216,11 +216,11 @@
       "label": "Votre conjoint est-il",
       "option": {
         "REQUERANT_ASILE": {
-          "label": "Requérant d'asile",
+          "label": "Oui, il(elle) est requérant d'asile",
           "help": "Il/elle a déposé une demande d’asile en Suisse et attend une décision du Secrétariat d’Etat aux migrations (SEM)."
         },
         "REFUGIE": {
-          "label": "Réfugié",
+          "label": "Oui, il(elle) est réfugié",
           "help": "Il/elle a obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
         },
         "AUCUN": "Aucun des deux",
@@ -276,7 +276,7 @@
         "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève."
       }
     },
-    "dateArriveGeneve": {
+    "dateArriveeGeneve": {
       "label": "Quelle est la date officielle de votre arrivée à Genève ?",
       "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
       "shortcut": {
@@ -309,22 +309,31 @@
         "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève."
       }
     },
-    "activite": {
-      "label": "Quelle est votre activité ?",
-      "help": "Etudiant : personne en formation.",
+    "revenus": {
+      "label": "Quels revenus recevez-vous ?",
       "option": {
-        "ETUDIANT": "Etudiant",
-        "EMPLOI": "Emploi",
-        "CHOMAGE": "Chômage",
-        "RETRAITE": "Retraité (Rente AVS)",
-        "INVALIDE": "Invalide (Rente AI)",
-        "SANS": "Au foyer / Sans activité",
-        "ARRET": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain"
+        "EMPLOI": "Je suis employé / indépendant",
+        "CHOMAGE": "Je reçois l'assurance-chômage",
+        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
+        "AVS_VEUF": "Rente de veuf/ve (AVS)",
+        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
+        "AI_INVALIDITE": "Rente d'invalidité (AI)",
+        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+        "APG": {
+          "label": "Je reçois des indemnités journalières / perte de gain",
+          "help": "En arrêt maladie / accident ou en congé maternité"
+        }
       },
-      "some": "Sélectionnez chacune de vos activités :",
-      "none": "Aucune des réponses précédentes",
+      "some": "Sélectionnez chacun de vos revenus :",
+      "none": "Je ne reçois aucun de ces revenus",
+      "checkboxGroup": {
+        "AVS": "Je reçois une rente AVS",
+        "AI": "Je reçois une rente AI"
+      },
       "motifRefus": {
-        "BOURSES": "Vous devez être étudiant(e) pour bénéficier d'une bourse d'études."
+        "BOURSES": "Vos revenus vous empêchent de bénéficier de cette prestation.",
+        "PC_FAM": "Vos revenus vous empêchent de bénéficier de cette prestation.",
+        "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette prestation."
       },
       "error": {
         "required": "Votre activité doit être fournie",

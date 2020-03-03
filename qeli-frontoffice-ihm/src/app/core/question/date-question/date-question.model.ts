@@ -50,3 +50,20 @@ export class DateQuestion extends QuestionBase<string> {
   }
 
 }
+
+export class DateQuestionValidators {
+  static atLeastOneSelected(hasShortcut: boolean = false) {
+    return (control: AbstractControl) => {
+      if (control && control.value) {
+        const isDateFilled = !!control.value['value'];
+        const isShortcutSelected = hasShortcut &&
+                                   control.value['shortcut'] &&
+                                   control.value['shortcut'] !== 'NO_SHORTCUT';
+
+        return !isDateFilled && !isShortcutSelected ? {'required': true} : null;
+      }
+
+      return null;
+    }
+  }
+}

@@ -4,7 +4,7 @@ export enum Subcategorie {
   ETAT_CIVIL                = 'ETAT_CIVIL',
   NATIONALITE               = 'NATIONALITE',
   DOMICILE                  = 'DOMICILE',
-  ACTIVITE                  = 'ACTIVITE',
+  REVENUS                   = 'REVENUS',
 
   // Deuxieme macro
   FORMATION                 = 'FORMATION',
