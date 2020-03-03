@@ -374,7 +374,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
       {
         label: 'AVS', options: [
           {label: TypeRevenus.AVS_RETRAITE},
-          {label: TypeRevenus.AVS_VOEUF},
+          {label: TypeRevenus.AVS_VEUF},
           {label: TypeRevenus.AVS_ENFANT}
         ]
       },
@@ -401,7 +401,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
         isEligible: (value: any) => !hasAnyRevenus(value, [
           TypeRevenus.AVS_RETRAITE,
           TypeRevenus.AVS_ENFANT,
-          TypeRevenus.AVS_VOEUF,
+          TypeRevenus.AVS_VEUF,
           TypeRevenus.AI_INVALIDITE,
           TypeRevenus.AI_ENFANT
         ])
@@ -411,7 +411,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
         isEligible: (value: any) => !hasAnyRevenus(value, [
           TypeRevenus.AVS_RETRAITE,
           TypeRevenus.AVS_ENFANT,
-          TypeRevenus.AVS_VOEUF,
+          TypeRevenus.AVS_VEUF,
           TypeRevenus.AI_INVALIDITE,
           TypeRevenus.AI_ENFANT
         ])
