@@ -22,7 +22,7 @@
     </div>
 
     <div *ngIf="useNativeInputDate">
-      <input [id]="question.key"
+      <input [id]="question.key"  
              [attr.disabled]="isShortcutSelected ? 'disabled' : null"
              formControlName="value"
              type="date"

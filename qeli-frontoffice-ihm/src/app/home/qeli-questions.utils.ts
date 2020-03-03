@@ -1,7 +1,7 @@
 import { EtatCivil } from './model/etat-civil.model';
 import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
 import { Scolarite } from './model/scolarite.model';
-import { Activite } from './model/activite.model';
+import { TypeRevenus } from './model/revenus.model';
 import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/question/nationalite-question/pays.model';
 import * as moment from 'moment';
 import { Prestation } from '../core/common/prestation.model';
@@ -25,8 +25,8 @@ export function aucuneScolarite(value: any) {
   return value['scolarite'] === Scolarite.AUCUNE;
 }
 
-export function hasActivites(value: any, activites: Activite[]) {
-  return activites.every(activite => value['activite']['choices'].includes(activite));
+export function hasAnyRevenus(value: any, revenus: TypeRevenus[]) {
+  return revenus.some(activite => value['revenus']['choices'].includes(activite));
 }
 
 export function isRefugieOrRequerantAsile(value: any) {

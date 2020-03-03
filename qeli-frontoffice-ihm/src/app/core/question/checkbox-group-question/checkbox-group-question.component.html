@@ -14,22 +14,32 @@
       </label>
     </div>
 
-    <div *ngFor="let option of question.options; first as isFirst"
+    <div *ngFor="let optionOrGroup of question.options; first as isFirstGroup"
          class="checkbox" [ngClass]="question.hasNone ? 'tab' : null">
-      <label>
-        <input type="checkbox"
-               [attr.disabled]="isNoneOrInconnuSelected ? 'disabled' : null"
-               [focusOnInit]="isFirst && !question.hasNone"
-               [value]="option.label"
-               (change)="onOptionChanged($event.currentTarget.value, $event.currentTarget.checked)"
-               [attr.data-cy]="option.label"
-               #optionCheckboxes>
-        {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
-      </label>
 
-      <p *ngIf="option.help" class="help-block">
-        {{ 'question.' + question.key + '.option.' + option.label + '.help' | translate }}
+      <p *ngIf="optionOrGroup.hasOwnProperty('options')" class="checkbox-group-title">
+        {{ 'question.' + question.key + '.checkboxGroup.' + optionOrGroup.label | translate }}
       </p>
+
+      <div [ngClass]="optionOrGroup.hasOwnProperty('options') ? 'tab subgroup' : null">
+        <div *ngFor="let option of (optionOrGroup.hasOwnProperty('options') ? optionOrGroup.options : [optionOrGroup]);
+                     first as isFirstOption">
+          <label>
+            <input type="checkbox"
+                   [attr.disabled]="isNoneOrInconnuSelected ? 'disabled' : null"
+                   [focusOnInit]="!question.hasNone && isFirstGroup && isFirstOption"
+                   [value]="option.label"
+                   (change)="onOptionChanged($event.currentTarget.value, $event.currentTarget.checked)"
+                   [attr.data-cy]="option.label"
+                   #optionCheckboxes>
+            {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
+          </label>
+
+          <p *ngIf="option.help" class="help-block">
+            {{ 'question.' + question.key + '.option.' + option.label + '.help' | translate }}
+          </p>
+        </div>
+      </div>
     </div>
 
     <hr *ngIf="question.hasNone">
