@@ -315,7 +315,7 @@
         "EMPLOI": "Je suis employé / indépendant",
         "CHOMAGE": "Je reçois l'assurance-chômage",
         "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VOEUF": "Rente de veuf/ve (AVS)",
+        "AVS_VEUF": "Rente de veuf/ve (AVS)",
         "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
         "AI_INVALIDITE": "Rente d'invalidité (AI)",
         "AI_ENFANT": "Rente pour enfant d'AI (AI)",
