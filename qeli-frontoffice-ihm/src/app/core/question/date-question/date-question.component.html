@@ -1,6 +1,8 @@
 <div [formGroup]="form">
 
-  <div [formGroupName]="question.key">
+  <div [formGroupName]="question.key"
+       [attr.data-cy]="question.identifier"
+       data-cy-type="date">
 
     <div class="radio" *ngIf="question.shortcuts.length > 0">
       <label>
@@ -27,7 +29,7 @@
              formControlName="value"
              type="date"
              class="form-control"
-             [attr.data-cy]="question.identifier">
+             data-cy="date-input">
     </div>
 
     <div *ngIf="!useNativeInputDate" class="input-group">
@@ -41,7 +43,7 @@
              (change)="onDateTyped(textInputDate.value)"
              [specialCharacters]="['.']" [showMaskTyped]="true"
              mask="00.00.0000" placeHolderCharacter="#"
-             [attr.data-cy]="question.identifier">
+             data-cy="date-input">
 
       <div class="input-group-addon has-btn">
         <button class="btn btn-info"
