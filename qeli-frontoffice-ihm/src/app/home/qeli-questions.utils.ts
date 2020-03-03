@@ -13,6 +13,10 @@ export function hasConjoint(value: any) {
          value['etatCivil'] === EtatCivil.PARTENARIAT_ENREGISTRE;
 }
 
+export function isConcubinageAutreParent(value: any) {
+  return value['concubinageAutreParent'] === ReponseBinaire.OUI;
+}
+
 export function hasPermisBEtudes(value: any) {
   return value['permisBEtudes'] === ReponseProgressive.OUI;
 }
@@ -25,8 +29,18 @@ export function aucuneScolarite(value: any) {
   return value['scolarite'] === Scolarite.AUCUNE;
 }
 
-export function hasAnyRevenus(value: any, revenus: TypeRevenus[]) {
-  return revenus.some(activite => value['revenus']['choices'].includes(activite));
+export function hasAnyRevenus(value: any, revenus: TypeRevenus[], which: string = 'revenus') {
+  return revenus.some(item => value[which]['choices'].includes(item));
+}
+
+export function hasAnyAVSOrAIRevenus(value: any, which: string = 'revenus') {
+  return hasAnyRevenus(value, [
+    TypeRevenus.AVS_RETRAITE,
+    TypeRevenus.AVS_ENFANT,
+    TypeRevenus.AVS_VEUF,
+    TypeRevenus.AI_INVALIDITE,
+    TypeRevenus.AI_ENFANT
+  ], which);
 }
 
 export function isRefugieOrRequerantAsile(value: any) {
