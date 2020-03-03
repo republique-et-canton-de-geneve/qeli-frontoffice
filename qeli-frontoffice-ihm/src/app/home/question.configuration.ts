@@ -5,13 +5,12 @@ import { Prestation } from '../core/common/prestation.model';
 import { QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, getLimiteFortune, habiteGeneveDepuis5ans, hasActivites, hasAnyEnfantOfType, hasAnyPrestations,
-  hasConjoint, hasEnfants,
-  hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride, isConjointSuisse,
-  isConjointUEOrAELE, isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable,
-  isRefugieOrRequerantAsile, isSuisse, isUEOrAELE
+  aucuneScolarite, getLimiteFortune, habiteGeneveDepuis5ans, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus,
+  hasConjoint, hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride,
+  isConjointSuisse, isConjointUEOrAELE, isFonctionnaireInternational, isMineur,
+  isRatioPiecesPersonnesLogementAcceptable, isRefugieOrRequerantAsile, isSuisse, isUEOrAELE
 } from './qeli-questions.utils';
-import { DateQuestion } from '../core/question/date-question/date-question.model';
+import { DateQuestion, DateQuestionValidators } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
 import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-question.model';
 import { EtatCivil } from './model/etat-civil.model';
@@ -19,7 +18,7 @@ import { NationaliteQuestion } from '../core/question/nationalite-question/natio
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { RequerantRefugie } from './model/requerant-refugie.model';
 import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
-import { Activite } from './model/activite.model';
+import { TypeRevenus } from './model/revenus.model';
 import { Scolarite } from './model/scolarite.model';
 import { Logement } from './model/logement.model';
 import { TextQuestion } from '../core/question/text-question/text-question.model';
@@ -110,7 +109,7 @@ const AgeQuestions: QuestionBase<any>[] = [
     help: true,
     maxDate: new Date(),
     minDate: moment().subtract(130, 'year').toDate(),
-    validators: [Validators.required],
+    validators: [Validators.required, DateQuestionValidators.atLeastOneSelected()],
     eligibilite: [
       {prestation: Prestation.SUBSIDES},
       {prestation: Prestation.AVANCES},
@@ -321,7 +320,7 @@ const DomicileQuestions: QuestionBase<any>[] = [
     ]
   }),
   new DateQuestion({
-    key: 'dateArriveGeneve',
+    key: 'dateArriveeGeneve',
     code: '0502',
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.DOMICILE,
@@ -332,7 +331,7 @@ const DomicileQuestions: QuestionBase<any>[] = [
       {label: 'DEPUIS_NAISSANCE'},
       {label: 'INCONNU'}
     ],
-    validators: [Validators.required],
+    validators: [Validators.required, DateQuestionValidators.atLeastOneSelected(true)],
     eligibilite: [
       {
         prestation: Prestation.PC_FAM,
@@ -360,24 +359,64 @@ const DomicileQuestions: QuestionBase<any>[] = [
 
 const ActiviteQuestions: QuestionBase<any>[] = [
   new CheckboxGroupQuestion({
-    key: 'activite',
+    key: 'revenus',
     code: '0601',
     categorie: Categorie.SITUATION_PERSONELLE,
-    subcategorie: Subcategorie.ACTIVITE,
-    help: true,
+    subcategorie: Subcategorie.REVENUS,
     hasNone: true,
     validators: [
       Validators.required,
-      CheckboxGroupValidators.atLeastOneSelected(Object.keys(Activite), true)
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
-    options: Object.keys(Activite).map(label => ({label: label})),
+    options: [
+      {label: TypeRevenus.EMPLOI},
+      {label: TypeRevenus.CHOMAGE},
+      {
+        label: 'AVS', options: [
+          {label: TypeRevenus.AVS_RETRAITE},
+          {label: TypeRevenus.AVS_VEUF},
+          {label: TypeRevenus.AVS_ENFANT}
+        ]
+      },
+
+      {
+        label: 'AI', options: [
+          {label: TypeRevenus.AI_ENFANT},
+          {label: TypeRevenus.AI_INVALIDITE}
+        ]
+      },
+      {label: TypeRevenus.APG, help: true}
+    ],
     eligibilite: [
       {
         prestation: Prestation.BOURSES,
-        isEligible: (value: any) => hasActivites(value, [Activite.ETUDIANT])
+        isEligible: (value: any) => !hasAnyRevenus(value, [
+          TypeRevenus.CHOMAGE,
+          TypeRevenus.AVS_RETRAITE,
+          TypeRevenus.AI_INVALIDITE
+        ])
       },
-      {prestation: Prestation.PC_FAM},
-      {prestation: Prestation.AIDE_SOCIALE}
+      {prestation: Prestation.PC_AVS_AI},
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => !hasAnyRevenus(value, [
+          TypeRevenus.AVS_RETRAITE,
+          TypeRevenus.AVS_ENFANT,
+          TypeRevenus.AVS_VEUF,
+          TypeRevenus.AI_INVALIDITE,
+          TypeRevenus.AI_ENFANT
+        ])
+      },
+      {
+        prestation: Prestation.AIDE_SOCIALE,
+        isEligible: (value: any) => !hasAnyRevenus(value, [
+          TypeRevenus.AVS_RETRAITE,
+          TypeRevenus.AVS_ENFANT,
+          TypeRevenus.AVS_VEUF,
+          TypeRevenus.AI_INVALIDITE,
+          TypeRevenus.AI_ENFANT
+        ])
+      }
     ]
   })
 ];

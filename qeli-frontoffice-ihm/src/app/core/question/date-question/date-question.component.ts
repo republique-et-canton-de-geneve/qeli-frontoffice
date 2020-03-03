@@ -69,6 +69,8 @@ export class DateQuestionComponent implements QuestionComponent<string>, OnInit,
     if (checked && shortcut !== null) {
       this.dateControl.setValue(null);
     }
+
+    this.dateControl.markAsPristine();
   }
 
   get useNativeInputDate() {

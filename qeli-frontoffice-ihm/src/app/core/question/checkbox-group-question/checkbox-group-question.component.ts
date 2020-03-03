@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChildren } from '@angular/core';
 import { QuestionComponent } from '../question.component';
-import { CheckboxGroupQuestion } from './checkbox-group-question.model';
+import { CheckboxGroup, CheckboxGroupQuestion } from './checkbox-group-question.model';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../question-registry';
 import { ReponseProgressive } from '../../common/reponse.model';
+import { QuestionOption } from '../option.model';
 
 @RegisterQuestionComponent(new CheckboxGroupQuestion().controlType)
 @Component({
@@ -68,5 +69,4 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
   get isNoneOrInconnuSelected() {
     return this.formGroup.value['none'] !== ReponseProgressive.NON;
   }
-
 }

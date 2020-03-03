@@ -8,7 +8,7 @@ export class CheckboxGroupQuestion extends QuestionBase<any> {
   controlType = 'checkbox-group';
   hasNone: boolean;
   hasInconnu: boolean;
-  options: QuestionOption[];
+  options: (QuestionOption | CheckboxGroup)[];
 
   constructor(options: {} = {}) {
     super(options);
@@ -34,6 +34,18 @@ export class CheckboxGroupQuestion extends QuestionBase<any> {
   accept<E>(visitor: QuestionVisitor<E>): E {
     return visitor.visitCheckboxGroupQuestion(this);
   }
+
+  get listOfOptions(): QuestionOption[] {
+    return this.options.map(
+      optionOrGroup => optionOrGroup.hasOwnProperty('options') ?
+                       (optionOrGroup as CheckboxGroup).options : [optionOrGroup as QuestionOption]
+    ).reduce((c, r) => r.concat(c), []);
+  }
+}
+
+export class CheckboxGroup {
+  label: string;
+  options: QuestionOption[];
 }
 
 export class CheckboxGroupValidators {

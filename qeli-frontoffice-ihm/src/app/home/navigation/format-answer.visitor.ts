@@ -53,12 +53,18 @@ export class FormatAnswerVisitor implements QuestionVisitor<string> {
     }
 
     return answer['choices'].map(
-      choice => this.translateOption(question.key, question.options, choice)
+      choice => this.translateOption(question.key, question.listOfOptions, choice)
     ).join(', ');
   }
 
   visitDateQuestion(question: DateQuestion): string {
-    return moment(this.findValueForQuestion(question), 'YYYY-MM-DD', true).format('DD.MM.YYYY');
+    const answer = this.findValueForQuestion(question);
+
+    if (answer['shortcut'] && answer['shortcut'] !== 'NO_SHORTCUT') {
+      return this.translate.instant(`question.${question.key}.shortcut.${answer['shortcut']}`);
+    }
+
+    return moment(answer['value'], 'YYYY-MM-DD', true).format('DD.MM.YYYY');
   }
 
   visitDropdownQuestion(question: DropdownQuestion): string {
