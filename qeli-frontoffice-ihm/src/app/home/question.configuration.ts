@@ -385,7 +385,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
           {label: TypeRevenus.AI_INVALIDITE}
         ]
       },
-      {label: TypeRevenus.INDEMNITE_JOURNALIERE, help: true}
+      {label: TypeRevenus.APG, help: true}
     ],
     eligibilite: [
       {
