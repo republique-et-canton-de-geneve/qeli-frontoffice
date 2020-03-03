@@ -122,7 +122,13 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
   }
 
   visitDateQuestion(question: DateQuestion): string {
-    return this.findValueForQuestion(question);
+    const answer = this.findValueForQuestion(question);
+
+    if (answer['shortcut'] && answer['shortcut'] !== 'NO_SHORTCUT') {
+      return answer['shortcut'];
+    }
+
+    return answer['value'];
   }
 
   visitDropdownQuestion(question: DropdownQuestion): string {

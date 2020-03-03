@@ -1,4 +1,4 @@
-export interface QuestionOption {
+export class QuestionOption {
   label: string;
   help: boolean;
 }

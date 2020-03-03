@@ -51,7 +51,7 @@
         "ETAT_CIVIL": "Etat civil",
         "NATIONALITE": "Nationalité / permis",
         "DOMICILE": "Domicile",
-        "ACTIVITE": "Activité",
+        "REVENUS": "Revenus",
         "FORMATION": "Formation",
         "RENTES": "Rentes",
         "SITUATION_PROFESSIONNELLE": "Situation professionnelle",
@@ -309,22 +309,31 @@
         "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève."
       }
     },
-    "activite": {
-      "label": "Quelle est votre activité ?",
-      "help": "Etudiant : personne en formation.",
+    "revenus": {
+      "label": "Quels revenus recevez-vous ?",
       "option": {
-        "ETUDIANT": "Etudiant",
-        "EMPLOI": "Emploi",
-        "CHOMAGE": "Chômage",
-        "RETRAITE": "Retraité (Rente AVS)",
-        "INVALIDE": "Invalide (Rente AI)",
-        "SANS": "Au foyer / Sans activité",
-        "ARRET": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain"
+        "EMPLOI": "Je suis employé / indépendant",
+        "CHOMAGE": "Je reçois l'assurance-chômage",
+        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
+        "AVS_VOEUF": "Rente de veuf/ve (AVS)",
+        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
+        "AI_INVALIDITE": "Rente d'invalidité (AI)",
+        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+        "INDEMNITE_JOURNALIERE": {
+          "label": "Je reçois des indemnités journalières / perte de gain",
+          "help": "En arrêt maladie / accident ou en congé maternité"
+        }
       },
-      "some": "Sélectionnez chacune de vos activités :",
-      "none": "Aucune des réponses précédentes",
+      "some": "Sélectionnez chacun de vos revenus :",
+      "none": "Je ne reçois aucun de ces revenus",
+      "checkboxGroup": {
+        "AVS": "Je reçois une rente AVS",
+        "AI": "Je reçois une rente AI"
+      },
       "motifRefus": {
-        "BOURSES": "Vous devez être étudiant(e) pour bénéficier d'une bourse d'études."
+        "BOURSES": "Vos revenus vous empêchent de bénéficier de cette préstation.",
+        "PC_FAM": "Vos revenus vous empêchent de bénéficier de cette préstation.",
+        "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette préstation."
       },
       "error": {
         "required": "Votre activité doit être fournie",
