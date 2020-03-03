@@ -331,9 +331,9 @@
         "AI": "Je reçois une rente AI"
       },
       "motifRefus": {
-        "BOURSES": "Vos revenus vous empêchent de bénéficier de cette préstation.",
-        "PC_FAM": "Vos revenus vous empêchent de bénéficier de cette préstation.",
-        "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette préstation."
+        "BOURSES": "Vos revenus vous empêchent de bénéficier de cette prestation.",
+        "PC_FAM": "Vos revenus vous empêchent de bénéficier de cette prestation.",
+        "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette prestation."
       },
       "error": {
         "required": "Votre activité doit être fournie",
