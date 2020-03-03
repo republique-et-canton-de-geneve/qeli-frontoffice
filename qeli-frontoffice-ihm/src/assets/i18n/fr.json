@@ -319,7 +319,7 @@
         "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
         "AI_INVALIDITE": "Rente d'invalidité (AI)",
         "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "INDEMNITE_JOURNALIERE": {
+        "APG": {
           "label": "Je reçois des indemnités journalières / perte de gain",
           "help": "En arrêt maladie / accident ou en congé maternité"
         }
