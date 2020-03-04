@@ -42,6 +42,9 @@ Build :
 mvn clean install
 ```
 
+En cas d'erreurs pour cause d'accès Internet, voir notamment le chapitre "Astuces" dans le fichier
+[README.md](./qeli-frontoffice-cypress/README.md) du module `qli-frontoffice-cypress`.
+
 Un rapport jacoco est généré pour chacun de modules, le rapport se trouve sous
 le dossier: `./target/site/jacoco/` de chaque module.
 
