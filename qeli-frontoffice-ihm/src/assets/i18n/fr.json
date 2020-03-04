@@ -107,7 +107,7 @@
         "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci"
       },
       "error": {
-        "required": "Votre activité doit être fournie",
+        "required": "Vos prestations doivent être fournie",
         "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
       }
     },
@@ -336,7 +336,7 @@
         "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette prestation"
       },
       "error": {
-        "required": "Vos revenus doivent être fournie",
+        "required": "Vos revenus doivent être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
@@ -366,7 +366,7 @@
         "AIDE_SOCIALE": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation"
       },
       "error": {
-        "required": "Les revenus de votre conjoint doivent être fournie",
+        "required": "Les revenus de votre conjoint doivent être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
@@ -395,7 +395,7 @@
         "PC_FAM": "Les revenus de votre concubin vous empêchent de bénéficier de cette prestation"
       },
       "error": {
-        "required": "Les revenus de votre concubin doivent être fournie",
+        "required": "Les revenus de votre concubin doivent être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
@@ -421,7 +421,7 @@
         "AI": "Il(elle) reçoit une rente AI"
       },
       "error": {
-        "required": "Les revenus de votre(vos) enfant(s) doivent être fournie",
+        "required": "Les revenus de votre(vos) enfant(s) doivent être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
