@@ -358,7 +358,27 @@ const DomicileQuestions: QuestionBase<any>[] = [
   })
 ];
 
-const ActiviteQuestions: QuestionBase<any>[] = [
+const revenusOptions = [
+  {label: TypeRevenus.EMPLOI},
+  {label: TypeRevenus.CHOMAGE},
+  {
+    label: 'AVS', options: [
+      {label: TypeRevenus.AVS_RETRAITE},
+      {label: TypeRevenus.AVS_VEUF},
+      {label: TypeRevenus.AVS_ENFANT}
+    ]
+  },
+
+  {
+    label: 'AI', options: [
+      {label: TypeRevenus.AI_ENFANT},
+      {label: TypeRevenus.AI_INVALIDITE}
+    ]
+  },
+  {label: TypeRevenus.APG, help: true}
+];
+
+const RevenusQuestions: QuestionBase<any>[] = [
   new CheckboxGroupQuestion({
     key: 'revenus',
     code: '0601',
@@ -369,25 +389,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
       Validators.required,
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
-    options: [
-      {label: TypeRevenus.EMPLOI},
-      {label: TypeRevenus.CHOMAGE},
-      {
-        label: 'AVS', options: [
-          {label: TypeRevenus.AVS_RETRAITE},
-          {label: TypeRevenus.AVS_VEUF},
-          {label: TypeRevenus.AVS_ENFANT}
-        ]
-      },
-
-      {
-        label: 'AI', options: [
-          {label: TypeRevenus.AI_ENFANT},
-          {label: TypeRevenus.AI_INVALIDITE}
-        ]
-      },
-      {label: TypeRevenus.APG, help: true}
-    ],
+    options: revenusOptions,
     eligibilite: [
       {
         prestation: Prestation.BOURSES,
@@ -418,25 +420,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
       Validators.required,
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
-    options: [
-      {label: TypeRevenus.EMPLOI},
-      {label: TypeRevenus.CHOMAGE},
-      {
-        label: 'AVS', options: [
-          {label: TypeRevenus.AVS_RETRAITE},
-          {label: TypeRevenus.AVS_VEUF},
-          {label: TypeRevenus.AVS_ENFANT}
-        ]
-      },
-
-      {
-        label: 'AI', options: [
-          {label: TypeRevenus.AI_ENFANT},
-          {label: TypeRevenus.AI_INVALIDITE}
-        ]
-      },
-      {label: TypeRevenus.APG, help: true}
-    ],
+    options: revenusOptions,
     skip: (value: any) => !hasConjoint(value),
     eligibilite: [
       {prestation: Prestation.PC_AVS_AI},
@@ -460,25 +444,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
       Validators.required,
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
-    options: [
-      {label: TypeRevenus.EMPLOI},
-      {label: TypeRevenus.CHOMAGE},
-      {
-        label: 'AVS', options: [
-          {label: TypeRevenus.AVS_RETRAITE},
-          {label: TypeRevenus.AVS_VEUF},
-          {label: TypeRevenus.AVS_ENFANT}
-        ]
-      },
-
-      {
-        label: 'AI', options: [
-          {label: TypeRevenus.AI_ENFANT},
-          {label: TypeRevenus.AI_INVALIDITE}
-        ]
-      },
-      {label: TypeRevenus.APG, help: true}
-    ],
+    options: revenusOptions,
     skip: (value: any) => !isConcubinageAutreParent(value),
     eligibilite: [
       {
@@ -497,25 +463,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
       Validators.required,
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
-    options: [
-      {label: TypeRevenus.EMPLOI},
-      {label: TypeRevenus.CHOMAGE},
-      {
-        label: 'AVS', options: [
-          {label: TypeRevenus.AVS_RETRAITE},
-          {label: TypeRevenus.AVS_VEUF},
-          {label: TypeRevenus.AVS_ENFANT}
-        ]
-      },
-
-      {
-        label: 'AI', options: [
-          {label: TypeRevenus.AI_ENFANT},
-          {label: TypeRevenus.AI_INVALIDITE}
-        ]
-      },
-      {label: TypeRevenus.APG, help: true}
-    ],
+    options: revenusOptions,
     skip: (value: any) => !hasAnyEnfantOfType(value, [
       TypeEnfant.MOINS_18,
       TypeEnfant.ENTRE_18_25_EN_FORMATION
@@ -823,7 +771,7 @@ export const AllQuestions: QuestionBase<any>[] = [].concat(
   EtatCivilQuestions,
   NationaliteQuestions,
   DomicileQuestions,
-  ActiviteQuestions,
+  RevenusQuestions,
   formationQuestions,
   RentesQuestions,
   SituationProfesionelleQuestions,
