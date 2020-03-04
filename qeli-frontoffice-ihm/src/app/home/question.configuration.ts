@@ -476,6 +476,20 @@ const RevenusQuestions: QuestionBase<any>[] = [
 
 const formationQuestions: QuestionBase<any>[] = [
   new RadioQuestion({
+    key: 'enFormation',
+    code: '0702',
+    categorie: Categorie.COMPLEMENTS,
+    subcategorie: Subcategorie.FORMATION,
+    validators: [Validators.required],
+    options: Object.keys(ReponseBinaire).map(label => ({label: label})),
+    eligibilite: [
+      {
+        prestation: Prestation.BOURSES,
+        isEligible: (value: any) => value['enFormation'] === ReponseBinaire.OUI
+      }
+    ]
+  }),
+  new RadioQuestion({
     key: 'scolarite',
     code: '0701',
     categorie: Categorie.COMPLEMENTS,

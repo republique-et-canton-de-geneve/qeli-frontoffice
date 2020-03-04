@@ -425,6 +425,19 @@
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
+    "enFormation": {
+      "label": "Etes-vous en formation / allez-vous bientôt commencer une formation ?",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que vous ne suivez aucune formation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
     "scolarite": {
       "label": "Votre demande concerne :",
       "help": "",
