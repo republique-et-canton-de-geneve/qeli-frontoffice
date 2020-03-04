@@ -191,8 +191,9 @@ npm run cy:open -- --env qeli-env=prod
 ### Installation avec binaire
 
 Il est possible que le script d'installation de Cypress échoue. Dans ce cas vous
-pouvez l'installer manuellement en téléchargeant le binaire depuis :
-https://www.cypress.io/
+pouvez l'installer manuellement en téléchargeant le binaire depuis
+https://download.cypress.io/desktop
+(rester patient devant l'éventuel écran blanc).
 
 Ensuite il faut renseigner la variable d'environment `CYPRESS_INSTALL_BINARY` avant
 de lancer l'installation :
