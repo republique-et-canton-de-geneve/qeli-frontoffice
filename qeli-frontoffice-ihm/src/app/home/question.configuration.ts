@@ -5,10 +5,11 @@ import { Prestation } from '../core/common/prestation.model';
 import { QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, getLimiteFortune, habiteGeneveDepuis5ans, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus,
-  hasConjoint, hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConjointApatride,
-  isConjointSuisse, isConjointUEOrAELE, isFonctionnaireInternational, isMineur,
-  isRatioPiecesPersonnesLogementAcceptable, isRefugieOrRequerantAsile, isSuisse, isUEOrAELE
+  aucuneScolarite, getLimiteFortune, habiteGeneveDepuis5ans, hasAnyAVSOrAIRevenus, hasAnyEnfantOfType,
+  hasAnyPrestations, hasAnyRevenus, hasConjoint, hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation,
+  isApatride, isConcubinageAutreParent, isConjointApatride, isConjointSuisse, isConjointUEOrAELE,
+  isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isRefugieOrRequerantAsile, isSuisse,
+  isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion, DateQuestionValidators } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -357,7 +358,27 @@ const DomicileQuestions: QuestionBase<any>[] = [
   })
 ];
 
-const ActiviteQuestions: QuestionBase<any>[] = [
+const revenusOptions = [
+  {label: TypeRevenus.EMPLOI},
+  {label: TypeRevenus.CHOMAGE},
+  {
+    label: 'AVS', options: [
+      {label: TypeRevenus.AVS_RETRAITE},
+      {label: TypeRevenus.AVS_VEUF},
+      {label: TypeRevenus.AVS_ENFANT}
+    ]
+  },
+
+  {
+    label: 'AI', options: [
+      {label: TypeRevenus.AI_ENFANT},
+      {label: TypeRevenus.AI_INVALIDITE}
+    ]
+  },
+  {label: TypeRevenus.APG, help: true}
+];
+
+const RevenusQuestions: QuestionBase<any>[] = [
   new CheckboxGroupQuestion({
     key: 'revenus',
     code: '0601',
@@ -368,25 +389,7 @@ const ActiviteQuestions: QuestionBase<any>[] = [
       Validators.required,
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
-    options: [
-      {label: TypeRevenus.EMPLOI},
-      {label: TypeRevenus.CHOMAGE},
-      {
-        label: 'AVS', options: [
-          {label: TypeRevenus.AVS_RETRAITE},
-          {label: TypeRevenus.AVS_VEUF},
-          {label: TypeRevenus.AVS_ENFANT}
-        ]
-      },
-
-      {
-        label: 'AI', options: [
-          {label: TypeRevenus.AI_ENFANT},
-          {label: TypeRevenus.AI_INVALIDITE}
-        ]
-      },
-      {label: TypeRevenus.APG, help: true}
-    ],
+    options: revenusOptions,
     eligibilite: [
       {
         prestation: Prestation.BOURSES,
@@ -399,24 +402,74 @@ const ActiviteQuestions: QuestionBase<any>[] = [
       {prestation: Prestation.PC_AVS_AI},
       {
         prestation: Prestation.PC_FAM,
-        isEligible: (value: any) => !hasAnyRevenus(value, [
-          TypeRevenus.AVS_RETRAITE,
-          TypeRevenus.AVS_ENFANT,
-          TypeRevenus.AVS_VEUF,
-          TypeRevenus.AI_INVALIDITE,
-          TypeRevenus.AI_ENFANT
-        ])
+        isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value)
       },
       {
         prestation: Prestation.AIDE_SOCIALE,
-        isEligible: (value: any) => !hasAnyRevenus(value, [
-          TypeRevenus.AVS_RETRAITE,
-          TypeRevenus.AVS_ENFANT,
-          TypeRevenus.AVS_VEUF,
-          TypeRevenus.AI_INVALIDITE,
-          TypeRevenus.AI_ENFANT
-        ])
+        isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value)
       }
+    ]
+  }),
+  new CheckboxGroupQuestion({
+    key: 'revenusConjoint',
+    code: '0602',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.REVENUS,
+    hasNone: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
+    ],
+    options: revenusOptions,
+    skip: (value: any) => !hasConjoint(value),
+    eligibilite: [
+      {prestation: Prestation.PC_AVS_AI},
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value, 'revenusConjoint')
+      },
+      {
+        prestation: Prestation.AIDE_SOCIALE,
+        isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value, 'revenusConjoint')
+      }
+    ]
+  }),
+  new CheckboxGroupQuestion({
+    key: 'revenusConcubin',
+    code: '0603',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.REVENUS,
+    hasNone: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
+    ],
+    options: revenusOptions,
+    skip: (value: any) => !isConcubinageAutreParent(value),
+    eligibilite: [
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value, 'revenusConcubin')
+      }
+    ]
+  }),
+  new CheckboxGroupQuestion({
+    key: 'revenusEnfant',
+    code: '0606',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.REVENUS,
+    hasNone: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
+    ],
+    options: revenusOptions,
+    skip: (value: any) => !hasAnyEnfantOfType(value, [
+      TypeEnfant.MOINS_18,
+      TypeEnfant.ENTRE_18_25_EN_FORMATION
+    ]),
+    eligibilite: [
+      {prestation: Prestation.PC_AVS_AI}
     ]
   })
 ];
@@ -718,7 +771,7 @@ export const AllQuestions: QuestionBase<any>[] = [].concat(
   EtatCivilQuestions,
   NationaliteQuestions,
   DomicileQuestions,
-  ActiviteQuestions,
+  RevenusQuestions,
   formationQuestions,
   RentesQuestions,
   SituationProfesionelleQuestions,
