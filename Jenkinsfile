@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 pipeline {
   agent { label 'master' }
 
@@ -18,12 +20,9 @@ pipeline {
     CYPRESS_INSTALL_BINARY = '3.8.2'
 
     // LAB credentials
-    QELI_LAB_HOST = '***REMOVED***'
     QELI_LAB_CREDENTIALS = credentials('45d84cd5-cffc-429c-8ec8-a1a8852ed903')
 
     // DEV credentials
-    QELI_DEV_A_HOST = 'RH712TOMC75A'
-    QELI_DEV_B_HOST = 'RH712TOMC75B'
     QELI_DEV_CREDENTIALS = credentials('38c09e92-ea6a-4e8f-9d31-8ef1aa27be97')
   }
 
@@ -93,9 +92,12 @@ pipeline {
 
           steps {
             script {
+             configFileProvider([configFile(fileId: 'a625574f-5000-45c1-8bce-929ea9eacf59', variable: 'PRIVATE_PROPERTIES')]) {
+              def privateProps = readProperties file: "$PRIVATE_PROPERTIES"
+
               def remote = [:]
               remote.name = 'qeli-lab'
-              remote.host = env.QELI_LAB_HOST
+              remote.host = privateProps['QELI_LAB_HOST']
               remote.user = env.QELI_LAB_CREDENTIALS_USR
               remote.password = env.QELI_LAB_CREDENTIALS_PSW
               remote.allowAnyHosts = true
@@ -111,7 +113,8 @@ pipeline {
                      override: true
 
               sshCommand remote: remote,
-                         command: "cd /home/${remote.user}/ && sh ./deploy.sh </dev/null >./qeli-frontoffice.log 2>&1 &"
+                     command: "cd /home/${remote.user}/ && sh ./deploy.sh </dev/null >./qeli-frontoffice.log 2>&1 &"
+             }
             }
           }
         }
@@ -121,9 +124,12 @@ pipeline {
 
           steps {
             script {
+             configFileProvider([configFile(fileId: 'a625574f-5000-45c1-8bce-929ea9eacf59', variable: 'PRIVATE_PROPERTIES')]) {
+              def privateProps = readProperties file: "$PRIVATE_PROPERTIES"
+
               def remote = [:]
               remote.name = 'qeli-dev'
-              remote.host = env.QELI_DEV_A_HOST
+              remote.host = privateProps['QELI_DEV_A_HOST']
               remote.user = env.QELI_DEV_CREDENTIALS_USR
               remote.password = env.QELI_DEV_CREDENTIALS_PSW
               remote.allowAnyHosts = true
@@ -136,6 +142,7 @@ pipeline {
               sshScript remote: remote,
                         script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
             }
+           }
           }
         }
 
@@ -144,9 +151,12 @@ pipeline {
 
           steps {
             script {
+             configFileProvider([configFile(fileId: 'a625574f-5000-45c1-8bce-929ea9eacf59', variable: 'PRIVATE_PROPERTIES')]) {
+              def privateProps = readProperties file: "$PRIVATE_PROPERTIES"
+
               def remote = [:]
               remote.name = 'qeli-dev'
-              remote.host = env.QELI_DEV_B_HOST
+              remote.host = privateProps['QELI_DEV_B_HOST']
               remote.user = env.QELI_DEV_CREDENTIALS_USR
               remote.password = env.QELI_DEV_CREDENTIALS_PSW
               remote.allowAnyHosts = true
@@ -159,6 +169,7 @@ pipeline {
               sshScript remote: remote,
                         script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
             }
+           }
           }
         }
       }
