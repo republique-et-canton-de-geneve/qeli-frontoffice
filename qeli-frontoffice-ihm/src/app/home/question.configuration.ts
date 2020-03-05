@@ -29,7 +29,6 @@ import {
   NumberField, NumberGroupQuestion, NumberGroupQuestionValidators
 } from '../core/question/number-group-question/number-group-question.model';
 import { TypeEnfant } from './model/type-enfant.model';
-import { QuestionOption } from '../core/question/option.model';
 
 const PrestationQuestions: QuestionBase<any>[] = [
   new CheckboxGroupQuestion({
@@ -476,17 +475,34 @@ const RevenusQuestions: QuestionBase<any>[] = [
 
 const formationQuestions: QuestionBase<any>[] = [
   new RadioQuestion({
+    key: 'enFormation',
+    code: '0702',
+    inline: true,
+    categorie: Categorie.COMPLEMENTS,
+    subcategorie: Subcategorie.FORMATION,
+    validators: [Validators.required],
+    options: Object.keys(ReponseBinaire).map(label => ({label: label})),
+    eligibilite: [
+      {
+        prestation: Prestation.BOURSES,
+        isEligible: (value: any) => value['enFormation'] === ReponseBinaire.OUI
+      }
+    ]
+  }),
+  new RadioQuestion({
     key: 'scolarite',
     code: '0701',
     categorie: Categorie.COMPLEMENTS,
     subcategorie: Subcategorie.FORMATION,
-    help: true,
-    hasNone: true,
     validators: [Validators.required],
-    options: Object.values(Scolarite)
-                   .filter(scolarite => scolarite !== Scolarite.AUCUNE)
-                   .map(scolarite => ({label: Scolarite[scolarite], help: true} as QuestionOption))
-                   .concat({label: Scolarite.AUCUNE} as QuestionOption),
+    options: [
+      {label: Scolarite.SCOLARITE_OBLIGATOIRE_1P_A_10P},
+      {label: Scolarite.SCOLARITE_OBLIGATOIRE_11P, help: true},
+      {label: Scolarite.FORMATION_DOCTORALE, help: true},
+      {label: Scolarite.FORMATION_CONTINUE, help: true},
+      {label: Scolarite.AUCUNE},
+      {label: Scolarite.INCONNU}
+    ],
     eligibilite: [
       {
         prestation: Prestation.BOURSES,
