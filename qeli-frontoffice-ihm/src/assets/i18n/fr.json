@@ -448,7 +448,7 @@
         },
         "FORMATION_DOCTORALE": {
           "label": "Un doctorat",
-          "help": ": Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
+          "help": "Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
         },
         "FORMATION_CONTINUE": {
           "label": "Une formation continue",
