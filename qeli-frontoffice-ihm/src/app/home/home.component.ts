@@ -13,7 +13,7 @@ import { TrackingService } from '../service/tracking.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @ViewChild('dynamicForm') dynamicForm: DynamicFormComponent;
+  @ViewChild('dynamicForm', { static: true }) dynamicForm: DynamicFormComponent;
 
   questions: QuestionBase<any>[] = AllQuestions;
   formState: FormState = {

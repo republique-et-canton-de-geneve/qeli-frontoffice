@@ -20,7 +20,7 @@ export class DateQuestionComponent implements QuestionComponent<string>, OnInit,
   @Input() form: FormGroup;
   showDatePicker = false;
 
-  @ViewChild('textInputDate') textInputDate: ElementRef<HTMLInputElement>;
+  @ViewChild('textInputDate', { static: false }) textInputDate: ElementRef<HTMLInputElement>;
 
   constructor(private bowserService: BowserService) {
 
