@@ -20,6 +20,10 @@
           "title": "Allocation logement",
           "content": "L'allocation logement est une aide financière personnalisée consentie par l'Etat en faveur du locataire dont le loyer représente une charge trop lourde eu égard à son revenu et à sa fortune et qui n'a pas trouvé, au préalable, de logement moins cher sans inconvénients majeurs."
         },
+        "SUBVENTION_HM": {
+          "title": "Subvention habitation mixte (HM)",
+          "content": "Un logement HM correspond, de par son niveau de loyer à un appartement de type HLM. Toutefois, en lieu et place d'une subvention à l'exploitation versée au propriétaire de l'immeuble, l'Etat de Genève accorde, pendant 25 ans au maximum, une subvention aux locataires qui en remplissent les conditions d'octroi."
+        },
         "PC_AVS_AI": {
           "title": "Prestations complémentaires AVS/AI",
           "content": "Les prestations complémentaires (PC) à l’assurance vieillesse et survivants (AVS) et à l’assurance invalidité (AI) sont accordées lorsque les rentes et autres revenus ne couvrent pas les besoins vitaux."
