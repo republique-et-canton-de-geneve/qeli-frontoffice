@@ -26,7 +26,8 @@ export function isFonctionnaireInternational(value: any) {
 }
 
 export function aucuneScolarite(value: any) {
-  return value['scolarite'] === Scolarite.AUCUNE;
+  return value['scolarite'] === Scolarite.AUCUNE ||
+         value['scolarite'] === Scolarite.INCONNU;
 }
 
 export function hasAnyRevenus(value: any, revenus: TypeRevenus[], which: string = 'revenus') {
@@ -161,10 +162,10 @@ export function habiteGeneveDepuis5ans(value: any) {
   }
 
   const dateArriveeGeneve = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
-                           getDate(value, 'dateNaissance') :
-                           getDate(value, 'dateArriveeGeneve');
+                            getDate(value, 'dateNaissance') :
+                            getDate(value, 'dateArriveeGeneve');
 
   return dateArriveeGeneve && moment().subtract(5, 'year')
-                                     .endOf('day')
-                                     .isAfter(moment(dateArriveeGeneve));
+                                      .endOf('day')
+                                      .isAfter(moment(dateArriveeGeneve));
 }
