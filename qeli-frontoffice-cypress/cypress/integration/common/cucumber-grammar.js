@@ -23,6 +23,11 @@ When('A/a/à la question {string}(,) je remplis:', (question, dataTable) => {
   });
 });
 
+When('A/a/à la question {string}(,) je remplis \\(sans validation):', (question, dataTable) => {
+  const answers = dataTable.raw();
+  answers.forEach((answer) => cy.answerQuestion(answer[0], answer[1], false));
+});
+
 // Then statements
 Then('Je/je vois la question {string} {string}',
      (question, title) => cy.dataCyLabel(question).should('contain', title)

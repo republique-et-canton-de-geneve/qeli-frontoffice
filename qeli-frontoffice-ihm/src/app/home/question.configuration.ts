@@ -158,7 +158,7 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
     eligibilite: [
       {
         prestation: Prestation.PC_FAM,
-        isEligible: (value: any) => !hasEnfants(value) || hasAnyEnfantOfType(value, [
+        isEligible: (value: any) => hasAnyEnfantOfType(value, [
           TypeEnfant.MOINS_18,
           TypeEnfant.ENTRE_18_25_EN_FORMATION
         ])
@@ -454,7 +454,7 @@ const RevenusQuestions: QuestionBase<any>[] = [
   }),
   new CheckboxGroupQuestion({
     key: 'revenusEnfant',
-    code: '0606',
+    code: '0604',
     categorie: Categorie.SITUATION_PERSONELLE,
     subcategorie: Subcategorie.REVENUS,
     hasNone: true,
