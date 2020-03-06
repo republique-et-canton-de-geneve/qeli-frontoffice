@@ -384,6 +384,25 @@ const DomicileQuestions: QuestionBase<any>[] = [
       },
       {prestation: Prestation.PC_AVS_AI}
     ]
+  }),
+  new DateQuestion({
+    key: 'dateArriveeSuisseConjoint',
+    code: '0509',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.DOMICILE,
+    help: true,
+    maxDate: new Date(),
+    minDate: moment().subtract(130, 'year').toDate(),
+    shortcuts: [{label: 'INCONNU'}],
+    skip: (value: any) =>
+      !hasConjoint(value) ||
+      isConjointSuisse(value) ||
+      isConjointUEOrAELE(value) ||
+      isConjointApatride(value),
+    validators: [Validators.required, DateQuestionValidators.atLeastOneSelected(true)],
+    eligibilite: [
+      {prestation: Prestation.PC_AVS_AI}
+    ]
   })
 ];
 
