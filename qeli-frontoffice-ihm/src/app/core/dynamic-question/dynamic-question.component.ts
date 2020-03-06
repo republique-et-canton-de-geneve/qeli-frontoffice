@@ -14,7 +14,7 @@ export class DynamicQuestionComponent {
   @Input() form: FormGroup;
   question: QuestionBase<any>;
 
-  @ViewChild(QuestionDirective) questionDirective: QuestionDirective;
+  @ViewChild(QuestionDirective, { static: true }) questionDirective: QuestionDirective;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {
 
@@ -32,7 +32,8 @@ export class DynamicQuestionComponent {
   }
 
   get errors() {
-    return Object.keys(this.form.controls[this.question.key].errors);
+    const errors = this.form.controls[this.question.key].errors;
+    return errors ? Object.keys(errors) : [];
   }
 
   loadComponent() {

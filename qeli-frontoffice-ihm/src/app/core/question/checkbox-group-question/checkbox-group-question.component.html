@@ -1,47 +1,69 @@
 <div [formGroup]="form">
-  <div [formGroupName]="question.key" [attr.data-cy]="question.identifier">
-    <div *ngFor="let option of question.options; first as isFirst" class="checkbox">
-      <label>
-        <input type="checkbox"
-               [attr.disabled]="isNoneSelected ? 'disabled' : null"
-               [focusOnInit]="isFirst"
-               [value]="option.label"
-               (change)="onOptionChanged($event.currentTarget.value, $event.currentTarget.checked)"
-               [attr.data-cy]="option.label"
-               #optionCheckboxes>
-        {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
-      </label>
+  <div [formGroupName]="question.key"
+       [attr.data-cy]="question.identifier">
 
-      <p *ngIf="option.help" class="help-block">
-        {{ 'question.' + question.key + '.option.' + option.label + '.help' | translate }}
-      </p>
-    </div>
-
-    <div *ngIf="question.hasNone" class="checkbox none-option">
+    <hr *ngIf="question.hasNone">
+    <div *ngIf="question.hasNone" class="radio">
       <label>
-        <input type="checkbox"
+        <input type="radio"
+               [value]="'NON'"
                formControlName="none"
                (change)="onNoneChanged()"
-               data-cy="NONE">
-        {{ 'question.' + question.key + '.option.NONE' | translate }}
+               [focusOnInit]="true">
+        {{ 'question.' + question.key + '.some' | translate }}
       </label>
     </div>
 
-    <div *ngIf="isNoneSelected">
-      <label class="control-label" for="noneDetail">
-        {{ 'question.' + question.key + '.noneDetailLabel' | translate }}
-        <span class="form-required"
-              title="{{ 'form.required' | translate }}">*</span>
-      </label>
+    <div *ngFor="let optionOrGroup of question.options; first as isFirstGroup"
+         class="checkbox" [ngClass]="question.hasNone ? 'tab' : null">
 
-      <input id="noneDetail"
-             focusOnInit="true"
-             formControlName="noneDetail"
-             [placeholder]="'question.' + question.key + '.noneDetailPlaceholder' | translate"
-             type="text"
-             maxlength="255"
-             class="form-control"
-             data-cy="noneDetail">
+      <p *ngIf="optionOrGroup.hasOwnProperty('options')" class="checkbox-group-title">
+        {{ 'question.' + question.key + '.checkboxGroup.' + optionOrGroup.label | translate }}
+      </p>
+
+      <div [ngClass]="optionOrGroup.hasOwnProperty('options') ? 'tab subgroup' : null">
+        <div *ngFor="let option of (optionOrGroup.hasOwnProperty('options') ? optionOrGroup.options : [optionOrGroup]);
+                     first as isFirstOption">
+          <label>
+            <input type="checkbox"
+                   [attr.disabled]="isNoneOrInconnuSelected ? 'disabled' : null"
+                   [focusOnInit]="!question.hasNone && isFirstGroup && isFirstOption"
+                   [value]="option.label"
+                   (change)="onOptionChanged($event.currentTarget.value, $event.currentTarget.checked)"
+                   [attr.data-cy]="option.label"
+                   #optionCheckboxes>
+            {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
+          </label>
+
+          <p *ngIf="option.help" class="help-block">
+            {{ 'question.' + question.key + '.option.' + option.label + '.help' | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <hr *ngIf="question.hasNone">
+    <div *ngIf="question.hasNone" class="radio">
+      <label>
+        <input type="radio"
+               [value]="'OUI'"
+               formControlName="none"
+               (change)="onNoneChanged()"
+               [attr.data-cy]="'NONE'">
+        {{ 'question.' + question.key + '.none' | translate }}
+      </label>
+    </div>
+
+    <hr *ngIf="question.hasInconnu">
+    <div *ngIf="question.hasInconnu" class="radio">
+      <label>
+        <input type="radio"
+               [value]="'INCONNU'"
+               formControlName="none"
+               (change)="onNoneChanged()"
+               [attr.data-cy]="'INCONNU'">
+        {{ 'question.' + question.key + '.inconnu' | translate }}
+      </label>
     </div>
   </div>
 </div>

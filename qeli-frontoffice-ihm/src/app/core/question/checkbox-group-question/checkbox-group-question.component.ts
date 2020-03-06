@@ -1,8 +1,10 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChildren } from '@angular/core';
 import { QuestionComponent } from '../question.component';
-import { CheckboxGroupQuestion } from './checkbox-group-question.model';
+import { CheckboxGroup, CheckboxGroupQuestion } from './checkbox-group-question.model';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../question-registry';
+import { ReponseProgressive } from '../../common/reponse.model';
+import { QuestionOption } from '../option.model';
 
 @RegisterQuestionComponent(new CheckboxGroupQuestion().controlType)
 @Component({
@@ -25,10 +27,8 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
   }
 
   onNoneChanged() {
-    if (this.isNoneSelected) {
+    if (this.isNoneOrInconnuSelected) {
       this.clearChoices();
-    } else {
-      this.clearNoneDetail();
     }
 
     this.formGroup.markAsPristine();
@@ -53,10 +53,9 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
     while (choicesArray.length !== 0) {
       choicesArray.removeAt(0);
     }
-  }
-
-  private clearNoneDetail() {
-    this.formGroup.controls['noneDetail'].setValue('');
+    this.optionCheckboxes.forEach(checkbox => {
+      checkbox.nativeElement.checked = false;
+    });
   }
 
   private get formGroup() {
@@ -67,8 +66,7 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
     return this.formGroup.controls['choices'] as FormArray;
   }
 
-  get isNoneSelected() {
-    return !!this.formGroup.value['none'];
+  get isNoneOrInconnuSelected() {
+    return this.formGroup.value['none'] !== ReponseProgressive.NON;
   }
-
 }

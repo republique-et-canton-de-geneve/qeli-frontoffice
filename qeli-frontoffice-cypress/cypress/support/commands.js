@@ -17,7 +17,7 @@ Cypress.Commands.add('getPrestationParEligibilite', (eligibilite, prestation) =>
 });
 
 Cypress.Commands.add('checkStatutPrestation', (statut, prestation) => {
-  if ([',',';'].some(char => prestation.includes(char))) {
+  if ([',', ';'].some(char => prestation.includes(char))) {
     const prestations = prestation.split(/[,]|[;]/);
     prestations.forEach((presta, i) => {
       cy.getPrestationParEligibilite(statut, presta).should('exist')
@@ -34,7 +34,7 @@ Cypress.Commands.add('clickPrevious', () => cy.get('[data-cy=clickPrevious]').cl
 Cypress.Commands.add('connectionFormulaire', () => cy.visit(url));
 
 Cypress.Commands.add('answerNationalite', (question, answer) => {
-  if ([',',';'].some(char => answer.includes(char))) {
+  if ([',', ';'].some(char => answer.includes(char))) {
     const nationalites = answer.split(/[,]|[;]/);
     nationalites.forEach((nationalite, i) => {
       cy.get(`[data-cy=${question}_select_nationalite_${i}]`).select(nationalite);
@@ -55,18 +55,23 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
     if (answer.trim().length > 0) {
       if ($elem[0].getAttribute('data-cy-type') === 'nationalite') {
         cy.answerNationalite(question, answer);
-      } else if ($elem.find(CHECKBOX).length) {
-        if ([',',';'].some(char => answer.includes(char))) { // handle array of string (multiple answers)
+      } else if ($elem.find(CHECKBOX).length > 0) {
+        if ([',', ';'].some(char => answer.includes(char))) { // handle array of string (multiple answers)
           answer.split(/[,]|[;]/).forEach((option) => cy.get('[data-cy=' + option + ']').check());
         } else {
+          cy.dataCy(answer).check();
+        }
+      } else if ($elem[0].getAttribute('data-cy-type') === 'date') {
+        if (/\d{2}\.\d{2}\.\d{4}/.test(answer)) {
+          cy.dataCy('date-input').type(answer);
+        } else {
+          console.log("ANSWER");
           cy.dataCy(answer).check();
         }
       } else if ($elem.find(RADIO).length) {
         cy.dataCy(answer).check();
       } else if ($elem[0].type === 'select-one') {
         cy.get(SELECT).select(answer);
-      } else if ($elem[0].type === 'date') {
-        cy.get(DATE).type(answer);
       } else if ($elem[0].type === 'text') {
         cy.get(TEXTBOX).type(answer);
       } else {

@@ -2,29 +2,31 @@ import { QuestionBase } from '../question-base.model';
 import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
 import { QuestionOption } from '../option.model';
 import { QuestionVisitor } from '../question-visitor';
+import { ReponseProgressive } from '../../common/reponse.model';
 
 export class CheckboxGroupQuestion extends QuestionBase<any> {
   controlType = 'checkbox-group';
   hasNone: boolean;
-  options: QuestionOption[];
+  hasInconnu: boolean;
+  options: (QuestionOption | CheckboxGroup)[];
 
   constructor(options: {} = {}) {
     super(options);
     this.options = options['options'] || [];
     this.hasNone = !!options['hasNone'];
+    this.hasInconnu = !!options['hasInconnu'];
   }
 
   toFormControl(defaultValue: any): AbstractControl {
     let group: any = {};
 
+    if (this.hasNone || this.hasInconnu) {
+      group['none'] = new FormControl(defaultValue ? defaultValue['none'] : ReponseProgressive.NON);
+    }
+
     group['choices'] = new FormArray(
       defaultValue && defaultValue['choices'] ? defaultValue['choices'].map(choice => new FormControl(choice)) : []
     );
-
-    if (this.hasNone) {
-      group['none'] = new FormControl(defaultValue ? defaultValue['none'] : false);
-      group['noneDetail'] = new FormControl(defaultValue ? defaultValue['noneDetail'] : null);
-    }
 
     return new FormGroup(group, this.validators);
   }
@@ -32,30 +34,30 @@ export class CheckboxGroupQuestion extends QuestionBase<any> {
   accept<E>(visitor: QuestionVisitor<E>): E {
     return visitor.visitCheckboxGroupQuestion(this);
   }
+
+  get listOfOptions(): QuestionOption[] {
+    return this.options.map(
+      optionOrGroup => optionOrGroup.hasOwnProperty('options') ?
+                       (optionOrGroup as CheckboxGroup).options : [optionOrGroup as QuestionOption]
+    ).reduce((c, r) => r.concat(c), []);
+  }
+}
+
+export class CheckboxGroup {
+  label: string;
+  options: QuestionOption[];
 }
 
 export class CheckboxGroupValidators {
-  static atLeastOneSelected(options: string[], hasNone: boolean = false) {
+  static atLeastOneSelected(options: string[], hasNoneOrInconnu: boolean = false) {
     return (control: AbstractControl) => {
       if (control && control.value) {
         const atLeastOneOption = options.some(option => control.value['choices'].includes(option));
-        const isNoneSelected = hasNone && !!control.value['none'];
-
+        const isNoneSelected = hasNoneOrInconnu && control.value['none'] !== ReponseProgressive.NON;
         return !atLeastOneOption && !isNoneSelected ? {'atLeastOneSelected': true} : null;
       }
 
       return null;
     }
-  }
-
-  static noneDetailRequired(control: AbstractControl) {
-    if (control &&
-        control.value &&
-        control.value['none'] &&
-        (!control.value['noneDetail'] || control.value['noneDetail'] === '')) {
-      return {'required': true};
-    }
-
-    return null;
   }
 }
