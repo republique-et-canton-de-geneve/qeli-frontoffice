@@ -27,7 +27,8 @@ export class PrestationResolver {
   static findPrestationsRefusees(prestationsRefusees: Refus[], data: any): Refus[] {
     const prestationDejaPrecues = PrestationResolver.findPrestationsDejaPercues(data);
     return prestationsRefusees.filter(
-      prestationRefusee => !prestationDejaPrecues.includes(prestationRefusee.prestation)
+      prestationRefusee => !prestationDejaPrecues.includes(prestationRefusee.prestation) &&
+                           !EXCLUDED_PRESTATIONS.includes(prestationRefusee.prestation)
     );
   }
 
@@ -37,7 +38,7 @@ export class PrestationResolver {
    * @param data {} les réponses données dans le formulaire.
    */
   static findPrestationsDejaPercues(data: any): Prestation[] {
-    return data['prestations']['choices'].filter(prestation => !EXCLUDED_PRESTATIONS.includes(prestation));
+    return data['prestations']['choices'];
   }
 
 }
