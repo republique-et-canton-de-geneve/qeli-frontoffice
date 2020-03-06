@@ -14,7 +14,8 @@ export abstract class QuestionBase<T> {
   validators: ValidatorFn[];
   altText: (value: any) => string;
   labelParameters: any;
-  skip: (value: any) => boolean;
+  skip: (value: any, prestatiosnEligibles: Prestation[]) => boolean;
+  defaultAnswer: (value: any) => T;
   eligibilite: Eligibilite[];
 
   constructor(options: {
@@ -27,7 +28,8 @@ export abstract class QuestionBase<T> {
     validators?: ValidatorFn[],
     altText?: (value: any) => string,
     labelParameters?: any,
-    skip?: (value: any) => any,
+    skip?: (value: any, prestatiosnEligibles: Prestation[]) => any,
+    defaultAnswer?: (value: any) => T,
     eligibilite?: Eligibilite[]
   } = {}) {
     this.controlType = options.controlType;
@@ -41,6 +43,7 @@ export abstract class QuestionBase<T> {
     this.altText = options.altText ? options.altText : () => null;
     this.labelParameters = options.labelParameters ? options.labelParameters : {};
     this.skip = options.skip ? options.skip : () => false;
+    this.defaultAnswer = options.defaultAnswer ? options.defaultAnswer : () => null;
     this.eligibilite = options.eligibilite ? options.eligibilite : [];
   }
 

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { QuestionComponent } from '../question.component';
-import { DateQuestion } from './date-question.model';
+import { DateAnswer, DateQuestion } from './date-question.model';
 import { FormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../question-registry';
 import * as moment from 'moment';
@@ -15,7 +15,7 @@ import { QuestionOption } from '../option.model';
   templateUrl: './date-question.component.html',
   styleUrls: ['./date-question.component.scss']
 })
-export class DateQuestionComponent implements QuestionComponent<string>, OnInit, AfterViewInit {
+export class DateQuestionComponent implements QuestionComponent<DateAnswer>, OnInit, AfterViewInit {
   @Input() question: DateQuestion;
   @Input() form: FormGroup;
   showDatePicker = false;

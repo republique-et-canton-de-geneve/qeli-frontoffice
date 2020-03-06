@@ -5,11 +5,11 @@ import { Prestation } from '../core/common/prestation.model';
 import { QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, getLimiteFortune, habiteGeneveDepuis5ans, hasAnyAVSOrAIRevenus, hasAnyEnfantOfType,
-  hasAnyPrestations, hasAnyRevenus, hasConjoint, hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation,
-  isApatride, isConcubinageAutreParent, isConjointApatride, isConjointSuisse, isConjointUEOrAELE,
-  isFonctionnaireInternational, isMineur, isRatioPiecesPersonnesLogementAcceptable, isRefugieOrRequerantAsile, isSuisse,
-  isUEOrAELE
+  aucuneScolarite, getLimiteFortune, habiteGeneveDepuis5ans, habiteGeneveDepuisNaissance, habiteSuisseDepuis5Ans,
+  hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus, hasConjoint, hasEnfants,
+  hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConcubinageAutreParent, isConjointApatride,
+  isConjointSuisse, isConjointUEOrAELE, isFonctionnaireInternational, isMineur,
+  isRatioPiecesPersonnesLogementAcceptable, isRefugie, isRequerantAsile, isSuisse, isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion, DateQuestionValidators } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -259,7 +259,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     skip: (value: any) => isSuisse(value) ||
-                          isRefugieOrRequerantAsile(value) ||
+                          isRefugie(value) ||
+                          isRequerantAsile(value) ||
                           isApatride(value),
     eligibilite: [
       {prestation: Prestation.BOURSES}
@@ -275,7 +276,8 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
     skip: (value: any) => isSuisse(value) ||
-                          isRefugieOrRequerantAsile(value) ||
+                          isRefugie(value) ||
+                          isRequerantAsile(value) ||
                           isApatride(value),
     eligibilite: [
       {
@@ -353,6 +355,53 @@ const DomicileQuestions: QuestionBase<any>[] = [
         prestation: Prestation.AIDE_SOCIALE,
         isEligible: (value: any) => value['residenceEffectiveCantonGE'] !== ReponseBinaire.NON
       }
+    ]
+  }),
+  new DateQuestion({
+    key: 'dateArriveeSuisse',
+    code: '0507',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.DOMICILE,
+    help: true,
+    maxDate: new Date(),
+    minDate: moment().subtract(130, 'year').toDate(),
+    shortcuts: [
+      {label: 'DEPUIS_NAISSANCE'},
+      {label: 'INCONNU'}
+    ],
+    skip: (value: any, prestatiosnEligibles: Prestation[]) =>
+      isSuisse(value) ||
+      isUEOrAELE(value) ||
+      isApatride(value) ||
+      (prestatiosnEligibles === [Prestation.BOURSES] && isRefugie(value)),
+    defaultAnswer: (value: any) => habiteGeneveDepuisNaissance(value) ?
+      {value: null, shortcut: 'DEPUIS_NAISSANCE'} : null,
+    validators: [Validators.required, DateQuestionValidators.atLeastOneSelected(true)],
+    eligibilite: [
+      {
+        prestation: Prestation.BOURSES,
+        isEligible: (value: any) => habiteSuisseDepuis5Ans(value) || isRefugie(value)
+      },
+      {prestation: Prestation.PC_AVS_AI}
+    ]
+  }),
+  new DateQuestion({
+    key: 'dateArriveeSuisseConjoint',
+    code: '0509',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.DOMICILE,
+    help: true,
+    maxDate: new Date(),
+    minDate: moment().subtract(130, 'year').toDate(),
+    shortcuts: [{label: 'INCONNU'}],
+    skip: (value: any) =>
+      !hasConjoint(value) ||
+      isConjointSuisse(value) ||
+      isConjointUEOrAELE(value) ||
+      isConjointApatride(value),
+    validators: [Validators.required, DateQuestionValidators.atLeastOneSelected(true)],
+    eligibilite: [
+      {prestation: Prestation.PC_AVS_AI}
     ]
   })
 ];
