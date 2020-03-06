@@ -9,6 +9,8 @@ import { TextQuestion } from '../../core/question/text-question/text-question.mo
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { QuestionOption } from '../../core/question/option.model';
+import { ReponseProgressive } from '../../core/common/reponse.model';
+import { NumberGroupQuestion } from '../../core/question/number-group-question/number-group-question.model';
 import * as moment from 'moment';
 
 @Injectable()
@@ -44,17 +46,25 @@ export class FormatAnswerVisitor implements QuestionVisitor<string> {
   visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): string {
     const answer = this.findValueForQuestion(question);
 
-    if (!!answer['none']) {
-      return answer['noneDetail'];
+    if (answer['none'] !== ReponseProgressive.NON) {
+      return this.translate.instant(
+        `question.${question.key}.${answer['none'] === ReponseProgressive.OUI ? 'none' : 'inconnu'}`
+      );
     }
 
     return answer['choices'].map(
-      choice => this.translateOption(question.key, question.options, choice)
+      choice => this.translateOption(question.key, question.listOfOptions, choice)
     ).join(', ');
   }
 
   visitDateQuestion(question: DateQuestion): string {
-    return moment(this.findValueForQuestion(question), 'YYYY-MM-DD', true).format('DD.MM.YYYY');
+    const answer = this.findValueForQuestion(question);
+
+    if (answer['shortcut'] && answer['shortcut'] !== 'NO_SHORTCUT') {
+      return this.translate.instant(`question.${question.key}.shortcut.${answer['shortcut']}`);
+    }
+
+    return moment(answer['value'], 'YYYY-MM-DD', true).format('DD.MM.YYYY');
   }
 
   visitDropdownQuestion(question: DropdownQuestion): string {
@@ -86,4 +96,16 @@ export class FormatAnswerVisitor implements QuestionVisitor<string> {
     return this.findValueForQuestion(question);
   }
 
+  visitNumberGroupQuestion(question: NumberGroupQuestion): string {
+    const answer = this.findValueForQuestion(question);
+
+    if (!!answer['none']) {
+      return this.translate.instant(`question.${question.key}.none`);
+    }
+
+    return Object.entries(answer['values']).map(entry => {
+      const label = this.translate.instant(`question.${question.key}.field.${entry[0]}`);
+      return `${entry[1]} ${label}`
+    }).join(', ');
+  }
 }

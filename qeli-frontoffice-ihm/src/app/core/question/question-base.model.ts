@@ -14,7 +14,8 @@ export abstract class QuestionBase<T> {
   validators: ValidatorFn[];
   altText: (value: any) => string;
   labelParameters: any;
-  defaultAnswer: (value: any) => any;
+  skip: (value: any, prestatiosnEligibles: Prestation[]) => boolean;
+  defaultAnswer: (value: any) => T;
   eligibilite: Eligibilite[];
 
   constructor(options: {
@@ -27,7 +28,8 @@ export abstract class QuestionBase<T> {
     validators?: ValidatorFn[],
     altText?: (value: any) => string,
     labelParameters?: any,
-    defaultAnswer?: (value: any) => any,
+    skip?: (value: any, prestatiosnEligibles: Prestation[]) => any,
+    defaultAnswer?: (value: any) => T,
     eligibilite?: Eligibilite[]
   } = {}) {
     this.controlType = options.controlType;
@@ -40,7 +42,8 @@ export abstract class QuestionBase<T> {
     this.validators = options.validators ? options.validators : [];
     this.altText = options.altText ? options.altText : () => null;
     this.labelParameters = options.labelParameters ? options.labelParameters : {};
-    this.defaultAnswer = options.defaultAnswer;
+    this.skip = options.skip ? options.skip : () => false;
+    this.defaultAnswer = options.defaultAnswer ? options.defaultAnswer : () => null;
     this.eligibilite = options.eligibilite ? options.eligibilite : [];
   }
 
@@ -70,15 +73,10 @@ export abstract class QuestionBase<T> {
     return new FormControl(defaultValue, this.validators);
   }
 
-  abstract accept<E>(visitor : QuestionVisitor<E>): E;
+  abstract accept<E>(visitor: QuestionVisitor<E>): E;
 }
 
 export class Eligibilite {
   prestation: Prestation;
-  isEligible: (value: any) => boolean;
-
-  constructor(prestation: Prestation, isEligible: (value: any) => boolean) {
-    this.prestation = prestation;
-    this.isEligible = isEligible;
-  }
+  isEligible?: (value: any) => boolean;
 }

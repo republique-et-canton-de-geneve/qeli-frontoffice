@@ -34,7 +34,7 @@
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
-          "content": "Les prestations complémentaires cantonales familiales garantissent un \"revenu minimum d'aide sociale\" aux ménages avec enfant-s. Elles sont destinées aux familles n'ayant pas les revenus suffisants pour couvrir leurs besoins vitaux. "
+          "content": "Les prestations complémentaires cantonales familiales garantissent un \"revenu minimum d'aide sociale\" aux ménages avec enfant-s. Elles sont destinées aux familles n'ayant pas les revenus suffisants pour couvrir leurs besoins vitaux."
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
@@ -55,7 +55,7 @@
         "ETAT_CIVIL": "Etat civil",
         "NATIONALITE": "Nationalité / permis",
         "DOMICILE": "Domicile",
-        "ACTIVITE": "Activité",
+        "REVENUS": "Revenus",
         "FORMATION": "Formation",
         "RENTES": "Rentes",
         "SITUATION_PROFESSIONNELLE": "Situation professionnelle",
@@ -86,27 +86,33 @@
   },
   "question": {
     "prestations": {
-      "label": "Touchez-vous déjà une ou plusieurs prestations sociales ?",
-      "help": "Prestations complémentaires fédérales et cantonales AVS / AI : les prestations complémentaires fédérales et cantonales à l'assurance-vieillesse, survivants et invalidité sont des prestations sociales. Elles sont délivrées par la confédération et/ou par le canton aux rentiers AVS/AI (personnes bénéficiant de rentes de l'assurance-vieillesse et survivants ou de l'assurance-invalidité) lorsque les rentes et autres revenus ne permettent pas la couverture des besoins vitaux.",
+      "label": "Recevez-vous déjà des prestations sociales ? Si oui, lesquelles ?",
+      "help": "En cas de doute sur une prestation, ne pas cocher la case concernée.<br>Si vous ne savez pas du tout si vous recevez des prestations et lesquelles, cocher \"Non\".",
       "option": {
-        "SUBSIDES": "Subsides d'assurance-maladie",
-        "AVANCES": "Avances de pensions alimentaires",
-        "ALLOCATION_LOGEMENT": "Allocation logement",
-        "SUBVENTION_HM": "Subvention habitation mixte (HM)",
-        "PC_AVS_AI": "Prestations complémentaires AVS/AI",
-        "BOURSES": "Bourses d'études",
-        "PC_FAM": "Prestations complémentaires familiales",
-        "AIDE_SOCIALE": "Aide Sociale"
+        "SUBSIDES": "Subsides d'assurance-maladie (SAM)",
+        "AVANCES": "Avance de pensions alimentaires (SCARPA)",
+        "ALLOCATION_LOGEMENT": "Allocation logement (Office du logement)",
+        "SUBVENTION_HM": "Subvention personnalisée d'habitation mixte (HM) (Office du logement)",
+        "PC_AVS_AI": "Prestations complémentaires AVS/AI (SPC)",
+        "BOURSES": "Bourse d'études (SBPE)",
+        "PC_FAM": "Prestations complémentaires familiales (SPC)",
+        "AIDE_SOCIALE": "Aide sociale (Hospice général ou SPC)"
       },
+      "some": "Oui, je reçois une ou plusieurs prestations (sélectionnez les prestations que vous recevez) :",
+      "none": "Non, je ne reçois aucune prestation",
+      "inconnu": "Je ne sais pas",
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué que vous touchez déjà des subsides d'assurance-maladie.",
-        "AVANCES": "Vous avez indiqué que vous touchez déjà des avances de pensions alimentaires.",
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous touchez déjà des allocation logement.",
-        "SUBVENTION_HM": "Vous avez indiqué que vous touchez déjà des subventions habitation mixte (HM).",
-        "PC_AVS_AI": "Vous avez indiqué que vous touchez déjà des prestations complémentaires AVS/AI.",
-        "BOURSES": "Vous avez indiqué que vous touchez déjà des bourses d'études.",
-        "PC_FAM": "Vous avez indiqué que vous touchez déjà des prestations complémentaires familiales.",
-        "AIDE_SOCIALE": "Vous avez indiqué que vous touchez déjà des aides sociales."
+        "SUBSIDES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "AVANCES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "ALLOCATION_LOGEMENT": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "PC_AVS_AI": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "BOURSES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "PC_FAM": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci"
+      },
+      "error": {
+        "required": "Vos prestations doivent être fournie",
+        "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
       }
     },
     "dateNaissance": {
@@ -120,7 +126,7 @@
         "Mask error": ""
       },
       "motifRefus": {
-        "AIDE_SOCIALE": "Vous avez indiqué que vous êtes mineur."
+        "AIDE_SOCIALE": "Vous avez indiqué que vous êtes mineur"
       }
     },
     "etatCivil": {
@@ -138,6 +144,38 @@
         "required": "Votre état civil doit être fourni"
       }
     },
+    "enfantsACharge": {
+      "label": "Combien d'enfants à charge avez-vous ?",
+      "help": "Enfant à charge : enfant dont vous devez vous occuper. Si vous payez une pension alimentaire pour lui, il n'est plus considéré comme une charge.",
+      "field": {
+        "MOINS_18": "enfant(s) de moins de 18 ans",
+        "ENTRE_18_25_EN_FORMATION": "enfant(s) entre 18 et 25 ans en formation",
+        "PLUS_25_EN_FORMATION": "enfant(s) de plus de 25 ans en formation",
+        "PLUS_18": "enfant(s) de plus de 18 ans PAS en formation"
+      },
+      "none": "Aucun enfant",
+      "motifRefus": {
+        "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge"
+      },
+      "error": {
+        "required": "Merci de saisir le nombre d'enfants à charge",
+        "pattern": "Merci de saisir le nombre d'enfants à charge",
+        "min": "Nombre négatif interdit",
+        "max": "Erreur dans la saisie du nombre d'enfants à charge",
+        "atLeastOneFilled": "Merci de saisir le nombre d'enfants à charge"
+      }
+    },
+    "concubinageAutreParent": {
+      "label": "Vivez-vous en concubinage avec l’autre parent de votre(vos) enfant(s) ?",
+      "help": "Concubinage : vous vivez (faites domicile commun) avec la personne avec laquelle vous êtes en couple, sans être marié ou en partenariat enregistré.",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
     "nationalite": {
       "label": "Quelle est votre nationalité ?",
       "help": "Nationalité : Etat dont vous possédez un passeport.<br>Si vous avez plusieurs nationalités indiquez les toutes.",
@@ -151,15 +189,49 @@
     },
     "refugie": {
       "label": "Etes-vous",
-      "help": "Requérant d'asile : Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM)<br>Réfugié : Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM)).",
       "option": {
-        "REQUERANT_ASILE": "Requérant d'asile",
-        "REFUGIE": "Réfugié",
-        "AUCUN" : "Aucun des deux",
+        "REQUERANT_ASILE": {
+          "label": "Requérant d'asile",
+          "help": "Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM)."
+        },
+        "REFUGIE": {
+          "label": "Réfugié",
+          "help": "Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
+        },
+        "AUCUN": "Aucun des deux",
         "INCONNU": "Je ne sais pas"
       },
       "error": {
         "required": "Votre statut de réfugié doit être fourni"
+      }
+    },
+    "nationaliteConjoint": {
+      "label": " Quelle est la nationalité de votre conjoint ?",
+      "help": "Nationalité : Etat dont il/elle possède un passeport.<br>Conjoint : Personne avec laquelle vous êtes mariée ou en partenariat enregistré tel que déclaré à l'office cantonal de la population et des migrations (OCPM).",
+      "apatride": {
+        "label": "Mon conjoint est apatride",
+        "help": "Votre conjoint n'a pas de nationalité (statut reconnu par l'OCPM)."
+      },
+      "error": {
+        "required": "La nationalité de votre conjoint doit être fournie"
+      }
+    },
+    "refugieConjoint": {
+      "label": "Votre conjoint est-il",
+      "option": {
+        "REQUERANT_ASILE": {
+          "label": "Oui, il(elle) est requérant d'asile",
+          "help": "Il/elle a déposé une demande d’asile en Suisse et attend une décision du Secrétariat d’Etat aux migrations (SEM)."
+        },
+        "REFUGIE": {
+          "label": "Oui, il(elle) est réfugié",
+          "help": "Il/elle a obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
+        },
+        "AUCUN": "Aucun des deux",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Le statut de réfugié de votre conjoint doit être fourni"
       }
     },
     "permisBEtudes": {
@@ -186,7 +258,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué avoir un permis B de moins de 5 ans."
+        "BOURSES": "Vous avez indiqué avoir un permis B de moins de 5 ans"
       }
     },
     "domicileCantonGE": {
@@ -201,11 +273,30 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AVANCES": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
-        "PC_AVS_AI": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
-        "PC_FAM": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève.",
-        "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève."
+        "AVANCES": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève",
+        "PC_AVS_AI": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève",
+        "PC_FAM": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève",
+        "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève"
+      }
+    },
+    "dateArriveeGeneve": {
+      "label": "Quelle est la date officielle de votre arrivée à Genève ?",
+      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
+      "shortcut": {
+        "DEPUIS_NAISSANCE": "Depuis ma naissance",
+        "INCONNU": "Je ne sais pas"
+      },
+      "defaultShortcut": "Ma date officielle d'arrivée à Genève est le :",
+      "error": {
+        "required": "Votre date d'arrivée à Genève doit être fournie",
+        "maxDate": "Votre date d'arrivée à Genève ne peut pas être dans le futur",
+        "minDate": "Date d'arrivée à Genève incorrecte",
+        "invalidDate": "Date d'arrivée à Genève incorrecte",
+        "Mask error": ""
+      },
+      "motifRefus": {
+        "PC_FAM": "Votre date officielle d'arrivée à Genève est trop récente"
       }
     },
     "residenceEffectiveCantonGE": {
@@ -219,69 +310,193 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève."
+        "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève"
       }
     },
-    "enfantsACharge": {
-      "label": "Combien d'enfants à charge avez-vous ?",
-      "help": "Enfant à charge : enfant de moins de 18 ans ou enfant entre 18 et 25 ans en formation",
-      "motifRefus": {
-        "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge"
+    "dateArriveeSuisse": {
+      "label": "Quelle est votre date d'arrivée officielle en Suisse ?",
+      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement annoncée à l'OCPM.",
+      "shortcut": {
+        "DEPUIS_NAISSANCE": "Depuis ma naissance",
+        "INCONNU": "Je ne sais pas"
       },
+      "defaultShortcut": "Ma date officielle d'arrivée en Suisse est le :",
       "error": {
-        "required": "Merci de saisir le nombre d'enfants à charge",
-        "pattern": "Merci de saisir le nombre d'enfants à charge",
-        "min": "Erreur dans la saisie",
-        "max": "Erreur dans la saisie"
+        "required": "Votre date d'arrivée en Suisse doit être fournie",
+        "maxDate": "Votre date d'arrivée en Suisse ne peut pas être dans le futur",
+        "minDate": "Date d'arrivée en Suisse incorrecte",
+        "invalidDate": "Date d'arrivée en Suisse incorrecte",
+        "Mask error": ""
+      },
+      "motifRefus": {
+        "BOURSES": "Votre date officielle d'arrivée en Suisse est trop récente"
       }
     },
-    "activite": {
-      "label": "Quelle est votre activité ?",
-      "help": "Etudiant : personne en formation.",
+    "dateArriveeSuisseConjoint": {
+      "label": "Quelle est la date d'arrivée officielle en Suisse de votre conjoint ?",
+      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement annoncée à l'OCPM.",
+      "shortcut": {
+        "INCONNU": "Je ne sais pas"
+      },
+      "defaultShortcut": "La date officielle d'arrivée en Suisse de mon conjoint est le :",
+      "error": {
+        "required": "La date d'arrivée en Suisse de votre conjoint doit être fournie",
+        "maxDate": "L date d'arrivée en Suisse de votre conjoint ne peut pas être dans le futur",
+        "minDate": "Date d'arrivée en Suisse incorrecte",
+        "invalidDate": "Date d'arrivée en Suisse incorrecte",
+        "Mask error": ""
+      }
+    },
+    "revenus": {
+      "label": "Quels revenus recevez-vous ?",
       "option": {
-        "ETUDIANT": "Etudiant",
-        "EMPLOI": "Emploi",
-        "CHOMAGE": "Chômage",
-        "RETRAITE": "Retraité (Rente AVS)",
-        "INVALIDE": "Invalide (Rente AI)",
-        "SANS": "Au foyer / Sans activité",
-        "ARRET": "En arrêt maladie, en arrêt accident, en congés maternité (indemnités journalières) - Perte de gain",
-        "NONE": "Aucune des réponses précédentes"
+        "EMPLOI": "Je suis employé / indépendant",
+        "CHOMAGE": "Je reçois l'assurance-chômage",
+        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
+        "AVS_VEUF": "Rente de veuf/ve (AVS)",
+        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
+        "AI_INVALIDITE": "Rente d'invalidité (AI)",
+        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+        "APG": {
+          "label": "Je reçois des indemnités journalières / perte de gain",
+          "help": "En arrêt maladie / accident ou en congé maternité"
+        }
+      },
+      "some": "Sélectionnez chacun de vos revenus :",
+      "none": "Je ne reçois aucun de ces revenus",
+      "checkboxGroup": {
+        "AVS": "Je reçois une rente AVS",
+        "AI": "Je reçois une rente AI"
       },
       "motifRefus": {
-        "BOURSES": "Vous devez être étudiant(e) pour bénéficier d'une bourse d'études."
+        "BOURSES": "Vos revenus vous empêchent de bénéficier de cette prestation",
+        "PC_FAM": "Vos revenus vous empêchent de bénéficier de cette prestation",
+        "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette prestation"
       },
-      "noneDetailLabel": "Veuillez spécifier votre activité :",
-      "noneDetailPlaceholder": "",
       "error": {
-        "required": "Votre activité doit être fournie",
-        "atLeastOneSelected": "Au moins une activité doit être sélectionnée"
+        "required": "Vos revenus doivent être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
+    "revenusConjoint": {
+      "label": "Quels revenus votre conjoint reçoit-il ?",
+      "option": {
+        "EMPLOI": "Il(elle) est employé / indépendant",
+        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
+        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
+        "AVS_VEUF": "Rente de veuf/ve (AVS)",
+        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
+        "AI_INVALIDITE": "Rente d'invalidité (AI)",
+        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+        "APG": {
+          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
+          "help": "En arrêt maladie / accident ou en congé maternité"
+        }
+      },
+      "some": "Sélectionnez chacun de ses revenus :",
+      "none": "Il(elle) ne reçoit aucun de ces revenus",
+      "checkboxGroup": {
+        "AVS": "Il(elle) reçoit une rente AVS",
+        "AI": "Il(elle) reçoit une rente AI"
+      },
+      "motifRefus": {
+        "PC_FAM": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
+        "AIDE_SOCIALE": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation"
+      },
+      "error": {
+        "required": "Les revenus de votre conjoint doivent être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
+    "revenusConcubin": {
+      "label": "Quels revenus votre concubin reçoit-il ?",
+      "option": {
+        "EMPLOI": "Il(elle) est employé / indépendant",
+        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
+        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
+        "AVS_VEUF": "Rente de veuf/ve (AVS)",
+        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
+        "AI_INVALIDITE": "Rente d'invalidité (AI)",
+        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+        "APG": {
+          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
+          "help": "En arrêt maladie / accident ou en congé maternité"
+        }
+      },
+      "some": "Sélectionnez chacun de ses revenus :",
+      "none": "Il(elle) ne reçoit aucun de ces revenus",
+      "checkboxGroup": {
+        "AVS": "Il(elle) reçoit une rente AVS",
+        "AI": "Il(elle) reçoit une rente AI"
+      },
+      "motifRefus": {
+        "PC_FAM": "Les revenus de votre concubin vous empêchent de bénéficier de cette prestation"
+      },
+      "error": {
+        "required": "Les revenus de votre concubin doivent être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
+    "revenusEnfant": {
+      "label": "Quels revenus votre(vos) enfant(s) reçoit(vent)-il(s) ?",
+      "option": {
+        "EMPLOI": "Il(elle) est employé / indépendant",
+        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
+        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
+        "AVS_VEUF": "Rente de veuf/ve (AVS)",
+        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
+        "AI_INVALIDITE": "Rente d'invalidité (AI)",
+        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+        "APG": {
+          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
+          "help": "En arrêt maladie / accident ou en congé maternité"
+        }
+      },
+      "some": "Sélectionnez chacun de ses revenus :",
+      "none": "Il(elle) ne reçoit aucun de ces revenus",
+      "checkboxGroup": {
+        "AVS": "Il(elle) reçoit une rente AVS",
+        "AI": "Il(elle) reçoit une rente AI"
+      },
+      "error": {
+        "required": "Les revenus de votre(vos) enfant(s) doivent être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
+    "enFormation": {
+      "label": "Etes-vous en formation / allez-vous bientôt commencer une formation ?",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non"
+      },
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que vous ne suivez aucune formation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
       }
     },
     "scolarite": {
-      "label": "Votre demande concerne :",
-      "help": "",
+      "label": "Quelle est la formation concernée ?",
       "option": {
-        "SCOLARITE_OBLIGATOIRE": {
-          "label": "La scolarité obligatoire",
-          "help": "La scolarité obligatoire dure onze ans et est gratuite pour tous les enfants. Elle comprend le degré primaire et le degré secondaire I. Le degré primaire commence par l’école enfantine, qui dure deux ans, ou par un cycle élémentaire."
-        },
-        "FORMATION_CONTINUE": {
-          "label": "Une formation continue à des fins professionnelles",
-          "help": "Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
+        "SCOLARITE_OBLIGATOIRE_1P_A_10P": "La scolarité obligatoire, de 1 P à 10 P",
+        "SCOLARITE_OBLIGATOIRE_11P": {
+          "label": "La scolarité obligatoire, en 11 P",
+          "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I)."
         },
         "FORMATION_DOCTORALE": {
-          "label": "Une formation doctorale",
-          "help": "Le doctorat est généralement le grade universitaire le plus élevé. Il consiste en une formation par la recherche, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue. Cette formation constitue une expérience professionnelle de recherche et offre, après soutenance de thèse, le grade de Docteur."
+          "label": "Un doctorat",
+          "help": "Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
         },
-        "MAITRISE_UNIVERSITAIRE": {
-          "label": "Une maitrise universitaire d'études avancées de formation approfondie",
-          "help": "En anglais master of advanced studies MAS, est un diplôme universitaire."
+        "FORMATION_CONTINUE": {
+          "label": "Une formation continue",
+          "help": "Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
         },
-        "AUCUNE": "Aucune de ces réponses"
+        "AUCUNE": "Aucune de ces réponses",
+        "INCONNU": "Je ne sais pas"
       },
       "motifRefus": {
-        "BOURSES": "La formation que vous avez indiqué suivre ne peut pas faire objet d'une bourse."
+        "BOURSES": "La formation que vous avez indiqué suivre ne peut pas faire objet d'une bourse"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -382,12 +597,12 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)."
+        "SUBSIDES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)"
       }
     },
     "droitPensionAlimentaire": {
       "label": "Avez-vous aujourd'hui droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s) ?",
-      "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s)\n\n.",
+      "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s).",
       "option": {
         "OUI": "Oui",
         "NON": "Non"
@@ -396,7 +611,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AVANCES": "Vous avez indiqué n'avoir pas le droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s)."
+        "AVANCES": "Vous avez indiqué n'avoir pas le droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s)"
       }
     },
     "recoisEntierementPensionAlimentaire": {
@@ -410,7 +625,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires auxquelles vous avez le droit."
+        "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires auxquelles vous avez le droit"
       }
     },
     "fortuneSuperieureA": {
@@ -439,12 +654,12 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué payer des impôts sur la fortune."
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué payer des impôts sur la fortune"
       }
     },
     "exempteImpot": {
       "label": "Etes-vous exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
-      "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.\n\nExempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
+      "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.<br>Exempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
       "option": {
         "OUI": "Oui",
         "NON": "Non",
@@ -454,7 +669,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué être exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)."
+        "SUBSIDES": "Vous avez indiqué être exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)"
       }
     },
     "taxeOfficeAFC": {
@@ -469,7 +684,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué être taxé d'office par l'administration fiscale cantonale (AFC)."
+        "SUBSIDES": "Vous avez indiqué être taxé d'office par l'administration fiscale cantonale (AFC)"
       }
     },
     "fonctionnaireInternational": {
@@ -487,7 +702,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vous-même (votre conjoint) ou l'un de vos parents est-il fonctionnaire international."
+        "BOURSES": "Vous avez indiqué que vous-même (votre conjoint) ou l'un de vos parents est-il fonctionnaire international"
       }
     },
     "parentsHabiteFranceTravailleSuisse": {
@@ -502,7 +717,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vos parents ne sont pas contribuable sur le canton de Genève."
+        "BOURSES": "Vous avez indiqué que vos parents ne sont pas contribuable sur le canton de Genève"
       }
     }
   },

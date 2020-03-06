@@ -44,11 +44,7 @@ export class DynamicFormComponent implements OnInit {
       this.prestationsRefuseesStack.push(this.prestationsRefusees.slice(0));
 
       this.prestationsRefusees = this.prestationsRefusees.concat(
-        this.prestationEligible.filter(
-          prestation => this.isRefuseeForCurrentQuestion(prestation)
-        ).map(
-          prestationRefusee => new Refus(prestationRefusee, this.currentQuestion.key)
-        )
+        this.getPrestationRefuseeForQuestion(this.currentQuestion)
       );
 
       this.currentQuestionIndex = this.findNextQuestionIndex();
@@ -56,26 +52,39 @@ export class DynamicFormComponent implements OnInit {
     }
   }
 
-  private isRefuseeForCurrentQuestion(prestation: Prestation) {
-    const eligibilite = this.currentQuestion.eligibilite.filter(
-      eligibilite => eligibilite.prestation === prestation
-    );
+  private getPrestationRefuseeForQuestion(question: QuestionBase<any>) {
+    return this.prestationsEligibles.filter(
+      prestation => this.isRefuseeForQuestion(prestation, question)
+    ).map(
+      prestationRefusee => new Refus(prestationRefusee, question.key)
+    )
+  }
+
+  private isRefuseeForQuestion(prestation: Prestation, question: QuestionBase<any>) {
+    const eligibilite = question.eligibilite.filter(eligibilite => eligibilite.prestation === prestation);
 
     return eligibilite.length > 0 &&
-           !eligibilite.every(eligibilite => eligibilite.isEligible((this.form.value)));
+           !eligibilite.every(eligibilite => !eligibilite.isEligible ||
+                                             eligibilite.isEligible((this.form.value)));
   }
 
   private findNextQuestionIndex() {
     return this.questions.findIndex((question, index) => {
         if (index > this.currentQuestionIndex) {
-          if (question.eligibilite.some(el => this.prestationEligible.includes(el.prestation))) {
-            const answer = question.defaultAnswer ? question.defaultAnswer(this.form.value) : undefined;
+          if (question.eligibilite.some(el => this.prestationsEligibles.includes(el.prestation))) {
+            const defaultAnswer = question.defaultAnswer(this.form.value);
 
-            if (!answer) {
+            if (!question.skip(this.form.value, this.prestationsEligibles) && !defaultAnswer) {
               return true;
             }
 
-            this.form.controls[question.key].setValue(answer);
+            if (defaultAnswer !== null) {
+              this.prestationsRefusees = this.prestationsRefusees.concat(
+                this.getPrestationRefuseeForQuestion(this.currentQuestion)
+              );
+            }
+
+            this.form.setControl(question.key, question.toFormControl(defaultAnswer));
           }
         }
 
@@ -150,7 +159,8 @@ export class DynamicFormComponent implements OnInit {
     this.formState.prestationsRefuseesStack = value;
   }
 
-  get prestationEligible() {
+
+  get prestationsEligibles() {
     return PrestationResolver.findPrestationsEligibles(this.prestationsRefusees);
   }
 

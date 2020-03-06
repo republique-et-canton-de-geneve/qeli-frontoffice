@@ -20,13 +20,14 @@
      [innerHtml]="'question.' + question.key + '.help' | translate:question.createLabelParameters(form.value)">
   </p>
 
-  <ng-template app-question-host></ng-template>
 
-  <div *ngIf="!isValid"
-       class="error-block"
+  <div *ngIf="!isValid && errors.length > 0"
+       class="error-block text-danger"
        data-cy-label="validation_message">
-      <span *ngFor="let error of errors" class="text-danger">
-        {{ 'question.' + question.key + '.error.' + error | translate }}
-      </span>
+    <p *ngFor="let error of errors">
+      {{ 'question.' + question.key + '.error.' + error | translate }}
+    </p>
   </div>
+
+  <ng-template app-question-host></ng-template>
 </div>

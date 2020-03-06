@@ -11,6 +11,8 @@ import { DropdownQuestion } from '../core/question/dropdown-question/dropdown-qu
 import { NationaliteQuestion } from '../core/question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../core/question/radio-question/radio-question.model';
 import { TextQuestion } from '../core/question/text-question/text-question.model';
+import { ReponseProgressive } from '../core/common/reponse.model';
+import { NumberGroupQuestion } from '../core/question/number-group-question/number-group-question.model';
 
 const SCOPE_PAGE = 'page';
 const TRACK_FORM = 'Formulaire';
@@ -72,24 +74,23 @@ export class TrackingService {
   }
 
   /**
-   * Trace l'écran de résultat avec les prestations via un titre de page et une url personnalisés
+   * Trace l'écran de résultat avec les prestations via un titre de page et une url personnalisés.
    *
-   * @param prestationsRefusees
+   * @param prestationsRefusees les prestation refusées.
+   * @param data {} les réponses données dans le formulaire.
    */
-  trackResult(prestationsRefusees: Refus[]) {
-    const reponsesEligibles = PrestationResolver.findPrestationsEligibles(prestationsRefusees);
-    const reponsesRefusees = PrestationResolver.findPrestationsRefusees(prestationsRefusees)
-                                               .map(prestationRefusee => prestationRefusee.prestation);
-
-    const reponsesDejaPercues = PrestationResolver.findPrestationsDejaPercues(prestationsRefusees)
-                                                  .map(prestationDejaPercue => prestationDejaPercue.prestation);
+  trackResult(prestationsRefusees: Refus[], data: any) {
+    const prestationEligibles = PrestationResolver.findPrestationsEligibles(prestationsRefusees);
+    const prestationRefusees = PrestationResolver.findPrestationsRefusees(prestationsRefusees, data)
+                                                 .map(prestationRefusee => prestationRefusee.prestation);
+    const prestationDejaPercues = PrestationResolver.findPrestationsDejaPercues(data);
 
     const trackingUrl = location.href.split('?')[0] + TRACK_RESULT;
     this.matomoTracker.setCustomUrl(trackingUrl);
 
-    this.matomoTracker.setCustomVariable(1, "prestations-eligibles", reponsesEligibles.join(';'), SCOPE_PAGE);
-    this.matomoTracker.setCustomVariable(2, "prestations-refusees", reponsesRefusees.join(';'), SCOPE_PAGE);
-    this.matomoTracker.setCustomVariable(3, "prestations-percues", reponsesDejaPercues.join(';'), SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(1, "prestations-eligibles", prestationEligibles.join(';'), SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(2, "prestations-refusees", prestationRefusees.join(';'), SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(3, "prestations-percues", prestationDejaPercues.join(';'), SCOPE_PAGE);
 
     this.matomoTracker.trackPageView(TRACK_RESULT);
 
@@ -113,15 +114,21 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
   visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): string {
     const answer = this.findValueForQuestion(question);
 
-    if (!!answer['none']) {
-      return answer['noneDetail'];
+    if (answer['none'] !== ReponseProgressive.NON) {
+      return answer['none'] === ReponseProgressive.OUI ? 'AUCUNE' : 'INCONNU';
     }
 
     return answer['choices'].join(';');
   }
 
   visitDateQuestion(question: DateQuestion): string {
-    return this.findValueForQuestion(question);
+    const answer = this.findValueForQuestion(question);
+
+    if (answer['shortcut'] && answer['shortcut'] !== 'NO_SHORTCUT') {
+      return answer['shortcut'];
+    }
+
+    return answer['value'];
   }
 
   visitDropdownQuestion(question: DropdownQuestion): string {
@@ -132,7 +139,7 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
     const value = this.findValueForQuestion(question);
 
     if (!!value['apatride']) {
-      return 'apatride';
+      return 'APATRIDE';
     }
 
     return value['pays'] ? value['pays'].join(';') : null;
@@ -145,6 +152,18 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
 
   visitTextQuestion(question: TextQuestion): string {
     return this.findValueForQuestion(question);
+  }
+
+  visitNumberGroupQuestion(question: NumberGroupQuestion): string {
+    const answer = this.findValueForQuestion(question);
+
+    if (!!answer['none']) {
+      return 'AUCUN';
+    }
+
+    return Object.entries(answer['values']).map(entry => {
+      return `${entry[0]}=${entry[1]}`
+    }).join('; ');
   }
 
 }

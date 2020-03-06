@@ -11,12 +11,12 @@
 
     <groupId>ch.ge.social.qeli</groupId>
     <artifactId>qeli-frontoffice</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
     <packaging>pom</packaging>
 
     <name>qeli-frontoffice</name>
-    <description>Archetype pour l'initialisation rapide d'un frontoffice.</description>
-    <url>***REMOVED***/DEVELOPPEUR-SOCIAL/qeli-frontoffice-archetype</url>
+    <description>Frontoffice du questionnaire d'eligibilité (QELI).</description>
+    <url>***REMOVED***/DEVELOPPEUR-SOCIAL/qeli-frontoffice</url>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -32,7 +32,7 @@
         </developer>
     </developers>
     <scm>
-        <url>***REMOVED***/DEVELOPPEUR-SOCIAL/as-frontoffice-archetype</url>
+        <url>***REMOVED***/DEVELOPPEUR-SOCIAL/10818-qeli/qeli-frontoffice</url>
     </scm>
 
     <modules>
@@ -113,35 +113,35 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-application</artifactId>
-                <version>0.0.4</version>
+                <version>0.0.5</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-cypress</artifactId>
-                <version>0.0.4</version>
+                <version>0.0.5</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-ihm</artifactId>
-                <version>0.0.4</version>
+                <version>0.0.5</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-rest</artifactId>
-                <version>0.0.4</version>
+                <version>0.0.5</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service</artifactId>
-                <version>0.0.4</version>
+                <version>0.0.5</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service-api</artifactId>
-                <version>0.0.4</version>
+                <version>0.0.5</version>
             </dependency>
 
             <!-- Additional dependencies -->
@@ -210,6 +210,7 @@
                     <configuration>
                         <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
                         <commitIdGenerationMode>flat</commitIdGenerationMode>
+                        <failOnNoGitDirectory>false</failOnNoGitDirectory>
                         <abbrevLength>8</abbrevLength>
                         <gitDescribe>
                             <skip>true</skip>
