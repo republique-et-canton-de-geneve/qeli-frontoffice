@@ -313,6 +313,25 @@
         "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève"
       }
     },
+    "dateArriveeSuisse": {
+      "label": "Quelle est votre date d'arrivée officielle en Suisse ?\n\n",
+      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement annoncée à l'OCPM.",
+      "shortcut": {
+        "DEPUIS_NAISSANCE": "Depuis ma naissance",
+        "INCONNU": "Je ne sais pas"
+      },
+      "defaultShortcut": "Ma date officielle d'arrivée en Suisse est le :",
+      "error": {
+        "required": "Votre date de d'arrivée en Suisse doit être fournie",
+        "maxDate": "Votre date de d'arrivée en Suisse ne peut pas être dans le futur",
+        "minDate": "Date d'arrivée en Suisse incorrecte",
+        "invalidDate": "Date d'arrivée en Suisse incorrecte",
+        "Mask error": ""
+      },
+      "motifRefus": {
+        "BOURSES": "Votre date officielle d'arrivée en Suisse est trop récente"
+      }
+    },
     "revenus": {
       "label": "Quels revenus recevez-vous ?",
       "option": {

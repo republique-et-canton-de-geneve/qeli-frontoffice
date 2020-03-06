@@ -44,9 +44,12 @@ export function hasAnyAVSOrAIRevenus(value: any, which: string = 'revenus') {
   ], which);
 }
 
-export function isRefugieOrRequerantAsile(value: any) {
-  return value['refugie'] === RequerantRefugie.REFUGIE ||
-         value['refugie'] === RequerantRefugie.REQUERANT_ASILE;
+export function isRefugie(value: any) {
+  return value['refugie'] === RequerantRefugie.REFUGIE;
+}
+
+export function isRequerantAsile(value: any) {
+  return value['refugie'] === RequerantRefugie.REQUERANT_ASILE;
 }
 
 export function isApatride(value: any) {
@@ -164,6 +167,26 @@ export function habiteGeneveDepuis5ans(value: any) {
   const dateArriveeGeneve = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
                             getDate(value, 'dateNaissance') :
                             getDate(value, 'dateArriveeGeneve');
+
+  return dateArriveeGeneve && moment().subtract(5, 'year')
+                                      .endOf('day')
+                                      .isAfter(moment(dateArriveeGeneve));
+}
+
+export function habiteGeneveDepuisNaissance(value: any) {
+  return value['dateArriveeGeneve'] && value['dateArriveeGeneve']['shortcut'] === 'DEPUIS_NAISSANCE';
+}
+
+export function habiteSuisseDepuis5Ans(value: any) {
+  const dateArriveData = value['dateArriveeSuisse'];
+
+  if (dateArriveData['shortcut'] === 'INCONNU') {
+    return true;
+  }
+
+  const dateArriveeGeneve = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
+                            getDate(value, 'dateNaissance') :
+                            getDate(value, 'dateArriveeSuisse');
 
   return dateArriveeGeneve && moment().subtract(5, 'year')
                                       .endOf('day')
