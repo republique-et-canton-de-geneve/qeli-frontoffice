@@ -53,7 +53,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   private getPrestationRefuseeForQuestion(question: QuestionBase<any>) {
-    return this.prestatiosnEligibles.filter(
+    return this.prestationsEligibles.filter(
       prestation => this.isRefuseeForQuestion(prestation, question)
     ).map(
       prestationRefusee => new Refus(prestationRefusee, question.key)
@@ -71,10 +71,10 @@ export class DynamicFormComponent implements OnInit {
   private findNextQuestionIndex() {
     return this.questions.findIndex((question, index) => {
         if (index > this.currentQuestionIndex) {
-          if (question.eligibilite.some(el => this.prestatiosnEligibles.includes(el.prestation))) {
+          if (question.eligibilite.some(el => this.prestationsEligibles.includes(el.prestation))) {
             const defaultAnswer = question.defaultAnswer(this.form.value);
 
-            if (!question.skip(this.form.value, this.prestatiosnEligibles) && !defaultAnswer) {
+            if (!question.skip(this.form.value, this.prestationsEligibles) && !defaultAnswer) {
               return true;
             }
 
@@ -159,7 +159,8 @@ export class DynamicFormComponent implements OnInit {
     this.formState.prestationsRefuseesStack = value;
   }
 
-  get prestatiosnEligibles() {
+
+  get prestationsEligibles() {
     return PrestationResolver.findPrestationsEligibles(this.prestationsRefusees);
   }
 
