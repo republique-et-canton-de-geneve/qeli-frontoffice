@@ -4,7 +4,7 @@ import { QuestionVisitor } from '../question-visitor';
 import { QuestionOption } from '../option.model';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 
-export class DateQuestion extends QuestionBase<string> {
+export class DateQuestion extends QuestionBase<DateAnswer> {
   controlType = 'date';
   maxDate: Date;
   minDate: Date;
@@ -48,7 +48,11 @@ export class DateQuestion extends QuestionBase<string> {
   accept<E>(visitor: QuestionVisitor<E>): E {
     return visitor.visitDateQuestion(this);
   }
+}
 
+export interface DateAnswer {
+  shortcut: string;
+  value: string;
 }
 
 export class DateQuestionValidators {
