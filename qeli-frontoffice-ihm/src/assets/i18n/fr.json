@@ -246,21 +246,6 @@
         "required": "Ce champ est obligatoire"
       }
     },
-    "permisBPlus5Ans": {
-      "label": "Avez-vous un permis B depuis plus de 5 ans ?",
-      "help": "Permis B : permis de séjour délivrée aux résidents longue durée par l'office cantonal de la population et de la migration (OCPM)).",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
-      "error": {
-        "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "BOURSES": "Vous avez indiqué avoir un permis B de moins de 5 ans"
-      }
-    },
     "domicileCantonGE": {
       "label": "Votre domicile officiel est-il dans le canton de Genève ?",
       "help": "Domicile : vous avez une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
