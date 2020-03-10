@@ -5,11 +5,12 @@ import { Prestation } from '../core/common/prestation.model';
 import { QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, getLimiteFortune, habiteGeneveDepuis5ans, habiteGeneveDepuisNaissance, habiteSuisseDepuis5Ans,
-  hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus, hasConjoint, hasEnfants,
-  hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConcubinageAutreParent, isConjointApatride,
-  isConjointSuisse, isConjointUEOrAELE, isFonctionnaireInternational, isMineur,
-  isRatioPiecesPersonnesLogementAcceptable, isRefugie, isRequerantAsile, isSuisse, isUEOrAELE
+  aucuneScolarite, conjointHabiteSuisseDepuis, getLimiteFortune, habiteGeneveDepuis5ans, habiteGeneveDepuisNaissance,
+  habiteSuisseDepuis, hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus, hasConjoint,
+  hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConcubinageAutreParent,
+  isConjointApatride, isConjointRefugieOrInconnu, isConjointSuisse, isConjointUEOrAELE, isFonctionnaireInternational,
+  isMineur, isRatioPiecesPersonnesLogementAcceptable, isRefugie, isRefugieOrInconnu, isRequerantAsile, isSuisse,
+  isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion, DateQuestionValidators } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -30,6 +31,11 @@ import {
 } from '../core/question/number-group-question/number-group-question.model';
 import { TypeEnfant } from './model/type-enfant.model';
 
+const PRESTATIONS_OPTIONS = Object.keys(Prestation).filter(
+  prestation => prestation !== Prestation.PC_AVS_AI_CONJOINT &&
+                prestation !== Prestation.PC_AVS_AI_ENFANTS
+);
+
 const PrestationQuestions: QuestionBase<any>[] = [
   new CheckboxGroupQuestion({
     key: 'prestations',
@@ -41,9 +47,9 @@ const PrestationQuestions: QuestionBase<any>[] = [
     hasInconnu: true,
     validators: [
       Validators.required,
-      CheckboxGroupValidators.atLeastOneSelected(Object.keys(Prestation), true)
+      CheckboxGroupValidators.atLeastOneSelected(PRESTATIONS_OPTIONS, true)
     ],
-    options: Object.keys(Prestation).map(prestation => ({label: prestation})),
+    options: PRESTATIONS_OPTIONS.map(prestation => ({label: prestation})),
     eligibilite: [
       {
         prestation: Prestation.SUBSIDES,
@@ -72,6 +78,24 @@ const PrestationQuestions: QuestionBase<any>[] = [
       },
       {
         prestation: Prestation.PC_AVS_AI,
+        isEligible: (value: any) => !hasAnyPrestations(
+          value, [
+            Prestation.PC_AVS_AI,
+            Prestation.PC_FAM
+          ]
+        )
+      },
+      {
+        prestation: Prestation.PC_AVS_AI_CONJOINT,
+        isEligible: (value: any) => !hasAnyPrestations(
+          value, [
+            Prestation.PC_AVS_AI,
+            Prestation.PC_FAM
+          ]
+        )
+      },
+      {
+        prestation: Prestation.PC_AVS_AI_ENFANTS,
         isEligible: (value: any) => !hasAnyPrestations(
           value, [
             Prestation.PC_AVS_AI,
@@ -135,7 +159,10 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
     options: Object.keys(EtatCivil),
     validators: [Validators.required],
     eligibilite: [
-      {prestation: Prestation.PC_AVS_AI},
+      {
+        prestation: Prestation.PC_AVS_AI_CONJOINT,
+        isEligible: (value: any) => hasConjoint(value)
+      },
       {prestation: Prestation.BOURSES},
       {prestation: Prestation.PC_FAM},
       {prestation: Prestation.AIDE_SOCIALE}
@@ -163,7 +190,10 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
           TypeEnfant.ENTRE_18_25_EN_FORMATION
         ])
       },
-      {prestation: Prestation.PC_AVS_AI},
+      {
+        prestation: Prestation.PC_AVS_AI_ENFANTS,
+        isEligible: (value: any) => hasEnfants(value)
+      },
       {prestation: Prestation.BOURSES},
       {prestation: Prestation.AIDE_SOCIALE}
     ]
@@ -224,7 +254,7 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     skip: (value: any) => !hasConjoint(value),
     help: true,
     eligibilite: [
-      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.PC_AVS_AI_CONJOINT},
       {prestation: Prestation.BOURSES}
     ]
   }),
@@ -245,7 +275,7 @@ const NationaliteQuestions: QuestionBase<any>[] = [
                           isConjointUEOrAELE(value) ||
                           isConjointApatride(value),
     eligibilite: [
-      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.PC_AVS_AI_CONJOINT},
       {prestation: Prestation.BOURSES}
     ]
   }),
@@ -289,6 +319,14 @@ const DomicileQuestions: QuestionBase<any>[] = [
       },
       {
         prestation: Prestation.PC_AVS_AI,
+        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
+      },
+      {
+        prestation: Prestation.PC_AVS_AI_CONJOINT,
+        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
+      },
+      {
+        prestation: Prestation.PC_AVS_AI_ENFANTS,
         isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
       },
       {
@@ -352,17 +390,20 @@ const DomicileQuestions: QuestionBase<any>[] = [
     skip: (value: any, prestatiosnEligibles: Prestation[]) =>
       isSuisse(value) ||
       isUEOrAELE(value) ||
-      isApatride(value) ||
       (prestatiosnEligibles === [Prestation.BOURSES] && isRefugie(value)),
-    defaultAnswer: (value: any) => habiteGeneveDepuisNaissance(value) ?
-      {value: null, shortcut: 'DEPUIS_NAISSANCE'} : null,
+    defaultAnswer: (value: any) =>
+      habiteGeneveDepuisNaissance(value) ? {value: null, shortcut: 'DEPUIS_NAISSANCE'} : null,
     validators: [Validators.required, DateQuestionValidators.atLeastOneSelected(true)],
     eligibilite: [
       {
         prestation: Prestation.BOURSES,
-        isEligible: (value: any) => habiteSuisseDepuis5Ans(value) || isRefugie(value)
+        isEligible: (value: any) => habiteSuisseDepuis(value, 5) || isRefugie(value)
       },
-      {prestation: Prestation.PC_AVS_AI}
+      {
+        prestation: Prestation.PC_AVS_AI,
+        isEligible: (value: any) => habiteSuisseDepuis(value, 10) ||
+                                    (habiteSuisseDepuis(value, 5) && isRefugieOrInconnu(value))
+      }
     ]
   }),
   new DateQuestion({
@@ -374,14 +415,14 @@ const DomicileQuestions: QuestionBase<any>[] = [
     maxDate: new Date(),
     minDate: moment().subtract(130, 'year').toDate(),
     shortcuts: [{label: 'INCONNU'}],
-    skip: (value: any) =>
-      !hasConjoint(value) ||
-      isConjointSuisse(value) ||
-      isConjointUEOrAELE(value) ||
-      isConjointApatride(value),
+    skip: (value: any) => isConjointSuisse(value) || isConjointUEOrAELE(value),
     validators: [Validators.required, DateQuestionValidators.atLeastOneSelected(true)],
     eligibilite: [
-      {prestation: Prestation.PC_AVS_AI}
+      {
+        prestation: Prestation.PC_AVS_AI_CONJOINT,
+        isEligible: (value: any) => conjointHabiteSuisseDepuis(value, 10) ||
+                                    (conjointHabiteSuisseDepuis(value, 5) && isConjointRefugieOrInconnu(value))
+      }
     ]
   })
 ];
@@ -451,7 +492,7 @@ const RevenusQuestions: QuestionBase<any>[] = [
     options: revenusOptions,
     skip: (value: any) => !hasConjoint(value),
     eligibilite: [
-      {prestation: Prestation.PC_AVS_AI},
+      {prestation: Prestation.PC_AVS_AI_CONJOINT},
       {
         prestation: Prestation.PC_FAM,
         isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value, 'revenusConjoint')
@@ -497,7 +538,7 @@ const RevenusQuestions: QuestionBase<any>[] = [
       TypeEnfant.ENTRE_18_25_EN_FORMATION
     ]),
     eligibilite: [
-      {prestation: Prestation.PC_AVS_AI}
+      {prestation: Prestation.PC_AVS_AI_ENFANTS}
     ]
   })
 ];

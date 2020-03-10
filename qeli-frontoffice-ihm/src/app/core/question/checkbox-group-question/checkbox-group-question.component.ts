@@ -1,16 +1,16 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChildren } from '@angular/core';
 import { QuestionComponent } from '../question.component';
-import { CheckboxGroup, CheckboxGroupQuestion } from './checkbox-group-question.model';
+import { CheckboxGroupQuestion } from './checkbox-group-question.model';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../question-registry';
 import { ReponseProgressive } from '../../common/reponse.model';
-import { QuestionOption } from '../option.model';
 
 @RegisterQuestionComponent(new CheckboxGroupQuestion().controlType)
 @Component({
   selector: 'app-checkbox-group-question',
   templateUrl: './checkbox-group-question.component.html',
-  styleUrls: ['./checkbox-group-question.component.scss']
+  styleUrls: ['./checkbox-group-question.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionComponent<any> {
   @Input() question: CheckboxGroupQuestion;

@@ -11,10 +11,10 @@ export interface FormState {
 
 export class Refus {
   prestation: Prestation;
-  questionKey: string;
+  questionKeys: string[];
 
-  constructor(prestation: Prestation, questionKey: string) {
+  constructor(prestation: Prestation, questionKey: string | string[]) {
     this.prestation = prestation;
-    this.questionKey = questionKey;
+    this.questionKeys = typeof questionKey === 'string' ? [questionKey as string] : questionKey;
   }
 }

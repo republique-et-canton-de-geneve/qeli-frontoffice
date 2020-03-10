@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { QuestionComponent } from '../question.component';
 import { FormGroup } from '@angular/forms';
 import { NumberField, NumberGroupQuestion } from './number-group-question.model';
@@ -8,7 +8,8 @@ import { RegisterQuestionComponent } from '../question-registry';
 @Component({
   selector: 'app-number-group-question',
   templateUrl: './number-group-question.component.html',
-  styleUrls: ['./number-group-question.component.scss']
+  styleUrls: ['./number-group-question.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NumberGroupQuestionComponent implements QuestionComponent<any> {
   @Input() question: NumberGroupQuestion;
