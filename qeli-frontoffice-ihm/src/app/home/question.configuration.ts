@@ -265,26 +265,6 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     eligibilite: [
       {prestation: Prestation.BOURSES}
     ]
-  }),
-  new RadioQuestion({
-    key: 'permisBPlus5Ans',
-    code: '0406',
-    categorie: Categorie.SITUATION_PERSONELLE,
-    subcategorie: Subcategorie.NATIONALITE,
-    help: true,
-    inline: true,
-    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
-    validators: [Validators.required],
-    skip: (value: any) => isSuisse(value) ||
-                          isRefugie(value) ||
-                          isRequerantAsile(value) ||
-                          isApatride(value),
-    eligibilite: [
-      {
-        prestation: Prestation.BOURSES,
-        isEligible: (value: any) => ReponseProgressive.NON !== value['permisBPlus5Ans']
-      }
-    ]
   })
 ];
 
