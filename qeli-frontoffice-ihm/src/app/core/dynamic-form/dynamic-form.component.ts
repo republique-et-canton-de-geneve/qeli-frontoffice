@@ -48,6 +48,8 @@ export class DynamicFormComponent implements OnInit {
       );
 
       this.currentQuestionIndex = this.findNextQuestionIndex();
+
+      console.log(this.prestationsRefusees);
       this.emitQuestionChanged();
     }
   }
@@ -161,7 +163,7 @@ export class DynamicFormComponent implements OnInit {
 
 
   get prestationsEligibles() {
-    return PrestationResolver.findPrestationsEligibles(this.prestationsRefusees);
+    return PrestationResolver.findPrestationsEligibles(this.prestationsRefusees, false);
   }
 
 }

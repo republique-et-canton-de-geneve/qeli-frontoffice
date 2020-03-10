@@ -9,9 +9,7 @@
 
       <div class="panel-row-text">
         <h4>{{ title }}</h4>
-        <div *ngIf="subtitle">
-          {{ subtitle }}
-        </div>
+        <div *ngIf="subtitle" [innerHtml]="subtitle"></div>
       </div>
 
       <div class="panel-row-toggle-btn">
