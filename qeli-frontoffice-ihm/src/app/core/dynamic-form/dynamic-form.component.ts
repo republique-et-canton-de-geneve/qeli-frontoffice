@@ -49,7 +49,6 @@ export class DynamicFormComponent implements OnInit {
 
       this.currentQuestionIndex = this.findNextQuestionIndex();
 
-      console.log(this.prestationsRefusees);
       this.emitQuestionChanged();
     }
   }
