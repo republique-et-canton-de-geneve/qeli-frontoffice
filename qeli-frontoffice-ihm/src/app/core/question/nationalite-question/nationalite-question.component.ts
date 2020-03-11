@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { RegisterQuestionComponent } from '../question-registry';
 import { QuestionComponent } from '../question.component';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -8,7 +8,8 @@ import { NationaliteQuestion } from './nationalite-question.model';
 @Component({
   selector: 'app-nationalite-question',
   templateUrl: './nationalite-question.component.html',
-  styleUrls: ['./nationalite-question.component.scss']
+  styleUrls: ['./nationalite-question.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NationaliteQuestionComponent implements OnInit, QuestionComponent<any> {
   @Input() question: NationaliteQuestion;

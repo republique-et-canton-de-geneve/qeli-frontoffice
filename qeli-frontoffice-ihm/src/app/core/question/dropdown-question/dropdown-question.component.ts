@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { QuestionComponent } from '../question.component';
 import { DropdownQuestion } from './dropdown-question.model';
 import { FormGroup } from '@angular/forms';
@@ -8,7 +8,8 @@ import { RegisterQuestionComponent } from '../question-registry';
 @Component({
   selector: 'app-dropdown-question',
   templateUrl: './dropdown-question.component.html',
-  styleUrls: ['./dropdown-question.component.scss']
+  styleUrls: ['./dropdown-question.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DropdownQuestionComponent implements QuestionComponent<string[]> {
   @Input() question: DropdownQuestion;

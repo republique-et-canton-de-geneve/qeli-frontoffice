@@ -48,6 +48,10 @@ export function isRefugie(value: any) {
   return value['refugie'] === RequerantRefugie.REFUGIE;
 }
 
+export function isRefugieOrInconnu(value: any) {
+  return isRefugie(value) || value['refugie'] === RequerantRefugie.INCONNU;
+}
+
 export function isRequerantAsile(value: any) {
   return value['refugie'] === RequerantRefugie.REQUERANT_ASILE;
 }
@@ -84,6 +88,11 @@ export function isConjointUEOrAELE(value: any) {
   const nationalite = value['nationaliteConjoint'];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
   return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
+}
+
+export function isConjointRefugieOrInconnu(value: any) {
+  return value['refugieConjoint'] === RequerantRefugie.REFUGIE ||
+         value['refugieConjoint'] === RequerantRefugie.INCONNU;
 }
 
 export function isPaysConventione(value: any) {
@@ -177,18 +186,32 @@ export function habiteGeneveDepuisNaissance(value: any) {
   return value['dateArriveeGeneve'] && value['dateArriveeGeneve']['shortcut'] === 'DEPUIS_NAISSANCE';
 }
 
-export function habiteSuisseDepuis5Ans(value: any) {
+export function habiteSuisseDepuis(value: any, years: number) {
   const dateArriveData = value['dateArriveeSuisse'];
 
   if (dateArriveData['shortcut'] === 'INCONNU') {
     return true;
   }
 
-  const dateArriveeGeneve = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
+  const datearriveeSuisse = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
                             getDate(value, 'dateNaissance') :
                             getDate(value, 'dateArriveeSuisse');
 
-  return dateArriveeGeneve && moment().subtract(5, 'year')
+  return datearriveeSuisse && moment().subtract(years, 'year')
                                       .endOf('day')
-                                      .isAfter(moment(dateArriveeGeneve));
+                                      .isAfter(moment(datearriveeSuisse));
+}
+
+export function conjointHabiteSuisseDepuis(value: any, years: number) {
+  const dateArriveData = value['dateArriveeSuisseConjoint'];
+
+  if (dateArriveData['shortcut'] === 'INCONNU') {
+    return true;
+  }
+
+  const datearriveeSuisse = getDate(value, 'dateArriveeSuisseConjoint');
+
+  return datearriveeSuisse && moment().subtract(years, 'year')
+                                      .endOf('day')
+                                      .isAfter(moment(datearriveeSuisse));
 }
