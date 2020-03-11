@@ -8,9 +8,8 @@ import {
   aucuneScolarite, conjointHabiteSuisseDepuis, getLimiteFortune, habiteGeneveDepuis5ans, habiteGeneveDepuisNaissance,
   habiteSuisseDepuis, hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus, hasConjoint,
   hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConcubinageAutreParent,
-  isConjointApatride, isConjointRefugieOrInconnu, isConjointSuisse, isConjointUEOrAELE, isFonctionnaireInternational,
-  isMineur, isRatioPiecesPersonnesLogementAcceptable, isRefugie, isRefugieOrInconnu, isRequerantAsile, isSuisse,
-  isUEOrAELE
+  isFonctionnaireInternational, isMineur, isPaysNonConventione, isRatioPiecesPersonnesLogementAcceptable, isRefugie,
+  isRefugieOrInconnu, isRequerantAsile, isSuisse, isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion, DateQuestionValidators } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -271,9 +270,9 @@ const NationaliteQuestions: QuestionBase<any>[] = [
     ],
     validators: [Validators.required],
     skip: (value: any) => !hasConjoint(value) ||
-                          isConjointSuisse(value) ||
-                          isConjointUEOrAELE(value) ||
-                          isConjointApatride(value),
+                          isSuisse(value, 'nationaliteConjoint') ||
+                          isUEOrAELE(value, 'nationaliteConjoint') ||
+                          isApatride(value, 'nationaliteConjoint'),
     eligibilite: [
       {prestation: Prestation.PC_AVS_AI_CONJOINT},
       {prestation: Prestation.BOURSES}
@@ -405,13 +404,17 @@ const DomicileQuestions: QuestionBase<any>[] = [
     maxDate: new Date(),
     minDate: moment().subtract(130, 'year').toDate(),
     shortcuts: [{label: 'INCONNU'}],
-    skip: (value: any) => isConjointSuisse(value) || isConjointUEOrAELE(value),
+    skip: (value: any) => isSuisse(value, 'nationaliteConjoint') ||
+                          isUEOrAELE(value, 'nationaliteConjoint'),
     validators: [Validators.required, DateQuestionValidators.atLeastOneSelected(true)],
     eligibilite: [
       {
         prestation: Prestation.PC_AVS_AI_CONJOINT,
         isEligible: (value: any) => conjointHabiteSuisseDepuis(value, 10) ||
-                                    (conjointHabiteSuisseDepuis(value, 5) && isConjointRefugieOrInconnu(value))
+                                    (
+                                      conjointHabiteSuisseDepuis(value, 5) &&
+                                      isRefugieOrInconnu(value, 'refugieConjoint')
+                                    )
       }
     ]
   })
@@ -458,7 +461,11 @@ const RevenusQuestions: QuestionBase<any>[] = [
           TypeRevenus.AI_INVALIDITE
         ])
       },
-      {prestation: Prestation.PC_AVS_AI},
+      {
+        prestation: Prestation.PC_AVS_AI,
+        isEligible: (value: any) => hasAnyAVSOrAIRevenus(value) ||
+                                    !isPaysNonConventione(value)
+      },
       {
         prestation: Prestation.PC_FAM,
         isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value)
@@ -480,8 +487,10 @@ const RevenusQuestions: QuestionBase<any>[] = [
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
     options: revenusOptions,
+    // TODO Si déjà éligible à PC_AVS_AI est pas éligible à PC_FAM et AIDE_SOCIALE cette question est en trop.
     skip: (value: any) => !hasConjoint(value),
     eligibilite: [
+      // TODO Il devrait y avoir le même check que pour 0601 ici.
       {prestation: Prestation.PC_AVS_AI_CONJOINT},
       {
         prestation: Prestation.PC_FAM,
@@ -523,6 +532,9 @@ const RevenusQuestions: QuestionBase<any>[] = [
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
     options: revenusOptions,
+    // TODO Cette conditions devrait être dans l'éligibilité de PC_AVS_AI_ENFANTS sur la question enfantsACharge,
+    // sinon les famille avec des enfants PLUS_25_EN_FORMATION et PLUS_18 sont tout de suit eligible.
+    // TODO Si déjà éligible à PC_AVS_AI ou PC_AVS_AI_CONJOINT cette question est en trop.
     skip: (value: any) => !hasAnyEnfantOfType(value, [
       TypeEnfant.MOINS_18,
       TypeEnfant.ENTRE_18_25_EN_FORMATION
