@@ -421,6 +421,25 @@
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
+    "situationRenteConjoint": {
+      "label": "La situation de votre conjoint est-elle parmi les suivantes :",
+      "option": {
+        "RECONNU_OCAI": {
+          "label": "Il(elle) est reconnu invalide par l'OCAI avec un taux minimum de 40%",
+          "help": "OCAI : l'office cantonal de l'assurance invalidité."
+        },
+        "RETRAITE_SANS_RENTE": "Il(elle) est retraité sans rente"
+      },
+      "some": "Sélectionnez toutes les options qui décrivent la situation de votre conjoint :",
+      "none": "Aucune des situation précedentes",
+      "motifRefus": {
+        "PC_AVS_AI": "La situation de votre conjoint vous empêchent de bénéficier de cette prestation"
+      },
+      "error": {
+        "required": "La situation de votre conjoint doit être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
     "revenusConcubin": {
       "label": "Quels revenus votre concubin reçoit-il ?",
       "option": {

@@ -530,6 +530,29 @@ const RevenusQuestions: QuestionBase<any>[] = [
     ]
   }),
   new CheckboxGroupQuestion({
+    key: 'situationRenteConjoint',
+    code: '0806',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.REVENUS,
+    hasNone: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(SituationRente), true)
+    ],
+    options: [
+      {label: SituationRente.RECONNU_OCAI, help: true},
+      {label: SituationRente.RETRAITE_SANS_RENTE}
+    ],
+    skip: (value: any, prestatiosnEligibles: Prestation[]) => hasAnyAVSOrAIRevenus(value, 'revenusConjoint') ||
+                                                              prestatiosnEligibles.includes(Prestation.PC_AVS_AI),
+    eligibilite: [
+      {
+        prestation: Prestation.PC_AVS_AI_CONJOINT,
+        isEligible: (value: any) => !isSituationRenteNone(value, 'situationRenteConjoint')
+      }
+    ]
+  }),
+  new CheckboxGroupQuestion({
     key: 'revenusConcubin',
     code: '0603',
     categorie: Categorie.SITUATION_PERSONELLE,
