@@ -317,18 +317,8 @@ const DomicileQuestions: QuestionBase<any>[] = [
         prestation: Prestation.ALLOCATION_LOGEMENT,
         isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
       },
-      {
-        prestation: Prestation.PC_AVS_AI,
-        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
-      },
-      {
-        prestation: Prestation.PC_AVS_AI_CONJOINT,
-        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
-      },
-      {
-        prestation: Prestation.PC_AVS_AI_ENFANTS,
-        isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
-      },
+      // TODO On en fait rien de cette donée
+      {prestation: Prestation.PC_AVS_AI},
       {
         prestation: Prestation.PC_FAM,
         isEligible: (value: any) => ReponseProgressive.NON !== value['domicileCantonGE']
