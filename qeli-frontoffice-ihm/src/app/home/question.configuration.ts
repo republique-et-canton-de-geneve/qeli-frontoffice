@@ -490,8 +490,11 @@ const RevenusQuestions: QuestionBase<any>[] = [
     // TODO Si déjà éligible à PC_AVS_AI est pas éligible à PC_FAM et AIDE_SOCIALE cette question est en trop.
     skip: (value: any) => !hasConjoint(value),
     eligibilite: [
-      // TODO Il devrait y avoir le même check que pour 0601 ici.
-      {prestation: Prestation.PC_AVS_AI_CONJOINT},
+      {
+        prestation: Prestation.PC_AVS_AI_CONJOINT,
+        isEligible: (value: any) => hasAnyAVSOrAIRevenus(value, 'revenusConjoint') ||
+                                    !isPaysNonConventione(value, 'nationaliteConjoint')
+      },
       {
         prestation: Prestation.PC_FAM,
         isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value, 'revenusConjoint')
