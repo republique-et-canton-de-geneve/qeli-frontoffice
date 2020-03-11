@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { QuestionComponent } from '../question.component';
 import { DateAnswer, DateQuestion } from './date-question.model';
 import { FormGroup } from '@angular/forms';
@@ -13,14 +13,15 @@ import { QuestionOption } from '../option.model';
 @Component({
   selector: 'app-date-question',
   templateUrl: './date-question.component.html',
-  styleUrls: ['./date-question.component.scss']
+  styleUrls: ['./date-question.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateQuestionComponent implements QuestionComponent<DateAnswer>, OnInit, AfterViewInit {
   @Input() question: DateQuestion;
   @Input() form: FormGroup;
   showDatePicker = false;
 
-  @ViewChild('textInputDate', { static: false }) textInputDate: ElementRef<HTMLInputElement>;
+  @ViewChild('textInputDate', {static: false}) textInputDate: ElementRef<HTMLInputElement>;
 
   constructor(private bowserService: BowserService) {
 

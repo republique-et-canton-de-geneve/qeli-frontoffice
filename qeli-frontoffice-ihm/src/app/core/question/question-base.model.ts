@@ -13,7 +13,7 @@ export abstract class QuestionBase<T> {
   help: boolean;
   validators: ValidatorFn[];
   altText: (value: any) => string;
-  labelParameters: any;
+  labelParameters: { [key: string]: string | ((value: any) => string) };
   skip: (value: any, prestatiosnEligibles: Prestation[]) => boolean;
   defaultAnswer: (value: any) => T;
   eligibilite: Eligibilite[];
@@ -27,7 +27,7 @@ export abstract class QuestionBase<T> {
     help?: boolean,
     validators?: ValidatorFn[],
     altText?: (value: any) => string,
-    labelParameters?: any,
+    labelParameters?: { [key: string]: string | ((value: any) => string) },
     skip?: (value: any, prestatiosnEligibles: Prestation[]) => any,
     defaultAnswer?: (value: any) => T,
     eligibilite?: Eligibilite[]
@@ -57,12 +57,13 @@ export abstract class QuestionBase<T> {
   }
 
   createLabelParameters(value: any) {
-    let labelParametersResult = {};
+    let labelParametersResult: { [key: string]: string } = {};
+
     Object.keys(this.labelParameters).forEach(labelParam => {
       if (typeof this.labelParameters[labelParam] === 'function') {
-        labelParametersResult[labelParam] = this.labelParameters[labelParam](value);
+        labelParametersResult[labelParam] = (this.labelParameters[labelParam] as (value: any) => string)(value);
       } else {
-        labelParametersResult[labelParam] = this.labelParameters[labelParam];
+        labelParametersResult[labelParam] = this.labelParameters[labelParam] as string;
       }
     });
 
