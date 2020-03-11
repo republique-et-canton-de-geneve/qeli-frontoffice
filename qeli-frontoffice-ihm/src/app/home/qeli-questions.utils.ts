@@ -201,3 +201,7 @@ export function conjointHabiteSuisseDepuis(value: any, years: number) {
                                       .endOf('day')
                                       .isAfter(moment(datearriveeSuisse));
 }
+
+export function isSituationRenteNone(value: any, which = 'situationRente') {
+  return value[which] !== null && value[which]['none'] !== ReponseProgressive.NON;
+}
