@@ -2,7 +2,9 @@ import { EtatCivil } from './model/etat-civil.model';
 import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
 import { Scolarite } from './model/scolarite.model';
 import { TypeRevenus } from './model/revenus.model';
-import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/question/nationalite-question/pays.model';
+import {
+  Pays, PAYS_AELE_UE, PAYS_CONVENTIONES, PAYS_NON_CONVENTIONES
+} from '../core/question/nationalite-question/pays.model';
 import * as moment from 'moment';
 import { Prestation } from '../core/common/prestation.model';
 import { RequerantRefugie } from './model/requerant-refugie.model';
@@ -44,61 +46,45 @@ export function hasAnyAVSOrAIRevenus(value: any, which: string = 'revenus') {
   ], which);
 }
 
-export function isRefugie(value: any) {
-  return value['refugie'] === RequerantRefugie.REFUGIE;
+export function isRefugie(value: any, which = 'refugie') {
+  return value[which] === RequerantRefugie.REFUGIE;
 }
 
-export function isRefugieOrInconnu(value: any) {
-  return isRefugie(value) || value['refugie'] === RequerantRefugie.INCONNU;
+export function isRefugieOrInconnu(value: any, which = 'refugie') {
+  return isRefugie(value, which) || value[which] === RequerantRefugie.INCONNU;
 }
 
 export function isRequerantAsile(value: any) {
   return value['refugie'] === RequerantRefugie.REQUERANT_ASILE;
 }
 
-export function isApatride(value: any) {
-  const nationalite = value['nationalite'];
+export function isApatride(value: any, which = 'nationalite') {
+  const nationalite = value[which];
   return nationalite ? !!nationalite['apatride'] : false;
 }
 
-export function isSuisse(value: any) {
-  const nationalite = value['nationalite'];
+export function isSuisse(value: any, which = 'nationalite') {
+  const nationalite = value[which];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
   return paysValues ? paysValues.includes(Pays.CH) : false;
 }
 
-export function isUEOrAELE(value: any) {
-  const nationalite = value['nationalite'];
+export function isUEOrAELE(value: any, which = 'nationalite') {
+  const nationalite = value[which];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
   return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
 }
 
-export function isConjointApatride(value: any) {
-  const nationalite = value['nationaliteConjoint'];
-  return nationalite ? !!nationalite['apatride'] : false;
-}
-
-export function isConjointSuisse(value: any) {
-  const nationalite = value['nationaliteConjoint'];
-  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
-  return paysValues ? paysValues.includes(Pays.CH) : false;
-}
-
-export function isConjointUEOrAELE(value: any) {
-  const nationalite = value['nationaliteConjoint'];
-  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
-  return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
-}
-
-export function isConjointRefugieOrInconnu(value: any) {
-  return value['refugieConjoint'] === RequerantRefugie.REFUGIE ||
-         value['refugieConjoint'] === RequerantRefugie.INCONNU;
-}
-
-export function isPaysConventione(value: any) {
-  const nationalite = value['nationalite'];
+export function isPaysConventione(value: any, which = 'nationalite') {
+  const nationalite = value[which];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
   return paysValues ? paysValues.some(pays => PAYS_CONVENTIONES.includes(pays)) : false;
+}
+
+export function isPaysNonConventione(value: any, which = 'nationalite') {
+  const nationalite = value[which];
+  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+  return paysValues ? paysValues.some(pays => PAYS_NON_CONVENTIONES.includes(pays)) : false;
 }
 
 function getDate(value: any, questionKey: string) {
