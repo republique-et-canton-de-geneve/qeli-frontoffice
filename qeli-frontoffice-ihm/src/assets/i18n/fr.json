@@ -364,6 +364,7 @@
       "motifRefus": {
         "BOURSES": "Vos revenus vous empêchent de bénéficier de cette prestation",
         "PC_FAM": "Vos revenus vous empêchent de bénéficier de cette prestation",
+        "PC_AVS_AI": "Vos revenus vous empêchent de bénéficier de cette prestation",
         "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette prestation"
       },
       "error": {
@@ -414,6 +415,7 @@
       },
       "motifRefus": {
         "PC_FAM": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
+        "PC_AVS_AI": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
         "AIDE_SOCIALE": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation"
       },
       "error": {
@@ -492,6 +494,24 @@
       },
       "error": {
         "required": "Les revenus de votre(vos) enfant(s) doivent être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
+    "situationRenteEnfant": {
+      "label": "La situation de votre(vos) enfant(s) est-elle parmi les suivantes :",
+      "option": {
+        "RECONNU_OCAI": {
+          "label": "Il(elle) est reconnu invalide par l'OCAI avec un taux minimum de 40%",
+          "help": "OCAI : l'office cantonal de l'assurance invalidité."
+        }
+      },
+      "some": "Sélectionnez toutes les options qui décrivent la situation de votre(vos) enfant(s) :",
+      "none": "Aucune des situation précedentes",
+      "motifRefus": {
+        "PC_AVS_AI": "La situation de votre(vos) enfant(s) vous empêchent de bénéficier de cette prestation"
+      },
+      "error": {
+        "required": "La situation de votre(vos) enfant(s) doit être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
