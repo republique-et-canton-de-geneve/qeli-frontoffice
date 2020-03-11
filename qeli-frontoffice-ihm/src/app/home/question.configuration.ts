@@ -543,8 +543,9 @@ const RevenusQuestions: QuestionBase<any>[] = [
       {label: SituationRente.RECONNU_OCAI, help: true},
       {label: SituationRente.RETRAITE_SANS_RENTE}
     ],
-    skip: (value: any, prestatiosnEligibles: Prestation[]) => hasAnyAVSOrAIRevenus(value, 'revenusConjoint') ||
-                                                              prestatiosnEligibles.includes(Prestation.PC_AVS_AI),
+    skip: (value: any, prestatiosnEligibles: Prestation[]) =>
+      hasAnyAVSOrAIRevenus(value, 'revenusConjoint') ||
+      prestatiosnEligibles.includes(Prestation.PC_AVS_AI),
     eligibilite: [
       {
         prestation: Prestation.PC_AVS_AI_CONJOINT,
@@ -582,15 +583,45 @@ const RevenusQuestions: QuestionBase<any>[] = [
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
     options: revenusOptions,
-    // TODO Cette conditions devrait être dans l'éligibilité de PC_AVS_AI_ENFANTS sur la question enfantsACharge,
-    // sinon les famille avec des enfants PLUS_25_EN_FORMATION et PLUS_18 sont tout de suit eligible.
-    // TODO Si déjà éligible à PC_AVS_AI ou PC_AVS_AI_CONJOINT cette question est en trop.
-    skip: (value: any) => !hasAnyEnfantOfType(value, [
-      TypeEnfant.MOINS_18,
-      TypeEnfant.ENTRE_18_25_EN_FORMATION
-    ]),
+    // TODO Cette conditions devrait être dans l'éligibilité de PC_AVS_AI_ENFANTS sur la question enfantsACharge, sinon
+    // les famille avec des enfants PLUS_25_EN_FORMATION et PLUS_18 sont tout de suit eligible.
+    skip: (value: any, prestatiosnEligibles: Prestation[]) =>
+      !hasAnyEnfantOfType(value, [
+        TypeEnfant.MOINS_18,
+        TypeEnfant.ENTRE_18_25_EN_FORMATION
+      ]) ||
+      prestatiosnEligibles.includes(Prestation.PC_AVS_AI) ||
+      prestatiosnEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
     eligibilite: [
       {prestation: Prestation.PC_AVS_AI_ENFANTS}
+    ]
+  }),
+  new CheckboxGroupQuestion({
+    key: 'situationRenteEnfant',
+    code: '0807',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.REVENUS,
+    hasNone: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(SituationRente), true)
+    ],
+    options: [
+      {label: SituationRente.RECONNU_OCAI, help: true}
+    ],
+    skip: (value: any, prestatiosnEligibles: Prestation[]) =>
+      !hasAnyEnfantOfType(value, [
+        TypeEnfant.MOINS_18,
+        TypeEnfant.ENTRE_18_25_EN_FORMATION
+      ]) ||
+      hasAnyAVSOrAIRevenus(value, 'revenusEnfant') ||
+      prestatiosnEligibles.includes(Prestation.PC_AVS_AI) ||
+      prestatiosnEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
+    eligibilite: [
+      {
+        prestation: Prestation.PC_AVS_AI_ENFANTS,
+        isEligible: (value: any) => !isSituationRenteNone(value, 'situationRenteEnfant')
+      }
     ]
   })
 ];
