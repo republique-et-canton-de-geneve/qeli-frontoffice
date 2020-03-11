@@ -371,6 +371,26 @@
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
+    "situationRente": {
+      "label": "Votre situation est-elle parmi les suivantes :",
+      "option": {
+        "RECONNU_OCAI": {
+          "label": "Je suis reconnu invalide par l'OCAI avec un taux minimum de 40%",
+          "help": "OCAI : l'office cantonal de l'assurance invalidité."
+        },
+        "RETRAITE_SANS_RENTE": "Je suis retraité sans rente",
+        "VEUF_SANS_RENTE": "Je suis veuf sans rente"
+      },
+      "some": "Sélectionnez toutes les options qui décrivent votre situation :",
+      "none": "Aucune des situation précedentes",
+      "motifRefus": {
+        "PC_AVS_AI": "Votre situation vous empêchent de bénéficier de cette prestation"
+      },
+      "error": {
+        "required": "Votre situation doit être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
     "revenusConjoint": {
       "label": "Quels revenus votre conjoint reçoit-il ?",
       "option": {

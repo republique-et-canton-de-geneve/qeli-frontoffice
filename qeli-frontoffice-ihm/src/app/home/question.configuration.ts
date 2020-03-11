@@ -9,7 +9,7 @@ import {
   habiteSuisseDepuis, hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus, hasConjoint,
   hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConcubinageAutreParent,
   isFonctionnaireInternational, isMineur, isPaysNonConventione, isRatioPiecesPersonnesLogementAcceptable, isRefugie,
-  isRefugieOrInconnu, isRequerantAsile, isSuisse, isUEOrAELE
+  isRefugieOrInconnu, isRequerantAsile, isSituationRenteNone, isSuisse, isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion, DateQuestionValidators } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -29,6 +29,7 @@ import {
   NumberField, NumberGroupQuestion, NumberGroupQuestionValidators
 } from '../core/question/number-group-question/number-group-question.model';
 import { TypeEnfant } from './model/type-enfant.model';
+import { SituationRente } from './model/situation-rente.model';
 
 const PRESTATIONS_OPTIONS = Object.keys(Prestation).filter(
   prestation => prestation !== Prestation.PC_AVS_AI_CONJOINT &&
@@ -473,6 +474,29 @@ const RevenusQuestions: QuestionBase<any>[] = [
       {
         prestation: Prestation.AIDE_SOCIALE,
         isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value)
+      }
+    ]
+  }),
+  new CheckboxGroupQuestion({
+    key: 'situationRente',
+    code: '0805',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.REVENUS,
+    hasNone: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(SituationRente), true)
+    ],
+    options: [
+      {label: SituationRente.RECONNU_OCAI, help: true},
+      {label: SituationRente.RETRAITE_SANS_RENTE},
+      {label: SituationRente.VEUF_SANS_RENTE}
+    ],
+    skip: (value: any) => hasAnyAVSOrAIRevenus(value),
+    eligibilite: [
+      {
+        prestation: Prestation.PC_AVS_AI,
+        isEligible: (value: any) => !isSituationRenteNone(value)
       }
     ]
   }),
