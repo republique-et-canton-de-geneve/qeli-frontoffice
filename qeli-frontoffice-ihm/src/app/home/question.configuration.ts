@@ -192,7 +192,10 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
       },
       {
         prestation: Prestation.PC_AVS_AI_ENFANTS,
-        isEligible: (value: any) => hasEnfants(value)
+        isEligible: (value: any) => hasAnyEnfantOfType(value, [
+          TypeEnfant.MOINS_18,
+          TypeEnfant.ENTRE_18_25_EN_FORMATION
+        ])
       },
       {prestation: Prestation.BOURSES},
       {prestation: Prestation.AIDE_SOCIALE}
@@ -583,13 +586,7 @@ const RevenusQuestions: QuestionBase<any>[] = [
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
     options: revenusOptions,
-    // TODO Cette conditions devrait être dans l'éligibilité de PC_AVS_AI_ENFANTS sur la question enfantsACharge, sinon
-    // les famille avec des enfants PLUS_25_EN_FORMATION et PLUS_18 sont tout de suit eligible.
     skip: (value: any, prestatiosnEligibles: Prestation[]) =>
-      !hasAnyEnfantOfType(value, [
-        TypeEnfant.MOINS_18,
-        TypeEnfant.ENTRE_18_25_EN_FORMATION
-      ]) ||
       prestatiosnEligibles.includes(Prestation.PC_AVS_AI) ||
       prestatiosnEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
     eligibilite: [
