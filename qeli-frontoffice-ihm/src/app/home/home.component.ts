@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
     prestationsRefuseesStack: [],
     done: false
   };
-  firstLoad: boolean = true;
+  isFirstLoad: boolean = true;
 
   constructor(private deepLinkService: DeepLinkService,
               private route: ActivatedRoute,
@@ -55,12 +55,12 @@ export class HomeComponent implements OnInit {
       }
 
       this.doTracking();
-      this.firstLoad = false;
+      this.isFirstLoad = false;
     });
   }
 
   doTracking() {
-    if (!this.firstLoad) {
+    if (!this.isFirstLoad) {
       const previousQuestion = this.previousQuestion;
       if (previousQuestion) {
         this.trackingService.trackReponse(previousQuestion, this.formState.data);
