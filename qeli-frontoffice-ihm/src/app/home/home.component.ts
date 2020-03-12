@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
     prestationsRefuseesStack: [],
     done: false
   };
+  firstLoad: boolean = true;
 
   constructor(private deepLinkService: DeepLinkService,
               private route: ActivatedRoute,
@@ -54,18 +55,21 @@ export class HomeComponent implements OnInit {
       }
 
       this.doTracking();
+      this.firstLoad = false;
     });
   }
 
   doTracking() {
-    const previousQuestion = this.previousQuestion;
-    if (previousQuestion) {
-      this.trackingService.trackReponse(previousQuestion, this.formState.data);
-    }
+    if (!this.firstLoad) {
+      const previousQuestion = this.previousQuestion;
+      if (previousQuestion) {
+        this.trackingService.trackReponse(previousQuestion, this.formState.data);
+      }
 
-    if (this.formState.done) { // result page :
-      this.trackingService.trackFormSubmission(this.formState, this.dynamicForm.formElement.nativeElement);
-      this.trackingService.trackReponsesFinales(this.questions, this.formState.data);
+      if (this.formState.done) { // result page :
+        this.trackingService.trackFormSubmission(this.formState, this.dynamicForm.formElement.nativeElement);
+        this.trackingService.trackReponsesFinales(this.questions, this.formState.data);
+      }
     }
   }
 
