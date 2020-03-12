@@ -9,7 +9,8 @@
                [value]="'NON'"
                formControlName="none"
                (change)="onNoneChanged()"
-               [focusOnInit]="true">
+               [focusOnInit]="true"
+               [attr.data-matomo-name]="question.identifier">
         {{ 'question.' + question.key + '.some' | translate }}
       </label>
     </div>
@@ -31,7 +32,8 @@
                    [value]="option.label"
                    (change)="onOptionChanged($event.currentTarget.value, $event.currentTarget.checked)"
                    [attr.data-cy]="option.label"
-                   #optionCheckboxes>
+                   #optionCheckboxes
+                   [attr.data-matomo-name]="question.identifier">
             {{ 'question.' + question.key + '.option.' + option.label + (option.help ? '.label' : '') | translate }}
           </label>
 
@@ -49,7 +51,8 @@
                [value]="'OUI'"
                formControlName="none"
                (change)="onNoneChanged()"
-               [attr.data-cy]="'NONE'">
+               [attr.data-cy]="'NONE'"
+               [attr.data-matomo-name]="question.identifier">
         {{ 'question.' + question.key + '.none' | translate }}
       </label>
     </div>
@@ -61,7 +64,8 @@
                [value]="'INCONNU'"
                formControlName="none"
                (change)="onNoneChanged()"
-               [attr.data-cy]="'INCONNU'">
+               [attr.data-cy]="'INCONNU'"
+               [attr.data-matomo-name]="question.identifier">
         {{ 'question.' + question.key + '.inconnu' | translate }}
       </label>
     </div>
