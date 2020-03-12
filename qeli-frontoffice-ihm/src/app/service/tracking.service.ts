@@ -131,9 +131,9 @@ export class TrackingService {
     questions.forEach(question => {
       const answer = question.accept(new ToTrackingAnswerQuestionVisitor(data));
       if (answer) {
-        if ([',', ';'].some(char => answer.includes(char))) {
-          const answers = answer.split(/[,]|[;]/);
-          answers.forEach((singleAnswer, i) => {
+        console.log(answer);
+        if (Array.isArray(answer)) {
+          answer.forEach((singleAnswer) => {
             this.matomoTracker.trackSiteSearch(singleAnswer, question.identifier);
           });
         } else {
@@ -198,14 +198,18 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
     return this.data[question.key];
   }
 
-  visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): string {
+  visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): any {
     const answer = this.findValueForQuestion(question);
+    let result = [];
 
     if (answer['none'] !== ReponseProgressive.NON) {
-      return answer['none'] === ReponseProgressive.OUI ? 'AUCUNE' : 'INCONNU';
+      result.push(answer['none'] === ReponseProgressive.OUI ? 'AUCUNE' : 'INCONNU');
     }
+    answer['choices'].forEach(value => {
+      result.push(value);
+    });
 
-    return answer['choices'].join(';');
+    return result;
   }
 
   visitDateQuestion(question: DateQuestion): string {
