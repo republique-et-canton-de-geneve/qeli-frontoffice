@@ -665,7 +665,25 @@ const formationQuestions: QuestionBase<any>[] = [
 
 const RentesQuestions: QuestionBase<any>[] = [];
 
-const SituationProfesionelleQuestions: QuestionBase<any>[] = [];
+const SituationProfesionelleQuestions: QuestionBase<any>[] = [
+  new RadioQuestion({
+    key: 'taxationOffice',
+    code: '0901',
+    categorie: Categorie.COMPLEMENTS,
+    subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE,
+    help: true,
+    inline: true,
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
+    validators: [Validators.required],
+    altText: value => isConcubinageAutreParent(value) ? 'avecConcubin' : null,
+    eligibilite: [
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => value['taxationOffice'] !== ReponseProgressive.OUI
+      }
+    ]
+  })
+];
 
 const LogementQuestions: QuestionBase<any>[] = [
   new RadioQuestion({
