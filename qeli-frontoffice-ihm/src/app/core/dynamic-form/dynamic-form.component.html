@@ -1,6 +1,6 @@
 <div class="dynamic-form" (keyup)="onKeyUp($event)">
   <div *ngIf="form && currentQuestion">
-    <form [formGroup]="form">
+    <form [formGroup]="form" data-matomo-form data-matomo-name="formElement" id="formElement" #formElement>
       <app-dynamic-question [question]="currentQuestion" [form]="form"></app-dynamic-question>
     </form>
 
@@ -9,7 +9,8 @@
         <button class="btn btn-primary"
                 data-cy='previousQuestion'
                 (click)="previousQuestion()"
-                *ngIf="currentQuestionIndex > 0">
+                *ngIf="currentQuestionIndex > 0"
+                type="button">
           <i class="fa fa-chevron-left"></i> {{ 'form.previous' | translate }}
         </button>
       </div>
@@ -18,7 +19,8 @@
         <button class="btn btn-primary"
                 data-cy='nextQuestion'
                 [disabled]="!isValid(currentQuestion)"
-                (click)="nextQuestion()">
+                (click)="nextQuestion()"
+                type="button">
           {{ 'form.next' | translate }} <i class="fa fa-chevron-right"></i>
         </button>
       </div>

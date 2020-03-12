@@ -9,7 +9,8 @@
               [formControlName]="i"
               [attr.disabled]="!isLast || isApatride ? 'disabled' : null"
               [focusOnInit]="isFirst"
-              [attr.data-cy]="question.identifier + '_select_nationalite_' + i">
+              [attr.data-cy]="question.identifier + '_select_nationalite_' + i"
+              [attr.data-matomo-name]="question.identifier">
         <option></option>
         <option *ngFor="let pays of question.paysOptions"
                 [value]="pays">
@@ -40,7 +41,8 @@
         <input type="checkbox"
                formControlName="apatride"
                (change)="onApatrideChanged()"
-               [attr.data-cy]="question.identifier + '_checkbox_apatride'">
+               [attr.data-cy]="question.identifier + '_checkbox_apatride'"
+               [attr.data-matomo-name]="question.identifier">
         {{ 'question.' + question.key + '.apatride.label' | translate }}
       </label>
       <p class="help-block">{{ 'question.' + question.key + '.apatride.help' | translate }}</p>
