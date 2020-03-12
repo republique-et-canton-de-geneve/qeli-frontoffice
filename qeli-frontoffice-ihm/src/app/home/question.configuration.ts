@@ -9,7 +9,7 @@ import {
   habiteSuisseDepuis, hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus, hasConjoint,
   hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConcubinageAutreParent,
   isFonctionnaireInternational, isMineur, isPaysNonConventione, isRatioPiecesPersonnesLogementAcceptable, isRefugie,
-  isRefugieOrInconnu, isRequerantAsile, isSuisse, isUEOrAELE
+  isRefugieOrInconnu, isRequerantAsile, isSituationRenteNone, isSuisse, isUEOrAELE
 } from './qeli-questions.utils';
 import { DateQuestion, DateQuestionValidators } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -29,6 +29,7 @@ import {
   NumberField, NumberGroupQuestion, NumberGroupQuestionValidators
 } from '../core/question/number-group-question/number-group-question.model';
 import { TypeEnfant } from './model/type-enfant.model';
+import { SituationRente } from './model/situation-rente.model';
 
 const PRESTATIONS_OPTIONS = Object.keys(Prestation).filter(
   prestation => prestation !== Prestation.PC_AVS_AI_CONJOINT &&
@@ -191,7 +192,10 @@ const EtatCivilQuestions: QuestionBase<any>[] = [
       },
       {
         prestation: Prestation.PC_AVS_AI_ENFANTS,
-        isEligible: (value: any) => hasEnfants(value)
+        isEligible: (value: any) => hasAnyEnfantOfType(value, [
+          TypeEnfant.MOINS_18,
+          TypeEnfant.ENTRE_18_25_EN_FORMATION
+        ])
       },
       {prestation: Prestation.BOURSES},
       {prestation: Prestation.AIDE_SOCIALE}
@@ -376,10 +380,10 @@ const DomicileQuestions: QuestionBase<any>[] = [
       {label: 'DEPUIS_NAISSANCE'},
       {label: 'INCONNU'}
     ],
-    skip: (value: any, prestatiosnEligibles: Prestation[]) =>
+    skip: (value: any, prestationsEligibles: Prestation[]) =>
       isSuisse(value) ||
       isUEOrAELE(value) ||
-      (prestatiosnEligibles === [Prestation.BOURSES] && isRefugie(value)),
+      (prestationsEligibles === [Prestation.BOURSES] && isRefugie(value)),
     defaultAnswer: (value: any) =>
       habiteGeneveDepuisNaissance(value) ? {value: null, shortcut: 'DEPUIS_NAISSANCE'} : null,
     validators: [Validators.required, DateQuestionValidators.atLeastOneSelected(true)],
@@ -477,6 +481,29 @@ const RevenusQuestions: QuestionBase<any>[] = [
     ]
   }),
   new CheckboxGroupQuestion({
+    key: 'situationRente',
+    code: '0805',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.REVENUS,
+    hasNone: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(SituationRente), true)
+    ],
+    options: [
+      {label: SituationRente.RECONNU_OCAI, help: true},
+      {label: SituationRente.RETRAITE_SANS_RENTE},
+      {label: SituationRente.VEUF_SANS_RENTE}
+    ],
+    skip: (value: any) => hasAnyAVSOrAIRevenus(value),
+    eligibilite: [
+      {
+        prestation: Prestation.PC_AVS_AI,
+        isEligible: (value: any) => !isSituationRenteNone(value)
+      }
+    ]
+  }),
+  new CheckboxGroupQuestion({
     key: 'revenusConjoint',
     code: '0602',
     categorie: Categorie.SITUATION_PERSONELLE,
@@ -502,6 +529,30 @@ const RevenusQuestions: QuestionBase<any>[] = [
       {
         prestation: Prestation.AIDE_SOCIALE,
         isEligible: (value: any) => !hasAnyAVSOrAIRevenus(value, 'revenusConjoint')
+      }
+    ]
+  }),
+  new CheckboxGroupQuestion({
+    key: 'situationRenteConjoint',
+    code: '0806',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.REVENUS,
+    hasNone: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(SituationRente), true)
+    ],
+    options: [
+      {label: SituationRente.RECONNU_OCAI, help: true},
+      {label: SituationRente.RETRAITE_SANS_RENTE}
+    ],
+    skip: (value: any, prestationsEligibles: Prestation[]) =>
+      hasAnyAVSOrAIRevenus(value, 'revenusConjoint') ||
+      prestationsEligibles.includes(Prestation.PC_AVS_AI),
+    eligibilite: [
+      {
+        prestation: Prestation.PC_AVS_AI_CONJOINT,
+        isEligible: (value: any) => !isSituationRenteNone(value, 'situationRenteConjoint')
       }
     ]
   }),
@@ -535,15 +586,39 @@ const RevenusQuestions: QuestionBase<any>[] = [
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
     options: revenusOptions,
-    // TODO Cette conditions devrait être dans l'éligibilité de PC_AVS_AI_ENFANTS sur la question enfantsACharge,
-    // sinon les famille avec des enfants PLUS_25_EN_FORMATION et PLUS_18 sont tout de suit eligible.
-    // TODO Si déjà éligible à PC_AVS_AI ou PC_AVS_AI_CONJOINT cette question est en trop.
-    skip: (value: any) => !hasAnyEnfantOfType(value, [
-      TypeEnfant.MOINS_18,
-      TypeEnfant.ENTRE_18_25_EN_FORMATION
-    ]),
+    skip: (value: any, prestationsEligibles: Prestation[]) =>
+      prestationsEligibles.includes(Prestation.PC_AVS_AI) ||
+      prestationsEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
     eligibilite: [
       {prestation: Prestation.PC_AVS_AI_ENFANTS}
+    ]
+  }),
+  new CheckboxGroupQuestion({
+    key: 'situationRenteEnfant',
+    code: '0807',
+    categorie: Categorie.SITUATION_PERSONELLE,
+    subcategorie: Subcategorie.REVENUS,
+    hasNone: true,
+    validators: [
+      Validators.required,
+      CheckboxGroupValidators.atLeastOneSelected(Object.keys(SituationRente), true)
+    ],
+    options: [
+      {label: SituationRente.RECONNU_OCAI, help: true}
+    ],
+    skip: (value: any, prestationsEligibles: Prestation[]) =>
+      !hasAnyEnfantOfType(value, [
+        TypeEnfant.MOINS_18,
+        TypeEnfant.ENTRE_18_25_EN_FORMATION
+      ]) ||
+      hasAnyAVSOrAIRevenus(value, 'revenusEnfant') ||
+      prestationsEligibles.includes(Prestation.PC_AVS_AI) ||
+      prestationsEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
+    eligibilite: [
+      {
+        prestation: Prestation.PC_AVS_AI_ENFANTS,
+        isEligible: (value: any) => !isSituationRenteNone(value, 'situationRenteEnfant')
+      }
     ]
   })
 ];
