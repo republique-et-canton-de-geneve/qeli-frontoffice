@@ -380,10 +380,10 @@ const DomicileQuestions: QuestionBase<any>[] = [
       {label: 'DEPUIS_NAISSANCE'},
       {label: 'INCONNU'}
     ],
-    skip: (value: any, prestatiosnEligibles: Prestation[]) =>
+    skip: (value: any, prestationsEligibles: Prestation[]) =>
       isSuisse(value) ||
       isUEOrAELE(value) ||
-      (prestatiosnEligibles === [Prestation.BOURSES] && isRefugie(value)),
+      (prestationsEligibles === [Prestation.BOURSES] && isRefugie(value)),
     defaultAnswer: (value: any) =>
       habiteGeneveDepuisNaissance(value) ? {value: null, shortcut: 'DEPUIS_NAISSANCE'} : null,
     validators: [Validators.required, DateQuestionValidators.atLeastOneSelected(true)],
@@ -546,9 +546,9 @@ const RevenusQuestions: QuestionBase<any>[] = [
       {label: SituationRente.RECONNU_OCAI, help: true},
       {label: SituationRente.RETRAITE_SANS_RENTE}
     ],
-    skip: (value: any, prestatiosnEligibles: Prestation[]) =>
+    skip: (value: any, prestationsEligibles: Prestation[]) =>
       hasAnyAVSOrAIRevenus(value, 'revenusConjoint') ||
-      prestatiosnEligibles.includes(Prestation.PC_AVS_AI),
+      prestationsEligibles.includes(Prestation.PC_AVS_AI),
     eligibilite: [
       {
         prestation: Prestation.PC_AVS_AI_CONJOINT,
@@ -586,9 +586,9 @@ const RevenusQuestions: QuestionBase<any>[] = [
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
     options: revenusOptions,
-    skip: (value: any, prestatiosnEligibles: Prestation[]) =>
-      prestatiosnEligibles.includes(Prestation.PC_AVS_AI) ||
-      prestatiosnEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
+    skip: (value: any, prestationsEligibles: Prestation[]) =>
+      prestationsEligibles.includes(Prestation.PC_AVS_AI) ||
+      prestationsEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
     eligibilite: [
       {prestation: Prestation.PC_AVS_AI_ENFANTS}
     ]
@@ -606,14 +606,14 @@ const RevenusQuestions: QuestionBase<any>[] = [
     options: [
       {label: SituationRente.RECONNU_OCAI, help: true}
     ],
-    skip: (value: any, prestatiosnEligibles: Prestation[]) =>
+    skip: (value: any, prestationsEligibles: Prestation[]) =>
       !hasAnyEnfantOfType(value, [
         TypeEnfant.MOINS_18,
         TypeEnfant.ENTRE_18_25_EN_FORMATION
       ]) ||
       hasAnyAVSOrAIRevenus(value, 'revenusEnfant') ||
-      prestatiosnEligibles.includes(Prestation.PC_AVS_AI) ||
-      prestatiosnEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
+      prestationsEligibles.includes(Prestation.PC_AVS_AI) ||
+      prestationsEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
     eligibilite: [
       {
         prestation: Prestation.PC_AVS_AI_ENFANTS,

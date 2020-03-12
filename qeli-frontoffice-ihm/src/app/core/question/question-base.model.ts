@@ -14,7 +14,7 @@ export abstract class QuestionBase<T> {
   validators: ValidatorFn[];
   altText: (value: any) => string;
   labelParameters: { [key: string]: string | ((value: any) => string) };
-  skip: (value: any, prestatiosnEligibles: Prestation[]) => boolean;
+  skip: (value: any, prestationsEligibles: Prestation[]) => boolean;
   defaultAnswer: (value: any) => T;
   eligibilite: Eligibilite[];
 
@@ -28,7 +28,7 @@ export abstract class QuestionBase<T> {
     validators?: ValidatorFn[],
     altText?: (value: any) => string,
     labelParameters?: { [key: string]: string | ((value: any) => string) },
-    skip?: (value: any, prestatiosnEligibles: Prestation[]) => any,
+    skip?: (value: any, prestationsEligibles: Prestation[]) => any,
     defaultAnswer?: (value: any) => T,
     eligibilite?: Eligibilite[]
   } = {}) {
