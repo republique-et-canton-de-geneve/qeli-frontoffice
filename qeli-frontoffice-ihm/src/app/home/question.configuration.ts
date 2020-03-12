@@ -575,6 +575,7 @@ const RevenusQuestions: QuestionBase<any>[] = [
       }
     ]
   }),
+
   new CheckboxGroupQuestion({
     key: 'revenusEnfant',
     code: '0604',
@@ -590,7 +591,11 @@ const RevenusQuestions: QuestionBase<any>[] = [
       prestationsEligibles.includes(Prestation.PC_AVS_AI) ||
       prestationsEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
     eligibilite: [
-      {prestation: Prestation.PC_AVS_AI_ENFANTS}
+      {
+        prestation: Prestation.PC_AVS_AI_ENFANTS,
+        isEligible: (value: any) => hasAnyAVSOrAIRevenus(value, 'revenusEnfant') ||
+                                    hasAnyEnfantOfType(value, [TypeEnfant.ENTRE_18_25_EN_FORMATION])
+      }
     ]
   }),
   new CheckboxGroupQuestion({
@@ -607,10 +612,6 @@ const RevenusQuestions: QuestionBase<any>[] = [
       {label: SituationRente.RECONNU_OCAI, help: true}
     ],
     skip: (value: any, prestationsEligibles: Prestation[]) =>
-      !hasAnyEnfantOfType(value, [
-        TypeEnfant.MOINS_18,
-        TypeEnfant.ENTRE_18_25_EN_FORMATION
-      ]) ||
       hasAnyAVSOrAIRevenus(value, 'revenusEnfant') ||
       prestationsEligibles.includes(Prestation.PC_AVS_AI) ||
       prestationsEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
