@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" [trackQuestionIdentifier]="question.identifier">
   <div [formGroupName]="question.key"
        [attr.data-cy]="question.identifier">
 
@@ -8,7 +8,8 @@
                formControlName="none"
                [focusOnInit]="true"
                (change)="onNoneChanged()"
-               data-cy="NONE">
+               data-cy="NONE"
+               [attr.data-matomo-name]="question.identifier">
         {{ 'question.' + question.key + '.none' | translate }}
       </label>
     </div>
@@ -36,7 +37,8 @@
                [focusOnInit]="isFirst && !question.hasNone"
                [attr.id]="'field-' + i"
                [attr.data-cy]="field.label"
-               [attr.disabled]="isNoneSelected ? 'disabled' : null">
+               [attr.disabled]="isNoneSelected ? 'disabled' : null"
+               [attr.data-matomo-name]="question.identifier">
 
         <label class="form-label" [attr.for]="'field-' + i">
           {{ 'question.' + question.key + '.field.' + field.label | translate }}

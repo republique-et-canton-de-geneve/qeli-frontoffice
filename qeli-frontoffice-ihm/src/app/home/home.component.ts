@@ -13,7 +13,7 @@ import { TrackingService } from '../service/tracking.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @ViewChild('dynamicForm', { static: true }) dynamicForm: DynamicFormComponent;
+  @ViewChild('dynamicForm', {static: true}) dynamicForm: DynamicFormComponent;
 
   questions: QuestionBase<any>[] = AllQuestions;
   formState: FormState = {
@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
     prestationsRefuseesStack: [],
     done: false
   };
+  isFirstLoad: boolean = true;
 
   constructor(private deepLinkService: DeepLinkService,
               private route: ActivatedRoute,
@@ -54,19 +55,21 @@ export class HomeComponent implements OnInit {
       }
 
       this.doTracking();
+      this.isFirstLoad = false;
     });
   }
 
   doTracking() {
-    if (!this.formState.done) {
+    if (!this.isFirstLoad) {
       const previousQuestion = this.previousQuestion;
       if (previousQuestion) {
-        this.trackingService.trackAnswer(previousQuestion, this.formState.data);
+        this.trackingService.trackReponse(previousQuestion, this.formState.data);
       }
 
-      this.trackingService.trackQuestion(this.currentQuestion);
-    } else { // result page :
-      this.trackingService.trackResult(this.formState.prestationsRefusees, this.formState.data);
+      if (this.formState.done) { // result page :
+        this.trackingService.trackFormSubmission(this.formState, this.dynamicForm.formElement.nativeElement);
+        this.trackingService.trackReponsesFinales(this.questions, this.formState.data);
+      }
     }
   }
 
