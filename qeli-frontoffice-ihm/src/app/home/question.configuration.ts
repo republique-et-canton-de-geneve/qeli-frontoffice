@@ -22,7 +22,6 @@ import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model
 import { TypeRevenus } from './model/revenus.model';
 import { Scolarite } from './model/scolarite.model';
 import { Logement } from './model/logement.model';
-import { TextQuestion } from '../core/question/text-question/text-question.model';
 import { Loyer } from './model/loyer.model';
 import { Categorie, Subcategorie } from '../core/question/question-categorie.model';
 import {
@@ -30,6 +29,8 @@ import {
 } from '../core/question/number-group-question/number-group-question.model';
 import { TypeEnfant } from './model/type-enfant.model';
 import { SituationRente } from './model/situation-rente.model';
+import { NumberQuestion } from '../core/question/number-question/number-question.model';
+import { TauxQuestion } from '../core/question/taux-question/taux-question.model';
 
 const PRESTATIONS_OPTIONS = Object.keys(Prestation).filter(
   prestation => prestation !== Prestation.PC_AVS_AI_CONJOINT &&
@@ -683,6 +684,16 @@ const SituationProfessionnelleQuestions: QuestionBase<any>[] = [
         isEligible: (value: any) => value['taxationOffice'] !== ReponseProgressive.OUI
       }
     ]
+  }),
+  new TauxQuestion({
+    key: 'tauxActivite',
+    code: '0902',
+    categorie: Categorie.COMPLEMENTS,
+    subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE,
+    validators: [Validators.required],
+    eligibilite: [
+      {prestation: Prestation.PC_FAM}
+    ]
   })
 ];
 
@@ -719,32 +730,27 @@ const LogementQuestions: QuestionBase<any>[] = [
       }
     ]
   }),
-  new TextQuestion({
+  new NumberQuestion({
     key: 'nombreDePersonnesLogement',
     code: '1003',
     categorie: Categorie.COMPLEMENTS,
     subcategorie: Subcategorie.LOGEMENT,
     help: true,
-    type: 'number',
-    validators: [Validators.required,
-                 Validators.pattern('[0-9]'),
-                 Validators.min(1),
-                 Validators.max(20)],
+    min: 1,
+    max: 20,
+    validators: [Validators.required],
     eligibilite: [
       {prestation: Prestation.ALLOCATION_LOGEMENT}
     ]
   }),
-  new TextQuestion({
+  new NumberQuestion({
     key: 'nombreDePiecesLogement',
     code: '1004',
     categorie: Categorie.COMPLEMENTS,
     subcategorie: Subcategorie.LOGEMENT,
     help: true,
     type: 'number',
-    validators: [Validators.required,
-                 Validators.pattern('[0-9]'),
-                 Validators.min(1),
-                 Validators.max(20)],
+    validators: [Validators.required],
     eligibilite: [
       {
         prestation: Prestation.ALLOCATION_LOGEMENT,
