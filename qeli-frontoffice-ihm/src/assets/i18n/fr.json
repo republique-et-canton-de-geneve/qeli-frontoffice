@@ -554,6 +554,24 @@
         "required": "Ce champ est obligatoire"
       }
     },
+    "taxationOffice": {
+      "label": " Votre dernière taxation est-elle une taxation d'office ?",
+      "altText": {
+        "avecConcubin": "Votre dernière taxation ou celle de votre concubin est-elle une taxation d'office ?"
+      },
+      "help": "Taxation d'office : vous n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais. Vous avez reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "PC_FAM": "Votre dernière taxation ou celle de votre concubin est une taxation d'office"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
     "proprietaireOuLocataireLogement": {
       "label": "Etes-vous propriétaire ou locataire de votre logement ?",
       "help": "Logement : l'appartement ou la maison dans laquelle vous habitez.",
