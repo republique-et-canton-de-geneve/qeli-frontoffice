@@ -94,7 +94,7 @@ export class TrackingService {
     const answer = question.accept(new ToTrackingAnswerQuestionVisitor(data));
     this.trackReponseInconnu(question, data);
 
-    this.matomoTracker.setCustomVariable(1, question.identifier, answer, SCOPE_PAGE);
+    this.matomoTracker.setCustomVariable(1, question.identifier, answer.join(';'), SCOPE_PAGE);
     this.trackEvent(TRACK_ANSWER, question.identifier);
     this.matomoTracker.deleteCustomVariable(1, SCOPE_PAGE);
   }
@@ -126,14 +126,7 @@ export class TrackingService {
     questions.forEach(question => {
       const answer = question.accept(new ToTrackingAnswerQuestionVisitor(data));
       if (answer) {
-        console.log(answer);
-        if (Array.isArray(answer)) {
-          answer.forEach((singleAnswer) => {
-            this.matomoTracker.trackSiteSearch(singleAnswer, question.identifier);
-          });
-        } else {
-          this.matomoTracker.trackSiteSearch(answer, question.identifier);
-        }
+        answer.forEach((singleAnswer) => this.matomoTracker.trackSiteSearch(singleAnswer, question.identifier));
       }
     });
   }
@@ -183,7 +176,7 @@ export class TrackingService {
   }
 }
 
-class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
+class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string[]> {
 
   constructor(private data: any) {
 
@@ -193,7 +186,7 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
     return this.data[question.key];
   }
 
-  visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): any {
+  visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): string[] {
     const answer = this.findValueForQuestion(question);
     let result = [];
 
@@ -207,49 +200,50 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string> {
     return result;
   }
 
-  visitDateQuestion(question: DateQuestion): string {
+  visitDateQuestion(question: DateQuestion): string[] {
     const answer = this.findValueForQuestion(question);
 
     if (answer['shortcut'] && answer['shortcut'] !== 'NO_SHORTCUT') {
       return answer['shortcut'];
     }
 
-    return answer['value'];
+    return answer['value'] ? [answer['value']] : [];
   }
 
-  visitDropdownQuestion(question: DropdownQuestion): string {
-    return this.findValueForQuestion(question);
+  visitDropdownQuestion(question: DropdownQuestion): string[] {
+    const answer = this.findValueForQuestion(question);
+    return answer ? [answer] : [];
   }
 
-  visitNationaliteQuestion(question: NationaliteQuestion): string {
+  visitNationaliteQuestion(question: NationaliteQuestion): string[] {
     const value = this.findValueForQuestion(question);
 
     if (!!value['apatride']) {
-      return 'APATRIDE';
+      return ['APATRIDE'];
     }
-
-    return value['pays'] ? value['pays'].join(';') : null;
-
+    return value['pays'].filter(x => x != null);
   }
 
-  visitRadioQuestion(question: RadioQuestion): string {
-    return this.findValueForQuestion(question);
+  visitRadioQuestion(question: RadioQuestion): string[] {
+    const answer = this.findValueForQuestion(question);
+    return answer ? [answer] : [];
   }
 
-  visitTextQuestion(question: TextQuestion): string {
-    return this.findValueForQuestion(question);
+  visitTextQuestion(question: TextQuestion): string[] {
+    const answer = this.findValueForQuestion(question);
+    return answer ? [answer] : [];
   }
 
-  visitNumberGroupQuestion(question: NumberGroupQuestion): string {
+  visitNumberGroupQuestion(question: NumberGroupQuestion): string[] {
     const answer = this.findValueForQuestion(question);
 
     if (!!answer['none']) {
-      return 'AUCUN';
+      return ['AUCUN'];
     }
 
     return Object.entries(answer['values']).map(entry => {
       return `${entry[0]}=${entry[1]}`
-    }).join('; ');
+    });
   }
 
 }
