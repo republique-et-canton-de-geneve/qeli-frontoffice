@@ -73,20 +73,15 @@ export class TrackingService {
   /**
    * Trace la question courante via un titre de page et une url personnalisés
    *
-   * @param question
-   * @param formElement
+   * @param questionIdentifier
    */
-  trackQuestion(question: QuestionBase<any>, formElement: HTMLElement) {
-    this.setCurrentPage(question.identifier);
-    const trackingUrl = location.href.split('?')[0] + TRACK_QUESTION + '/' + question.identifier;
+  trackQuestion(questionIdentifier: string) {
+    this.setCurrentPage(questionIdentifier);
+    const trackingUrl = location.href.split('?')[0] + TRACK_QUESTION + '/' + questionIdentifier;
     this.matomoTracker.setCustomUrl(trackingUrl);
-    this.matomoTracker.trackPageView(TRACK_QUESTION + '/' + question.identifier);
+    this.matomoTracker.trackPageView(TRACK_QUESTION + '/' + questionIdentifier);
 
-    let args = [];
-    if (!!formElement) {
-      args.push(formElement);
-    }
-    window["_paq"].push(['FormAnalytics::scanForForms'].concat(args));
+    window["_paq"].push(['FormAnalytics::scanForForms']);
   }
 
   /**

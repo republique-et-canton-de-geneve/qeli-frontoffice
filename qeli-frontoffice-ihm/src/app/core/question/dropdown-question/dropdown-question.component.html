@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" [trackQuestionIdentifier]="question.identifier">
   <select [id]="question.key"
           [formControlName]="question.key"
           focusOnInit="true"

@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" [trackQuestionIdentifier]="question.identifier">
 
   <div [formGroupName]="question.key"
        [attr.data-cy]="question.identifier"

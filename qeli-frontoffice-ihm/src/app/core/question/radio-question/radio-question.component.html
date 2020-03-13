@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" [trackQuestionIdentifier]="question.identifier">
   <div *ngFor="let option of question.options; first as isFirst"
        [class]="question.inline ? 'radio radio-inline' : 'radio'"
        [attr.data-cy]="question.identifier">

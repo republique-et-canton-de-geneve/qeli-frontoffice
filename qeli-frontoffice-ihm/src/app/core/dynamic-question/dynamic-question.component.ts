@@ -1,11 +1,9 @@
-import { Component, ComponentFactoryResolver, Inject, Input, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { QuestionBase } from '../question/question-base.model';
 import { QuestionDirective } from '../question/question.directive';
 import { QuestionComponent } from '../question/question.component';
 import { QuestionRegistry } from '../question/question-registry';
-import { TrackingService } from '../../service/tracking.service';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-dynamic-question',
@@ -18,9 +16,7 @@ export class DynamicQuestionComponent {
 
   @ViewChild(QuestionDirective, {static: true}) questionDirective: QuestionDirective;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver,
-              private trackingService: TrackingService,
-              @Inject(DOCUMENT) document) {
+  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
 
   }
 
@@ -50,7 +46,5 @@ export class DynamicQuestionComponent {
     const componentRef = viewContainerRef.createComponent(componentFactory);
     (<QuestionComponent<any>>componentRef.instance).form = this.form;
     (<QuestionComponent<any>>componentRef.instance).question = this.question;
-
-    this.trackingService.trackQuestion(this.question, document.getElementById('formElement'));
   }
 }
