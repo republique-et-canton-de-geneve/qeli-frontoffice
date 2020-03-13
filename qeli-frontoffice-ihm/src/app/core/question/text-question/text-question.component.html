@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" [trackQuestionIdentifier]="question.identifier">
   <input [id]="question.key"
          [formGroup]="form"
          [formControlName]="question.key"
@@ -6,5 +6,6 @@
          [type]="question.type"
          focusOnInit="true"
          class="form-control"
-         [attr.data-cy]="question.identifier">
+         [attr.data-cy]="question.identifier"
+         [attr.data-matomo-name]="question.identifier">
 </div>
