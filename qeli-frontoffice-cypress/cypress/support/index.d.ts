@@ -74,5 +74,17 @@ declare namespace Cypress {
      */
     answerQuestion(question: string, answer: string, validate: boolean): Chainable<any>
 
+    /**
+     * Réponds à une question du formulaire de type date à partir d'un âge.
+     * La date testée sera "01.01.XXXX".
+     *
+     * @param question Couple 'code + key' de la question, exemple : "0201_dateNaissance"
+     * @param years Réponse à la question en nombre d'années (l'âge)
+     * @param validate Valide ou non la question courante pour passer à la suivante (bouton suivant)
+     *
+     * @example cy.answerQuestion('0201_dateNaissance', 30, false)
+     */
+    answerYearsQuestion(question: string, years: number, validate: boolean): Chainable<any>
+
   }
 }
