@@ -575,6 +575,7 @@ const RevenusQuestions: QuestionBase<any>[] = [
       }
     ]
   }),
+
   new CheckboxGroupQuestion({
     key: 'revenusEnfant',
     code: '0604',
@@ -590,7 +591,11 @@ const RevenusQuestions: QuestionBase<any>[] = [
       prestationsEligibles.includes(Prestation.PC_AVS_AI) ||
       prestationsEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
     eligibilite: [
-      {prestation: Prestation.PC_AVS_AI_ENFANTS}
+      {
+        prestation: Prestation.PC_AVS_AI_ENFANTS,
+        isEligible: (value: any) => hasAnyAVSOrAIRevenus(value, 'revenusEnfant') ||
+                                    hasAnyEnfantOfType(value, [TypeEnfant.ENTRE_18_25_EN_FORMATION])
+      }
     ]
   }),
   new CheckboxGroupQuestion({
@@ -607,10 +612,6 @@ const RevenusQuestions: QuestionBase<any>[] = [
       {label: SituationRente.RECONNU_OCAI, help: true}
     ],
     skip: (value: any, prestationsEligibles: Prestation[]) =>
-      !hasAnyEnfantOfType(value, [
-        TypeEnfant.MOINS_18,
-        TypeEnfant.ENTRE_18_25_EN_FORMATION
-      ]) ||
       hasAnyAVSOrAIRevenus(value, 'revenusEnfant') ||
       prestationsEligibles.includes(Prestation.PC_AVS_AI) ||
       prestationsEligibles.includes(Prestation.PC_AVS_AI_CONJOINT),
@@ -665,7 +666,25 @@ const formationQuestions: QuestionBase<any>[] = [
 
 const RentesQuestions: QuestionBase<any>[] = [];
 
-const SituationProfesionelleQuestions: QuestionBase<any>[] = [];
+const SituationProfessionnelleQuestions: QuestionBase<any>[] = [
+  new RadioQuestion({
+    key: 'taxationOffice',
+    code: '0901',
+    categorie: Categorie.COMPLEMENTS,
+    subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE,
+    help: true,
+    inline: true,
+    options: Object.keys(ReponseProgressive).map(label => ({label: label})),
+    validators: [Validators.required],
+    altText: value => isConcubinageAutreParent(value) ? 'avecConcubin' : null,
+    eligibilite: [
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => value['taxationOffice'] !== ReponseProgressive.OUI
+      }
+    ]
+  })
+];
 
 const LogementQuestions: QuestionBase<any>[] = [
   new RadioQuestion({
@@ -940,7 +959,7 @@ export const AllQuestions: QuestionBase<any>[] = [].concat(
   RevenusQuestions,
   formationQuestions,
   RentesQuestions,
-  SituationProfesionelleQuestions,
+  SituationProfessionnelleQuestions,
   LogementQuestions,
   AssuranceMaladieQuestions,
   PensionAlimentaireQuestions,
