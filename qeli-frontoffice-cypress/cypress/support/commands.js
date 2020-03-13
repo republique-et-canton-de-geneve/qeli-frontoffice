@@ -1,4 +1,5 @@
 /// <reference types="./support" />
+var moment = require('moment');
 
 const TEXTBOX = 'input[type=text]';
 const RADIO = 'input[type=radio]';
@@ -77,6 +78,20 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
       } else {
         cy.wrap($elem).type(answer);
       }
+    }
+
+    if (validate) {
+      cy.clickNext();
+    }
+
+  });
+});
+
+Cypress.Commands.add('answerYearsQuestion', (question, years, validate) => {
+  cy.dataCy(question).then(($elem) => {
+    if ($elem[0].getAttribute('data-cy-type') === 'date') {
+      const dateAnswer = moment().subtract(years, 'years').format("DD.MM.YYYY");
+      cy.dataCy('date-input').type(dateAnswer);
     }
 
     if (validate) {
