@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" [trackQuestionIdentifier]="question.identifier">
   <input [id]="question.key"
          [formGroup]="form"
          [formControlName]="question.key"
