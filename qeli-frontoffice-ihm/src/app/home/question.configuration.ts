@@ -666,7 +666,7 @@ const formationQuestions: QuestionBase<any>[] = [
 
 const RentesQuestions: QuestionBase<any>[] = [];
 
-const SituationProfesionelleQuestions: QuestionBase<any>[] = [
+const SituationProfessionnelleQuestions: QuestionBase<any>[] = [
   new RadioQuestion({
     key: 'taxationOffice',
     code: '0901',
@@ -959,7 +959,7 @@ export const AllQuestions: QuestionBase<any>[] = [].concat(
   RevenusQuestions,
   formationQuestions,
   RentesQuestions,
-  SituationProfesionelleQuestions,
+  SituationProfessionnelleQuestions,
   LogementQuestions,
   AssuranceMaladieQuestions,
   PensionAlimentaireQuestions,
