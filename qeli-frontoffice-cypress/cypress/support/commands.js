@@ -1,4 +1,5 @@
 /// <reference types="./support" />
+var moment = require('moment');
 
 const TEXTBOX = 'input[type=text]';
 const RADIO = 'input[type=radio]';
@@ -89,9 +90,7 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
 Cypress.Commands.add('answerYearsQuestion', (question, years, validate) => {
   cy.dataCy(question).then(($elem) => {
     if ($elem[0].getAttribute('data-cy-type') === 'date') {
-      const yearAnswer = new Date().getFullYear() - years;
-      const dateAnswer = ["01", "01", yearAnswer].join('.');
-
+      const dateAnswer = moment().subtract(years, 'years').format("DD.MM.YYYY");
       if (/\d{2}\.\d{2}\.\d{4}/.test(dateAnswer)) {
         cy.dataCy('date-input').type(dateAnswer);
       }
