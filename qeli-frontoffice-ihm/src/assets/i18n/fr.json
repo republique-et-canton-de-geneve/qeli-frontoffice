@@ -575,7 +575,7 @@
     "tauxActivite": {
       "label": "Quel est votre taux d'activité ?",
       "motifRefus": {
-        "PC_FAM": "Votre taux d'activite et trop élevé par rapport à votre situation"
+        "PC_FAM": "Votre taux d'activite est trop élevé par rapport à votre situation"
       },
       "defaultOptions": "Sélectionnez une option parmis les suivantes :",
       "other": "Saisissez votre taux d'activité manuellement :",

@@ -128,7 +128,6 @@ export class TrackingService {
     questions.forEach(question => {
       const answer = question.accept(new ToTrackingAnswerQuestionVisitor(data));
       if (answer) {
-        console.log(answer);
         answer.forEach((singleAnswer) => this.matomoTracker.trackSiteSearch(singleAnswer, question.identifier));
       }
     });
