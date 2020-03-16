@@ -12,6 +12,8 @@ import { QuestionOption } from '../../core/question/option.model';
 import { ReponseProgressive } from '../../core/common/reponse.model';
 import { NumberGroupQuestion } from '../../core/question/number-group-question/number-group-question.model';
 import * as moment from 'moment';
+import { NumberQuestion } from '../../core/question/number-question/number-question.model';
+import { TauxQuestion } from '../../core/question/taux-question/taux-question.model';
 
 @Injectable()
 export class FormatAnswerVisitorFactory {
@@ -83,13 +85,21 @@ export class FormatAnswerVisitor implements QuestionVisitor<string> {
     return answer['pays'].map(
       pays => this.translate.instant(`common.pays.${pays}`)
     ).join(', ');
+  }
 
+  visitNumberQuestion(question: NumberQuestion): string {
+    return this.findValueForQuestion(question);
   }
 
   visitRadioQuestion(question: RadioQuestion): string {
     return this.translateOption(
       question.key, question.options, this.findValueForQuestion(question)
     );
+  }
+
+  visitTauxQuestion(question: TauxQuestion): string {
+    const answer = this.findValueForQuestion(question);
+    return `${answer['taux']}%`;
   }
 
   visitTextQuestion(question: TextQuestion): string {
@@ -108,4 +118,5 @@ export class FormatAnswerVisitor implements QuestionVisitor<string> {
       return `${entry[1]} ${label}`
     }).join(', ');
   }
+
 }

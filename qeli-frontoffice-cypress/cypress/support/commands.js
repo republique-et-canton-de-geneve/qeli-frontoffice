@@ -1,10 +1,10 @@
 /// <reference types="./support" />
 var moment = require('moment');
 
+const NUMBERBOX = 'input[type=number]';
 const TEXTBOX = 'input[type=text]';
 const RADIO = 'input[type=radio]';
 const CHECKBOX = 'input[type=checkbox]';
-const DATE = 'input[type=date]';
 const SELECT = 'select';
 
 const url = Cypress.config('baseUrl');
@@ -75,6 +75,8 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
         cy.get(SELECT).select(answer);
       } else if ($elem[0].type === 'text') {
         cy.get(TEXTBOX).type(answer);
+      } else if ($elem[0].type === 'number') {
+        cy.get(NUMBERBOX).type(answer);
       } else {
         cy.wrap($elem).type(answer);
       }
