@@ -205,3 +205,8 @@ export function conjointHabiteSuisseDepuis(value: any, years: number) {
 export function isSituationRenteNone(value: any, which = 'situationRente') {
   return value[which] !== null && value[which]['none'] !== ReponseProgressive.NON;
 }
+
+export function getTauxActivite(value: any) {
+  const tauxActivite = value['tauxActivite'];
+  return tauxActivite ? tauxActivite['taux'] as number : null;
+}

@@ -492,6 +492,9 @@
         "AVS": "Il(elle) reçoit une rente AVS",
         "AI": "Il(elle) reçoit une rente AI"
       },
+      "motifRefus": {
+        "PC_AVS_AI": "Les revenus de votre(vos) enfant(s) vous empêchent de bénéficier de cette prestation"
+      },
       "error": {
         "required": "Les revenus de votre(vos) enfant(s) doivent être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
@@ -575,10 +578,21 @@
     "tauxActivite": {
       "label": "Quel est votre taux d'activité ?",
       "motifRefus": {
-        "PC_FAM": "Votre taux d'activite est trop élevé par rapport à votre situation"
+        "PC_FAM": "Votre taux d'activite est trop faible par rapport à votre situation"
       },
       "defaultOptions": "Sélectionnez une option parmis les suivantes :",
       "other": "Saisissez votre taux d'activité manuellement :",
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir votre taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteDernierEmploi": {
+      "label": "Dans votre dernier emploi, quel était votre taux d'activité ?",
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité de votre dernier emploi manuellement :",
       "error": {
         "required": "Ce champ est obligatoire",
         "pattern": "Merci de saisir votre taux d'activité",
