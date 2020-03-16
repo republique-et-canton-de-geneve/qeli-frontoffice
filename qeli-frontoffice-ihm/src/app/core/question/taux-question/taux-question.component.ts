@@ -28,7 +28,6 @@ export class TauxQuestionComponent implements QuestionComponent<number> {
   }
 
   onOtherChanged() {
-    console.log(!!this.isOtherSelected);
     this.formGroup.controls['taux'].setValue(null);
   }
 
