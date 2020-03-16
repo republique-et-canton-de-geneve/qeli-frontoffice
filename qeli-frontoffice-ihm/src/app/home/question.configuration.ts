@@ -5,7 +5,8 @@ import { Prestation } from '../core/common/prestation.model';
 import { QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
-  aucuneScolarite, conjointHabiteSuisseDepuis, getLimiteFortune, habiteGeneveDepuis5ans, habiteGeneveDepuisNaissance,
+  aucuneScolarite, conjointHabiteSuisseDepuis, getLimiteFortune, getTauxActivite, habiteGeneveDepuis5ans,
+  habiteGeneveDepuisNaissance,
   habiteSuisseDepuis, hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus, hasConjoint,
   hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConcubinageAutreParent,
   isFonctionnaireInternational, isMineur, isPaysNonConventione, isRatioPiecesPersonnesLogementAcceptable, isRefugie,
@@ -698,8 +699,20 @@ const SituationProfessionnelleQuestions: QuestionBase<any>[] = [
         isEligible: (value: any) => hasAnyRevenus(value, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) ||
                                     hasConjoint(value) ||
                                     isConcubinageAutreParent(value) ||
-                                    value['tauxActivite'] > 40
+                                    getTauxActivite(value) >   40
       }
+    ]
+  }),
+
+  new TauxQuestion({
+    key: 'tauxActiviteDernierEmploi',
+    code: '0903',
+    categorie: Categorie.COMPLEMENTS,
+    subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE,
+    validators: [Validators.required],
+    skip: (value: any) => !hasAnyRevenus(value, [TypeRevenus.CHOMAGE, TypeRevenus.APG]),
+    eligibilite: [
+      {prestation: Prestation.PC_FAM}
     ]
   })
 ];

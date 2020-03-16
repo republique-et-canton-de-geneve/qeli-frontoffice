@@ -73,10 +73,6 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
         cy.dataCy(answer).check();
       } else if ($elem[0].type === 'select-one') {
         cy.get(SELECT).select(answer);
-      } else if ($elem[0].type === 'text') {
-        cy.get(TEXTBOX).type(answer);
-      } else if ($elem[0].type === 'number') {
-        cy.get(NUMBERBOX).type(answer);
       } else {
         cy.wrap($elem).type(answer);
       }
