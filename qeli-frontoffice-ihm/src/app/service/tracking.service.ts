@@ -12,6 +12,8 @@ import { RadioQuestion } from '../core/question/radio-question/radio-question.mo
 import { TextQuestion } from '../core/question/text-question/text-question.model';
 import { ReponseProgressive } from '../core/common/reponse.model';
 import { NumberGroupQuestion } from '../core/question/number-group-question/number-group-question.model';
+import { NumberQuestion } from '../core/question/number-question/number-question.model';
+import { TauxQuestion } from '../core/question/taux-question/taux-question.model';
 
 const SCOPE_PAGE = 'page';
 const TRACK_FORM = 'Formulaire';
@@ -204,7 +206,7 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string[]> {
     const answer = this.findValueForQuestion(question);
 
     if (answer['shortcut'] && answer['shortcut'] !== 'NO_SHORTCUT') {
-      return answer['shortcut'];
+      return [answer['shortcut']];
     }
 
     return answer['value'] ? [answer['value']] : [];
@@ -224,9 +226,19 @@ class ToTrackingAnswerQuestionVisitor implements QuestionVisitor<string[]> {
     return value['pays'].filter(x => x != null);
   }
 
+  visitNumberQuestion(question: NumberQuestion): string[] {
+    const answer = this.findValueForQuestion(question);
+    return answer ? [answer] : [];
+  }
+
   visitRadioQuestion(question: RadioQuestion): string[] {
     const answer = this.findValueForQuestion(question);
     return answer ? [answer] : [];
+  }
+
+  visitTauxQuestion(question: TauxQuestion): string[] {
+    const value = this.findValueForQuestion(question);
+    return [value['taux']];
   }
 
   visitTextQuestion(question: TextQuestion): string[] {
@@ -280,9 +292,17 @@ class IsInconnuAnswerQuestionVisitor implements QuestionVisitor<boolean> {
     return false;
   }
 
+  visitNumberQuestion(question: NumberQuestion): boolean {
+    return false;
+  }
+
   visitRadioQuestion(question: RadioQuestion): boolean {
     const answer = this.findValueForQuestion(question);
     return answer === ReponseProgressive.INCONNU;
+  }
+
+  visitTauxQuestion(question: TauxQuestion): boolean {
+    return false;
   }
 
   visitTextQuestion(question: TextQuestion): boolean {

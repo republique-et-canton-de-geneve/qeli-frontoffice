@@ -572,6 +572,20 @@
         "required": "Ce champ est obligatoire"
       }
     },
+    "tauxActivite": {
+      "label": "Quel est votre taux d'activité ?",
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activite est trop élevé par rapport à votre situation"
+      },
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez votre taux d'activité manuellement :",
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir votre taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
     "proprietaireOuLocataireLogement": {
       "label": "Etes-vous propriétaire ou locataire de votre logement ?",
       "help": "Logement : l'appartement ou la maison dans laquelle vous habitez.",

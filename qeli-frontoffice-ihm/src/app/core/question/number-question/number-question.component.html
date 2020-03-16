@@ -1,0 +1,14 @@
+<div [formGroup]="form" [trackQuestionIdentifier]="question.identifier">
+  <input [id]="question.key"
+         [formGroup]="form"
+         [formControlName]="question.key"
+         [placeholder]="question.placeholder"
+         type="number"
+         (keypress)="isNumber($event)"
+         [min]="question.min"
+         [max]="question.max"
+         focusOnInit="true"
+         class="form-control"
+         [attr.data-cy]="question.identifier"
+         [attr.data-matomo-name]="question.identifier">
+</div>
