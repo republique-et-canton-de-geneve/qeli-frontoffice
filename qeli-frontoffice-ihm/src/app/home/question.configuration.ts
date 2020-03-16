@@ -691,8 +691,15 @@ const SituationProfessionnelleQuestions: QuestionBase<any>[] = [
     categorie: Categorie.COMPLEMENTS,
     subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE,
     validators: [Validators.required],
+    skip: (value: any) => !hasAnyRevenus(value, [TypeRevenus.EMPLOI]),
     eligibilite: [
-      {prestation: Prestation.PC_FAM}
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => hasAnyRevenus(value, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) ||
+                                    hasConjoint(value) ||
+                                    isConcubinageAutreParent(value) ||
+                                    value['tauxActivite'] > 40
+      }
     ]
   })
 ];
@@ -749,7 +756,8 @@ const LogementQuestions: QuestionBase<any>[] = [
     categorie: Categorie.COMPLEMENTS,
     subcategorie: Subcategorie.LOGEMENT,
     help: true,
-    type: 'number',
+    min: 1,
+    max: 20,
     validators: [Validators.required],
     eligibilite: [
       {
