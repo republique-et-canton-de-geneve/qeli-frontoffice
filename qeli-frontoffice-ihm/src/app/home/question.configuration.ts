@@ -726,7 +726,25 @@ const SituationProfessionnelleQuestions: QuestionBase<any>[] = [
     eligibilite: [
       {
         prestation: Prestation.PC_FAM,
-        isEligible: (value: any) => value['tauxActiviteVariable6DernierMois'] === ReponseBinaire.OUI  ||
+        isEligible: (value: any) => value['tauxActiviteVariable6DernierMois'] === ReponseBinaire.OUI ||
+                                    hasConjoint(value) ||
+                                    isConcubinageAutreParent(value)
+      }
+    ]
+  }),
+
+  new TauxQuestion({
+    key: 'tauxActiviteMoyen6DernierMois',
+    code: '0905',
+    categorie: Categorie.COMPLEMENTS,
+    subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE,
+    help: true,
+    validators: [Validators.required],
+    skip: (value: any) => value['tauxActiviteVariable6DernierMois'] !== ReponseBinaire.OUI,
+    eligibilite: [
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => sumTauxActivite(value, ['tauxActivite', 'tauxActiviteMoyen6DernierMois']) > 40 ||
                                     hasConjoint(value) ||
                                     isConcubinageAutreParent(value)
       }
