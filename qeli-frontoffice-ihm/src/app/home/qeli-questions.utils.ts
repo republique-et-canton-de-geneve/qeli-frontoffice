@@ -33,7 +33,9 @@ export function aucuneScolarite(value: any) {
 }
 
 export function hasAnyRevenus(value: any, revenus: TypeRevenus[], which: string = 'revenus') {
-  return revenus.some(item => value[which]['choices'].includes(item));
+  return value[which] !== null &&
+         value[which] !== undefined &&
+         revenus.some(item => value[which]['choices'].includes(item));
 }
 
 export function hasAnyAVSOrAIRevenus(value: any, which: string = 'revenus') {
@@ -206,15 +208,29 @@ export function isSituationRenteNone(value: any, which = 'situationRente') {
   return value[which] !== null && value[which]['none'] !== ReponseProgressive.NON;
 }
 
-export function getTauxActivite(value: any, key: string) {
+function getTauxActivite(value: any, key: string) {
   const tauxActivite = value[key];
-  return tauxActivite ? parseInt(tauxActivite['taux']) : null;
+  return tauxActivite && tauxActivite['taux'] ? parseInt(tauxActivite['taux']) : null;
 }
 
-export function sumTauxActivite(value: any, keys: string[]) {
-  const t = keys.map(key => getTauxActivite(value, key))
-                .filter(taux => taux !== null && taux !== undefined)
-                .reduce((c, t) => c + t, 0);
-  console.log(t);
-  return t;
+export function sumTauxActivite(value: any, useTauxVariable: boolean) {
+  const isTauxVariable = useTauxVariable && value['tauxActiviteVariable6DernierMois'] === ReponseBinaire.OUI;
+  const keys = ['tauxActivite'].concat(
+    isTauxVariable ? 'tauxActiviteMoyen6DernierMois' : 'tauxActiviteDernierEmploi'
+  );
+
+  return keys.map(key => getTauxActivite(value, key))
+             .filter(taux => taux !== null && taux !== undefined)
+             .reduce((c, t) => c + t, 0);
+}
+
+export function sumTauxActiviteAvecConjoint(value: any, useTauxVariable: boolean) {
+  const isTauxVariable = useTauxVariable && value['tauxActiviteVariable6DernierMoisConjoint'] === ReponseBinaire.OUI;
+  const keys = ['tauxActiviteConjoint'].concat(
+    isTauxVariable ? 'tauxActiviteMoyen6DernierMoisConjoint' : 'tauxActiviteDernierEmploiConjoint'
+  );
+
+  return keys.map(key => getTauxActivite(value, key))
+             .filter(taux => taux !== null && taux !== undefined)
+             .reduce((c, t) => c + t, 0) + sumTauxActivite(value, true);
 }
