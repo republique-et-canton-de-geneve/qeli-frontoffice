@@ -577,11 +577,11 @@
     },
     "tauxActivite": {
       "label": "Quel est votre taux d'activité ?",
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez votre taux d'activité manuellement :",
       "motifRefus": {
         "PC_FAM": "Votre taux d'activite est trop faible par rapport à votre situation"
       },
-      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
-      "other": "Saisissez votre taux d'activité manuellement :",
       "error": {
         "required": "Ce champ est obligatoire",
         "pattern": "Merci de saisir votre taux d'activité",
@@ -598,6 +598,19 @@
         "pattern": "Merci de saisir votre taux d'activité",
         "min": "Erreur dans la saisie du taux d'activité",
         "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteVariable6DernierMois": {
+      "label": "Durant les 6 derniers mois de travail, votre taux d'activité était-il variable ?",
+      "option": {
+        "OUI": "Oui, j'avais un taux d'activité variable",
+        "NON": "Non, j'avais un taux d'activité fixe "
+      },
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activite est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
       }
     },
     "proprietaireOuLocataireLogement": {

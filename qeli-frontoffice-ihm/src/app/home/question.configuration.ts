@@ -6,11 +6,11 @@ import { QuestionBase } from '../core/question/question-base.model';
 import { Validators } from '@angular/forms';
 import {
   aucuneScolarite, conjointHabiteSuisseDepuis, getLimiteFortune, getTauxActivite, habiteGeneveDepuis5ans,
-  habiteGeneveDepuisNaissance,
-  habiteSuisseDepuis, hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyPrestations, hasAnyRevenus, hasConjoint,
-  hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride, isConcubinageAutreParent,
-  isFonctionnaireInternational, isMineur, isPaysNonConventione, isRatioPiecesPersonnesLogementAcceptable, isRefugie,
-  isRefugieOrInconnu, isRequerantAsile, isSituationRenteNone, isSuisse, isUEOrAELE
+  habiteGeneveDepuisNaissance, habiteSuisseDepuis, hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyPrestations,
+  hasAnyRevenus, hasConjoint, hasEnfants, hasFortuneTropEleve, hasPermisBEtudes, hasPrestation, isApatride,
+  isConcubinageAutreParent, isFonctionnaireInternational, isMineur, isPaysNonConventione,
+  isRatioPiecesPersonnesLogementAcceptable, isRefugie, isRefugieOrInconnu, isRequerantAsile, isSituationRenteNone,
+  isSuisse, isUEOrAELE, sumTauxActivite
 } from './qeli-questions.utils';
 import { DateQuestion, DateQuestionValidators } from '../core/question/date-question/date-question.model';
 import * as moment from 'moment';
@@ -699,11 +699,10 @@ const SituationProfessionnelleQuestions: QuestionBase<any>[] = [
         isEligible: (value: any) => hasAnyRevenus(value, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) ||
                                     hasConjoint(value) ||
                                     isConcubinageAutreParent(value) ||
-                                    getTauxActivite(value) >   40
+                                    getTauxActivite(value, 'tauxActivite') > 40
       }
     ]
   }),
-
   new TauxQuestion({
     key: 'tauxActiviteDernierEmploi',
     code: '0903',
@@ -713,6 +712,24 @@ const SituationProfessionnelleQuestions: QuestionBase<any>[] = [
     skip: (value: any) => !hasAnyRevenus(value, [TypeRevenus.CHOMAGE, TypeRevenus.APG]),
     eligibilite: [
       {prestation: Prestation.PC_FAM}
+    ]
+  }),
+  new RadioQuestion({
+    key: 'tauxActiviteVariable6DernierMois',
+    code: '0912',
+    categorie: Categorie.COMPLEMENTS,
+    subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE,
+    options: Object.keys(ReponseBinaire).map(label => ({label: label})),
+    validators: [Validators.required],
+    skip: (value: any) => !hasAnyRevenus(value, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) ||
+                          sumTauxActivite(value, ['tauxActivite', 'tauxActiviteDernierEmploi']) > 40,
+    eligibilite: [
+      {
+        prestation: Prestation.PC_FAM,
+        isEligible: (value: any) => value['tauxActiviteVariable6DernierMois'] === ReponseBinaire.OUI  ||
+                                    hasConjoint(value) ||
+                                    isConcubinageAutreParent(value)
+      }
     ]
   })
 ];
