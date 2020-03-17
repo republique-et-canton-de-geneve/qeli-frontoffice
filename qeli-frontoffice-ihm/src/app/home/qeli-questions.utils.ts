@@ -206,7 +206,15 @@ export function isSituationRenteNone(value: any, which = 'situationRente') {
   return value[which] !== null && value[which]['none'] !== ReponseProgressive.NON;
 }
 
-export function getTauxActivite(value: any) {
-  const tauxActivite = value['tauxActivite'];
-  return tauxActivite ? tauxActivite['taux'] as number : null;
+export function getTauxActivite(value: any, key: string) {
+  const tauxActivite = value[key];
+  return tauxActivite ? parseInt(tauxActivite['taux']) : null;
+}
+
+export function sumTauxActivite(value: any, keys: string[]) {
+  const t = keys.map(key => getTauxActivite(value, key))
+                .filter(taux => taux !== null && taux !== undefined)
+                .reduce((c, t) => c + t, 0);
+  console.log(t);
+  return t;
 }
