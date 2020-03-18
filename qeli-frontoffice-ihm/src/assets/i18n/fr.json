@@ -637,7 +637,7 @@
       "defaultOptions": "Sélectionnez une option parmis les suivantes :",
       "other": "Saisissez le taux d'activité manuellement :",
       "motifRefus": {
-        "PC_FAM": "Votre taux d'activite est trop faible par rapport à votre situation"
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
       },
       "error": {
         "required": "Ce champ est obligatoire",
@@ -670,7 +670,7 @@
         "NON": "Non, j'avais un taux d'activité fixe "
       },
       "motifRefus": {
-        "PC_FAM": "Votre taux d'activite est trop faible par rapport à votre situation"
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -685,7 +685,7 @@
       "defaultOptions": "Sélectionnez une option parmis les suivantes :",
       "other": "Saisissez le taux d'activité manuellement :",
       "motifRefus": {
-        "PC_FAM": "Votre taux d'activite est trop faible par rapport à votre situation"
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
       },
       "error": {
         "required": "Ce champ est obligatoire",
