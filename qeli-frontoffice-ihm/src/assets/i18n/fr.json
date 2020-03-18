@@ -492,6 +492,9 @@
         "AVS": "Il(elle) reçoit une rente AVS",
         "AI": "Il(elle) reçoit une rente AI"
       },
+      "motifRefus": {
+        "PC_AVS_AI": "Les revenus de votre(vos) enfant(s) vous empêchent de bénéficier de cette prestation"
+      },
       "error": {
         "required": "Les revenus de votre(vos) enfant(s) doivent être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
@@ -574,14 +577,53 @@
     },
     "tauxActivite": {
       "label": "Quel est votre taux d'activité ?",
-      "motifRefus": {
-        "PC_FAM": "Votre taux d'activite est trop élevé par rapport à votre situation"
-      },
       "defaultOptions": "Sélectionnez une option parmis les suivantes :",
       "other": "Saisissez votre taux d'activité manuellement :",
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
       "error": {
         "required": "Ce champ est obligatoire",
-        "pattern": "Merci de saisir votre taux d'activité",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteDernierEmploi": {
+      "label": "Dans votre dernier emploi, quel était votre taux d'activité ?",
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteVariable6DernierMois": {
+      "label": "Durant les 6 derniers mois de travail, votre taux d'activité était-il variable ?",
+      "option": {
+        "OUI": "Oui, j'avais un taux d'activité variable",
+        "NON": "Non, j'avais un taux d'activité fixe "
+      },
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "tauxActiviteMoyen6DernierMois": {
+      "label": "En moyenne, quel était votre taux d'activité des 6 derniers mois de travail ?",
+      "help": "Moyenne : additionnez les 6 taux d'activité mensuels, puis divisez par 6.<br>Exemple :<br>Vos taux d'activité étaient de 20% en janvier, de 25% en février, de 30% en mars, de 35% en avril, de 40% en mai et de 45% en juin.<br>Calculs : 20 + 25 + 30 + 35 + 40 + 45 = 195<br>195 / 6 = 32.5<br>Notez 32.5 dans la réponse.",
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
         "min": "Erreur dans la saisie du taux d'activité",
         "max": "Erreur dans la saisie du taux d'activité"
       }
