@@ -985,6 +985,7 @@ const SituationFiscaleQuestions: QuestionBase<any>[] = [
     inline: true,
     options: Object.keys(ReponseProgressive).map(label => ({label: label})),
     validators: [Validators.required],
+    skip: (value: any) => isRefugie(value),
     altText: value => hasConjoint(value) ? 'avecConjoint' : null,
     eligibilite: [
       {
