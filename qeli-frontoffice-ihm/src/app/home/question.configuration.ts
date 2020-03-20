@@ -516,8 +516,15 @@ const RevenusQuestions: QuestionBase<any>[] = [
       CheckboxGroupValidators.atLeastOneSelected(Object.keys(TypeRevenus), true)
     ],
     options: revenusOptions,
-    // TODO Si déjà éligible à PC_AVS_AI est pas éligible à PC_FAM et AIDE_SOCIALE cette question est en trop.
-    skip: (value: any) => !hasConjoint(value),
+    skip: (value: any, prestationsEligibles: Prestation[]) =>
+      !hasConjoint(value) ||
+      (
+        prestationsEligibles.includes(Prestation.PC_AVS_AI) &&
+        (
+          !prestationsEligibles.includes(Prestation.PC_FAM) ||
+          !prestationsEligibles.includes(Prestation.AIDE_SOCIALE)
+        )
+      ),
     eligibilite: [
       {
         prestation: Prestation.PC_AVS_AI_CONJOINT,
