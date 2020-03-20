@@ -1,6 +1,6 @@
 {
   "name": "qeli-frontoffice-cypress",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Cypress avec Cucumber pour tester l'application web",
   "scripts": {
     "cy:open": "cypress open",
@@ -12,6 +12,7 @@
   "dependencies": {
     "cypress": "~3.8.2",
     "cypress-cucumber-preprocessor": "~2.0.1",
+    "moment": "~2.24.0",
     "neat-csv": "~5.1.0"
   },
   "cypress-cucumber-preprocessor": {

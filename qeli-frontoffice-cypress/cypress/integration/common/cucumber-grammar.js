@@ -28,6 +28,11 @@ When('A/a/à la question {string}(,) je remplis \\(sans validation):', (question
   answers.forEach((answer) => cy.answerQuestion(answer[0], answer[1], false));
 });
 
+When('A/a/à la question {string}(,) je réponds {int} ans',
+     (question, years) => cy.answerYearsQuestion(question, years, true));
+When('A/a/à la question {string}(,) je réponds {int} ans sans validation',
+     (question, years) => cy.answerYearsQuestion(question, years, false));
+
 // Then statements
 Then('Je/je vois la question {string} {string}',
      (question, title) => cy.dataCyLabel(question).should('contain', title)

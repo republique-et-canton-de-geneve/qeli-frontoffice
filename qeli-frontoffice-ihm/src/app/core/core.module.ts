@@ -18,6 +18,9 @@ import { DeepLinkComponent } from './deep-link/deep-link.component';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { BootstrapModule } from '../bootstrap/bootstrap.module';
 import { NumberGroupQuestionComponent } from './question/number-group-question/number-group-question.component';
+import { TrackAfterViewInitDirective } from './common/track-after-view-init.directive';
+import { NumberQuestionComponent } from './question/number-question/number-question.component';
+import { TauxQuestionComponent } from './question/taux-question/taux-question.component';
 
 export const ngxMaskModuleOptions: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -51,13 +54,16 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     QuestionDirective,
     FocusOnInitDirective,
+    TrackAfterViewInitDirective,
     CheckboxGroupQuestionComponent,
     DateQuestionComponent,
     DropdownQuestionComponent,
     DynamicFormComponent,
     DynamicQuestionComponent,
     NationaliteQuestionComponent,
+    NumberQuestionComponent,
     RadioQuestionComponent,
+    TauxQuestionComponent,
     TextQuestionComponent,
     DeepLinkComponent,
     NumberGroupQuestionComponent
@@ -69,7 +75,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     DynamicFormComponent,
     DynamicQuestionComponent,
     NationaliteQuestionComponent,
+    NumberQuestionComponent,
     RadioQuestionComponent,
+    TauxQuestionComponent,
     TextQuestionComponent,
     NumberGroupQuestionComponent
   ]

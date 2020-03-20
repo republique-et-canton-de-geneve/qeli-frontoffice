@@ -142,6 +142,9 @@
       },
       "error": {
         "required": "Votre état civil doit être fourni"
+      },
+      "motifRefus": {
+        "PC_AVS_AI": "Vous n'êtes pas marié ou en partenariat enregistré"
       }
     },
     "enfantsACharge": {
@@ -155,7 +158,8 @@
       },
       "none": "Aucun enfant",
       "motifRefus": {
-        "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge"
+        "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge",
+        "PC_AVS_AI": "Vous avez indiqué ne pas avoir d'enfant à charge"
       },
       "error": {
         "required": "Merci de saisir le nombre d'enfants à charge",
@@ -246,21 +250,6 @@
         "required": "Ce champ est obligatoire"
       }
     },
-    "permisBPlus5Ans": {
-      "label": "Avez-vous un permis B depuis plus de 5 ans ?",
-      "help": "Permis B : permis de séjour délivrée aux résidents longue durée par l'office cantonal de la population et de la migration (OCPM)).",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
-      "error": {
-        "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "BOURSES": "Vous avez indiqué avoir un permis B de moins de 5 ans"
-      }
-    },
     "domicileCantonGE": {
       "label": "Votre domicile officiel est-il dans le canton de Genève ?",
       "help": "Domicile : vous avez une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
@@ -329,7 +318,8 @@
         "Mask error": ""
       },
       "motifRefus": {
-        "BOURSES": "Votre date officielle d'arrivée en Suisse est trop récente"
+        "BOURSES": "Votre date officielle d'arrivée en Suisse est trop récente",
+        "PC_AVS_AI": "Votre date officielle d'arrivée en Suisse est trop récente"
       }
     },
     "dateArriveeSuisseConjoint": {
@@ -345,6 +335,9 @@
         "minDate": "Date d'arrivée en Suisse incorrecte",
         "invalidDate": "Date d'arrivée en Suisse incorrecte",
         "Mask error": ""
+      },
+      "motifRefus": {
+        "PC_AVS_AI": "La date officielle d'arrivée en Suisse de votre conjoint est trop récente"
       }
     },
     "revenus": {
@@ -371,10 +364,31 @@
       "motifRefus": {
         "BOURSES": "Vos revenus vous empêchent de bénéficier de cette prestation",
         "PC_FAM": "Vos revenus vous empêchent de bénéficier de cette prestation",
+        "PC_AVS_AI": "Vos revenus vous empêchent de bénéficier de cette prestation",
         "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette prestation"
       },
       "error": {
         "required": "Vos revenus doivent être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
+    "situationRente": {
+      "label": "Votre situation est-elle parmi les suivantes :",
+      "option": {
+        "RECONNU_OCAI": {
+          "label": "Je suis reconnu invalide par l'OCAI avec un taux minimum de 40%",
+          "help": "OCAI : l'office cantonal de l'assurance invalidité."
+        },
+        "RETRAITE_SANS_RENTE": "Je suis retraité sans rente",
+        "VEUF_SANS_RENTE": "Je suis veuf sans rente"
+      },
+      "some": "Sélectionnez toutes les options qui décrivent votre situation :",
+      "none": "Aucune des situation précedentes",
+      "motifRefus": {
+        "PC_AVS_AI": "Votre situation vous empêchent de bénéficier de cette prestation"
+      },
+      "error": {
+        "required": "Votre situation doit être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
@@ -401,10 +415,30 @@
       },
       "motifRefus": {
         "PC_FAM": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
+        "PC_AVS_AI": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
         "AIDE_SOCIALE": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation"
       },
       "error": {
         "required": "Les revenus de votre conjoint doivent être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
+    "situationRenteConjoint": {
+      "label": "La situation de votre conjoint est-elle parmi les suivantes :",
+      "option": {
+        "RECONNU_OCAI": {
+          "label": "Il(elle) est reconnu invalide par l'OCAI avec un taux minimum de 40%",
+          "help": "OCAI : l'office cantonal de l'assurance invalidité."
+        },
+        "RETRAITE_SANS_RENTE": "Il(elle) est retraité sans rente"
+      },
+      "some": "Sélectionnez toutes les options qui décrivent la situation de votre conjoint :",
+      "none": "Aucune des situation précedentes",
+      "motifRefus": {
+        "PC_AVS_AI": "La situation de votre conjoint vous empêchent de bénéficier de cette prestation"
+      },
+      "error": {
+        "required": "La situation de votre conjoint doit être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
@@ -458,8 +492,29 @@
         "AVS": "Il(elle) reçoit une rente AVS",
         "AI": "Il(elle) reçoit une rente AI"
       },
+      "motifRefus": {
+        "PC_AVS_AI": "Les revenus de votre(vos) enfant(s) vous empêchent de bénéficier de cette prestation"
+      },
       "error": {
         "required": "Les revenus de votre(vos) enfant(s) doivent être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
+    "situationRenteEnfant": {
+      "label": "La situation de votre(vos) enfant(s) est-elle parmi les suivantes :",
+      "option": {
+        "RECONNU_OCAI": {
+          "label": "Il(elle) est reconnu invalide par l'OCAI avec un taux minimum de 40%",
+          "help": "OCAI : l'office cantonal de l'assurance invalidité."
+        }
+      },
+      "some": "Sélectionnez toutes les options qui décrivent la situation de votre(vos) enfant(s) :",
+      "none": "Aucune des situation précedentes",
+      "motifRefus": {
+        "PC_AVS_AI": "La situation de votre(vos) enfant(s) vous empêchent de bénéficier de cette prestation"
+      },
+      "error": {
+        "required": "La situation de votre(vos) enfant(s) doit être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
@@ -500,6 +555,143 @@
       },
       "error": {
         "required": "Ce champ est obligatoire"
+      }
+    },
+    "taxationOffice": {
+      "label": " Votre dernière taxation est-elle une taxation d'office ?",
+      "altText": {
+        "avecConcubin": "Votre dernière taxation ou celle de votre concubin est-elle une taxation d'office ?"
+      },
+      "help": "Taxation d'office : vous n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais. Vous avez reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "motifRefus": {
+        "PC_FAM": "Votre dernière taxation ou celle de votre concubin est une taxation d'office"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "tauxActivite": {
+      "label": "Quel est votre taux d'activité ?",
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez votre taux d'activité manuellement :",
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteDernierEmploi": {
+      "label": "Dans votre dernier emploi, quel était votre taux d'activité ?",
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteVariable6DernierMois": {
+      "label": "Durant les 6 derniers mois de travail, votre taux d'activité était-il variable ?",
+      "option": {
+        "OUI": "Oui, j'avais un taux d'activité variable",
+        "NON": "Non, j'avais un taux d'activité fixe "
+      },
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "tauxActiviteMoyen6DernierMois": {
+      "label": "En moyenne, quel était votre taux d'activité des 6 derniers mois de travail ?",
+      "help": "Moyenne : additionnez les 6 taux d'activité mensuels, puis divisez par 6.<br>Exemple :<br>Vos taux d'activité étaient de 20% en janvier, de 25% en février, de 30% en mars, de 35% en avril, de 40% en mai et de 45% en juin.<br>Calculs : 20 + 25 + 30 + 35 + 40 + 45 = 195<br>195 / 6 = 32.5<br>Notez 32.5 dans la réponse.",
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+
+    "tauxActiviteConjoint": {
+      "label": "Quel est le taux d'activité de votre conjoint ?",
+      "altText": {
+        "concubin": "Quel est le taux d'activité de votre concubin ?"
+      },
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteDernierEmploiConjoint": {
+      "label": "Dans le dernier emploi de votre conjoint, quel était son taux d'activité ?",
+      "altText": {
+        "concubin": "Dans le dernier emploi de votre concubin, quel était son taux d'activité ?"
+      },
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteVariable6DernierMoisConjoint": {
+      "label": "Durant ses 6 derniers mois de travail, le taux d'activité de votre conjoint était-il variable ?",
+      "altText": {
+        "concubin": "Durant ses 6 derniers mois de travail, le taux d'activité de votre concubin était-il variable ?"
+      },
+      "option": {
+        "OUI": "Oui, j'avais un taux d'activité variable",
+        "NON": "Non, j'avais un taux d'activité fixe "
+      },
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "tauxActiviteMoyen6DernierMoisConjoint": {
+      "label": "En moyenne, quel était le taux d'activité des 6 derniers mois de travail de votre conjoint ?",
+      "altText": {
+        "concubin": "En moyenne, quel était le taux d'activité des 6 derniers mois de travail de votre concubin ?"
+      },
+      "help": "Moyenne : additionnez les 6 taux d'activité mensuels, puis divisez par 6.<br>Exemple :<br>Vos taux d'activité étaient de 20% en janvier, de 25% en février, de 30% en mars, de 35% en avril, de 40% en mai et de 45% en juin.<br>Calculs : 20 + 25 + 30 + 35 + 40 + 45 = 195<br>195 / 6 = 32.5<br>Notez 32.5 dans la réponse.",
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
       }
     },
     "proprietaireOuLocataireLogement": {

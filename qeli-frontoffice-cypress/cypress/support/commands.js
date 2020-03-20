@@ -1,9 +1,10 @@
 /// <reference types="./support" />
+var moment = require('moment');
 
+const NUMBERBOX = 'input[type=number]';
 const TEXTBOX = 'input[type=text]';
 const RADIO = 'input[type=radio]';
 const CHECKBOX = 'input[type=checkbox]';
-const DATE = 'input[type=date]';
 const SELECT = 'select';
 
 const url = Cypress.config('baseUrl');
@@ -72,11 +73,23 @@ Cypress.Commands.add('answerQuestion', (question, answer, validate) => {
         cy.dataCy(answer).check();
       } else if ($elem[0].type === 'select-one') {
         cy.get(SELECT).select(answer);
-      } else if ($elem[0].type === 'text') {
-        cy.get(TEXTBOX).type(answer);
       } else {
         cy.wrap($elem).type(answer);
       }
+    }
+
+    if (validate) {
+      cy.clickNext();
+    }
+
+  });
+});
+
+Cypress.Commands.add('answerYearsQuestion', (question, years, validate) => {
+  cy.dataCy(question).then(($elem) => {
+    if ($elem[0].getAttribute('data-cy-type') === 'date') {
+      const dateAnswer = moment().subtract(years, 'years').format("DD.MM.YYYY");
+      cy.dataCy('date-input').type(dateAnswer);
     }
 
     if (validate) {

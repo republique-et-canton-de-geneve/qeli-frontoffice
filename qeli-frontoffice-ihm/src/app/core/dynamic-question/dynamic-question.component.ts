@@ -14,7 +14,7 @@ export class DynamicQuestionComponent {
   @Input() form: FormGroup;
   question: QuestionBase<any>;
 
-  @ViewChild(QuestionDirective, { static: true }) questionDirective: QuestionDirective;
+  @ViewChild(QuestionDirective, {static: true}) questionDirective: QuestionDirective;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {
 

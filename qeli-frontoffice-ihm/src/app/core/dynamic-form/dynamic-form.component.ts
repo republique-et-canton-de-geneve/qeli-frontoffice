@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { QuestionBase } from '../question/question-base.model';
 import { FormGroup } from '@angular/forms';
 import { Prestation } from '../common/prestation.model';
@@ -15,6 +15,7 @@ export class DynamicFormComponent implements OnInit {
   @Input() questions: QuestionBase<any>[] = [];
   @Input() formState: FormState;
   @Output() onQuestionChanged: EventEmitter<FormState> = new EventEmitter();
+  @ViewChild('formElement', {static: false}) formElement: ElementRef;
 
   form: FormGroup;
 
@@ -48,6 +49,7 @@ export class DynamicFormComponent implements OnInit {
       );
 
       this.currentQuestionIndex = this.findNextQuestionIndex();
+
       this.emitQuestionChanged();
     }
   }
@@ -161,7 +163,7 @@ export class DynamicFormComponent implements OnInit {
 
 
   get prestationsEligibles() {
-    return PrestationResolver.findPrestationsEligibles(this.prestationsRefusees);
+    return PrestationResolver.findPrestationsEligibles(this.prestationsRefusees, false);
   }
 
 }

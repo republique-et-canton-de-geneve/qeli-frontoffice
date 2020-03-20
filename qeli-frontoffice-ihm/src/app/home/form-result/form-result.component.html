@@ -24,7 +24,7 @@
     <result-block *ngFor="let prestationRefusee of prestationsRefusees"
                   type="warning"
                   title="{{ 'home.result.prestation.' + prestationRefusee.prestation + '.title' | translate }}"
-                  subtitle="{{ 'question.' + prestationRefusee.questionKey + '.motifRefus.' + prestationRefusee.prestation | translate }}"
+                  [subtitle]="toMotifRefus(prestationRefusee)"
                   [attr.data-cy-prestations-refusees]="prestationRefusee.prestation">
       <p>{{ 'home.result.prestation.' + prestationRefusee.prestation + '.content' | translate }}</p>
     </result-block>
