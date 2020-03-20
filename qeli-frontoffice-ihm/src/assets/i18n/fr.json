@@ -628,6 +628,72 @@
         "max": "Erreur dans la saisie du taux d'activité"
       }
     },
+
+    "tauxActiviteConjoint": {
+      "label": "Quel est le taux d'activité de votre conjoint ?",
+      "altText": {
+        "concubin": "Quel est le taux d'activité de votre concubin ?"
+      },
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteDernierEmploiConjoint": {
+      "label": "Dans le dernier emploi de votre conjoint, quel était son taux d'activité ?",
+      "altText": {
+        "concubin": "Dans le dernier emploi de votre concubin, quel était son taux d'activité ?"
+      },
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
+    "tauxActiviteVariable6DernierMoisConjoint": {
+      "label": "Durant ses 6 derniers mois de travail, le taux d'activité de votre conjoint était-il variable ?",
+      "altText": {
+        "concubin": "Durant ses 6 derniers mois de travail, le taux d'activité de votre concubin était-il variable ?"
+      },
+      "option": {
+        "OUI": "Oui, j'avais un taux d'activité variable",
+        "NON": "Non, j'avais un taux d'activité fixe "
+      },
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "tauxActiviteMoyen6DernierMoisConjoint": {
+      "label": "En moyenne, quel était le taux d'activité des 6 derniers mois de travail de votre conjoint ?",
+      "altText": {
+        "concubin": "En moyenne, quel était le taux d'activité des 6 derniers mois de travail de votre concubin ?"
+      },
+      "help": "Moyenne : additionnez les 6 taux d'activité mensuels, puis divisez par 6.<br>Exemple :<br>Vos taux d'activité étaient de 20% en janvier, de 25% en février, de 30% en mars, de 35% en avril, de 40% en mai et de 45% en juin.<br>Calculs : 20 + 25 + 30 + 35 + 40 + 45 = 195<br>195 / 6 = 32.5<br>Notez 32.5 dans la réponse.",
+      "defaultOptions": "Sélectionnez une option parmis les suivantes :",
+      "other": "Saisissez le taux d'activité manuellement :",
+      "motifRefus": {
+        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "pattern": "Merci de saisir le taux d'activité",
+        "min": "Erreur dans la saisie du taux d'activité",
+        "max": "Erreur dans la saisie du taux d'activité"
+      }
+    },
     "proprietaireOuLocataireLogement": {
       "label": "Etes-vous propriétaire ou locataire de votre logement ?",
       "help": "Logement : l'appartement ou la maison dans laquelle vous habitez.",
