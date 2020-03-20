@@ -520,9 +520,9 @@ const RevenusQuestions: QuestionBase<any>[] = [
       !hasConjoint(value) ||
       (
         prestationsEligibles.includes(Prestation.PC_AVS_AI) &&
-        (
-          !prestationsEligibles.includes(Prestation.PC_FAM) ||
-          !prestationsEligibles.includes(Prestation.AIDE_SOCIALE)
+        !(
+          prestationsEligibles.includes(Prestation.PC_FAM) ||
+          prestationsEligibles.includes(Prestation.AIDE_SOCIALE)
         )
       ),
     eligibilite: [
