@@ -9,7 +9,7 @@ import java.util.Locale;
 import org.springframework.format.Formatter;
 
 /**
- * Un formateur capable d'analyser et d'imprimer des string codées en format URI.
+ * Un formateur capable d'analyser et d'imprimer des strings codées en format URI.
  */
 public class UriEncodedFormatter implements Formatter<String> {
 

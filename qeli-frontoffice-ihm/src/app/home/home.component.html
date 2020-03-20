@@ -1,23 +1,25 @@
-<app-navigation [questions]="questions"
-                [formState]="formState"
-                (onQuestionSelected)="dynamicForm.navigateToQuestion($event)">
-</app-navigation>
+<div *ngIf="questions">
+  <app-navigation [questions]="questions"
+                  [formState]="formState"
+                  (onQuestionSelected)="dynamicForm.navigateToQuestion($event)">
+  </app-navigation>
 
-<div class="container">
-  <app-dynamic-form [hidden]="formState.done"
-                    [questions]="questions"
-                    [formState]="formState"
-                    (onQuestionChanged)="onQuestionChanged()"
-                    #dynamicForm>
-  </app-dynamic-form>
+  <div class="container">
+    <app-dynamic-form [hidden]="formState.done"
+                      [questions]="questions"
+                      [formState]="formState"
+                      (onQuestionChanged)="onQuestionChanged()"
+                      #dynamicForm>
+    </app-dynamic-form>
 
-  <app-form-result *ngIf="formState.done"
-                   [formState]="formState">
-  </app-form-result>
+    <app-form-result *ngIf="formState.done"
+                     [formState]="formState">
+    </app-form-result>
 
-  <div class="row visible-xs hidden-sm">
-    <div class="col-xs-12 text-right">
-      <app-deep-link></app-deep-link>
+    <div class="row visible-xs hidden-sm">
+      <div class="col-xs-12 text-right">
+        <app-deep-link></app-deep-link>
+      </div>
     </div>
   </div>
 </div>

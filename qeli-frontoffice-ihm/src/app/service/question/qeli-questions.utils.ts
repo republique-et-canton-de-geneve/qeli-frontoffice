@@ -1,14 +1,14 @@
-import { EtatCivil } from './model/etat-civil.model';
-import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
-import { Scolarite } from './model/scolarite.model';
-import { TypeRevenus } from './model/revenus.model';
+import { EtatCivil } from './etat-civil/etat-civil.model';
+import { ReponseBinaire, ReponseProgressive } from '../../core/common/reponse.model';
+import { Scolarite } from './formation/scolarite.model';
+import { TypeRevenus } from './revenus/revenus.model';
 import {
   Pays, PAYS_AELE_UE, PAYS_CONVENTIONES, PAYS_NON_CONVENTIONES
-} from '../core/question/nationalite-question/pays.model';
+} from '../../core/question/nationalite-question/pays.model';
 import * as moment from 'moment';
-import { Prestation } from '../core/common/prestation.model';
-import { RequerantRefugie } from './model/requerant-refugie.model';
-import { TypeEnfant } from './model/type-enfant.model';
+import { Prestation } from '../../core/common/prestation.model';
+import { RequerantRefugie } from './nationalite/requerant-refugie.model';
+import { TypeEnfant } from './etat-civil/type-enfant.model';
 
 export function hasConjoint(value: any) {
   return value['etatCivil'] === EtatCivil.MARIE ||
@@ -145,13 +145,6 @@ export function isRatioPiecesPersonnesLogementAcceptable(value: any) {
 
 export function hasFortuneTropEleve(value: any) {
   return value['fortuneSuperieureA'] === ReponseBinaire.OUI;
-}
-
-export function getLimiteFortune(value: any) {
-  const nbrEnfantsACharge = getNbrEnfantsACharge(value, Object.values(TypeEnfant));
-  const limiteFortune = 4000 + (nbrEnfantsACharge * 2000) + (hasConjoint(value) ? 4000 : 0);
-
-  return Math.min(limiteFortune, 10000);
 }
 
 export function habiteGeneveDepuis5ans(value: any) {
