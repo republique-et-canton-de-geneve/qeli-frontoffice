@@ -1,8 +1,8 @@
 import { QuestionBase } from '../question-base.model';
-import { QeliValidators } from '../../validator/qeli-validators';
 import { QuestionVisitor } from '../question-visitor';
 import { QuestionOption } from '../option.model';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import * as moment from 'moment';
 
 export class DateQuestion extends QuestionBase<DateAnswer> {
   controlType = 'date';
@@ -18,6 +18,10 @@ export class DateQuestion extends QuestionBase<DateAnswer> {
     this.maxDate = options['maxDate'] ? options['maxDate'] : null;
   }
 
+  protected requiredValidator(): ValidatorFn {
+    return DateQuestionValidators.atLeastOneSelected(this.shortcuts.length > 0);
+  }
+
   toFormControl(defaultValue: any): AbstractControl {
     let group: any = {};
 
@@ -28,14 +32,14 @@ export class DateQuestion extends QuestionBase<DateAnswer> {
     let dateValidators: ValidatorFn[] = [];
 
     if (this.maxDate) {
-      dateValidators.push(QeliValidators.maxDate(this.maxDate));
+      dateValidators.push(DateQuestionValidators.maxDate(this.maxDate));
     }
 
     if (this.minDate) {
-      dateValidators.push(QeliValidators.minDate(this.minDate));
+      dateValidators.push(DateQuestionValidators.minDate(this.minDate));
     }
 
-    dateValidators.push(QeliValidators.date);
+    dateValidators.push(DateQuestionValidators.date);
 
     group['value'] = new FormControl(
       defaultValue && defaultValue['value'] ? defaultValue['value'] : null,
@@ -69,5 +73,36 @@ export class DateQuestionValidators {
 
       return null;
     }
+  }
+
+  static date(control: AbstractControl) {
+    if (control && control.value) {
+      const date = moment(control.value, 'YYYY-MM-DD', true);
+      return !date.isValid() ? {'invalidDate': true} : null;
+    }
+
+    return null;
+  }
+
+  static maxDate(maxDate: Date) {
+    return (control: AbstractControl) => {
+      if (control && control.value) {
+        const date = moment(control.value.toString(), 'YYYY-MM-DD', true);
+        return moment(maxDate).isBefore(date) ? {'maxDate': true} : null;
+      }
+
+      return null;
+    };
+  }
+
+  static minDate(minDate: Date) {
+    return (control: AbstractControl) => {
+      if (control && control.value) {
+        const date = moment(control.value.toString(), 'YYYY-MM-DD', true);
+        return moment(minDate).isAfter(date) ? {'minDate': true} : null;
+      }
+
+      return null;
+    };
   }
 }

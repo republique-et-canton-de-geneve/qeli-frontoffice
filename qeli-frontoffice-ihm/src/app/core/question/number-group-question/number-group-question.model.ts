@@ -1,6 +1,6 @@
 import { QuestionBase } from '../question-base.model';
 import { QuestionVisitor } from '../question-visitor';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 export class NumberGroupQuestion extends QuestionBase<any> {
   controlType = 'number-group-question';
@@ -11,6 +11,13 @@ export class NumberGroupQuestion extends QuestionBase<any> {
     super(options);
     this.hasNone = !!options['hasNone'];
     this.fields = options['fields'] || [];
+  }
+
+  protected requiredValidator(): ValidatorFn {
+    return NumberGroupQuestionValidators.atLeastOneFilled(
+      this.fields.map(field => field.label),
+      this.hasNone
+    );
   }
 
   toFormControl(defaultValue: any): AbstractControl {

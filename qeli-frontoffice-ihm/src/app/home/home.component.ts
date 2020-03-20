@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuestionBase } from '../core/question/question-base.model';
-import { AllQuestions } from './question.configuration';
 import { FormState } from '../core/common/form-state.model';
 import { DynamicFormComponent } from '../core/dynamic-form/dynamic-form.component';
 import { ActivatedRoute } from '@angular/router';
 import { DeepLinkService } from '../service/deep-link.service';
 import { TrackingService } from '../service/tracking.service';
+import { QeliConfigurationService } from '../service/configuration/qeli-configuration.service';
+import { QuestionService } from '../service/question/question.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ import { TrackingService } from '../service/tracking.service';
 export class HomeComponent implements OnInit {
   @ViewChild('dynamicForm', {static: true}) dynamicForm: DynamicFormComponent;
 
-  questions: QuestionBase<any>[] = AllQuestions;
+  questions: QuestionBase<any>[];
   formState: FormState = {
     data: {},
     currentIndex: 0,
@@ -28,10 +29,16 @@ export class HomeComponent implements OnInit {
 
   constructor(private deepLinkService: DeepLinkService,
               private route: ActivatedRoute,
-              private trackingService: TrackingService) {
+              private trackingService: TrackingService,
+              private qeliConfigurationService: QeliConfigurationService,
+              private questionService: QuestionService) {
   }
 
   ngOnInit() {
+    this.qeliConfigurationService.loadConfiguration().subscribe(configuration => {
+      this.questions = this.questionService.loadQuestions(configuration);
+    });
+
     this.route.queryParams.subscribe(params => {
       const formData = this.deepLinkService.decryptQueryParamsData(params);
       if (formData) {
@@ -66,7 +73,7 @@ export class HomeComponent implements OnInit {
         this.trackingService.trackReponse(previousQuestion, this.formState.data);
       }
 
-      if (this.formState.done) { // result page :
+      if (this.formState.done && this.dynamicForm) { // result page :
         this.trackingService.trackFormSubmission(this.formState, this.dynamicForm.formElement.nativeElement);
         this.trackingService.trackReponsesFinales(this.questions, this.formState.data);
       }

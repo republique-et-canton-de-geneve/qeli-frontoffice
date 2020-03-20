@@ -40,7 +40,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
    *
    * @param ex l'exception à gérer.
    *
-   * @return un objet avec des information sur l'erreur.
+   * @return un objet avec des informations sur l'erreur.
    *
    * @see SecurityException
    */
@@ -55,11 +55,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   }
 
   /**
-   * Intercepte toute exception appropriée pour le status HTTP: {@link HttpStatus#BAD_REQUEST}.
+   * Intercepte toute exception appropriée pour le status HTTP : {@link HttpStatus#BAD_REQUEST}.
    *
    * @param ex l'exception à gérer.
    *
-   * @return un objet avec des information sur l'erreur.
+   * @return un objet avec des informations sur l'erreur.
    *
    * @see ConstraintViolationException
    * @see MethodArgumentTypeMismatchException
@@ -77,11 +77,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   }
 
   /**
-   * Intercepte toute exception appropriée pour le status HTTP: {@link HttpStatus#INTERNAL_SERVER_ERROR}.
+   * Intercepte toute exception appropriée pour le status HTTP : {@link HttpStatus#INTERNAL_SERVER_ERROR}.
    *
    * @param ex l'exception à gérer.
    *
-   * @return un objet avec des information sur l'erreur.
+   * @return un objet avec des informations sur l'erreur.
    *
    * @see Exception
    */
