@@ -2,7 +2,9 @@ import { EtatCivil } from './model/etat-civil.model';
 import { ReponseBinaire, ReponseProgressive } from '../core/common/reponse.model';
 import { Scolarite } from './model/scolarite.model';
 import { TypeRevenus } from './model/revenus.model';
-import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../core/question/nationalite-question/pays.model';
+import {
+  Pays, PAYS_AELE_UE, PAYS_CONVENTIONES, PAYS_NON_CONVENTIONES
+} from '../core/question/nationalite-question/pays.model';
 import * as moment from 'moment';
 import { Prestation } from '../core/common/prestation.model';
 import { RequerantRefugie } from './model/requerant-refugie.model';
@@ -31,7 +33,9 @@ export function aucuneScolarite(value: any) {
 }
 
 export function hasAnyRevenus(value: any, revenus: TypeRevenus[], which: string = 'revenus') {
-  return revenus.some(item => value[which]['choices'].includes(item));
+  return value[which] !== null &&
+         value[which] !== undefined &&
+         revenus.some(item => value[which]['choices'].includes(item));
 }
 
 export function hasAnyAVSOrAIRevenus(value: any, which: string = 'revenus') {
@@ -44,52 +48,45 @@ export function hasAnyAVSOrAIRevenus(value: any, which: string = 'revenus') {
   ], which);
 }
 
-export function isRefugie(value: any) {
-  return value['refugie'] === RequerantRefugie.REFUGIE;
+export function isRefugie(value: any, which = 'refugie') {
+  return value[which] === RequerantRefugie.REFUGIE;
+}
+
+export function isRefugieOrInconnu(value: any, which = 'refugie') {
+  return isRefugie(value, which) || value[which] === RequerantRefugie.INCONNU;
 }
 
 export function isRequerantAsile(value: any) {
   return value['refugie'] === RequerantRefugie.REQUERANT_ASILE;
 }
 
-export function isApatride(value: any) {
-  const nationalite = value['nationalite'];
+export function isApatride(value: any, which = 'nationalite') {
+  const nationalite = value[which];
   return nationalite ? !!nationalite['apatride'] : false;
 }
 
-export function isSuisse(value: any) {
-  const nationalite = value['nationalite'];
+export function isSuisse(value: any, which = 'nationalite') {
+  const nationalite = value[which];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
   return paysValues ? paysValues.includes(Pays.CH) : false;
 }
 
-export function isUEOrAELE(value: any) {
-  const nationalite = value['nationalite'];
+export function isUEOrAELE(value: any, which = 'nationalite') {
+  const nationalite = value[which];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
   return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
 }
 
-export function isConjointApatride(value: any) {
-  const nationalite = value['nationaliteConjoint'];
-  return nationalite ? !!nationalite['apatride'] : false;
-}
-
-export function isConjointSuisse(value: any) {
-  const nationalite = value['nationaliteConjoint'];
-  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
-  return paysValues ? paysValues.includes(Pays.CH) : false;
-}
-
-export function isConjointUEOrAELE(value: any) {
-  const nationalite = value['nationaliteConjoint'];
-  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
-  return paysValues ? paysValues.some(pays => PAYS_AELE_UE.includes(pays)) : false;
-}
-
-export function isPaysConventione(value: any) {
-  const nationalite = value['nationalite'];
+export function isPaysConventione(value: any, which = 'nationalite') {
+  const nationalite = value[which];
   const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
   return paysValues ? paysValues.some(pays => PAYS_CONVENTIONES.includes(pays)) : false;
+}
+
+export function isPaysNonConventione(value: any, which = 'nationalite') {
+  const nationalite = value[which];
+  const paysValues = nationalite['pays'] ? (nationalite['pays'] as string[]) : [];
+  return paysValues ? paysValues.some(pays => PAYS_NON_CONVENTIONES.includes(pays)) : false;
 }
 
 function getDate(value: any, questionKey: string) {
@@ -177,18 +174,63 @@ export function habiteGeneveDepuisNaissance(value: any) {
   return value['dateArriveeGeneve'] && value['dateArriveeGeneve']['shortcut'] === 'DEPUIS_NAISSANCE';
 }
 
-export function habiteSuisseDepuis5Ans(value: any) {
+export function habiteSuisseDepuis(value: any, years: number) {
   const dateArriveData = value['dateArriveeSuisse'];
 
   if (dateArriveData['shortcut'] === 'INCONNU') {
     return true;
   }
 
-  const dateArriveeGeneve = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
+  const datearriveeSuisse = dateArriveData['shortcut'] === 'DEPUIS_NAISSANCE' ?
                             getDate(value, 'dateNaissance') :
                             getDate(value, 'dateArriveeSuisse');
 
-  return dateArriveeGeneve && moment().subtract(5, 'year')
+  return datearriveeSuisse && moment().subtract(years, 'year')
                                       .endOf('day')
-                                      .isAfter(moment(dateArriveeGeneve));
+                                      .isAfter(moment(datearriveeSuisse));
+}
+
+export function conjointHabiteSuisseDepuis(value: any, years: number) {
+  const dateArriveData = value['dateArriveeSuisseConjoint'];
+
+  if (dateArriveData['shortcut'] === 'INCONNU') {
+    return true;
+  }
+
+  const datearriveeSuisse = getDate(value, 'dateArriveeSuisseConjoint');
+
+  return datearriveeSuisse && moment().subtract(years, 'year')
+                                      .endOf('day')
+                                      .isAfter(moment(datearriveeSuisse));
+}
+
+export function isSituationRenteNone(value: any, which = 'situationRente') {
+  return value[which] !== null && value[which]['none'] !== ReponseProgressive.NON;
+}
+
+function getTauxActivite(value: any, key: string) {
+  const tauxActivite = value[key];
+  return tauxActivite && tauxActivite['taux'] ? parseInt(tauxActivite['taux']) : null;
+}
+
+export function sumTauxActivite(value: any, useTauxVariable: boolean) {
+  const isTauxVariable = useTauxVariable && value['tauxActiviteVariable6DernierMois'] === ReponseBinaire.OUI;
+  const keys = ['tauxActivite'].concat(
+    isTauxVariable ? 'tauxActiviteMoyen6DernierMois' : 'tauxActiviteDernierEmploi'
+  );
+
+  return keys.map(key => getTauxActivite(value, key))
+             .filter(taux => taux !== null && taux !== undefined)
+             .reduce((c, t) => c + t, 0);
+}
+
+export function sumTauxActiviteAvecConjoint(value: any, useTauxVariable: boolean) {
+  const isTauxVariable = useTauxVariable && value['tauxActiviteVariable6DernierMoisConjoint'] === ReponseBinaire.OUI;
+  const keys = ['tauxActiviteConjoint'].concat(
+    isTauxVariable ? 'tauxActiviteMoyen6DernierMoisConjoint' : 'tauxActiviteDernierEmploiConjoint'
+  );
+
+  return keys.map(key => getTauxActivite(value, key))
+             .filter(taux => taux !== null && taux !== undefined)
+             .reduce((c, t) => c + t, 0) + sumTauxActivite(value, true);
 }

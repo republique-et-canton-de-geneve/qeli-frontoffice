@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'result-block',
   templateUrl: './result-block.component.html',
-  styleUrls: ['./result-block.component.scss']
+  styleUrls: ['./result-block.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResultBlockComponent {
   @Input() title: string;

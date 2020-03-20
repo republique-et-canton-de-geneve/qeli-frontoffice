@@ -1,0 +1,5 @@
+export enum SituationRente {
+  RECONNU_OCAI        = "RECONNU_OCAI",
+  RETRAITE_SANS_RENTE = "RETRAITE_SANS_RENTE",
+  VEUF_SANS_RENTE     = "VEUF_SANS_RENTE"
+}

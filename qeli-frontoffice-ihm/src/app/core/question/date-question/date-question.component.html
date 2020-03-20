@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" [trackQuestionIdentifier]="question.identifier">
 
   <div [formGroupName]="question.key"
        [attr.data-cy]="question.identifier"
@@ -10,7 +10,8 @@
                [value]="null"
                formControlName="shortcut"
                (change)="onShortcutChanged($event.currentTarget.checked, null)"
-               data-cy="NO_SHORTCUT">
+               data-cy="NO_SHORTCUT"
+               data-matomo-ignore>
         {{ 'question.' + question.key + '.defaultShortcut' | translate }}
       </label>
     </div>
@@ -24,12 +25,13 @@
     </div>
 
     <div *ngIf="useNativeInputDate">
-      <input [id]="question.key"  
+      <input [id]="question.key"
              [attr.disabled]="isShortcutSelected ? 'disabled' : null"
              formControlName="value"
              type="date"
              class="form-control"
-             data-cy="date-input">
+             data-cy="date-input"
+             [attr.data-matomo-name]="question.identifier">
     </div>
 
     <div *ngIf="!useNativeInputDate" class="input-group">
@@ -43,7 +45,8 @@
              (change)="onDateTyped(textInputDate.value)"
              [specialCharacters]="['.']" [showMaskTyped]="true"
              mask="00.00.0000" placeHolderCharacter="#"
-             data-cy="date-input">
+             data-cy="date-input"
+             [attr.data-matomo-name]="question.identifier">
 
       <div class="input-group-addon has-btn">
         <button class="btn btn-info"
@@ -70,7 +73,8 @@
                  [value]="shortcut.label"
                  formControlName="shortcut"
                  (change)="onShortcutChanged($event.currentTarget.checked, shortcut)"
-                 [attr.data-cy]="shortcut.label">
+                 [attr.data-cy]="shortcut.label"
+                 [attr.data-matomo-name]="question.identifier">
           {{ 'question.' + question.key + '.shortcut.' + shortcut.label | translate }}
         </label>
       </div>

@@ -5,6 +5,8 @@ import { NationaliteQuestion } from './nationalite-question/nationalite-question
 import { RadioQuestion } from './radio-question/radio-question.model';
 import { TextQuestion } from './text-question/text-question.model';
 import { NumberGroupQuestion } from './number-group-question/number-group-question.model';
+import { NumberQuestion } from './number-question/number-question.model';
+import { TauxQuestion } from './taux-question/taux-question.model';
 
 /**
  * L'interface visiteur déclare un ensemble de méthodes de visite qui correspondent aux classes des questions.
@@ -48,6 +50,15 @@ export interface QuestionVisitor<T> {
   visitNationaliteQuestion(question: NationaliteQuestion): T;
 
   /**
+   * Une méthode pour visiter les question du type: {@link NumberQuestion}.
+   *
+   * @param {NumberQuestion} question la question à visiter
+   *
+   * @return le résultat du traitement de la question.
+   */
+  visitNumberQuestion(question: NumberQuestion): T;
+
+  /**
    * Une méthode pour visiter les question du type: {@link RadioQuestion}.
    *
    * @param {RadioQuestion} question la question à visiter
@@ -55,6 +66,15 @@ export interface QuestionVisitor<T> {
    * @return le résultat du traitement de la question.
    */
   visitRadioQuestion(question: RadioQuestion): T;
+
+  /**
+   * Une méthode pour visiter les question du type: {@link TauxQuestion}.
+   *
+   * @param {TauxQuestion} question la question à visiter
+   *
+   * @return le résultat du traitement de la question.
+   */
+  visitTauxQuestion(question: TauxQuestion): T;
 
   /**
    * Une méthode pour visiter les question du type: {@link TextQuestion}.
