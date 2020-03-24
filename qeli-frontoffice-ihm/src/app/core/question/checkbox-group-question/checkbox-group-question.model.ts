@@ -1,5 +1,5 @@
 import { QuestionBase } from '../question-base.model';
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { QuestionOption } from '../option.model';
 import { QuestionVisitor } from '../question-visitor';
 import { ReponseProgressive } from '../../common/reponse.model';
@@ -15,6 +15,13 @@ export class CheckboxGroupQuestion extends QuestionBase<any> {
     this.options = options['options'] || [];
     this.hasNone = !!options['hasNone'];
     this.hasInconnu = !!options['hasInconnu'];
+  }
+
+  protected requiredValidator(): ValidatorFn {
+    return CheckboxGroupValidators.atLeastOneSelected(
+      this.options.map(option => option.label),
+      this.hasNone || this.hasInconnu
+    );
   }
 
   toFormControl(defaultValue: any): AbstractControl {

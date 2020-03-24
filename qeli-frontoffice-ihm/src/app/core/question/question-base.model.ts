@@ -11,12 +11,14 @@ export abstract class QuestionBase<T> {
   categorie?: Categorie;
   subcategorie?: Subcategorie;
   help: boolean;
-  validators: ValidatorFn[];
+  required: boolean;
   altText: (value: any) => string;
   labelParameters: { [key: string]: string | ((value: any) => string) };
   skip: (value: any, prestationsEligibles: Prestation[]) => boolean;
   defaultAnswer: (value: any) => T;
   eligibilite: Eligibilite[];
+
+  private _validators: ValidatorFn[];
 
   constructor(options: {
     controlType?: string,
@@ -25,6 +27,7 @@ export abstract class QuestionBase<T> {
     categorie?: Categorie,
     subcategorie?: Subcategorie,
     help?: boolean,
+    required?: boolean,
     validators?: ValidatorFn[],
     altText?: (value: any) => string,
     labelParameters?: { [key: string]: string | ((value: any) => string) },
@@ -39,16 +42,13 @@ export abstract class QuestionBase<T> {
     this.categorie = options.categorie;
     this.subcategorie = options.subcategorie;
     this.help = !!options.help;
-    this.validators = options.validators ? options.validators : [];
+    this.required = (options.required === null || options.required === undefined) ? true : !!options.required;
+    this._validators = options.validators ? options.validators : [];
     this.altText = options.altText ? options.altText : () => null;
     this.labelParameters = options.labelParameters ? options.labelParameters : {};
     this.skip = options.skip ? options.skip : () => false;
     this.defaultAnswer = options.defaultAnswer ? options.defaultAnswer : () => null;
     this.eligibilite = options.eligibilite ? options.eligibilite : [];
-  }
-
-  get required() {
-    return this.validators.includes(Validators.required);
   }
 
   getTranslationKey(value: any) {
@@ -72,6 +72,18 @@ export abstract class QuestionBase<T> {
 
   toFormControl(defaultValue: T): AbstractControl {
     return new FormControl(defaultValue, this.validators);
+  }
+
+  protected get validators() {
+    if (this.required) {
+      return this._validators.concat(this.requiredValidator());
+    } else {
+      return this._validators;
+    }
+  }
+
+  protected requiredValidator(): ValidatorFn {
+    return Validators.required;
   }
 
   abstract accept<E>(visitor: QuestionVisitor<E>): E;

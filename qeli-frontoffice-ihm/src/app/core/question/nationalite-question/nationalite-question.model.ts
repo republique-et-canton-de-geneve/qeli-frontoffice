@@ -1,5 +1,5 @@
 import { QuestionBase } from '../question-base.model';
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { Pays } from './pays.model';
 import { QuestionVisitor } from '../question-visitor';
 
@@ -11,6 +11,19 @@ export class NationaliteQuestion extends QuestionBase<any> {
     super(options);
   }
 
+  protected requiredValidator(): ValidatorFn {
+    return (control: AbstractControl) => {
+
+      if (control.value['apatride'] !== true &&
+          (!control.value['pays'] || (control.value['pays'] as string[]).every(e => !e))
+      ) {
+        return {'required': true}
+      } else {
+        return null;
+      }
+    };
+  }
+
   toFormControl(defaultValue: any): AbstractControl {
     let group: any = {};
 
@@ -19,22 +32,7 @@ export class NationaliteQuestion extends QuestionBase<any> {
       defaultValue && defaultValue.pays ? defaultValue.pays.map(pay => new FormControl(pay)) : [new FormControl()]
     );
 
-    return new FormGroup(group, this.validators.concat(
-      (control: AbstractControl) => {
-
-        if (control.value['apatride'] !== true &&
-            (!control.value['pays'] || (control.value['pays'] as string[]).every(e => !e))
-        ) {
-          return {'required': true}
-        } else {
-          return null;
-        }
-      }
-    ));
-  }
-
-  get required() {
-    return true;
+    return new FormGroup(group, this.validators);
   }
 
   accept<E>(visitor: QuestionVisitor<E>): E {
