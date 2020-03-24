@@ -11,7 +11,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.format.support.DefaultFormattingConversionService;
 
 /**
- * Class de configuration spring agrégeant toutes les configurations des différents modules du frontoffice.
+ * Classe de configuration Spring agrégeant toutes les configurations des différents modules du front office.
  */
 @Configuration
 @Import(
