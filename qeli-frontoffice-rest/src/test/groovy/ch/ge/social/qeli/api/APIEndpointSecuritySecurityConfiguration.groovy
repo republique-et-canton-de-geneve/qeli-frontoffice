@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 
 /**
- * Configuration securité pour les tests unitaires.
+ * Configuration sécurité pour les tests unitaires.
  */
 @TestConfiguration
 @EnableWebSecurity

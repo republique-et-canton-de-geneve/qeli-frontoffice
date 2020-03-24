@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Value;
 
 /**
- * Un DTO qui contient des informations sur un erreur produit par la REST api.
+ * Un DTO qui contient des informations sur une erreur produit par la REST api.
  */
 @Value
 @AllArgsConstructor
