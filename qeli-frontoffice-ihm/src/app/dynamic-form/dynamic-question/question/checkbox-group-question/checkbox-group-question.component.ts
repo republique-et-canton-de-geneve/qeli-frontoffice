@@ -3,7 +3,7 @@ import { QuestionComponent } from '../question.component';
 import { CheckboxGroupQuestion } from './checkbox-group-question.model';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../question-registry';
-import { ReponseProgressive } from '../../common/reponse.model';
+import { ReponseProgressive } from '../../../model/reponse.model';
 
 @RegisterQuestionComponent(new CheckboxGroupQuestion().controlType)
 @Component({

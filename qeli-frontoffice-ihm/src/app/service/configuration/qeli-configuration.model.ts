@@ -1,3 +1,5 @@
+import { EtatCivil } from '../question/etat-civil/etat-civil.model';
+
 export class QeliConfiguration {
   minYearsFromNow: number;
   maxEnfantsACharge: number;
@@ -22,6 +24,26 @@ export class QeliConfiguration {
   }
 }
 
-export function getOrDefault<T>(actual: T, defaultValue: T) {
+function getOrDefault<T>(actual: T, defaultValue: T) {
   return actual === null || actual === undefined ? defaultValue : actual;
+}
+
+export interface Demandeur {
+  prenom: string;
+  etatCivil: EtatCivil;
+  dateNaissance: string;
+  membresFamille: MembreFamille[];
+}
+
+export enum Relation {
+  EPOUX                 = 'EPOUX',
+  PARTENAIRE_ENREGISTRE = 'PARTENAIRE_ENREGISTRE',
+  CONCUBIN              = 'CONCUBIN',
+  ENFANT                = 'ENFANT'
+}
+
+export interface MembreFamille {
+  prenom: string;
+  relation: Relation;
+  dateNaissance: Date;
 }

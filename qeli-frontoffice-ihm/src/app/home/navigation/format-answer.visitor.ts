@@ -1,19 +1,19 @@
-import { QuestionVisitor } from '../../core/question/question-visitor';
-import { QuestionBase } from '../../core/question/question-base.model';
-import { CheckboxGroupQuestion } from '../../core/question/checkbox-group-question/checkbox-group-question.model';
-import { DateQuestion } from '../../core/question/date-question/date-question.model';
-import { DropdownQuestion } from '../../core/question/dropdown-question/dropdown-question.model';
-import { NationaliteQuestion } from '../../core/question/nationalite-question/nationalite-question.model';
-import { RadioQuestion } from '../../core/question/radio-question/radio-question.model';
-import { TextQuestion } from '../../core/question/text-question/text-question.model';
+import { QuestionVisitor } from '../../dynamic-form/dynamic-question/question/question-visitor';
+import { QuestionBase } from '../../dynamic-form/dynamic-question/question/question-base.model';
+import { CheckboxGroupQuestion } from '../../dynamic-form/dynamic-question/question/checkbox-group-question/checkbox-group-question.model';
+import { DateQuestion } from '../../dynamic-form/dynamic-question/question/date-question/date-question.model';
+import { DropdownQuestion } from '../../dynamic-form/dynamic-question/question/dropdown-question/dropdown-question.model';
+import { NationaliteQuestion } from '../../dynamic-form/dynamic-question/question/nationalite-question/nationalite-question.model';
+import { RadioQuestion } from '../../dynamic-form/dynamic-question/question/radio-question/radio-question.model';
+import { TextQuestion } from '../../dynamic-form/dynamic-question/question/text-question/text-question.model';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { QuestionOption } from '../../core/question/option.model';
-import { ReponseProgressive } from '../../core/common/reponse.model';
-import { NumberGroupQuestion } from '../../core/question/number-group-question/number-group-question.model';
+import { QuestionOption } from '../../dynamic-form/dynamic-question/question/option.model';
+import { ReponseProgressive } from '../../dynamic-form/model/reponse.model';
+import { NumberGroupQuestion } from '../../dynamic-form/dynamic-question/question/number-group-question/number-group-question.model';
 import * as moment from 'moment';
-import { NumberQuestion } from '../../core/question/number-question/number-question.model';
-import { TauxQuestion } from '../../core/question/taux-question/taux-question.model';
+import { NumberQuestion } from '../../dynamic-form/dynamic-question/question/number-question/number-question.model';
+import { TauxQuestion } from '../../dynamic-form/dynamic-question/question/taux-question/taux-question.model';
 
 @Injectable()
 export class FormatAnswerVisitorFactory {

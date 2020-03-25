@@ -40,6 +40,16 @@ footer {
 // Form
 // ***********************
 
+.btn-text {
+  margin-left: 1rem;
+
+  .hidden-xs {
+    @media only screen and (max-width: 640px) {
+      display: none;
+    }
+  }
+}
+
 .btn-primary[disabled]:hover {
   color: #fff !important;
 }

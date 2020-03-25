@@ -1,4 +1,4 @@
-import { QuestionBase } from '../../core/question/question-base.model';
+import { QuestionBase } from '../../dynamic-form/dynamic-question/question/question-base.model';
 
 export interface CategorieTree {
   name: string,

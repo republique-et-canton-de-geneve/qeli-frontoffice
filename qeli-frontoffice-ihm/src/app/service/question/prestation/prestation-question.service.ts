@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
-import { CheckboxGroupQuestion } from '../../../core/question/checkbox-group-question/checkbox-group-question.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { Prestation } from '../../../core/common/prestation.model';
+import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
+import { CheckboxGroupQuestion } from '../../../dynamic-form/dynamic-question/question/checkbox-group-question/checkbox-group-question.model';
+import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
+import { Prestation } from '../../../dynamic-form/model/prestation.model';
 import { hasAnyPrestations, hasPrestation } from '../qeli-questions.utils';
-import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
 
 const PRESTATIONS_OPTIONS = Object.keys(Prestation).filter(
   prestation => prestation !== Prestation.PC_AVS_AI_CONJOINT &&
@@ -17,7 +17,7 @@ const PRESTATIONS_OPTIONS = Object.keys(Prestation).filter(
 })
 export class PrestationQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
     return [
       new CheckboxGroupQuestion({
         key: 'prestations',

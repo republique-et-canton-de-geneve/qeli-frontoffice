@@ -1,9 +1,9 @@
 import { Component, ComponentFactoryResolver, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { QuestionBase } from '../question/question-base.model';
-import { QuestionDirective } from '../question/question.directive';
-import { QuestionComponent } from '../question/question.component';
-import { QuestionRegistry } from '../question/question-registry';
+import { QuestionBase } from './question/question-base.model';
+import { QuestionDirective } from './question/question.directive';
+import { QuestionComponent } from './question/question.component';
+import { QuestionRegistry } from './question/question-registry';
 
 @Component({
   selector: 'app-dynamic-question',

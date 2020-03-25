@@ -3,6 +3,7 @@ import { QuestionVisitor } from '../question-visitor';
 import { QuestionOption } from '../option.model';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import * as moment from 'moment';
+import { DateValidators } from '../../../../ge-forms/date.validators';
 
 export class DateQuestion extends QuestionBase<DateAnswer> {
   controlType = 'date';
@@ -32,14 +33,14 @@ export class DateQuestion extends QuestionBase<DateAnswer> {
     let dateValidators: ValidatorFn[] = [];
 
     if (this.maxDate) {
-      dateValidators.push(DateQuestionValidators.maxDate(this.maxDate));
+      dateValidators.push(DateValidators.maxDate(this.maxDate));
     }
 
     if (this.minDate) {
-      dateValidators.push(DateQuestionValidators.minDate(this.minDate));
+      dateValidators.push(DateValidators.minDate(this.minDate));
     }
 
-    dateValidators.push(DateQuestionValidators.date);
+    dateValidators.push(DateValidators.date);
 
     group['value'] = new FormControl(
       defaultValue && defaultValue['value'] ? defaultValue['value'] : null,
@@ -73,36 +74,5 @@ export class DateQuestionValidators {
 
       return null;
     }
-  }
-
-  static date(control: AbstractControl) {
-    if (control && control.value) {
-      const date = moment(control.value, 'YYYY-MM-DD', true);
-      return !date.isValid() ? {'invalidDate': true} : null;
-    }
-
-    return null;
-  }
-
-  static maxDate(maxDate: Date) {
-    return (control: AbstractControl) => {
-      if (control && control.value) {
-        const date = moment(control.value.toString(), 'YYYY-MM-DD', true);
-        return moment(maxDate).isBefore(date) ? {'maxDate': true} : null;
-      }
-
-      return null;
-    };
-  }
-
-  static minDate(minDate: Date) {
-    return (control: AbstractControl) => {
-      if (control && control.value) {
-        const date = moment(control.value.toString(), 'YYYY-MM-DD', true);
-        return moment(minDate).isAfter(date) ? {'minDate': true} : null;
-      }
-
-      return null;
-    };
   }
 }

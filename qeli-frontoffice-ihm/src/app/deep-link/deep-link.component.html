@@ -2,13 +2,13 @@
   <button class="btn btn-default dropdown-toggle copy-link-toggle"
           (click)="showCopyPanel = !showCopyPanel"
           type="button"
-          title="{{ 'form.deepLink.copyLink'| translate }}"
+          title="{{ 'form.deepLink.copyLink' | translate }}"
           [attr.id]="'deep-link-dropdown-btn-' + id"
           id="dropdownMenuButton"
           aria-haspopup="true"
           [attr.aria-expanded]="showCopyPanel">
     <i class="fa fa-link"></i>
-    <span class="visible-xs-inline-block hidden-sm">{{ 'form.deepLink.copyLinkShort'| translate }}</span>
+    <span class="visible-xs-inline-block hidden-sm">{{ 'form.deepLink.copyLinkShort' | translate }}</span>
   </button>
 
   <div *ngIf="showCopyPanel === true"

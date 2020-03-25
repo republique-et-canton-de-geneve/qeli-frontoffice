@@ -24,7 +24,7 @@
               [style.visibility]="isLast ? 'visible' : 'hidden'"
               [attr.data-cy]="question.identifier + '_ajouter_nationalite_' + i"
               (click)="addPaysControl()">
-        <i class="fa fa-plus"></i><span class="btn-text">{{ 'common.ajouterNationalite' | translate }}</span>
+        <i class="fa fa-plus"></i><span class="btn-text hidden-xs">{{ 'common.ajouterNationalite' | translate }}</span>
       </button>
       <button class="btn btn-danger"
               [attr.aria-label]="'common.supprimerNationalite' | translate"

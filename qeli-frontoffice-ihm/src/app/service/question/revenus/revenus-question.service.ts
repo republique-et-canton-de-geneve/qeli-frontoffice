@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { Prestation } from '../../../core/common/prestation.model';
+import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
+import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
+import { Prestation } from '../../../dynamic-form/model/prestation.model';
 import {
   hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyRevenus, hasConjoint, isConcubinageAutreParent, isPaysNonConventione,
   isSituationRenteNone
 } from '../qeli-questions.utils';
-import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { CheckboxGroupQuestion } from '../../../core/question/checkbox-group-question/checkbox-group-question.model';
+import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { CheckboxGroupQuestion } from '../../../dynamic-form/dynamic-question/question/checkbox-group-question/checkbox-group-question.model';
 import { TypeRevenus } from './revenus.model';
 import { SituationRente } from './situation-rente.model';
 import { TypeEnfant } from '../etat-civil/type-enfant.model';
@@ -39,7 +39,7 @@ const REVENUS_OPTIONS = [
 })
 export class RevenusQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
     return [
       new CheckboxGroupQuestion({
         key: 'revenus',
