@@ -15,7 +15,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
- * Un controller advice contenant le mapping des exception functionelle et son status HTTP.
+ * Un controller advice contenant le mapping des exception fonctionelles et son status HTTP.
  */
 @ControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {

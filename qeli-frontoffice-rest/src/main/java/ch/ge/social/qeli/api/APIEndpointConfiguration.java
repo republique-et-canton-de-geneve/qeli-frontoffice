@@ -8,7 +8,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Class de configuration spring pour le REST API de l'application.
+ * Classe de configuration Spring pour l'API REST de l'application.
  */
 @Configuration
 @ComponentScan("ch.ge.social.qeli.api")
