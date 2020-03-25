@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { QeliConfiguration } from '../configuration/qeli-configuration.model';
-import { QuestionBase } from '../../core/question/question-base.model';
+import { Demandeur, QeliConfiguration } from '../configuration/qeli-configuration.model';
+import { QuestionBase } from '../../dynamic-form/dynamic-question/question/question-base.model';
 import { QuestionLoader } from './question-loader';
 import { PrestationQuestionService } from './prestation/prestation-question.service';
 import { AgeQuestionService } from './age/age-question.service';
@@ -37,21 +37,21 @@ export class QuestionService implements QuestionLoader {
 
   }
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
     return [].concat(
-      this.prestationQuestionService.loadQuestions(configuration),
-      this.ageQuestionService.loadQuestions(configuration),
-      this.etatCivilQuestionService.loadQuestions(configuration),
-      this.nationaliteQuestion.loadQuestions(configuration),
-      this.domicileQuestionService.loadQuestions(configuration),
-      this.revenusQuestionService.loadQuestions(configuration),
-      this.formationQuestionService.loadQuestions(configuration),
-      this.situationProfesionelleQuestionService.loadQuestions(configuration),
-      this.logementQuestionService.loadQuestions(configuration),
-      this.assuranceMaladieQuestionService.loadQuestions(configuration),
-      this.pensionAlimentaireQuestionService.loadQuestions(configuration),
-      this.montantFortuneQuestionService.loadQuestions(configuration),
-      this.situationFiscaleQuestionService.loadQuestions(configuration)
+      this.prestationQuestionService.loadQuestions(configuration, demandeur),
+      this.ageQuestionService.loadQuestions(configuration, demandeur),
+      this.etatCivilQuestionService.loadQuestions(configuration, demandeur),
+      this.nationaliteQuestion.loadQuestions(configuration, demandeur),
+      this.domicileQuestionService.loadQuestions(configuration, demandeur),
+      this.revenusQuestionService.loadQuestions(configuration, demandeur),
+      this.formationQuestionService.loadQuestions(configuration, demandeur),
+      this.situationProfesionelleQuestionService.loadQuestions(configuration, demandeur),
+      this.logementQuestionService.loadQuestions(configuration, demandeur),
+      this.assuranceMaladieQuestionService.loadQuestions(configuration, demandeur),
+      this.pensionAlimentaireQuestionService.loadQuestions(configuration, demandeur),
+      this.montantFortuneQuestionService.loadQuestions(configuration, demandeur),
+      this.situationFiscaleQuestionService.loadQuestions(configuration, demandeur)
     );
   }
 }

@@ -2,7 +2,7 @@ import { QuestionBase } from '../question-base.model';
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { QuestionOption } from '../option.model';
 import { QuestionVisitor } from '../question-visitor';
-import { ReponseProgressive } from '../../common/reponse.model';
+import { ReponseProgressive } from '../../../model/reponse.model';
 
 export class CheckboxGroupQuestion extends QuestionBase<any> {
   controlType = 'checkbox-group';

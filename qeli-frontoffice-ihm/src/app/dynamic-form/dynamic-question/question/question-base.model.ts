@@ -1,5 +1,5 @@
 import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
-import { Prestation } from '../common/prestation.model';
+import { Prestation } from '../../model/prestation.model';
 import { Categorie, Subcategorie } from './question-categorie.model';
 import { QuestionVisitor } from './question-visitor';
 

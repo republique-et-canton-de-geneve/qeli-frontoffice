@@ -1,12 +1,12 @@
 import { EtatCivil } from './etat-civil/etat-civil.model';
-import { ReponseBinaire, ReponseProgressive } from '../../core/common/reponse.model';
+import { ReponseBinaire, ReponseProgressive } from '../../dynamic-form/model/reponse.model';
 import { Scolarite } from './formation/scolarite.model';
 import { TypeRevenus } from './revenus/revenus.model';
 import {
   Pays, PAYS_AELE_UE, PAYS_CONVENTIONES, PAYS_NON_CONVENTIONES
-} from '../../core/question/nationalite-question/pays.model';
+} from '../../dynamic-form/dynamic-question/question/nationalite-question/pays.model';
 import * as moment from 'moment';
-import { Prestation } from '../../core/common/prestation.model';
+import { Prestation } from '../../dynamic-form/model/prestation.model';
 import { RequerantRefugie } from './nationalite/requerant-refugie.model';
 import { TypeEnfant } from './etat-civil/type-enfant.model';
 

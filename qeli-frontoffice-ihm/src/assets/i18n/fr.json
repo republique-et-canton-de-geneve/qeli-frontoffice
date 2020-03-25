@@ -1,5 +1,63 @@
 {
+  "ge": {
+    "form": {
+      "error": {
+        "required": "Ce champ est obligatoire",
+        "maxDate": "Date incorrecte",
+        "minDate": "Date incorrecte",
+        "invalidDate": "Date incorrecte"
+      }
+    }
+  },
   "home": {
+    "setup": {
+      "title": "Comment se compose votre foyer ?",
+      "subtitle": "Merci d'ajouter toutes les personnes qui vivent avec vous.<br>Veuillez rajouter tous les enfants habitant avec vous, même à temps partiel. ",
+      "demandeur": {
+        "prenom": {
+          "label": "Votre prénom",
+          "placeholder": "Vous"
+        },
+        "etatCivil": {
+          "label": "Votre état civil",
+          "options": {
+            "CELIBATAIRE": "Célibataire",
+            "MARIE": "Marié·e",
+            "DIVORCE": "Divorcé·e",
+            "SEPARE": "Séparé·e",
+            "PARTENARIAT_ENREGISTRE": "En partenariat enregistré",
+            "VEUF": "Veuf·ve"
+          }
+        },
+        "dateNaissance": {
+          "label": "Votre date de naissance"
+        }
+      },
+      "membre": {
+        "prenom": {
+          "label": "Leur prénom",
+          "placeholder": {
+            "EPOUX": "Conjoint",
+            "PARTENAIRE_ENREGISTRE": "Conjoint",
+            "CONCUBIN": "Concubin·e",
+            "ENFANT": "Enfant {{ index }}",
+            "DEFAULT": "Membre {{ index }}"
+          }
+        },
+        "relation": {
+          "label": "Votre lien",
+          "options": {
+            "EPOUX": "Epoux·se",
+            "PARTENAIRE_ENREGISTRE": "Partenaire enregistré·e",
+            "CONCUBIN": "Concubin·e",
+            "ENFANT": "Enfant "
+          }
+        },
+        "dateNaissance": {
+          "label": "Leur date de naissance"
+        }
+      }
+    },
     "result": {
       "title": "Résultat",
       "eligibilite": {
@@ -628,7 +686,6 @@
         "max": "Erreur dans la saisie du taux d'activité"
       }
     },
-
     "tauxActiviteConjoint": {
       "label": "Quel est le taux d'activité de votre conjoint ?",
       "altText": {

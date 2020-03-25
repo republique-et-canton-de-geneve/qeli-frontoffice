@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Prestation } from '../../core/common/prestation.model';
-import { FormState, Refus } from '../../core/common/form-state.model';
-import { PrestationResolver } from '../../core/common/prestation-resolver';
+import { Prestation } from '../../dynamic-form/model/prestation.model';
+import { FormState, Refus } from '../../dynamic-form/model/form-state.model';
+import { PrestationResolver } from '../../dynamic-form/model/prestation-resolver';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

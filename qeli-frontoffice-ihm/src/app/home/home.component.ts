@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { QuestionBase } from '../core/question/question-base.model';
-import { FormState } from '../core/common/form-state.model';
-import { DynamicFormComponent } from '../core/dynamic-form/dynamic-form.component';
+import { QuestionBase } from '../dynamic-form/dynamic-question/question/question-base.model';
+import { FormState } from '../dynamic-form/model/form-state.model';
+import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 import { ActivatedRoute } from '@angular/router';
-import { DeepLinkService } from '../service/deep-link.service';
+import { DeepLinkService } from '../deep-link/deep-link.service';
 import { TrackingService } from '../service/tracking.service';
 import { QeliConfigurationService } from '../service/configuration/qeli-configuration.service';
 import { QuestionService } from '../service/question/question.service';
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.qeliConfigurationService.loadConfiguration().subscribe(configuration => {
-      this.questions = this.questionService.loadQuestions(configuration);
+      this.questions = this.questionService.loadQuestions(configuration, null);
     });
 
     this.route.queryParams.subscribe(params => {

@@ -1,9 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { QuestionBase } from '../question/question-base.model';
+import { QuestionBase } from './dynamic-question/question/question-base.model';
 import { FormGroup } from '@angular/forms';
-import { Prestation } from '../common/prestation.model';
-import { FormState, Refus } from '../common/form-state.model';
-import { PrestationResolver } from '../common/prestation-resolver';
+import { Prestation } from './model/prestation.model';
+import { FormState, Refus } from './model/form-state.model';
+import { PrestationResolver } from './model/prestation-resolver';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -15,6 +15,7 @@ export class DynamicFormComponent implements OnInit {
   @Input() questions: QuestionBase<any>[] = [];
   @Input() formState: FormState;
   @Output() onQuestionChanged: EventEmitter<FormState> = new EventEmitter();
+
   @ViewChild('formElement', {static: false}) formElement: ElementRef;
 
   form: FormGroup;

@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { Prestation } from '../../../core/common/prestation.model';
+import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
+import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
+import { Prestation } from '../../../dynamic-form/model/prestation.model';
 import {
   hasAnyRevenus, hasConjoint, isConcubinageAutreParent, isRatioPiecesPersonnesLogementAcceptable, sumTauxActivite,
   sumTauxActiviteAvecConjoint
 } from '../qeli-questions.utils';
-import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { RadioQuestion } from '../../../core/question/radio-question/radio-question.model';
-import { ReponseBinaire, ReponseProgressive } from '../../../core/common/reponse.model';
-import { TauxQuestion } from '../../../core/question/taux-question/taux-question.model';
+import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { RadioQuestion } from '../../../dynamic-form/dynamic-question/question/radio-question/radio-question.model';
+import { ReponseBinaire, ReponseProgressive } from '../../../dynamic-form/model/reponse.model';
+import { TauxQuestion } from '../../../dynamic-form/dynamic-question/question/taux-question/taux-question.model';
 import { TypeRevenus } from '../revenus/revenus.model';
 import { Logement } from '../logement/logement.model';
-import { NumberQuestion } from '../../../core/question/number-question/number-question.model';
+import { NumberQuestion } from '../../../dynamic-form/dynamic-question/question/number-question/number-question.model';
 import { Loyer } from '../logement/loyer.model';
 
 @Injectable({
@@ -21,7 +21,7 @@ import { Loyer } from '../logement/loyer.model';
 })
 export class SituationProfesionelleQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
     return [
       new RadioQuestion({
         key: 'taxationOffice',

@@ -11,7 +11,6 @@ export enum Prestation {
   AIDE_SOCIALE        = 'AIDE_SOCIALE'
 }
 
-
 export const PRESTATIONS_AVS_AI = [
   Prestation.PC_AVS_AI,
   Prestation.PC_AVS_AI_CONJOINT,

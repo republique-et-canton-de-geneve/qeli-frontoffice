@@ -1,9 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DeepLinkService } from '../../service/deep-link.service';
+import { DeepLinkService } from './deep-link.service';
 import { ActivatedRoute } from '@angular/router';
-import { TrackingService } from '../../service/tracking.service';
-
-let COUNT = 0;
+import { TrackingService } from '../service/tracking.service';
 
 @Component({
   selector: 'app-deep-link',
@@ -17,12 +15,9 @@ export class DeepLinkComponent implements OnInit {
 
   @ViewChild('deepLinkInput', {static: false}) deepLinkInput: ElementRef;
 
-  constructor(
-    private deepLinkService: DeepLinkService,
-    private route: ActivatedRoute,
-    private trackingService: TrackingService
-  ) {
-    this.id = COUNT++;
+  constructor(private deepLinkService: DeepLinkService,
+              private route: ActivatedRoute,
+              private trackingService: TrackingService) {
   }
 
   ngOnInit() {
