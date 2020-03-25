@@ -6,7 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
- * Classe de démarrage du frontoffice.
+ * Classe de démarrage du front office.
  */
 @SpringBootApplication
 public class FrontofficeApplication extends SpringBootServletInitializer {
