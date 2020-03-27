@@ -1,12 +1,16 @@
 package ch.ge.social.qeli.api.controller;
 
 import ch.ge.social.qeli.api.formulaire.Formulaire;
+import ch.ge.social.qeli.api.formulaire.jaxb.Rapport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.nio.file.Files;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +21,8 @@ public class QeliGUIController {
   @Value("classpath:hbt.pdf")
   Resource src;
 
-  @PutMapping(value = "/pdf")
-  byte[] generatePDF() throws IOException {
+  @PostMapping(value = "/pdf")
+  byte[] generatePDF() throws IOException, JAXBException {
 
     String param = "{\"answers\":[{\"question\":\"prestations\",\"answer\":\"AUCUNE\"}," +
                    "{\"question\":\"dateNaissance\",\"answer\":\"2020-03-05\"},{\"question\":\"etatCivil\"," +
@@ -56,10 +60,21 @@ public class QeliGUIController {
                    "\"questionKeys\":[\"enFormation\"]},{\"prestation\":\"SUBSIDES\"," +
                    "\"questionKeys\":[\"assuranceMaladieSuisse\"]}]}";
 
-
     ObjectMapper mapper = new ObjectMapper();
     Formulaire form = mapper.readValue(param, Formulaire.class);
     System.out.println(form);
+
+   /* Expediteur exp = new Expediteur("test0","test1");
+    Metier metier = new Metier("testMetier");
+    Document doc = new Document("testD0","testD1","testD2", exp);
+    DebutDocument dd = new DebutDocument(doc, metier);*/
+    Rapport rapport = new Rapport();
+
+    JAXBContext context = JAXBContext.newInstance(Rapport.class/*, DebutDocument.class, Document.class, Expediteur.class, Metier.class*/);
+    Marshaller marshaller = context.createMarshaller();
+
+    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    marshaller.marshal(rapport, System.out);
 
     return Files.readAllBytes(src.getFile().toPath());
   }

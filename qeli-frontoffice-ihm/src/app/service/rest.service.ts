@@ -12,13 +12,12 @@ export class RestService {
 
   generatePDF(documentContent: FlattenData): Observable<any> {
 
-    let httpParams = new HttpParams().set('documentContent', JSON.stringify(documentContent));
-    console.log('params : ', httpParams.get('documentContent'));
+
     return this.httpClient.post(
       '/socialqeli_pub/api/pdf',
+      {documentContent: documentContent},
       {
-        responseType: 'blob'/*,
-        params: httpParams*/
+        responseType: 'blob'
       });
   }
 
