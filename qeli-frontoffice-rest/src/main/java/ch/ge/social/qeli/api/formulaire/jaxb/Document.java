@@ -1,13 +1,17 @@
-/*package ch.ge.social.qeli.api.formulaire.jaxb;
+package ch.ge.social.qeli.api.formulaire.jaxb;
 
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"nomModele", "date", "lieuCourrier","expediteur" })
 public class Document {
+
+  public Document(){}
 
   public Document(String aNomModel, String aDate, String aLieuCourrier, Expediteur aExpediteur){
     this.nomModele = aNomModel;
@@ -16,17 +20,17 @@ public class Document {
     this.expediteur = aExpediteur;
   }
 
-  @XmlAttribute
+  @XmlElement
   private String nomModele;
 
-  @XmlAttribute
+  @XmlElement
   private String date;
 
-  @XmlAttribute
+  @XmlElement
   private String lieuCourrier;
 
   @XmlElement(name="EXPEDITEUR")
   private Expediteur expediteur;
 
 }
-*/
+
