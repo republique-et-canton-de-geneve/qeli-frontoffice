@@ -15,7 +15,7 @@ export class RestService {
 
     return this.httpClient.post(
       '/socialqeli_pub/api/pdf',
-      {documentContent: documentContent},
+      {documentContent},
       {
         responseType: 'blob'
       });

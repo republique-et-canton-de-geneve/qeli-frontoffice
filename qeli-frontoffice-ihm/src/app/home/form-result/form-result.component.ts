@@ -35,10 +35,11 @@ export class FormResultComponent {
 
   generatePDF(){
     var flattenData: FlattenData;
+
+    console.log(this.prestationsRefusees.map(refus => {this.toMotifRefus(refus).split('<br>')}));
+
     flattenData = new FlattenData(new Map(this.questions.map(question => [question.key, question.accept(this.flatterAnswerVisitorFactory.create(this.reponses))[0]])),
       this.prestationEligible, this.prestationDejaPercues, this.prestationsRefusees);
-
-    console.log(flattenData);
 
     this.restService.generatePDF(flattenData).subscribe(res => {
 

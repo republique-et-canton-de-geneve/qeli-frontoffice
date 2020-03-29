@@ -36,4 +36,5 @@ class QeliConfigurationPropertiesControllerTest extends Specification {
     content.maxLimiteFortune == 10000
     content.taxationAfcYearsFromNow == 2
   }
+
 }
