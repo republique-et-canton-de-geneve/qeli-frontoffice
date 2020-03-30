@@ -1,0 +1,32 @@
+<div class="form-group">
+  <div class="row question-title">
+    <div class="col-xs-12 col-sm-8">
+      <label class="control-label"
+             [ngClass]="!isValid ? 'text-danger' : ''"
+             [attr.for]="question.key"
+             [attr.data-cy-label]="question.dataCyIdentifier">
+        {{ question.label.key | translate:question.label.parameters }}
+        <span *ngIf="question.required"
+              class="form-required"
+              title="{{ 'form.required' | translate }}">*</span>
+      </label>
+    </div>
+
+    <div class="visible-sm visible-md visible-lg col-sm-4 text-right">
+      <app-deep-link></app-deep-link>
+    </div>
+  </div>
+
+  <p *ngIf="question.help" class="help-block" [innerHtml]="question.help.key | translate:question.help.parameters"></p>
+
+
+  <div *ngIf="!isValid && errors.length > 0"
+       class="error-block text-danger"
+       data-cy-label="validation_message">
+    <p *ngFor="let error of errors">
+      {{ ('question.errors.' + error + '.' + question.key | translate) || 'question.errors.' + error + '.default' | translate }}
+    </p>
+  </div>
+
+  <ng-template app-question-host></ng-template>
+</div>

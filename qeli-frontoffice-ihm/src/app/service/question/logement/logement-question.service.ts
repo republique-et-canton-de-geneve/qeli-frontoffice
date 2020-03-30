@@ -1,23 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
-import { Prestation } from '../../../dynamic-form/model/prestation.model';
-import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { RadioQuestion } from '../../../dynamic-form/dynamic-question/question/radio-question/radio-question.model';
-import { Logement } from './logement.model';
-import { ReponseProgressive } from '../../../dynamic-form/model/reponse.model';
-import { NumberQuestion } from '../../../dynamic-form/dynamic-question/question/number-question/number-question.model';
-import { isRatioPiecesPersonnesLogementAcceptable } from '../qeli-questions.utils';
-import { Loyer } from './loyer.model';
+import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogementQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+    return [/*
       new RadioQuestion({
         key: 'proprietaireOuLocataireLogement',
         code: '1001',
@@ -103,7 +96,7 @@ export class LogementQuestionService implements QuestionLoader {
             isEligible: (value: any) => value['montantLoyerFixeOuVariable'] !== Loyer.EN_FONCTION_REVENU
           }
         ]
-      })
+      })*/
     ];
   }
 }

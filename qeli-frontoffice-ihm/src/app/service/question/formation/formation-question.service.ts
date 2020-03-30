@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
-import { Prestation } from '../../../dynamic-form/model/prestation.model';
-import { aucuneScolarite } from '../qeli-questions.utils';
-import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { RadioQuestion } from '../../../dynamic-form/dynamic-question/question/radio-question/radio-question.model';
-import { ReponseBinaire } from '../../../dynamic-form/model/reponse.model';
-import { Scolarite } from './scolarite.model';
+import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormationQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+    return [/*
       new RadioQuestion({
         key: 'enFormation',
         code: '0702',
@@ -49,7 +44,7 @@ export class FormationQuestionService implements QuestionLoader {
             isEligible: (value: any) => aucuneScolarite(value)
           }
         ]
-      })
+      })*/
     ];
   }
 }

@@ -1,0 +1,13 @@
+.navigation-controls button {
+  @media only screen and (max-width: 640px) {
+    width: 100%;
+  }
+}
+
+.next-question > .btn > i {
+  margin-left: 0.5rem;
+}
+
+.previous-question > .btn > i {
+  margin-right: 0.5rem;
+}

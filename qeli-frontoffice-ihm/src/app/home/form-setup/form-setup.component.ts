@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { EtatCivil } from '../../service/question/etat-civil/etat-civil.model';
-import { MembreFamille, Relation } from '../../service/configuration/qeli-configuration.model';
 import { DateValidators } from '../../ge-forms/date.validators';
 import * as moment from 'moment';
+import {
+  Demandeur, DemandeurSchema, EtatCivil, MembreFamille, Relation
+} from '../../service/configuration/demandeur.model';
 
 const MAX_NUMBER_OF_MEMBRES = 20;
 
@@ -62,6 +63,14 @@ export class FormSetupComponent {
 
       this.numberOfMembres += 1;
     }
+  }
+
+  get demandeur() {
+    if (this.isValid) {
+      return new Demandeur(this.setupForm.value as DemandeurSchema);
+    }
+
+    return null;
   }
 
   private availableRelationOptions() {

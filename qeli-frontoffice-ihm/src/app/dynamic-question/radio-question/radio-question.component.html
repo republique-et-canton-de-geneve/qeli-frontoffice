@@ -1,0 +1,19 @@
+<div [formGroup]="form">
+  <div *ngFor="let option of question.radioOptions; first as isFirst"
+       [class]="question.inline ? 'radio radio-inline' : 'radio'"
+       [attr.data-cy]="question.dataCyIdentifier">
+    <label>
+      <input type="radio"
+             [value]="option.value"
+             [formControlName]="question.key"
+             [focusOnInit]="isFirst"
+             [attr.data-cy]="option.value"
+             [attr.data-matomo-name]="question.dataCyIdentifier">
+      {{ option.label.key | translate:option.label.parameters }}
+    </label>
+
+    <p *ngIf="option.help" class="help-block">
+      {{ option.help.key | translate:option.help.parameters }}
+    </p>
+  </div>
+</div>

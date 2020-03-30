@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
-import { Prestation } from '../../../dynamic-form/model/prestation.model';
-import { getNbrEnfantsACharge, hasConjoint, hasFortuneTropEleve } from '../qeli-questions.utils';
-import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { RadioQuestion } from '../../../dynamic-form/dynamic-question/question/radio-question/radio-question.model';
-import { ReponseBinaire, ReponseProgressive } from '../../../dynamic-form/model/reponse.model';
-import { TypeEnfant } from '../etat-civil/type-enfant.model';
+import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
 
 
 @Injectable({
@@ -15,8 +10,8 @@ import { TypeEnfant } from '../etat-civil/type-enfant.model';
 })
 export class MontantFortuneQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+    return [/*
       new RadioQuestion({
         key: 'fortuneSuperieureA',
         code: '1302',
@@ -57,7 +52,7 @@ export class MontantFortuneQuestionService implements QuestionLoader {
             isEligible: (value: any) => value['impotFortune'] !== ReponseProgressive.OUI
           }
         ]
-      })
+      })*/
     ];
   }
 }

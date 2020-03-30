@@ -48,9 +48,8 @@
       </div>
     </div>
 
-    <hr>
-
     <div *ngFor="let membre of membresFamilleControls; index as i; last as isLast;">
+      <hr>
       <div class="row member-row" [formGroup]="membre">
         <div class="col-sm-4">
           <app-input-container identifier="{{ 'relationMembre' + i }}"
@@ -103,8 +102,6 @@
           </button>
         </div>
       </div>
-
-      <hr>
     </div>
 
     <div class="row">
@@ -118,4 +115,6 @@
       </div>
     </div>
   </form>
+
+  <hr>
 </div>

@@ -50,6 +50,11 @@ footer {
   }
 }
 
+.btn-info[disabled]:hover {
+  color: #333 !important;
+  background-color: #fff !important;
+}
+
 .btn-primary[disabled]:hover {
   color: #fff !important;
 }

@@ -1,20 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
-import { Prestation } from '../../../dynamic-form/model/prestation.model';
-import { isMineur } from '../qeli-questions.utils';
-import { DateQuestion } from '../../../dynamic-form/dynamic-question/question/date-question/date-question.model';
-import * as moment from 'moment';
-import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgeQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+    return /*[
       new DateQuestion({
         key: 'dateNaissance',
         code: '0201',
@@ -36,6 +32,6 @@ export class AgeQuestionService implements QuestionLoader {
           }
         ]
       })
-    ];
+    ];*/
   }
 }

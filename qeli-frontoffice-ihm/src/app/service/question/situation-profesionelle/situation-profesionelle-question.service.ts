@@ -1,28 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
-import { Prestation } from '../../../dynamic-form/model/prestation.model';
-import {
-  hasAnyRevenus, hasConjoint, isConcubinageAutreParent, isRatioPiecesPersonnesLogementAcceptable, sumTauxActivite,
-  sumTauxActiviteAvecConjoint
-} from '../qeli-questions.utils';
-import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { RadioQuestion } from '../../../dynamic-form/dynamic-question/question/radio-question/radio-question.model';
-import { ReponseBinaire, ReponseProgressive } from '../../../dynamic-form/model/reponse.model';
-import { TauxQuestion } from '../../../dynamic-form/dynamic-question/question/taux-question/taux-question.model';
-import { TypeRevenus } from '../revenus/revenus.model';
-import { Logement } from '../logement/logement.model';
-import { NumberQuestion } from '../../../dynamic-form/dynamic-question/question/number-question/number-question.model';
-import { Loyer } from '../logement/loyer.model';
+import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SituationProfesionelleQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+    return [/*
       new RadioQuestion({
         key: 'taxationOffice',
         code: '0901',
@@ -255,7 +243,7 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
             isEligible: (value: any) => value['montantLoyerFixeOuVariable'] !== Loyer.EN_FONCTION_REVENU
           }
         ]
-      })
+      })*/
     ];
   }
 }

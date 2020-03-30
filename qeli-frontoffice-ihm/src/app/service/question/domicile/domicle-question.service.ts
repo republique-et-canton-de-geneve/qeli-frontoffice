@@ -1,26 +1,17 @@
-import { RadioQuestion } from '../../../dynamic-form/dynamic-question/question/radio-question/radio-question.model';
-import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
-import { ReponseBinaire, ReponseProgressive } from '../../../dynamic-form/model/reponse.model';
-import { Prestation } from '../../../dynamic-form/model/prestation.model';
-import { DateQuestion } from '../../../dynamic-form/dynamic-question/question/date-question/date-question.model';
-import * as moment from 'moment';
-import {
-  conjointHabiteSuisseDepuis, habiteGeneveDepuis5ans, habiteGeneveDepuisNaissance, habiteSuisseDepuis, isRefugie,
-  isRefugieOrInconnu, isSuisse, isUEOrAELE
-} from '../qeli-questions.utils';
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
-import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DomicileQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
     return [
-      new RadioQuestion({
+      /*new RadioQuestion({
         key: 'domicileCantonGE',
         code: '0501',
         categorie: Categorie.SITUATION_PERSONELLE,
@@ -134,7 +125,7 @@ export class DomicileQuestionService implements QuestionLoader {
                                         )
           }
         ]
-      })
+      })*/
     ];
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { QeliState, QeliStateSchema } from '../service/question/qeli-state.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,37 +11,25 @@ export class DeepLinkService {
   }
 
   /**
-   * Construit le lien profond (deep link) avec les paramètres de la requête (queryParams)
-   *
-   * @return string L'URL courante
+   * Retourne le lien profond de la page qui est affichée en ce moment.
    */
-  getCurrentDeepLink() {
+  get currentDeepLink() {
     return location.href;
   }
 
   /**
-   * Met à jour l'URL courante avec les valeurs du formulaire encryptés en paramètres de la requête (queryParams)
    *
-   * @param data {}
+   * @param state
    * @param route
    */
-  updateUrl(data: any, route: ActivatedRoute): void {
+  updateUrl(state: QeliStateSchema, route: ActivatedRoute): void {
     this.router.navigate([], {
-      queryParams: {data: this.encryptParams(data)},
+      queryParams: {data: this.encryptParams(state)},
       relativeTo: route
     });
   }
 
-
-  /**
-   * Encrypte (base64) les valeurs du formulaire
-   *
-   * @param data
-   *
-   * @return string Chaîne encodée et compressée
-   */
-  encryptParams(data: any) {
-    data = this.removeEmptyJson(data);
+  private encryptParams(data: any) {
     return btoa(JSON.stringify(data));
   }
 
@@ -49,21 +38,8 @@ export class DeepLinkService {
    *
    * @param queryParams {}|null
    */
-  decryptQueryParamsData(queryParams: any) {
+  decryptQueryParamsData(queryParams: any): QeliStateSchema {
     return queryParams && queryParams['data'] ? JSON.parse(atob(queryParams['data'])) : null;
   }
-
-  /**
-   * Nettoie les clefs vides ou nulles du Json
-   *
-   * @param data
-   */
-  removeEmptyJson(data: any) {
-    Object.entries(data).forEach(([key, val]) =>
-      (val && typeof val === 'object') && this.removeEmptyJson(val) ||
-      (val === null || val === "") && delete data[key]
-    );
-    return data;
-  };
 
 }

@@ -1,26 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
-import { Prestation } from '../../../dynamic-form/model/prestation.model';
-import { hasAnyEnfantOfType, hasConjoint, hasEnfants } from '../qeli-questions.utils';
-import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { DropdownQuestion } from '../../../dynamic-form/dynamic-question/question/dropdown-question/dropdown-question.model';
-import { EtatCivil } from './etat-civil.model';
-import {
-  NumberField, NumberGroupQuestion
-} from '../../../dynamic-form/dynamic-question/question/number-group-question/number-group-question.model';
-import { TypeEnfant } from './type-enfant.model';
-import { RadioQuestion } from '../../../dynamic-form/dynamic-question/question/radio-question/radio-question.model';
-import { ReponseBinaire } from '../../../dynamic-form/model/reponse.model';
+import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EtatCivilQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+    return [/*
       new DropdownQuestion({
         key: 'etatCivil',
         code: '0301',
@@ -79,7 +69,7 @@ export class EtatCivilQuestionService implements QuestionLoader {
         eligibilite: [
           {prestation: Prestation.PC_FAM}
         ]
-      })
+      })*/
     ];
   }
 }
