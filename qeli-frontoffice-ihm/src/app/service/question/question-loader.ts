@@ -1,5 +1,6 @@
-import { Demandeur, QeliConfiguration } from '../configuration/qeli-configuration.model';
-import { QuestionBase } from '../../dynamic-form/dynamic-question/question/question-base.model';
+import { QeliConfiguration } from '../configuration/qeli-configuration.model';
+import { Demandeur } from '../configuration/demandeur.model';
+import { QeliQuestionDecorator } from './qeli-question-decorator.model';
 
 /**
  * Une interface qui définit l'API pour un service de chargement de questions.
@@ -11,5 +12,5 @@ export interface QuestionLoader {
    * @param configuration un objet contenant tous les paramètres qui concernent la configuration des questions.
    * @param demandeur le demandeur et sa situation familiale.
    */
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[];
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[];
 }

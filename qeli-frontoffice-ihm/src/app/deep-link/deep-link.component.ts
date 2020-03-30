@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DeepLinkService } from './deep-link.service';
 import { ActivatedRoute } from '@angular/router';
-import { TrackingService } from '../service/tracking.service';
+import { TrackingService } from '../service/tracking/tracking.service';
 
 @Component({
   selector: 'app-deep-link',
@@ -29,7 +29,7 @@ export class DeepLinkComponent implements OnInit {
 
   copyDeepLink() {
     this.isCopied = true;
-    this.trackingService.trackDeepLink();
+    // TODO this.trackingService.trackDeepLink();
     this.deepLinkInput.nativeElement.select();
     document.execCommand('copy');
     this.deepLinkInput.nativeElement.setSelectionRange(0, 0);
@@ -37,7 +37,7 @@ export class DeepLinkComponent implements OnInit {
   }
 
   get deepLink() {
-    return this.deepLinkService.getCurrentDeepLink();
+    return this.deepLinkService.currentDeepLink;
   }
 
 }

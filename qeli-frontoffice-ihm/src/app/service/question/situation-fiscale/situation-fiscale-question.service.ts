@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../dynamic-form/dynamic-question/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../dynamic-form/dynamic-question/question/question-categorie.model';
-import { Prestation } from '../../../dynamic-form/model/prestation.model';
-import { hasConjoint, hasPermisBEtudes, isFonctionnaireInternational, isRefugie } from '../qeli-questions.utils';
-import * as moment from 'moment';
-import { Demandeur, QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { RadioQuestion } from '../../../dynamic-form/dynamic-question/question/radio-question/radio-question.model';
-import { ReponseProgressive } from '../../../dynamic-form/model/reponse.model';
+import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SituationFiscaleQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+    return [/*
       new RadioQuestion({
         key: 'exempteImpot',
         code: '1401',
@@ -81,7 +76,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
             isEligible: (value: any) => value['parentsHabiteFranceTravailleSuisse'] !== ReponseProgressive.NON
           }
         ]
-      })
+      })*/
     ];
   }
 }

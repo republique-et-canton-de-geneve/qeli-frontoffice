@@ -3,9 +3,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgModule } from '@angular/core';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { FocusOnInitDirective } from './common/focus-on-init.directive';
+import { FocusOnInitDirective } from './element/focus-on-init.directive';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
-import { TrackAfterViewInitDirective } from './common/track-after-view-init.directive';
 import { BootstrapModule } from '../bootstrap/bootstrap.module';
 
 export const ngxMaskModuleOptions: Partial<IConfig> | (() => Partial<IConfig>) = {};
@@ -32,12 +31,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     NgxMaskModule,
     TranslateModule,
-    FocusOnInitDirective,
-    TrackAfterViewInitDirective
+    FocusOnInitDirective
   ],
   declarations: [
-    FocusOnInitDirective,
-    TrackAfterViewInitDirective
+    FocusOnInitDirective
   ]
 })
 export class CoreModule {

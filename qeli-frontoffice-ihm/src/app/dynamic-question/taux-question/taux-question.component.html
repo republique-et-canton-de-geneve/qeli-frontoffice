@@ -1,0 +1,58 @@
+<div [formGroup]="form">
+
+  <div [formGroupName]="question.key"
+       [attr.data-cy]="question.dataCyIdentifier">
+    <hr>
+
+    <div class="radio">
+      <label>
+        <input type="radio"
+               [value]="false"
+               formControlName="other"
+               [attr.data-matomo-name]="question.dataCyIdentifier"
+               (change)="onOtherChanged()">
+        {{ 'question.' + question.key + '.defaultOptions' | translate }}
+      </label>
+    </div>
+
+    <div class="tab"
+         [hidden]="isOtherSelected">
+      <select [id]="question.key + '-select'"
+              formControlName="taux"
+              [attr.disabled]="isOtherSelected ? 'disabled' : null"
+              focusOnInit="true"
+              class="form-control form-select"
+              [attr.data-cy]="question.dataCyIdentifier"
+              [attr.data-matomo-name]="question.dataCyIdentifier">
+        <option></option>
+        <option *ngFor="let option of options" [value]="option">{{  option + '%' }}</option>
+      </select>
+    </div>
+
+    <hr>
+    <div class="radio">
+      <label>
+        <input type="radio"
+               [value]="true"
+               formControlName="other"
+               [attr.data-matomo-name]="question.dataCyIdentifier"
+               (change)="onOtherChanged()">
+        {{ 'question.' + question.key + '.other' | translate }}
+      </label>
+    </div>
+
+    <div class="tab"
+         [hidden]="!isOtherSelected">
+      <input [id]="question.key"
+             [formGroup]="form"
+             [attr.disabled]="!isOtherSelected ? 'disabled' : null"
+             formControlName="taux"
+             type="number"
+             (keypress)="isNumber($event)"
+             min="0"
+             max="100"
+             class="form-control"
+             [attr.data-matomo-name]="question.dataCyIdentifier">
+    </div>
+  </div>
+</div>

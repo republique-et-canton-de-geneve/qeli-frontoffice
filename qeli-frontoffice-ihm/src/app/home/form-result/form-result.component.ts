@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Prestation } from '../../dynamic-form/model/prestation.model';
-import { FormState, Refus } from '../../dynamic-form/model/form-state.model';
-import { PrestationResolver } from '../../dynamic-form/model/prestation-resolver';
+import { Prestation } from '../../service/configuration/prestation.model';
 import { TranslateService } from '@ngx-translate/core';
+import { EligibiliteRefusee} from '../../service/question/eligibilite.model';
+import { QeliState } from '../../service/question/qeli-state.model';
 
 @Component({
   selector: 'app-form-result',
@@ -11,9 +11,9 @@ import { TranslateService } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormResultComponent {
-  prestationEligible: Prestation[];
-  prestationDejaPercues: Prestation[];
-  prestationsRefusees: Refus[];
+  eligibiles: Prestation[];
+  dejaPercues: Prestation[];
+  refusees: EligibiliteRefusee[];
   reponses: any;
 
   constructor(private translateService: TranslateService) {
@@ -21,16 +21,12 @@ export class FormResultComponent {
   }
 
   @Input()
-  set formState(formState: FormState) {
-    this.reponses = formState.data;
-    this.prestationEligible = PrestationResolver.findPrestationsEligibles(formState.prestationsRefusees);
-    this.prestationsRefusees = PrestationResolver.findPrestationsRefusees(formState.prestationsRefusees, formState.data);
-    this.prestationDejaPercues = PrestationResolver.findPrestationsDejaPercues(formState.data);
-  }
-
-  toMotifRefus(refus: Refus) {
-    return refus.questionKeys.map(
-      key => this.translateService.instant(`question.${key}.motifRefus.${refus.prestation}`)
-    ).join('<br>');
+  set qeliState(state: QeliState) {
+    this.reponses = state.formData;
+    this.dejaPercues = state.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite.prestation);
+    this.refusees = state.eligibilitesRefusees.filter(e => !e.dejaPercue);
+    this.eligibiles = Object.values(Prestation)
+                            .filter(p => !this.dejaPercues.includes(p) &&
+                                         !this.refusees.some(r => r.eligibilite.prestation === p));
   }
 }
