@@ -1,9 +1,11 @@
-package ch.ge.social.qeli.api.formulaire.jaxb;
+package ch.ge.social.qeli.service.models;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import lombok.Getter;
+import lombok.Setter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"document", "metier"})
@@ -21,6 +23,11 @@ public class DebutDocument {
 
   @XmlElement(name="METIER")
   private Metier metier;
+
+  public Document getDocument(){
+    return document;
+  }
+
 
 }
 

@@ -1,14 +1,14 @@
-package ch.ge.social.qeli.api.formulaire.jaxb;
+package ch.ge.social.qeli.service.models;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"departementLigne1", "serviceLigne1"})
-public class Expediteur {
+public class
+Expediteur {
 
   public Expediteur(){}
 

@@ -3,7 +3,8 @@ import { Prestation } from '../../service/configuration/prestation.model';
 import { EligibiliteGroup, EligibiliteRefusee } from '../../service/question/eligibilite.model';
 import { QeliState } from '../../service/question/qeli-state.model';
 import { TranslateService } from '@ngx-translate/core';
-import { RestService } from '../../service/rest.service';
+import { PDFGenerationService } from '../../service/pdf-generation.service';
+import { QuestionBase } from '../../core/question/question-base.model';
 import { FlattenAnswerVisitorFactory } from '../../core/common/flatten-answer.visitor';
 
 @Component({
@@ -18,7 +19,7 @@ export class FormResultComponent {
   refusees: EligibiliteRefusee[];
   responses: any;
 
-  constructor(private translateService: TranslateService, private flatterAnswerVisitorFactory: FlattenAnswerVisitorFactory, private restService: RestService) {
+  constructor(private translateService: TranslateService, private flatterAnswerVisitorFactory: FlattenAnswerVisitorFactory, private pdfGenerationService: PDFGenerationService) {
 
   }
 
@@ -36,12 +37,10 @@ export class FormResultComponent {
   generatePDF(){
     var flattenData: FlattenData;
 
-    console.log(this.prestationsRefusees.map(refus => {this.toMotifRefus(refus).split('<br>')}));
-
     flattenData = new FlattenData(new Map(this.questions.map(question => [question.key, question.accept(this.flatterAnswerVisitorFactory.create(this.reponses))[0]])),
       this.prestationEligible, this.prestationDejaPercues, this.prestationsRefusees);
 
-    this.restService.generatePDF(flattenData).subscribe(res => {
+    this.pdfGenerationService.generatePDF(flattenData).subscribe(res => {
 
       let blob: any = new Blob([(res)], { type: 'application/pdf' });
       let blobUrl: string = window.URL.createObjectURL(blob);

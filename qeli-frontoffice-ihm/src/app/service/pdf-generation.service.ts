@@ -6,16 +6,15 @@ import { FlattenData } from '../core/common/form-state.model';
 @Injectable({
   providedIn: 'root'
 })
-export class RestService {
+export class PDFGenerationService {
 
   constructor(private httpClient: HttpClient) { }
 
   generatePDF(documentContent: FlattenData): Observable<any> {
 
-
     return this.httpClient.post(
       '/socialqeli_pub/api/pdf',
-      {documentContent},
+      documentContent,
       {
         responseType: 'blob'
       });
