@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { QeliConfiguration } from '../configuration/qeli-configuration.model';
 import { QuestionLoader } from './question-loader';
 import { PrestationQuestionService } from './prestation/prestation-question.service';
-import { Demandeur } from '../configuration/demandeur.model';
 import { QeliQuestionDecorator } from './qeli-question-decorator.model';
+import { Eligibilite } from './eligibilite.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,21 +26,21 @@ export class QuestionService implements QuestionLoader {
 
   }
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     return [].concat(
-      this.prestationQuestionService.loadQuestions(configuration, demandeur)
-      /*this.ageQuestionService.loadQuestions(configuration, demandeur),
-      this.etatCivilQuestionService.loadQuestions(configuration, demandeur),
-      this.nationaliteQuestion.loadQuestions(configuration, demandeur),
-      this.domicileQuestionService.loadQuestions(configuration, demandeur),
-      this.revenusQuestionService.loadQuestions(configuration, demandeur),
-      this.formationQuestionService.loadQuestions(configuration, demandeur),
-      this.situationProfesionelleQuestionService.loadQuestions(configuration, demandeur),
-      this.logementQuestionService.loadQuestions(configuration, demandeur),
-      this.assuranceMaladieQuestionService.loadQuestions(configuration, demandeur),
-      this.pensionAlimentaireQuestionService.loadQuestions(configuration, demandeur),
-      this.montantFortuneQuestionService.loadQuestions(configuration, demandeur),
-      this.situationFiscaleQuestionService.loadQuestions(configuration, demandeur)*/
+      this.prestationQuestionService.loadQuestions(configuration, eligibilites)
+      /*this.ageQuestionService.loadQuestions(configuration, eligibilites),
+      this.etatCivilQuestionService.loadQuestions(configuration, eligibilites),
+      this.nationaliteQuestion.loadQuestions(configuration, eligibilites),
+      this.domicileQuestionService.loadQuestions(configuration, eligibilites),
+      this.revenusQuestionService.loadQuestions(configuration, eligibilites),
+      this.formationQuestionService.loadQuestions(configuration, eligibilites),
+      this.situationProfesionelleQuestionService.loadQuestions(configuration, eligibilites),
+      this.logementQuestionService.loadQuestions(configuration, eligibilites),
+      this.assuranceMaladieQuestionService.loadQuestions(configuration, eligibilites),
+      this.pensionAlimentaireQuestionService.loadQuestions(configuration, eligibilites),
+      this.montantFortuneQuestionService.loadQuestions(configuration, eligibilites),
+      this.situationFiscaleQuestionService.loadQuestions(configuration, eligibilites)*/
     );
   }
 }

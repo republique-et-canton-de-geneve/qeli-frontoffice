@@ -39,24 +39,26 @@ export class HomeComponent implements OnInit {
       this.qeliConfiguration = configuration;
 
       this.route.queryParams.subscribe(params => {
-        if (this.firstLoad) {
-          const state = this.deepLinkService.decryptQueryParamsData(params);
-          if (state !== null) {
-            const demandeur = state.demandeur;
-            const questions = this.questionService.loadQuestions(this.qeliConfiguration, new Demandeur(demandeur));
+        //if (this.firstLoad) {
+        const state = this.deepLinkService.decryptQueryParamsData(params);
+        if (state !== null) {
+          const demandeur = new Demandeur(state.demandeur);
+          const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur.toEligibilite());
 
-            state.formData = questions
-              .map(decorator => decorator.question)
-              .filter(question => state.formData.hasOwnProperty(question.key))
-              .map(question => {
-                let entry = {};
-                entry[question.key] = question.accept(new FromSchemaToAnswerVisitor(state.formData[question.key]));
-                return entry
-              }).reduce((r, c) => Object.assign(r, c), {});
+          state.formData = questions
+            .map(decorator => decorator.question)
+            .filter(question => state.formData.hasOwnProperty(question.key))
+            .map(question => {
+              let entry = {};
+              entry[question.key] = question.accept(new FromSchemaToAnswerVisitor(state.formData[question.key]));
+              return entry
+            }).reduce((r, c) => Object.assign(r, c), {});
 
-            this.qeliStateMachine = new QeliStateMachine(questions, new QeliState(state));
-          }
+          this.qeliStateMachine = new QeliStateMachine(questions, new QeliState(state));
+        } else {
+          this.qeliStateMachine = null;
         }
+        //}
 
         this.firstLoad = false;
         this.ref.markForCheck();
@@ -89,8 +91,8 @@ export class HomeComponent implements OnInit {
 
       this.updateDeepLink();
     } else if (this.qeliSetupForm && this.qeliSetupForm.isValid) {
-      const demandeur = this.qeliSetupForm.demandeur;
-      const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur);
+      const demandeur = new Demandeur(this.qeliSetupForm.demandeur);
+      const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur.toEligibilite());
 
       this.qeliStateMachine = new QeliStateMachine(
         questions, new QeliState({demandeur: demandeur})

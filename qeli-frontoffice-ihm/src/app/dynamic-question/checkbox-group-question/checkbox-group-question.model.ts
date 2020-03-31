@@ -27,7 +27,7 @@ export class CheckboxGroupAnswer extends Answer {
   }
 }
 
-export class CheckboxGroup {
+export interface CheckboxGroup {
   label: I18nString;
   options: QuestionOption<string>[];
 }
