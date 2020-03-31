@@ -11,5 +11,5 @@ export interface I18nString {
   /**
    * Optionnellement, des paramètres de traduction.
    */
-  parameters?: { [key: string]: string };
+  parameters?: { [key: string]: string | number | Date };
 }

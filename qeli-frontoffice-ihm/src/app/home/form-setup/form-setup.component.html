@@ -6,6 +6,7 @@
     <div class="row form-group">
 
       <div class="col-sm-4">
+        <input type="hidden" formControlName="id" value="0">
         <app-input-container identifier="etatCivil"
                              required="true"
                              label="{{ 'home.setup.demandeur.etatCivil.label' | translate }}"
@@ -52,6 +53,7 @@
       <hr>
       <div class="row member-row" [formGroup]="membre">
         <div class="col-sm-4">
+          <input type="hidden" formControlName="id" [value]="i + 1">
           <app-input-container identifier="{{ 'relationMembre' + i }}"
                                required="true"
                                label="{{ 'home.setup.membre.relation.label' | translate }}"

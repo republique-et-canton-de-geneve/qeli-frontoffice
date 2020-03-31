@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { TypeRevenus } from './revenus.model';
-import { Demandeur } from '../../configuration/demandeur.model';
 import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
+import { Eligibilite } from '../eligibilite.model';
 
 const REVENUS_OPTIONS = [
   {label: TypeRevenus.EMPLOI},
@@ -31,7 +31,7 @@ const REVENUS_OPTIONS = [
 })
 export class RevenusQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     return [/*
       new CheckboxGroupQuestion({
         key: 'revenus',

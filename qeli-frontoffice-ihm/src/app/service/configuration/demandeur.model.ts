@@ -18,6 +18,7 @@ export enum EtatCivil {
 }
 
 export interface DemandeurSchema {
+  id: number;
   prenom: string;
   etatCivil: EtatCivil;
   dateNaissance: Date;
@@ -25,12 +26,14 @@ export interface DemandeurSchema {
 }
 
 export class Demandeur {
+  id: number;
   prenom: string;
   etatCivil: EtatCivil;
   dateNaissance: Date;
   membresFamille: MembreFamille[];
 
   constructor(options: DemandeurSchema) {
+    this.id = options.id;
     this.prenom = options.prenom;
     this.etatCivil = options.etatCivil;
     this.dateNaissance = options.dateNaissance;
@@ -38,21 +41,36 @@ export class Demandeur {
   }
 
   toEligibilite(): Eligibilite[] {
-    return Object.values(Prestation).map(prestation => ({
-      prestation: prestation,
-      membre: this
-    }));
+    const eligibilites: Eligibilite[] = [];
+
+    Object.values(Prestation)
+          .filter(prestation => prestation !== Prestation.SUBVENTION_HM)
+          .forEach(prestation => eligibilites.push({
+            prestation: prestation,
+            membre: this
+          }));
+
+    this.membresFamille.forEach(membre =>
+      getElibiliteByMembre(membre.relation).forEach(prestation => {
+        eligibilites.push({
+          prestation: prestation,
+          membre: membre
+        })
+      })
+    );
+
+    return eligibilites;
   }
 }
 
 export interface MembreFamille {
+  id: number;
   prenom: string;
   relation: Relation;
   dateNaissance: Date;
 }
 
-
-export function getElibiliteByMembre(relation: Relation) {
+function getElibiliteByMembre(relation: Relation) {
   const prestations = [Prestation.SUBSIDES, Prestation.BOURSES];
 
   if (relation === Relation.EPOUX ||

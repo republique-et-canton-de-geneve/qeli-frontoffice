@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Demandeur } from '../../configuration/demandeur.model';
 import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
+import { Eligibilite } from '../eligibilite.model';
 
 
 @Injectable({
@@ -10,7 +10,7 @@ import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
 })
 export class MontantFortuneQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     return [/*
       new RadioQuestion({
         key: 'fortuneSuperieureA',

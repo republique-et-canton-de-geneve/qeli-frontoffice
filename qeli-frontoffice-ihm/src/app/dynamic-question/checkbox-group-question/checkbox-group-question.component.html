@@ -24,7 +24,7 @@
 
       <div [ngClass]="optionOrGroup.hasOwnProperty('options') ? 'tab subgroup' : null">
         <div *ngFor="let option of (optionOrGroup.hasOwnProperty('options') ? optionOrGroup.options : [optionOrGroup]);
-                     first as isFirstOption">
+                     first as isFirstOption" class="checkbox">
           <label>
             <input type="checkbox"
                    [attr.disabled]="isNoneOrInconnuSelected ? 'disabled' : null"

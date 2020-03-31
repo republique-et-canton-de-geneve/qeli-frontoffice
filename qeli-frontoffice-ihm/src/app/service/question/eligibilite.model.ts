@@ -17,7 +17,6 @@ export interface Eligibilite {
   membre: Demandeur | MembreFamille;
 }
 
-
 /**
  * Un modèle représentant le refus d'une éligibilité.
  */
@@ -28,9 +27,9 @@ export interface EligibiliteRefusee {
   eligibilite: Eligibilite;
 
   /**
-   * Le motif du refus.
+   * Le motif du refus. Si la prestation est déjà per cue le motif n'est pas obligatoire.
    */
-  motif: I18nString;
+  motif?: I18nString;
 
   /**
    * Si la personne a indiquée qu'elle reçoit déjà cette prestation.
@@ -48,12 +47,19 @@ export class EligibiliteGroup {
   eligibilites: Eligibilite[];
 
   /**
+   * Le demandeur à l'origine.
+   */
+  demandeur: Demandeur;
+
+  /**
    * Crée un nouveau décorateur d'eligibilités.
    *
    * @param eligibilites la liste d'éligibilités.
    */
   constructor(eligibilites: Eligibilite[]) {
     this.eligibilites = eligibilites;
+    this.demandeur = eligibilites.map(eligibilite => eligibilite.membre)
+                                 .find(membre => membre.id === 0) as Demandeur;
   }
 
   /**
@@ -65,7 +71,7 @@ export class EligibiliteGroup {
    */
   includes(eligibilite: Eligibilite) {
     return this.eligibilites.some(el => el.prestation === eligibilite.prestation &&
-                                        el.membre === eligibilite.membre);
+                                        el.membre.id === eligibilite.membre.id);
   }
 
   /**
@@ -85,6 +91,17 @@ export class EligibiliteGroup {
       }
       return (el.membre as MembreFamille).relation === relation;
     });
+  }
+
+  /**
+   * Retrouve toutes les éligibilités qui concerne la prestation donnée.
+   *
+   * @param prestation la prestation recherchée.
+   *
+   * @return les éligibilités concernées.
+   */
+  findByPrestation(prestation: Prestation) {
+    return this.eligibilites.filter(eligibilite => eligibilite.prestation === prestation);
   }
 }
 

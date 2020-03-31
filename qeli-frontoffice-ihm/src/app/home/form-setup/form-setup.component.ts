@@ -21,6 +21,7 @@ export class FormSetupComponent {
 
   constructor(private fb: FormBuilder) {
     this.setupForm = this.fb.group({
+      id: new FormControl(0),
       prenom: new FormControl(null),
       etatCivil: new FormControl(null, Validators.required),
       dateNaissance: new FormControl(null, this.dateNaissanceValidators),
@@ -56,6 +57,7 @@ export class FormSetupComponent {
     if (this.numberOfMembres < MAX_NUMBER_OF_MEMBRES) {
       this.relationOptionsByMember[this.numberOfMembres] = this.availableRelationOptions();
       this.membresFamille.push(this.fb.group({
+        id: new FormControl(this.numberOfMembres + 1),
         prenom: new FormControl(null),
         relation: new FormControl(null, Validators.required),
         dateNaissance: new FormControl(null, this.dateNaissanceValidators)
