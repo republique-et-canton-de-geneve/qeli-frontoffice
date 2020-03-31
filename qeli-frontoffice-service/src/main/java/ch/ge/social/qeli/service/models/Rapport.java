@@ -1,12 +1,10 @@
-package ch.ge.social.qeli.api.formulaire.jaxb;
+package ch.ge.social.qeli.service.models;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlMimeType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import lombok.Getter;
 
 @XmlRootElement(name="RAPPORT")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -21,6 +19,10 @@ public class Rapport {
 
     @XmlElement(name="DEBUTDOCUMENT")
     private DebutDocument debutDocument;
+
+    public DebutDocument getDebutDocument(){
+      return debutDocument;
+    }
 
 }
 
