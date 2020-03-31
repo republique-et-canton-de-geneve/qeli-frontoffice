@@ -94,7 +94,6 @@
         <!-- JAR dependencies versions -->
 
         <!-- Additional dependencies versions -->
-        <as-tools.version>0.0.2</as-tools.version>
         <ct_springmvc_theme_internet.version>2.0.4</ct_springmvc_theme_internet.version>
         <guava.version>27.0.1-jre</guava.version>
         <javassist.version>3.23.1-GA</javassist.version>
@@ -146,13 +145,6 @@
             </dependency>
 
             <!-- Additional dependencies -->
-            <dependency>
-                <groupId>ch.ge.social.tools</groupId>
-                <artifactId>as-tools-bom</artifactId>
-                <version>${as-tools.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
