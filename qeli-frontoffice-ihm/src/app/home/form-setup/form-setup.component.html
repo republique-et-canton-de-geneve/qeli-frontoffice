@@ -1,0 +1,122 @@
+<div>
+  <h2>{{ 'home.setup.title' | translate }}</h2>
+  <p class="help-block" [innerHtml]="'home.setup.subtitle' | translate"></p>
+
+  <form [formGroup]="setupForm">
+    <div class="row form-group">
+
+      <div class="col-sm-4">
+        <input type="hidden" formControlName="id" value="0">
+        <app-input-container identifier="etatCivil"
+                             required="true"
+                             label="{{ 'home.setup.demandeur.etatCivil.label' | translate }}"
+                             [control]="setupForm.controls['etatCivil']">
+          <select id="etatCivil"
+                  [attr.disabled]="numberOfMembres > 0 ? 'disabled' : null"
+                  formControlName="etatCivil"
+                  class="form-control form-select">
+            <option></option>
+            <option *ngFor="let option of etatCivilOptions" [value]="option">
+              {{ 'home.setup.demandeur.etatCivil.options.' + option | translate }}
+            </option>
+          </select>
+        </app-input-container>
+      </div>
+
+      <div class="col-sm-4">
+        <app-input-container identifier="dateNaissance"
+                             required="true"
+                             label="{{ 'home.setup.demandeur.dateNaissance.label' | translate }}"
+                             [control]="setupForm.controls['dateNaissance']">
+          <app-date-input identifier="dateNaissance"
+                          [minDate]="minDateNaissance"
+                          [maxDate]="maxDateNaissance"
+                          [dateControl]="setupForm.controls['dateNaissance']">
+          </app-date-input>
+        </app-input-container>
+      </div>
+
+      <div class="col-sm-3">
+        <app-input-container identifier="prenom"
+                             label="{{ 'home.setup.demandeur.prenom.label' | translate }}"
+                             [control]="setupForm.controls['prenom']">
+          <input id="prenom"
+                 formControlName="prenom"
+                 placeholder="{{ 'home.setup.demandeur.prenom.placeholder' | translate }}"
+                 type="text"
+                 class="form-control">
+        </app-input-container>
+      </div>
+    </div>
+
+    <div *ngFor="let membre of membresFamilleControls; index as i; last as isLast;">
+      <hr>
+      <div class="row member-row" [formGroup]="membre">
+        <div class="col-sm-4">
+          <input type="hidden" formControlName="id" [value]="i + 1">
+          <app-input-container identifier="{{ 'relationMembre' + i }}"
+                               required="true"
+                               label="{{ 'home.setup.membre.relation.label' | translate }}"
+                               [control]="membre.controls['relation']">
+            <select id="{{ 'relationMembre' + i }}"
+                    formControlName="relation"
+                    [attr.disabled]="!isLast ? 'disabled' : null"
+                    class="form-control form-select">
+              <option></option>
+              <option *ngFor="let option of relationOptionsByMember[i]" [value]="option">
+                {{ 'home.setup.membre.relation.options.' + option | translate }}
+              </option>
+            </select>
+          </app-input-container>
+        </div>
+
+        <div class="col-sm-4">
+          <app-input-container identifier="{{ 'dateNaissanceMembre' + i }}"
+                               required="true"
+                               label="{{ 'home.setup.membre.dateNaissance.label' | translate }}"
+                               [control]="membre.controls['dateNaissance']">
+            <app-date-input identifier="{{ 'dateNaissanceMembre' + i }}"
+                            [minDate]="minDateNaissance"
+                            [maxDate]="maxDateNaissance"
+                            [dateControl]="membre.controls['dateNaissance']">
+            </app-date-input>
+          </app-input-container>
+        </div>
+
+        <div class="col-sm-3">
+          <app-input-container identifier="{{ 'prenomMembre' + i }}"
+                               label="{{ 'home.setup.membre.prenom.label' | translate }}"
+                               [control]="membre.controls['prenom']">
+            <input id="{{ 'prenomMembre' + i }}"
+                   formControlName="prenom"
+                   placeholder="{{ 'home.setup.membre.prenom.placeholder.' + (membre.value['relation'] || 'DEFAULT')  | translate:{index: i+1} }}"
+                   type="text"
+                   class="form-control">
+          </app-input-container>
+        </div>
+
+        <div class="col-sm-1 text-right remove-btn-col">
+          <button class="btn btn-danger"
+                  [attr.disabled]="!isLast ? 'disabled' : null"
+                  [attr.aria-label]="'home.setup.membre.supprimer' | translate"
+                  (click)="deleteMembre(i)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 text-right">
+        <button class="btn btn-info"
+                [attr.disabled]="!isValid ? 'disabled' : null"
+                (click)="onAddMembre()"
+                type="button">
+          <i class="fa fa-plus"></i> <span class="btn-text">Ajouter un autre membre</span>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <hr>
+</div>

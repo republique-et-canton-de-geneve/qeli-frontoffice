@@ -1,0 +1,13 @@
+<div [formGroup]="form">
+  <select [id]="question.key"
+          [formControlName]="question.key"
+          focusOnInit="true"
+          class="form-control form-select"
+          [attr.data-cy]="question.dataCyIdentifier"
+          [attr.data-matomo-name]="question.dataCyIdentifier">
+    <option></option>
+    <option *ngFor="let option of question.dropdownOptions" [value]="option.value">
+      {{ option.label.key | translate:option.label.parameters }}
+    </option>
+  </select>
+</div>

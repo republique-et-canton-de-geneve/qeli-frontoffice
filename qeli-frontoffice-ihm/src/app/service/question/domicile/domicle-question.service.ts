@@ -1,26 +1,17 @@
-import { RadioQuestion } from '../../../core/question/radio-question/radio-question.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { ReponseBinaire, ReponseProgressive } from '../../../core/common/reponse.model';
-import { Prestation } from '../../../core/common/prestation.model';
-import { DateQuestion } from '../../../core/question/date-question/date-question.model';
-import * as moment from 'moment';
-import {
-  conjointHabiteSuisseDepuis, habiteGeneveDepuis5ans, habiteGeneveDepuisNaissance, habiteSuisseDepuis, isRefugie,
-  isRefugieOrInconnu, isSuisse, isUEOrAELE
-} from '../qeli-questions.utils';
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
+import { Eligibilite } from '../eligibilite.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DomicileQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     return [
-      new RadioQuestion({
+      /*new RadioQuestion({
         key: 'domicileCantonGE',
         code: '0501',
         categorie: Categorie.SITUATION_PERSONELLE,
@@ -134,7 +125,7 @@ export class DomicileQuestionService implements QuestionLoader {
                                         )
           }
         ]
-      })
+      })*/
     ];
   }
 }

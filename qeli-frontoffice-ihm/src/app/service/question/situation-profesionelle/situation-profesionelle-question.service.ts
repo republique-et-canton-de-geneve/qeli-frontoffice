@@ -1,28 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { Prestation } from '../../../core/common/prestation.model';
-import {
-  hasAnyRevenus, hasConjoint, isConcubinageAutreParent, isRatioPiecesPersonnesLogementAcceptable, sumTauxActivite,
-  sumTauxActiviteAvecConjoint
-} from '../qeli-questions.utils';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { RadioQuestion } from '../../../core/question/radio-question/radio-question.model';
-import { ReponseBinaire, ReponseProgressive } from '../../../core/common/reponse.model';
-import { TauxQuestion } from '../../../core/question/taux-question/taux-question.model';
-import { TypeRevenus } from '../revenus/revenus.model';
-import { Logement } from '../logement/logement.model';
-import { NumberQuestion } from '../../../core/question/number-question/number-question.model';
-import { Loyer } from '../logement/loyer.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
+import { Eligibilite } from '../eligibilite.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SituationProfesionelleQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
+    return [/*
       new RadioQuestion({
         key: 'taxationOffice',
         code: '0901',
@@ -255,7 +243,7 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
             isEligible: (value: any) => value['montantLoyerFixeOuVariable'] !== Loyer.EN_FONCTION_REVENU
           }
         ]
-      })
+      })*/
     ];
   }
 }
