@@ -1,17 +1,9 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { Prestation } from '../../../core/common/prestation.model';
-import {
-  hasAnyAVSOrAIRevenus, hasAnyEnfantOfType, hasAnyRevenus, hasConjoint, isConcubinageAutreParent, isPaysNonConventione,
-  isSituationRenteNone
-} from '../qeli-questions.utils';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { CheckboxGroupQuestion } from '../../../core/question/checkbox-group-question/checkbox-group-question.model';
 import { TypeRevenus } from './revenus.model';
-import { SituationRente } from './situation-rente.model';
-import { TypeEnfant } from '../etat-civil/type-enfant.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
+import { Eligibilite } from '../eligibilite.model';
 
 const REVENUS_OPTIONS = [
   {label: TypeRevenus.EMPLOI},
@@ -39,8 +31,8 @@ const REVENUS_OPTIONS = [
 })
 export class RevenusQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
+    return [/*
       new CheckboxGroupQuestion({
         key: 'revenus',
         code: '0601',
@@ -196,7 +188,7 @@ export class RevenusQuestionService implements QuestionLoader {
             isEligible: (value: any) => !isSituationRenteNone(value, 'situationRenteEnfant')
           }
         ]
-      })
+      })*/
     ];
   }
 }

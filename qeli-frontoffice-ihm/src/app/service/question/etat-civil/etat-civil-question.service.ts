@@ -1,26 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { Prestation } from '../../../core/common/prestation.model';
-import { hasAnyEnfantOfType, hasConjoint, hasEnfants } from '../qeli-questions.utils';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { DropdownQuestion } from '../../../core/question/dropdown-question/dropdown-question.model';
-import { EtatCivil } from './etat-civil.model';
-import {
-  NumberField, NumberGroupQuestion
-} from '../../../core/question/number-group-question/number-group-question.model';
-import { TypeEnfant } from './type-enfant.model';
-import { RadioQuestion } from '../../../core/question/radio-question/radio-question.model';
-import { ReponseBinaire } from '../../../core/common/reponse.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
+import { Eligibilite } from '../eligibilite.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EtatCivilQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
+    return [/*
       new DropdownQuestion({
         key: 'etatCivil',
         code: '0301',
@@ -79,7 +69,7 @@ export class EtatCivilQuestionService implements QuestionLoader {
         eligibilite: [
           {prestation: Prestation.PC_FAM}
         ]
-      })
+      })*/
     ];
   }
 }

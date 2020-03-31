@@ -22,6 +22,6 @@ export class QeliConfiguration {
   }
 }
 
-export function getOrDefault<T>(actual: T, defaultValue: T) {
+function getOrDefault<T>(actual: T, defaultValue: T) {
   return actual === null || actual === undefined ? defaultValue : actual;
 }

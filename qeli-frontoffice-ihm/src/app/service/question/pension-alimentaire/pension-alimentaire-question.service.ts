@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { Prestation } from '../../../core/common/prestation.model';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { RadioQuestion } from '../../../core/question/radio-question/radio-question.model';
-import { ReponseBinaire } from '../../../core/common/reponse.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
+import { Eligibilite } from '../eligibilite.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PensionAlimentaireQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
+    return [/*
       new RadioQuestion({
         key: 'droitPensionAlimentaire',
         code: '1201',
@@ -43,7 +40,7 @@ export class PensionAlimentaireQuestionService implements QuestionLoader {
             isEligible: (value: any) => value['recoisEntierementPensionAlimentaire'] === ReponseBinaire.NON
           }
         ]
-      })
+      })*/
     ];
   }
 }

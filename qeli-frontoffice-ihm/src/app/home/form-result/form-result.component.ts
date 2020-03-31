@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Prestation } from '../../core/common/prestation.model';
-import { FormState, Refus } from '../../core/common/form-state.model';
-import { PrestationResolver } from '../../core/common/prestation-resolver';
-import { TranslateService } from '@ngx-translate/core';
+import { Prestation } from '../../service/configuration/prestation.model';
+import { EligibiliteGroup, EligibiliteRefusee } from '../../service/question/eligibilite.model';
+import { QeliState } from '../../service/question/qeli-state.model';
 
 @Component({
   selector: 'app-form-result',
@@ -11,26 +10,22 @@ import { TranslateService } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormResultComponent {
-  prestationEligible: Prestation[];
-  prestationDejaPercues: Prestation[];
-  prestationsRefusees: Refus[];
-  reponses: any;
+  eligibiles: Prestation[];
+  dejaPercues: Prestation[];
+  refusees: EligibiliteRefusee[];
 
-  constructor(private translateService: TranslateService) {
+  constructor() {
 
   }
 
   @Input()
-  set formState(formState: FormState) {
-    this.reponses = formState.data;
-    this.prestationEligible = PrestationResolver.findPrestationsEligibles(formState.prestationsRefusees);
-    this.prestationsRefusees = PrestationResolver.findPrestationsRefusees(formState.prestationsRefusees, formState.data);
-    this.prestationDejaPercues = PrestationResolver.findPrestationsDejaPercues(formState.data);
-  }
-
-  toMotifRefus(refus: Refus) {
-    return refus.questionKeys.map(
-      key => this.translateService.instant(`question.${key}.motifRefus.${refus.prestation}`)
-    ).join('<br>');
+  set qeliState(state: QeliState) {
+    this.dejaPercues = state.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite.prestation);
+    this.refusees = state.eligibilitesRefusees.filter(e => !e.dejaPercue);
+    this.eligibiles = [...new Set(
+      state.eligibilites.filter(eligibilite =>
+        !new EligibiliteGroup(state.eligibilitesRefusees.map(refus => refus.eligibilite)).includes(eligibilite)
+      ).map(eligiilite => eligiilite.prestation))
+    ];
   }
 }

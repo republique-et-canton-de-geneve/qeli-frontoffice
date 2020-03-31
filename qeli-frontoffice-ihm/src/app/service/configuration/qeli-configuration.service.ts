@@ -13,7 +13,7 @@ export class QeliConfigurationService {
   }
 
   loadConfiguration(): Observable<QeliConfiguration> {
-    return this.http.get('/socialqeli_pub/api/configuration/').pipe(
+    return this.http.get('/socialqeli_pub/api/configuration', {}).pipe(
       map((response: Response) => new QeliConfiguration(response))
     );
   }

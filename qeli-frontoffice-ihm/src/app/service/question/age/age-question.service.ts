@@ -1,20 +1,16 @@
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { Prestation } from '../../../core/common/prestation.model';
-import { isMineur } from '../qeli-questions.utils';
-import { DateQuestion } from '../../../core/question/date-question/date-question.model';
-import * as moment from 'moment';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
+import { Eligibilite } from '../eligibilite.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgeQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
+    return /*[
       new DateQuestion({
         key: 'dateNaissance',
         code: '0201',
@@ -36,6 +32,6 @@ export class AgeQuestionService implements QuestionLoader {
           }
         ]
       })
-    ];
+    ];*/
   }
 }

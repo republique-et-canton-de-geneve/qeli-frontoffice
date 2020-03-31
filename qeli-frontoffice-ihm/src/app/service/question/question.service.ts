@@ -1,28 +1,17 @@
 import { Injectable } from '@angular/core';
 import { QeliConfiguration } from '../configuration/qeli-configuration.model';
-import { QuestionBase } from '../../core/question/question-base.model';
 import { QuestionLoader } from './question-loader';
 import { PrestationQuestionService } from './prestation/prestation-question.service';
-import { AgeQuestionService } from './age/age-question.service';
-import { EtatCivilQuestionService } from './etat-civil/etat-civil-question.service';
-import { NationaliteQuestionService } from './nationalite/nationalite-question.service';
-import { DomicileQuestionService } from './domicile/domicle-question.service';
-import { RevenusQuestionService } from './revenus/revenus-question.service';
-import { SituationProfesionelleQuestionService } from './situation-profesionelle/situation-profesionelle-question.service';
-import { LogementQuestionService } from './logement/logement-question.service';
-import { AssuranceMaladieQuestionService } from './assurance-maladie/assurance-maladie-question.service';
-import { PensionAlimentaireQuestionService } from './pension-alimentaire/pension-alimentaire-question.service';
-import { MontantFortuneQuestionService } from './montant-fortune/montant-fortune-question.service';
-import { SituationFiscaleQuestionService } from './situation-fiscale/situation-fiscale-question.service';
-import { FormationQuestionService } from './formation/formation-question.service';
+import { QeliQuestionDecorator } from './qeli-question-decorator.model';
+import { Eligibilite } from './eligibilite.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionService implements QuestionLoader {
 
-  constructor(private prestationQuestionService: PrestationQuestionService,
-              private ageQuestionService: AgeQuestionService,
+  constructor(private prestationQuestionService: PrestationQuestionService
+              /*private ageQuestionService: AgeQuestionService,
               private etatCivilQuestionService: EtatCivilQuestionService,
               private nationaliteQuestion: NationaliteQuestionService,
               private domicileQuestionService: DomicileQuestionService,
@@ -33,25 +22,25 @@ export class QuestionService implements QuestionLoader {
               private assuranceMaladieQuestionService: AssuranceMaladieQuestionService,
               private pensionAlimentaireQuestionService: PensionAlimentaireQuestionService,
               private montantFortuneQuestionService: MontantFortuneQuestionService,
-              private situationFiscaleQuestionService: SituationFiscaleQuestionService) {
+              private situationFiscaleQuestionService: SituationFiscaleQuestionService*/) {
 
   }
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     return [].concat(
-      this.prestationQuestionService.loadQuestions(configuration),
-      this.ageQuestionService.loadQuestions(configuration),
-      this.etatCivilQuestionService.loadQuestions(configuration),
-      this.nationaliteQuestion.loadQuestions(configuration),
-      this.domicileQuestionService.loadQuestions(configuration),
-      this.revenusQuestionService.loadQuestions(configuration),
-      this.formationQuestionService.loadQuestions(configuration),
-      this.situationProfesionelleQuestionService.loadQuestions(configuration),
-      this.logementQuestionService.loadQuestions(configuration),
-      this.assuranceMaladieQuestionService.loadQuestions(configuration),
-      this.pensionAlimentaireQuestionService.loadQuestions(configuration),
-      this.montantFortuneQuestionService.loadQuestions(configuration),
-      this.situationFiscaleQuestionService.loadQuestions(configuration)
+      this.prestationQuestionService.loadQuestions(configuration, eligibilites)
+      /*this.ageQuestionService.loadQuestions(configuration, eligibilites),
+      this.etatCivilQuestionService.loadQuestions(configuration, eligibilites),
+      this.nationaliteQuestion.loadQuestions(configuration, eligibilites),
+      this.domicileQuestionService.loadQuestions(configuration, eligibilites),
+      this.revenusQuestionService.loadQuestions(configuration, eligibilites),
+      this.formationQuestionService.loadQuestions(configuration, eligibilites),
+      this.situationProfesionelleQuestionService.loadQuestions(configuration, eligibilites),
+      this.logementQuestionService.loadQuestions(configuration, eligibilites),
+      this.assuranceMaladieQuestionService.loadQuestions(configuration, eligibilites),
+      this.pensionAlimentaireQuestionService.loadQuestions(configuration, eligibilites),
+      this.montantFortuneQuestionService.loadQuestions(configuration, eligibilites),
+      this.situationFiscaleQuestionService.loadQuestions(configuration, eligibilites)*/
     );
   }
 }

@@ -1,0 +1,52 @@
+<div [formGroup]="form">
+  <div [formGroupName]="question.key"
+       [attr.data-cy]="question.dataCyIdentifier"
+       data-cy-type="nationalite">
+    <div *ngFor="let pays of paysArray.value; index as i; last as isLast; first as isFirst"
+         class="nationalite-selection-box"
+         formArrayName="pays">
+      <select class="form-control"
+              [formControlName]="i"
+              [attr.disabled]="!isLast || isApatride ? 'disabled' : null"
+              [focusOnInit]="isFirst"
+              [attr.data-cy]="question.dataCyIdentifier + '_select_nationalite_' + i"
+              [attr.data-matomo-name]="question.dataCyIdentifier">
+        <option></option>
+        <option *ngFor="let pays of question.paysOptions"
+                [value]="pays.value">
+          {{ pays.label.key | translate:pays.label.parameters }}
+        </option>
+      </select>
+
+      <button class="btn btn-primary"
+              [attr.aria-label]="'common.ajouterNationalite' | translate"
+              [disabled]="!isLast || numberOfNationalites >= maxNumberOfNationalites || isApatride || !pays"
+              [style.visibility]="isLast ? 'visible' : 'hidden'"
+              [attr.data-cy]="question.dataCyIdentifier + '_ajouter_nationalite_' + i"
+              (click)="addPaysControl()">
+        <i class="fa fa-plus"></i><span class="btn-text hidden-xs">{{ 'common.ajouterNationalite' | translate }}</span>
+      </button>
+      <button class="btn btn-danger"
+              [attr.aria-label]="'common.supprimerNationalite' | translate"
+              [disabled]="!isLast || isApatride"
+              [style.visibility]="isLast ? 'visible' : 'hidden'"
+              [attr.data-cy]="question.dataCyIdentifier + '_supprimer_nationalite_' + i"
+              (click)="popOrClearPaysControl()">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"
+               formControlName="apatride"
+               (change)="onApatrideChanged()"
+               [attr.data-cy]="question.dataCyIdentifier + '_checkbox_apatride'"
+               [attr.data-matomo-name]="question.dataCyIdentifier">
+        {{ 'question.' + question.key + '.apatride.label' | translate }}
+      </label>
+      <p class="help-block">{{ 'question.' + question.key + '.apatride.help' | translate }}</p>
+    </div>
+  </div>
+
+</div>

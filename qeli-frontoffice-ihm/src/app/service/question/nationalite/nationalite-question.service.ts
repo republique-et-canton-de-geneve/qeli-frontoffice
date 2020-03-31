@@ -1,22 +1,16 @@
-import { NationaliteQuestion } from '../../../core/question/nationalite-question/nationalite-question.model';
-import { Categorie, Subcategorie } from '../../../core/question/question-categorie.model';
-import { Prestation } from '../../../core/common/prestation.model';
-import { RadioQuestion } from '../../../core/question/radio-question/radio-question.model';
-import { RequerantRefugie } from './requerant-refugie.model';
-import { hasConjoint, isApatride, isRefugie, isRequerantAsile, isSuisse, isUEOrAELE } from '../qeli-questions.utils';
-import { ReponseProgressive } from '../../../core/common/reponse.model';
 import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
-import { QuestionBase } from '../../../core/question/question-base.model';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
+import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
+import { Eligibilite } from '../eligibilite.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NationaliteQuestionService implements QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration): QuestionBase<any>[] {
-    return [
+  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
+    return [/*
       new NationaliteQuestion({
         key: 'nationalite',
         code: '0401',
@@ -94,7 +88,7 @@ export class NationaliteQuestionService implements QuestionLoader {
         eligibilite: [
           {prestation: Prestation.BOURSES}
         ]
-      })
+      })*/
     ];
   }
 }
