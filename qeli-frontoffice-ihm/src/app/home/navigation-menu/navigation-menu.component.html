@@ -5,7 +5,7 @@
         <div class="col-xs-9">
           <h1>{{ 'home.navigation.title' | translate }}</h1>
         </div>
-        <div class="col-xs-3" *ngIf="_qeliStateMachine">
+        <div class="col-xs-3" *ngIf="categorieTree">
           <div class="menu-button-toggle">
             <button type="button"
                     class="navbar-toggle"
@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="row row-navigation" [ngbCollapse]="navigationCollapsed" *ngIf="_qeliStateMachine">
+      <div class="row row-navigation" [ngbCollapse]="navigationCollapsed" *ngIf="categorieTree">
         <div class="col-sm-12">
           <ul class="item-list">
             <li *ngFor="let categorie of categorieTree">
@@ -38,8 +38,9 @@
                   <ul [ngbCollapse]="subcategorie.collapsed">
                     <li *ngFor="let question of subcategorie.questions" class="leaf">
                       <a [ngClass]="isCurrentQuestion(question) ? 'disabled' : 'text-success'"
-                         (click)="selectQuestion(question)">
-                        <i class="fa" [ngClass]="isCurrentQuestion(question) ? 'fa-question-circle' : 'fa-check-circle'"></i>
+                        (click)="selectQuestion(question)">
+                        <i
+                          class="fa" [ngClass]="isCurrentQuestion(question) ? 'fa-question-circle' : 'fa-check-circle'"></i>
                         <span>
                           {{ question.label.key | translate:question.label.parameters }}
                           <span class="answer-block" *ngIf="!isCurrentQuestion(question)">
@@ -56,7 +57,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="_qeliStateMachine">
+      <div class="row" *ngIf="categorieTree">
         <div class="col-sm-12">
           <div class="progress">
             <div role="progressbar"
