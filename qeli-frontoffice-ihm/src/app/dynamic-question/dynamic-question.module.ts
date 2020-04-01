@@ -13,6 +13,7 @@ import { TextQuestionComponent } from './text-question/text-question.component';
 import { NumberGroupQuestionComponent } from './number-group-question/number-group-question.component';
 import { CoreModule } from '../core/core.module';
 import { DeepLinkModule } from '../deep-link/deep-link.module';
+import { CompositeQuestionComponent } from './composite-question/composite-question.component';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { DeepLinkModule } from '../deep-link/deep-link.module';
   ],
   declarations: [
     CheckboxGroupQuestionComponent,
+    CompositeQuestionComponent,
     DateQuestionComponent,
     DropdownQuestionComponent,
     DynamicQuestionComponent,
@@ -38,6 +40,7 @@ import { DeepLinkModule } from '../deep-link/deep-link.module';
   ],
   entryComponents: [
     CheckboxGroupQuestionComponent,
+    CompositeQuestionComponent,
     DateQuestionComponent,
     DropdownQuestionComponent,
     DynamicQuestionComponent,

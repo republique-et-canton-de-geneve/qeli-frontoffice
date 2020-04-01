@@ -8,12 +8,12 @@ import { AnswerVisitor } from '../model/answer-visitor.model';
 export const NATIONALITE_CONTROL_TYPE = 'nationalite';
 
 export interface NationaliteAnswerSchema {
-  pays: Pays[];
+  pays: QuestionOption<Pays>[];
   apatride: boolean;
 }
 
 export class NationaliteAnswer extends Answer {
-  pays: Pays[];
+  pays: QuestionOption<Pays>[];
   apatride: boolean;
 
   constructor(options: NationaliteAnswerSchema) {

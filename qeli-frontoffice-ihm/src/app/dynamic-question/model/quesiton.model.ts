@@ -16,6 +16,7 @@ export interface QuestionSchema {
   dataCyIdentifier: string;
   label: I18nString;
   help?: I18nString;
+  errorLabels?: { [key: string]: I18nString };
   validators?: ValidatorFn[];
 }
 
@@ -53,6 +54,11 @@ export abstract class Question<T extends Answer> {
    */
   help?: I18nString;
 
+  /**
+   * Les libellés pour les messages d'erreurs qui sont lié à cette question
+   */
+  errorLabels: { [key: string]: I18nString };
+
   private _validators: ValidatorFn[] = [];
 
   /**
@@ -66,6 +72,7 @@ export abstract class Question<T extends Answer> {
     this.dataCyIdentifier = options.dataCyIdentifier;
     this.label = options.label;
     this.help = options.help;
+    this.errorLabels = options.errorLabels || {};
     this._validators = options.validators !== null && options.validators !== undefined ? options.validators : [];
   }
 
@@ -108,7 +115,7 @@ export abstract class Question<T extends Answer> {
  */
 export abstract class StringQuestion extends Question<StringAnswer> {
   toFormControl(defaultValue?: StringAnswer): AbstractControl {
-    return new FormControl(defaultValue.value, this.validators);
+    return new FormControl(defaultValue ? defaultValue.value : null, this.validators);
   }
 }
 
@@ -118,7 +125,7 @@ export abstract class StringQuestion extends Question<StringAnswer> {
  */
 export abstract class OptionQuestion<T> extends Question<OptionAnswer<T>> {
   toFormControl(defaultValue?: OptionAnswer<T>): AbstractControl {
-    return new FormControl(defaultValue.option.value, this.validators);
+    return new FormControl(defaultValue && defaultValue.option ? defaultValue.option.value : null, this.validators);
   }
 }
 

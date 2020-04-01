@@ -12,6 +12,8 @@ import { Question } from './model/quesiton.model';
 })
 export class DynamicQuestionComponent {
   @Input() form: FormGroup;
+  @Input() disableDeepLink: boolean = false;
+
   question: Question<any>;
 
   @ViewChild(QuestionDirective, {static: true}) questionDirective: QuestionDirective;

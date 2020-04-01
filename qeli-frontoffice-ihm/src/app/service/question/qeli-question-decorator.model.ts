@@ -107,7 +107,7 @@ export interface QeliQuestionDecorator<T extends Answer> {
   /**
    * La fonction pour déterminer les nouveaux refus d'éligibilité une fois cette question répondu.
    */
-  calculateRefus?: RefusEligibiliteFn;
+  calculateRefus: RefusEligibiliteFn;
 
   /**
    * La catégorie à la quelle appartient cette question.
