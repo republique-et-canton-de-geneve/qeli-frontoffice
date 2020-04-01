@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import {
   Demandeur, DemandeurSchema, EtatCivil, MembreFamille, Relation
 } from '../../service/configuration/demandeur.model';
+import { I18nString } from '../../core/i18n/i18nstring.model';
 
 const MAX_NUMBER_OF_MEMBRES = 20;
 
@@ -18,6 +19,7 @@ export class FormSetupComponent {
   numberOfMembres = 0;
   etatCivilOptions = Object.keys(EtatCivil);
   relationOptionsByMember: Relation[][] = [];
+  errorLabels: { [key: string]: I18nString } = {};
 
   constructor(private fb: FormBuilder) {
     this.setupForm = this.fb.group({
@@ -27,6 +29,13 @@ export class FormSetupComponent {
       dateNaissance: new FormControl(null, this.dateNaissanceValidators),
       membresFamille: this.fb.array([])
     });
+
+    this.errorLabels = {
+      required: {key: 'home.setup.errors.required'},
+      maxDate: {key: 'home.setup.errors.maxDate'},
+      minDate: {key: 'home.setup.errors.minDate'},
+      invalidDate: {key: 'home.setup.errors.invalidDate'}
+    };
   }
 
   get maxDateNaissance() {

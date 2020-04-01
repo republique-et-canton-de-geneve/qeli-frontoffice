@@ -7,6 +7,7 @@ import { TextQuestion } from '../text-question/text-question.model';
 import { NumberGroupQuestion } from '../number-group-question/number-group-question.model';
 import { NumberQuestion } from '../number-question/number-question.model';
 import { TauxQuestion } from '../taux-question/taux-question.model';
+import { CompositeQuestion } from '../composite-question/composite-question.model';
 
 /**
  * L'interface visiteur déclare un ensemble de méthodes de visite qui correspondent aux classes des questions.
@@ -93,5 +94,14 @@ export interface QuestionVisitorModel<T> {
    * @return le résultat du traitement de la question.
    */
   visitNumberGroupQuestion(question: NumberGroupQuestion): T;
+
+  /**
+   * Une méthode pour visiter les question du type: {@link CompositeQuestion}.
+   *
+   * @param {NumberGroupQuestion} question la question à visiter
+   *
+   * @return le résultat du traitement de la question.
+   */
+  visitCompositeQuestion(question: CompositeQuestion): T;
 }
 

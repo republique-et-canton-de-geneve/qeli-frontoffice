@@ -2,6 +2,7 @@ import { CheckboxGroupAnswer } from '../checkbox-group-question/checkbox-group-q
 import { DateAnswer } from '../date-question/date-question.model';
 import { NumberAnswer, OptionAnswer, StringAnswer } from './answer.model';
 import { NationaliteAnswer } from '../nationalite-question/nationalite-question.model';
+import { CompositeAnswer } from '../composite-question/composite-question.model';
 
 /**
  * L'interface visiteur déclare un ensemble de méthodes de visite qui correspondent aux classes des réponses.
@@ -61,4 +62,13 @@ export interface AnswerVisitor<T> {
    * @return le résultat du traitement de la question.
    */
   visitNationaliteAnswer(answer: NationaliteAnswer): T;
+
+  /**
+   * Une méthode pour visiter une réponse de type: {@link CompositeAnswer}.
+   *
+   * @param {NationaliteAnswer} answer la réponse à visiter.
+   *
+   * @return le résultat du traitement de la question.
+   */
+  visitCompositeAnswer(answer: CompositeAnswer): T;
 }

@@ -15,6 +15,7 @@ import { RadioQuestion } from '../radio-question/radio-question.model';
 import { TauxQuestion } from '../taux-question/taux-question.model';
 import { TextQuestion } from '../text-question/text-question.model';
 import { QuestionVisitorModel } from './question-visitor.model';
+import { CompositeAnswer, CompositeQuestion } from '../composite-question/composite-question.model';
 
 /**
  * Un visiteur qui permet la création d'un objet réponse compte tenu de la question et des données brutes extraites
@@ -69,6 +70,15 @@ export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
   visitTextQuestion(question: TextQuestion): Answer {
     return new StringAnswer(this.rawAnswer);
   }
+
+  visitCompositeQuestion(question: CompositeQuestion): Answer {
+    let result: { [key: string]: Answer } = {};
+    question.questions.forEach(component => {
+      result[component.key] = component.accept(this);
+    });
+
+    return new CompositeAnswer({answers: result});
+  }
 }
 
 
@@ -113,5 +123,14 @@ export class FromSchemaToAnswerVisitor implements QuestionVisitorModel<Answer> {
 
   visitTextQuestion(question: TextQuestion): Answer {
     return new StringAnswer(this.schemaAnswer as string);
+  }
+
+  visitCompositeQuestion(question: CompositeQuestion): Answer {
+    let result: { [key: string]: Answer } = {};
+    question.questions.forEach(component => {
+      result[component.key] = component.accept(this);
+    });
+
+    return new CompositeAnswer({answers: result});
   }
 }

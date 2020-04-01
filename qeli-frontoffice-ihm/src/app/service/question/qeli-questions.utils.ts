@@ -7,10 +7,10 @@ import {
 import * as moment from 'moment';
 import { Prestation } from '../configuration/prestation.model';
 import { RequerantRefugie } from './nationalite/requerant-refugie.model';
-import { TypeEnfant } from './etat-civil/type-enfant.model';
+import { TypeEnfant } from './enfants/type-enfant.model';
 import { EtatCivil } from '../configuration/demandeur.model';
 
-export function hasConjoint(value: any) {
+/*export function hasConjoint(value: any) {
   return value['etatCivil'] === EtatCivil.MARIE ||
          value['etatCivil'] === EtatCivil.PARTENARIAT_ENREGISTRE;
 }
@@ -96,19 +96,6 @@ function getDate(value: any, questionKey: string) {
 export function isMineur(value: any) {
   const dateNaissance = getDate(value, 'dateNaissance');
   return dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(dateNaissance);
-}
-
-export function hasAnyEnfantOfType(value: any, types: TypeEnfant[]) {
-  const enfantsACharge = value['enfantsACharge'];
-
-  if (enfantsACharge) {
-    return !enfantsACharge['none'] && Object.entries(enfantsACharge['values'])
-                                            .filter(entry => types.includes(TypeEnfant[entry[0]]))
-                                            .map(entry => entry[1])
-                                            .some(value => value > 0);
-  }
-
-  return null;
 }
 
 export function hasEnfants(value: any) {
@@ -226,4 +213,4 @@ export function sumTauxActiviteAvecConjoint(value: any, useTauxVariable: boolean
   return keys.map(key => getTauxActivite(value, key))
              .filter(taux => taux !== null && taux !== undefined)
              .reduce((c, t) => c + t, 0) + sumTauxActivite(value, true);
-}
+}*/
