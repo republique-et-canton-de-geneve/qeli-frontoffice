@@ -17,9 +17,7 @@ export class QuestionService implements QuestionLoader {
               private enfantsQuestionService: EnfantsQuestionService,
               private nationaliteQuestion: NationaliteQuestionService,
               private domicileQuestionService: DomicileQuestionService
-              /*private ageQuestionService: AgeQuestionService,
-              private etatCivilQuestionService: EtatCivilQuestionService,
-              private revenusQuestionService: RevenusQuestionService,
+              /*private revenusQuestionService: RevenusQuestionService,
               private formationQuestionService: FormationQuestionService,
               private situationProfesionelleQuestionService: SituationProfesionelleQuestionService,
               private logementQuestionService: LogementQuestionService,
@@ -36,9 +34,7 @@ export class QuestionService implements QuestionLoader {
       this.enfantsQuestionService.loadQuestions(configuration, eligibilites),
       this.nationaliteQuestion.loadQuestions(configuration, eligibilites),
       this.domicileQuestionService.loadQuestions(configuration, eligibilites)
-      /*this.ageQuestionService.loadQuestions(configuration, eligibilites),
-      this.etatCivilQuestionService.loadQuestions(configuration, eligibilites),
-      this.revenusQuestionService.loadQuestions(configuration, eligibilites),
+      /*this.revenusQuestionService.loadQuestions(configuration, eligibilites),
       this.formationQuestionService.loadQuestions(configuration, eligibilites),
       this.situationProfesionelleQuestionService.loadQuestions(configuration, eligibilites),
       this.logementQuestionService.loadQuestions(configuration, eligibilites),
