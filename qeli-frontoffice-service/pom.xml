@@ -12,6 +12,11 @@
     <artifactId>qeli-frontoffice-service</artifactId>
     <packaging>jar</packaging>
 
+
+    <properties>
+        <sonar.coverage.exclusions>**/*Exception.java</sonar.coverage.exclusions>
+    </properties>
+
     <dependencies>
         <!-- Frontoffice modules -->
         <dependency>
@@ -30,28 +35,22 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.spullara.mustache.java</groupId>
-            <artifactId>compiler</artifactId>
-            <version>${mustache.version}</version>
-        </dependency>
-        <dependency>
             <groupId>ch.ge.cti.fwk.cmp.dialogue</groupId>
             <artifactId>OutilsRapportDialogue</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-oxm</artifactId>
-            <version>5.2.5.RELEASE</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.ws</groupId>
-            <artifactId>spring-xml</artifactId>
-            <version>3.0.8.RELEASE</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mustache</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>cglib</groupId>
@@ -94,4 +93,44 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>editique-xsd</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <schemaDirectory>${project.basedir}/src/main/resources/editique</schemaDirectory>
+                            <args>
+                                <arg>-Xannotate</arg>
+                            </args>
+                            <plugins>
+                                <plugin>
+                                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                                    <artifactId>jaxb2-basics</artifactId>
+                                    <version>${jaxb2-basics.version}</version>
+                                </plugin>
+                                <plugin>
+                                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                                    <artifactId>jaxb2-basics-tools</artifactId>
+                                    <version>${jaxb2-basics.version}</version>
+                                </plugin>
+                                <plugin>
+                                    <groupId>org.jvnet.jaxb2_commons</groupId>
+                                    <artifactId>jaxb2-basics-annotate</artifactId>
+                                    <version>${jaxb2-basics-annotate.version}</version>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

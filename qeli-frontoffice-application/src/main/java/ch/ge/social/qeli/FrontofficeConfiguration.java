@@ -3,7 +3,6 @@ package ch.ge.social.qeli;
 import ch.ge.social.qeli.api.APIEndpointConfiguration;
 import ch.ge.social.qeli.security.SecurityConfiguration;
 import ch.ge.social.qeli.service.ServiceConfiguration;
-import ch.ge.social.qeli.serviceapi.ServiceAPIConfiguration;
 import java.util.regex.Pattern;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,6 @@ import org.springframework.format.support.DefaultFormattingConversionService;
     ServiceConfiguration.class,
     APIEndpointConfiguration.class,
     SecurityConfiguration.class,
-    ServiceAPIConfiguration.class
   }
 )
 public class FrontofficeConfiguration {

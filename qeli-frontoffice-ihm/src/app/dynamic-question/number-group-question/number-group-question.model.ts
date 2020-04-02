@@ -4,6 +4,7 @@ import { Question, QuestionSchema } from '../model/quesiton.model';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
+import { NATIONALITE_CONTROL_TYPE } from '../nationalite-question/nationalite-question.model';
 
 export const NUMBER_GROUP_CONTROL_TYPE = 'number-group';
 
@@ -13,6 +14,7 @@ export interface NumberGroupAnswerSchema {
 }
 
 export class NumberGroupAnswer extends Answer {
+  type = NUMBER_GROUP_CONTROL_TYPE;
   values: { [key: string]: number };
   none: boolean;
 

@@ -10,7 +10,6 @@ import { DynamicQuestionModule } from '../dynamic-question/dynamic-question.modu
 import { DeepLinkModule } from '../deep-link/deep-link.module';
 import { NavigationControlsComponent } from './navigation-controls/navigation-controls.component';
 import { QeliFormComponent } from './qeli-form/qeli-form.component';
-import { FlattenAnswerVisitorFactory } from '../core/common/flatten-answer.visitor';
 
 @NgModule({
   imports: [
@@ -33,9 +32,6 @@ import { FlattenAnswerVisitorFactory } from '../core/common/flatten-answer.visit
     ResultBlockComponent,
     NavigationMenuComponent,
     QeliFormComponent
-  ],
-  providers: [
-    FlattenAnswerVisitorFactory
   ]
 })
 export class HomeModule {
