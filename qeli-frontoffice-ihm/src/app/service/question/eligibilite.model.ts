@@ -141,6 +141,5 @@ export class EligibiliteGroup {
                .filter(eligibilite => eligibilite.prestation === prestation &&
                                       relations.includes((eligibilite.membre as MembreFamille).relation));
   }
-
 }
 
