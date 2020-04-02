@@ -1,6 +1,7 @@
 <div class="form-group">
   <div class="row question-title">
-    <div class="col-xs-12 col-sm-8">
+    <div class="col-xs-12 col-sm-8"
+         [ngClass]="disableDeepLink ? '': 'col-sm-8'">
       <label class="control-label"
              [ngClass]="!isValid ? 'text-danger' : ''"
              [attr.for]="question.key"
@@ -12,19 +13,18 @@
       </label>
     </div>
 
-    <div class="visible-sm visible-md visible-lg col-sm-4 text-right">
+    <div *ngIf="!disableDeepLink" class="visible-sm visible-md visible-lg col-sm-4 text-right">
       <app-deep-link></app-deep-link>
     </div>
   </div>
 
   <p *ngIf="question.help" class="help-block" [innerHtml]="question.help.key | translate:question.help.parameters"></p>
 
-
   <div *ngIf="!isValid && errors.length > 0"
        class="error-block text-danger"
        data-cy-label="validation_message">
     <p *ngFor="let error of errors">
-      {{ ('question.errors.' + error + '.' + question.key | translate) || 'question.errors.' + error + '.default' | translate }}
+      {{ question.errorLabels[error].key | translate:question.errorLabels[error].parameters  }}
     </p>
   </div>
 

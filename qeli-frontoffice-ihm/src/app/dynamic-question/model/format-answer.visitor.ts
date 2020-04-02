@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { QuestionOption } from './quesiton.model';
 import { AnswerVisitor } from './answer-visitor.model';
 import { NumberAnswer, OptionAnswer, StringAnswer } from './answer.model';
+import { CompositeAnswer } from '../composite-question/composite-question.model';
 
 export class FormatAnswerVisitor implements AnswerVisitor<string> {
   constructor(private translate: TranslateService) {
@@ -31,15 +32,19 @@ export class FormatAnswerVisitor implements AnswerVisitor<string> {
   }
 
   visitNumberAnswer(answer: NumberAnswer): string {
-    return undefined;
+    return answer.value.toString();
   }
 
   visitStringAnswer(answer: StringAnswer): string {
-    return undefined;
+    return answer.value;
   }
 
   visitOptionAnswer<E>(answer: OptionAnswer<E>): string {
-    return undefined;
+    return this.translateOption(answer.option);
+  }
+
+  visitCompositeAnswer(answer: CompositeAnswer): string {
+    return Object.values(answer.answers).map(answer => answer.accept(this)).join(', ');
   }
 
 }

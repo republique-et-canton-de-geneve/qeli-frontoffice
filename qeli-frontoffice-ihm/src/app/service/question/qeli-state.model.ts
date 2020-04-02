@@ -37,6 +37,7 @@ export class NextQuestionFinder {
         return false;
       }
 
+      console.log(question.skip(formData, eligibilites));
       return question.skip === null ||
              question.skip === undefined ||
              !question.skip(formData, eligibilites);

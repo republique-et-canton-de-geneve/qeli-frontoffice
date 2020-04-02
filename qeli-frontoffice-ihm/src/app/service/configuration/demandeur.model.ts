@@ -1,6 +1,9 @@
 import { Prestation } from './prestation.model';
 import { Eligibilite } from '../question/eligibilite.model';
 
+/**
+ * Un enum représentant les liens possibles entre le demandeur et un membre de la famille.
+ */
 export enum Relation {
   EPOUX                 = 'EPOUX',
   PARTENAIRE_ENREGISTRE = 'PARTENAIRE_ENREGISTRE',

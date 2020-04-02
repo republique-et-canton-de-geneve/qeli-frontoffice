@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { I18nString } from '../../core/i18n/i18nstring.model';
 
 @Component({
   selector: 'app-input-container',
@@ -12,6 +13,7 @@ export class InputContainerComponent {
   @Input() label: string;
   @Input() required = false;
   @Input() control: AbstractControl;
+  @Input() errorLabels: { [key: string]: I18nString } = {};
 
   get isValid() {
     return this.control.pristine ||

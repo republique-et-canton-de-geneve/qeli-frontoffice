@@ -1,0 +1,5 @@
+<app-dynamic-question *ngFor="let component of question.questions"
+                      disableDeepLink="true"
+                      [question]="component"
+                      [form]="formGroup">
+</app-dynamic-question>

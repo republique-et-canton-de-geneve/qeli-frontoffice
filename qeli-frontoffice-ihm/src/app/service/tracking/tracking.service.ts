@@ -11,6 +11,7 @@ import { QeliState } from '../question/qeli-state.model';
 import { Prestation } from '../configuration/prestation.model';
 import { FormatAnswerVisitor } from '../../dynamic-question/model/format-answer.visitor';
 import { TranslateService } from '@ngx-translate/core';
+import { CompositeAnswer } from '../../dynamic-question/composite-question/composite-question.model';
 
 const SCOPE_PAGE = 'page';
 const TRACK_FORM = 'Formulaire';
@@ -177,5 +178,9 @@ class IsInconnuAnswerVisitor implements AnswerVisitor<boolean> {
 
   visitStringAnswer(answer: StringAnswer): boolean {
     return false;
+  }
+
+  visitCompositeAnswer(answer: CompositeAnswer): boolean {
+    return Object.values(answer.answers).some(answer => answer.accept(this));
   }
 }

@@ -1,14 +1,4 @@
 {
-  "ge": {
-    "form": {
-      "error": {
-        "required": "Ce champ est obligatoire",
-        "maxDate": "Date incorrecte",
-        "minDate": "Date incorrecte",
-        "invalidDate": "Date incorrecte"
-      }
-    }
-  },
   "home": {
     "setup": {
       "title": "Comment se compose votre foyer ?",
@@ -56,6 +46,12 @@
         "dateNaissance": {
           "label": "Leur date de naissance"
         }
+      },
+      "errors": {
+        "required": "Ce champ est obligatoire",
+        "maxDate": "La date de naissance ne peut pas être dans le futur.",
+        "minDate": "Date incorrecte",
+        "invalidDate": "Date incorrecte"
       }
     },
     "result": {
@@ -176,66 +172,14 @@
         "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
       }
     },
-    "dateNaissance": {
-      "label": "Quelle est votre date de naissance ?",
-      "help": "Si vous ne connaissez pas la date exacte, merci de mettre le 1er jour du mois.",
-      "error": {
-        "required": "Votre date de naissance doit être fournie",
-        "maxDate": "Votre date de naissance ne peut pas être dans le futur",
-        "minDate": "Année de naissance incorrecte",
-        "invalidDate": "Date de naissance incorrecte",
-        "Mask error": ""
-      },
-      "motifRefus": {
-        "AIDE_SOCIALE": "Vous avez indiqué que vous êtes mineur"
-      }
-    },
-    "etatCivil": {
-      "label": "Quel est votre état civil ?",
-      "help": "Séparé : de fait ou par jugement ? Attention : pour PC fam, ne doivent plus habiter à la même adresse sinon considérés comme mariés.",
+    "parentsEnfants": {
+      "label": "Qui sont les parents des enfants vivant dans votre foyer ?",
+      "membre": "{prenom} est :",
       "option": {
-        "CELIBATAIRE": "Célibataire",
-        "MARIE": "Marié(e)",
-        "DIVORCE": "Divorcé(e)",
-        "SEPARE": "Séparé(e)",
-        "PARTENARIAT_ENREGISTRE": "En partenariat enregistré",
-        "VEUF": "Veuf(ve)"
-      },
-      "error": {
-        "required": "Votre état civil doit être fourni"
-      },
-      "motifRefus": {
-        "PC_AVS_AI": "Vous n'êtes pas marié ou en partenariat enregistré"
-      }
-    },
-    "enfantsACharge": {
-      "label": "Combien d'enfants à charge avez-vous ?",
-      "help": "Enfant à charge : enfant dont vous devez vous occuper. Si vous payez une pension alimentaire pour lui, il n'est plus considéré comme une charge.",
-      "field": {
-        "MOINS_18": "enfant(s) de moins de 18 ans",
-        "ENTRE_18_25_EN_FORMATION": "enfant(s) entre 18 et 25 ans en formation",
-        "PLUS_25_EN_FORMATION": "enfant(s) de plus de 25 ans en formation",
-        "PLUS_18": "enfant(s) de plus de 18 ans PAS en formation"
-      },
-      "none": "Aucun enfant",
-      "motifRefus": {
-        "PC_FAM": "Vous avez indiqué ne pas avoir d'enfant à charge",
-        "PC_AVS_AI": "Vous avez indiqué ne pas avoir d'enfant à charge"
-      },
-      "error": {
-        "required": "Merci de saisir le nombre d'enfants à charge",
-        "pattern": "Merci de saisir le nombre d'enfants à charge",
-        "min": "Nombre négatif interdit",
-        "max": "Erreur dans la saisie du nombre d'enfants à charge",
-        "atLeastOneFilled": "Merci de saisir le nombre d'enfants à charge"
-      }
-    },
-    "concubinageAutreParent": {
-      "label": "Vivez-vous en concubinage avec l’autre parent de votre(vos) enfant(s) ?",
-      "help": "Concubinage : vous vivez (faites domicile commun) avec la personne avec laquelle vous êtes en couple, sans être marié ou en partenariat enregistré.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non"
+        "MOI": "Mon enfant",
+        "AUTRE_PARENT": "Celui de mon conjoint",
+        "LES_DEUX": "Notre enfant à tous les deux",
+        "AUTRES": "Autres"
       },
       "error": {
         "required": "Ce champ est obligatoire"
