@@ -13,6 +13,7 @@ export interface NationaliteAnswerSchema {
 }
 
 export class NationaliteAnswer extends Answer {
+  type = NATIONALITE_CONTROL_TYPE;
   pays: QuestionOption<Pays>[];
   apatride: boolean;
 

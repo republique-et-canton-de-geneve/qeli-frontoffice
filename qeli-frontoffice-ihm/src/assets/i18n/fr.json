@@ -56,6 +56,7 @@
     },
     "result": {
       "title": "Résultat",
+      "pdf": "Générer un PDF",
       "eligibilite": {
         "oui": "D'après ce que vous avez répondu, vous pourriez bénéficier des prestations suivantes :",
         "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas bénéficier des prestations suivantes :",

@@ -21,7 +21,7 @@
         <!-- Frontoffice modules -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>qeli-frontoffice-service-api</artifactId>
+            <artifactId>qeli-frontoffice-service</artifactId>
         </dependency>
 
         <!-- Additional dependencies -->

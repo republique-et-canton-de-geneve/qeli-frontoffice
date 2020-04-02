@@ -54,7 +54,6 @@ export class NavigationMenuComponent {
                                                           .subscribe(this.updateNavigation.bind(this));
       this.updateNavigation();
     }
-
   }
 
   isCurrentQuestion(question: Question<any>) {

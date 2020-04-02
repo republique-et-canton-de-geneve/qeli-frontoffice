@@ -1,5 +1,6 @@
 package ch.ge.social.qeli.api.controller;
 
+import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
 import java.util.UUID;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,6 +76,21 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   public ResponseEntity<ApiErrorDto> badRequest(RuntimeException ex) {
     return buildResponseEntity(handleError(ex), HttpStatus.BAD_REQUEST);
   }
+
+  /**
+   * Intercepte toute exception appropriée pour le status HTTP : {@link HttpStatus#SERVICE_UNAVAILABLE}.
+   *
+   * @param ex l'exception à gérer.
+   *
+   * @return un objet avec des informations sur l'erreur.
+   *
+   * @see PDFGenerationException
+   */
+  @ExceptionHandler(PDFGenerationException.class)
+  public ResponseEntity<ApiErrorDto> serviceUnavailable(RuntimeException ex) {
+    return buildResponseEntity(handleError(ex), HttpStatus.SERVICE_UNAVAILABLE);
+  }
+
 
   /**
    * Intercepte toute exception appropriée pour le status HTTP : {@link HttpStatus#INTERNAL_SERVER_ERROR}.

@@ -13,6 +13,7 @@ export interface CheckboxGroupAnswerSchema {
 }
 
 export class CheckboxGroupAnswer extends Answer {
+  type = CHECKBOX_GROUP_CONTROL_TYPE;
   none?: QuestionOption<'OUI' | 'NON' | 'INCONNU'>;
   choices: QuestionOption<string>[];
 
