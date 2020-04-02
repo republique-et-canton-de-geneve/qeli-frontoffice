@@ -140,6 +140,13 @@
     }
   },
   "question": {
+    "responseProgressive": {
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      }
+    },
     "prestations": {
       "label": "Recevez-vous {numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
       "help": "En cas de doute sur une prestation, ne pas cocher la case concernée.<br>Si vous ne savez pas du tout si vous recevez des prestations et lesquelles, cocher \"Non\".",
@@ -265,6 +272,21 @@
         "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève"
       }
     },
+    "domicileCantonGEConjoint": {
+      "label": "Le domicile officiel de votre conjoint.e est-il dans le canton de Genève ?",
+      "help": "Domicile : elle.il a une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM)",
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "PC_FAM": "Vous avez indiqué que le domicile de votre conjoint n'est pas dans le canton de Genève"
+      }
+    },
     "dateArriveeGeneve": {
       "label": "Quelle est la date officielle de votre arrivée à Genève ?",
       "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
@@ -373,7 +395,7 @@
       },
       "motifRefus": {
         "PC_FAM": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
-        "PC_AVS_AI": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
+        "PC_AVS_AI": "Les represtationvenus de votre conjoint vous empêchent de bénéficier de cette prestation",
         "AIDE_SOCIALE": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation"
       },
       "error": {

@@ -5,7 +5,7 @@ import {
 } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { FormData, QuestionOption } from '../../../dynamic-question/model/quesiton.model';
+import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 

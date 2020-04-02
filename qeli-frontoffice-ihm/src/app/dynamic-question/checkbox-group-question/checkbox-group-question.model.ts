@@ -1,5 +1,5 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { Question, QuestionOption, QuestionSchema } from '../model/quesiton.model';
+import { Question, QuestionOption, QuestionSchema } from '../model/question.model';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
 import { QuestionVisitorModel } from '../model/question-visitor.model';

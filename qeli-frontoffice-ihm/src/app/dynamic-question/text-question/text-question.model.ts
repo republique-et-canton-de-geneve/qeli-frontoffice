@@ -1,5 +1,5 @@
 import { QuestionVisitorModel } from '../model/question-visitor.model';
-import { QuestionSchema, StringQuestion } from '../model/quesiton.model';
+import { QuestionSchema, StringQuestion } from '../model/question.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
 
 export const TEXT_CONTROL_TYPE = 'text';

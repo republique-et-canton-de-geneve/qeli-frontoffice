@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { Question } from './quesiton.model';
+import { Question } from './question.model';
 import { Answer } from './answer.model';
 
 export interface QuestionComponent<T extends Answer> {

@@ -1,6 +1,6 @@
 import { QeliQuestionDecorator } from './qeli-question-decorator.model';
 import { Answer } from '../../dynamic-question/model/answer.model';
-import { FormData, Question } from '../../dynamic-question/model/quesiton.model';
+import { FormData, Question } from '../../dynamic-question/model/question.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from './eligibilite.model';
 import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';

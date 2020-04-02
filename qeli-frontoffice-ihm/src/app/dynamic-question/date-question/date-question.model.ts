@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/f
 import { DateValidators } from '../../ge-forms/date.validators';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
-import { Question, QuestionOption, QuestionSchema } from '../model/quesiton.model';
+import { Question, QuestionOption, QuestionSchema } from '../model/question.model';
 
 export const DATE_CONTROL_TYPE = 'date';
 
