@@ -1,7 +1,7 @@
 <div>
   <label [attr.for]="identifier" class="control-label"
          [ngClass]="!isValid ? 'text-danger' : ''">
-    {{ label }} <span *ngIf="required" class="form-required" title="{{ 'ge.form.required' | translate }}">*</span>
+    {{ label }} <span *ngIf="required" class="form-required" title="{{ 'form.required' | translate }}">*</span>
   </label>
 
   <div [ngClass]="!isValid ? 'text-danger' : ''">
@@ -12,7 +12,7 @@
        class="error-block text-danger"
        data-cy-label="validation_message">
     <p *ngFor="let error of errors">
-      {{ 'ge.form.error.' + error | translate }}
+      {{ errorLabels && errorLabels[error] ? (errorLabels[error].key | translate:errorLabels[error].parameters) : 'unknown error' }}
     </p>
   </div>
 </div>

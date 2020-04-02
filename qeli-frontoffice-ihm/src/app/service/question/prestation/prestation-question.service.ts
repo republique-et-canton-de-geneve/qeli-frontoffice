@@ -25,6 +25,10 @@ export class PrestationQuestionService implements QuestionLoader {
             key: 'question.prestations.label',
             parameters: {numberOfMemebres: eligibiliteAsGroup.demandeur.membresFamille.length}
           },
+          errorLabels: {
+            required: {key: 'question.prestations.error.required'},
+            atLeastOneSelected: {key: 'question.prestations.error.atLeastOneSelected'}
+          },
           help: {key: 'question.prestations.help'},
           noneOptions: [
             {

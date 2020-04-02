@@ -10,7 +10,8 @@
         <app-input-container identifier="etatCivil"
                              required="true"
                              label="{{ 'home.setup.demandeur.etatCivil.label' | translate }}"
-                             [control]="setupForm.controls['etatCivil']">
+                             [control]="setupForm.controls['etatCivil']"
+                             [errorLabels]="errorLabels">
           <select id="etatCivil"
                   [attr.disabled]="numberOfMembres > 0 ? 'disabled' : null"
                   formControlName="etatCivil"
@@ -27,7 +28,8 @@
         <app-input-container identifier="dateNaissance"
                              required="true"
                              label="{{ 'home.setup.demandeur.dateNaissance.label' | translate }}"
-                             [control]="setupForm.controls['dateNaissance']">
+                             [control]="setupForm.controls['dateNaissance']"
+                             [errorLabels]="errorLabels">
           <app-date-input identifier="dateNaissance"
                           [minDate]="minDateNaissance"
                           [maxDate]="maxDateNaissance"
@@ -39,7 +41,8 @@
       <div class="col-sm-3">
         <app-input-container identifier="prenom"
                              label="{{ 'home.setup.demandeur.prenom.label' | translate }}"
-                             [control]="setupForm.controls['prenom']">
+                             [control]="setupForm.controls['prenom']"
+                             [errorLabels]="errorLabels">
           <input id="prenom"
                  formControlName="prenom"
                  placeholder="{{ 'home.setup.demandeur.prenom.placeholder' | translate }}"
@@ -57,7 +60,8 @@
           <app-input-container identifier="{{ 'relationMembre' + i }}"
                                required="true"
                                label="{{ 'home.setup.membre.relation.label' | translate }}"
-                               [control]="membre.controls['relation']">
+                               [control]="membre.controls['relation']"
+                               [errorLabels]="errorLabels">
             <select id="{{ 'relationMembre' + i }}"
                     formControlName="relation"
                     [attr.disabled]="!isLast ? 'disabled' : null"
@@ -74,7 +78,8 @@
           <app-input-container identifier="{{ 'dateNaissanceMembre' + i }}"
                                required="true"
                                label="{{ 'home.setup.membre.dateNaissance.label' | translate }}"
-                               [control]="membre.controls['dateNaissance']">
+                               [control]="membre.controls['dateNaissance']"
+                               [errorLabels]="errorLabels">
             <app-date-input identifier="{{ 'dateNaissanceMembre' + i }}"
                             [minDate]="minDateNaissance"
                             [maxDate]="maxDateNaissance"
@@ -86,7 +91,8 @@
         <div class="col-sm-3">
           <app-input-container identifier="{{ 'prenomMembre' + i }}"
                                label="{{ 'home.setup.membre.prenom.label' | translate }}"
-                               [control]="membre.controls['prenom']">
+                               [control]="membre.controls['prenom']"
+                               [errorLabels]="errorLabels">
             <input id="{{ 'prenomMembre' + i }}"
                    formControlName="prenom"
                    placeholder="{{ 'home.setup.membre.prenom.placeholder.' + (membre.value['relation'] || 'DEFAULT')  | translate:{index: i+1} }}"
