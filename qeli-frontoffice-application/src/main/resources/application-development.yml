@@ -1,5 +1,7 @@
-social.tools.frontoffice:
-  ihm-resource-location: classpath:/formulaire
+social.tools:
+  frontoffice.ihm-resource-location: classpath:/formulaire
+  editique.ws-location: ***REMOVED***
+
 
 server:
   port: 8080

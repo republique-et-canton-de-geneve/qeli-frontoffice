@@ -1,5 +1,6 @@
 import { AnswerVisitor } from './answer-visitor.model';
 import { QuestionOption } from './quesiton.model';
+import { CHECKBOX_GROUP_CONTROL_TYPE } from '../checkbox-group-question/checkbox-group-question.model';
 
 /**
  * Un modèle représentant la réponse de l'utilistateur à une question.
@@ -14,6 +15,7 @@ export abstract class Answer {
 }
 
 export class StringAnswer extends Answer {
+  type = "string";
   value: string;
 
   constructor(value: string) {
@@ -27,6 +29,7 @@ export class StringAnswer extends Answer {
 }
 
 export class NumberAnswer extends Answer {
+  type = "number";
   value: number;
 
   constructor(value: number) {
@@ -40,6 +43,7 @@ export class NumberAnswer extends Answer {
 }
 
 export class OptionAnswer<T> extends Answer {
+  type = "option";
   option: QuestionOption<T>;
 
   constructor(option: QuestionOption<T>) {

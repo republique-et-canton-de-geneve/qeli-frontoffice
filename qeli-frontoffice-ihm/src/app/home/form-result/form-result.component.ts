@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Prestation } from '../../service/configuration/prestation.model';
-import { EligibiliteGroup, EligibiliteRefusee } from '../../service/question/eligibilite.model';
-import { QeliState } from '../../service/question/qeli-state.model';
+import { Eligibilite, EligibiliteRefusee } from '../../service/question/eligibilite.model';
+import { QeliStateMachine } from '../../service/question/qeli-state.model';
+import { TranslateService } from '@ngx-translate/core';
+import { PDFGenerationService } from '../../service/pdf-generation.service';
+import { FormData } from '../../dynamic-question/model/quesiton.model';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-form-result',
@@ -10,22 +13,48 @@ import { QeliState } from '../../service/question/qeli-state.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormResultComponent {
-  eligibiles: Prestation[];
-  dejaPercues: Prestation[];
-  refusees: EligibiliteRefusee[];
+  eligibilites: Eligibilite[];
+  eligibilitesRefusees: EligibiliteRefusee[];
+  formData: FormData;
 
-  constructor() {
+  constructor(private translateService: TranslateService,
+              private pdfGenerationService: PDFGenerationService) {
 
   }
 
   @Input()
-  set qeliState(state: QeliState) {
-    this.dejaPercues = state.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite.prestation);
-    this.refusees = state.eligibilitesRefusees.filter(e => !e.dejaPercue);
-    this.eligibiles = [...new Set(
-      state.eligibilites.filter(eligibilite =>
-        !new EligibiliteGroup(state.eligibilitesRefusees.map(refus => refus.eligibilite)).includes(eligibilite)
-      ).map(eligiilite => eligiilite.prestation))
-    ];
+  set qeliStateMachine(qeliStateMachine: QeliStateMachine) {
+    const state = qeliStateMachine.state;
+    this.eligibilites = qeliStateMachine.currentEligibilites;
+    this.eligibilitesRefusees = state.eligibilitesRefusees;
+    this.formData = state.formData;
   }
+
+  get dejaPercues() {
+    return this.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite.prestation);
+  }
+
+
+  get refusees() {
+    return this.eligibilitesRefusees.filter(e => !e.dejaPercue);
+  }
+
+  get eligibiles() {
+    return this.eligibilites.map(eligibilite => eligibilite.prestation);
+  }
+
+  generatePDF() {
+    this.pdfGenerationService.generatePDF(
+      this.formData,
+      this.eligibilites,
+      this.eligibilitesRefusees
+    ).subscribe(response => {
+      const blob = new Blob([(response)], {type: 'application/pdf'});
+      FileSaver.saveAs(blob, 'recapitulatif-questionaire-eligibilite.pdf');
+    }, err => {
+      // TODO Montrer une popup avec l'erreur
+      console.log('error : ', err);
+    });
+  }
+
 }

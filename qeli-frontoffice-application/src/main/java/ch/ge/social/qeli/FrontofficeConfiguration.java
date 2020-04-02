@@ -19,7 +19,7 @@ import org.springframework.format.support.DefaultFormattingConversionService;
     FrontofficeIHMConfiguration.class,
     ServiceConfiguration.class,
     APIEndpointConfiguration.class,
-    SecurityConfiguration.class
+    SecurityConfiguration.class,
   }
 )
 public class FrontofficeConfiguration {
