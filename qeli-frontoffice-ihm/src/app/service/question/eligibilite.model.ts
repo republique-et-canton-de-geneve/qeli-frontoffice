@@ -126,5 +126,21 @@ export class EligibiliteGroup {
                                                      eligibilite.prestation === prestations);
     }
   }
+
+  /**
+   * Retrouve toutes les éligibilités qui concerne la prestation donnée et au moins une des rélation en paramètre.
+   *
+   * @param prestation la prestation recherchée.
+   * @param relations les relations recherchées.
+   *
+   * @return les éligibilités concernées.
+   */
+  findByPrestationEtRelationIn(prestation: Prestation, relations: Relation[]) {
+    return this.eligibilites
+               .filter(eligibilite => eligibilite.membre.id !== 0)
+               .filter(eligibilite => eligibilite.prestation === prestation &&
+                                      relations.includes((eligibilite.membre as MembreFamille).relation));
+  }
+
 }
 

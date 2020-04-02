@@ -2,7 +2,7 @@ import { CheckboxGroupAnswer } from '../checkbox-group-question/checkbox-group-q
 import { DateAnswer } from '../date-question/date-question.model';
 import { NationaliteAnswer } from '../nationalite-question/nationalite-question.model';
 import { TranslateService } from '@ngx-translate/core';
-import { QuestionOption } from './quesiton.model';
+import { QuestionOption } from './question.model';
 import { AnswerVisitor } from './answer-visitor.model';
 import { NumberAnswer, OptionAnswer, StringAnswer } from './answer.model';
 import { CompositeAnswer } from '../composite-question/composite-question.model';

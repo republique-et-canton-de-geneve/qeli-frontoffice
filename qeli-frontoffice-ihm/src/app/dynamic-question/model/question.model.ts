@@ -7,7 +7,7 @@ import { I18nString } from '../../core/i18n/i18nstring.model';
  * Les réponses du formulaire en clé valeur. La clé de chaque élément correspond à une clé de question.
  */
 export interface FormData {
-  [key: string]: Answer
+  [key: string]: Answer;
 }
 
 export interface QuestionSchema {

@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { QuestionDirective } from './model/question.directive';
 import { QuestionComponent } from './model/question.component';
 import { QuestionRegistryModel } from './model/question-registry.model';
-import { Question } from './model/quesiton.model';
+import { Question } from './model/question.model';
 
 @Component({
   selector: 'app-dynamic-question',

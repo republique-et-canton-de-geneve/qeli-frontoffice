@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { QeliConfiguration } from '../configuration/qeli-configuration.model';
 import { QuestionLoader } from './question-loader';
 import { PrestationQuestionService } from './prestation/prestation-question.service';
+import { DomicileQuestionService } from './domicile/domicile-question.service';
 import { QeliQuestionDecorator } from './qeli-question-decorator.model';
 import { Eligibilite } from './eligibilite.model';
 import { EnfantsQuestionService } from './enfants/enfants-question.service';
@@ -14,8 +15,10 @@ export class QuestionService implements QuestionLoader {
 
   constructor(private prestationQuestionService: PrestationQuestionService,
               private enfantsQuestionService: EnfantsQuestionService,
-              private nationaliteQuestion: NationaliteQuestionService
-              /*private domicileQuestionService: DomicileQuestionService,
+              private nationaliteQuestion: NationaliteQuestionService,
+              private domicileQuestionService: DomicileQuestionService
+              /*private ageQuestionService: AgeQuestionService,
+              private etatCivilQuestionService: EtatCivilQuestionService,
               private revenusQuestionService: RevenusQuestionService,
               private formationQuestionService: FormationQuestionService,
               private situationProfesionelleQuestionService: SituationProfesionelleQuestionService,
@@ -31,8 +34,10 @@ export class QuestionService implements QuestionLoader {
     return [].concat(
       this.prestationQuestionService.loadQuestions(configuration, eligibilites),
       this.enfantsQuestionService.loadQuestions(configuration, eligibilites),
-      this.nationaliteQuestion.loadQuestions(configuration, eligibilites)
-      /*this.domicileQuestionService.loadQuestions(configuration, eligibilites),
+      this.nationaliteQuestion.loadQuestions(configuration, eligibilites),
+      this.domicileQuestionService.loadQuestions(configuration, eligibilites)
+      /*this.ageQuestionService.loadQuestions(configuration, eligibilites),
+      this.etatCivilQuestionService.loadQuestions(configuration, eligibilites),
       this.revenusQuestionService.loadQuestions(configuration, eligibilites),
       this.formationQuestionService.loadQuestions(configuration, eligibilites),
       this.situationProfesionelleQuestionService.loadQuestions(configuration, eligibilites),

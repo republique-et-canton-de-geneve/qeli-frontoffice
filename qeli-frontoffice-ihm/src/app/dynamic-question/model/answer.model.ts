@@ -1,5 +1,5 @@
 import { AnswerVisitor } from './answer-visitor.model';
-import { QuestionOption } from './quesiton.model';
+import { QuestionOption } from './question.model';
 
 /**
  * Un modèle représentant la réponse de l'utilistateur à une question.

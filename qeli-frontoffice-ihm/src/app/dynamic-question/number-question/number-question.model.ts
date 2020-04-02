@@ -1,6 +1,6 @@
 import { QuestionVisitorModel } from '../model/question-visitor.model';
 import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
-import { Question, QuestionSchema } from '../model/quesiton.model';
+import { Question, QuestionSchema } from '../model/question.model';
 import { NumberAnswer } from '../model/answer.model';
 
 export const NUMBER_GROUP_TYPE = 'number';
