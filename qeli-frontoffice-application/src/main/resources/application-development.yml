@@ -1,8 +1,6 @@
-social.tools.frontoffice:
-  ihm-resource-location: classpath:/formulaire
-
-editique:
-  ws-location: ***REMOVED***
+social.tools:
+  frontoffice.ihm-resource-location: classpath:/formulaire
+  editique.ws-location: ***REMOVED***
 
 
 server:

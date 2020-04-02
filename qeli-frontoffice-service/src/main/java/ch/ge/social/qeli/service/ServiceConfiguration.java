@@ -20,19 +20,18 @@ import outils.exception.CtiMetierException;
 public class ServiceConfiguration {
 
 
-  @Bean("feditiqueJaxbMarshaller")
+  @Bean("editiqueJaxbMarshaller")
   public Jaxb2Marshaller editiqueJaxbMarshaller() {
     Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-    marshaller.setContextPaths(
-      "ch.ge.social.qeli.service.models"
-    );
+    marshaller.setContextPaths("ch.ge.social.qeli.xml.edition");
     marshaller.setMarshallerProperties(Collections.singletonMap(Marshaller.JAXB_ENCODING, "ISO-8859-1"));
     return marshaller;
   }
 
   @Bean
-  public OutilsRapportDialogue outilsRapportDialogue(@Value("${editique.ws-location}") String  wsLocation)
-    throws MalformedURLException, CtiMetierException {
+  public OutilsRapportDialogue outilsRapportDialogue(
+    @Value("${social.tools.editique.ws-location}") String wsLocation
+  ) throws MalformedURLException, CtiMetierException {
     return new OutilsRapportDialogue(new URL(wsLocation));
   }
 }

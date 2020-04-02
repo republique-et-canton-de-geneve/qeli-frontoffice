@@ -4,6 +4,7 @@ import { DateValidators } from '../../ge-forms/date.validators';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
 import { Question, QuestionOption, QuestionSchema } from '../model/quesiton.model';
+import { CHECKBOX_GROUP_CONTROL_TYPE } from '../checkbox-group-question/checkbox-group-question.model';
 
 export const DATE_CONTROL_TYPE = 'date';
 
@@ -13,6 +14,7 @@ export interface DateAnswerSchema {
 }
 
 export class DateAnswer extends Answer {
+  type = DATE_CONTROL_TYPE;
   shortcut: 'NO_SHORTCUT' | string;
   value: string;
 

@@ -3,21 +3,17 @@
 [p] [p] [p] [p]Pour rappel, le résultat de ce questionnaire est indicatif. Il n'est pas une preuve que vous recevrez ces prestations sociales.
 [p] [p]Vous avez indiqué que vous recevez déjà (la prestation suivante / les prestations suivantes)[nb]:
 [p]
-  {{#prestationDejaPercues}}
-    [br]{{.}}
-  {{/prestationDejaPercues}}
+{{#prestationsDejaPercues}}
+  [br]{{.}}
+{{/prestationsDejaPercues}}
 [p] [p]Sur la base de vos réponses, il est possible que vous puissiez bénéficier des prestations sociales suivantes [nb] :
 [p]
-  {{#prestationEligible}}
-     [bl]{{.}}
-  {{/prestationEligible}}
+{{#prestationsEligibles}}
+  [bl]{{.}}
+{{/prestationsEligibles}}
 [p] [p]Sur la base de vos réponses, il n'est pas utile de déposer des demandes pour les prestations sociales suivantes [nb] :
 [p]
-  {{#prestationRefusees}}
-    {{prestation}}
-    [p]Les raisons qui pourraient vous empêcher de recevoir un subside d'assurance-maladie sont[nb]:
-    {{#questionKeys}}
-      [bl]{{.}}
-    {{/questionKeys}}
-  {{/prestationRefusees}}
+{{#prestationsRefusees}}
+  [p]Les raisons qui pourraient vous empêcher de recevoir un {{.}}[nb]:
+{{/prestationsRefusees}}
 [p] [p] [p] [p] [p]
