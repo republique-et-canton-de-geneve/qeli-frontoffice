@@ -31,9 +31,8 @@ export class DomicileQuestionService implements QuestionLoader {
         }),
         calculateRefus: this.calculateRefus.bind(this),
         eligibilites: eligibiliteGroup.findByPrestationEtRelationIn(Prestation.PC_FAM,
-          [Relation.PARTENAIRE_ENREGISTRE, Relation.EPOUX, Relation.CONCUBIN])
-                      || eligibiliteGroup.findByPrestationEtRelationIn(Prestation.PC_AVS_AI,
-            [Relation.PARTENAIRE_ENREGISTRE, Relation.EPOUX, Relation.CONCUBIN]),
+          [Relation.PARTENAIRE_ENREGISTRE, Relation.EPOUX, Relation.CONCUBIN]).concat(eligibiliteGroup.findByPrestationEtRelationIn(Prestation.PC_AVS_AI,
+            [Relation.PARTENAIRE_ENREGISTRE, Relation.EPOUX, Relation.CONCUBIN])),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
 
@@ -45,7 +44,7 @@ export class DomicileQuestionService implements QuestionLoader {
 
     const refus: EligibiliteRefusee[] = eligibilites.map(eligibilite => {
 
-      if (formData['domicileCantonGEConjoint'].value === ReponseProgressive.NON) {
+      if (formData['domicileCantonGEConjoint'].value === ReponseProgressive.NON && eligibilite.prestation === Prestation.PC_FAM) {
         return {
           eligibilite: eligibilite, motif: {key: `question.domicileCantonGEConjoint.motifRefus.PC_FAM`}
         } as EligibiliteRefusee;

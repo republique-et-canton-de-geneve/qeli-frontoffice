@@ -140,7 +140,7 @@
     }
   },
   "question": {
-    "responseProgressive": {
+    "reponseProgressive": {
       "option": {
         "OUI": "Oui",
         "NON": "Non",
