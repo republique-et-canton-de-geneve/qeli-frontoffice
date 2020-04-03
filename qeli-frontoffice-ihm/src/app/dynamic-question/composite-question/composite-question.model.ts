@@ -1,5 +1,5 @@
 import { QuestionVisitorModel } from '../model/question-visitor.model';
-import { Question, QuestionSchema } from '../model/quesiton.model';
+import { Question, QuestionSchema } from '../model/question.model';
 import { Answer } from '../model/answer.model';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { AnswerVisitor } from '../model/answer-visitor.model';
