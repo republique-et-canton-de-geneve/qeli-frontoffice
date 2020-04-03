@@ -305,6 +305,24 @@
       "motifRefus": {
         "PC_FAM": "Votre date officielle d'arrivée à Genève est trop récente"
       }
+    },"dateArriveeGeneveConjoint": {
+      "label": "Quelle est la date officielle d'arrivée à Genève de votre conjoint ?",
+      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si il.elle est suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
+      "shortcut": {
+        "DEPUIS_NAISSANCE": "Depuis sa naissance",
+        "INCONNU": "Je ne sais pas"
+      },
+      "defaultShortcut": "La date officielle d'arrivée à Genève de mon conjoint est le :",
+      "error": {
+        "required": "La date d'arrivée à Genève de votre conjoint doit être fournie",
+        "maxDate": "La date d'arrivée à Genève de votre conjoint ne peut pas être dans le futur",
+        "minDate": "Date d'arrivée à Genève incorrecte",
+        "invalidDate": "Date d'arrivée à Genève incorrecte",
+        "Mask error": ""
+      },
+      "motifRefus": {
+        "PC_FAM": "La date officielle d'arrivée à Genève de votre conjoint est trop récente"
+      }
     },
     "residenceEffectiveCantonGE": {
       "label": "Avez-vous votre résidence effective dans le canton de Genève ?",

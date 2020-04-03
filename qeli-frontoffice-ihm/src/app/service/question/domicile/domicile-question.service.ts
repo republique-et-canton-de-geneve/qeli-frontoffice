@@ -7,6 +7,8 @@ import { Relation } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { ReponseProgressive } from '../reponse-binaire.model';
+import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-question/date-question.model';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -29,30 +31,83 @@ export class DomicileQuestionService implements QuestionLoader {
             label: {key: `question.reponseProgressive.option.${reponseProgressive}`}
           }))
         }),
-        calculateRefus: this.calculateRefus.bind(this),
+        calculateRefus: this.calculateRefusDomicileConjoint.bind(this),
         eligibilites: eligibiliteGroup.findByPrestationEtRelationIn(Prestation.PC_FAM,
           [Relation.PARTENAIRE_ENREGISTRE, Relation.EPOUX, Relation.CONCUBIN]).concat(eligibiliteGroup.findByPrestationEtRelationIn(Prestation.PC_AVS_AI,
             [Relation.PARTENAIRE_ENREGISTRE, Relation.EPOUX, Relation.CONCUBIN])),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
 
+      },
+      {
+        question: new DateQuestion({
+          key: 'dateArriveeGeneveConjoint',
+          dataCyIdentifier: '0511_dateArriveeGeneveConjoint',
+          label: {
+            key: 'question.dateArriveeGeneveConjoint.label'
+          },
+          maxDate: new Date(),
+
+          minDate: moment().subtract(configuration.minYearsFromNow, 'year').toDate(),
+          shortcuts: ['DEPUIS_NAISSANCE', 'INCONNU'].map(shortcut =>
+            ({
+            value: shortcut,
+            label: {key: `question.dateArriveeGeneveConjoint.shortcut.${shortcut}`}
+          }))
+        }),
+        calculateRefus: this.calculateRefusDateArriveeConjoint.bind(this),
+        eligibilites: eligibiliteGroup.findByPrestationEtRelationIn(Prestation.PC_FAM, [Relation.PARTENAIRE_ENREGISTRE, Relation.EPOUX, Relation.CONCUBIN]),
+        categorie: Categorie.SITUATION_PERSONELLE,
+        subcategorie: Subcategorie.DOMICILE
       }
     ];
   }
 
-  calculateRefus(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
+  calculateRefusDomicileConjoint(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
 
     const refus: EligibiliteRefusee[] = eligibilites.map(eligibilite => {
 
       if (formData['domicileCantonGEConjoint'].value === ReponseProgressive.NON && eligibilite.prestation === Prestation.PC_FAM) {
-        return {
-          eligibilite: eligibilite, motif: {key: `question.domicileCantonGEConjoint.motifRefus.PC_FAM`}
-        } as EligibiliteRefusee;
+        return this.addRefus(eligibilite, `question.domicileCantonGEConjoint.motifRefus.${eligibilite.prestation}`);
       }
 
       return null;
-    }).filter(eligibilciteRefusee => eligibilciteRefusee !== null);
+    }).filter(eligibiliteRefusee => eligibiliteRefusee !== null);
     return refus;
+  }
+
+  calculateRefusDateArriveeConjoint(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
+    const refus: EligibiliteRefusee[] = eligibilites.map(eligibilite => {
+      const dateArriveeGeneveConjointAnswer = formData['dateArriveeGeneveConjoint'] as DateAnswer;
+      const dateArriveeGeneve = dateArriveeGeneveConjointAnswer.shortcut === 'DEPUIS_NAISSANCE' ?
+                                this.getDate(dateArriveeGeneveConjointAnswer.value, 'dateNaissance') :
+                                this.getDate(dateArriveeGeneveConjointAnswer.value, 'dateArriveeGeneve');
+
+      if ((this.isDateBeforeYearsNumber(dateArriveeGeneve, 5) || dateArriveeGeneveConjointAnswer.shortcut === 'INCONNU')
+          && eligibilite.prestation === Prestation.PC_FAM) {
+        return this.addRefus(eligibilite, `question.dateArriveeGeneveConjoint.motifRefus.${eligibilite.prestation}`);
+      }
+
+      return null;
+    }).filter(eligibiliteRefusee => eligibiliteRefusee !== null);
+    return refus;
+  }
+
+  isDateBeforeYearsNumber(date: any, years: number): boolean {
+    return date && moment().subtract(years, 'year')
+                            .endOf('day')
+                            .isAfter(moment(date));
+
+  }
+
+   getDate(value: any, questionKey: string) {
+    return value[questionKey] && moment(value[questionKey]['value'], 'YYYY-MM-DD');
+  }
+
+  addRefus (eligibilite: Eligibilite, motifKey: string): EligibiliteRefusee {
+    return {
+      eligibilite: eligibilite, motif: {key: motifKey}
+    } as EligibiliteRefusee;
   }
 }
 
