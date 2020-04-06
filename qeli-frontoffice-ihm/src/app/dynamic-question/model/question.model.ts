@@ -126,7 +126,6 @@ export abstract class StringQuestion extends Question<StringAnswer> {
   }
 }
 
-
 /**
  * Un modèle de question avec une réponse simple en form de string.
  */
