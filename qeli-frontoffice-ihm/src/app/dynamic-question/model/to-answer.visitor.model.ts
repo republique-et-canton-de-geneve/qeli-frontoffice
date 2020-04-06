@@ -1,6 +1,4 @@
-import {
-  Answer, NumberAnswer, OptionAnswer, OptionAnswerSchema, SimpleAnswerSchema, StringAnswer
-} from './answer.model';
+import { Answer, NumberAnswer, OptionAnswer, SimpleAnswerSchema, StringAnswer } from './answer.model';
 import {
   CheckboxGroupAnswer, CheckboxGroupAnswerSchema, CheckboxGroupQuestion
 } from '../checkbox-group-question/checkbox-group-question.model';
@@ -15,6 +13,7 @@ import { TauxQuestion } from '../taux-question/taux-question.model';
 import { TextQuestion } from '../text-question/text-question.model';
 import { QuestionVisitorModel } from './question-visitor.model';
 import { CompositeAnswer, CompositeQuestion } from '../composite-question/composite-question.model';
+import { QuestionOption } from './question.model';
 
 /**
  * Un visiteur qui permet la création d'un objet réponse compte tenu de la question et des données brutes extraites
@@ -110,7 +109,7 @@ export class FromSchemaToAnswerVisitor implements QuestionVisitorModel<Answer> {
   }
 
   visitDropdownQuestion(question: DropdownQuestion): Answer {
-    return new OptionAnswer(this.schemaAnswer as OptionAnswerSchema<string>);
+    return new OptionAnswer(this.schemaAnswer as SimpleAnswerSchema<QuestionOption<string>>);
   }
 
   visitNationaliteQuestion(question: NationaliteQuestion): Answer {
@@ -122,7 +121,7 @@ export class FromSchemaToAnswerVisitor implements QuestionVisitorModel<Answer> {
   }
 
   visitRadioQuestion(question: RadioQuestion): Answer {
-    return new OptionAnswer(this.schemaAnswer as OptionAnswerSchema<string>);
+    return new OptionAnswer(this.schemaAnswer as SimpleAnswerSchema<QuestionOption<string>>);
   }
 
   visitTauxQuestion(question: TauxQuestion): Answer {

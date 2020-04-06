@@ -238,6 +238,9 @@ export class QeliStateMachine {
     return this.state.done ? null : this.questions[this.state.currentQuestionIndex];
   }
 
+  /**
+   * Un {@link Observable} permettant d'écouter les changements de question.
+   */
   get onQuestionChangedEvent(): Observable<QeliQuestionDecorator<any>> {
     return this._onQuestionChangeEvents;
   }
