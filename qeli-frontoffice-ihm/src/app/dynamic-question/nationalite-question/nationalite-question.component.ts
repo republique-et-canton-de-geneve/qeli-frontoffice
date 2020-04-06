@@ -19,7 +19,8 @@ export class NationaliteQuestionComponent implements OnInit, QuestionComponent<N
   maxNumberOfNationalites = 3;
 
   ngOnInit() {
-    this.numberOfNationalites = this.form.value[this.question.key]['pays'].length;
+    const paysValues = this.form.value[this.question.key]['pays'];
+    this.numberOfNationalites = paysValues ? paysValues.length : 1;
   }
 
   onApatrideChanged() {

@@ -31,16 +31,12 @@ export class FormResultComponent {
   }
 
   get dejaPercues() {
-    return this.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite.prestation);
+    return this.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite);
   }
 
 
   get refusees() {
     return this.eligibilitesRefusees.filter(e => !e.dejaPercue);
-  }
-
-  get eligibiles() {
-    return this.eligibilites.map(eligibilite => eligibilite.prestation);
   }
 
   generatePDF() {

@@ -42,8 +42,7 @@ export class DateQuestionComponent implements QuestionComponent<DateAnswer>, Aft
   }
 
   get isShortcutSelected() {
-    return this.formGroup.value['shortcut'] !== null &&
-           this.formGroup.value['shortcut'] !== undefined;
+    return this.question.hasShortcuts && this.formGroup.value['shortcut'] !== 'NO_SHORTCUT';
   }
 
   get isDateValid() {

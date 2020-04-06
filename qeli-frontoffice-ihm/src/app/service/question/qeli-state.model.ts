@@ -37,7 +37,6 @@ export class NextQuestionFinder {
         return false;
       }
 
-      console.log(question.skip(formData, eligibilites));
       return question.skip === null ||
              question.skip === undefined ||
              !question.skip(formData, eligibilites);
@@ -60,7 +59,7 @@ export interface QeliStateSchema {
  */
 export class QeliState {
   /**
-   * Les données saisies dans le formulaire.
+   * Les données saisies dans le formulaire.f
    */
   formData: FormData;
 

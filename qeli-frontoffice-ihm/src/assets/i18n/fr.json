@@ -64,7 +64,7 @@
       },
       "prestation": {
         "SUBSIDES": {
-          "title": "Subsides d'assurance-maladie",
+          "title": "Subsides d'assurance-maladie pour {membre}",
           "content": "Le subside d'assurance-maladie est en principe attribué automatiquement en fonction du revenu déterminant unifié (RDU). Il permet de réduire le montant que vous devez payer pour l'assurance de base obligatoire."
         },
         "AVANCES": {
@@ -80,15 +80,15 @@
           "content": "Un logement HM correspond, de par son niveau de loyer à un appartement de type HLM. Toutefois, en lieu et place d'une subvention à l'exploitation versée au propriétaire de l'immeuble, l'Etat de Genève accorde, pendant 25 ans au maximum, une subvention aux locataires qui en remplissent les conditions d'octroi."
         },
         "PC_AVS_AI": {
-          "title": "Prestations complémentaires AVS/AI",
+          "title": "Prestations complémentaires AVS/AI pour {membre}",
           "content": "Les prestations complémentaires (PC) à l’assurance vieillesse et survivants (AVS) et à l’assurance invalidité (AI) sont accordées lorsque les rentes et autres revenus ne couvrent pas les besoins vitaux."
         },
         "BOURSES": {
-          "title": "Bourses d'études",
+          "title": "Bourses d'études pour {membre}",
           "content": "Vous avez besoin d'une aide financière pour entreprendre ou poursuivre une formation après la scolarité obligatoire? En fonction de votre situation familiale et personnelle, vous pourriez bénéficier d'une aide pour votre projet dans une école de formation générale (collège, ECG...) ou professionnelle, dans une Haute écoles spécialisée (HES) ou à l'Université."
         },
         "PC_FAM": {
-          "title": "Prestations complémentaires familiales",
+          "title": "Prestations complémentaires familiales pour {membre}",
           "content": "Les prestations complémentaires cantonales familiales garantissent un \"revenu minimum d'aide sociale\" aux ménages avec enfant-s. Elles sont destinées aux familles n'ayant pas les revenus suffisants pour couvrir leurs besoins vitaux."
         },
         "AIDE_SOCIALE": {
@@ -144,12 +144,12 @@
       "label": "Recevez-vous {numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
       "help": "En cas de doute sur une prestation, ne pas cocher la case concernée.<br>Si vous ne savez pas du tout si vous recevez des prestations et lesquelles, cocher \"Non\".",
       "option": {
-        "SUBSIDES": "{numberOfMemebres, select, 0{Subsides d'assurance-maladie (SAM)} other {{who, select, me{Je reçois} other{{ member } reçoit}} des subsides d'assurance-maladie}}",
+        "SUBSIDES": "{numberOfMemebres, select, 0{Subsides d'assurance-maladie (SAM)} other {{who, select, me{Je reçois} other{{ membre } reçoit}} des subsides d'assurance-maladie}}",
         "AVANCES": "Avance de pensions alimentaires (SCARPA)",
         "ALLOCATION_LOGEMENT": "Allocation logement (Office du logement)",
         "SUBVENTION_HM": "Subvention personnalisée d'habitation mixte (HM) (Office du logement)",
         "PC_AVS_AI": "Prestations complémentaires AVS/AI (SPC)",
-        "BOURSES": "{numberOfMemebres, select, 0{Bourses d'études (SBPE)} other {{who, select, me{Je reçois} other{{ member } reçoit}} une bourse d'études}}",
+        "BOURSES": "{numberOfMemebres, select, 0{Bourses d'études (SBPE)} other {{who, select, me{Je reçois} other{{ membre } reçoit}} une bourse d'études}}",
         "PC_FAM": "Prestations complémentaires familiales (SPC)",
         "AIDE_SOCIALE": "Aide sociale (Hospice général ou SPC)"
       },
@@ -175,7 +175,7 @@
     },
     "parentsEnfants": {
       "label": "Qui sont les parents des enfants vivant dans votre foyer ?",
-      "membre": "{prenom} est :",
+      "membre": "{ membre } est :",
       "option": {
         "MOI": "Mon enfant",
         "AUTRE_PARENT": "Celui de mon conjoint",
@@ -186,62 +186,52 @@
         "required": "Ce champ est obligatoire"
       }
     },
-    "nationalite": {
-      "label": "Quelle est votre nationalité ?",
-      "help": "Nationalité : Etat dont vous possédez un passeport.<br>Si vous avez plusieurs nationalités indiquez les toutes.",
-      "apatride": {
-        "label": "Je suis apatride",
-        "help": "Vous n'avez pas de nationalité (statut reconnu par l'OCPM : office cantonal de la population et de la migration)."
+    "situationMembre": {
+      "label": "Décrivez {who, select, me{votre situation} other{la situation de { membre }}} :",
+      "nationalite": {
+        "label": "Quelle est {who, select, me{votre nationalité} other{la nationalité de { membre }}} ?",
+        "help": "Nationalité : Etat dont {who, select, me{vous possédez} other{{ membre } possède}} un passeport.<br>Si {who, select, me{vous avez} other{{ membre } a}} plusieurs nationalités indiquez les toutes.",
+        "error": {
+          "required": "{who, select, me{Votre nationalité} other{La nationalité de { membre }}} nationalité doit être fournie"
+        }
       },
-      "error": {
-        "required": "Votre nationalité doit être fournie"
-      }
-    },
-    "refugie": {
-      "label": "Etes-vous",
-      "option": {
-        "REQUERANT_ASILE": {
-          "label": "Requérant d'asile",
-          "help": "Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM)."
+      "refugie": {
+        "label": "{who, select, me{Etes-vous} other{Est { membre }}} :",
+        "option": {
+          "REQUERANT_ASILE": {
+            "label": "Requérant d'asile",
+            "help": "{who, select, me{Vous avez} other{{ membre } a}} déposé une demande d’asile en Suisse et {who, select, me{attendez} other{attend}} une décision du Secrétariat d’Etat aux migrations (SEM)."
+          },
+          "REFUGIE": {
+            "label": "Réfugié",
+            "help": "{who, select, me{Vous avez} other{{ membre } a}} obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
+          },
+          "AUCUN": "Aucun des deux",
+          "INCONNU": "Je ne sais pas"
         },
-        "REFUGIE": {
-          "label": "Réfugié",
-          "help": "Vous avez obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
-        },
-        "AUCUN": "Aucun des deux",
-        "INCONNU": "Je ne sais pas"
+        "error": {
+          "required": "{who, select, me{Votre statut} other{Le statut de réfugié de { membre }}} doit être fourni"
+        }
       },
-      "error": {
-        "required": "Votre statut de réfugié doit être fourni"
-      }
-    },
-    "nationaliteConjoint": {
-      "label": " Quelle est la nationalité de votre conjoint ?",
-      "help": "Nationalité : Etat dont il/elle possède un passeport.<br>Conjoint : Personne avec laquelle vous êtes mariée ou en partenariat enregistré tel que déclaré à l'office cantonal de la population et des migrations (OCPM).",
-      "apatride": {
-        "label": "Mon conjoint est apatride",
-        "help": "Votre conjoint n'a pas de nationalité (statut reconnu par l'OCPM)."
-      },
-      "error": {
-        "required": "La nationalité de votre conjoint doit être fournie"
-      }
-    },
-    "refugieConjoint": {
-      "label": "Votre conjoint est-il",
-      "option": {
-        "REQUERANT_ASILE": {
-          "label": "Oui, il(elle) est requérant d'asile",
-          "help": "Il/elle a déposé une demande d’asile en Suisse et attend une décision du Secrétariat d’Etat aux migrations (SEM)."
+      "dateArriveeSuisse": {
+        "label": "Quelle est {who, select, me{votre date d'arrivée officielle en Suisse} other{la date d'arrivée officielle en Suisse de { membre }}} ?",
+        "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM).",
+        "shortcut": {
+          "NO_SHORTCUT": "{who, select, me{Ma date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de { membre }}} est le :",
+          "DEPUIS_NAISSANCE": "Depuis {who, select, me{ma} other{sa}} naissance",
+          "INCONNU": "Je ne sais pas"
         },
-        "REFUGIE": {
-          "label": "Oui, il(elle) est réfugié",
-          "help": "Il/elle a obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
+        "error": {
+          "required": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de { membre }}} doit être fournie",
+          "maxDate": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de { membre }}} ne peut pas être dans le futur",
+          "minDate": "Date d'arrivée en Suisse incorrecte",
+          "invalidDate": "Date d'arrivée en Suisse incorrecte",
+          "Mask error": ""
         },
-        "AUCUN": "Aucun des deux",
-        "INCONNU": "Je ne sais pas"
-      },
-      "error": {
-        "required": "Le statut de réfugié de votre conjoint doit être fourni"
+        "motifRefus": {
+          "BOURSES": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de { membre }}}  est trop récente",
+          "PC_AVS_AI": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de { membre }}}  est trop récente"
+        }
       }
     },
     "permisBEtudes": {
@@ -306,44 +296,6 @@
       },
       "motifRefus": {
         "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève"
-      }
-    },
-    "dateArriveeSuisse": {
-      "label": "Quelle est votre date d'arrivée officielle en Suisse ?",
-      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement annoncée à l'OCPM.",
-      "shortcut": {
-        "DEPUIS_NAISSANCE": "Depuis ma naissance",
-        "INCONNU": "Je ne sais pas"
-      },
-      "defaultShortcut": "Ma date officielle d'arrivée en Suisse est le :",
-      "error": {
-        "required": "Votre date d'arrivée en Suisse doit être fournie",
-        "maxDate": "Votre date d'arrivée en Suisse ne peut pas être dans le futur",
-        "minDate": "Date d'arrivée en Suisse incorrecte",
-        "invalidDate": "Date d'arrivée en Suisse incorrecte",
-        "Mask error": ""
-      },
-      "motifRefus": {
-        "BOURSES": "Votre date officielle d'arrivée en Suisse est trop récente",
-        "PC_AVS_AI": "Votre date officielle d'arrivée en Suisse est trop récente"
-      }
-    },
-    "dateArriveeSuisseConjoint": {
-      "label": "Quelle est la date d'arrivée officielle en Suisse de votre conjoint ?",
-      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement annoncée à l'OCPM.",
-      "shortcut": {
-        "INCONNU": "Je ne sais pas"
-      },
-      "defaultShortcut": "La date officielle d'arrivée en Suisse de mon conjoint est le :",
-      "error": {
-        "required": "La date d'arrivée en Suisse de votre conjoint doit être fournie",
-        "maxDate": "L date d'arrivée en Suisse de votre conjoint ne peut pas être dans le futur",
-        "minDate": "Date d'arrivée en Suisse incorrecte",
-        "invalidDate": "Date d'arrivée en Suisse incorrecte",
-        "Mask error": ""
-      },
-      "motifRefus": {
-        "PC_AVS_AI": "La date officielle d'arrivée en Suisse de votre conjoint est trop récente"
       }
     },
     "revenus": {
@@ -933,6 +885,10 @@
   "common": {
     "ajouterNationalite": "Ajouter une autre nationalité",
     "supprimerNationalite": "Supprimer cette nationalité",
+    "apatride": {
+      "label": "Apatride",
+      "help": "Personne n'ayant pas de nationalité (statut reconnu par l'OCPM : office cantonal de la population et de la migration)."
+    },
     "pays": {
       "af": "Afghanistan",
       "za": "Afrique du Sud",

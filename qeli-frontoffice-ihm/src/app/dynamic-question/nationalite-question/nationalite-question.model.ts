@@ -58,7 +58,8 @@ export class NationaliteQuestion extends Question<NationaliteAnswer> {
 
     group['apatride'] = new FormControl(defaultValue ? defaultValue.apatride : false);
     group['pays'] = new FormArray(
-      defaultValue && defaultValue.pays ? defaultValue.pays.map(pay => new FormControl(pay)) : [new FormControl()]
+      defaultValue && defaultValue.pays && defaultValue.pays.length > 0 ?
+      defaultValue.pays.map(pay => new FormControl(pay.value)) : [new FormControl()]
     );
 
     return new FormGroup(group, this.validators);
