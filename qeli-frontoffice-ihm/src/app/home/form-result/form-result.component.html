@@ -8,13 +8,13 @@
     </div>
   </div>
 
-  <div *ngIf="eligibiles.length > 0">
+  <div *ngIf="eligibilites.length > 0">
     <h3>{{ 'home.result.eligibilite.oui' | translate }}</h3>
-    <result-block *ngFor="let prestation of eligibiles"
+    <result-block *ngFor="let eligibilite of eligibilites"
                   type="success"
-                  title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}"
-                  [attr.data-cy-prestations-eligibles]="prestation">
-      <p>{{ 'home.result.prestation.' + prestation + '.content' | translate }}</p>
+                  title="{{ 'home.result.prestation.' + eligibilite.prestation + '.title'  | translate:{membre: eligibilite.membre.prenom} }}"
+                  [attr.data-cy-prestations-eligibles]="eligibilite.prestation">
+      <p>{{ 'home.result.prestation.' + eligibilite.prestation + '.content' | translate }}</p>
     </result-block>
   </div>
 
@@ -23,7 +23,7 @@
     <h3>{{ 'home.result.eligibilite.non' | translate }}</h3>
     <result-block *ngFor="let refus of refusees"
                   type="warning"
-                  title="{{ 'home.result.prestation.' + refus.eligibilite.prestation + '.title' | translate }}"
+                  title="{{ 'home.result.prestation.' + refus.eligibilite.prestation + '.title' | translate:{membre: refus.eligibilite.membre.prenom} }}"
                   subtitle="{{ refus.motif.key | translate:refus.motif.parameters }}"
                   [attr.data-cy-prestations-refusees]="refus.eligibilite.prestation">
       <p>{{ 'home.result.prestation.' + refus.eligibilite.prestation + '.content' | translate }}</p>
@@ -33,11 +33,11 @@
   <div *ngIf="dejaPercues.length > 0">
     <hr>
     <h3 *ngIf="dejaPercues.length > 0">{{ 'home.result.eligibilite.deja' | translate }}</h3>
-    <result-block *ngFor="let prestation of dejaPercues"
+    <result-block *ngFor="let eligibilite of dejaPercues"
                   type="info"
-                  title="{{ 'home.result.prestation.' + prestation + '.title' | translate }}"
-                  [attr.data-cy-prestations-percues]="prestation">
-      <p>{{ 'home.result.prestation.' + prestation + '.content' | translate }}</p>
+                  title="{{ 'home.result.prestation.' + eligibilite.prestation + '.title' | translate:{membre: eligibilite.membre.prenom} }}"
+                  [attr.data-cy-prestations-percues]="eligibilite.prestation">
+      <p>{{ 'home.result.prestation.' + eligibilite.prestation + '.content' | translate }}</p>
     </result-block>
     <hr>
   </div>

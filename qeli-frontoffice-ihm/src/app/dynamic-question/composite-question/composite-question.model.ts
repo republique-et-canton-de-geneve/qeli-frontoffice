@@ -23,17 +23,22 @@ export class CompositeAnswer extends Answer {
   }
 }
 
+export interface CompositeItem {
+  question: Question<any>;
+  isShown?: (value: any) => boolean;
+}
+
 export interface CompositeQuestionSchema extends QuestionSchema {
-  questions: Question<any>[];
+  items: CompositeItem[];
 }
 
 export class CompositeQuestion extends Question<CompositeAnswer> {
   controlType = COMPOSITE_CONTROL_TYPE;
-  questions: Question<any>[];
+  items: CompositeItem[];
 
   constructor(options: CompositeQuestionSchema) {
     super(options);
-    this.questions = options.questions;
+    this.items = options.items;
   }
 
   accept<E>(visitor: QuestionVisitorModel<E>): E {
@@ -43,10 +48,11 @@ export class CompositeQuestion extends Question<CompositeAnswer> {
   toFormControl(defaultValue?: CompositeAnswer): AbstractControl {
     let group: any = {};
 
-    this.questions.forEach(question => {
+    this.items.map(item => item.question).forEach(question => {
       group[question.key] = question.toFormControl(defaultValue ? defaultValue.answers[question.key] : null);
+
     });
 
-    return new FormGroup(group);
+    return new FormGroup(group, this.validators);
   }
 }

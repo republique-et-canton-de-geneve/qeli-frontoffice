@@ -55,7 +55,7 @@ export class PrestationQuestionService implements QuestionLoader {
                   key: `question.prestations.option.${prestation}`,
                   parameters: {
                     who: eligibilite.membre.id === 0 ? 'me' : 'them',
-                    member: eligibilite.membre.prenom,
+                    membre: eligibilite.membre.prenom,
                     numberOfMemebres: eligibiliteAsGroup.demandeur.membresFamille.length
                   }
                 }

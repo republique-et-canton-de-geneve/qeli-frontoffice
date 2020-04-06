@@ -23,18 +23,20 @@ export class EnfantsQuestionService implements QuestionLoader {
         key: 'parentsEnfants',
         dataCyIdentifier: '0506_parentsEnfants',
         label: {key: 'question.parentsEnfants.label'},
-
-        questions: enfants.map(enfant => new RadioQuestion({
-          key: `parentsEnfants_${enfant.id}`,
-          dataCyIdentifier: `0506_parentsEnfants_${enfant.id}`,
-          label: {
-            key: 'question.parentsEnfants.membre',
-            parameters: {prenom: enfant.prenom}
-          },
-          radioOptions: Object.keys(TypeEnfant).map(typeEnfant => ({
-            value: typeEnfant,
-            label: {key: `question.parentsEnfants.option.${typeEnfant}`}
-          }))
+        showErrors: false,
+        items: enfants.map(enfant => ({
+          question: new RadioQuestion({
+            key: `parentsEnfants_${enfant.id}`,
+            dataCyIdentifier: `0506_parentsEnfants_${enfant.id}`,
+            label: {
+              key: 'question.parentsEnfants.membre',
+              parameters: {membre: enfant.prenom}
+            },
+            radioOptions: Object.keys(TypeEnfant).map(typeEnfant => ({
+              value: typeEnfant,
+              label: {key: `question.parentsEnfants.option.${typeEnfant}`}
+            }))
+          })
         }))
       }),
       // TODO Enfants de moins de 25 ans
