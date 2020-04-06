@@ -38,6 +38,7 @@ export class TrackingService {
    */
   initMatomo() {
     this.matomoInjector.init(environment.matomoServer, environment.matomoSiteId);
+    this.matomoTracker.setSecureCookie(true);
   }
 
   /**
