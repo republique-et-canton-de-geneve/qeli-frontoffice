@@ -140,13 +140,6 @@
     }
   },
   "question": {
-    "reponseProgressive": {
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      }
-    },
     "prestations": {
       "label": "Recevez-vous {numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
       "help": "En cas de doute sur une prestation, ne pas cocher la case concernée.<br>Si vous ne savez pas du tout si vous recevez des prestations et lesquelles, cocher \"Non\".",
@@ -254,8 +247,8 @@
       }
     },
     "domicileCantonGE": {
-      "label": "Votre domicile officiel est-il dans le canton de Genève ?",
-      "help": "Domicile : vous avez une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
+      "label": "{who, select, me{Votre domicile officiel} other{Le domicile officiel de { membre }}} est-il dans le canton de Genève ?",
+      "help": "Domicile : {who, select, me{vous avez} other{{ membre } a}} une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
       "option": {
         "OUI": "Oui",
         "NON": "Non",
@@ -265,63 +258,30 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AVANCES": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève",
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève",
-        "PC_AVS_AI": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève",
-        "PC_FAM": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève",
-        "AIDE_SOCIALE": "Vous avez indiqué que votre domicile n'est pas dans le canton de Genève"
-      }
-    },
-    "domicileCantonGEConjoint": {
-      "label": "Le domicile officiel de votre conjoint.e est-il dans le canton de Genève ?",
-      "help": "Domicile : elle.il a une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM)",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
-      "error": {
-        "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "PC_FAM": "Vous avez indiqué que le domicile de votre conjoint n'est pas dans le canton de Genève"
+        "AVANCES": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de { membre }}} n'est pas dans le canton de Genève",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de { membre }}} n'est pas dans le canton de Genève",
+        "PC_AVS_AI": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de { membre }}} n'est pas dans le canton de Genève",
+        "PC_FAM": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de { membre }}} n'est pas dans le canton de Genève",
+        "AIDE_SOCIALE": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de { membre }}} n'est pas dans le canton de Genève"
       }
     },
     "dateArriveeGeneve": {
-      "label": "Quelle est la date officielle de votre arrivée à Genève ?",
-      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si vous êtes suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
+      "label": "Quelle est la date officielle {who, select, me{de votre arrivée à Genève} other{d'arrivée à Genève de { membre }}} ?",
+      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si {who, select, me{vous êtes} other{{ membre } est }} suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
       "shortcut": {
-        "DEPUIS_NAISSANCE": "Depuis ma naissance",
+        "NO_SHORTCUT": "{who, select, me{Ma date officielle d'arrivée à Genève} other{La date officielle d'arrivée à Genève de { membre }}} est le :",
+        "DEPUIS_NAISSANCE": "Depuis {who, select, me{ma} other{sa}} naissance",
         "INCONNU": "Je ne sais pas"
       },
-      "defaultShortcut": "Ma date officielle d'arrivée à Genève est le :",
       "error": {
-        "required": "Votre date d'arrivée à Genève doit être fournie",
-        "maxDate": "Votre date d'arrivée à Genève ne peut pas être dans le futur",
+        "required": "{who, select, me{Votre date officielle d'arrivée à Genève} other{La date officielle d'arrivée à Genève de { membre }}} doit être fournie",
+        "maxDate": "{who, select, me{Votre date officielle d'arrivée à Genève} other{La date officielle d'arrivée à Genève de { membre }}} ne peut pas être dans le futur",
         "minDate": "Date d'arrivée à Genève incorrecte",
         "invalidDate": "Date d'arrivée à Genève incorrecte",
         "Mask error": ""
       },
       "motifRefus": {
-        "PC_FAM": "Votre date officielle d'arrivée à Genève est trop récente"
-      }
-    },"dateArriveeGeneveConjoint": {
-      "label": "Quelle est la date officielle d'arrivée à Genève de votre conjoint ?",
-      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si il.elle est suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
-      "shortcut": {
-        "DEPUIS_NAISSANCE": "Depuis sa naissance",
-        "INCONNU": "Je ne sais pas"
-      },
-      "defaultShortcut": "La date officielle d'arrivée à Genève de mon conjoint est le :",
-      "error": {
-        "required": "La date d'arrivée à Genève de votre conjoint doit être fournie",
-        "maxDate": "La date d'arrivée à Genève de votre conjoint ne peut pas être dans le futur",
-        "minDate": "Date d'arrivée à Genève incorrecte",
-        "invalidDate": "Date d'arrivée à Genève incorrecte",
-        "Mask error": ""
-      },
-      "motifRefus": {
-        "PC_FAM": "La date officielle d'arrivée à Genève de votre conjoint est trop récente"
+        "PC_FAM": "{who, select, me{Votre date officielle d'arrivée à Genève} other{La date officielle d'arrivée à Genève de { membre }}} est trop récente"
       }
     },
     "residenceEffectiveCantonGE": {
@@ -928,6 +888,13 @@
     "apatride": {
       "label": "Apatride",
       "help": "Personne n'ayant pas de nationalité (statut reconnu par l'OCPM : office cantonal de la population et de la migration)."
+    },
+    "reponseProgressive": {
+      "option": {
+        "OUI": "Oui",
+        "NON": "Non",
+        "INCONNU": "Je ne sais pas"
+      }
     },
     "pays": {
       "af": "Afghanistan",

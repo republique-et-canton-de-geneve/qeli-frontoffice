@@ -15,7 +15,7 @@ import { RequerantRefugie } from './requerant-refugie.model';
 import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-question/date-question.model';
 import * as moment from 'moment';
 import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
-import { FormData } from '../../../dynamic-question/model/quesiton.model';
+import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { Pays, PAYS_AELE_UE } from '../../../dynamic-question/nationalite-question/pays.model';
 
