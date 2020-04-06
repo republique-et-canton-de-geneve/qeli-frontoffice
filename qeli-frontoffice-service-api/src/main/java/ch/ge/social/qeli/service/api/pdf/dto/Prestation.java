@@ -32,5 +32,5 @@ public enum Prestation {
   /**
    * Aide Sociale. Prestation valable seulement pour le demandeur.
    */
-  AIDE_SOCIALE;
+  AIDE_SOCIALE
 }
