@@ -1,7 +1,7 @@
 import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { Pays } from './pays.model';
 import { QuestionVisitorModel } from '../model/question-visitor.model';
-import { Question, QuestionOption, QuestionSchema } from '../model/quesiton.model';
+import { Question, QuestionOption, QuestionSchema } from '../model/question.model';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
 
@@ -58,7 +58,8 @@ export class NationaliteQuestion extends Question<NationaliteAnswer> {
 
     group['apatride'] = new FormControl(defaultValue ? defaultValue.apatride : false);
     group['pays'] = new FormArray(
-      defaultValue && defaultValue.pays ? defaultValue.pays.map(pay => new FormControl(pay)) : [new FormControl()]
+      defaultValue && defaultValue.pays && defaultValue.pays.length > 0 ?
+      defaultValue.pays.map(pay => new FormControl(pay.value)) : [new FormControl()]
     );
 
     return new FormGroup(group, this.validators);

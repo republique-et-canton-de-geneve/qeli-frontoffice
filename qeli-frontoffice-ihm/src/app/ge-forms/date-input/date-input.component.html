@@ -22,6 +22,7 @@
 
     <div class="input-group-addon has-btn">
       <button class="btn btn-info"
+              [attr.disabled]="disabled ? 'disabled' : null"
               type="button"
               (click)="showDatePicker = !showDatePicker">
         <i class="fa fa-calendar"></i>

@@ -1,5 +1,9 @@
-<app-dynamic-question *ngFor="let component of question.questions"
-                      disableDeepLink="true"
-                      [question]="component"
-                      [form]="formGroup">
-</app-dynamic-question>
+<div *ngFor="let component of question.items; last as isLast">
+  <app-dynamic-question disableDeepLink="true"
+                        *ngIf="!component.isShown || component.isShown(formGroup.value)"
+                        [question]="component.question"
+                        [form]="formGroup">
+  </app-dynamic-question>
+  <hr *ngIf="!isLast && (!component.isShown || component.isShown(formGroup.value))">
+</div>
+

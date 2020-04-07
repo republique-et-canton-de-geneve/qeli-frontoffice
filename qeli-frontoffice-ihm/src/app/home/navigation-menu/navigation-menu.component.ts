@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CategorieTree, SubcategorieTree } from './categorie-tree.model';
 import { FormatAnswerVisitor } from '../../dynamic-question/model/format-answer.visitor';
-import { FormData, Question } from '../../dynamic-question/model/quesiton.model';
+import { FormData, Question } from '../../dynamic-question/model/question.model';
 import { TranslateService } from '@ngx-translate/core';
 import { QeliQuestionDecorator } from '../../service/question/qeli-question-decorator.model';
 import { QeliStateMachine } from '../../service/question/qeli-state.model';

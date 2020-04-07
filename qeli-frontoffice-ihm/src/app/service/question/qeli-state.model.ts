@@ -1,6 +1,6 @@
 import { QeliQuestionDecorator } from './qeli-question-decorator.model';
 import { Answer } from '../../dynamic-question/model/answer.model';
-import { FormData, Question } from '../../dynamic-question/model/quesiton.model';
+import { FormData, Question } from '../../dynamic-question/model/question.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from './eligibilite.model';
 import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -37,7 +37,6 @@ export class NextQuestionFinder {
         return false;
       }
 
-      console.log(question.skip(formData, eligibilites));
       return question.skip === null ||
              question.skip === undefined ||
              !question.skip(formData, eligibilites);
@@ -60,7 +59,7 @@ export interface QeliStateSchema {
  */
 export class QeliState {
   /**
-   * Les données saisies dans le formulaire.
+   * Les données saisies dans le formulaire.f
    */
   formData: FormData;
 
@@ -239,6 +238,9 @@ export class QeliStateMachine {
     return this.state.done ? null : this.questions[this.state.currentQuestionIndex];
   }
 
+  /**
+   * Un {@link Observable} permettant d'écouter les changements de question.
+   */
   get onQuestionChangedEvent(): Observable<QeliQuestionDecorator<any>> {
     return this._onQuestionChangeEvents;
   }

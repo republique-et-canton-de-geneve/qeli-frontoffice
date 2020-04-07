@@ -4,7 +4,7 @@ import { DATE_CONTROL_TYPE, DateAnswer, DateQuestion } from './date-question.mod
 import { FormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { DateInputComponent } from '../../ge-forms/date-input/date-input.component';
-import { QuestionOption } from '../model/quesiton.model';
+import { QuestionOption } from '../model/question.model';
 
 @RegisterQuestionComponent(DATE_CONTROL_TYPE)
 @Component({
@@ -42,8 +42,7 @@ export class DateQuestionComponent implements QuestionComponent<DateAnswer>, Aft
   }
 
   get isShortcutSelected() {
-    return this.formGroup.value['shortcut'] !== null &&
-           this.formGroup.value['shortcut'] !== undefined;
+    return this.question.hasShortcuts && this.formGroup.value['shortcut'] !== 'NO_SHORTCUT';
   }
 
   get isDateValid() {

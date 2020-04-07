@@ -1,11 +1,12 @@
 import { AnswerVisitor } from './answer-visitor.model';
-import { QuestionOption } from './quesiton.model';
-import { CHECKBOX_GROUP_CONTROL_TYPE } from '../checkbox-group-question/checkbox-group-question.model';
+import { QuestionOption } from './question.model';
 
 /**
  * Un modèle représentant la réponse de l'utilistateur à une question.
  */
 export abstract class Answer {
+  type: string;
+
   /**
    * Accepte le visiteur donné et exécute la fonction de visite pour ce type de réponse.
    *
@@ -14,13 +15,26 @@ export abstract class Answer {
   abstract accept<E>(visitor: AnswerVisitor<E>): E;
 }
 
+/**
+ * Le schema d'une réponse simple.
+ */
+export interface SimpleAnswerSchema<T> {
+  /**
+   * La valeur ce cette réponse.
+   */
+  value: T;
+}
+
+/**
+ * Une réponse simple qui contient du texte.
+ */
 export class StringAnswer extends Answer {
   type = "string";
   value: string;
 
-  constructor(value: string) {
+  constructor(options: SimpleAnswerSchema<string>) {
     super();
-    this.value = value;
+    this.value = options.value;
   }
 
   accept<E>(visitor: AnswerVisitor<E>): E {
@@ -28,13 +42,16 @@ export class StringAnswer extends Answer {
   }
 }
 
+/**
+ * Une réponse simple qui contient un nombre.
+ */
 export class NumberAnswer extends Answer {
   type = "number";
   value: number;
 
-  constructor(value: number) {
+  constructor(options: SimpleAnswerSchema<number>) {
     super();
-    this.value = value;
+    this.value = options.value;
   }
 
   accept<E>(visitor: AnswerVisitor<E>): E {
@@ -42,13 +59,16 @@ export class NumberAnswer extends Answer {
   }
 }
 
+/**
+ * Une réponse simple qui contient une option.
+ */
 export class OptionAnswer<T> extends Answer {
   type = "option";
-  option: QuestionOption<T>;
+  value: QuestionOption<T>;
 
-  constructor(option: QuestionOption<T>) {
+  constructor(options: SimpleAnswerSchema<QuestionOption<T>>) {
     super();
-    this.option = option;
+    this.value = options.value;
   }
 
   accept<E>(visitor: AnswerVisitor<E>): E {

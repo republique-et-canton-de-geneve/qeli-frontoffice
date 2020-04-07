@@ -2,10 +2,11 @@ import { CheckboxGroupAnswer } from '../checkbox-group-question/checkbox-group-q
 import { DateAnswer } from '../date-question/date-question.model';
 import { NationaliteAnswer } from '../nationalite-question/nationalite-question.model';
 import { TranslateService } from '@ngx-translate/core';
-import { QuestionOption } from './quesiton.model';
+import { QuestionOption } from './question.model';
 import { AnswerVisitor } from './answer-visitor.model';
 import { NumberAnswer, OptionAnswer, StringAnswer } from './answer.model';
 import { CompositeAnswer } from '../composite-question/composite-question.model';
+import * as moment from 'moment';
 
 export class FormatAnswerVisitor implements AnswerVisitor<string> {
   constructor(private translate: TranslateService) {
@@ -24,11 +25,19 @@ export class FormatAnswerVisitor implements AnswerVisitor<string> {
   }
 
   visitDateAnswer(answer: DateAnswer): string {
-    return undefined;
+    if (answer.shortcut && answer.shortcut.value === 'NO_SHORTCUT') {
+      return moment(answer.value).format('DD.MM.YYYY');
+    } else {
+      return this.translateOption(answer.shortcut);
+    }
   }
 
   visitNationaliteAnswer(answer: NationaliteAnswer): string {
-    return undefined;
+    if (!answer.apatride) {
+      return answer.pays.map(option => this.translateOption(option)).join(', ');
+    } else {
+      return this.translate.instant('common.apatride.label');
+    }
   }
 
   visitNumberAnswer(answer: NumberAnswer): string {
@@ -40,7 +49,7 @@ export class FormatAnswerVisitor implements AnswerVisitor<string> {
   }
 
   visitOptionAnswer<E>(answer: OptionAnswer<E>): string {
-    return this.translateOption(answer.option);
+    return this.translateOption(answer.value);
   }
 
   visitCompositeAnswer(answer: CompositeAnswer): string {

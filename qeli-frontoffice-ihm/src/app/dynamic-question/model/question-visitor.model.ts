@@ -4,7 +4,6 @@ import { DropdownQuestion } from '../dropdown-question/dropdown-question.model';
 import { NationaliteQuestion } from '../nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../radio-question/radio-question.model';
 import { TextQuestion } from '../text-question/text-question.model';
-import { NumberGroupQuestion } from '../number-group-question/number-group-question.model';
 import { NumberQuestion } from '../number-question/number-question.model';
 import { TauxQuestion } from '../taux-question/taux-question.model';
 import { CompositeQuestion } from '../composite-question/composite-question.model';
@@ -87,18 +86,9 @@ export interface QuestionVisitorModel<T> {
   visitTextQuestion(question: TextQuestion): T;
 
   /**
-   * Une méthode pour visiter les question du type: {@link NumberGroupQuestion}.
-   *
-   * @param {NumberGroupQuestion} question la question à visiter
-   *
-   * @return le résultat du traitement de la question.
-   */
-  visitNumberGroupQuestion(question: NumberGroupQuestion): T;
-
-  /**
    * Une méthode pour visiter les question du type: {@link CompositeQuestion}.
    *
-   * @param {NumberGroupQuestion} question la question à visiter
+   * @param {CompositeQuestion} question la question à visiter
    *
    * @return le résultat du traitement de la question.
    */

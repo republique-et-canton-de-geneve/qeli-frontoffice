@@ -10,7 +10,6 @@ import { QuestionDirective } from './model/question.directive';
 import { RadioQuestionComponent } from './radio-question/radio-question.component';
 import { TauxQuestionComponent } from './taux-question/taux-question.component';
 import { TextQuestionComponent } from './text-question/text-question.component';
-import { NumberGroupQuestionComponent } from './number-group-question/number-group-question.component';
 import { CoreModule } from '../core/core.module';
 import { DeepLinkModule } from '../deep-link/deep-link.module';
 import { CompositeQuestionComponent } from './composite-question/composite-question.component';
@@ -35,8 +34,7 @@ import { CompositeQuestionComponent } from './composite-question/composite-quest
     QuestionDirective,
     RadioQuestionComponent,
     TauxQuestionComponent,
-    TextQuestionComponent,
-    NumberGroupQuestionComponent
+    TextQuestionComponent
   ],
   entryComponents: [
     CheckboxGroupQuestionComponent,
@@ -48,8 +46,7 @@ import { CompositeQuestionComponent } from './composite-question/composite-quest
     NumberQuestionComponent,
     RadioQuestionComponent,
     TauxQuestionComponent,
-    TextQuestionComponent,
-    NumberGroupQuestionComponent
+    TextQuestionComponent
   ]
 })
 export class DynamicQuestionModule {
