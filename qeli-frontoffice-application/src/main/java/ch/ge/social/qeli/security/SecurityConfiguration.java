@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .permitAll()
         .and().headers().contentSecurityPolicy("default-src 'self' ge.ch *.etat-ge.ch demo.ge.ch 'unsafe-inline'; " +
                                                "script-src 'self' ge.ch *.etat-ge.ch demo.ge.ch 'unsafe-inline' " +
-                                               "'unsafe-eval'; connect-src 'self' ge.ch;")
+                                               "'unsafe-eval'; connect-src 'self' ge.ch; object-src 'none'; ")
         .and().referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
         .and().frameOptions().sameOrigin()
         .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());

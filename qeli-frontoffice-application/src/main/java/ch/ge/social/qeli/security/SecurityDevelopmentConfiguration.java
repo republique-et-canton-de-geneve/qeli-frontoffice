@@ -21,7 +21,7 @@ public class SecurityDevelopmentConfiguration extends WebSecurityConfigurerAdapt
         .permitAll()
         .and().headers().contentSecurityPolicy("default-src 'self' ge.ch *.etat-ge.ch demo.ge.ch 'unsafe-inline'; " +
                                                "script-src 'self' ge.ch *.etat-ge.ch demo.ge.ch 'unsafe-inline' " +
-                                               "'unsafe-eval'; connect-src 'self' ge.ch;")
+                                               "'unsafe-eval'; connect-src 'self' ge.ch; object-src 'none'; ")
         .and().frameOptions().sameOrigin()
         .and().csrf().disable();
   }
