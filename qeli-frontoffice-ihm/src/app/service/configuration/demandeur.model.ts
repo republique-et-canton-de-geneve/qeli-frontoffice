@@ -11,6 +11,9 @@ export enum Relation {
   ENFANT                = 'ENFANT'
 }
 
+/**
+ * Un enum représentant les états civils possibles du demandeur.
+ */
 export enum EtatCivil {
   CELIBATAIRE            = 'CELIBATAIRE',
   MARIE                  = 'MARIE',
@@ -28,11 +31,33 @@ export interface DemandeurSchema {
   membresFamille?: MembreFamille[];
 }
 
+/**
+ * Un modèle représentant la personne qui fait une demande auprès du questionnaire d'éligibilité.
+ */
 export class Demandeur {
+  /**
+   * Un identifiant unique entre les membres du foyer, pour le demandeur cette valuer est toujours 0.
+   */
   id: number;
+
+  /**
+   * Le prénom. Ce prénom apparaît sur l'écran pour identifier la personne.
+   */
   prenom: string;
+
+  /**
+   * L'état civil du demandeur.
+   */
   etatCivil: EtatCivil;
+
+  /**
+   * La data de naissance.
+   */
   dateNaissance: Date;
+
+  /**
+   * Les membres qui composent le foyer du demandeur.
+   */
   membresFamille: MembreFamille[];
 
   constructor(options: DemandeurSchema) {
@@ -43,6 +68,9 @@ export class Demandeur {
     this.membresFamille = options.membresFamille || [];
   }
 
+  /**
+   * Crée une nouvelle matrice d'éligibilité pour ce Demandeur et les membres de son foyer.
+   */
   toEligibilite(): Eligibilite[] {
     const eligibilites: Eligibilite[] = [];
 
@@ -66,13 +94,6 @@ export class Demandeur {
   }
 }
 
-export interface MembreFamille {
-  id: number;
-  prenom: string;
-  relation: Relation;
-  dateNaissance: Date;
-}
-
 function getElibiliteByMembre(relation: Relation) {
   const prestations = [Prestation.SUBSIDES, Prestation.BOURSES];
 
@@ -86,4 +107,30 @@ function getElibiliteByMembre(relation: Relation) {
   }
 
   return prestations;
+}
+
+/**
+ * Un modèle représentant un membre de la famille du demandeur habitant sous le même foyer.
+ */
+export interface MembreFamille {
+  /**
+   * Un identifiant unique entre les membres du foyer, pour les membre autres que le demandeur cette valuer est
+   * toujours plus grande que 0.
+   */
+  id: number;
+
+  /**
+   * Le prénom. Ce prénom apparaît sur l'écran pour identifier la personne.
+   */
+  prenom: string;
+
+  /**
+   * La relation entre ce membre et le demandeur.
+   */
+  relation: Relation;
+
+  /**
+   * La data de naissance.
+   */
+  dateNaissance: Date;
 }

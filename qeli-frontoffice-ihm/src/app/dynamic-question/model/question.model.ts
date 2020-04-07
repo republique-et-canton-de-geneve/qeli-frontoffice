@@ -7,12 +7,13 @@ import { I18nString } from '../../core/i18n/i18nstring.model';
  * Les réponses du formulaire en clé valeur. La clé de chaque élément correspond à une clé de question.
  */
 export interface FormData {
-  [key: string]: Answer
+  [key: string]: Answer;
 }
 
 export interface QuestionSchema {
   key: string;
   required?: boolean;
+  showErrors?: boolean;
   dataCyIdentifier: string;
   label: I18nString;
   help?: I18nString;
@@ -38,6 +39,11 @@ export abstract class Question<T extends Answer> {
    * S'il est obligatoire de donnée une réponse à cette question (par défaut: true).
    */
   required: boolean = true;
+
+  /**
+   * Si les messages d'erreurs sont montrés au plus au niveau de la question ou pas.
+   */
+  showErrors: boolean = true;
 
   /**
    * L'idéntifiant cypress de cette question. Cet identifiant est utilisé dans le test d'intégration Cypress.
@@ -69,6 +75,7 @@ export abstract class Question<T extends Answer> {
   protected constructor(options: QuestionSchema) {
     this.key = options.key;
     this.required = options.required !== null && options.required !== undefined ? options.required : true;
+    this.showErrors = options.showErrors !== null && options.showErrors !== undefined ? options.showErrors : true;
     this.dataCyIdentifier = options.dataCyIdentifier;
     this.label = options.label;
     this.help = options.help;
@@ -119,13 +126,12 @@ export abstract class StringQuestion extends Question<StringAnswer> {
   }
 }
 
-
 /**
  * Un modèle de question avec une réponse simple en form de string.
  */
 export abstract class OptionQuestion<T> extends Question<OptionAnswer<T>> {
   toFormControl(defaultValue?: OptionAnswer<T>): AbstractControl {
-    return new FormControl(defaultValue && defaultValue.option ? defaultValue.option.value : null, this.validators);
+    return new FormControl(defaultValue && defaultValue.value ? defaultValue.value.value : null, this.validators);
   }
 }
 

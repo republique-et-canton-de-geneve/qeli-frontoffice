@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { CheckboxGroupAnswer } from '../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 import { DateAnswer } from '../../dynamic-question/date-question/date-question.model';
 import { NationaliteAnswer } from '../../dynamic-question/nationalite-question/nationalite-question.model';
-import { FormData, Question } from '../../dynamic-question/model/quesiton.model';
+import { FormData, Question } from '../../dynamic-question/model/question.model';
 import { AnswerVisitor } from '../../dynamic-question/model/answer-visitor.model';
 import { Answer, NumberAnswer, OptionAnswer, StringAnswer } from '../../dynamic-question/model/answer.model';
 import { QeliState } from '../question/qeli-state.model';
@@ -155,7 +155,7 @@ class IsInconnuAnswerVisitor implements AnswerVisitor<boolean> {
   }
 
   visitDateAnswer(answer: DateAnswer): boolean {
-    return answer.shortcut === 'INCONNU';
+    return answer.shortcut && answer.shortcut.value === 'INCONNU';
   }
 
   visitNationaliteAnswer(answer: NationaliteAnswer): boolean {
@@ -167,7 +167,7 @@ class IsInconnuAnswerVisitor implements AnswerVisitor<boolean> {
   }
 
   visitOptionAnswer<E>(answer: OptionAnswer<E>): boolean {
-    const value = answer.option ? answer.option.value : null;
+    const value = answer.value ? answer.value.value : null;
 
     if (value && typeof value === 'string') {
       return value === 'INCONNU';

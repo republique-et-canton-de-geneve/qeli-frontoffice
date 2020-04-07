@@ -1,4 +1,4 @@
-import { FormData, Question } from '../../dynamic-question/model/quesiton.model';
+import { FormData, Question } from '../../dynamic-question/model/question.model';
 import { Answer } from '../../dynamic-question/model/answer.model';
 import { Eligibilite, EligibiliteRefusee } from './eligibilite.model';
 
@@ -13,7 +13,7 @@ export interface RefusEligibiliteFn {
    * @param formData les données saisies dans le formulaire.
    * @param eligibilites les éligibilités encore possibles.
    *
-   * @return les nouvelles éligibilités refusées ou une liste vide si aucune éligibilité n'a pas été refusée.
+   * @return les nouvelles éligibilités refusées ou une liste vide si aucune éligibilité n'a été refusée.
    */
   (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[];
 }

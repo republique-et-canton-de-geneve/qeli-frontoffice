@@ -1,4 +1,4 @@
-import { Question } from '../../dynamic-question/model/quesiton.model';
+import { Question } from '../../dynamic-question/model/question.model';
 
 export interface CategorieTree {
   name: string,

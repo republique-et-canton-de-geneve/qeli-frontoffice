@@ -3,24 +3,23 @@ import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/f
 import { DateValidators } from '../../ge-forms/date.validators';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
-import { Question, QuestionOption, QuestionSchema } from '../model/quesiton.model';
-import { CHECKBOX_GROUP_CONTROL_TYPE } from '../checkbox-group-question/checkbox-group-question.model';
+import { Question, QuestionOption, QuestionSchema } from '../model/question.model';
 
 export const DATE_CONTROL_TYPE = 'date';
 
 export interface DateAnswerSchema {
-  shortcut?: 'NO_SHORTCUT' | string;
-  value: string;
+  shortcut?: QuestionOption<'NO_SHORTCUT' | string>;
+  value: Date;
 }
 
 export class DateAnswer extends Answer {
   type = DATE_CONTROL_TYPE;
-  shortcut: 'NO_SHORTCUT' | string;
-  value: string;
+  shortcut?: QuestionOption<'NO_SHORTCUT' | string>;
+  value: Date;
 
   constructor(options: DateAnswerSchema) {
     super();
-    this.shortcut = options.shortcut || 'NO_SHORTCUT';
+    this.shortcut = options.shortcut;
     this.value = options.value;
   }
 
@@ -30,19 +29,32 @@ export class DateAnswer extends Answer {
 }
 
 export interface DateQuestionSchema extends QuestionSchema {
-  shortcuts?: QuestionOption<string>[];
+  shortcuts?: QuestionOption<'NO_SHORTCUT' | string>[];
   maxDate?: Date;
   minDate?: Date;
+}
+
+export class MissingNoShortcutOption extends Error {
+  constructor(message?: string) {
+    super(message);
+  }
 }
 
 export class DateQuestion extends Question<DateAnswer> {
   controlType = DATE_CONTROL_TYPE;
   maxDate: Date;
   minDate: Date;
-  shortcuts: QuestionOption<string>[];
+  shortcuts: QuestionOption<'NO_SHORTCUT' | string>[];
 
   constructor(options: DateQuestionSchema) {
     super(options);
+
+    if (options.shortcuts.length > 0 &&
+        options.shortcuts.filter(shortcut => shortcut.value === 'NO_SHORTCUT').length !== 1) {
+      throw new MissingNoShortcutOption(
+        "Une option et seulement une option de raccourci avec la valeur 'NO_SHORTCUT' " +
+        "est obligatoire lors de l'utilisation de cette fonctionnalité.");
+    }
 
     this.shortcuts = options.shortcuts ? options.shortcuts : [];
     this.minDate = options.minDate ? options.minDate : null;
@@ -68,7 +80,9 @@ export class DateQuestion extends Question<DateAnswer> {
     let group: any = {};
 
     if (this.shortcuts && this.shortcuts.length > 0) {
-      group['shortcut'] = new FormControl(defaultValue ? defaultValue.shortcut : null);
+      group['shortcut'] = new FormControl(
+        defaultValue && defaultValue.shortcut ? defaultValue.shortcut.value : 'NO_SHORTCUT'
+      );
     }
 
     let dateValidators: ValidatorFn[] = [];
@@ -93,5 +107,21 @@ export class DateQuestion extends Question<DateAnswer> {
 
   accept<E>(visitor: QuestionVisitorModel<E>): E {
     return visitor.visitDateQuestion(this);
+  }
+
+  findShortcutByValue(value: 'NO_SHORTCUT' | string) {
+    return this.shortcuts.find(option => option.value === value);
+  }
+
+  get hasShortcuts() {
+    return this.shortcuts.length > 0;
+  }
+
+  get noShortcutOption() {
+    return this.findShortcutByValue('NO_SHORTCUT');
+  }
+
+  get shortcutOptions() {
+    return this.shortcuts.filter(shortcut => shortcut.value !== 'NO_SHORTCUT');
   }
 }

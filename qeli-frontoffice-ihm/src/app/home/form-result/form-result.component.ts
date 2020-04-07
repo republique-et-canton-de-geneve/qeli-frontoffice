@@ -3,7 +3,7 @@ import { Eligibilite, EligibiliteRefusee } from '../../service/question/eligibil
 import { QeliStateMachine } from '../../service/question/qeli-state.model';
 import { TranslateService } from '@ngx-translate/core';
 import { PDFGenerationService } from '../../service/pdf-generation.service';
-import { FormData } from '../../dynamic-question/model/quesiton.model';
+import { FormData } from '../../dynamic-question/model/question.model';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -31,16 +31,12 @@ export class FormResultComponent {
   }
 
   get dejaPercues() {
-    return this.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite.prestation);
+    return this.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite);
   }
 
 
   get refusees() {
     return this.eligibilitesRefusees.filter(e => !e.dejaPercue);
-  }
-
-  get eligibiles() {
-    return this.eligibilites.map(eligibilite => eligibilite.prestation);
   }
 
   generatePDF() {

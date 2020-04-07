@@ -1,5 +1,5 @@
 import { QuestionVisitorModel } from '../model/question-visitor.model';
-import { OptionQuestion, QuestionOption, QuestionSchema } from '../model/quesiton.model';
+import { OptionQuestion, QuestionOption, QuestionSchema } from '../model/question.model';
 
 export const DROPDOWN_CONTROL_TYPE = 'dropdown';
 

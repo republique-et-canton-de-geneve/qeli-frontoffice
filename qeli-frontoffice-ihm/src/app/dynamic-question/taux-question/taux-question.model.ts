@@ -1,10 +1,11 @@
 import { QuestionVisitorModel } from '../model/question-visitor.model';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Question, QuestionSchema } from '../model/quesiton.model';
+import { Question, QuestionSchema } from '../model/question.model';
 import { NumberAnswer } from '../model/answer.model';
 
 export const TAUX_CONTROL_TYPE = 'taux';
 
+// TODO NumberAnswer n'est pas suffisant ici à cause de la coche: 'other'
 export class TauxQuestion extends Question<NumberAnswer> {
   controlType = TAUX_CONTROL_TYPE;
 

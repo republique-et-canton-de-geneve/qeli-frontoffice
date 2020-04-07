@@ -4,15 +4,15 @@
        [attr.data-cy]="question.dataCyIdentifier"
        data-cy-type="date">
 
-    <div class="radio" *ngIf="question.shortcuts.length > 0">
+    <div class="radio" *ngIf="question.hasShortcuts">
       <label>
         <input type="radio"
-               [value]="null"
+               [value]="question.noShortcutOption.value"
                formControlName="shortcut"
                (change)="onShortcutChanged($event.currentTarget.checked, null)"
-               data-cy="NO_SHORTCUT"
+               [attr.data-cy]="question.noShortcutOption.value"
                data-matomo-ignore>
-        {{ 'question.' + question.key + '.defaultShortcut' | translate }}
+        {{ question.noShortcutOption.label.key | translate:question.noShortcutOption.label.parameters }}
       </label>
     </div>
 
@@ -32,7 +32,7 @@
                     #dateInputComponent>
     </app-date-input>
 
-    <div *ngFor="let shortcut of question.shortcuts">
+    <div *ngFor="let shortcut of question.shortcutOptions">
       <hr>
       <div class="radio">
         <label>
