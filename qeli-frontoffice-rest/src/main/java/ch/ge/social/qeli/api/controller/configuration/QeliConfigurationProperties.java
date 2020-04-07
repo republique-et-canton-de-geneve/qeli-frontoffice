@@ -3,8 +3,9 @@ package ch.ge.social.qeli.api.controller.configuration;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +13,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * La configuration des paramètres du questionnaire d'éligibilité.
  */
-@Setter
-@Getter
+@Data
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties("social.tools.qeli")
@@ -79,4 +79,31 @@ public class QeliConfigurationProperties {
    */
   @JsonProperty
   private int taxationAfcYearsFromNow = 2;
+
+  /**
+   * Le nombre d'années écoulées depuis la dernière taxation AFC pertinente.
+   */
+  @JsonProperty
+  @NotNull
+  @Valid
+  private MatomoConfiguration matomo;
+
+  /**
+   * Configuration Matomo.
+   */
+  @Data
+  public static class MatomoConfiguration {
+    /**
+     * L'addresse du server Matomo.
+     */
+    @JsonProperty
+    @NotNull
+    private String server;
+
+    /**
+     * L'id Matomo de cette application.
+     */
+    @JsonProperty
+    private int siteId;
+  }
 }

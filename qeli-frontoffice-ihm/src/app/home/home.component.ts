@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.qeliConfigurationService.loadConfiguration().subscribe(configuration => {
       this.qeliConfiguration = configuration;
+      this.trackingService.initMatomo(configuration);
 
       this.route.queryParams.subscribe(params => {
         //if (this.firstLoad) {
@@ -76,13 +77,15 @@ export class HomeComponent implements OnInit {
 
   onNextQuestion() {
     if (this.qeliForm && this.qeliForm.isCurrentQuestionValid()) {
-      this.trackingService.trackAnswer(this.qeliStateMachine.currentQuestion.question, this.qeliForm.currentAnswer);
+      this.trackingService.trackReponseInconnu(
+        this.qeliStateMachine.currentQuestion.question,
+        this.qeliForm.currentAnswer
+      );
       this.qeliStateMachine.answerAndGetNextQuestion(this.qeliForm.currentAnswer);
 
       if (this.qeliStateMachine.state.done) {
         this.trackingService.trackQeliResult(
           this.qeliStateMachine.state,
-          this.qeliStateMachine.questions.map(decorator => decorator.question),
           this.qeliForm.formElement.nativeElement
         );
       } else {
@@ -110,18 +113,5 @@ export class HomeComponent implements OnInit {
     if (event.key === "Enter" && this.isCurrentQuestionValid()) {
       this.nextQuestion();
     }
-  }*/
-
-  /**
-   * Formate les données de l'état du formulaire dans le format attendu par le queryParam
-   */
-  /*private formStateToQueryParam(): {} {
-    return {
-      v: this.formState.data,
-      pr: this.formState.prestationsRefusees,
-      prs: this.formState.prestationsRefuseesStack,
-      ihs: this.formState.indexHistory,
-      cqi: this.formState.currentIndex
-    };
   }*/
 }

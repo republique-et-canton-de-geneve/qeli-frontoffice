@@ -18,6 +18,10 @@ social.tools:
     max-limite-fortune: 10000
     taxation-afc-years-from-now: 2
 
+    matomo:
+      server: ***REMOVED***
+      site-id: 15
+
 spring:
   application:
     admin:
