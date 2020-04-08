@@ -106,6 +106,7 @@
         <xmlschema-core.version>2.2.4</xmlschema-core.version>
         <mustache.version>0.9.6</mustache.version>
         <OutilsRapportDialogue.version>1.5</OutilsRapportDialogue.version>
+        <log4j.version>2.7</log4j.version>
 
         <!-- Test dependencies versions -->
         <cglib.version>3.2.9</cglib.version>
@@ -182,6 +183,21 @@
                 <groupId>org.apache.ws.xmlschema</groupId>
                 <artifactId>xmlschema-core</artifactId>
                 <version>${xmlschema-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
 
             <!-- Test dependencies -->
