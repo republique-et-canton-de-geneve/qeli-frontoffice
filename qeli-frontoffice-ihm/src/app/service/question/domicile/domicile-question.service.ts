@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader } from '../question-loader';
+import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { Demandeur, MembreFamille, Relation } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
-import { ReponseProgressive } from '../reponse-binaire.model';
+import { ReponseBinaire, ReponseProgressive } from '../reponse-binaire.model';
 import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-question/date-question.model';
 import * as moment from 'moment';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
-import { I18nString } from '../../../core/i18n/i18nstring.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +27,7 @@ export class DomicileQuestionService implements QuestionLoader {
       )
     );
 
-    return membres.map((membre): QeliQuestionDecorator<any>[] => {
+    const questions = membres.map((membre): QeliQuestionDecorator<any>[] => {
       const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
       return [{
         question: new RadioQuestion({
@@ -41,7 +40,7 @@ export class DomicileQuestionService implements QuestionLoader {
           inline: true,
           radioOptions: Object.keys(ReponseProgressive).map(reponse => ({
             value: reponse,
-            label: {key: `common.reponseProgressive.option.${reponse}`}
+            label: {key: `common.reponseProgressive.${reponse}`}
           }))
         }),
         calculateRefus: this.calculateDomicileCantonGERefusFn(membre),
@@ -93,9 +92,34 @@ export class DomicileQuestionService implements QuestionLoader {
         subcategorie: Subcategorie.DOMICILE
       }];
     }).reduce((result, current) => result.concat(current), []);
+
+    questions.push({
+      question: new RadioQuestion({
+        key: 'residenceEffectiveCantonGE',
+        dataCyIdentifier: '0504_residenceEffectiveCantonGE',
+        label: {key: 'question.residenceEffectiveCantonGE.label'},
+        help: {key: 'question.residenceEffectiveCantonGE.help'},
+        inline: true,
+        radioOptions: Object.keys(ReponseBinaire).map(reponse => ({
+          value: reponse,
+          label: {key: `common.reponseBinaire.${reponse}`}
+        }))
+      }),
+      calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
+        'residenceEffectiveCantonGE',
+        ReponseBinaire.NON,
+        Prestation.AIDE_SOCIALE,
+        {key: `question.residenceEffectiveCantonGE.motifRefus.${Prestation.AIDE_SOCIALE}`}
+      ),
+      eligibilites: eligibiliteGroup.findByPrestation(Prestation.AIDE_SOCIALE),
+      categorie: Categorie.SITUATION_PERSONELLE,
+      subcategorie: Subcategorie.DOMICILE
+    });
+
+    return questions;
   }
 
-  calculateDomicileCantonGERefusFn(membre: MembreFamille | Demandeur) {
+  private calculateDomicileCantonGERefusFn(membre: MembreFamille | Demandeur) {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const choosenOption = (formData[`domicileCantonGE_${membre.id}`] as OptionAnswer<string>).value;
 
@@ -116,7 +140,7 @@ export class DomicileQuestionService implements QuestionLoader {
     };
   }
 
-  calculatesDateArriveeGeneveRefusFn(membre: MembreFamille | Demandeur) {
+  private calculatesDateArriveeGeneveRefusFn(membre: MembreFamille | Demandeur) {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const dateArriveeGeneveAnswer = formData[`dateArriveeGeneve_${membre.id}`] as DateAnswer;
       const isDateArriveeInconnu = this.isDateInconnu(dateArriveeGeneveAnswer);
@@ -156,29 +180,5 @@ export class DomicileQuestionService implements QuestionLoader {
       return dateAnswer.value;
     }
   }
-
-  createEligibiliteRefusee(eligibilite: Eligibilite, motif: I18nString): EligibiliteRefusee {
-    return {
-      eligibilite: eligibilite,
-      motif: motif
-    } as EligibiliteRefusee;
-  }
 }
-
-/*
-new RadioQuestion({
-  key: 'residenceEffectiveCantonGE',
-  code: '0504',
-  categorie: Categorie.SITUATION_PERSONELLE,
-  subcategorie: Subcategorie.DOMICILE,
-  help: true,
-  inline: true,
-  options: Object.keys(ReponseBinaire).map(label => ({label: label})),
-  eligibilite: [
-    {
-      prestation: Prestation.AIDE_SOCIALE,
-      isEligible: (value: any) => value['residenceEffectiveCantonGE'] !== ReponseBinaire.NON
-    }
-  ]
-})*/
 

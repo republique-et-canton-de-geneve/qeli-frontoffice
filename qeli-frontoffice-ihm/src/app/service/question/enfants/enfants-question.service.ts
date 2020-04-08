@@ -81,7 +81,7 @@ export class EnfantsQuestionService implements QuestionLoader {
     });
 
     if (!concubin || hasEnfantToutLesDeux) {
-      return []
+      return [];
     } else {
       return eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_FAM, concubin).map(eligibilite => ({
         eligibilite: eligibilite,
