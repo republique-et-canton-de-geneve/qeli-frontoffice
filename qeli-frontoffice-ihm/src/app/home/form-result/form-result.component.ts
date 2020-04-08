@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Eligibilite, EligibiliteRefusee } from '../../service/question/eligibilite.model';
 import { QeliStateMachine } from '../../service/question/qeli-state.model';
 import { TranslateService } from '@ngx-translate/core';
 import { PDFGenerationService } from '../../service/pdf-generation.service';
-import { FormData } from '../../dynamic-question/model/question.model';
+import { PersistenceService } from '../../service/persistence.service';
+import { FormData } from '../../dynamic-question/model/quesiton.model';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -12,13 +13,14 @@ import * as FileSaver from 'file-saver';
   styleUrls: ['./form-result.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FormResultComponent {
+export class FormResultComponent implements AfterViewInit {
   eligibilites: Eligibilite[];
   eligibilitesRefusees: EligibiliteRefusee[];
   formData: FormData;
 
   constructor(private translateService: TranslateService,
-              private pdfGenerationService: PDFGenerationService) {
+              private pdfGenerationService: PDFGenerationService,
+              private persistenceService : PersistenceService) {
 
   }
 
@@ -30,6 +32,10 @@ export class FormResultComponent {
     this.formData = state.formData;
   }
 
+  ngAfterViewInit() {
+    this.persistData();
+  }
+
   get dejaPercues() {
     return this.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite);
   }
@@ -37,6 +43,19 @@ export class FormResultComponent {
 
   get refusees() {
     return this.eligibilitesRefusees.filter(e => !e.dejaPercue);
+  }
+
+  get eligibiles() {
+    return this.eligibilites.map(eligibilite => eligibilite.prestation);
+  }
+
+  persistData() {
+    this.persistenceService.persistData(
+      this.formData,
+      this.eligibilites,
+      this.eligibilitesRefusees
+    ).subscribe();
+
   }
 
   generatePDF() {
