@@ -57,7 +57,7 @@ export class RevenusQuestionService implements QuestionLoader {
             key: `revenusConjoint_${membre.id}`,
             dataCyIdentifier: `0602_revenusConjoint_${membre.id}`,
             label: {
-              key: 'queston.revenusConjoint.label'
+              key: 'question.revenusConjoint.label'
             },
             noneOptions: [
               {
@@ -71,11 +71,21 @@ export class RevenusQuestionService implements QuestionLoader {
                 label: {
                   key: 'question.revenusConjoint.some'
                 }
-              }
+              },
+              {value: 'INCONNU', label: {key: 'question.prestations.inconnu'}}
             ],
             checkboxOptions: REVENUS_OPTIONS.map(revenuOption => {
-              const options = !!revenuOption.options ? revenuOption.options.map(option => { return {value: option.label, label: {key: `question.revenusConjoint.option.${option.label}`}} as QuestionOption<string>; }) : null;
-              return !!options ? {label: {key: `question.revenusConjoint.option.${revenuOption.label}`}, options: options } as CheckboxGroup : {label: {key: ''} } as CheckboxGroup;
+              const options = !!revenuOption.options
+                ? revenuOption.options.map(option => { return {value: option.label, label: {key: `question.revenusConjoint.option.${option.label}`}} as QuestionOption<string>; })
+                : null;
+
+              const text = !!revenuOption.help
+                ? {key: `question.revenusConjoint.option.${revenuOption.label}.label`, help: `question.revenusConjoint.option.${revenuOption.label}.help`}
+                : {key: `question.revenusConjoint.option.${revenuOption.label}`};
+
+              return !!options
+                ? {label: text, options: options} as CheckboxGroup
+                : {label: text, value: revenuOption.label } as QuestionOption<string>;
             })
           }),
           calculateRefus: this.calculateRevenusRefusFn(membre),
