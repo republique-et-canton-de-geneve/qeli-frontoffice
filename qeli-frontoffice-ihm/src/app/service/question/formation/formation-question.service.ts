@@ -26,6 +26,22 @@ export class FormationQuestionService implements QuestionLoader {
         ]
       }),
       new RadioQuestion({
+        key: 'permisBEtudes',
+        code: '0405',
+        categorie: Categorie.SITUATION_PERSONELLE,
+        subcategorie: Subcategorie.NATIONALITE,
+        help: true,
+        inline: true,
+        options: Object.keys(ReponseProgressive).map(label => ({label: label})),
+        skip: (value: any) => isSuisse(value) ||
+                              isRefugie(value) ||
+                              isRequerantAsile(value) ||
+                              isApatride(value),
+        eligibilite: [
+          {prestation: Prestation.BOURSES}
+        ]
+      })
+      new RadioQuestion({
         key: 'scolarite',
         code: '0701',
         categorie: Categorie.COMPLEMENTS,

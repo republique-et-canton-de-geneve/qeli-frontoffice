@@ -2,7 +2,7 @@
   <input [id]="question.key"
          [formGroup]="form"
          [formControlName]="question.key"
-         [placeholder]="question.placeholder"
+         [placeholder]="question.placeholder || ''"
          type="number"
          (keypress)="isNumber($event)"
          [min]="question.min"
