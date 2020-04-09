@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Eligibilite, EligibiliteRefusee } from './question/eligibilite.model';
-import { FormData } from '../dynamic-question/model/quesiton.model';
+import { FormData } from '../dynamic-question/model/question.model';
 
 @Injectable({
   providedIn: 'root'
