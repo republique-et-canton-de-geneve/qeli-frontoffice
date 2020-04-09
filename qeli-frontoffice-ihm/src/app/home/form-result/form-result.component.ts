@@ -34,7 +34,6 @@ export class FormResultComponent {
     return this.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite);
   }
 
-
   get refusees() {
     return this.eligibilitesRefusees.filter(e => !e.dejaPercue);
   }
