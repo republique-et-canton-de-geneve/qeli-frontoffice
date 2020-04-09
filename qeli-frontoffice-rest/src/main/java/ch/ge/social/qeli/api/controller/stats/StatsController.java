@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ch.ge.social.qeli.service.api.persistence.PersistenceService;
+import ch.ge.social.qeli.service.api.stats.StatsService;
 
 /**
  * Un controller REST qui permet de créer un PDF récapitulatif du résultat du questionnaire d'éligibilité.
  */
 @RestController
 @RequestMapping("/api")
-public class PersistenceController {
+public class StatsController {
 
-  private final PersistenceService persistenceService;
+  private final StatsService statsService;
   @Autowired
-  public PersistenceController(PersistenceService persistenceService) {
-    this.persistenceService = persistenceService;
+  public StatsController(StatsService statsService) {
+    this.statsService = statsService;
   }
 
   /**
@@ -28,9 +28,9 @@ public class PersistenceController {
    * @param result le résultat du questionnaire d'éligibilité.
    *
    */
-  @PostMapping(value = "/persistData", consumes = {MediaType.APPLICATION_JSON_VALUE})
-  void persistData(@RequestBody QeliResult result) {
-    this.persistenceService.saveFormData(result);
+  @PostMapping(value = "/saveStats", consumes = {MediaType.APPLICATION_JSON_VALUE})
+  void saveStats(@RequestBody QeliResult result) {
+    this.statsService.saveFormData(result);
   }
 
 
