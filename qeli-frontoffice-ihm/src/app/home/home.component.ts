@@ -10,6 +10,8 @@ import { QeliState, QeliStateMachine } from '../service/question/qeli-state.mode
 import { QeliConfiguration } from '../service/configuration/qeli-configuration.model';
 import { Demandeur } from '../service/configuration/demandeur.model';
 import { FromSchemaToAnswerVisitor } from '../dynamic-question/model/to-answer.visitor.model';
+import { Eligibilite, EligibiliteRefusee } from '../service/question/eligibilite.model';
+import { StatsService } from '../service/stats.service';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +33,8 @@ export class HomeComponent implements OnInit {
               private trackingService: TrackingService,
               private qeliConfigurationService: QeliConfigurationService,
               private questionService: QuestionService,
-              private ref: ChangeDetectorRef) {
+              private ref: ChangeDetectorRef,
+              private statsService: StatsService) {
   }
 
   ngOnInit() {
@@ -84,6 +87,7 @@ export class HomeComponent implements OnInit {
       this.qeliStateMachine.answerAndGetNextQuestion(this.qeliForm.currentAnswer);
 
       if (this.qeliStateMachine.state.done) {
+        this.saveStats();
         this.trackingService.trackQeliResult(
           this.qeliStateMachine.state,
           this.qeliForm.formElement.nativeElement
@@ -103,13 +107,25 @@ export class HomeComponent implements OnInit {
       this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
       this.updateDeepLink();
     }
+
+
   }
 
   private updateDeepLink() {
     this.deepLinkService.updateUrl(this.qeliStateMachine.state, this.route);
   }
 
-  /*onKeyUp(event: KeyboardEvent) {
+  private saveStats() {
+    const state = this.qeliStateMachine.state;
+    this.statsService.saveStats(
+      state.formData,
+      this.qeliStateMachine.currentEligibilites,
+      state.eligibilitesRefusees
+    ).subscribe();
+  }
+
+  /*
+  onKeyUp(event: KeyboardEvent) {
     if (event.key === "Enter" && this.isCurrentQuestionValid()) {
       this.nextQuestion();
     }
