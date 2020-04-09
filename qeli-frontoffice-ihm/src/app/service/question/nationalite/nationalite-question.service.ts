@@ -60,36 +60,36 @@ export class NationaliteQuestionService implements QuestionLoader {
                   {
                     value: RequerantRefugie.REQUERANT_ASILE,
                     label: {
-                      key: `question.situationMembre.refugie.option.${RequerantRefugie.REQUERANT_ASILE}.label`,
+                      key: `common.requerantRefugie.${RequerantRefugie.REQUERANT_ASILE}.label`,
                       parameters: translateParams
                     },
                     help: {
-                      key: `question.situationMembre.refugie.option.${RequerantRefugie.REQUERANT_ASILE}.help`,
+                      key: `common.requerantRefugie.${RequerantRefugie.REQUERANT_ASILE}.help`,
                       parameters: translateParams
                     }
                   },
                   {
                     value: RequerantRefugie.REFUGIE,
                     label: {
-                      key: `question.situationMembre.refugie.option.${RequerantRefugie.REFUGIE}.label`,
+                      key: `common.requerantRefugie.${RequerantRefugie.REFUGIE}.label`,
                       parameters: translateParams
                     },
                     help: {
-                      key: `question.situationMembre.refugie.option.${RequerantRefugie.REFUGIE}.help`,
+                      key: `common.requerantRefugie.${RequerantRefugie.REFUGIE}.help`,
                       parameters: translateParams
                     }
                   },
                   {
                     value: RequerantRefugie.AUCUN,
                     label: {
-                      key: `question.situationMembre.refugie.option.${RequerantRefugie.AUCUN}`,
+                      key: `common.requerantRefugie.${RequerantRefugie.AUCUN}`,
                       parameters: translateParams
                     }
                   },
                   {
                     value: RequerantRefugie.INCONNU,
                     label: {
-                      key: `question.situationMembre.refugie.option.${RequerantRefugie.INCONNU}`,
+                      key: `common.requerantRefugie.${RequerantRefugie.INCONNU}`,
                       parameters: translateParams
                     }
                   }
@@ -224,21 +224,3 @@ export class NationaliteQuestionService implements QuestionLoader {
     };
   }
 }
-
-/*
-new RadioQuestion({
-  key: 'permisBEtudes',
-  code: '0405',
-  categorie: Categorie.SITUATION_PERSONELLE,
-  subcategorie: Subcategorie.NATIONALITE,
-  help: true,
-  inline: true,
-  options: Object.keys(ReponseProgressive).map(label => ({label: label})),
-  skip: (value: any) => isSuisse(value) ||
-                        isRefugie(value) ||
-                        isRequerantAsile(value) ||
-                        isApatride(value),
-  eligibilite: [
-    {prestation: Prestation.BOURSES}
-  ]
-})*/

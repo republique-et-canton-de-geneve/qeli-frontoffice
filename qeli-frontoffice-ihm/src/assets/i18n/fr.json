@@ -200,18 +200,6 @@
       },
       "refugie": {
         "label": "{who, select, me{Etes-vous} other{Est {membre}}} :",
-        "option": {
-          "REQUERANT_ASILE": {
-            "label": "Requérant d'asile",
-            "help": "{who, select, me{Vous avez} other{{membre} a}} déposé une demande d’asile en Suisse et {who, select, me{attendez} other{attend}} une décision du Secrétariat d’Etat aux migrations (SEM)."
-          },
-          "REFUGIE": {
-            "label": "Réfugié",
-            "help": "{who, select, me{Vous avez} other{{membre} a}} obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
-          },
-          "AUCUN": "Aucun des deux",
-          "INCONNU": "Je ne sais pas"
-        },
         "error": {
           "required": "{who, select, me{Votre statut} other{Le statut de réfugié de {membre}}} doit être fourni"
         }
@@ -240,11 +228,6 @@
     "permisBEtudes": {
       "label": "Avez-vous un permis B pour raison d'études ?",
       "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour délivré aux résidents longue durée qui font des études dans le canton par l'office cantonal de la population et de la migration (OCPM)).",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       }
@@ -252,11 +235,6 @@
     "domicileCantonGE": {
       "label": "{who, select, me{Votre domicile officiel} other{Le domicile officiel de {membre}}} est-il dans le canton de Genève ?",
       "help": "Domicile : {who, select, me{vous avez} other{{membre} a}} une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -290,10 +268,6 @@
     "residenceEffectiveCantonGE": {
       "label": "Avez-vous votre résidence effective dans le canton de Genève ?",
       "help": "Résidence effective : votre logement se trouve bien dans le canton de Genève.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -481,10 +455,6 @@
     },
     "enFormation": {
       "label": "Etes-vous en formation / allez-vous bientôt commencer une formation ?",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non"
-      },
       "motifRefus": {
         "BOURSES": "Vous avez indiqué que vous ne suivez aucune formation"
       },
@@ -524,11 +494,6 @@
         "avecConcubin": "Votre dernière taxation ou celle de votre concubin est-elle une taxation d'office ?"
       },
       "help": "Taxation d'office : vous n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais. Vous avez reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "motifRefus": {
         "PC_FAM": "Votre dernière taxation ou celle de votre concubin est une taxation d'office"
       },
@@ -657,11 +622,6 @@
     "proprietaireOuLocataireLogement": {
       "label": "Etes-vous propriétaire ou locataire de votre logement ?",
       "help": "Logement : l'appartement ou la maison dans laquelle vous habitez.",
-      "option": {
-        "PROPRIETAIRE": "Propriétaire",
-        "LOCATAIRE_SOUS_LOCATAIRE": "Locataire, sous-locataire",
-        "AUTRE": "Autre"
-      },
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous êtes propriétaire de votre logement"
       },
@@ -672,11 +632,6 @@
     "bailLogementAVotreNom": {
       "label": "Le bail de votre logement est-il à votre nom ?",
       "help": "Votre nom figure sur le bail à loyer du logement que vous occupez. Si vous êtes un sous-locataire déclaré à la régie, vous êtes également considéré comme titulaire du bail.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué que le bail de votre logement n'est pas à votre nom"
       },
@@ -710,11 +665,6 @@
     "appartementHabitationMixte": {
       "label": "Etes-vous dans un appartement en habitation mixte (HM) ?",
       "help": "Logement en habitation mixte (HM) : La subvention personnalisée habitation mixte est une aide personnalisée versée par l'Etat à un locataire de logement HM.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué être dans un appartement en habitation mixte (HM)"
       },
@@ -725,11 +675,6 @@
     "montantLoyerFixeOuVariable": {
       "label": "Le montant de votre loyer est-il fixe ou variable en fonction de votre revenu (HLM, HBM, HM, appartement de la Gérance immobilière municipale) ?",
       "help": "Loyer fixé en fonction de votre revenu si vous habitez dans :<br><ul><li>un HBM (habitation bon marché) subventionné par l'Etat, destiné aux personnes à revenus modestes. Son loyer est contrôlé de façon permanente.</li><li>un HLM (habitation à loyer modéré) destiné aux personnes à revenus modérés, subventionné par l'Etat pendant une période de 20 ans</li><li>ou un HM (habitation mixte) destiné aux personnes à revenus moyens, dont le loyer peut être subventionné par l'Etat pendant une période de 25 ans</li><li>un logement géré par la GIM (Gestion immobilière municipale)</li></ul>",
-      "option": {
-        "FIXE": "Loyer fixe",
-        "EN_FONCTION_REVENU": "Loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)",
-        "INCONNU": "Je ne sais pas"
-      },
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué avoir un montant de loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)"
       },
@@ -740,11 +685,6 @@
     "assuranceMaladieSuisse": {
       "label": "Avez-vous une assurance-maladie suisse (LAMal) ?",
       "help": "Affiliation à l'assurance-maladie : En Suisse, l'assurance de base pour les soins (LAMal) en cas de maladie et d'accident est obligatoire. Toute personne, dès sa prise de domicile en Suisse, est tenue d'être assurée pour les soins en cas de maladie et d'accident. Etre affilié signifie avoir souscrit à une police d'assurance-maladie suisse. Par exemple, Assura, CSS, Helsana ou Mutuel.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -755,10 +695,6 @@
     "droitPensionAlimentaire": {
       "label": "Avez-vous aujourd'hui droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s) ?",
       "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s).",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -769,10 +705,6 @@
     "recoisEntierementPensionAlimentaire": {
       "label": "Recevez-vous entièrement le montant des pensions alimentaires ?",
       "help": "Pensions entièrement payées : tous les montants qui vous sont dus vous ont été versés.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -783,10 +715,6 @@
     "fortuneSuperieureA": {
       "label": "Avez-vous une fortune supérieure à { limite }.- ?",
       "help": "Fortune : le montant de vos comptes en banque, de vos comptes postaux et de vos biens immobiliers (maison, appartement) est-il plus élevé que le montant affiché ?<br>Les limites sont de Fr. 4'000.- pour une personne seule, Fr. 8'000.- pour un couple, Fr. 2'000.- pour chaque enfant à charge, mais au maximum Fr. 10'000.-.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -797,11 +725,6 @@
     "impotFortune": {
       "label": "Payez-vous des impôts sur la fortune ?",
       "help": "Fortune imposable : au-delà d'un certain montant, vous devez payer un impôt sur la fortune. Payez-vous un impôt sur la fortune ?",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -812,11 +735,6 @@
     "exempteImpot": {
       "label": "Etes-vous exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
       "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.<br>Exempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -827,11 +745,6 @@
     "taxeOfficeAFC": {
       "label": "Etes-vous taxé d'office par l'administration fiscale cantonale (AFC) en { annee } ?",
       "help": "Taxation d'office : Sanction prise contre le contribuable qui n'a pas effectué de déclaration : le fisc lui-même procède à une estimation du revenu, du profit ou de la valeur imposable, au moyen des éléments d'information en sa possession.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -845,11 +758,6 @@
         "avecConjoint": "Vous-même, votre conjoint ou l'un de vos parents est-il fonctionnaire international ?"
       },
       "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -860,11 +768,6 @@
     "parentsHabiteFranceTravailleSuisse": {
       "label": "Est-ce que l'un de vos parents est frontalier (habite en France et travaille en Suisse) ?",
       "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -892,12 +795,36 @@
       "label": "Apatride",
       "help": "Personne n'ayant pas de nationalité (statut reconnu par l'OCPM : office cantonal de la population et de la migration)."
     },
+    "requerantRefugie": {
+      "REQUERANT_ASILE": {
+        "label": "Requérant d'asile",
+        "help": "{who, select, me{Vous avez} other{{membre} a}} déposé une demande d’asile en Suisse et {who, select, me{attendez} other{attend}} une décision du Secrétariat d’Etat aux migrations (SEM)."
+      },
+      "REFUGIE": {
+        "label": "Réfugié",
+        "help": "{who, select, me{Vous avez} other{{membre} a}} obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
+      },
+      "AUCUN": "Aucun des deux",
+      "INCONNU": "Je ne sais pas"
+    },
+    "reponseBinaire": {
+      "OUI": "Oui",
+      "NON": "Non"
+    },
     "reponseProgressive": {
-      "option": {
-        "OUI": "Oui",
-        "NON": "Non",
-        "INCONNU": "Je ne sais pas"
-      }
+      "OUI": "Oui",
+      "NON": "Non",
+      "INCONNU": "Je ne sais pas"
+    },
+    "logement": {
+      "PROPRIETAIRE": "Propriétaire",
+      "LOCATAIRE_SOUS_LOCATAIRE": "Locataire, sous-locataire",
+      "AUTRE": "Autre"
+    },
+    "loyer": {
+      "FIXE": "Loyer fixe",
+      "EN_FONCTION_REVENU": "Loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)",
+      "INCONNU": "Je ne sais pas"
     },
     "pays": {
       "af": "Afghanistan",
