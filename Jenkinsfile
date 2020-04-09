@@ -1,5 +1,3 @@
-#!/usr/bin/env groovy
-
 pipeline {
   agent { label 'master' }
 
@@ -18,9 +16,6 @@ pipeline {
     // Cypress
     CYPRESS_CACHE_FOLDER = '***REMOVED***'
     CYPRESS_INSTALL_BINARY = '3.8.2'
-
-    // LAB credentials
-    QELI_LAB_CREDENTIALS = credentials('45d84cd5-cffc-429c-8ec8-a1a8852ed903')
 
     // DEV credentials
     QELI_DEV_CREDENTIALS = credentials('38c09e92-ea6a-4e8f-9d31-8ef1aa27be97')
@@ -87,40 +82,8 @@ pipeline {
 
     stage('Deploy') {
       parallel {
-        stage('LAB Instance') {
-          when { branch 'develop' }
-
-          steps {
-            script {
-             configFileProvider([configFile(fileId: 'a625574f-5000-45c1-8bce-929ea9eacf59', variable: 'PRIVATE_PROPERTIES')]) {
-              def privateProps = readProperties file: "$PRIVATE_PROPERTIES"
-
-              def remote = [:]
-              remote.name = 'qeli-lab'
-              remote.host = privateProps['QELI_LAB_HOST']
-              remote.user = env.QELI_LAB_CREDENTIALS_USR
-              remote.password = env.QELI_LAB_CREDENTIALS_PSW
-              remote.allowAnyHosts = true
-
-              sshPut remote: remote,
-                     from: './qeli-frontoffice-application/target/qeli-frontoffice-application.war',
-                     into: "/home/${remote.user}/qeli-frontoffice-application.war",
-                     override: true
-
-              sshPut remote: remote,
-                     from: './qeli-frontoffice-application/src/distrib/lab-deploy.sh',
-                     into: "/home/${remote.user}/deploy.sh",
-                     override: true
-
-              sshCommand remote: remote,
-                     command: "cd /home/${remote.user}/ && sh ./deploy.sh </dev/null >./qeli-frontoffice.log 2>&1 &"
-             }
-            }
-          }
-        }
-
         stage('DEV Instance A') {
-          when { branch 'master' }
+          when { branch 'develop' }
 
           steps {
             script {
@@ -147,7 +110,7 @@ pipeline {
         }
 
         stage('DEV Instance B') {
-          when { branch 'master' }
+          when { branch 'develop' }
 
           steps {
             script {
