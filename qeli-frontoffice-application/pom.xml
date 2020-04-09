@@ -6,7 +6,7 @@
     <parent>
         <groupId>ch.ge.social.qeli</groupId>
         <artifactId>qeli-frontoffice</artifactId>
-        <version>0.0.7-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>qeli-frontoffice-application</artifactId>
