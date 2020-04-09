@@ -1,0 +1,18 @@
+<div>
+  <label [attr.for]="identifier" class="control-label"
+         [ngClass]="!isValid ? 'text-danger' : ''">
+    {{ label }} <span *ngIf="required" class="form-required" title="{{ 'form.required' | translate }}">*</span>
+  </label>
+
+  <div [ngClass]="!isValid ? 'text-danger' : ''">
+    <ng-content></ng-content>
+  </div>
+
+  <div *ngIf="!isValid && errors.length > 0"
+       class="error-block text-danger"
+       data-cy-label="validation_message">
+    <p *ngFor="let error of errors">
+      {{ errorLabels && errorLabels[error] ? (errorLabels[error].key | translate:errorLabels[error].parameters) : 'unknown error' }}
+    </p>
+  </div>
+</div>

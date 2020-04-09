@@ -1,5 +1,6 @@
 package ch.ge.social.qeli.api.controller;
 
+import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
 import java.util.UUID;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
- * Un controller advice contenant le mapping des exception functionelle et son status HTTP.
+ * Un controller advice contenant le mapping des exception fonctionelles et son status HTTP.
  */
 @ControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
@@ -40,7 +41,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
    *
    * @param ex l'exception à gérer.
    *
-   * @return un objet avec des information sur l'erreur.
+   * @return un objet avec des informations sur l'erreur.
    *
    * @see SecurityException
    */
@@ -55,11 +56,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   }
 
   /**
-   * Intercepte toute exception appropriée pour le status HTTP: {@link HttpStatus#BAD_REQUEST}.
+   * Intercepte toute exception appropriée pour le status HTTP : {@link HttpStatus#BAD_REQUEST}.
    *
    * @param ex l'exception à gérer.
    *
-   * @return un objet avec des information sur l'erreur.
+   * @return un objet avec des informations sur l'erreur.
    *
    * @see ConstraintViolationException
    * @see MethodArgumentTypeMismatchException
@@ -77,11 +78,26 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   }
 
   /**
-   * Intercepte toute exception appropriée pour le status HTTP: {@link HttpStatus#INTERNAL_SERVER_ERROR}.
+   * Intercepte toute exception appropriée pour le status HTTP : {@link HttpStatus#SERVICE_UNAVAILABLE}.
    *
    * @param ex l'exception à gérer.
    *
-   * @return un objet avec des information sur l'erreur.
+   * @return un objet avec des informations sur l'erreur.
+   *
+   * @see PDFGenerationException
+   */
+  @ExceptionHandler(PDFGenerationException.class)
+  public ResponseEntity<ApiErrorDto> serviceUnavailable(RuntimeException ex) {
+    return buildResponseEntity(handleError(ex), HttpStatus.SERVICE_UNAVAILABLE);
+  }
+
+
+  /**
+   * Intercepte toute exception appropriée pour le status HTTP : {@link HttpStatus#INTERNAL_SERVER_ERROR}.
+   *
+   * @param ex l'exception à gérer.
+   *
+   * @return un objet avec des informations sur l'erreur.
    *
    * @see Exception
    */

@@ -1,7 +1,7 @@
-# QELI Cypress : Test d'intégration
+# QELI Cypress : Tests d'intégration
 
 Ce module a pour but d'exécuter des scenarii de tests **écrits par le métier**.
-L'objectif est de simuler le remplissage du questionnaire de manière automatique et
+L'objectif est de simuler le remplissage du questionnaire de manière automatique et de
 contrôler le résultat de chaque scénario.
 
 Le dépôt dédié [qeli-scenarii-metier][qeli-scenarii-metier] regroupe les fichiers
@@ -16,7 +16,7 @@ La configuration des outils suivants a été mise en place pour répondre à ce 
 
 * [Cypress][cypress-doc] est un framework JS Open Source permettant de
 tester l'application web.
-* [Cucumber][cucumber-doc] permet d'écrire et coder des tests BDD (Behavior Driven
+* [Cucumber][cucumber-doc] permet d'écrire et de coder des tests BDD (Behavior Driven
 Development).
 * [cypress-cucumber-preprocessor][cypress-cucumber-pp] intègre les tests Cucumber
 (avec la syntaxe  [Gherkin][gherkin-doc]) à Cypress.
@@ -32,7 +32,7 @@ Les correspondances de phrases Cucumber sont définies dans
 
 ### vérifier
 
-* l'affichage ou non des questions
+* l'affichage ou non des questions :
 
 ```js
 cy.dataCyLabel('0101_prestations').should('be.visible')
@@ -98,7 +98,7 @@ cy.clickPrevious();
 ### manipuler des données avec un tableau
 
 Cucumber offre la possibilité d'utiliser en entrée un type
-[DataTable][cucumber-DataTable], exemple :
+[DataTable][cucumber-DataTable], par exemple :
 
 ```gherkin
   Quand je remplis mon adresse:
@@ -122,7 +122,7 @@ Mapping de la phrase :
 
 * `cypress.json` : configuration globale de Cypress.
 * `cypress/config/cypress.default.json` : configuration par défaut.
-* `cypress/config/cypress.dev.json` : configuration de l'environment de dev.
+* `cypress/config/cypress.dev.json` : configuration de l'environment de développement.
 * `cypress/config/cypress.rec.json` : configuration de l'environment de recette.
 * `cypress/config/cypress.prod.json` : configuration de l'environment de production.
 
@@ -136,10 +136,10 @@ d'exécuter la commande suivante :
 mvn clean verify
 ```
 
-une instance de [qeli-frontoffice-application](../qeli-frontoffice-application) sera
+Une instance de [qeli-frontoffice-application](../qeli-frontoffice-application) sera
 démarrée sur le port 8080.
 
-Pour exécuter les tests sur une instance existante utilisez `npm` directement :
+Pour exécuter les tests sur une instance existante, utilisez `npm` directement :
 
 Pour exécuter les tests en ligne de commande :
 
@@ -147,8 +147,8 @@ Pour exécuter les tests en ligne de commande :
 npm run cy:run
 ```
 
-le fichier `./config/cypress.local.json` est réservé pour personnaliser la
-configuration et il sera ignoré par git, pour en créer un :
+Le fichier `./config/cypress.local.json` est réservé pour personnaliser la
+configuration et il sera ignoré par Git. Pour en créer un :
 
 ```bash
 cp ./config/cypress.default.json ./config/cypress.local.json

@@ -1,5 +1,3 @@
 export const environment = {
-  production: true,
-  matomoServer: '***REMOVED***',
-  matomoSiteId: 15
+  production: true
 };

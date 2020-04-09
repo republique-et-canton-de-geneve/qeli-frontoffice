@@ -1,5 +1,9 @@
-social.tools.frontoffice:
-  ihm-resource-location: classpath:/formulaire
+social.tools:
+  frontoffice.ihm-resource-location: classpath:/formulaire
+  editique.ws-location: ***REMOVED***
+  qeli.matomo:
+    server: ***REMOVED***
+    site-id: 15
 
 server:
   port: 8080
@@ -9,3 +13,5 @@ server:
 
   ssl:
     enabled: false
+
+logging.level.root: INFO

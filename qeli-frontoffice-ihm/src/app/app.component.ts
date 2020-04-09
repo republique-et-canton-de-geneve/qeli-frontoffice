@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TrackingService } from './service/tracking.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +8,8 @@ import { TrackingService } from './service/tracking.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private translate: TranslateService,
-              private trackingService: TrackingService) {
-    this.trackingService.initMatomo();
+  constructor(private translate: TranslateService) {
+
   }
 
   ngOnInit(): void {

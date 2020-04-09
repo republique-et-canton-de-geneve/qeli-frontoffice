@@ -1,101 +1,133 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { QuestionBase } from '../core/question/question-base.model';
-import { AllQuestions } from './question.configuration';
-import { FormState } from '../core/common/form-state.model';
-import { DynamicFormComponent } from '../core/dynamic-form/dynamic-form.component';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DeepLinkService } from '../service/deep-link.service';
-import { TrackingService } from '../service/tracking.service';
+import { DeepLinkService } from '../deep-link/deep-link.service';
+import { TrackingService } from '../service/tracking/tracking.service';
+import { QeliConfigurationService } from '../service/configuration/qeli-configuration.service';
+import { QuestionService } from '../service/question/question.service';
+import { QeliFormComponent } from './qeli-form/qeli-form.component';
+import { FormSetupComponent } from './form-setup/form-setup.component';
+import { QeliState, QeliStateMachine } from '../service/question/qeli-state.model';
+import { QeliConfiguration } from '../service/configuration/qeli-configuration.model';
+import { Demandeur } from '../service/configuration/demandeur.model';
+import { FromSchemaToAnswerVisitor } from '../dynamic-question/model/to-answer.visitor.model';
+import { Eligibilite, EligibiliteRefusee } from '../service/question/eligibilite.model';
+import { StatsService } from '../service/stats.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
-  @ViewChild('dynamicForm', {static: true}) dynamicForm: DynamicFormComponent;
 
-  questions: QuestionBase<any>[] = AllQuestions;
-  formState: FormState = {
-    data: {},
-    currentIndex: 0,
-    indexHistory: [],
-    prestationsRefusees: [],
-    prestationsRefuseesStack: [],
-    done: false
-  };
-  isFirstLoad: boolean = true;
+  @ViewChild('qeliSetupForm', {static: false}) qeliSetupForm: FormSetupComponent;
+  @ViewChild('qeliForm', {static: false}) qeliForm: QeliFormComponent;
+
+  qeliConfiguration: QeliConfiguration;
+  qeliStateMachine: QeliStateMachine;
+  firstLoad = true;
 
   constructor(private deepLinkService: DeepLinkService,
               private route: ActivatedRoute,
-              private trackingService: TrackingService) {
+              private trackingService: TrackingService,
+              private qeliConfigurationService: QeliConfigurationService,
+              private questionService: QuestionService,
+              private ref: ChangeDetectorRef,
+              private statsService: StatsService) {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      const formData = this.deepLinkService.decryptQueryParamsData(params);
-      if (formData) {
-        this.formState = {
-          data: formData.v,
-          currentIndex: formData.cqi,
-          indexHistory: formData.ihs,
-          prestationsRefusees: formData.pr,
-          prestationsRefuseesStack: formData.prs,
-          done: formData.cqi === -1
-        };
-      } else {
-        this.formState = {
-          data: {},
-          currentIndex: 0,
-          indexHistory: [],
-          prestationsRefusees: [],
-          prestationsRefuseesStack: [],
-          done: false
-        };
-      }
+    this.qeliConfigurationService.loadConfiguration().subscribe(configuration => {
+      this.qeliConfiguration = configuration;
+      this.trackingService.initMatomo(configuration);
 
-      this.doTracking();
-      this.isFirstLoad = false;
+      this.route.queryParams.subscribe(params => {
+        //if (this.firstLoad) {
+        const state = this.deepLinkService.decryptQueryParamsData(params);
+        if (state !== null) {
+          const demandeur = new Demandeur(state.demandeur);
+          const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur.toEligibilite());
+
+          state.formData = questions
+            .map(decorator => decorator.question)
+            .filter(question => state.formData.hasOwnProperty(question.key))
+            .map(question => {
+              let entry = {};
+              entry[question.key] = question.accept(new FromSchemaToAnswerVisitor(state.formData[question.key]));
+              return entry
+            }).reduce((r, c) => Object.assign(r, c), {});
+
+          this.qeliStateMachine = new QeliStateMachine(questions, new QeliState(state));
+        } else {
+          this.qeliStateMachine = null;
+        }
+        //}
+
+        this.firstLoad = false;
+        this.ref.markForCheck();
+      });
+
+      this.ref.markForCheck();
     });
   }
 
-  doTracking() {
-    if (!this.isFirstLoad) {
-      const previousQuestion = this.previousQuestion;
-      if (previousQuestion) {
-        this.trackingService.trackReponse(previousQuestion, this.formState.data);
+  onPreviousquestion() {
+    this.qeliStateMachine.previousQuestion();
+    this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
+    this.updateDeepLink();
+  }
+
+  onNextQuestion() {
+    if (this.qeliForm && this.qeliForm.isCurrentQuestionValid()) {
+      this.trackingService.trackReponseInconnu(
+        this.qeliStateMachine.currentQuestion.question,
+        this.qeliForm.currentAnswer
+      );
+      this.qeliStateMachine.answerAndGetNextQuestion(this.qeliForm.currentAnswer);
+
+      if (this.qeliStateMachine.state.done) {
+        this.saveStats();
+        this.trackingService.trackQeliResult(
+          this.qeliStateMachine.state,
+          this.qeliForm.formElement.nativeElement
+        );
+      } else {
+        this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
       }
 
-      if (this.formState.done) { // result page :
-        this.trackingService.trackFormSubmission(this.formState, this.dynamicForm.formElement.nativeElement);
-        this.trackingService.trackReponsesFinales(this.questions, this.formState.data);
-      }
+      this.updateDeepLink();
+    } else if (this.qeliSetupForm && this.qeliSetupForm.isValid) {
+      const demandeur = new Demandeur(this.qeliSetupForm.demandeur);
+      const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur.toEligibilite());
+
+      this.qeliStateMachine = new QeliStateMachine(
+        questions, new QeliState({demandeur: demandeur})
+      );
+      this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
+      this.updateDeepLink();
     }
+
+
   }
 
-  get currentQuestion(): QuestionBase<any> {
-    return this.questions[this.formState.currentIndex];
+  private updateDeepLink() {
+    this.deepLinkService.updateUrl(this.qeliStateMachine.state, this.route);
   }
 
-  get previousQuestion(): QuestionBase<any> {
-    const previousQuestionIndex = this.formState.indexHistory[this.formState.indexHistory.length - 1];
-    return this.questions[previousQuestionIndex];
+  private saveStats() {
+    const state = this.qeliStateMachine.state;
+    this.statsService.saveStats(
+      state.formData,
+      this.qeliStateMachine.currentEligibilites,
+      state.eligibilitesRefusees
+    ).subscribe();
   }
 
-  onQuestionChanged() {
-    this.deepLinkService.updateUrl(this.formStateToQueryParam(), this.route);
-  }
-
-  /**
-   * Formate les données de l'état du formulaire dans le format attendu par le queryParam
-   */
-  private formStateToQueryParam(): {} {
-    return {
-      v: this.formState.data,
-      pr: this.formState.prestationsRefusees,
-      prs: this.formState.prestationsRefuseesStack,
-      ihs: this.formState.indexHistory,
-      cqi: this.formState.currentIndex
-    };
-  }
+  /*
+  onKeyUp(event: KeyboardEvent) {
+    if (event.key === "Enter" && this.isCurrentQuestionValid()) {
+      this.nextQuestion();
+    }
+  }*/
 }

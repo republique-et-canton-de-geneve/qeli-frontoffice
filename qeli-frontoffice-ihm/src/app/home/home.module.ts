@@ -3,28 +3,35 @@ import { HomeComponent } from './home.component';
 import { CoreModule } from '../core/core.module';
 import { FormResultComponent } from './form-result/form-result.component';
 import { ResultBlockComponent } from './form-result/result-block/result-block.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { BootstrapModule } from '../bootstrap/bootstrap.module';
-import { FormatAnswerVisitorFactory } from './navigation/format-answer.visitor';
+import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
+import { FormSetupComponent } from './form-setup/form-setup.component';
+import { GeFormsModule } from '../ge-forms/ge-forms.module';
+import { DynamicQuestionModule } from '../dynamic-question/dynamic-question.module';
+import { DeepLinkModule } from '../deep-link/deep-link.module';
+import { NavigationControlsComponent } from './navigation-controls/navigation-controls.component';
+import { QeliFormComponent } from './qeli-form/qeli-form.component';
 
 @NgModule({
   imports: [
     CoreModule,
-    BootstrapModule
+    GeFormsModule,
+    DeepLinkModule,
+    DynamicQuestionModule
   ],
   declarations: [
     HomeComponent,
     FormResultComponent,
     ResultBlockComponent,
-    NavigationComponent
+    NavigationMenuComponent,
+    FormSetupComponent,
+    NavigationControlsComponent,
+    QeliFormComponent
   ],
   entryComponents: [
     FormResultComponent,
     ResultBlockComponent,
-    NavigationComponent
-  ],
-  providers: [
-    FormatAnswerVisitorFactory
+    NavigationMenuComponent,
+    QeliFormComponent
   ]
 })
 export class HomeModule {

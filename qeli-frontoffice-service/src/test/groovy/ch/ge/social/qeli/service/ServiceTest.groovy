@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 
 /**
- * Une meta-annotation Spring pour initializer les tests de service.
+ * Une meta-annotation Spring pour initializer les tests de services.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

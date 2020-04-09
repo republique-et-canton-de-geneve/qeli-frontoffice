@@ -14,7 +14,7 @@ import org.springframework.web.servlet.resource.EncodedResourceResolver;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 /**
- * Class de configuration spring pour mapper l'IHM angular.
+ * Classe de configuration Spring pour mapper l'IHM Angular.
  */
 @Configuration
 public class FrontofficeIHMConfiguration implements WebMvcConfigurer {

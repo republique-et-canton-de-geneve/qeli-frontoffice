@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://xml.qeli.social.ge.ch/Edition"
+           xmlns:tns="http://xml.qeli.social.ge.ch/Edition"
+           elementFormDefault="qualified" version="0">
+
+  <xs:simpleType name="date">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-3][0-9]\.[0-1][0-9]\.[0-9][0-9][0-9][0-9]"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="rapportType">
+    <xs:sequence>
+      <xs:element name="DEBUTDOCUMENT" type="tns:debutDocumentType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="debutDocumentType">
+    <xs:sequence>
+      <xs:element name="DOCUMENT" type="tns:documentType"/>
+      <xs:element name="METIER" type="tns:metierType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="documentType">
+    <xs:sequence>
+      <xs:element name="nomModele" type="xs:string"/>
+      <xs:element name="date" type="tns:date"/>
+      <xs:element name="lieuCourrier" type="xs:string"/>
+      <xs:element name="EXPEDITEUR" type="tns:expediteurType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="expediteurType">
+    <xs:sequence>
+      <xs:element name="departementLigne1" type="xs:string"/>
+      <xs:element name="serviceLigne1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:complexType name="metierType">
+    <xs:sequence>
+      <xs:element name="texte1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

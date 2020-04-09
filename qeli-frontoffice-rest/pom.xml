@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>ch.ge.social.qeli</groupId>
         <artifactId>qeli-frontoffice</artifactId>
-        <version>0.0.6</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>qeli-frontoffice-rest</artifactId>
 
     <properties>
         <sonar.coverage.exclusions>**/*Exception.java,
-            **/*Dto.java</sonar.coverage.exclusions>
+            **/*Dto.java
+        </sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
         <!-- Frontoffice modules -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>qeli-frontoffice-service-api</artifactId>
+            <artifactId>qeli-frontoffice-service</artifactId>
         </dependency>
 
         <!-- Additional dependencies -->
@@ -39,6 +41,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- Test dependencies -->
@@ -80,6 +87,11 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring-boot.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
