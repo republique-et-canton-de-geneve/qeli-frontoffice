@@ -337,6 +337,8 @@
         "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
         "AI_INVALIDITE": "Rente d'invalidité (AI)",
         "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+        "AVS": "Il(elle) reçoit une rente AVS",
+        "AI": "Il(elle) reçoit une rente AI",
         "APG": {
           "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
           "help": "En arrêt maladie / accident ou en congé maternité"
@@ -344,10 +346,6 @@
       },
       "some": "Sélectionnez chacun de ses revenus :",
       "none": "Il(elle) ne reçoit aucun de ces revenus",
-      "checkboxGroup": {
-        "AVS": "Il(elle) reçoit une rente AVS",
-        "AI": "Il(elle) reçoit une rente AI"
-      },
       "motifRefus": {
         "PC_FAM": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
         "PC_AVS_AI": "Les represtationvenus de votre conjoint vous empêchent de bénéficier de cette prestation",
