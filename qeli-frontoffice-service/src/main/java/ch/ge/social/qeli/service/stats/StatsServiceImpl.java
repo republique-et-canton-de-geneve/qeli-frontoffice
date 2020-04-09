@@ -1,7 +1,7 @@
-package ch.ge.social.qeli.service.persistence;
+package ch.ge.social.qeli.service.stats;
 
 import ch.ge.social.qeli.service.api.pdf.dto.QeliResult;
-import ch.ge.social.qeli.service.api.persistence.PersistenceService;
+import ch.ge.social.qeli.service.api.stats.StatsService;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
@@ -21,12 +21,12 @@ import org.springframework.stereotype.Service;
  * Une implementation du service de création de PDF qui utilise le service de l'éditique..
  */
 @Service
-public class PersistenceServiceImpl implements PersistenceService {
+public class StatsServiceImpl implements StatsService {
 
-  private static Logger logger = LoggerFactory.getLogger(PersistenceService.class);
+  private static Logger logger = LoggerFactory.getLogger(StatsService.class);
 
   @Autowired
-  public  PersistenceServiceImpl(@Value("classpath:/log4j.properties") Resource src) throws IOException{
+  public  StatsServiceImpl(@Value("classpath:/stats-log4j.properties") Resource src) throws IOException{
     try (InputStream input = src.getInputStream()) {
       Properties props = new Properties();
       props.load(input);

@@ -7,16 +7,16 @@ import { FormData } from '../dynamic-question/model/quesiton.model';
 @Injectable({
   providedIn: 'root'
 })
-export class PersistenceService {
+export class StatsService {
 
   constructor(private httpClient: HttpClient) {
   }
 
-  persistData(answers: FormData,
+  saveStats(answers: FormData,
               eligibilites: Eligibilite[],
               eligibiliteRefusees: EligibiliteRefusee[]): Observable<any> {
     return this.httpClient.post(
-      '/socialqeli_pub/api/persistData',
+      '/socialqeli_pub/api/saveStats',
       {answers: answers, eligibilites: eligibilites, eligibiliteRefusees: eligibiliteRefusees}
     );
   }
