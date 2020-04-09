@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 import { MatomoModule } from 'ngx-matomo';
+import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
 
 registerLocaleData(localeFrCH);
 
@@ -27,7 +28,8 @@ registerLocaleData(localeFrCH);
     MatomoModule
   ],
   providers: [
-    {provide: LOCALE_ID, useValue: "fr-CH"}
+    {provide: LOCALE_ID, useValue: "fr-CH"},
+    {provide: MESSAGE_FORMAT_CONFIG, useValue: {locales: ['fr']}}
   ],
   bootstrap: [AppComponent]
 })

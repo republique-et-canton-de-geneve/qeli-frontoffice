@@ -1,0 +1,40 @@
+<div>
+  <div *ngIf="useNativeInputDate">
+    <input [id]="identifier"
+           [attr.disabled]="disabled ? 'disabled' : null"
+           formControlName="value"
+           type="date"
+           class="form-control"
+           data-cy="date-input">
+  </div>
+
+  <div *ngIf="!useNativeInputDate" class="input-group">
+    <input [id]="identifier"
+           [attr.disabled]="disabled ? 'disabled' : null"
+           type="text"
+           class="form-control"
+           #textInputDate
+           (keyup)="onTypingDate(textInputDate.value)"
+           (change)="onDateTyped(textInputDate.value)"
+           [specialCharacters]="['.']" [showMaskTyped]="true"
+           mask="00.00.0000" placeHolderCharacter="#"
+           data-cy="date-input">
+
+    <div class="input-group-addon has-btn">
+      <button class="btn btn-info"
+              [attr.disabled]="disabled ? 'disabled' : null"
+              type="button"
+              (click)="showDatePicker = !showDatePicker">
+        <i class="fa fa-calendar"></i>
+      </button>
+    </div>
+
+    <ngb-datepicker *ngIf="showDatePicker"
+                    class="dropdown-menu pull-right show"
+                    [startDate]="startDate"
+                    [minDate]="ngbMinDate"
+                    [maxDate]="ngbMaxDate"
+                    (select)="onDatePicked($event); showDatePicker = false"></ngb-datepicker>
+
+  </div>
+</div>

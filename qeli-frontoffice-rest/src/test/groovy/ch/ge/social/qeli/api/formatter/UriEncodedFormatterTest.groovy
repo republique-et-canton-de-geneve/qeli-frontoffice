@@ -18,7 +18,7 @@ class UriEncodedFormatterTest extends Specification {
     URLDecoder.decode(result, StandardCharsets.UTF_8.toString()) == decodedString
   }
 
-  def "parse devrait decodéer un string en format URI"() {
+  def "parse devrait decoder un string en format URI"() {
     given:
     def decodedString = "ABab(&%=#)"
     def encodedString = URLEncoder.encode("ABab(&%=#)", StandardCharsets.UTF_8.toString())

@@ -6,11 +6,11 @@ import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 /**
- * Vérifie que l'application démarre avec le profile development activé.
+ * Vérifie que l'application démarre avec le profil development activé.
  *
  * <p>
- *   L'annotation {@link DirtiesContext} est utilisée pour démonter le context spring a la fin
- *   d'execution des tests.
+ *   L'annotation {@link DirtiesContext} est utilisée pour démonter le context Spring à la fin
+ *   de l'exécution des tests.
  * </p>
  */
 @SpringBootTest

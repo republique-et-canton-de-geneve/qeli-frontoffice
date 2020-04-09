@@ -1,10 +1,40 @@
 # Frontoffice du questionnaire d'eligibilité (QELI)
 
+- [Présentation de l'application](#prsentation-de-lapplication)
 - [Liste de modules](#liste-de-modules)
 - [Construction](#construction)
 - [Démarrage](#dmarrage)
 - [Livraison](#livraison)
 - [Astuces](#astuces)
+
+# Présentation de l'application
+Le questionnaire d'éligibilité aux prestations sociales est une e-démarche développée
+ par l'Etat de Genève pour permettre aux citoyens de déterminer en ligne leur potentielle
+ éligiblité à différentes prestations sociales offertes par le canton :
+ - Subside d'assurance-maladie, délivré par le [service d'assurance maladie
+ (SAM)](https://www.ge.ch/organisation/service-assurance-maladie).
+ - Avance de pensions alimentaires, délivrée par le [service d'avances et
+ recouvrement de pensions alimentaires (SCARPA)](https://www.ge.ch/pensions-alimentaires-impayees).
+ - Allocation logement, délivrée par [l'office cantonale du logement et de
+ la planification foncière (OCLPF)](https://www.ge.ch/organisation/office-cantonal-du-logement-planification-fonciere).
+ - Prestations complémentaires AVS/AI, délivrées par le [service des
+ prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires).
+ - Bourse d'études, délivrée par le [service des bourses et prêts d'étiudes
+ (SBPE)](https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage).
+ - Prestations complémentaires familiales, délivrées par le [service des
+ prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires).
+ - Aide sociale, délivrée par [l'hospice général](https://www.hospicegeneral.ch/).
+
+ L'éligibilité aux prestations est déterminée par le formulaire en fonction de la
+ situation des personnes constituant le foyer du demandeur, en suivant les règles
+ métier définies par chacun des services délivrant des prestations.
+
+ Le questionnaire a été développé à l'initiative de l'office de l'action, de
+ l'insertion et de l'intégration sociales (OAIS) afin notamment de réduire le non-recours
+ aux prestations sociales. Son implémentation a été assurée par l'office cantonale
+ des systèmes d'information et du numérique (OCSIN).
+
+ ![application qeli](./assets/application-qeli.jpg)
 
 # Liste des modules
 

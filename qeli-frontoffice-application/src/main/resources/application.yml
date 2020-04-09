@@ -1,10 +1,22 @@
 application:
   name: qeli-frontoffice
 
-social.tools.frontoffice:
-  ihm-resource-location: /formulaire
-  ihm-context-path: /formulaire
-  send-error-message: false
+social.tools:
+  frontoffice:
+    ihm-resource-location: /formulaire
+    ihm-context-path: /formulaire
+    send-error-message: false
+
+  qeli:
+    min-years-from-now: 130
+    max-enfants-a-charge: 20
+    min-taux-activite-seul:  40
+    min-taux-activite-avec-conjoint: 90
+    limite-fortune: 4000
+    limite-fortune-per-enfant: 2000
+    limite-fortune-conjoint: 4000
+    max-limite-fortune: 10000
+    taxation-afc-years-from-now: 2
 
 spring:
   application:
@@ -30,3 +42,5 @@ server:
       cookie:
         http-only: true
         secure: true
+
+logging.level.root: INFO

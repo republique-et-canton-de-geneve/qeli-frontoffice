@@ -1,0 +1,51 @@
+<div [formGroup]="form">
+
+  <div [formGroupName]="question.key"
+       [attr.data-cy]="question.dataCyIdentifier"
+       data-cy-type="date">
+
+    <div class="radio" *ngIf="question.hasShortcuts">
+      <label>
+        <input type="radio"
+               [value]="question.noShortcutOption.value"
+               formControlName="shortcut"
+               (change)="onShortcutChanged($event.currentTarget.checked, null)"
+               [attr.data-cy]="question.noShortcutOption.value"
+               data-matomo-ignore>
+        {{ question.noShortcutOption.label.key | translate:question.noShortcutOption.label.parameters }}
+      </label>
+    </div>
+
+    <div *ngIf="!isDateValid && dateErrors.length > 0"
+         class="error-block text-danger"
+         data-cy-label="validation_message">
+      <p *ngFor="let error of dateErrors">
+        {{ 'question.' + question.key + '.error.' + error | translate }}
+      </p>
+    </div>
+
+    <app-date-input [dateControl]="dateControl"
+                    [minDate]="question.minDate"
+                    [maxDate]="question.maxDate"
+                    [disabled]="isShortcutSelected"
+                    [identifier]="question.key"
+                    #dateInputComponent>
+    </app-date-input>
+
+    <div *ngFor="let shortcut of question.shortcutOptions">
+      <hr>
+      <div class="radio">
+        <label>
+          <input type="radio"
+                 [value]="shortcut.value"
+                 formControlName="shortcut"
+                 (change)="onShortcutChanged($event.currentTarget.checked, shortcut)"
+                 [attr.data-cy]="shortcut.value"
+                 [attr.data-matomo-name]="question.dataCyIdentifier">
+          {{ shortcut.label.key | translate:shortcut.label.parameters }}
+        </label>
+      </div>
+    </div>
+
+  </div>
+</div>
