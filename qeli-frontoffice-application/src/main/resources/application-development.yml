@@ -2,7 +2,6 @@ social.tools:
   frontoffice.ihm-resource-location: classpath:/formulaire
   editique.ws-location: ***REMOVED***
 
-
 server:
   port: 8080
 
@@ -11,3 +10,5 @@ server:
 
   ssl:
     enabled: false
+
+logging.level.root: INFO
