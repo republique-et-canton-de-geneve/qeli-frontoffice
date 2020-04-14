@@ -146,9 +146,9 @@ export class DomicileQuestionService implements QuestionLoader {
       const isDateArriveeInconnu = this.isDateInconnu(dateArriveeGeneveAnswer);
       const dateArriveeGeneve: Date = this.toDate(dateArriveeGeneveAnswer, membre);
 
-      // Si la personne habite en Suisse depuis plus de 10 ans (ou elle ne sait pas la date d'arrivée) pas de sortie
+      // Si la personne habite en Suisse depuis plus de 5 ans (ou elle ne sait pas la date d'arrivée) pas de sortie
       // d'éligibilité.
-      if (this.habiteGeneveDepuis(dateArriveeGeneve, 5)) {
+      if (isDateArriveeInconnu || this.habiteGeneveDepuis(dateArriveeGeneve, 5)) {
         return [];
       } else {
         const eligibiliteGroup = new EligibiliteGroup(eligibilites);
