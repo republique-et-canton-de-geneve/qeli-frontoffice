@@ -9,6 +9,7 @@ import { EnfantsQuestionService } from './enfants/enfants-question.service';
 import { NationaliteQuestionService } from './nationalite/nationalite-question.service';
 import { LogementQuestionService } from './logement/logement-question.service';
 import { PensionAlimentaireQuestionService } from './pension-alimentaire/pension-alimentaire-question.service';
+import { AssuranceMaladieQuestionService } from './assurance-maladie/assurance-maladie-question.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class QuestionService implements QuestionLoader {
               // private formationQuestionService: FormationQuestionService,
               // private situationProfesionelleQuestionService: SituationProfesionelleQuestionService,
               private logementQuestionService: LogementQuestionService,
-              // private assuranceMaladieQuestionService: AssuranceMaladieQuestionService,
+              private assuranceMaladieQuestionService: AssuranceMaladieQuestionService,
               private pensionAlimentaireQuestionService: PensionAlimentaireQuestionService
               // private montantFortuneQuestionService: MontantFortuneQuestionService,
               // private situationFiscaleQuestionService: SituationFiscaleQuestionService
@@ -41,7 +42,7 @@ export class QuestionService implements QuestionLoader {
       // this.formationQuestionService.loadQuestions(configuration, eligibilites),
       // this.situationProfesionelleQuestionService.loadQuestions(configuration, eligibilites),
       this.logementQuestionService.loadQuestions(configuration, eligibilites),
-      // this.assuranceMaladieQuestionService.loadQuestions(configuration, eligibilites),
+      this.assuranceMaladieQuestionService.loadQuestions(configuration, eligibilites),
       this.pensionAlimentaireQuestionService.loadQuestions(configuration, eligibilites)
       // this.montantFortuneQuestionService.loadQuestions(configuration, eligibilites),
       // this.situationFiscaleQuestionService.loadQuestions(configuration, eligibilites)

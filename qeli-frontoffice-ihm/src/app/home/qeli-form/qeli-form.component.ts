@@ -39,7 +39,7 @@ export class QeliFormComponent implements OnInit {
   get currentAnswer() {
     if (this.isCurrentQuestionValid()) {
       const currentQuestion = this.currentQuestion;
-      return currentQuestion.accept(new ToAnswerVisitor(this.form.value[currentQuestion.key]));
+      return currentQuestion.accept(new ToAnswerVisitor(this.form.value, currentQuestion.key));
     }
 
     return null;

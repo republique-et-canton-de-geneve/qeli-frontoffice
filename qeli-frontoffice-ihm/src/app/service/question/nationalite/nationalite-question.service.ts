@@ -95,12 +95,16 @@ export class NationaliteQuestionService implements QuestionLoader {
                   }
                 ]
               }),
-              isShown: value => !this.isSuisseOrUEOrAELE(value[`nationalite_${membre.id}`].pays || [])
+              isShown: value => {
+                const situation = value[`situationMembre_${membre.id}`];
+                const nationalite = situation ? situation[`nationalite_${membre.id}`] : null;
+                return !this.isSuisseOrUEOrAELE(nationalite ? (nationalite.pays || []) : []);
+              }
             },
             {
               question: new DateQuestion({
                 key: `dateArriveeSuisse_${membre.id}`,
-                dataCyIdentifier: `0507_refugie_${membre.id}`,
+                dataCyIdentifier: `0507_dateArriveeSuisse_${membre.id}`,
                 label: {key: 'question.situationMembre.dateArriveeSuisse.label', parameters: translateParams},
                 minDate: moment().subtract(configuration.minYearsFromNow, 'year').toDate(),
                 maxDate: new Date(),
@@ -130,7 +134,11 @@ export class NationaliteQuestionService implements QuestionLoader {
                   }
                 }))
               }),
-              isShown: value => !this.isSuisseOrUEOrAELE(value[`nationalite_${membre.id}`].pays || [])
+              isShown: value => {
+                const situation = value[`situationMembre_${membre.id}`];
+                const nationalite = situation ? situation[`nationalite_${membre.id}`] : null;
+                return !this.isSuisseOrUEOrAELE(nationalite ? (nationalite.pays || []) : []);
+              }
             }
           ]
         }),
