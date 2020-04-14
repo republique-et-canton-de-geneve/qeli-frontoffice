@@ -155,7 +155,6 @@
       },
       "some": "Oui, {numberOfMemebres, select, 0{je reçois} other{moi-même ou une personne de mon foyer reçoit}} une ou plusieurs prestations :",
       "none": "Non, {numberOfMemebres, select, 0{je ne reçois aucune} other{personne de mon foyer ne reçoit aucune}} des prestation",
-      "inconnu": "Je ne sais pas",
       "checkboxGroup": {
         "SUBSIDES": "Subsides d'assurance-maladie (SAM) :",
         "BOURSES": "Bourses d'études (SBPE) :"
@@ -348,11 +347,40 @@
       "none": "Il(elle) ne reçoit aucun de ces revenus",
       "motifRefus": {
         "PC_FAM": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
-        "PC_AVS_AI": "Les represtationvenus de votre conjoint vous empêchent de bénéficier de cette prestation",
+        "PC_AVS_AI": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
         "AIDE_SOCIALE": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation"
       },
       "error": {
         "required": "Les revenus de votre conjoint doivent être fournis",
+        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
+      }
+    },
+    "revenusEnfants": {
+      "label": "Quel est {who, select, me{votre revenu} other{le revenu reçu par {membre}}} ?",
+      "option": {
+        "EMPLOI": "Il(elle) est employé / indépendant",
+        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
+        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
+        "AVS_VEUF": "Rente de veuf/ve (AVS)",
+        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
+        "AI_INVALIDITE": "Rente d'invalidité (AI)",
+        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+        "AVS": "Il(elle) reçoit une rente AVS",
+        "AI": "Il(elle) reçoit une rente AI",
+        "APG": {
+          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
+          "help": "En arrêt maladie / accident ou en congé maternité"
+        }
+      },
+      "some": "Sélectionnez chacun de ses revenus :",
+      "none": "Il(elle) ne reçoit aucun de ces revenus",
+      "inconnu": "Je ne sais pas",
+      "motifRefus": {
+        "PC_AVS_AI": "{who, select, me{Vos revenus} other{Les revenus reçus par {membre}}} vous empêchent de bénéficier de cette prestation",
+        "BOURSES": "{who, select, me{Vos revenus} other{Les revenus reçus par {membre}}} vous empêchent de bénéficier de cette prestation"
+      },
+      "error": {
+        "required": "Les revenus de votre enfant doivent être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },

@@ -5,12 +5,12 @@ import { TypeRevenus } from './revenus.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import {
-  CheckboxGroup,
-  CheckboxGroupAnswer, CheckboxGroupQuestion
+  CheckboxGroup, CheckboxGroupAnswer, CheckboxGroupQuestion
 } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 import { Demandeur, MembreFamille, Relation } from '../../configuration/demandeur.model';
 import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Prestation } from '../../configuration/prestation.model';
+import { OptionAnswer, StringAnswer } from '../../../dynamic-question/model/answer.model';
 
 const REVENUS_OPTIONS = [
   {label: TypeRevenus.EMPLOI},
@@ -45,11 +45,12 @@ export class RevenusQuestionService implements QuestionLoader {
       eligibiliteGroup.demandeur.membresFamille.filter(
         membre => membre.relation === Relation.PARTENAIRE_ENREGISTRE ||
                   membre.relation === Relation.EPOUX ||
-                  membre.relation === Relation.CONCUBIN
+                  membre.relation === Relation.CONCUBIN ||
+                  membre.relation === Relation.ENFANT
       )
     );
 
-    return membres.map((membre): QeliQuestionDecorator<any>[] => {
+     return membres.map((membre): QeliQuestionDecorator<any>[] => {
       const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
       return [
         {
@@ -95,6 +96,48 @@ export class RevenusQuestionService implements QuestionLoader {
                                                                    Prestation.BOURSES], membre),
           categorie: Categorie.SITUATION_PERSONELLE,
           subcategorie: Subcategorie.REVENUS
+        },
+        {
+          question: new CheckboxGroupQuestion({
+            key: `revenusEnfants_${membre.id}`,
+            dataCyIdentifier: `0602_revenusEnfants_${membre.id}`,
+            label: {
+              key: 'question.revenusEnfants.label',
+              parameters: translateParams
+            },
+            noneOptions: [
+              {
+                value: 'OUI',
+                label: {
+                  key: 'question.revenusEnfants.none'
+                }
+              },
+              {
+                value: 'NON',
+                label: {
+                  key: 'question.revenusEnfants.some'
+                }
+              },
+              {value: 'INCONNU', label: {key: 'question.prestations.inconnu'}}
+            ],
+            checkboxOptions: REVENUS_OPTIONS.map(revenuOption => {
+              const options = !!revenuOption.options
+                              ? revenuOption.options.map(option => { return {value: option.label, label: {key: `question.revenusEnfants.option.${option.label}`}} as QuestionOption<string>; })
+                              : null;
+
+              const text = !!revenuOption.help
+                           ? {key: `question.revenusEnfants.option.${revenuOption.label}.label`, help: `question.revenusEnfants.option.${revenuOption.label}.help`}
+                           : {key: `question.revenusEnfants.option.${revenuOption.label}`};
+
+              return !!options
+                     ? {label: text, options: options} as CheckboxGroup
+                     : {label: text, value: revenuOption.label } as QuestionOption<string>;
+            })
+          }),
+          calculateRefus: this.calculateRevenusRefusEnfantsFn(membre),
+          eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.PC_AVS_AI, Prestation.BOURSES], membre),
+          categorie: Categorie.SITUATION_PERSONELLE,
+          subcategorie: Subcategorie.REVENUS
         }
       ];
     }).reduce((result, current) => result.concat(current), []);
@@ -102,19 +145,19 @@ export class RevenusQuestionService implements QuestionLoader {
 
   calculateRevenusRefusFn(membre: MembreFamille | Demandeur) {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
-      const refus: EligibiliteRefusee[] = null;
-      const revenusAnswer = formData['prestations'] as CheckboxGroupAnswer;
-      const choices = revenusAnswer.choices;
+      const refus: EligibiliteRefusee[] = [];
+      const revenusConjointAnswer = formData[`revenusConjoint_${membre.id}`] as CheckboxGroupAnswer;
+      const choices = revenusConjointAnswer.choices;
 
       if (choices.some(choice => choice.value === 'AVS' || choice.value === 'AI')) {
         this.createRefusByPrestation(
-          [Prestation.PC_FAM, Prestation.AIDE_SOCIALE], refus, eligibilites
+          [Prestation.PC_FAM, Prestation.AIDE_SOCIALE], refus, eligibilites, 'revenusConjoint', membre
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       }
 
       if (choices.some(choice => choice.value === 'CHOMAGE' || choice.value === 'AVS_RETRAITE' || choice.value === 'AI_INVALIDITE')) {
         this.createRefusByPrestation(
-          [Prestation.PC_FAM, Prestation.AIDE_SOCIALE], refus, eligibilites
+          [Prestation.PC_FAM, Prestation.AIDE_SOCIALE], refus, eligibilites, 'revenusConjoint', membre
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       }
 
@@ -122,20 +165,47 @@ export class RevenusQuestionService implements QuestionLoader {
     };
   }
 
-  //TODO : Duplicate from prestation-question.service -> maybe refactor to a question.util ?
-  private createRefusByPrestation(prestations: Prestation[],
-                                  refus: EligibiliteRefusee[],
-                                  eligibilites: Eligibilite[]) {
-    return eligibilites.filter(eligibilite => prestations.includes(eligibilite.prestation))
-                       .filter(eligibilite => !this.isEligibiliteRefusee(refus, eligibilite))
-                       .map(eligibilite => ({
-                         eligibilite: eligibilite,
-                         motif: {key: `question.revenusConjoint.motifRefus.${eligibilite.prestation}`}
-                       } as EligibiliteRefusee));
+  calculateRevenusRefusEnfantsFn(membre: MembreFamille | Demandeur) {
+    return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
+      const refus: EligibiliteRefusee[] = [];
+      const revenusEnfantsAnswer = formData[`revenusEnfants_${membre.id}`] as CheckboxGroupAnswer;
+      const choices = revenusEnfantsAnswer.choices;
+
+      if (choices.some(choice => choice.value !== 'AVS' && choice.value !== 'AI')) {
+        this.createRefusByPrestation(
+          [Prestation.PC_AVS_AI], refus, eligibilites, 'revenusEnfants', membre
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+      }
+
+      if (choices.some(choice => choice.value === 'CHOMAGE' || choice.value === 'AVS_RETRAITE' || choice.value === 'AI_INVALIDITE')) {
+        this.createRefusByPrestation(
+          [Prestation.BOURSES], refus, eligibilites, 'revenusEnfants', membre
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+      }
+
+      return [];
+    };
   }
 
-  private isEligibiliteRefusee(refus: EligibiliteRefusee[], eligibilite: Eligibilite) {
-    return new EligibiliteGroup(refus.map(refus => refus.eligibilite)).includes(eligibilite);
+  private createRefusByPrestation(prestations: Prestation[],
+                                  refus: EligibiliteRefusee[],
+                                  eligibilites: Eligibilite[], key, membre: MembreFamille | Demandeur) {
+    const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+
+    prestations.forEach(prestation => {
+      eligibiliteGroup.findByPrestationEtMembre(prestation, membre).forEach(eligibilite => {
+        refus.push({
+          eligibilite: eligibilite,
+          motif: {
+            key: `question.${key}.motifRefus.${eligibilite.prestation}`,
+            parameters: translateParams
+          }
+        });
+      });
+    });
+
+    return refus;
   }
 
       /*
