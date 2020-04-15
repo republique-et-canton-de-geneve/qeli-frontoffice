@@ -106,9 +106,9 @@ export class LogementQuestionService implements QuestionLoader {
           label: {key: 'question.appartementHabitationMixte.label'},
           help: {key: 'question.appartementHabitationMixte.help'},
           inline: true,
-          radioOptions: Object.keys(ReponseProgressive).map(logement => ({
-            value: logement,
-            label: {key: `common.reponseProgressive.${logement}`}
+          radioOptions: Object.keys(ReponseProgressive).map(reponse => ({
+            value: reponse,
+            label: {key: `common.reponseProgressive.${reponse}`}
           }))
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(

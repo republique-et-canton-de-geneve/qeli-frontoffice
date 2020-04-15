@@ -141,7 +141,7 @@
   },
   "question": {
     "prestations": {
-      "label": "Recevez-vous {numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
+      "label": "Recevez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
       "help": "En cas de doute sur une prestation, ne pas cocher la case concernée.<br>Si vous ne savez pas du tout si vous recevez des prestations et lesquelles, cocher \"Non\".",
       "option": {
         "SUBSIDES": "{numberOfMemebres, select, 0{Subsides d'assurance-maladie (SAM)} other {{who, select, me{Je reçois} other{{membre} reçoit}} des subsides d'assurance-maladie}}",
@@ -683,13 +683,14 @@
       }
     },
     "assuranceMaladieSuisse": {
-      "label": "Avez-vous une assurance-maladie suisse (LAMal) ?",
+      "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} une assurance-maladie suisse (LAMal) ?",
       "help": "Affiliation à l'assurance-maladie : En Suisse, l'assurance de base pour les soins (LAMal) en cas de maladie et d'accident est obligatoire. Toute personne, dès sa prise de domicile en Suisse, est tenue d'être assurée pour les soins en cas de maladie et d'accident. Etre affilié signifie avoir souscrit à une police d'assurance-maladie suisse. Par exemple, Assura, CSS, Helsana ou Mutuel.",
+      "membre": "{who, select, me{J'ai} other{{membre} a}} une assurance-maladie suisse (LAMal) :",
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)"
+        "SUBSIDES": "Vous avez indiqué {who, select, me{ne pas être affilié} other{que {membre} n'est pas affilié}} à l'assurance maladie suisse (LAMal)"
       }
     },
     "droitPensionAlimentaire": {
