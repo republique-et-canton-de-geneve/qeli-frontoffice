@@ -42,6 +42,7 @@ export class EnfantsQuestionService implements QuestionLoader {
               key: 'question.parentsEnfants.membre',
               parameters: {membre: enfant.prenom}
             },
+            inline: true,
             radioOptions: Object.keys(TypeEnfant).filter(typeEnfant =>
               typeEnfant === TypeEnfant.MOI ||
               typeEnfant === TypeEnfant.AUTRES ||

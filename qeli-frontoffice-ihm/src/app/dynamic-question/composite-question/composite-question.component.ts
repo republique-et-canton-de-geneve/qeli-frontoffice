@@ -17,16 +17,16 @@ export class CompositeQuestionComponent implements QuestionComponent<CompositeAn
 
   ngOnInit(): void {
     this.updateControls();
-    this.formGroup.valueChanges.subscribe(() => this.updateControls());
+    this.form.valueChanges.subscribe(() => this.updateControls());
   }
 
   private updateControls() {
     const formGroup = this.formGroup;
     this.question.items.filter(items => items.isShown).forEach(item => {
       const controls = formGroup.controls[item.question.key];
-      if (!controls.enabled && item.isShown(formGroup.value)) {
+      if (!controls.enabled && item.isShown(this.form.value)) {
         controls.enable();
-      } else if (!controls.disabled && !item.isShown(formGroup.value)) {
+      } else if (!controls.disabled && !item.isShown(this.form.value)) {
         controls.disable();
       }
     });

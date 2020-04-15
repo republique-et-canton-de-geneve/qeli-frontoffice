@@ -17,7 +17,7 @@ import * as moment from 'moment';
 import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
-import { Pays, PAYS_AELE_UE } from '../../../dynamic-question/nationalite-question/pays.model';
+import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../../../dynamic-question/nationalite-question/pays.model';
 
 @Injectable({
   providedIn: 'root'
@@ -95,12 +95,12 @@ export class NationaliteQuestionService implements QuestionLoader {
                   }
                 ]
               }),
-              isShown: value => !this.isSuisseOrUEOrAELE(value[`nationalite_${membre.id}`].pays || [])
+              isShown: this.showQuestionsComplementairesFn(membre).bind(this)
             },
             {
               question: new DateQuestion({
                 key: `dateArriveeSuisse_${membre.id}`,
-                dataCyIdentifier: `0507_refugie_${membre.id}`,
+                dataCyIdentifier: `0507_dateArriveeSuisse_${membre.id}`,
                 label: {key: 'question.situationMembre.dateArriveeSuisse.label', parameters: translateParams},
                 minDate: moment().subtract(configuration.minYearsFromNow, 'year').toDate(),
                 maxDate: new Date(),
@@ -130,7 +130,7 @@ export class NationaliteQuestionService implements QuestionLoader {
                   }
                 }))
               }),
-              isShown: value => !this.isSuisseOrUEOrAELE(value[`nationalite_${membre.id}`].pays || [])
+              isShown: this.showQuestionsComplementairesFn(membre).bind(this)
             }
           ]
         }),
@@ -142,12 +142,25 @@ export class NationaliteQuestionService implements QuestionLoader {
     });
   }
 
+  private showQuestionsComplementairesFn(membre: Demandeur | MembreFamille) {
+    return (value: any) => {
+      const situation = value[`situationMembre_${membre.id}`];
+      const nationalite = situation ? situation[`nationalite_${membre.id}`] : null;
+      const isApatride = nationalite ? !!nationalite['apatride'] : false;
+      return !isApatride && !this.isSuisseOrUEOrAELE(nationalite ? (nationalite.pays || []) : []);
+    };
+  }
+
   private isSuisseOrUEOrAELE(pays: Pays[]) {
     return pays.some(value => value === Pays.CH || PAYS_AELE_UE.includes(value));
   }
 
   private isAnswerSuisseOrUEorAELE(answer: NationaliteAnswer) {
     return this.isSuisseOrUEOrAELE(answer.pays.map(option => option.value));
+  }
+
+  private isAnswerPaysConventionne(answer: NationaliteAnswer) {
+    return answer.pays.map(option => option.value).some(value => PAYS_CONVENTIONES.includes(value));
   }
 
   private habiteEnSuisseDepuis(dateArriveeSuisse: Date, years: number) {
@@ -173,8 +186,8 @@ export class NationaliteQuestionService implements QuestionLoader {
       const answers = (formData[`situationMembre_${membre.id}`] as CompositeAnswer).answers;
       const nationaliteAnswer = answers[`nationalite_${membre.id}`] as NationaliteAnswer;
 
-      // Si la personne à une nationalité Suisse ou d'un Pays de l'UE ou AELE pas de sortie d'éligibilité
-      if (!nationaliteAnswer.apatride && this.isAnswerSuisseOrUEorAELE(nationaliteAnswer)) {
+      // Si la personne à une nationalité Suisse, d'un Pays de l'UE/AELE ou est apatride pas de sortie d'éligibilité
+      if (nationaliteAnswer.apatride || this.isAnswerSuisseOrUEorAELE(nationaliteAnswer)) {
         return [];
       }
 
@@ -192,10 +205,13 @@ export class NationaliteQuestionService implements QuestionLoader {
       const refus: EligibiliteRefusee[] = [];
       const refugieAnswer = (answers[`refugie_${membre.id}`] as OptionAnswer<RequerantRefugie>);
       const isReugie = refugieAnswer.value.value === RequerantRefugie.REFUGIE;
-      const isRefugieOrInconnu = isReugie || refugieAnswer.value.value === RequerantRefugie.INCONNU;
 
-      if (!this.habiteEnSuisseDepuis(dateArriveEnSuisse, 5)) {
-        if (!isRefugieOrInconnu) {
+      if (this.habiteEnSuisseDepuis(dateArriveEnSuisse, 5)) {
+        const isRefugieOrInconnu = isReugie || refugieAnswer.value.value === RequerantRefugie.INCONNU;
+
+        // Si la personne habite en Suisse depuis plus de 5 (mais moins de 10) et qu'elle n'est pas réfugiée/inconnu ou
+        // avec une nationalité d'un pays conventionné, elle a un refus PC AVS AI.
+        if (!isRefugieOrInconnu && !this.isAnswerPaysConventionne(nationaliteAnswer)) {
           eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI, membre).forEach(eligibilite => {
             refus.push({
               eligibilite: eligibilite,
@@ -206,7 +222,19 @@ export class NationaliteQuestionService implements QuestionLoader {
             });
           });
         }
+      } else {
+        // Refus PC AVS AI si la personne habite en Suisse depuis moins de 5 ans.
+        eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI, membre).forEach(eligibilite => {
+          refus.push({
+            eligibilite: eligibilite,
+            motif: {
+              key: `question.situationMembre.dateArriveeSuisse.motifRefus.${Prestation.PC_AVS_AI}`,
+              parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
+            }
+          });
+        });
 
+        // Refus BOURSE si la personne habite en Suisse depuis moins de 5 ans et elle n'est pas réfugiée.
         if (!isReugie) {
           eligibiliteGroup.findByPrestationEtMembre(Prestation.BOURSES, membre).forEach(eligibilite => {
             refus.push({

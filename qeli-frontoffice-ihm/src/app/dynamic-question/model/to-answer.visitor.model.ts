@@ -20,10 +20,16 @@ import { QuestionOption } from './question.model';
  * d'un champ de formulaire.
  */
 export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
-  rawAnswer: any;
+  rawAnswers: any;
+  questionKey: string;
 
-  constructor(rawAnswer: any) {
-    this.rawAnswer = rawAnswer;
+  constructor(rawAnswers: any, questionKey: string) {
+    this.rawAnswers = rawAnswers;
+    this.questionKey = questionKey;
+  }
+
+  get rawAnswer() {
+    return this.rawAnswers[this.questionKey];
   }
 
   visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): Answer {
@@ -82,10 +88,10 @@ export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
   visitCompositeQuestion(question: CompositeQuestion): Answer {
     let result: { [key: string]: Answer } = {};
     question.items.filter(
-      component => !component.isShown || component.isShown(this.rawAnswer)
+      component => !component.isShown || component.isShown(this.rawAnswers)
     ).forEach(component => {
       result[component.question.key] = component.question.accept(
-        new ToAnswerVisitor(this.rawAnswer[component.question.key])
+        new ToAnswerVisitor(this.rawAnswer, component.question.key)
       );
     });
 
