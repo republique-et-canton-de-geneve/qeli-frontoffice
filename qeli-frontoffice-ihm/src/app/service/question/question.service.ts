@@ -12,6 +12,7 @@ import { PensionAlimentaireQuestionService } from './pension-alimentaire/pension
 import { AssuranceMaladieQuestionService } from './assurance-maladie/assurance-maladie-question.service';
 import { RevenusQuestionService } from './revenus/revenus-question.service';
 import { FormationQuestionService } from './formation/formation-question.service';
+import { MontantFortuneQuestionService } from './montant-fortune/montant-fortune-question.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +28,8 @@ export class QuestionService implements QuestionLoader {
               // private situationProfesionelleQuestionService: SituationProfesionelleQuestionService,
               private logementQuestionService: LogementQuestionService,
               private assuranceMaladieQuestionService: AssuranceMaladieQuestionService,
-              private pensionAlimentaireQuestionService: PensionAlimentaireQuestionService
-              // private montantFortuneQuestionService: MontantFortuneQuestionService,
+              private pensionAlimentaireQuestionService: PensionAlimentaireQuestionService,
+              private montantFortuneQuestionService: MontantFortuneQuestionService
               // private situationFiscaleQuestionService: SituationFiscaleQuestionService
   ) {
 
@@ -45,8 +46,8 @@ export class QuestionService implements QuestionLoader {
       // this.situationProfesionelleQuestionService.loadQuestions(configuration, eligibilites),
       this.logementQuestionService.loadQuestions(configuration, eligibilites),
       this.assuranceMaladieQuestionService.loadQuestions(configuration, eligibilites),
-      this.pensionAlimentaireQuestionService.loadQuestions(configuration, eligibilites)
-      // this.montantFortuneQuestionService.loadQuestions(configuration, eligibilites),
+      this.pensionAlimentaireQuestionService.loadQuestions(configuration, eligibilites),
+      this.montantFortuneQuestionService.loadQuestions(configuration, eligibilites)
       // this.situationFiscaleQuestionService.loadQuestions(configuration, eligibilites)
     );
   }
