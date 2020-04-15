@@ -353,26 +353,9 @@
       }
     },
     "scolarite": {
-      "label": "Quelle est la formation concernée ?",
-      "option": {
-        "SCOLARITE_OBLIGATOIRE_1P_A_10P": "La scolarité obligatoire, de 1 P à 10 P",
-        "SCOLARITE_OBLIGATOIRE_11P": {
-          "label": "La scolarité obligatoire, en 11 P",
-          "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I)."
-        },
-        "FORMATION_DOCTORALE": {
-          "label": "Un doctorat",
-          "help": "Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
-        },
-        "FORMATION_CONTINUE": {
-          "label": "Une formation continue",
-          "help": "Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
-        },
-        "AUCUNE": "Aucune de ces réponses",
-        "INCONNU": "Je ne sais pas"
-      },
+      "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre} ?}} ?",
       "motifRefus": {
-        "BOURSES": "La formation que vous avez indiqué suivre ne peut pas faire objet d'une bourse"
+        "BOURSES": "La formation que {who, select, me{vous avez indiqué suivre} other{{membre} suit}} ne peut pas faire objet d'une bourse"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -715,6 +698,23 @@
     "loyer": {
       "FIXE": "Loyer fixe",
       "EN_FONCTION_REVENU": "Loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)",
+      "INCONNU": "Je ne sais pas"
+    },
+    "scolarite": {
+      "SCOLARITE_OBLIGATOIRE_1P_A_10P": "La scolarité obligatoire, de 1 P à 10 P",
+      "SCOLARITE_OBLIGATOIRE_11P": {
+        "label": "La scolarité obligatoire, en 11 P",
+        "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I)."
+      },
+      "FORMATION_DOCTORALE": {
+        "label": "Un doctorat",
+        "help": "Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
+      },
+      "FORMATION_CONTINUE": {
+        "label": "Une formation continue",
+        "help": "Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
+      },
+      "AUCUNE": "Aucune de ces réponses",
       "INCONNU": "Je ne sais pas"
     },
     "pays": {
