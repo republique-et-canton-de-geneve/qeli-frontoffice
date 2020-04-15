@@ -15,8 +15,8 @@ export interface QuestionSchema {
   required?: boolean;
   showErrors?: boolean;
   dataCyIdentifier: string;
-  label: I18nString;
-  help?: I18nString;
+  label: I18nString | ((value: any) => I18nString);
+  help?: I18nString | ((value: any) => I18nString);
   errorLabels?: { [key: string]: I18nString };
   validators?: ValidatorFn[];
 }
@@ -51,14 +51,15 @@ export abstract class Question<T extends Answer> {
   dataCyIdentifier: string;
 
   /**
-   * Le libellé de la question.
+   * Le libellé de la question ou une méthode qui génère le libellé à partir des données déjà saisie dans le formulaire.
    */
-  label: I18nString;
+  label: I18nString | ((value: any) => I18nString);
 
   /**
-   * Optionnellement, le texte d'aide.
+   * Optionnellement, le texte d'aide ou une méthode qui génère le texte à partir des données déjà saisie dans le
+   * formulaire.
    */
-  help?: I18nString;
+  help?: I18nString | ((value: any) => I18nString);
 
   /**
    * Les libellés pour les messages d'erreurs qui sont lié à cette question
