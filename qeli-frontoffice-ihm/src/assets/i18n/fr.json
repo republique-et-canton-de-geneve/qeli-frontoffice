@@ -274,38 +274,6 @@
         "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève"
       }
     },
-    "revenus": {
-      "label": "Quels revenus recevez-vous ?",
-      "option": {
-        "EMPLOI": "Je suis employé / indépendant",
-        "CHOMAGE": "Je reçois l'assurance-chômage",
-        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VEUF": "Rente de veuf/ve (AVS)",
-        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
-        "AI_INVALIDITE": "Rente d'invalidité (AI)",
-        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "APG": {
-          "label": "Je reçois des indemnités journalières / perte de gain",
-          "help": "En arrêt maladie / accident ou en congé maternité"
-        }
-      },
-      "some": "Sélectionnez chacun de vos revenus :",
-      "none": "Je ne reçois aucun de ces revenus",
-      "checkboxGroup": {
-        "AVS": "Je reçois une rente AVS",
-        "AI": "Je reçois une rente AI"
-      },
-      "motifRefus": {
-        "BOURSES": "Vos revenus vous empêchent de bénéficier de cette prestation",
-        "PC_FAM": "Vos revenus vous empêchent de bénéficier de cette prestation",
-        "PC_AVS_AI": "Vos revenus vous empêchent de bénéficier de cette prestation",
-        "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "Vos revenus doivent être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
     "situationRente": {
       "label": "Votre situation est-elle parmi les suivantes :",
       "option": {
@@ -326,61 +294,33 @@
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
-    "revenusConjoint": {
-      "label": "Quels revenus votre conjoint reçoit-il ?",
+    "revenus": {
+      "label": "Quels revenus {who, select, me{recevez vous} other{{membre} reçoit-il(elle)}} ?",
       "option": {
-        "EMPLOI": "Il(elle) est employé / indépendant",
-        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
+        "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé / indépendant",
+        "CHOMAGE": "{who, select, me{Je reçois} other{{membre} reçoit}} l'assurance-chômage",
         "AVS_RETRAITE": "Rente de vieillesse (AVS)",
         "AVS_VEUF": "Rente de veuf/ve (AVS)",
         "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
         "AI_INVALIDITE": "Rente d'invalidité (AI)",
         "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "AVS": "Il(elle) reçoit une rente AVS",
-        "AI": "Il(elle) reçoit une rente AI",
+        "AVS": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AVS",
+        "AI": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AI",
         "APG": {
-          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
+          "label": "{who, select, me{Je reçois} other{{membre} reçoit}} des indemnités journalières / perte de gain",
           "help": "En arrêt maladie / accident ou en congé maternité"
         }
       },
-      "some": "Sélectionnez chacun de ses revenus :",
-      "none": "Il(elle) ne reçoit aucun de ces revenus",
-      "motifRefus": {
-        "PC_FAM": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
-        "PC_AVS_AI": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
-        "AIDE_SOCIALE": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "Les revenus de votre conjoint doivent être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "revenusEnfants": {
-      "label": "Quel est {who, select, me{votre revenu} other{le revenu reçu par {membre}}} ?",
-      "option": {
-        "EMPLOI": "Il(elle) est employé / indépendant",
-        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
-        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VEUF": "Rente de veuf/ve (AVS)",
-        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
-        "AI_INVALIDITE": "Rente d'invalidité (AI)",
-        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "AVS": "Il(elle) reçoit une rente AVS",
-        "AI": "Il(elle) reçoit une rente AI",
-        "APG": {
-          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
-          "help": "En arrêt maladie / accident ou en congé maternité"
-        }
-      },
-      "some": "Sélectionnez chacun de ses revenus :",
-      "none": "Il(elle) ne reçoit aucun de ces revenus",
+      "some": "Sélectionnez chacun {who, select, me{de vos revenus} other{des revenus de {membre}}} :",
+      "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
       "inconnu": "Je ne sais pas",
       "motifRefus": {
-        "PC_AVS_AI": "{who, select, me{Vos revenus} other{Les revenus reçus par {membre}}} vous empêchent de bénéficier de cette prestation",
-        "BOURSES": "{who, select, me{Vos revenus} other{Les revenus reçus par {membre}}} vous empêchent de bénéficier de cette prestation"
+        "PC_FAM": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
+        "PC_AVS_AI": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
+        "AIDE_SOCIALE": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation"
       },
       "error": {
-        "required": "Les revenus de votre enfant doivent être fournis",
+        "required": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} doivent être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
@@ -400,82 +340,6 @@
       },
       "error": {
         "required": "La situation de votre conjoint doit être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "revenusConcubin": {
-      "label": "Quels revenus votre concubin reçoit-il ?",
-      "option": {
-        "EMPLOI": "Il(elle) est employé / indépendant",
-        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
-        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VEUF": "Rente de veuf/ve (AVS)",
-        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
-        "AI_INVALIDITE": "Rente d'invalidité (AI)",
-        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "APG": {
-          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
-          "help": "En arrêt maladie / accident ou en congé maternité"
-        }
-      },
-      "some": "Sélectionnez chacun de ses revenus :",
-      "none": "Il(elle) ne reçoit aucun de ces revenus",
-      "checkboxGroup": {
-        "AVS": "Il(elle) reçoit une rente AVS",
-        "AI": "Il(elle) reçoit une rente AI"
-      },
-      "motifRefus": {
-        "PC_FAM": "Les revenus de votre concubin vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "Les revenus de votre concubin doivent être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "revenusEnfant": {
-      "label": "Quels revenus votre(vos) enfant(s) reçoit(vent)-il(s) ?",
-      "option": {
-        "EMPLOI": "Il(elle) est employé / indépendant",
-        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
-        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VEUF": "Rente de veuf/ve (AVS)",
-        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
-        "AI_INVALIDITE": "Rente d'invalidité (AI)",
-        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "APG": {
-          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
-          "help": "En arrêt maladie / accident ou en congé maternité"
-        }
-      },
-      "some": "Sélectionnez chacun de ses revenus :",
-      "none": "Il(elle) ne reçoit aucun de ces revenus",
-      "checkboxGroup": {
-        "AVS": "Il(elle) reçoit une rente AVS",
-        "AI": "Il(elle) reçoit une rente AI"
-      },
-      "motifRefus": {
-        "PC_AVS_AI": "Les revenus de votre(vos) enfant(s) vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "Les revenus de votre(vos) enfant(s) doivent être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "situationRenteEnfant": {
-      "label": "La situation de votre(vos) enfant(s) est-elle parmi les suivantes :",
-      "option": {
-        "RECONNU_OCAI": {
-          "label": "Il(elle) est reconnu invalide par l'OCAI avec un taux minimum de 40%",
-          "help": "OCAI : l'office cantonal de l'assurance invalidité."
-        }
-      },
-      "some": "Sélectionnez toutes les options qui décrivent la situation de votre(vos) enfant(s) :",
-      "none": "Aucune des situation précedentes",
-      "motifRefus": {
-        "PC_AVS_AI": "La situation de votre(vos) enfant(s) vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "La situation de votre(vos) enfant(s) doit être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
