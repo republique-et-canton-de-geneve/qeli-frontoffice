@@ -3,7 +3,7 @@ import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
+import { Personne } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
 import {
@@ -21,7 +21,7 @@ export class DomicileQuestionService implements QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres: (MembreFamille | Demandeur)[] = [
+    const membres: Personne[] = [
       eligibiliteGroup.demandeur,
       eligibiliteGroup.demandeur.partenaire
     ].filter(membre => membre !== null && membre !== undefined);
@@ -36,6 +36,7 @@ export class DomicileQuestionService implements QuestionLoader {
             key: 'question.domicileCantonGE.label',
             parameters: translateParams
           },
+          errorLabels: {required: {key: 'question.domicileCantonGE.error.required'}},
           inline: true,
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
@@ -95,6 +96,7 @@ export class DomicileQuestionService implements QuestionLoader {
         dataCyIdentifier: '0504_residenceEffectiveCantonGE',
         label: {key: 'question.residenceEffectiveCantonGE.label'},
         help: {key: 'question.residenceEffectiveCantonGE.help'},
+        errorLabels: {required: {key: 'question.residenceEffectiveCantonGE.error.required'}},
         inline: true,
         radioOptions: REPONSE_BINAIRE_OPTIONS
       }),
@@ -102,7 +104,7 @@ export class DomicileQuestionService implements QuestionLoader {
         'residenceEffectiveCantonGE',
         ReponseBinaire.NON,
         Prestation.AIDE_SOCIALE,
-        {key: `question.residenceEffectiveCantonGE.motifRefus.${Prestation.AIDE_SOCIALE}`}
+        (eligibilite) => ({key: `question.residenceEffectiveCantonGE.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AIDE_SOCIALE),
       categorie: Categorie.SITUATION_PERSONELLE,
@@ -112,28 +114,32 @@ export class DomicileQuestionService implements QuestionLoader {
     return questions;
   }
 
-  private calculateDomicileCantonGERefusFn(membre: MembreFamille | Demandeur) {
+  private calculateDomicileCantonGERefusFn(membre: Personne) {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const choosenOption = (formData[`domicileCantonGE_${membre.id}`] as OptionAnswer<string>).value;
 
       if (choosenOption.value === ReponseProgressive.NON) {
-        const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-        return eligibiliteGroup.findByPrestationEtMembre([
-          Prestation.PC_FAM, Prestation.AVANCES, Prestation.ALLOCATION_LOGEMENT, Prestation.AIDE_SOCIALE
-        ], membre).map(eligibilite => ({
-          eligibilite: eligibilite,
-          motif: {
+        const prestationToRefuse = [Prestation.PC_FAM,
+                                    Prestation.AVANCES,
+                                    Prestation.ALLOCATION_LOGEMENT,
+                                    Prestation.AIDE_SOCIALE];
+
+        return QuestionUtils.createRefusByPrestationAndMembre(
+          eligibilites, prestationToRefuse, membre, eligibilite => ({
             key: `question.domicileCantonGE.motifRefus.${eligibilite.prestation}`,
             parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
-          }
-        }));
+          })
+        );
+
+        // TODO si tout les eligibilite PC AVS AI Demandeur et concubin/partenaire/conjoint tombe, celle des enfants
+        // tombent aussi
       }
 
       return [];
     };
   }
 
-  private calculatesDateArriveeGeneveRefusFn(membre: MembreFamille | Demandeur) {
+  private calculatesDateArriveeGeneveRefusFn(membre: Personne) {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const dateArriveeGeneveAnswer = formData[`dateArriveeGeneve_${membre.id}`] as DateAnswer;
       const isDateArriveeInconnu = this.isDateInconnu(dateArriveeGeneveAnswer);
@@ -144,14 +150,12 @@ export class DomicileQuestionService implements QuestionLoader {
       if (isDateArriveeInconnu || this.habiteGeneveDepuis(dateArriveeGeneve, 5)) {
         return [];
       } else {
-        const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-        return eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_FAM, membre).map(eligibilite => ({
-          eligibilite: eligibilite,
-          motif: {
+        return QuestionUtils.createRefusByPrestationAndMembre(
+          eligibilites, Prestation.PC_FAM, membre, eligibilite => ({
             key: `question.dateArriveeGeneve.motifRefus.${eligibilite.prestation}`,
             parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
-          }
-        }));
+          })
+        );
       }
     }
   }
@@ -166,7 +170,7 @@ export class DomicileQuestionService implements QuestionLoader {
     return dateAnswer.shortcut && dateAnswer.shortcut.value === 'INCONNU';
   }
 
-  private toDate(dateAnswer: DateAnswer, membre: MembreFamille | Demandeur) {
+  private toDate(dateAnswer: DateAnswer, membre: Personne) {
     if (dateAnswer.shortcut && dateAnswer.shortcut.value === 'DEPUIS_NAISSANCE') {
       return membre.dateNaissance;
     } else {

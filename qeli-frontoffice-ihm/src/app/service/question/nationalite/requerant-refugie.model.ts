@@ -1,4 +1,4 @@
-import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
+import { Personne } from '../../configuration/demandeur.model';
 import { QuestionOption } from '../../../dynamic-question/model/question.model';
 
 export enum RequerantRefugie {
@@ -9,44 +9,34 @@ export enum RequerantRefugie {
 }
 
 
-export function requerantRefugieAsQuestionOptions(membre: Demandeur | MembreFamille): QuestionOption<string>[] {
+const HAS_HELP = [RequerantRefugie.REQUERANT_ASILE, RequerantRefugie.REFUGIE];
+
+export function refugieToOption(requerantRefugie: RequerantRefugie, membre: Personne): QuestionOption<string> {
   const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
-  return [
-    {
-      value: RequerantRefugie.REQUERANT_ASILE,
+
+  if (HAS_HELP.includes(requerantRefugie)) {
+    return {
+      value: requerantRefugie,
       label: {
-        key: `common.requerantRefugie.${RequerantRefugie.REQUERANT_ASILE}.label`,
+        key: `common.requerantRefugie.${requerantRefugie}.label`,
         parameters: translateParams
       },
       help: {
-        key: `common.requerantRefugie.${RequerantRefugie.REQUERANT_ASILE}.help`,
+        key: `common.requerantRefugie.${requerantRefugie}.help`,
         parameters: translateParams
       }
-    },
-    {
-      value: RequerantRefugie.REFUGIE,
+    };
+  } else {
+    return {
+      value: requerantRefugie,
       label: {
-        key: `common.requerantRefugie.${RequerantRefugie.REFUGIE}.label`,
-        parameters: translateParams
-      },
-      help: {
-        key: `common.requerantRefugie.${RequerantRefugie.REFUGIE}.help`,
+        key: `common.requerantRefugie.${requerantRefugie}`,
         parameters: translateParams
       }
-    },
-    {
-      value: RequerantRefugie.AUCUN,
-      label: {
-        key: `common.requerantRefugie.${RequerantRefugie.AUCUN}`,
-        parameters: translateParams
-      }
-    },
-    {
-      value: RequerantRefugie.INCONNU,
-      label: {
-        key: `common.requerantRefugie.${RequerantRefugie.INCONNU}`,
-        parameters: translateParams
-      }
-    }
-  ];
+    };
+  }
+}
+
+export function requerantRefugieAsQuestionOptions(membre: Personne): QuestionOption<string>[] {
+  return Object.values(RequerantRefugie).map(requerantRefugie => refugieToOption(requerantRefugie, membre));
 }

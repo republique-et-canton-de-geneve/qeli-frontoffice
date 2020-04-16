@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader } from '../question-loader';
+import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
@@ -11,10 +11,10 @@ import {
   NationaliteAnswer, NationaliteQuestion
 } from '../../../dynamic-question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { requerantRefugieAsQuestionOptions, RequerantRefugie } from './requerant-refugie.model';
+import { RequerantRefugie, requerantRefugieAsQuestionOptions } from './requerant-refugie.model';
 import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-question/date-question.model';
 import * as moment from 'moment';
-import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
+import { Personne } from '../../configuration/demandeur.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../../../dynamic-question/nationalite-question/pays.model';
@@ -26,7 +26,7 @@ export class NationaliteQuestionService implements QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres: (Demandeur | MembreFamille)[] = [eligibiliteGroup.demandeur];
+    const membres: Personne[] = [eligibiliteGroup.demandeur];
 
     return membres.concat(eligibiliteGroup.demandeur.membresFamille).map(membre => {
       const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
@@ -67,24 +67,11 @@ export class NationaliteQuestionService implements QuestionLoader {
                 label: {key: 'question.situationMembre.dateArriveeSuisse.label', parameters: translateParams},
                 minDate: moment().subtract(configuration.minYearsFromNow, 'year').toDate(),
                 maxDate: new Date(),
-                errorLabels: {
-                  required: {
-                    key: 'question.situationMembre.dateArriveeSuisse.error.required',
-                    parameters: translateParams
-                  },
-                  maxDate: {
-                    key: 'question.situationMembre.dateArriveeSuisse.error.maxDate',
-                    parameters: translateParams
-                  },
-                  minDate: {
-                    key: 'question.situationMembre.dateArriveeSuisse.error.minDate',
-                    parameters: translateParams
-                  },
-                  invalidDate: {
-                    key: 'question.situationMembre.dateArriveeSuisse.error.invalidDate',
-                    parameters: translateParams
-                  }
-                },
+                errorLabels: QuestionUtils.toErrorLabels(
+                  'dateArriveeSuisse',
+                  ['required', 'maxDate', 'minDate', 'invalidDate'],
+                  translateParams
+                ),
                 shortcuts: ['NO_SHORTCUT', 'DEPUIS_NAISSANCE', 'INCONNU'].map(shortcut => ({
                   value: shortcut,
                   label: {
@@ -105,7 +92,7 @@ export class NationaliteQuestionService implements QuestionLoader {
     });
   }
 
-  private showQuestionsComplementairesFn(membre: Demandeur | MembreFamille) {
+  private showQuestionsComplementairesFn(membre: Personne) {
     return (value: any) => {
       const situation = value[`situationMembre_${membre.id}`];
       const nationalite = situation ? situation[`nationalite_${membre.id}`] : null;
@@ -136,7 +123,7 @@ export class NationaliteQuestionService implements QuestionLoader {
     return dateAnswer.shortcut && dateAnswer.shortcut.value === 'INCONNU';
   }
 
-  private toDate(dateAnswer: DateAnswer, membre: MembreFamille | Demandeur) {
+  private toDate(dateAnswer: DateAnswer, membre: Personne) {
     if (dateAnswer.shortcut && dateAnswer.shortcut.value === 'DEPUIS_NAISSANCE') {
       return membre.dateNaissance;
     } else {
@@ -144,7 +131,7 @@ export class NationaliteQuestionService implements QuestionLoader {
     }
   }
 
-  private calculateRefusFn(membre: MembreFamille | Demandeur): RefusEligibiliteFn {
+  private calculateRefusFn(membre: Personne): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]) => {
       const answers = (formData[`situationMembre_${membre.id}`] as CompositeAnswer).answers;
       const nationaliteAnswer = answers[`nationalite_${membre.id}`] as NationaliteAnswer;
