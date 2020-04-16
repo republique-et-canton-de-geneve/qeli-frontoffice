@@ -7,7 +7,6 @@ export interface I18nString {
    */
   key: string;
 
-  // TODO could be a function as well
   /**
    * Optionnellement, des paramètres de traduction.
    */

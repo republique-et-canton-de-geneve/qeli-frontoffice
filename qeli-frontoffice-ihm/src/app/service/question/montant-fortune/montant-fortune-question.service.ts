@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader } from '../question-loader';
+import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { QeliQuestionDecorator } from '../qeli-question-decorator.model';
-import { Eligibilite } from '../eligibilite.model';
+import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
+import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
+import {
+  REPONSE_BINAIRE_OPTIONS, REPONSE_PROGRESSIVE_OPTIONS, ReponseBinaire, ReponseProgressive
+} from '../reponse-binaire.model';
+import { Prestation } from '../../configuration/prestation.model';
+import { FormData } from '../../../dynamic-question/model/question.model';
+import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
+import { I18nString } from '../../../core/i18n/i18nstring.model';
 
 
 @Injectable({
@@ -11,48 +19,69 @@ import { Eligibilite } from '../eligibilite.model';
 export class MontantFortuneQuestionService implements QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    return [/*
-      new RadioQuestion({
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    return [{
+      question: new RadioQuestion({
         key: 'fortuneSuperieureA',
-        code: '1302',
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.MONTANT_FORTUNE,
-        help: true,
-        inline: true,
-        labelParameters: {
-          limite: (value: any) => {
-            const nbrEnfantsACharge = getNbrEnfantsACharge(value, Object.values(TypeEnfant));
-            const limiteFortune = configuration.limiteFortune +
-                                  (nbrEnfantsACharge * configuration.limiteFortunePerEnfant) +
-                                  (hasConjoint(value) ? configuration.limiteFortuneConjoint : 0);
+        dataCyIdentifier: '1302_fortuneSuperieureA',
+        label: () => {
+          const demandeur = eligibiliteGroup.demandeur;
+          // TODO determiner les enfants à charge avec la question de enFormation
+          // Enfant à charge : -18 ans ou entre 18-25 en formation
+          const nbrEnfantsACharge = demandeur.enfants.length;
+          const limiteFortune = configuration.limiteFortune +
+                                (nbrEnfantsACharge * configuration.limiteFortunePerEnfant) +
+                                (demandeur.hasConjoint ? configuration.limiteFortuneConjoint : 0);
 
-            return Math.min(limiteFortune, configuration.maxLimiteFortune);
-          }
+          return {
+            key: 'question.fortuneSuperieureA.label',
+            parameters: {limite: Math.min(limiteFortune, configuration.maxLimiteFortune)}
+          } as I18nString;
         },
-        options: Object.keys(ReponseBinaire).map(label => ({label: label})),
-        eligibilite: [
-          {
-            prestation: Prestation.AIDE_SOCIALE,
-            isEligible: (value: any) => !hasFortuneTropEleve(value)
-          }
-        ]
-      }),
-      new RadioQuestion({
-        key: 'impotFortune',
-        code: '1301',
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.MONTANT_FORTUNE,
-        help: true,
+        help: {key: 'question.fortuneSuperieureA.help'},
         inline: true,
-        options: Object.keys(ReponseProgressive).map(label => ({label: label})),
-        skip: (value: any) => value['fortuneSuperieureA'] !== null && !hasFortuneTropEleve(value),
-        eligibilite: [
-          {
-            prestation: Prestation.ALLOCATION_LOGEMENT,
-            isEligible: (value: any) => value['impotFortune'] !== ReponseProgressive.OUI
-          }
-        ]
-      })*/
-    ];
+        radioOptions: REPONSE_BINAIRE_OPTIONS
+      }),
+      calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
+        'fortuneSuperieureA',
+        ReponseBinaire.OUI,
+        Prestation.AIDE_SOCIALE,
+        {key: `question.fortuneSuperieureA.motifRefus.${Prestation.AIDE_SOCIALE}`}
+      ),
+      eligibilites: eligibiliteGroup.findByPrestation(Prestation.AIDE_SOCIALE),
+      categorie: Categorie.COMPLEMENTS,
+      subcategorie: Subcategorie.MONTANT_FORTUNE
+    }, {
+      question: new RadioQuestion({
+        key: 'impotFortune',
+        dataCyIdentifier: '1301_impotFortune',
+        label: {
+          key: 'question.impotFortune.label',
+          parameters: {limite: 8000}
+        },
+        help: {
+          key: 'question.impotFortune.help',
+          parameters: {limite: 8000}
+        },
+        inline: true,
+        radioOptions: REPONSE_PROGRESSIVE_OPTIONS
+      }),
+      skip: formData => formData.hasOwnProperty('fortuneSuperieureA') &&
+                        !this.hasFortuneTropEleve(formData),
+      calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
+        'impotFortune',
+        ReponseProgressive.OUI,
+        Prestation.ALLOCATION_LOGEMENT,
+        {key: `question.impotFortune.motifRefus.${Prestation.AIDE_SOCIALE}`}
+      ),
+      eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
+      categorie: Categorie.COMPLEMENTS,
+      subcategorie: Subcategorie.MONTANT_FORTUNE
+    }];
+  }
+
+  private hasFortuneTropEleve(formData: FormData) {
+    const choosenOption = (formData['fortuneSuperieureA'] as OptionAnswer<string>).value;
+    return choosenOption.value === ReponseBinaire.OUI;
   }
 }

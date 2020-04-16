@@ -92,6 +92,39 @@ export class Demandeur {
 
     return eligibilites;
   }
+
+  /**
+   * Tous les enfants de ce demandeur.
+   */
+  get enfants(): MembreFamille[] {
+    return this.membresFamille.filter(membre => membre.relation === Relation.ENFANT);
+  }
+
+  /**
+   * Le partenaire du demandeur (epoux, concubin ou partenaire enregistré).
+   */
+  get partenaire(): MembreFamille {
+    return this.membresFamille.find(membre =>
+      membre.relation === Relation.PARTENAIRE_ENREGISTRE ||
+      membre.relation === Relation.EPOUX ||
+      membre.relation === Relation.CONCUBIN
+    );
+  }
+
+  /**
+   * Si le demandeur est marié ou en partenariat entregistré.
+   */
+  get hasConjoint() {
+    return this.etatCivil === EtatCivil.PARTENARIAT_ENREGISTRE ||
+           this.etatCivil === EtatCivil.MARIE;
+  }
+
+  /**
+   * Si le demandeur a un concubin.
+   */
+  get hasConcubin() {
+    return this.membresFamille.some(membre => membre.relation === Relation.CONCUBIN);
+  }
 }
 
 function getElibiliteByMembre(relation: Relation) {
