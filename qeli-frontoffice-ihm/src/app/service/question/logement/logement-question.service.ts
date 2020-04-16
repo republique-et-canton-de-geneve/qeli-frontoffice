@@ -7,7 +7,7 @@ import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-qu
 import { Prestation } from '../../configuration/prestation.model';
 import { Logement } from './logement.model';
 import { NumberAnswer } from '../../../dynamic-question/model/answer.model';
-import { ReponseProgressive } from '../reponse-binaire.model';
+import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
 import { NumberQuestion } from '../../../dynamic-question/number-question/number-question.model';
 import { Loyer } from './loyer.model';
 
@@ -48,10 +48,7 @@ export class LogementQuestionService implements QuestionLoader {
           label: {key: 'question.bailLogementAVotreNom.label'},
           help: {key: 'question.bailLogementAVotreNom.help'},
           inline: true,
-          radioOptions: Object.keys(ReponseProgressive).map(logement => ({
-            value: logement,
-            label: {key: `common.reponseProgressive.${logement}`}
-          }))
+          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
           'bailLogementAVotreNom',
@@ -106,10 +103,7 @@ export class LogementQuestionService implements QuestionLoader {
           label: {key: 'question.appartementHabitationMixte.label'},
           help: {key: 'question.appartementHabitationMixte.help'},
           inline: true,
-          radioOptions: Object.keys(ReponseProgressive).map(reponse => ({
-            value: reponse,
-            label: {key: `common.reponseProgressive.${reponse}`}
-          }))
+          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
           'appartementHabitationMixte',

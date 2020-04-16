@@ -9,7 +9,7 @@ import {
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
-import { ReponseProgressive } from '../reponse-binaire.model';
+import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 
@@ -49,12 +49,7 @@ export class AssuranceMaladieQuestionService implements QuestionLoader {
               required: {key: 'question.assuranceMaladieSuisse.error.required'}
             },
             inline: true,
-            radioOptions: Object.keys(ReponseProgressive).map(reponse => ({
-              value: reponse,
-              label: {
-                key: `common.reponseProgressive.${reponse}`
-              }
-            }))
+            radioOptions: REPONSE_PROGRESSIVE_OPTIONS
           }),
           isShown: this.hasNotSubsidesFn(membre)
         }))
@@ -93,5 +88,6 @@ export class AssuranceMaladieQuestionService implements QuestionLoader {
         }
       }
     }));
+
   }
 }

@@ -68,8 +68,8 @@ export class RevenusQuestionService implements QuestionLoader {
   calculateRevenusRefusFn(membre: MembreFamille | Demandeur) {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const refus: EligibiliteRefusee[] = [];
-      const revenusEnfantsAnswer = formData[`revenusEnfants_${membre.id}`] as CheckboxGroupAnswer;
-      const choices = revenusEnfantsAnswer.choices;
+      const revenusAnswer = formData[`revenus_${membre.id}`] as CheckboxGroupAnswer;
+      const choices = revenusAnswer.choices;
 
       if (membre.id !== 0) {
         const membreFamille = membre as MembreFamille;
@@ -125,20 +125,20 @@ export class RevenusQuestionService implements QuestionLoader {
 
   private refusOptions(translateParams) {
     return [
-      {value: TypeRevenus.EMPLOI, label: {key: `question.revenus.options.${TypeRevenus.EMPLOI}`, parameters: translateParams}},
-      {value: TypeRevenus.CHOMAGE, label: {key: `question.revenus.options.${TypeRevenus.CHOMAGE}`, parameters: translateParams}},
+      {value: TypeRevenus.EMPLOI, label: {key: `question.revenus.option.${TypeRevenus.EMPLOI}`, parameters: translateParams}},
+      {value: TypeRevenus.CHOMAGE, label: {key: `question.revenus.option.${TypeRevenus.CHOMAGE}`, parameters: translateParams}},
       {
           label: {key: 'question.revenus.AVS'}, options: [
-          {value: TypeRevenus.AVS_RETRAITE, label: {key: `question.revenus.options.${TypeRevenus.AVS_RETRAITE}`, parameters: translateParams}},
-          {value: TypeRevenus.AVS_VEUF, label: {key: `question.revenus.options.${TypeRevenus.AVS_VEUF}`, parameters: translateParams}},
-          {value: TypeRevenus.AVS_ENFANT, label: {key: `question.revenus.options.${TypeRevenus.AVS_ENFANT}`, parameters: translateParams}}
+          {value: TypeRevenus.AVS_RETRAITE, label: {key: `question.revenus.option.${TypeRevenus.AVS_RETRAITE}`, parameters: translateParams}},
+          {value: TypeRevenus.AVS_VEUF, label: {key: `question.revenus.option.${TypeRevenus.AVS_VEUF}`, parameters: translateParams}},
+          {value: TypeRevenus.AVS_ENFANT, label: {key: `question.revenus.option.${TypeRevenus.AVS_ENFANT}`, parameters: translateParams}}
         ]
       },
 
       {
         label: {key: 'question.revenus.AI'}, options: [
-          {value: TypeRevenus.AI_ENFANT, label: {key: `question.revenus.options.${TypeRevenus.AI_ENFANT}`, parameters: translateParams}},
-          {value: TypeRevenus.AI_INVALIDITE, label: {key: `question.revenus.options.${TypeRevenus.AI_INVALIDITE}`, parameters: translateParams}}
+          {value: TypeRevenus.AI_ENFANT, label: {key: `question.revenus.option.${TypeRevenus.AI_ENFANT}`, parameters: translateParams}},
+          {value: TypeRevenus.AI_INVALIDITE, label: {key: `question.revenus.option.${TypeRevenus.AI_INVALIDITE}`, parameters: translateParams}}
         ]
       },
       {value: TypeRevenus.APG, label: {key: `question.revenus.options.${TypeRevenus.APG}`, parameters: translateParams}, help: true}

@@ -3,10 +3,12 @@ import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Demandeur, MembreFamille, Relation } from '../../configuration/demandeur.model';
+import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
-import { ReponseBinaire, ReponseProgressive } from '../reponse-binaire.model';
+import {
+  REPONSE_BINAIRE_OPTIONS, REPONSE_PROGRESSIVE_OPTIONS, ReponseBinaire, ReponseProgressive
+} from '../reponse-binaire.model';
 import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-question/date-question.model';
 import * as moment from 'moment';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
@@ -19,13 +21,10 @@ export class DomicileQuestionService implements QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres = ([eligibiliteGroup.demandeur] as (MembreFamille | Demandeur)[]).concat(
-      eligibiliteGroup.demandeur.membresFamille.filter(
-        membre => membre.relation === Relation.PARTENAIRE_ENREGISTRE ||
-                  membre.relation === Relation.EPOUX ||
-                  membre.relation === Relation.CONCUBIN
-      )
-    );
+    const membres: (MembreFamille | Demandeur)[] = [
+      eligibiliteGroup.demandeur,
+      eligibiliteGroup.demandeur.partenaire
+    ].filter(membre => membre !== null && membre !== undefined);
 
     const questions = membres.map((membre): QeliQuestionDecorator<any>[] => {
       const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
@@ -38,10 +37,7 @@ export class DomicileQuestionService implements QuestionLoader {
             parameters: translateParams
           },
           inline: true,
-          radioOptions: Object.keys(ReponseProgressive).map(reponse => ({
-            value: reponse,
-            label: {key: `common.reponseProgressive.${reponse}`}
-          }))
+          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
         calculateRefus: this.calculateDomicileCantonGERefusFn(membre),
         eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.PC_FAM,
@@ -100,10 +96,7 @@ export class DomicileQuestionService implements QuestionLoader {
         label: {key: 'question.residenceEffectiveCantonGE.label'},
         help: {key: 'question.residenceEffectiveCantonGE.help'},
         inline: true,
-        radioOptions: Object.keys(ReponseBinaire).map(reponse => ({
-          value: reponse,
-          label: {key: `common.reponseBinaire.${reponse}`}
-        }))
+        radioOptions: REPONSE_BINAIRE_OPTIONS
       }),
       calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
         'residenceEffectiveCantonGE',

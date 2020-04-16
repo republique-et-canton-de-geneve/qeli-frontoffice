@@ -3,12 +3,13 @@ import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
+import { Demandeur, MembreFamille, Relation } from '../../configuration/demandeur.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { ReponseProgressive } from '../reponse-binaire.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import * as moment from 'moment';
+import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,25 +55,27 @@ export class FormationQuestionService implements QuestionLoader {
   calculateFormationRefusFn(membre: MembreFamille | Demandeur) {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const choosenOption = (formData[`formation_${membre.id}`] as OptionAnswer<string>).value;
-      const eligibiliteGroup = new EligibiliteGroup(eligibilites);
       const refus: EligibiliteRefusee[] = [];
-      if (membre.id !== 0) {
-        const membreFamille = membre as MembreFamille;
-        if (!this.aMoins25(membreFamille)
-            || (!this.aMoins18(membreFamille) && choosenOption.value === ReponseProgressive.NON)) {
+      if (membre.id !== 0 && (membre as MembreFamille).relation === Relation.ENFANT) {
+        const enfant = membre as MembreFamille;
+        if (!this.aMoins25(enfant)
+            || (!this.aMoins18(enfant) && choosenOption.value === ReponseProgressive.NON)) {
           this.createRefusByPrestation(
             [Prestation.PC_AVS_AI], refus, eligibilites, membre
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         }
       } else {
+        if (membre.id === 0 && !this.isEligibleFam(membre as Demandeur, choosenOption)) {
+          this.createRefusByPrestation(
+            [Prestation.PC_FAM], refus, eligibilites, membre
+          ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+        }
         if (choosenOption.value === ReponseProgressive.NON) {
           this.createRefusByPrestation(
             [Prestation.BOURSES], refus, eligibilites, membre
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         }
       }
-
-
       return [];
     };
   }
@@ -97,12 +100,23 @@ export class FormationQuestionService implements QuestionLoader {
       return refus;
     }
 
+  private isEligibleFam(demandeur: Demandeur, choosenOption: QuestionOption<string>) {
+    if (demandeur.enfants.length > 0) {
+      // Si le demandeur a un enfant mineur, il est éligible
+      return demandeur.enfants.some(enfant => this.aMoins18(enfant)
+                                                      || !this.aMoins25(enfant)
+                                                      || choosenOption.value === ReponseProgressive.OUI);
+
+    }
+    return false;
+  }
+
   private aMoins25(membreFamille: MembreFamille) {
-    return !!membreFamille.dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(membreFamille.dateNaissance);
+    return !!membreFamille.dateNaissance && moment().subtract(25, 'year').endOf('day').isBefore(membreFamille.dateNaissance);
   }
 
   private aMoins18(membreFamille: MembreFamille) {
-    return !!membreFamille.dateNaissance && moment().subtract(25, 'year').endOf('day').isBefore(membreFamille.dateNaissance);
+    return !!membreFamille.dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(membreFamille.dateNaissance);
   }
 
 }
