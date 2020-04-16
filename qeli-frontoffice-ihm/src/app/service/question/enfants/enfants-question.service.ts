@@ -21,12 +21,8 @@ export class EnfantsQuestionService implements QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const enfants = eligibiliteGroup.demandeur.membresFamille.filter(membre => membre.relation === Relation.ENFANT);
-    const autreParent = eligibiliteGroup.demandeur.membresFamille.find(membre =>
-      membre.relation === Relation.PARTENAIRE_ENREGISTRE ||
-      membre.relation === Relation.EPOUX ||
-      membre.relation === Relation.CONCUBIN
-    );
+    const enfants = eligibiliteGroup.demandeur.enfants;
+    const autreParent = eligibiliteGroup.demandeur.partenaire;
 
     return [{
       question: new CompositeQuestion({

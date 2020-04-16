@@ -6,7 +6,7 @@ import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Logement } from '../logement/logement.model';
 import { Prestation } from '../../configuration/prestation.model';
-import { ReponseBinaire } from '../reponse-binaire.model';
+import { REPONSE_BINAIRE_OPTIONS, ReponseBinaire } from '../reponse-binaire.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +23,7 @@ export class PensionAlimentaireQuestionService implements QuestionLoader {
           label: {key: 'question.droitPensionAlimentaire.label'},
           help: {key: 'question.droitPensionAlimentaire.help'},
           inline: true,
-          radioOptions: Object.keys(ReponseBinaire).map(reponse => ({
-            value: reponse,
-            label: {key: `common.reponseBinaire.${reponse}`}
-          }))
+          radioOptions: REPONSE_BINAIRE_OPTIONS
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
           'droitPensionAlimentaire',
@@ -45,10 +42,7 @@ export class PensionAlimentaireQuestionService implements QuestionLoader {
           label: {key: 'question.recoisEntierementPensionAlimentaire.label'},
           help: {key: 'question.recoisEntierementPensionAlimentaire.help'},
           inline: true,
-          radioOptions: Object.keys(ReponseBinaire).map(reponse => ({
-            value: reponse,
-            label: {key: `common.reponseBinaire.${reponse}`}
-          }))
+          radioOptions: REPONSE_BINAIRE_OPTIONS
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
           'recoisEntierementPensionAlimentaire',

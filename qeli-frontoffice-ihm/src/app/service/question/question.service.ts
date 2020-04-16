@@ -11,6 +11,8 @@ import { LogementQuestionService } from './logement/logement-question.service';
 import { PensionAlimentaireQuestionService } from './pension-alimentaire/pension-alimentaire-question.service';
 import { AssuranceMaladieQuestionService } from './assurance-maladie/assurance-maladie-question.service';
 import { RevenusQuestionService } from './revenus/revenus-question.service';
+import { FormationQuestionService } from './formation/formation-question.service';
+import { MontantFortuneQuestionService } from './montant-fortune/montant-fortune-question.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +24,12 @@ export class QuestionService implements QuestionLoader {
               private nationaliteQuestion: NationaliteQuestionService,
               private domicileQuestionService: DomicileQuestionService,
               private revenusQuestionService: RevenusQuestionService,
-              // private formationQuestionService: FormationQuestionService,
+              private formationQuestionService: FormationQuestionService,
               // private situationProfesionelleQuestionService: SituationProfesionelleQuestionService,
               private logementQuestionService: LogementQuestionService,
               private assuranceMaladieQuestionService: AssuranceMaladieQuestionService,
-              private pensionAlimentaireQuestionService: PensionAlimentaireQuestionService
-              // private montantFortuneQuestionService: MontantFortuneQuestionService,
+              private pensionAlimentaireQuestionService: PensionAlimentaireQuestionService,
+              private montantFortuneQuestionService: MontantFortuneQuestionService
               // private situationFiscaleQuestionService: SituationFiscaleQuestionService
   ) {
 
@@ -40,12 +42,12 @@ export class QuestionService implements QuestionLoader {
       this.nationaliteQuestion.loadQuestions(configuration, eligibilites),
       this.domicileQuestionService.loadQuestions(configuration, eligibilites),
       this.revenusQuestionService.loadQuestions(configuration, eligibilites),
-      // this.formationQuestionService.loadQuestions(configuration, eligibilites),
+      this.formationQuestionService.loadQuestions(configuration, eligibilites),
       // this.situationProfesionelleQuestionService.loadQuestions(configuration, eligibilites),
       this.logementQuestionService.loadQuestions(configuration, eligibilites),
       this.assuranceMaladieQuestionService.loadQuestions(configuration, eligibilites),
-      this.pensionAlimentaireQuestionService.loadQuestions(configuration, eligibilites)
-      // this.montantFortuneQuestionService.loadQuestions(configuration, eligibilites),
+      this.pensionAlimentaireQuestionService.loadQuestions(configuration, eligibilites),
+      this.montantFortuneQuestionService.loadQuestions(configuration, eligibilites)
       // this.situationFiscaleQuestionService.loadQuestions(configuration, eligibilites)
     );
   }
