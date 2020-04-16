@@ -41,10 +41,7 @@ export class FormationQuestionService implements QuestionLoader {
 
           }),
           calculateRefus: this.calculateFormationRefusFn(membre),
-          eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.PC_FAM,
-                                                                   Prestation.AIDE_SOCIALE,
-                                                                   Prestation.PC_AVS_AI,
-                                                                   Prestation.BOURSES], membre),
+          eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.BOURSES], membre),
           categorie: Categorie.SITUATION_PERSONELLE,
           subcategorie: Subcategorie.FORMATION
         }
