@@ -42,7 +42,11 @@ export class QuestionService implements QuestionLoader {
       this.revenusQuestionService.loadQuestions(configuration, eligibilites),
       // this.formationQuestionService.loadQuestions(configuration, eligibilites),
       // this.situationProfesionelleQuestionService.loadQuestions(configuration, eligibilites),
-      this.revenusQuestionService.loadQuestions(configuration, eligibilites)
+      this.logementQuestionService.loadQuestions(configuration, eligibilites),
+      this.assuranceMaladieQuestionService.loadQuestions(configuration, eligibilites),
+      this.pensionAlimentaireQuestionService.loadQuestions(configuration, eligibilites)
+      // this.montantFortuneQuestionService.loadQuestions(configuration, eligibilites),
+      // this.situationFiscaleQuestionService.loadQuestions(configuration, eligibilites)
     );
   }
 }
