@@ -343,36 +343,21 @@
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
-    "enFormation": {
-      "label": "Etes-vous en formation / allez-vous bientôt commencer une formation ?",
+    "formation": {
+      "label": "{who, select, me{Etes-vous} other{{membre} est-il(elle)}} en formation / {who, select, me{allez-vous} other{{membre} va-t-il(elle)}} bientôt commencer une formation ?",
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vous ne suivez aucune formation"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation"
       },
       "error": {
         "required": "Ce champ est obligatoire"
       }
     },
     "scolarite": {
-      "label": "Quelle est la formation concernée ?",
-      "option": {
-        "SCOLARITE_OBLIGATOIRE_1P_A_10P": "La scolarité obligatoire, de 1 P à 10 P",
-        "SCOLARITE_OBLIGATOIRE_11P": {
-          "label": "La scolarité obligatoire, en 11 P",
-          "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I)."
-        },
-        "FORMATION_DOCTORALE": {
-          "label": "Un doctorat",
-          "help": "Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
-        },
-        "FORMATION_CONTINUE": {
-          "label": "Une formation continue",
-          "help": "Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
-        },
-        "AUCUNE": "Aucune de ces réponses",
-        "INCONNU": "Je ne sais pas"
-      },
+      "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre} ?}} ?",
       "motifRefus": {
-        "BOURSES": "La formation que vous avez indiqué suivre ne peut pas faire objet d'une bourse"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} pas de formation",
+        "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
+        "PC_FAM": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -715,6 +700,23 @@
     "loyer": {
       "FIXE": "Loyer fixe",
       "EN_FONCTION_REVENU": "Loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)",
+      "INCONNU": "Je ne sais pas"
+    },
+    "scolarite": {
+      "SCOLARITE_OBLIGATOIRE_1P_A_10P": "La scolarité obligatoire, de 1 P à 10 P",
+      "SCOLARITE_OBLIGATOIRE_11P": {
+        "label": "La scolarité obligatoire, en 11 P",
+        "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I)."
+      },
+      "FORMATION_DOCTORALE": {
+        "label": "Un doctorat",
+        "help": "Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
+      },
+      "FORMATION_CONTINUE": {
+        "label": "Une formation continue",
+        "help": "Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
+      },
+      "AUCUNE": "Aucune de ces réponses",
       "INCONNU": "Je ne sais pas"
     },
     "pays": {

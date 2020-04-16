@@ -11,7 +11,7 @@ import {
   NationaliteAnswer, NationaliteQuestion
 } from '../../../dynamic-question/nationalite-question/nationalite-question.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { RequerantRefugie } from './requerant-refugie.model';
+import { requerantRefugieAsQuestionOptions, RequerantRefugie } from './requerant-refugie.model';
 import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-question/date-question.model';
 import * as moment from 'moment';
 import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
@@ -56,44 +56,7 @@ export class NationaliteQuestionService implements QuestionLoader {
                 errorLabels: {
                   required: {key: 'question.situationMembre.refugie.error.required', parameters: translateParams}
                 },
-                radioOptions: [
-                  {
-                    value: RequerantRefugie.REQUERANT_ASILE,
-                    label: {
-                      key: `common.requerantRefugie.${RequerantRefugie.REQUERANT_ASILE}.label`,
-                      parameters: translateParams
-                    },
-                    help: {
-                      key: `common.requerantRefugie.${RequerantRefugie.REQUERANT_ASILE}.help`,
-                      parameters: translateParams
-                    }
-                  },
-                  {
-                    value: RequerantRefugie.REFUGIE,
-                    label: {
-                      key: `common.requerantRefugie.${RequerantRefugie.REFUGIE}.label`,
-                      parameters: translateParams
-                    },
-                    help: {
-                      key: `common.requerantRefugie.${RequerantRefugie.REFUGIE}.help`,
-                      parameters: translateParams
-                    }
-                  },
-                  {
-                    value: RequerantRefugie.AUCUN,
-                    label: {
-                      key: `common.requerantRefugie.${RequerantRefugie.AUCUN}`,
-                      parameters: translateParams
-                    }
-                  },
-                  {
-                    value: RequerantRefugie.INCONNU,
-                    label: {
-                      key: `common.requerantRefugie.${RequerantRefugie.INCONNU}`,
-                      parameters: translateParams
-                    }
-                  }
-                ]
+                radioOptions: requerantRefugieAsQuestionOptions(membre)
               }),
               isShown: this.showQuestionsComplementairesFn(membre).bind(this)
             },
