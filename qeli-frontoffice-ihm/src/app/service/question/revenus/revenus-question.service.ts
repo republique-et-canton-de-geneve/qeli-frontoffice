@@ -114,7 +114,7 @@ export class RevenusQuestionService implements QuestionLoader {
         refus.push({
           eligibilite: eligibilite,
           motif: {
-            key: `questionrevenus.motifRefus.${eligibilite.prestation}`,
+            key: `question.revenus.motifRefus.${eligibilite.prestation}`,
             parameters: translateParams
           }
         });
