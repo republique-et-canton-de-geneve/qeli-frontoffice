@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader } from '../question-loader';
+import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
-import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
+import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { Scolarite, scolariteToOption } from './scolarite.model';
-import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
+import { Scolarite, SCOLARITE_OPTIONS } from './scolarite.model';
+import { Personne } from '../../configuration/demandeur.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 
@@ -48,8 +48,8 @@ export class FormationQuestionService implements QuestionLoader {
         ]
       }),*/
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres: (Demandeur | MembreFamille)[] = (
-      [eligibiliteGroup.demandeur] as (MembreFamille | Demandeur)[]
+    const membres: Personne[] = (
+      [eligibiliteGroup.demandeur] as Personne[]
     ).concat(eligibiliteGroup.demandeur.membresFamille);
 
     return membres.map(membre => {
@@ -59,10 +59,8 @@ export class FormationQuestionService implements QuestionLoader {
           key: `scolarite_${membre.id}`,
           dataCyIdentifier: `0701_scolarite_${membre.id}`,
           label: {key: 'question.scolarite.label', parameters: translateParams},
-          errorLabels: {
-            required: {key: 'question.scolarite.error.required'}
-          },
-          radioOptions: Object.keys(Scolarite).map(scolariteToOption)
+          errorLabels: {required: {key: 'question.scolarite.error.required'}},
+          radioOptions: SCOLARITE_OPTIONS
         }),
         calculateRefus: this.calculateRefusFn(membre),
         eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.BOURSES, membre),
@@ -72,7 +70,7 @@ export class FormationQuestionService implements QuestionLoader {
     });
   }
 
-  private calculateRefusFn(membre: MembreFamille | Demandeur): RefusEligibiliteFn {
+  private calculateRefusFn(membre: Personne): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]) => {
       const answer = (formData[`scolarite_${membre.id}`] as OptionAnswer<string>).value;
 
@@ -80,14 +78,11 @@ export class FormationQuestionService implements QuestionLoader {
           answer.value === Scolarite.INCONNU) {
         return [];
       } else {
-        return new EligibiliteGroup(eligibilites).findByPrestationEtMembre(Prestation.BOURSES, membre).map(
-          eligibilite => ({
-            eligibilite: eligibilite,
-            motif: {
-              key: `question.scolarite.motifRefus.${Prestation.BOURSES}`,
-              parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
-            }
-          } as EligibiliteRefusee)
+        return QuestionUtils.createRefusByPrestationAndMembre(
+          eligibilites, Prestation.BOURSES, membre, eligibilite => ({
+            key: `question.scolarite.motifRefus.${Prestation.BOURSES}`,
+            parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
+          })
         );
       }
     };

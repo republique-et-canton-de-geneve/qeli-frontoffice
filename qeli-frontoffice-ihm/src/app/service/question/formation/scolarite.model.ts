@@ -27,3 +27,5 @@ export function scolariteToOption(scolarite: Scolarite): QuestionOption<string> 
     };
   }
 }
+
+export const SCOLARITE_OPTIONS: QuestionOption<string>[] = Object.values(Scolarite).map(scolariteToOption);
