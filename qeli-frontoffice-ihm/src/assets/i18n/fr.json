@@ -281,6 +281,7 @@
       "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
       "inconnu": "Je ne sais pas",
       "motifRefus": {
+        "BOURSES": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
         "PC_FAM": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
         "PC_AVS_AI": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
         "AIDE_SOCIALE": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation"
