@@ -27,7 +27,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
         ]
       }),
       new RadioQuestion({
-        key: 'taxeOfficeAFC',
+        key: 'taxeOfficenAFC',
         code: '1402',
         categorie: Categorie.COMPLEMENTS,
         subcategorie: Subcategorie.SITUATION_FISCALE,
