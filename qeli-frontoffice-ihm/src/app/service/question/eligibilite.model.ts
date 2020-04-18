@@ -1,5 +1,5 @@
 import { Prestation } from '../configuration/prestation.model';
-import { Demandeur, MembreFamille, Relation } from '../configuration/demandeur.model';
+import { Demandeur, MembreFamille, Personne, Relation } from '../configuration/demandeur.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
 
 /**
@@ -14,7 +14,7 @@ export interface Eligibilite {
   /**
    * Le membre de la famille (ou le demandeur) de cette éligibilité.
    */
-  membre: Demandeur | MembreFamille;
+  membre: Personne;
 }
 
 /**
@@ -117,7 +117,7 @@ export class EligibiliteGroup {
    *
    * @return les éligibilités concernées.
    */
-  findByPrestationEtMembre(prestations: Prestation | Prestation[], membre: MembreFamille | Demandeur) {
+  findByPrestationEtMembre(prestations: Prestation | Prestation[], membre: Personne) {
     if (Array.isArray(prestations)) {
       return this.eligibilites.filter(eligibilite => eligibilite.membre.id == membre.id &&
                                                      prestations.includes(eligibilite.prestation));
