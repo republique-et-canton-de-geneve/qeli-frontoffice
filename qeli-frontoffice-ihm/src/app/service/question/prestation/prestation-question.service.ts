@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader } from '../question-loader';
+import { QuestionLoader, QuestionUtils } from '../question-loader';
 import {
   CheckboxGroup, CheckboxGroupAnswer, CheckboxGroupQuestion
 } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
@@ -25,10 +25,7 @@ export class PrestationQuestionService implements QuestionLoader {
             key: 'question.prestations.label',
             parameters: {numberOfMemebres: eligibiliteAsGroup.demandeur.membresFamille.length}
           },
-          errorLabels: {
-            required: {key: 'question.prestations.error.required'},
-            atLeastOneSelected: {key: 'question.prestations.error.atLeastOneSelected'}
-          },
+          errorLabels: QuestionUtils.toErrorLabels('prestations', ['required', 'atLeastOneSelected']),
           help: {key: 'question.prestations.help'},
           noneOptions: [
             {
@@ -81,6 +78,8 @@ export class PrestationQuestionService implements QuestionLoader {
 
   private calculateRefus(formData: FormData, eligibilites: Eligibilite[]) {
     const prestationsAnswer = formData['prestations'] as CheckboxGroupAnswer;
+    const eligibiliteToMotif = eligibilite => ({key: `question.prestations.motifRefus.${eligibilite.prestation}`});
+
     if (prestationsAnswer.none.value === 'OUI' || prestationsAnswer.none.value === 'INCONNU') {
       return [];
     } else {
@@ -96,7 +95,7 @@ export class PrestationQuestionService implements QuestionLoader {
             return {eligibilite: eligibilite, dejaPercue: true} as EligibiliteRefusee;
           }
         } else if (choices.some(choice => choice.value === prestation)) {
-          return {eligibilite: eligibilite, dejaPercue: true};
+          return {eligibilite: eligibilite, dejaPercue: true} as EligibiliteRefusee;
         }
 
         return null;
@@ -104,42 +103,47 @@ export class PrestationQuestionService implements QuestionLoader {
 
       // Création des refus pour les prestations incompatibles.
       if (choices.some(choice => choice.value === Prestation.PC_AVS_AI)) {
-        this.createRefusByPrestation(
-          [Prestation.SUBSIDES, Prestation.ALLOCATION_LOGEMENT, Prestation.PC_FAM], refus, eligibilites
-        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+        QuestionUtils.createRefusByPrestation(
+          eligibilites, [Prestation.SUBSIDES, Prestation.ALLOCATION_LOGEMENT, Prestation.PC_FAM], eligibiliteToMotif
+        ).forEach(eligibiliteRefusee => {
+          if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
+            refus.push(eligibiliteRefusee)
+          }
+        });
       }
 
       if (choices.some(choice => choice.value === Prestation.PC_FAM)) {
-        this.createRefusByPrestation(
-          [Prestation.ALLOCATION_LOGEMENT, Prestation.PC_AVS_AI], refus, eligibilites
-        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+        QuestionUtils.createRefusByPrestation(
+          eligibilites, [Prestation.ALLOCATION_LOGEMENT, Prestation.PC_AVS_AI], eligibiliteToMotif
+        ).forEach(eligibiliteRefusee => {
+          if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
+            refus.push(eligibiliteRefusee)
+          }
+        });
       }
 
       if (choices.some(choice => choice.value === Prestation.AIDE_SOCIALE)) {
-        this.createRefusByPrestation(
-          [Prestation.SUBSIDES], refus, eligibilites
-        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+        QuestionUtils.createRefusByPrestation(
+          eligibilites, Prestation.SUBSIDES, eligibiliteToMotif
+        ).forEach(eligibiliteRefusee => {
+          if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
+            refus.push(eligibiliteRefusee)
+          }
+        });
       }
 
       if (choices.some(choice => choice.value === Prestation.SUBVENTION_HM)) {
-        this.createRefusByPrestation(
-          [Prestation.ALLOCATION_LOGEMENT], refus, eligibilites
-        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+        QuestionUtils.createRefusByPrestation(
+          eligibilites, Prestation.ALLOCATION_LOGEMENT, eligibiliteToMotif
+        ).forEach(eligibiliteRefusee => {
+          if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
+            refus.push(eligibiliteRefusee)
+          }
+        });
       }
 
       return refus;
     }
-  }
-
-  private createRefusByPrestation(prestations: Prestation[],
-                                  refus: EligibiliteRefusee[],
-                                  eligibilites: Eligibilite[]) {
-    return eligibilites.filter(eligibilite => prestations.includes(eligibilite.prestation))
-                       .filter(eligibilite => !this.isEligibiliteRefusee(refus, eligibilite))
-                       .map(eligibilite => ({
-                         eligibilite: eligibilite,
-                         motif: {key: `question.prestations.motifRefus.${eligibilite.prestation}`}
-                       } as EligibiliteRefusee));
   }
 
   private isEligibiliteRefusee(refus: EligibiliteRefusee[], eligibilite: Eligibilite) {
