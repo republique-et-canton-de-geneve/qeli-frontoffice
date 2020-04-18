@@ -153,14 +153,14 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
    * Si une l'option 'Aucun des choix précédentes' existe.
    */
   get hasNone() {
-    return this.noneOption !== null;
+    return !!this.noneOption;
   }
 
   /**
    * Si l'option 'Je ne sais pas' existe.
    */
   get hasInconnu() {
-    return this.inconnuOption !== null;
+    return !!this.inconnuOption;
   }
 
   /**

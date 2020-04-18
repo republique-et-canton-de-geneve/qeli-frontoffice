@@ -8,7 +8,7 @@ import {
 } from '../../../dynamic-question/composite-question/composite-question.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
-import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
+import { Personne } from '../../configuration/demandeur.model';
 import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
@@ -20,8 +20,8 @@ export class AssuranceMaladieQuestionService implements QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres: (Demandeur | MembreFamille)[] = (
-      [eligibiliteGroup.demandeur] as (MembreFamille | Demandeur)[]
+    const membres: Personne[] = (
+      [eligibiliteGroup.demandeur] as Personne[]
     ).concat(eligibiliteGroup.demandeur.membresFamille);
 
     return [{
@@ -45,9 +45,7 @@ export class AssuranceMaladieQuestionService implements QuestionLoader {
                 membre: membre.prenom
               }
             },
-            errorLabels: {
-              required: {key: 'question.assuranceMaladieSuisse.error.required'}
-            },
+            errorLabels: {required: {key: 'question.assuranceMaladieSuisse.error.required'}},
             inline: true,
             radioOptions: REPONSE_PROGRESSIVE_OPTIONS
           }),
@@ -61,7 +59,7 @@ export class AssuranceMaladieQuestionService implements QuestionLoader {
     }];
   }
 
-  private hasNotSubsidesFn(membre: Demandeur | MembreFamille) {
+  private hasNotSubsidesFn(membre: Personne) {
     return (value: any) => {
       const prestation = value['prestations'];
       const choices = prestation['choices'] || [];

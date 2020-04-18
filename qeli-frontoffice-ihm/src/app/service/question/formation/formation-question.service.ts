@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader } from '../question-loader';
+import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Demandeur, MembreFamille, Relation } from '../../configuration/demandeur.model';
+import { Demandeur, MembreFamille, Personne, Relation } from '../../configuration/demandeur.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { ReponseProgressive } from '../reponse-binaire.model';
+import { Scolarite, SCOLARITE_OPTIONS } from './scolarite.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import * as moment from 'moment';
 import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
@@ -18,8 +19,8 @@ export class FormationQuestionService implements QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
 
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres = ([eligibiliteGroup.demandeur] as (MembreFamille | Demandeur)[]).concat(
+     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+     const membres = ([eligibiliteGroup.demandeur] as (MembreFamille | Demandeur)[]).concat(
       eligibiliteGroup.demandeur.membresFamille
     );
 
@@ -43,6 +44,19 @@ export class FormationQuestionService implements QuestionLoader {
           calculateRefus: this.calculateFormationRefusFn(membre),
           eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.BOURSES], membre),
           categorie: Categorie.SITUATION_PERSONELLE,
+          subcategorie: Subcategorie.FORMATION
+        },
+        {
+          question: new RadioQuestion({
+            key: `scolarite_${membre.id}`,
+            dataCyIdentifier: `0701_scolarite_${membre.id}`,
+            label: {key: 'question.scolarite.label', parameters: translateParams},
+            errorLabels: {required: {key: 'question.scolarite.error.required'}},
+            radioOptions: SCOLARITE_OPTIONS
+          }),
+          calculateRefus: this.calculateRefusFn(membre),
+          eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.BOURSES, membre),
+          categorie: Categorie.COMPLEMENTS,
           subcategorie: Subcategorie.FORMATION
         }
       ];
@@ -116,6 +130,24 @@ export class FormationQuestionService implements QuestionLoader {
     return !!membreFamille.dateNaissance && moment().subtract(18, 'year').endOf('day').isBefore(membreFamille.dateNaissance);
   }
 
+  private calculateRefusFn(membre: Personne): RefusEligibiliteFn {
+    return (formData: FormData, eligibilites: Eligibilite[]) => {
+      const answer = (formData[`scolarite_${membre.id}`] as OptionAnswer<string>).value;
+
+      if (answer.value === Scolarite.AUCUNE ||
+          answer.value === Scolarite.INCONNU) {
+        return [];
+      } else {
+        return QuestionUtils.createRefusByPrestationAndMembre(
+          eligibilites, Prestation.BOURSES, membre, eligibilite => ({
+            key: `question.scolarite.motifRefus.${Prestation.BOURSES}`,
+            parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
+          })
+        );
+      }
+    };
+  }
+
 }
 
       /*
@@ -148,25 +180,4 @@ export class FormationQuestionService implements QuestionLoader {
         eligibilite: [
           {prestation: Prestation.BOURSES}
         ]
-      })
-      new RadioQuestion({
-        key: 'scolarite',
-        code: '0701',
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.FORMATION,
-        options: [
-          {label: Scolarite.SCOLARITE_OBLIGATOIRE_1P_A_10P},
-          {label: Scolarite.SCOLARITE_OBLIGATOIRE_11P, help: true},
-          {label: Scolarite.FORMATION_DOCTORALE, help: true},
-          {label: Scolarite.FORMATION_CONTINUE, help: true},
-          {label: Scolarite.AUCUNE},
-          {label: Scolarite.INCONNU}
-        ],
-        eligibilite: [
-          {
-            prestation: Prestation.BOURSES,
-            isEligible: (value: any) => aucuneScolarite(value)
-          }
-        ]
-      })*/
-
+      }),*/

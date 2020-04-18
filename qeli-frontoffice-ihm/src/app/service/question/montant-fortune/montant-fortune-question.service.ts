@@ -39,6 +39,7 @@ export class MontantFortuneQuestionService implements QuestionLoader {
           } as I18nString;
         },
         help: {key: 'question.fortuneSuperieureA.help'},
+        errorLabels: {required: {key: 'question.fortuneSuperieureA.error.required'}},
         inline: true,
         radioOptions: REPONSE_BINAIRE_OPTIONS
       }),
@@ -46,7 +47,7 @@ export class MontantFortuneQuestionService implements QuestionLoader {
         'fortuneSuperieureA',
         ReponseBinaire.OUI,
         Prestation.AIDE_SOCIALE,
-        {key: `question.fortuneSuperieureA.motifRefus.${Prestation.AIDE_SOCIALE}`}
+        eligibilite => ({key: `question.fortuneSuperieureA.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AIDE_SOCIALE),
       categorie: Categorie.COMPLEMENTS,
@@ -63,6 +64,7 @@ export class MontantFortuneQuestionService implements QuestionLoader {
           key: 'question.impotFortune.help',
           parameters: {limite: 8000}
         },
+        errorLabels: {required: {key: 'question.impotFortune.error.required'}},
         inline: true,
         radioOptions: REPONSE_PROGRESSIVE_OPTIONS
       }),
@@ -72,7 +74,7 @@ export class MontantFortuneQuestionService implements QuestionLoader {
         'impotFortune',
         ReponseProgressive.OUI,
         Prestation.ALLOCATION_LOGEMENT,
-        {key: `question.impotFortune.motifRefus.${Prestation.AIDE_SOCIALE}`}
+        eligibilite => ({key: `question.impotFortune.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
       categorie: Categorie.COMPLEMENTS,

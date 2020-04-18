@@ -38,6 +38,7 @@ export class EnfantsQuestionService implements QuestionLoader {
               key: 'question.parentsEnfants.membre',
               parameters: {membre: enfant.prenom}
             },
+            errorLabels: {required: {key: 'question.assuranceMaladieSuisse.error.required'}},
             inline: true,
             radioOptions: Object.keys(TypeEnfant).filter(typeEnfant =>
               typeEnfant === TypeEnfant.MOI ||
