@@ -155,6 +155,7 @@
       },
       "some": "Oui, {numberOfMemebres, select, 0{je reçois} other{moi-même ou une personne de mon foyer reçoit}} une ou plusieurs prestations :",
       "none": "Non, {numberOfMemebres, select, 0{je ne reçois aucune} other{personne de mon foyer ne reçoit aucune}} des prestation",
+      "inconnu": "Je ne sais pas",
       "checkboxGroup": {
         "SUBSIDES": "Subsides d'assurance-maladie (SAM) :",
         "BOURSES": "Bourses d'études (SBPE) :"
@@ -274,47 +275,13 @@
         "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève"
       }
     },
-    "situationRente": {
-      "label": "Votre situation est-elle parmi les suivantes :",
-      "option": {
-        "RECONNU_OCAI": {
-          "label": "Je suis reconnu invalide par l'OCAI avec un taux minimum de 40%",
-          "help": "OCAI : l'office cantonal de l'assurance invalidité."
-        },
-        "RETRAITE_SANS_RENTE": "Je suis retraité sans rente",
-        "VEUF_SANS_RENTE": "Je suis veuf sans rente"
-      },
-      "some": "Sélectionnez toutes les options qui décrivent votre situation :",
-      "none": "Aucune des situation précedentes",
-      "motifRefus": {
-        "PC_AVS_AI": "Votre situation vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "Votre situation doit être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
     "revenus": {
       "label": "Quels revenus {who, select, me{recevez vous} other{{membre} reçoit-il(elle)}} ?",
-      "option": {
-        "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé / indépendant",
-        "CHOMAGE": "{who, select, me{Je reçois} other{{membre} reçoit}} l'assurance-chômage",
-        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VEUF": "Rente de veuf/ve (AVS)",
-        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
-        "AI_INVALIDITE": "Rente d'invalidité (AI)",
-        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "AVS": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AVS",
-        "AI": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AI",
-        "APG": {
-          "label": "{who, select, me{Je reçois} other{{membre} reçoit}} des indemnités journalières / perte de gain",
-          "help": "En arrêt maladie / accident ou en congé maternité"
-        }
-      },
       "some": "Sélectionnez chacun {who, select, me{de vos revenus} other{des revenus de {membre}}} :",
       "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
       "inconnu": "Je ne sais pas",
       "motifRefus": {
+        "BOURSES": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
         "PC_FAM": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
         "PC_AVS_AI": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
         "AIDE_SOCIALE": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation"
@@ -324,22 +291,15 @@
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
-    "situationRenteConjoint": {
-      "label": "La situation de votre conjoint est-elle parmi les suivantes :",
-      "option": {
-        "RECONNU_OCAI": {
-          "label": "Il(elle) est reconnu invalide par l'OCAI avec un taux minimum de 40%",
-          "help": "OCAI : l'office cantonal de l'assurance invalidité."
-        },
-        "RETRAITE_SANS_RENTE": "Il(elle) est retraité sans rente"
-      },
-      "some": "Sélectionnez toutes les options qui décrivent la situation de votre conjoint :",
+    "situationRente": {
+      "label": "{who, select, me{Votre situation} other{La situation de {membre}}} est-elle parmi les suivantes ?",
+      "some": "Sélectionnez toutes les options qui décrivent {who, select, me{votre situation} other{la situation de {membre}}} :",
       "none": "Aucune des situation précedentes",
       "motifRefus": {
-        "PC_AVS_AI": "La situation de votre conjoint vous empêchent de bénéficier de cette prestation"
+        "PC_AVS_AI": "{who, select, me{Votre situation} other{La situation de {membre}}} vous empêche de bénéficier de cette prestation"
       },
       "error": {
-        "required": "La situation de votre conjoint doit être fournis",
+        "required": "{who, select, me{Votre situation} other{La situation de {membre}}} doit être fournie",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
@@ -713,6 +673,31 @@
       },
       "AUCUNE": "Aucune de ces réponses",
       "INCONNU": "Je ne sais pas"
+    },
+    "typeRevenus": {
+      "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé / indépendant",
+      "CHOMAGE": "{who, select, me{Je reçois} other{{membre} reçoit}} l'assurance-chômage",
+      "AVS_RETRAITE": "Rente de vieillesse (AVS)",
+      "AVS_VEUF": "Rente de veuf/ve (AVS)",
+      "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
+      "AI_INVALIDITE": "Rente d'invalidité (AI)",
+      "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+      "APG": {
+        "label": "{who, select, me{Je reçois} other{{membre} reçoit}} des indemnités journalières / perte de gain",
+        "help": "En arrêt maladie / accident ou en congé maternité"
+      }
+    },
+    "typeRevenusGroup": {
+      "AVS": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AVS",
+      "AI": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AI"
+    },
+    "situationRente": {
+      "RECONNU_OCAI": {
+        "label": "{who, select, me{Je suis} other{{membre} est}} reconnu invalide par l'OCAI avec un taux minimum de 40%",
+        "help": "OCAI : l'office cantonal de l'assurance invalidité."
+      },
+      "RETRAITE_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} retraité·e sans rente",
+      "VEUF_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} veuf·ve sans rente"
     },
     "pays": {
       "af": "Afghanistan",
