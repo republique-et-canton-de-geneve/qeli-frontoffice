@@ -99,7 +99,6 @@ export class RevenusQuestionService implements QuestionLoader {
       if (!choices.some(choice => isTypeRevenusAI(choice.value) || isTypeRevenusAVS(choice.value))) {
         // Refus PC AVS AI si la personne ne reçoit pas de rente AVS / AI et qu'elle mineur ou qu'elle est d'un pays
         // sans convention.
-        console.log(membre.isMajeur);
         if (!membre.isMajeur || this.isPaysNonConventionne(formData, membre)) {
           QuestionUtils.createRefusByPrestationAndMembre(
             eligibilites, Prestation.PC_AVS_AI, membre, eligibiliteToMotifRefus

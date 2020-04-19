@@ -3,13 +3,17 @@ import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Demandeur, MembreFamille } from '../../configuration/demandeur.model';
+import { Personne } from '../../configuration/demandeur.model';
 import { Prestation } from '../../configuration/prestation.model';
-import { ReponseProgressive } from '../reponse-binaire.model';
+import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { RequerantRefugie } from '../nationalite/requerant-refugie.model';
+import {
+  CompositeAnswer, CompositeQuestion
+} from '../../../dynamic-question/composite-question/composite-question.model';
+import { element } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -19,74 +23,86 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
 
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres = ([eligibiliteGroup.demandeur] as (MembreFamille | Demandeur)[]).concat(
+    const membres = ([eligibiliteGroup.demandeur] as (Personne)[]).concat(
       eligibiliteGroup.demandeur.membresFamille
     );
-    return membres.map((membre): QeliQuestionDecorator<any>[] => {
-      const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
       return [
         {
-          question: new RadioQuestion({
-            key: `fonctionnaireInternational_${membre.id}`,
-            help: {
-              key: 'question.fonctionnaireInternational.help',
-              parameters: translateParams
-            },
-            dataCyIdentifier: `1403_fonctionnaireInternational_${membre.id}`,
+          question: new CompositeQuestion({
+            key: `fonctionnaireInternational`,
+            dataCyIdentifier: `1403_fonctionnaireInternational`,
             label: {
               key: 'question.fonctionnaireInternational.label',
-              parameters: translateParams
+              parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
             },
-            radioOptions: Object.keys(ReponseProgressive).map(reponse => ({
-              value: reponse,
-              label: {key: `common.reponseProgressive.${reponse}`}
-            })),
-
+            items: membres.map(membre => ({
+              question: new RadioQuestion({
+                key: `fonctionnaireInternational_${membre.id}`,
+                help: {
+                  key: 'question.fonctionnaireInternational.help',
+                  parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
+                },
+                dataCyIdentifier: `1403_fonctionnaireInternational_${membre.id}`,
+                label: {
+                  key: 'question.fonctionnaireInternational.membre',
+                  parameters: {
+                    who: membre.id === 0 ? 'me' : 'them',
+                    membre: membre.prenom
+                  }
+                },
+                errorLabels: {required: {key: 'question.fonctionnaireInternational.error.required'}},
+                inline: true,
+                radioOptions: REPONSE_PROGRESSIVE_OPTIONS,
+              }),
+              isShown: (value: any) => {
+                const situation = value[`situationMembre_${membre.id}`];
+                const refugie = situation ? situation[`refugie_${membre.id}`] : null;
+                return refugie !== RequerantRefugie.REFUGIE;
+              }
+            }))
           }),
-          calculateRefus: this.calculatefonctionnaireInternationalRefusFn(membre),
-          eligibilites: eligibiliteGroup.findByPrestationEtMembre([
-            Prestation.BOURSES], membre),
+          calculateRefus: this.calculatefonctionnaireInternationalRefusFn,
+          eligibilites: eligibiliteGroup.findByPrestation(Prestation.BOURSES),
           categorie: Categorie.SITUATION_PERSONELLE,
           subcategorie: Subcategorie.SITUATION_FISCALE,
-          skip: formData => (formData[`refugie_${membre.id}`] as OptionAnswer<RequerantRefugie>).value.value
-                            === RequerantRefugie.REFUGIE
+          skip: formData => membres.every(membre => { const situation = formData[`situationMembre_${membre.id}`];
+                                                    const refugie = situation ? situation[`refugie_${membre.id}`] : null;
+                                                    return refugie === RequerantRefugie.REFUGIE; })
+
         }
       ];
-    }).reduce((result, current) => result.concat(current), []);
   }
 
-  private calculatefonctionnaireInternationalRefusFn(membre: MembreFamille | Demandeur) {
-    return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
-      const refus: EligibiliteRefusee[] = [];
+  private calculatefonctionnaireInternationalRefusFn(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
+    const answers = (formData['fonctionnaireInternational'] as CompositeAnswer).answers;
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+
+    return eligibiliteGroup.findByPrestation(Prestation.BOURSES).filter(eligibilite => {
+      const answer = (answers[`fonctionnaireInternational${eligibilite.membre.id}`] as OptionAnswer<string>);
+      const choice = answer ? answer.value : null;
+      return choice && choice.value === ReponseProgressive.OUI;
+    }).map(eligibilite => ({
+      eligibilite: eligibilite,
+        motif: {
+        key: `question.fonctionnaireInternational.motifRefus.${Prestation.BOURSES}`,
+          parameters: {
+          who: eligibilite.membre.id === 0 ? 'me' : 'them',
+            membre: eligibilite.membre.prenom
+        }
+      }
+    }));
+    /* return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const choosenOption = (formData[`fonctionnaireInternational_${membre.id}`] as OptionAnswer<string>).value;
 
       if (choosenOption.value === ReponseProgressive.OUI) {
-        this.createRefusByPrestation(
-          [Prestation.BOURSES], refus, eligibilites, membre
-        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+        QuestionUtils.createRefusByPrestationAndMembre(
+          eligibilites, Prestation.BOURSES, membre, eligibilite => ({
+            key: `question.fonctionnaireInternational.motifRefus.${eligibilite.prestation}`,
+            parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
+          }));
       }
       return [];
-    };
-  }
-
-  private createRefusByPrestation(prestations: Prestation[],
-                                  refus: EligibiliteRefusee[],
-                                  eligibilites: Eligibilite[], membre: MembreFamille | Demandeur) {
-    const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-
-    prestations.forEach(prestation => {
-      eligibiliteGroup.findByPrestationEtMembre(prestation, membre).forEach(eligibilite => {
-        refus.push({
-          eligibilite: eligibilite,
-          motif: {
-            key: `question.fonctionnaireInternational.motifRefus.${eligibilite.prestation}`,
-            parameters: translateParams
-          }
-        });
-      });
-    });
-    return refus;
+    };*/
   }
 }
 
