@@ -63,6 +63,14 @@ export abstract class Personne {
   }
 
   /**
+   * @Param age Age de comparaison
+   * Si la personne est plus vieille que l'age en parametre
+   */
+   isOlder(age: number) {
+    return moment().subtract(age, 'year').endOf('day').isAfter(moment(this.dateNaissance));
+  }
+
+  /**
    * Crée une nouvelle matrice d'éligibilité pour cette personne.
    */
   abstract toEligibilite(): Eligibilite[];
