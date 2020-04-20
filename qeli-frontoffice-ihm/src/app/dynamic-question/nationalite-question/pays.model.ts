@@ -216,7 +216,7 @@ export const PAYS_CONVENTIONES = [
   Pays.TR, // Turquie
   Pays.UY, // Uruguay
   Pays.US  // USA
-].map(pays => pays.toString());
+];
 
 export const PAYS_AELE_UE = [
   Pays.DE, // Allemagne
@@ -250,7 +250,7 @@ export const PAYS_AELE_UE = [
   Pays.SK, // Slovaquie
   Pays.SI, // Slovénie
   Pays.SE  // Suède
-].map(pays => pays.toString());
+];
 
 export const PAYS_NON_CONVENTIONES = Object.values(Pays).filter(
   pays => (!PAYS_CONVENTIONES.includes(pays) && !PAYS_AELE_UE.includes(pays) && Pays.CH !== pays)

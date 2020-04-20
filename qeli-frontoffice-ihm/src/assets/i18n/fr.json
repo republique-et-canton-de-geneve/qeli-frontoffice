@@ -226,7 +226,8 @@
       }
     },
     "permisBEtudes": {
-      "label": "Avez-vous un permis B pour raison d'études ?",
+      "label": "Qui a un permis B pour raisons d'études ?",
+      "membre": "{who, select, me{Avez-vous} other{Est-ce que {membre} a}} un Permis B pour raison d'études ?",
       "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour délivré aux résidents longue durée qui font des études dans le canton par l'office cantonal de la population et de la migration (OCPM)).",
       "error": {
         "required": "Ce champ est obligatoire"
