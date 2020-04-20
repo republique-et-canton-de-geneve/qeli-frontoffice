@@ -159,7 +159,6 @@ export class NationaliteQuestionService implements QuestionLoader {
       const situation = value[`situationMembre_${membre.id}`];
       const nationalite = situation ? situation['nationalite'] : null;
       const isApatride = nationalite ? !!nationalite['apatride'] : false;
-      console.log(situation);
       return !isApatride && !this.isSuisseOrUEOrAELE(nationalite ? (nationalite.pays || []) : []);
     };
   }

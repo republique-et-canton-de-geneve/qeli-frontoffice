@@ -601,13 +601,14 @@
       }
     },
     "parentsHabiteFranceTravailleSuisse": {
-      "label": "Est-ce que l'un de vos parents est frontalier (habite en France et travaille en Suisse) ?",
+      "label": "Les parents sont-ils frontalier ?",
+      "membre": "Est-ce que l'un {who, select, me{vos parents} other{des parents de {membre}}} est frontalier (habite en France et travaille en Suisse) ?",
       "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vos parents ne sont pas contribuable sur le canton de Genève"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vos parents} other{des parents de {membre}}} ne sont pas contribuable sur le canton de Genève"
       }
     }
   },
