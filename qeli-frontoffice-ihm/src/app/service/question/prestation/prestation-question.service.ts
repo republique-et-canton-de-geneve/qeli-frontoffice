@@ -114,7 +114,7 @@ export class PrestationQuestionService implements QuestionLoader {
 
       if (choices.some(choice => choice.value === Prestation.PC_FAM)) {
         QuestionUtils.createRefusByPrestation(
-          eligibilites, [Prestation.ALLOCATION_LOGEMENT, Prestation.PC_AVS_AI], eligibiliteToMotif
+          eligibilites, [Prestation.SUBSIDES, Prestation.PC_AVS_AI], eligibiliteToMotif
         ).forEach(eligibiliteRefusee => {
           if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
             refus.push(eligibiliteRefusee);
