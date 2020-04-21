@@ -78,7 +78,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
 
     return eligibiliteGroup.findByPrestation(Prestation.BOURSES).filter(eligibilite => {
-      const answer = (answers[`fonctionnaireInternational${eligibilite.membre.id}`] as OptionAnswer<string>);
+      const answer = (answers[`fonctionnaireInternational_${eligibilite.membre.id}`] as OptionAnswer<string>);
       const choice = answer ? answer.value : null;
       return choice && choice.value === ReponseProgressive.OUI;
     }).map(eligibilite => ({
