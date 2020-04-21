@@ -54,25 +54,22 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
     }).reduce((result, current) => result.concat(current), []);
   }
 
-
     private calculateExemptionImpotsRefusFn(membre: Personne) {
       return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
         const situationRenteAnswer = formData[`exempteImpot_${membre.id}`] as CheckboxGroupAnswer;
 
         if (situationRenteAnswer.none.value === 'OUI') {
-          return QuestionUtils.createRefusByPrestationAndMembre(
+          return QuestionUtils.createRefusByPrestation(
             // Refus PC AVS AI si aucune des options n'est pas coché.
-            eligibilites, Prestation.SUBSIDES, membre, eligibilite => ({
+            eligibilites, Prestation.SUBSIDES, eligibilite => ({
               key: `question.exempteImpot.motifRefus.${eligibilite.prestation}`,
               parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
             })
           );
         }
-
         return [];
       };
     }
-
 }
       /*
       new RadioQuestion({
