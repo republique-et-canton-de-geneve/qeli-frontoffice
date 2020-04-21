@@ -608,7 +608,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que {who, select, me{vos parents} other{des parents de {membre}}} ne sont pas contribuable sur le canton de Genève"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vos parents} other{les parents de {membre}}} ne sont pas contribuable sur le canton de Genève"
       }
     }
   },
