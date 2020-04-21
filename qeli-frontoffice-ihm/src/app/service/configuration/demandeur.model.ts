@@ -59,7 +59,14 @@ export abstract class Personne {
    * Si la personne est majeur ou pas.
    */
   get isMajeur() {
-    return moment().subtract(18, 'year').endOf('day').isAfter(moment(this.dateNaissance));
+    return this.age >= 18;
+  }
+
+  /**
+   * L'age de la personne.
+   */
+  get age() {
+    return moment().diff(moment(this.dateNaissance), 'years');
   }
 
   /**

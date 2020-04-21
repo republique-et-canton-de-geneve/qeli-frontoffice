@@ -167,7 +167,9 @@
         "ALLOCATION_LOGEMENT": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_AVS_AI": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_FAM": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
-        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci"
+        "PC_FAM_SANS_ENFANTS": "Vous n'avez aucun enfant à charge",
+        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "AIDE_SOCIALE_MINEUR": "Vous êtes mineur au moment de la demande"
       },
       "error": {
         "required": "Vos prestations doivent être fournie",
