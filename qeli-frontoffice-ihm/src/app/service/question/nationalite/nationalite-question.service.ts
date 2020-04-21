@@ -77,7 +77,7 @@ export class NationaliteQuestionService implements QuestionLoader {
                   minDate: moment().subtract(configuration.minYearsFromNow, 'year').toDate(),
                   maxDate: new Date(),
                   errorLabels: QuestionUtils.toErrorLabels(
-                    'dateArriveeSuisse',
+                    'situationMembre.dateArriveeSuisse',
                     ['required', 'maxDate', 'minDate', 'invalidDate'],
                     translateParams
                   ),
