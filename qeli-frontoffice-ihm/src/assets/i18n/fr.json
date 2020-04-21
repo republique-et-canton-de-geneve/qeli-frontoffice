@@ -1,7 +1,7 @@
 {
   "home": {
     "setup": {
-      "title": "Comment se compose votre foyer ?",
+      "title": "Comment se compose votre foyer ? Qui habite avec vous ?",
       "subtitle": "Merci d'ajouter toutes les personnes qui vivent avec vous.<br>Veuillez rajouter tous les enfants habitant avec vous, même à temps partiel. ",
       "demandeur": {
         "prenom": {
@@ -48,6 +48,7 @@
         }
       },
       "errors": {
+        "uniquePrenom": "Les prénoms doivent être différents (vous pouvez ajouter une lettre ou un chiffre pour les différencier).",
         "required": "Ce champ est obligatoire",
         "maxDate": "La date de naissance ne peut pas être dans le futur.",
         "minDate": "Date incorrecte",
@@ -166,7 +167,9 @@
         "ALLOCATION_LOGEMENT": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_AVS_AI": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_FAM": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
-        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci"
+        "PC_FAM_SANS_ENFANTS": "Vous n'avez aucun enfant à charge",
+        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "AIDE_SOCIALE_MINEUR": "Vous êtes mineur au moment de la demande"
       },
       "error": {
         "required": "Vos prestations doivent être fournie",
