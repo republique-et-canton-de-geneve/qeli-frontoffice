@@ -132,7 +132,6 @@ export class RevenusQuestionService implements QuestionLoader {
           })
         );
       }
-
       return [];
     };
   }
