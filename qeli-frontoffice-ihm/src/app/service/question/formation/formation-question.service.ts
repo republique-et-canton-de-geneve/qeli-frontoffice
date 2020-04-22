@@ -112,8 +112,6 @@ export class FormationQuestionService implements QuestionLoader {
       } as EligibiliteRefusee)
     ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
 
-    console.log(refus);
-
     return refus;
   }
 
