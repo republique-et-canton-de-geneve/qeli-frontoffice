@@ -153,6 +153,10 @@ export class Demandeur extends Personne {
   get hasConcubin() {
     return this.membresFamille.some(membre => membre.relation === Relation.CONCUBIN);
   }
+
+  get hasConcubinAvecEnfantCommun() {
+    this.membresFamille.some(membre => membre.relation === Relation.CONCUBIN)
+  }
 }
 
 export interface MembreFamilleSchema extends PersonneSchema {

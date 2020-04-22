@@ -14,6 +14,9 @@ import { Prestation } from '../../configuration/prestation.model';
 import { AnswerUtils } from '../answer-utils';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
+import * as moment from 'moment';
+import { I18nString } from '../../../core/i18n/i18nstring.model';
+import { TypeEnfant } from '../enfants/type-enfant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -107,8 +110,51 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
         calculateRefus: this.calculateRefusParentsHabiteFranceTravailleSuisse,
         categorie: Categorie.COMPLEMENTS,
         subcategorie: Subcategorie.SITUATION_FISCALE
+      },
+      {
+        question: new RadioQuestion({
+          key: `taxeOfficeAFC`,
+          help: {
+            key: 'question.taxeOfficeAFC.help',
+          },
+          dataCyIdentifier: `1402_taxeOfficeAFC`,
+          label: () => {
+            return {
+              key: 'question.taxeOfficeAFC.label',
+              parameters: {
+                hasConjoint: !!eligibiliteGroup.demandeur.partenaire ? 'yes' : 'no',
+                conjoint: eligibiliteGroup.demandeur.partenaire.prenom,
+                annee: moment().subtract(2, 'year').format('YYYY')}
+            } as I18nString;
+          },
+          radioOptions: Object.keys(ReponseProgressive).map(reponse => ({
+            value: reponse,
+            label: {key: `common.reponseProgressive.${reponse}`}
+          })),
+        }),
+        calculateRefus: this.calculateTaxeOfficeRefusFn,
+        eligibilites: eligibiliteGroup.findByPrestation([
+          Prestation.SUBSIDES]),
+        categorie: Categorie.COMPLEMENTS,
+        subcategorie: Subcategorie.SITUATION_FISCALE
       }
+
     ];
+  }
+
+  private calculateTaxeOfficeRefusFn(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
+
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    return eligibiliteGroup.findByPrestation(Prestation.SUBSIDES).filter(eligibilite => {
+      const answer = (formData[`taxeOfficeAFC`] as OptionAnswer<string>);
+      const choice = answer ? answer.value : null;
+      return !!choice && choice.value === ReponseProgressive.OUI;
+    }).map(eligibilite => ({
+      eligibilite: eligibilite,
+      motif: {
+        key: `question.taxeOfficeAFC.motifRefus.${Prestation.SUBSIDES}`,
+      }
+    }));
   }
 
   private calculateFonctionnaireInternationalRefus(
