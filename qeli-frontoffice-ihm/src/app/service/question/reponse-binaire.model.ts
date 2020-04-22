@@ -17,7 +17,6 @@ export enum ReponseProgressive {
   INCONNU = 'INCONNU'
 }
 
-
 export const REPONSE_BINAIRE_OPTIONS: QuestionOption<string>[] = Object.keys(ReponseBinaire).map(reponse => ({
   value: reponse,
   label: {key: `common.reponseBinaire.${reponse}`}

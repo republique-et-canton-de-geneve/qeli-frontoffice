@@ -34,6 +34,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
             key: 'question.fonctionnaireInternational.label',
             parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
           },
+          showErrors: false,
           items: membres.map(membre => ({
             question: new RadioQuestion({
               key: `fonctionnaireInternational_${membre.id}`,

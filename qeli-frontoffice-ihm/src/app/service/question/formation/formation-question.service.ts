@@ -3,16 +3,15 @@ import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Demandeur, MembreFamille, Personne, Relation } from '../../configuration/demandeur.model';
+import { Personne, Relation } from '../../configuration/demandeur.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
+import { REPONSE_BINAIRE_OPTIONS } from '../reponse-binaire.model';
 import { Scolarite, SCOLARITE_OPTIONS } from './scolarite.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
-import {
-  CompositeAnswer, CompositeQuestion
-} from '../../../dynamic-question/composite-question/composite-question.model';
+import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
+import { AnswerUtils } from '../answer-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -34,24 +33,22 @@ export class FormationQuestionService implements QuestionLoader {
           key: 'question.formation.label',
           parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
         },
+        showErrors: false,
         items: membres.map(membre => ({
           question: new RadioQuestion({
             key: `formation_${membre.id}`,
             dataCyIdentifier: `0702_formation_${membre.id}`,
             label: {
               key: 'question.formation.membre',
-              parameters: {
-                who: membre.id === 0 ? 'me' : 'them',
-                membre: membre.prenom
-              }
+              parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
             },
             errorLabels: {required: {key: 'question.formation.error.required'}},
             inline: true,
-            radioOptions: REPONSE_PROGRESSIVE_OPTIONS
+            radioOptions: REPONSE_BINAIRE_OPTIONS
           })
         }))
       }),
-      calculateRefus: this.calculateFormationRefusFn,
+      calculateRefus: this.calculateFormationRefusFn.bind(this),
       eligibilites: eligibiliteGroup.findByPrestation([Prestation.BOURSES, Prestation.PC_FAM, Prestation.PC_AVS_AI]),
       categorie: Categorie.SITUATION_PERSONELLE,
       subcategorie: Subcategorie.FORMATION
@@ -79,88 +76,43 @@ export class FormationQuestionService implements QuestionLoader {
 
   calculateFormationRefusFn(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const demandeur = eligibiliteGroup.demandeur;
     const refus: EligibiliteRefusee[] = [];
-    return refus.concat(this.calculateRefusFAMFormationFn(formData, eligibilites, eligibiliteGroup),
-      this.calculateRefusAVSAIFormationFn(formData, eligibilites, eligibiliteGroup),
-      this.calculateRefusBoursesFormationFn(formData, eligibilites, eligibiliteGroup));
-  }
 
-  private calculateRefusBoursesFormationFn(formData: FormData, eligibilites: Eligibilite[],
-                                           eligibiliteGroup: EligibiliteGroup) {
-    const nestedArrays: EligibiliteRefusee[][] = eligibiliteGroup.findByPrestation(Prestation.BOURSES)
-                                                                 .filter(eligibilite => {
-                                                                   const answers = (formData['formation'] as CompositeAnswer).answers;
-                                                                   const answer = (answers[`formation_${eligibilite.membre.id}`] as OptionAnswer<string>);
-                                                                   const choosenOption = answer ? answer.value : null;
-                                                                   return choosenOption.value ===
-                                                                          ReponseProgressive.NON;
-                                                                 }).map((eligibilite): EligibiliteRefusee[] => {
-          return QuestionUtils.createRefusByPrestationAndMembre(
-            eligibilites, Prestation.BOURSES, eligibilite.membre, eli => ({
-              key: `question.formation.motifRefus.${eli.prestation}`,
-              parameters: {who: eligibilite.membre.id === 0 ? 'me' : 'them', membre: eligibilite.membre.prenom}
-            }));
-        }
-      );
-    return ([] as EligibiliteRefusee[]).concat(...nestedArrays);
-  }
-
-  private calculateRefusAVSAIFormationFn(formData: FormData, eligibilites: Eligibilite[],
-                                         eligibiliteGroup: EligibiliteGroup) {
-    const nestedArrays: EligibiliteRefusee[][] = eligibiliteGroup.findByPrestation(Prestation.PC_AVS_AI)
-                                                                 .filter(eligibilite => {
-                                                                   const answers = (formData['formation'] as CompositeAnswer).answers;
-                                                                   const answer = (answers[`formation_${eligibilite.membre.id}`] as OptionAnswer<string>);
-                                                                   const choosenOption = answer ? answer.value : null;
-                                                                   return (eligibilite.membre.id &&
-                                                                           (eligibilite.membre as MembreFamille).relation ===
-                                                                           Relation.ENFANT &&
-                                                                           this.isACharge(
-                                                                             eligibilite.membre as MembreFamille,
-                                                                             choosenOption.value));
-                                                                 }).map((eligibilite): EligibiliteRefusee[] => {
-          return QuestionUtils.createRefusByPrestationAndMembre(
-            eligibilites, Prestation.PC_AVS_AI, eligibilite.membre, eli => ({
-              key: `question.formation.motifRefus.${eli.prestation}`,
-              parameters: {who: eligibilite.membre.id === 0 ? 'me' : 'them', membre: eligibilite.membre.prenom}
-            })
-          );
-        }
-      );
-    return ([] as EligibiliteRefusee[]).concat(...nestedArrays);
-  }
-
-  private calculateRefusFAMFormationFn(formData: FormData, eligibilites: Eligibilite[],
-                                       eligibiliteGroup: EligibiliteGroup) {
-    const isFAMRefused = eligibiliteGroup.findByPrestation(Prestation.PC_FAM).some(eligibilite =>
-      eligibilite.membre.id === 0 && this.hasEnfantACharge((eligibilite.membre as Demandeur), formData)
-    );
-
-    return !!isFAMRefused
-           ? QuestionUtils.createRefusByPrestation(eligibilites,
-        Prestation.PC_FAM,
-        eli => ({
-          key: `question.formation.motifRefus.${eli.prestation}`
-        }))
-           : [];
-  }
-
-  private hasEnfantACharge(demandeur: Demandeur, formData: FormData) {
-    if (demandeur.enfants.length > 0) {
-      // Si le demandeur a un enfant mineur, il est éligible
-      return demandeur.enfants.some(enfant => {
-        const answers = (formData['formation'] as CompositeAnswer).answers;
-        const answer = (answers[`formation_${enfant.id}`] as OptionAnswer<string>);
-        const choosenOption = answer ? answer.value : null;
-        return this.isACharge(enfant, choosenOption.value);
-      });
-
+    // Si pas d'enfant à charge, refus PC FAM
+    if (!AnswerUtils.hasEnfantACharge(formData, demandeur)) {
+      QuestionUtils.createRefusByPrestation(
+        eligibilites, Prestation.PC_FAM, eligibilite => ({
+          key: `question.formation.motifRefus.${eligibilite.prestation}`
+        })
+      ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
     }
-    return false;
-  }
 
-  private isACharge(enfant: MembreFamille, choosenOption: string) {
-    return !enfant.isMajeur || (!enfant.isOlder(25) && choosenOption === ReponseProgressive.OUI);
+    // Refus de BOURSES pour les membre qui ne sont pas en formation
+    eligibiliteGroup.findByPrestation(Prestation.BOURSES).filter(eligibilite => {
+      return AnswerUtils.isEnFormation(formData, eligibilite.membre);
+    }).map((eligibilite) => ({
+        eligibilite: eligibilite,
+        motif: {
+          key: `question.formation.motifRefus.${eligibilite.prestation}`,
+          parameters: {who: eligibilite.membre.id === 0 ? 'me' : 'them', membre: eligibilite.membre.prenom}
+        }
+      } as EligibiliteRefusee)
+    ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+
+    // Refus PC AVS AI pour les enfants qui ne sont pas à charge
+    eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(eligibilite => {
+      return !AnswerUtils.isEnfantACharge(formData, eligibilite.membre);
+    }).map((eligibilite) => ({
+        eligibilite: eligibilite,
+        motif: {
+          key: `question.formation.motifRefus.${eligibilite.prestation}`,
+          parameters: {who: eligibilite.membre.id === 0 ? 'me' : 'them', membre: eligibilite.membre.prenom}
+        }
+      } as EligibiliteRefusee)
+    ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+
+    return refus;
   }
 
   private calculateScolariteRefusFn(membre: Personne): RefusEligibiliteFn {
