@@ -119,10 +119,10 @@ export class EligibiliteGroup {
    */
   findByPrestationEtMembre(prestations: Prestation | Prestation[], membre: Personne) {
     if (Array.isArray(prestations)) {
-      return this.eligibilites.filter(eligibilite => eligibilite.membre.id == membre.id &&
+      return this.eligibilites.filter(eligibilite => eligibilite.membre.id === membre.id &&
                                                      prestations.includes(eligibilite.prestation));
     } else {
-      return this.eligibilites.filter(eligibilite => eligibilite.membre.id == membre.id &&
+      return this.eligibilites.filter(eligibilite => eligibilite.membre.id === membre.id &&
                                                      eligibilite.prestation === prestations);
     }
   }

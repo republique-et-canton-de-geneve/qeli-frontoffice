@@ -317,7 +317,7 @@
       }
     },
     "scolarite": {
-      "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre} ?}} ?",
+      "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre}}} ?",
       "motifRefus": {
         "BOURSES": "La formation que {who, select, me{vous avez indiqué suivre} other{{membre} suit}} ne peut pas faire objet d'une bourse"
       },
@@ -591,16 +591,14 @@
       }
     },
     "fonctionnaireInternational": {
-      "label": "Vous-même ou l'un de vos parents est-il fonctionnaire international ?",
-      "altText": {
-        "avecConjoint": "Vous-même, votre conjoint ou l'un de vos parents est-il fonctionnaire international ?"
-      },
+      "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} un parent fonctionnaire internationnal ?",
+      "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il fonctionnaire international ?",
       "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vous-même (votre conjoint) ou l'un de vos parents est-il fonctionnaire international"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est fonctionnaire international"
       }
     },
     "parentsHabiteFranceTravailleSuisse": {
