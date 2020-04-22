@@ -109,6 +109,7 @@ export class QuestionUtils {
    *
    * @param questionKey la clé de la question.
    * @param errorKeys les clés d'erreurs.
+   * @param translateParams les paramètres de traduction.
    *
    * @return la liste de libellées.
    */
@@ -122,3 +123,4 @@ export class QuestionUtils {
     }).reduce((r, c) => Object.assign(r, c), {});
   }
 }
+
