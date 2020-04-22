@@ -29,8 +29,6 @@ export class NextQuestionFinder {
     const eligibiliteAsGroup = new EligibiliteGroup(eligibilites);
 
     return this.questions.findIndex((question, index) => {
-
-      console.log(question);
       if (index < startIndex) {
         return false;
       }
