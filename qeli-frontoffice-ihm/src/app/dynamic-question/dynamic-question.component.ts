@@ -28,6 +28,7 @@ export class DynamicQuestionComponent {
   @Input("question")
   set loadQuestion(question: Question<any>) {
     this.question = question;
+
     this.label = this.resolveI18nString(question.label);
     this.help = this.resolveI18nString(question.help);
     this.loadComponent();
