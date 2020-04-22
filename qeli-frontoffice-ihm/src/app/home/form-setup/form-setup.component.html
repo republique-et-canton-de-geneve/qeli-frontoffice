@@ -31,6 +31,7 @@
                              [control]="setupForm.controls['dateNaissance']"
                              [errorLabels]="errorLabels">
           <app-date-input identifier="dateNaissance"
+                          [disabled]="numberOfMembres > 0"
                           [minDate]="minDateNaissance"
                           [maxDate]="maxDateNaissance"
                           [dateControl]="setupForm.controls['dateNaissance']">
@@ -44,6 +45,7 @@
                              [control]="setupForm.controls['prenom']"
                              [errorLabels]="errorLabels">
           <input id="prenom"
+                 [attr.disabled]="numberOfMembres > 0 ? 'disabled' : null"
                  formControlName="prenom"
                  placeholder="{{ 'home.setup.demandeur.prenom.placeholder' | translate }}"
                  type="text"
@@ -81,6 +83,7 @@
                                [control]="membre.controls['dateNaissance']"
                                [errorLabels]="errorLabels">
             <app-date-input identifier="{{ 'dateNaissanceMembre' + i }}"
+                            [disabled]="!isLast"
                             [minDate]="minDateNaissance"
                             [maxDate]="maxDateNaissance"
                             [dateControl]="membre.controls['dateNaissance']">
@@ -95,7 +98,8 @@
                                [errorLabels]="errorLabels">
             <input id="{{ 'prenomMembre' + i }}"
                    formControlName="prenom"
-                   placeholder="{{ 'home.setup.membre.prenom.placeholder.' + (membre.value['relation'] || 'DEFAULT')  | translate:{index: i+1} }}"
+                   [attr.disabled]="!isLast ? 'disabled' : null"
+                   placeholder="{{ getDefaultPrenomByMembre(membre.value) }}"
                    type="text"
                    class="form-control">
           </app-input-container>
