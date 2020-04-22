@@ -305,7 +305,9 @@
       "label": "Qui est en formation ou va commencer bientôt une formation ?",
       "membre": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} en formation / {who, select, me{allez-vous} other{va-t-il·elle}} bientôt commencer une formation ?",
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation",
+        "PC_FAM": "Vous n'avez plus d'enfants à charge",
+        "PC_AVS_AI": "{membre} n'est plus à votre charge"
       },
       "error": {
         "required": "Ce champ est obligatoire"

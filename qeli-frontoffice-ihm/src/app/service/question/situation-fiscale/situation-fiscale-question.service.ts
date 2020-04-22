@@ -93,7 +93,6 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
               isShown: (value: any) => {
                 const answers = value['permisBEtudes'];
                 const permisBEtudes = answers ? answers[`permisBEtudes_${membre.id}`] : null;
-                console.log(answers);
                 return permisBEtudes && permisBEtudes === ReponseProgressive.OUI;
               }
             };

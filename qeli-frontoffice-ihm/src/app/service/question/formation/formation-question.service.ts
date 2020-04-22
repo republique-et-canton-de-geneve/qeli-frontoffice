@@ -90,7 +90,7 @@ export class FormationQuestionService implements QuestionLoader {
 
     // Refus de BOURSES pour les membre qui ne sont pas en formation
     eligibiliteGroup.findByPrestation(Prestation.BOURSES).filter(eligibilite => {
-      return AnswerUtils.isEnFormation(formData, eligibilite.membre);
+      return !AnswerUtils.isEnFormation(formData, eligibilite.membre);
     }).map((eligibilite) => ({
         eligibilite: eligibilite,
         motif: {
@@ -107,10 +107,12 @@ export class FormationQuestionService implements QuestionLoader {
         eligibilite: eligibilite,
         motif: {
           key: `question.formation.motifRefus.${eligibilite.prestation}`,
-          parameters: {who: eligibilite.membre.id === 0 ? 'me' : 'them', membre: eligibilite.membre.prenom}
+          parameters: {membre: eligibilite.membre.prenom}
         }
       } as EligibiliteRefusee)
     ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+
+    console.log(refus);
 
     return refus;
   }
