@@ -1,11 +1,11 @@
 import { FormData } from '../../dynamic-question/model/question.model';
 import { Answer, OptionAnswer } from '../../dynamic-question/model/answer.model';
 import { CompositeAnswer } from '../../dynamic-question/composite-question/composite-question.model';
-import { Personne } from '../configuration/demandeur.model';
+import { Demandeur, Personne } from '../configuration/demandeur.model';
 import { Pays } from '../../dynamic-question/nationalite-question/pays.model';
 import { NationaliteAnswer } from '../../dynamic-question/nationalite-question/nationalite-question.model';
 import { RequerantRefugie } from './nationalite/requerant-refugie.model';
-import { ReponseProgressive } from './reponse-binaire.model';
+import { ReponseBinaire, ReponseProgressive } from './reponse-binaire.model';
 
 export class AnswerUtils {
 
@@ -62,5 +62,24 @@ export class AnswerUtils {
     const choosenOption = permisBEtudesAnswer ? permisBEtudesAnswer.value : null;
 
     return choosenOption && choosenOption.value === ReponseProgressive.OUI;
+  }
+
+  static isEnFormation(formData: FormData, personne: Personne) {
+    const answers = (formData['formation'] as CompositeAnswer).answers;
+    const answer = (answers[`formation_${personne.id}`] as OptionAnswer<string>);
+    const choosenOption = answer ? answer.value : null;
+
+    return choosenOption && choosenOption.value === ReponseBinaire.OUI;
+  }
+
+  static isEnfantACharge(formData: FormData, enfant: Personne) {
+    return !enfant.isMajeur || (enfant.age <= 25 && this.isEnFormation(formData, enfant));
+  }
+
+  static hasEnfantACharge(formData: FormData, demandeur: Demandeur) {
+    if (demandeur.enfants.length > 0) {
+      return demandeur.enfants.some(enfant => this.isEnfantACharge(formData, enfant));
+    }
+    return false;
   }
 }

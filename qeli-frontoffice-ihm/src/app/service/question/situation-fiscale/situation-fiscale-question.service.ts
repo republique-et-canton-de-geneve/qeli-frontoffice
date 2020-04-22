@@ -34,6 +34,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
             key: 'question.fonctionnaireInternational.label',
             parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
           },
+          showErrors: false,
           items: membres.map(membre => ({
             question: new RadioQuestion({
               key: `fonctionnaireInternational_${membre.id}`,
@@ -92,7 +93,6 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
               isShown: (value: any) => {
                 const answers = value['permisBEtudes'];
                 const permisBEtudes = answers ? answers[`permisBEtudes_${membre.id}`] : null;
-                console.log(answers);
                 return permisBEtudes && permisBEtudes === ReponseProgressive.OUI;
               }
             };
