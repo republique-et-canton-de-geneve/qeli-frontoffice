@@ -179,12 +179,6 @@
     "parentsEnfants": {
       "label": "Qui sont les parents des enfants vivant dans votre foyer ?",
       "membre": "{membre} est :",
-      "option": {
-        "MOI": "Mon enfant",
-        "AUTRE_PARENT": "Celui de {prenomAutreParent}",
-        "LES_DEUX": "Notre enfant à tous les deux",
-        "AUTRES": "Autres"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -308,7 +302,8 @@
       }
     },
     "formation": {
-      "label": "{who, select, me{Etes-vous} other{{membre} est-il(elle)}} en formation / {who, select, me{allez-vous} other{{membre} va-t-il(elle)}} bientôt commencer une formation ?",
+      "label": "Qui est en formation ou va commencer bientôt une formation ?",
+      "membre": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} en formation / {who, select, me{allez-vous} other{va-t-il·elle}} bientôt commencer une formation ?",
       "motifRefus": {
         "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation"
       },
@@ -645,6 +640,12 @@
       },
       "AUCUN": "Aucun des deux",
       "INCONNU": "Je ne sais pas"
+    },
+    "typeEnfant": {
+      "MOI": "Mon enfant",
+      "AUTRE_PARENT": "Celui de {prenomAutreParent}",
+      "LES_DEUX": "Notre enfant à tous les deux",
+      "AUTRES": "Autres"
     },
     "reponseBinaire": {
       "OUI": "Oui",
