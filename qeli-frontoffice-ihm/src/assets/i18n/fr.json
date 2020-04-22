@@ -567,13 +567,13 @@
       }
     },
     "exempteImpot": {
-      "label": "Est-ce que {who, select, me{Vous êtes} other{{membre} est}} exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
+      "label": "Etes-vous {hasConjoint, select, no{} other{ou {conjoint}}} exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
       "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.<br>Exempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué {who, select, me{être} other{que {membre} est}} exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)"
+        "SUBSIDES": "Vous avez indiqué être exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)"
       }
     },
     "taxeOfficeAFC": {
