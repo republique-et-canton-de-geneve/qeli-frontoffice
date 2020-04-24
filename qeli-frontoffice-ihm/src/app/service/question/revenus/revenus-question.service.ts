@@ -10,10 +10,9 @@ import {
 import { Personne } from '../../configuration/demandeur.model';
 import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Prestation } from '../../configuration/prestation.model';
-import { NationaliteAnswer } from '../../../dynamic-question/nationalite-question/nationalite-question.model';
-import { CompositeAnswer } from '../../../dynamic-question/composite-question/composite-question.model';
 import { PAYS_NON_CONVENTIONES } from '../../../dynamic-question/nationalite-question/pays.model';
 import { situationRenteAsOptions } from './situation-rente.model';
+import { AnswerUtils } from '../answer-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -80,12 +79,6 @@ export class RevenusQuestionService implements QuestionLoader {
     return choices.some(choice => isTypeRevenusAI(choice.value) || isTypeRevenusAVS(choice.value));
   }
 
-  private isPaysNonConventionne(formData: FormData, membre: Personne) {
-    const situation = (formData[`situationMembre_${membre.id}`] as CompositeAnswer).answers;
-    const nationalite = situation ? (situation[`nationalite_${membre.id}`] as NationaliteAnswer) : null;
-    return (nationalite ? (nationalite.pays || []) : []).every(pays => PAYS_NON_CONVENTIONES.includes(pays));
-  }
-
   private calculateRevenusRefusFn(membre: Personne): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const refus: EligibiliteRefusee[] = [];
@@ -99,8 +92,7 @@ export class RevenusQuestionService implements QuestionLoader {
       if (!choices.some(choice => isTypeRevenusAI(choice.value) || isTypeRevenusAVS(choice.value))) {
         // Refus PC AVS AI si la personne ne reçoit pas de rente AVS / AI et qu'elle mineur ou qu'elle est d'un pays
         // sans convention.
-        console.log(membre.isMajeur);
-        if (!membre.isMajeur || this.isPaysNonConventionne(formData, membre)) {
+        if (!membre.isMajeur || AnswerUtils.isNationaliteIn(formData, membre, PAYS_NON_CONVENTIONES)) {
           QuestionUtils.createRefusByPrestationAndMembre(
             eligibilites, Prestation.PC_AVS_AI, membre, eligibiliteToMotifRefus
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
@@ -140,7 +132,6 @@ export class RevenusQuestionService implements QuestionLoader {
           })
         );
       }
-
       return [];
     };
   }

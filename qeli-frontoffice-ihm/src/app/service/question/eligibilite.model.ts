@@ -118,28 +118,27 @@ export class EligibiliteGroup {
    * @return les éligibilités concernées.
    */
   findByPrestationEtMembre(prestations: Prestation | Prestation[], membre: Personne) {
-    if (Array.isArray(prestations)) {
-      return this.eligibilites.filter(eligibilite => eligibilite.membre.id == membre.id &&
-                                                     prestations.includes(eligibilite.prestation));
-    } else {
-      return this.eligibilites.filter(eligibilite => eligibilite.membre.id == membre.id &&
-                                                     eligibilite.prestation === prestations);
-    }
+    const _pestations = Array.isArray(prestations) ? prestations as Prestation[] : [prestations as Prestation];
+    return this.eligibilites.filter(eligibilite => eligibilite.membre.id === membre.id &&
+                                                   _pestations.includes(eligibilite.prestation));
   }
 
   /**
    * Retrouve toutes les éligibilités qui concerne la prestation donnée et au moins une des rélation en paramètre.
    *
-   * @param prestation la prestation recherchée.
+   * @param prestations la prestation recherchée.
    * @param relations les relations recherchées.
    *
    * @return les éligibilités concernées.
    */
-  findByPrestationEtRelationIn(prestation: Prestation, relations: Relation[]) {
+  findByPrestationEtRelation(prestations: Prestation | Prestation[], relations: Relation | Relation[]) {
+    const _pestations = Array.isArray(prestations) ? prestations as Prestation[] : [prestations as Prestation];
+    const _relations = Array.isArray(relations) ? relations as Relation[] : [relations as Relation];
+
     return this.eligibilites
                .filter(eligibilite => eligibilite.membre.id !== 0)
-               .filter(eligibilite => eligibilite.prestation === prestation &&
-                                      relations.includes((eligibilite.membre as MembreFamille).relation));
+               .filter(eligibilite => _pestations.includes(eligibilite.prestation) &&
+                                      _relations.includes((eligibilite.membre as MembreFamille).relation));
   }
 }
 
