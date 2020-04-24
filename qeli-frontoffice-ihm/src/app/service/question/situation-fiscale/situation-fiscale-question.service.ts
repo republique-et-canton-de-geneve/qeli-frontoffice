@@ -3,7 +3,7 @@ import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Personne } from '../../configuration/demandeur.model';
+import { Personne, Relation } from '../../configuration/demandeur.model';
 import {
   CompositeAnswer, CompositeQuestion
 } from '../../../dynamic-question/composite-question/composite-question.model';
@@ -118,12 +118,18 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
             key: 'question.taxeOfficeAFC.help',
           },
           dataCyIdentifier: `1402_taxeOfficeAFC`,
-          label: () => {
+          label: (value: any) => {
+            const answers = value['parentsEnfants'];
+            const membresFamille  = eligibiliteGroup.demandeur.membresFamille;
+            const hasEnfantToutLesDeux = membresFamille.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
+            const isValidConjoint = eligibiliteGroup.demandeur.hasConjoint ||
+              (eligibiliteGroup.demandeur.hasConcubin && hasEnfantToutLesDeux);
+            const conjointPrenom = hasEnfantToutLesDeux ? eligibiliteGroup.demandeur.partenaire.prenom : '';
             return {
               key: 'question.taxeOfficeAFC.label',
               parameters: {
-                hasConjoint: !!eligibiliteGroup.demandeur.partenaire ? 'yes' : 'no',
-                conjoint: eligibiliteGroup.demandeur.partenaire.prenom,
+                hasConjoint: isValidConjoint ? 'yes' : 'no',
+                conjoint: conjointPrenom,
                 annee: moment().subtract(2, 'year').format('YYYY')}
             } as I18nString;
           },
@@ -133,8 +139,8 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
           })),
         }),
         calculateRefus: this.calculateTaxeOfficeRefusFn,
-        eligibilites: eligibiliteGroup.findByPrestation([
-          Prestation.SUBSIDES]),
+        eligibilites: eligibiliteGroup.findByPrestation(
+          Prestation.SUBSIDES),
         categorie: Categorie.COMPLEMENTS,
         subcategorie: Subcategorie.SITUATION_FISCALE
       }
