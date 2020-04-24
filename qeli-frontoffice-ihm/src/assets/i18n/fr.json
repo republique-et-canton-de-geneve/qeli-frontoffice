@@ -1,7 +1,7 @@
 {
   "home": {
     "setup": {
-      "title": "Comment se compose votre foyer ?",
+      "title": "Comment se compose votre foyer ? Qui habite avec vous ?",
       "subtitle": "Merci d'ajouter toutes les personnes qui vivent avec vous.<br>Veuillez rajouter tous les enfants habitant avec vous, même à temps partiel. ",
       "demandeur": {
         "prenom": {
@@ -48,6 +48,7 @@
         }
       },
       "errors": {
+        "uniquePrenom": "Les prénoms doivent être différents (vous pouvez ajouter une lettre ou un chiffre pour les différencier).",
         "required": "Ce champ est obligatoire",
         "maxDate": "La date de naissance ne peut pas être dans le futur.",
         "minDate": "Date incorrecte",
@@ -166,7 +167,9 @@
         "ALLOCATION_LOGEMENT": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_AVS_AI": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_FAM": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
-        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci"
+        "PC_FAM_SANS_ENFANTS": "Vous n'avez aucun enfant à charge",
+        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "AIDE_SOCIALE_MINEUR": "Vous êtes mineur au moment de la demande"
       },
       "error": {
         "required": "Vos prestations doivent être fournie",
@@ -176,12 +179,6 @@
     "parentsEnfants": {
       "label": "Qui sont les parents des enfants vivant dans votre foyer ?",
       "membre": "{membre} est :",
-      "option": {
-        "MOI": "Mon enfant",
-        "AUTRE_PARENT": "Celui de {prenomAutreParent}",
-        "LES_DEUX": "Notre enfant à tous les deux",
-        "AUTRES": "Autres"
-      },
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -226,7 +223,8 @@
       }
     },
     "permisBEtudes": {
-      "label": "Avez-vous un permis B pour raison d'études ?",
+      "label": "Qui a un permis B pour raisons d'études ?",
+      "membre": "{who, select, me{Avez-vous} other{Est-ce que {membre} a}} un Permis B pour raison d'études ?",
       "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour délivré aux résidents longue durée qui font des études dans le canton par l'office cantonal de la population et de la migration (OCPM)).",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -303,19 +301,24 @@
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
-    "enFormation": {
-      "label": "Etes-vous en formation / allez-vous bientôt commencer une formation ?",
+    "formation": {
+      "label": "Qui est en formation ou va commencer bientôt une formation ?",
+      "membre": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} en formation / {who, select, me{allez-vous} other{va-t-il·elle}} bientôt commencer une formation ?",
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vous ne suivez aucune formation"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation",
+        "PC_FAM": "Vous n'avez plus d'enfants à charge",
+        "PC_AVS_AI": "{membre} n'est plus à votre charge"
       },
       "error": {
         "required": "Ce champ est obligatoire"
       }
     },
     "scolarite": {
-      "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre} ?}} ?",
+      "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre}}} ?",
       "motifRefus": {
-        "BOURSES": "La formation que {who, select, me{vous avez indiqué suivre} other{{membre} suit}} ne peut pas faire objet d'une bourse"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} pas de formation",
+        "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
+        "PC_FAM": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -567,7 +570,7 @@
       }
     },
     "exempteImpot": {
-      "label": "Etes-vous {hasConjoint, select, no{} other{ou {conjoint}}} exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
+      "label": "Etes-vous {hasPartenaire, select, no{} other{ou {partenaire}}} exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
       "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.<br>Exempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -577,7 +580,7 @@
       }
     },
     "taxeOfficeAFC": {
-      "label": "Etes-vous taxé d'office par l'administration fiscale cantonale (AFC) en { annee } ?",
+      "label": "Etes-vous {hasPartenaire, select, no{} other{ou {partenaire}}} taxé d'office par l'administration fiscale cantonale (AFC) en {annee} ?",
       "help": "Taxation d'office : Sanction prise contre le contribuable qui n'a pas effectué de déclaration : le fisc lui-même procède à une estimation du revenu, du profit ou de la valeur imposable, au moyen des éléments d'information en sa possession.",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -587,26 +590,25 @@
       }
     },
     "fonctionnaireInternational": {
-      "label": "Vous-même ou l'un de vos parents est-il fonctionnaire international ?",
-      "altText": {
-        "avecConjoint": "Vous-même, votre conjoint ou l'un de vos parents est-il fonctionnaire international ?"
-      },
+      "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} un parent fonctionnaire internationnal ?",
+      "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il fonctionnaire international ?",
       "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vous-même (votre conjoint) ou l'un de vos parents est-il fonctionnaire international"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est fonctionnaire international"
       }
     },
     "parentsHabiteFranceTravailleSuisse": {
-      "label": "Est-ce que l'un de vos parents est frontalier (habite en France et travaille en Suisse) ?",
+      "label": "Les parents sont-ils frontalier ?",
+      "membre": "Est-ce que l'un {who, select, me{vos parents} other{des parents de {membre}}} est frontalier (habite en France et travaille en Suisse) ?",
       "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vos parents ne sont pas contribuable sur le canton de Genève"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vos parents} other{les parents de {membre}}} ne sont pas contribuable sur le canton de Genève"
       }
     }
   },
@@ -640,6 +642,12 @@
       },
       "AUCUN": "Aucun des deux",
       "INCONNU": "Je ne sais pas"
+    },
+    "typeEnfant": {
+      "MOI": "Mon enfant",
+      "AUTRE_PARENT": "Celui de {prenomAutreParent}",
+      "LES_DEUX": "Notre enfant à tous les deux",
+      "AUTRES": "Autres"
     },
     "reponseBinaire": {
       "OUI": "Oui",

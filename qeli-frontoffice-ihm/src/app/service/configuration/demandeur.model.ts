@@ -59,7 +59,14 @@ export abstract class Personne {
    * Si la personne est majeur ou pas.
    */
   get isMajeur() {
-    return moment().subtract(18, 'year').endOf('day').isAfter(moment(this.dateNaissance));
+    return this.age >= 18;
+  }
+
+  /**
+   * L'age de la personne.
+   */
+  get age() {
+    return moment().diff(moment(this.dateNaissance), 'years');
   }
 
   /**
@@ -146,6 +153,7 @@ export class Demandeur extends Personne {
   get hasConcubin() {
     return this.membresFamille.some(membre => membre.relation === Relation.CONCUBIN);
   }
+
 }
 
 export interface MembreFamilleSchema extends PersonneSchema {
@@ -172,12 +180,13 @@ export class MembreFamille extends Personne {
     const prestations = [Prestation.SUBSIDES, Prestation.BOURSES];
 
     if (this.relation === Relation.EPOUX ||
-        this.relation === Relation.PARTENAIRE_ENREGISTRE ||
-        this.relation === Relation.ENFANT) {
+        this.relation === Relation.PARTENAIRE_ENREGISTRE) {
       prestations.push(Prestation.PC_AVS_AI);
       prestations.push(Prestation.PC_FAM);
     } else if (this.relation === Relation.CONCUBIN) {
       prestations.push(Prestation.PC_FAM);
+    } else if (this.relation === Relation.ENFANT) {
+      prestations.push(Prestation.PC_AVS_AI);
     }
 
     return prestations.map(prestation => ({
