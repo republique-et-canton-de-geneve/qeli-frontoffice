@@ -4,9 +4,8 @@ import { QeliConfiguration } from '../../configuration/qeli-configuration.model'
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { Logement } from '../logement/logement.model';
 import { Prestation } from '../../configuration/prestation.model';
-import { ReponseBinaire } from '../reponse-binaire.model';
+import { REPONSE_BINAIRE_OPTIONS, ReponseBinaire } from '../reponse-binaire.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,17 +21,15 @@ export class PensionAlimentaireQuestionService implements QuestionLoader {
           dataCyIdentifier: '1201_droitPensionAlimentaire',
           label: {key: 'question.droitPensionAlimentaire.label'},
           help: {key: 'question.droitPensionAlimentaire.help'},
+          errorLabels: {required: {key: 'question.droitPensionAlimentaire.error.required'}},
           inline: true,
-          radioOptions: Object.keys(ReponseBinaire).map(reponse => ({
-            value: reponse,
-            label: {key: `common.reponseBinaire.${reponse}`}
-          }))
+          radioOptions: REPONSE_BINAIRE_OPTIONS
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
           'droitPensionAlimentaire',
           ReponseBinaire.NON,
           Prestation.AVANCES,
-          {key: `question.droitPensionAlimentaire.motifRefus.${Prestation.AVANCES}`}
+          (eligibilite) => ({key: `question.droitPensionAlimentaire.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.AVANCES),
         categorie: Categorie.COMPLEMENTS,
@@ -44,17 +41,15 @@ export class PensionAlimentaireQuestionService implements QuestionLoader {
           dataCyIdentifier: '1202_recoisEntierementPensionAlimentaire',
           label: {key: 'question.recoisEntierementPensionAlimentaire.label'},
           help: {key: 'question.recoisEntierementPensionAlimentaire.help'},
+          errorLabels: {required: {key: 'question.recoisEntierementPensionAlimentaire.error.required'}},
           inline: true,
-          radioOptions: Object.keys(ReponseBinaire).map(reponse => ({
-            value: reponse,
-            label: {key: `common.reponseBinaire.${reponse}`}
-          }))
+          radioOptions: REPONSE_BINAIRE_OPTIONS
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
           'recoisEntierementPensionAlimentaire',
           ReponseBinaire.OUI,
           Prestation.AVANCES,
-          {key: `question.recoisEntierementPensionAlimentaire.motifRefus.${Prestation.AVANCES}`}
+          (eligibilite) => ({key: `question.recoisEntierementPensionAlimentaire.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.AVANCES),
         categorie: Categorie.COMPLEMENTS,

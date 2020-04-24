@@ -1,9 +1,9 @@
 {
   "name": "@ch.ge.social.tools/qeli-frontoffice-ihm",
-  "version": "0.0.7",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --source-map=true",
+    "start": "NODE_OPTIONS=\"--max-http-header-size=100000\" ng serve --source-map=true",
     "build": "ng build --prod --base-href=/socialqeli_pub/formulaire/ --no-progress",
     "test": "ng test --watch=false",
     "lint": "ng lint",

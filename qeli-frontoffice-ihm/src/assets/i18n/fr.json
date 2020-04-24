@@ -1,7 +1,7 @@
 {
   "home": {
     "setup": {
-      "title": "Comment se compose votre foyer ?",
+      "title": "Comment se compose votre foyer ? Qui habite avec vous ?",
       "subtitle": "Merci d'ajouter toutes les personnes qui vivent avec vous.<br>Veuillez rajouter tous les enfants habitant avec vous, même à temps partiel. ",
       "demandeur": {
         "prenom": {
@@ -48,6 +48,7 @@
         }
       },
       "errors": {
+        "uniquePrenom": "Les prénoms doivent être différents (vous pouvez ajouter une lettre ou un chiffre pour les différencier).",
         "required": "Ce champ est obligatoire",
         "maxDate": "La date de naissance ne peut pas être dans le futur.",
         "minDate": "Date incorrecte",
@@ -56,44 +57,49 @@
     },
     "result": {
       "title": "Résultat",
-      "pdf": "Générer un PDF",
+      "pdf": "Obtenir un récapitulatif en PDF",
       "eligibilite": {
         "oui": "D'après ce que vous avez répondu, vous pourriez bénéficier des prestations suivantes :",
         "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas bénéficier des prestations suivantes :",
         "deja": "D'après ce que vous avez répondu, vous bénéficiez déjà des prestations suivantes :"
       },
+      "plusInformation": "+ Plus d'information",
+      "demande": "Faites une demande maintenant",
+      "demandeMembre": "Faites une demande pour {who, select, me{vous} other{{membre}}}",
       "prestation": {
         "SUBSIDES": {
-          "title": "Subsides d'assurance-maladie pour {membre}",
-          "content": "Le subside d'assurance-maladie est en principe attribué automatiquement en fonction du revenu déterminant unifié (RDU). Il permet de réduire le montant que vous devez payer pour l'assurance de base obligatoire."
+          "title": "Subsides d'assurance-maladie",
+          "plusInformationLink": "https://ge.ch",
+          "demandeLink": "http://ge.ch",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
+          "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
         },
         "AVANCES": {
           "title": "Avances de pensions alimentaires",
-          "content": "Aide gratuitement le créancier d'aliments à recouvrer les pensions qui lui sont dues lorsque le débiteur néglige son obligation d'entretien."
+          "eligible": "Vous êtes éligible : "
         },
         "ALLOCATION_LOGEMENT": {
           "title": "Allocation logement",
-          "content": "L'allocation logement est une aide financière personnalisée consentie par l'Etat en faveur du locataire dont le loyer représente une charge trop lourde eu égard à son revenu et à sa fortune et qui n'a pas trouvé, au préalable, de logement moins cher sans inconvénients majeurs."
-        },
-        "SUBVENTION_HM": {
-          "title": "Subvention habitation mixte (HM)",
-          "content": "Un logement HM correspond, de par son niveau de loyer à un appartement de type HLM. Toutefois, en lieu et place d'une subvention à l'exploitation versée au propriétaire de l'immeuble, l'Etat de Genève accorde, pendant 25 ans au maximum, une subvention aux locataires qui en remplissent les conditions d'octroi."
+          "eligible": "Vous êtes éligible : "
         },
         "PC_AVS_AI": {
-          "title": "Prestations complémentaires AVS/AI pour {membre}",
-          "content": "Les prestations complémentaires (PC) à l’assurance vieillesse et survivants (AVS) et à l’assurance invalidité (AI) sont accordées lorsque les rentes et autres revenus ne couvrent pas les besoins vitaux."
+          "title": "Prestations complémentaires AVS/AI",
+          "eligible": "Votre foyer est éligible : "
         },
         "BOURSES": {
-          "title": "Bourses d'études pour {membre}",
-          "content": "Vous avez besoin d'une aide financière pour entreprendre ou poursuivre une formation après la scolarité obligatoire? En fonction de votre situation familiale et personnelle, vous pourriez bénéficier d'une aide pour votre projet dans une école de formation générale (collège, ECG...) ou professionnelle, dans une Haute écoles spécialisée (HES) ou à l'Université."
+          "title": "Bourses d'études",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
+          "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
         },
         "PC_FAM": {
-          "title": "Prestations complémentaires familiales pour {membre}",
-          "content": "Les prestations complémentaires cantonales familiales garantissent un \"revenu minimum d'aide sociale\" aux ménages avec enfant-s. Elles sont destinées aux familles n'ayant pas les revenus suffisants pour couvrir leurs besoins vitaux."
+          "title": "Prestations complémentaires familiales",
+          "eligible": "Votre foyer est éligible : "
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
-          "content": "L'aide sociale vient en aide aux personnes qui ont des difficultés sociales ou sont dépourvues des moyens nécessaires pour satisfaire leurs besoins vitaux et personnels indispensables. Cette aide peut se limiter à un soutien social ou comporter également une aide financière."
+          "eligible": "Vous êtes éligible : "
         }
       },
       "reponses": "Veuillez retrouver ci-dessous un résumé des réponses que vous avez donné au questionnaire :"
@@ -140,8 +146,19 @@
     }
   },
   "question": {
+    "parentsEnfants": {
+      "label": "Qui sont les parents des enfants vivant dans votre foyer ?",
+      "membre": "{membre} est :",
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "PC_AVS_AI": "Vous avez indiqué que {enfant} n'est pas un enfant à votre charge.",
+        "PC_FAM": "Vous avez indiqué ne pas avoir des enfants en commun avec {prenomAutreParent}"
+      }
+    },
     "prestations": {
-      "label": "Recevez-vous {numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
+      "label": "Recevez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
       "help": "En cas de doute sur une prestation, ne pas cocher la case concernée.<br>Si vous ne savez pas du tout si vous recevez des prestations et lesquelles, cocher \"Non\".",
       "option": {
         "SUBSIDES": "{numberOfMemebres, select, 0{Subsides d'assurance-maladie (SAM)} other {{who, select, me{Je reçois} other{{membre} reçoit}} des subsides d'assurance-maladie}}",
@@ -166,27 +183,13 @@
         "ALLOCATION_LOGEMENT": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_AVS_AI": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_FAM": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
-        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci"
+        "PC_FAM_SANS_ENFANTS": "Vous n'avez aucun enfant à charge",
+        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "AIDE_SOCIALE_MINEUR": "Vous êtes mineur au moment de la demande"
       },
       "error": {
         "required": "Vos prestations doivent être fournie",
         "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
-      }
-    },
-    "parentsEnfants": {
-      "label": "Qui sont les parents des enfants vivant dans votre foyer ?",
-      "membre": "{membre} est :",
-      "option": {
-        "MOI": "Mon enfant",
-        "AUTRE_PARENT": "Celui de {prenomAutreParent}",
-        "LES_DEUX": "Notre enfant à tous les deux",
-        "AUTRES": "Autres"
-      },
-      "error": {
-        "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "PC_FAM": "Vous avez indiqué ne pas avoir des enfants en commun avec {prenomAutreParent}"
       }
     },
     "situationMembre": {
@@ -226,7 +229,8 @@
       }
     },
     "permisBEtudes": {
-      "label": "Avez-vous un permis B pour raison d'études ?",
+      "label": "Qui a un permis B pour raisons d'études ?",
+      "membre": "{who, select, me{Avez-vous} other{Est-ce que {membre} a}} un Permis B pour raison d'études ?",
       "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour délivré aux résidents longue durée qui font des études dans le canton par l'office cantonal de la population et de la migration (OCPM)).",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -276,213 +280,51 @@
       }
     },
     "revenus": {
-      "label": "Quels revenus recevez-vous ?",
-      "option": {
-        "EMPLOI": "Je suis employé / indépendant",
-        "CHOMAGE": "Je reçois l'assurance-chômage",
-        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VEUF": "Rente de veuf/ve (AVS)",
-        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
-        "AI_INVALIDITE": "Rente d'invalidité (AI)",
-        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "APG": {
-          "label": "Je reçois des indemnités journalières / perte de gain",
-          "help": "En arrêt maladie / accident ou en congé maternité"
-        }
-      },
-      "some": "Sélectionnez chacun de vos revenus :",
-      "none": "Je ne reçois aucun de ces revenus",
-      "checkboxGroup": {
-        "AVS": "Je reçois une rente AVS",
-        "AI": "Je reçois une rente AI"
-      },
+      "label": "Quels revenus {who, select, me{recevez vous} other{{membre} reçoit-il(elle)}} ?",
+      "some": "Sélectionnez chacun {who, select, me{de vos revenus} other{des revenus de {membre}}} :",
+      "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
+      "inconnu": "Je ne sais pas",
       "motifRefus": {
-        "BOURSES": "Vos revenus vous empêchent de bénéficier de cette prestation",
-        "PC_FAM": "Vos revenus vous empêchent de bénéficier de cette prestation",
-        "PC_AVS_AI": "Vos revenus vous empêchent de bénéficier de cette prestation",
-        "AIDE_SOCIALE": "Vos revenus vous empêchent de bénéficier de cette prestation"
+        "BOURSES": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
+        "PC_FAM": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
+        "PC_AVS_AI": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
+        "AIDE_SOCIALE": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation"
       },
       "error": {
-        "required": "Vos revenus doivent être fournis",
+        "required": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} doivent être fournis",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
     "situationRente": {
-      "label": "Votre situation est-elle parmi les suivantes :",
-      "option": {
-        "RECONNU_OCAI": {
-          "label": "Je suis reconnu invalide par l'OCAI avec un taux minimum de 40%",
-          "help": "OCAI : l'office cantonal de l'assurance invalidité."
-        },
-        "RETRAITE_SANS_RENTE": "Je suis retraité sans rente",
-        "VEUF_SANS_RENTE": "Je suis veuf sans rente"
-      },
-      "some": "Sélectionnez toutes les options qui décrivent votre situation :",
+      "label": "{who, select, me{Votre situation} other{La situation de {membre}}} est-elle parmi les suivantes ?",
+      "some": "Sélectionnez toutes les options qui décrivent {who, select, me{votre situation} other{la situation de {membre}}} :",
       "none": "Aucune des situation précedentes",
       "motifRefus": {
-        "PC_AVS_AI": "Votre situation vous empêchent de bénéficier de cette prestation"
+        "PC_AVS_AI": "{who, select, me{Votre situation} other{La situation de {membre}}} vous empêche de bénéficier de cette prestation"
       },
       "error": {
-        "required": "Votre situation doit être fournis",
+        "required": "{who, select, me{Votre situation} other{La situation de {membre}}} doit être fournie",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
       }
     },
-    "revenusConjoint": {
-      "label": "Quels revenus votre conjoint reçoit-il ?",
-      "option": {
-        "EMPLOI": "Il(elle) est employé / indépendant",
-        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
-        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VEUF": "Rente de veuf/ve (AVS)",
-        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
-        "AI_INVALIDITE": "Rente d'invalidité (AI)",
-        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "APG": {
-          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
-          "help": "En arrêt maladie / accident ou en congé maternité"
-        }
-      },
-      "some": "Sélectionnez chacun de ses revenus :",
-      "none": "Il(elle) ne reçoit aucun de ces revenus",
-      "checkboxGroup": {
-        "AVS": "Il(elle) reçoit une rente AVS",
-        "AI": "Il(elle) reçoit une rente AI"
-      },
+    "formation": {
+      "label": "Qui est en formation ou va commencer bientôt une formation ?",
+      "membre": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} en formation / {who, select, me{allez-vous} other{va-t-il·elle}} bientôt commencer une formation ?",
       "motifRefus": {
-        "PC_FAM": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation",
-        "PC_AVS_AI": "Les represtationvenus de votre conjoint vous empêchent de bénéficier de cette prestation",
-        "AIDE_SOCIALE": "Les revenus de votre conjoint vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "Les revenus de votre conjoint doivent être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "situationRenteConjoint": {
-      "label": "La situation de votre conjoint est-elle parmi les suivantes :",
-      "option": {
-        "RECONNU_OCAI": {
-          "label": "Il(elle) est reconnu invalide par l'OCAI avec un taux minimum de 40%",
-          "help": "OCAI : l'office cantonal de l'assurance invalidité."
-        },
-        "RETRAITE_SANS_RENTE": "Il(elle) est retraité sans rente"
-      },
-      "some": "Sélectionnez toutes les options qui décrivent la situation de votre conjoint :",
-      "none": "Aucune des situation précedentes",
-      "motifRefus": {
-        "PC_AVS_AI": "La situation de votre conjoint vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "La situation de votre conjoint doit être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "revenusConcubin": {
-      "label": "Quels revenus votre concubin reçoit-il ?",
-      "option": {
-        "EMPLOI": "Il(elle) est employé / indépendant",
-        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
-        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VEUF": "Rente de veuf/ve (AVS)",
-        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
-        "AI_INVALIDITE": "Rente d'invalidité (AI)",
-        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "APG": {
-          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
-          "help": "En arrêt maladie / accident ou en congé maternité"
-        }
-      },
-      "some": "Sélectionnez chacun de ses revenus :",
-      "none": "Il(elle) ne reçoit aucun de ces revenus",
-      "checkboxGroup": {
-        "AVS": "Il(elle) reçoit une rente AVS",
-        "AI": "Il(elle) reçoit une rente AI"
-      },
-      "motifRefus": {
-        "PC_FAM": "Les revenus de votre concubin vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "Les revenus de votre concubin doivent être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "revenusEnfant": {
-      "label": "Quels revenus votre(vos) enfant(s) reçoit(vent)-il(s) ?",
-      "option": {
-        "EMPLOI": "Il(elle) est employé / indépendant",
-        "CHOMAGE": "Il(elle) reçoit l'assurance-chômage",
-        "AVS_RETRAITE": "Rente de vieillesse (AVS)",
-        "AVS_VEUF": "Rente de veuf/ve (AVS)",
-        "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
-        "AI_INVALIDITE": "Rente d'invalidité (AI)",
-        "AI_ENFANT": "Rente pour enfant d'AI (AI)",
-        "APG": {
-          "label": "Il(elle) reçoit des indemnités journalières / perte de gain",
-          "help": "En arrêt maladie / accident ou en congé maternité"
-        }
-      },
-      "some": "Sélectionnez chacun de ses revenus :",
-      "none": "Il(elle) ne reçoit aucun de ces revenus",
-      "checkboxGroup": {
-        "AVS": "Il(elle) reçoit une rente AVS",
-        "AI": "Il(elle) reçoit une rente AI"
-      },
-      "motifRefus": {
-        "PC_AVS_AI": "Les revenus de votre(vos) enfant(s) vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "Les revenus de votre(vos) enfant(s) doivent être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "situationRenteEnfant": {
-      "label": "La situation de votre(vos) enfant(s) est-elle parmi les suivantes :",
-      "option": {
-        "RECONNU_OCAI": {
-          "label": "Il(elle) est reconnu invalide par l'OCAI avec un taux minimum de 40%",
-          "help": "OCAI : l'office cantonal de l'assurance invalidité."
-        }
-      },
-      "some": "Sélectionnez toutes les options qui décrivent la situation de votre(vos) enfant(s) :",
-      "none": "Aucune des situation précedentes",
-      "motifRefus": {
-        "PC_AVS_AI": "La situation de votre(vos) enfant(s) vous empêchent de bénéficier de cette prestation"
-      },
-      "error": {
-        "required": "La situation de votre(vos) enfant(s) doit être fournis",
-        "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "enFormation": {
-      "label": "Etes-vous en formation / allez-vous bientôt commencer une formation ?",
-      "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vous ne suivez aucune formation"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation",
+        "PC_FAM": "Vous n'avez plus d'enfants à charge",
+        "PC_AVS_AI": "{membre} n'est plus à votre charge"
       },
       "error": {
         "required": "Ce champ est obligatoire"
       }
     },
     "scolarite": {
-      "label": "Quelle est la formation concernée ?",
-      "option": {
-        "SCOLARITE_OBLIGATOIRE_1P_A_10P": "La scolarité obligatoire, de 1 P à 10 P",
-        "SCOLARITE_OBLIGATOIRE_11P": {
-          "label": "La scolarité obligatoire, en 11 P",
-          "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I)."
-        },
-        "FORMATION_DOCTORALE": {
-          "label": "Un doctorat",
-          "help": "Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
-        },
-        "FORMATION_CONTINUE": {
-          "label": "Une formation continue",
-          "help": "Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
-        },
-        "AUCUNE": "Aucune de ces réponses",
-        "INCONNU": "Je ne sais pas"
-      },
+      "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre}}} ?",
       "motifRefus": {
-        "BOURSES": "La formation que vous avez indiqué suivre ne peut pas faire objet d'une bourse"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} pas de formation",
+        "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
+        "PC_FAM": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -683,13 +525,14 @@
       }
     },
     "assuranceMaladieSuisse": {
-      "label": "Avez-vous une assurance-maladie suisse (LAMal) ?",
+      "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} une assurance-maladie suisse (LAMal) ?",
       "help": "Affiliation à l'assurance-maladie : En Suisse, l'assurance de base pour les soins (LAMal) en cas de maladie et d'accident est obligatoire. Toute personne, dès sa prise de domicile en Suisse, est tenue d'être assurée pour les soins en cas de maladie et d'accident. Etre affilié signifie avoir souscrit à une police d'assurance-maladie suisse. Par exemple, Assura, CSS, Helsana ou Mutuel.",
+      "membre": "{who, select, me{J'ai} other{{membre} a}} une assurance-maladie suisse (LAMal) :",
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué ne pas être affilié à l'assurance maladie suisse (LAMal)"
+        "SUBSIDES": "Vous avez indiqué {who, select, me{ne pas être affilié} other{que {membre} n'est pas affilié}} à l'assurance maladie suisse (LAMal)"
       }
     },
     "droitPensionAlimentaire": {
@@ -733,7 +576,7 @@
       }
     },
     "exempteImpot": {
-      "label": "Etes-vous exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
+      "label": "Etes-vous {hasPartenaire, select, no{} other{ou {partenaire}}} exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
       "help": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.<br>Exempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -743,7 +586,7 @@
       }
     },
     "taxeOfficeAFC": {
-      "label": "Etes-vous taxé d'office par l'administration fiscale cantonale (AFC) en { annee } ?",
+      "label": "Etes-vous {hasPartenaire, select, no{} other{ou {partenaire}}} taxé d'office par l'administration fiscale cantonale (AFC) en {annee} ?",
       "help": "Taxation d'office : Sanction prise contre le contribuable qui n'a pas effectué de déclaration : le fisc lui-même procède à une estimation du revenu, du profit ou de la valeur imposable, au moyen des éléments d'information en sa possession.",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -753,26 +596,25 @@
       }
     },
     "fonctionnaireInternational": {
-      "label": "Vous-même ou l'un de vos parents est-il fonctionnaire international ?",
-      "altText": {
-        "avecConjoint": "Vous-même, votre conjoint ou l'un de vos parents est-il fonctionnaire international ?"
-      },
+      "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} un parent fonctionnaire internationnal ?",
+      "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il fonctionnaire international ?",
       "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vous-même (votre conjoint) ou l'un de vos parents est-il fonctionnaire international"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est fonctionnaire international"
       }
     },
     "parentsHabiteFranceTravailleSuisse": {
-      "label": "Est-ce que l'un de vos parents est frontalier (habite en France et travaille en Suisse) ?",
+      "label": "Les parents sont-ils frontalier ?",
+      "membre": "Est-ce que l'un {who, select, me{vos parents} other{des parents de {membre}}} est frontalier (habite en France et travaille en Suisse) ?",
       "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que vos parents ne sont pas contribuable sur le canton de Genève"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vos parents} other{les parents de {membre}}} ne sont pas contribuable sur le canton de Genève"
       }
     }
   },
@@ -807,6 +649,12 @@
       "AUCUN": "Aucun des deux",
       "INCONNU": "Je ne sais pas"
     },
+    "typeEnfant": {
+      "MOI": "Mon enfant",
+      "AUTRE_PARENT": "Celui de {prenomAutreParent}",
+      "LES_DEUX": "Notre enfant à tous les deux",
+      "AUTRES": "Autres"
+    },
     "reponseBinaire": {
       "OUI": "Oui",
       "NON": "Non"
@@ -825,6 +673,48 @@
       "FIXE": "Loyer fixe",
       "EN_FONCTION_REVENU": "Loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)",
       "INCONNU": "Je ne sais pas"
+    },
+    "scolarite": {
+      "SCOLARITE_OBLIGATOIRE_1P_A_10P": "La scolarité obligatoire, de 1 P à 10 P",
+      "SCOLARITE_OBLIGATOIRE_11P": {
+        "label": "La scolarité obligatoire, en 11 P",
+        "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I)."
+      },
+      "FORMATION_DOCTORALE": {
+        "label": "Un doctorat",
+        "help": "Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
+      },
+      "FORMATION_CONTINUE": {
+        "label": "Une formation continue",
+        "help": "Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
+      },
+      "AUCUNE": "Aucune de ces réponses",
+      "INCONNU": "Je ne sais pas"
+    },
+    "typeRevenus": {
+      "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé / indépendant",
+      "CHOMAGE": "{who, select, me{Je reçois} other{{membre} reçoit}} l'assurance-chômage",
+      "AVS_RETRAITE": "Rente de vieillesse (AVS)",
+      "AVS_VEUF": "Rente de veuf/ve (AVS)",
+      "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
+      "AI_INVALIDITE": "Rente d'invalidité (AI)",
+      "AI_ENFANT": "Rente pour enfant d'AI (AI)",
+      "APG": {
+        "label": "{who, select, me{Je reçois} other{{membre} reçoit}} des indemnités journalières / perte de gain",
+        "help": "En arrêt maladie / accident ou en congé maternité"
+      }
+    },
+    "typeRevenusGroup": {
+      "AVS": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AVS",
+      "AI": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AI"
+    },
+    "situationRente": {
+      "RECONNU_OCAI": {
+        "label": "{who, select, me{Je suis} other{{membre} est}} reconnu invalide par l'OCAI avec un taux minimum de 40%",
+        "help": "OCAI : l'office cantonal de l'assurance invalidité."
+      },
+      "RETRAITE_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} retraité·e sans rente",
+      "VEUF_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} veuf·ve sans rente"
     },
     "pays": {
       "af": "Afghanistan",
