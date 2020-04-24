@@ -48,7 +48,7 @@ export class NationaliteQuestionService implements QuestionLoader {
             items: [
               {
                 question: new NationaliteQuestion({
-                  key: `nationalite`,
+                  key: 'nationalite',
                   dataCyIdentifier: `0401_nationalite_${membre.id}`,
                   label: {key: 'question.situationMembre.nationalite.label', parameters: translateParams},
                   help: {key: 'question.situationMembre.nationalite.help', parameters: translateParams},
@@ -103,8 +103,8 @@ export class NationaliteQuestionService implements QuestionLoader {
 
     questions.push({
       question: new CompositeQuestion({
-        key: `permisBEtudes`,
-        dataCyIdentifier: `0405_permisBEtudes`,
+        key: 'permisBEtudes',
+        dataCyIdentifier: '0405_permisBEtudes',
         label: {
           key: 'question.permisBEtudes.label',
           parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}

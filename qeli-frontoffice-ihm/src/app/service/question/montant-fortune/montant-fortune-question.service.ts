@@ -11,6 +11,8 @@ import { Prestation } from '../../configuration/prestation.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { I18nString } from '../../../core/i18n/i18nstring.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { TypeEnfant } from '../enfants/type-enfant.model';
 
 
 @Injectable({
@@ -24,11 +26,9 @@ export class MontantFortuneQuestionService implements QuestionLoader {
       question: new RadioQuestion({
         key: 'fortuneSuperieureA',
         dataCyIdentifier: '1302_fortuneSuperieureA',
-        label: () => {
+        label: (value: any) => {
           const demandeur = eligibiliteGroup.demandeur;
-          // TODO determiner les enfants à charge avec la question de enFormation
-          // Enfant à charge : -18 ans ou entre 18-25 en formation
-          const nbrEnfantsACharge = demandeur.enfants.length;
+          const nbrEnfantsACharge = this.getNombreEnfantsACharge(value, demandeur);
           const limiteFortune = configuration.limiteFortune +
                                 (nbrEnfantsACharge * configuration.limiteFortunePerEnfant) +
                                 (demandeur.hasConjoint ? configuration.limiteFortuneConjoint : 0);
@@ -85,5 +85,17 @@ export class MontantFortuneQuestionService implements QuestionLoader {
   private hasFortuneTropEleve(formData: FormData) {
     const choosenOption = (formData['fortuneSuperieureA'] as OptionAnswer<string>).value;
     return choosenOption.value === ReponseBinaire.OUI;
+  }
+
+  private getNombreEnfantsACharge(value: any, demandeur: Demandeur) {
+    const parentsEnfantsAnswers = value['parentsEnfants'];
+    const formationAnswers = value['formation'];
+    return demandeur.enfants.filter(enfant =>
+      parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.LES_DEUX ||
+      parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.MOI
+    ).filter(enfant =>
+      !enfant.isMajeur ||
+      (enfant.age <= 25 && formationAnswers[`formation_${enfant.id}`] === ReponseBinaire.OUI)
+    ).length;
   }
 }
