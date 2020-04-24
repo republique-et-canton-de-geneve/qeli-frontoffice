@@ -67,6 +67,8 @@ export class EnfantsQuestionService implements QuestionLoader {
     if (!concubin || hasEnfantToutLesDeux) {
       return [];
     } else {
+      // TODO Attention dans l'écran de résultat si on coche 'déjà péçue` dans la prochaine question PC FAM apparaît
+      //  quand-même refusée alors qu'elle ne devrait pas. Il faudrait bouger ce check.
       return QuestionUtils.createRefusByPrestationAndMembre(
         eligibilites, Prestation.PC_FAM, concubin, eligibilite => ({
           key: `question.parentsEnfants.motifRefus.${eligibilite.prestation}`,
