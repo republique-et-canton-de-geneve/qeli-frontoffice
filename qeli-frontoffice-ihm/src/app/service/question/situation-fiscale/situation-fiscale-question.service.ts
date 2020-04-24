@@ -104,14 +104,11 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
             key: 'question.fonctionnaireInternational.label',
             parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
           },
+          help: {key: 'question.fonctionnaireInternational.help'},
           showErrors: false,
           items: membres.map(membre => ({
             question: new RadioQuestion({
               key: `fonctionnaireInternational_${membre.id}`,
-              help: {
-                key: 'question.fonctionnaireInternational.help',
-                parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
-              },
               dataCyIdentifier: `1403_fonctionnaireInternational_${membre.id}`,
               label: {
                 key: 'question.fonctionnaireInternational.membre',

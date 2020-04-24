@@ -57,44 +57,49 @@
     },
     "result": {
       "title": "Résultat",
-      "pdf": "Générer un PDF",
+      "pdf": "Obtenir un récapitulatif en PDF",
       "eligibilite": {
         "oui": "D'après ce que vous avez répondu, vous pourriez bénéficier des prestations suivantes :",
         "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas bénéficier des prestations suivantes :",
         "deja": "D'après ce que vous avez répondu, vous bénéficiez déjà des prestations suivantes :"
       },
+      "plusInformation": "+ Plus d'information",
+      "demande": "Faites une demande maintenant",
+      "demandeMembre": "Faites une demande pour {who, select, me{vous} other{{membre}}}",
       "prestation": {
         "SUBSIDES": {
-          "title": "Subsides d'assurance-maladie pour {membre}",
-          "content": "Le subside d'assurance-maladie est en principe attribué automatiquement en fonction du revenu déterminant unifié (RDU). Il permet de réduire le montant que vous devez payer pour l'assurance de base obligatoire."
+          "title": "Subsides d'assurance-maladie",
+          "plusInformationLink": "https://ge.ch",
+          "demandeLink": "http://ge.ch",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
+          "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
         },
         "AVANCES": {
           "title": "Avances de pensions alimentaires",
-          "content": "Aide gratuitement le créancier d'aliments à recouvrer les pensions qui lui sont dues lorsque le débiteur néglige son obligation d'entretien."
+          "eligible": "Vous êtes éligible : "
         },
         "ALLOCATION_LOGEMENT": {
           "title": "Allocation logement",
-          "content": "L'allocation logement est une aide financière personnalisée consentie par l'Etat en faveur du locataire dont le loyer représente une charge trop lourde eu égard à son revenu et à sa fortune et qui n'a pas trouvé, au préalable, de logement moins cher sans inconvénients majeurs."
-        },
-        "SUBVENTION_HM": {
-          "title": "Subvention habitation mixte (HM)",
-          "content": "Un logement HM correspond, de par son niveau de loyer à un appartement de type HLM. Toutefois, en lieu et place d'une subvention à l'exploitation versée au propriétaire de l'immeuble, l'Etat de Genève accorde, pendant 25 ans au maximum, une subvention aux locataires qui en remplissent les conditions d'octroi."
+          "eligible": "Vous êtes éligible : "
         },
         "PC_AVS_AI": {
-          "title": "Prestations complémentaires AVS/AI pour {membre}",
-          "content": "Les prestations complémentaires (PC) à l’assurance vieillesse et survivants (AVS) et à l’assurance invalidité (AI) sont accordées lorsque les rentes et autres revenus ne couvrent pas les besoins vitaux."
+          "title": "Prestations complémentaires AVS/AI",
+          "eligible": "Votre foyer est éligible : "
         },
         "BOURSES": {
-          "title": "Bourses d'études pour {membre}",
-          "content": "Vous avez besoin d'une aide financière pour entreprendre ou poursuivre une formation après la scolarité obligatoire? En fonction de votre situation familiale et personnelle, vous pourriez bénéficier d'une aide pour votre projet dans une école de formation générale (collège, ECG...) ou professionnelle, dans une Haute écoles spécialisée (HES) ou à l'Université."
+          "title": "Bourses d'études",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
+          "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
         },
         "PC_FAM": {
-          "title": "Prestations complémentaires familiales pour {membre}",
-          "content": "Les prestations complémentaires cantonales familiales garantissent un \"revenu minimum d'aide sociale\" aux ménages avec enfant-s. Elles sont destinées aux familles n'ayant pas les revenus suffisants pour couvrir leurs besoins vitaux."
+          "title": "Prestations complémentaires familiales",
+          "eligible": "Votre foyer est éligible : "
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
-          "content": "L'aide sociale vient en aide aux personnes qui ont des difficultés sociales ou sont dépourvues des moyens nécessaires pour satisfaire leurs besoins vitaux et personnels indispensables. Cette aide peut se limiter à un soutien social ou comporter également une aide financière."
+          "eligible": "Vous êtes éligible : "
         }
       },
       "reponses": "Veuillez retrouver ci-dessous un résumé des réponses que vous avez donné au questionnaire :"

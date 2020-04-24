@@ -1,6 +1,5 @@
 import { QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Personne } from '../../configuration/demandeur.model';
-import { refugieToOption } from '../nationalite/requerant-refugie.model';
 
 export enum TypeEnfant {
   MOI          = 'MOI',
@@ -20,5 +19,5 @@ function typeEnfantTopOption(typeEnfant: TypeEnfant, autreParent: Personne): Que
 }
 
 export function typeEnfantAsOptions(autreParent: Personne): QuestionOption<string>[] {
-  return Object.values(TypeEnfant).map(typeEnfant => refugieToOption(typeEnfant, autreParent));
+  return Object.values(TypeEnfant).map(typeEnfant => typeEnfantTopOption(typeEnfant, autreParent));
 }
