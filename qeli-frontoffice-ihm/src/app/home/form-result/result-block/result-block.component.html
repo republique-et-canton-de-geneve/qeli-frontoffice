@@ -1,23 +1,57 @@
-<div class="panel" [ngClass]="{ 'panel-success': success, 'panel-warning': danger, 'panel-info': info}">
-  <div class="panel-heading" (click)="showDetails = !showDetails">
+<div class="panel" [ngClass]="{
+     'panel-success': isPrestationEligible,
+     'panel-warning': isPrestationRefusee,
+     'panel-info': isPrestationDejaPercue
+    }">
+  <div class="panel-heading">
     <div class="panel-row">
       <i class="fa panel-row-icon" [ngClass]="{
-          'fa-check-circle': success,
-          'fa-times-circle': danger,
-          'fa-info-circle': info
+          'fa-check-circle': isPrestationEligible,
+          'fa-times-circle': isPrestationRefusee,
+          'fa-info-circle': isPrestationDejaPercue
         }"></i>
 
       <div class="panel-row-text">
-        <h4>{{ title }}</h4>
-        <div *ngIf="subtitle" [innerHtml]="subtitle"></div>
-      </div>
-
-      <div class="panel-row-toggle-btn">
-        <i class="fa" [ngClass]="{ 'fa-chevron-circle-up': showDetails, 'fa-chevron-circle-down': !showDetails }"></i>
+        <h4>
+          {{ 'home.result.prestation.' + resultsByPrestation.prestation + '.title'  | translate }}
+          <a
+            href="{{'home.result.prestation.' + resultsByPrestation.prestation + '.plusInformation:ink'  | translate}}">
+            {{ 'home.result.plusInformation'  | translate }}
+          </a>
+        </h4>
       </div>
     </div>
   </div>
-  <div *ngIf="showDetails" class="panel-body">
-    <ng-content></ng-content>
+  <div class="panel-body" *ngIf=" !isPrestationDejaPercue">
+    <ul *ngIf="isPrestationRefusee || (isPrestationEligible && isPrestationIndividuel)">
+      <li *ngFor="let result of resultsByPrestation.results">
+
+        <div *ngIf="isPrestationIndividuel">
+          <span *ngIf="!isPrestationDejaPercue" [ngClass]="{
+          'text-success': result.eligible,
+          'text-danger': !result.eligible && !result.dejaPercue
+         }">{{ translateResult(result) }}</span>
+          <span *ngIf="result.motifRefus">{{ result.motifRefus.key | translate:result.motifRefus.parameters }}</span>
+          <a *ngIf="result.eligible"
+             href="{{ 'home.result.prestation.' + resultsByPrestation.prestation + '.demandeLink'  | translate }}">
+            {{ 'home.result.demandeMembre' | translate:toTranslateParams(result)}}
+          </a>
+        </div>
+
+        <div *ngIf="!isPrestationIndividuel">
+          <span *ngIf="result.motifRefus" class="text-danger">
+            {{ result.motifRefus.key | translate:result.motifRefus.parameters }}
+          </span>
+        </div>
+      </li>
+    </ul>
+
+    <span *ngIf="isPrestationEligible && !isPrestationIndividuel">
+      {{ 'home.result.prestation.' + resultsByPrestation.prestation + '.eligible' | translate }}
+      <a href="{{ 'home.result.prestation.' + resultsByPrestation.prestation + '.demandeLink'  | translate }}">
+        {{'home.result.demande'  | translate }}
+      </a>
+    </span>
+
   </div>
 </div>
