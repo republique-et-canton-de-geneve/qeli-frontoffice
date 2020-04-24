@@ -580,7 +580,7 @@
       }
     },
     "taxeOfficeAFC": {
-      "label": "Etes-vous taxé d'office par l'administration fiscale cantonale (AFC) en { annee } ?",
+      "label": "Etes-vous {hasPartenaire, select, no{} other{ou {partenaire}}} taxé d'office par l'administration fiscale cantonale (AFC) en {annee} ?",
       "help": "Taxation d'office : Sanction prise contre le contribuable qui n'a pas effectué de déclaration : le fisc lui-même procède à une estimation du revenu, du profit ou de la valeur imposable, au moyen des éléments d'information en sa possession.",
       "error": {
         "required": "Ce champ est obligatoire"

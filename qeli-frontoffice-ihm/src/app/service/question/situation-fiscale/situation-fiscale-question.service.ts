@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader } from '../question-loader';
+import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Personne } from '../../configuration/demandeur.model';
+import { Demandeur, Personne } from '../../configuration/demandeur.model';
 import {
   CompositeAnswer, CompositeQuestion
 } from '../../../dynamic-question/composite-question/composite-question.model';
@@ -14,6 +14,9 @@ import { Prestation } from '../../configuration/prestation.model';
 import { AnswerUtils } from '../answer-utils';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
+import * as moment from 'moment';
+import { I18nString } from '../../../core/i18n/i18nstring.model';
+import { TypeEnfant } from '../enfants/type-enfant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +29,39 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
       eligibiliteGroup.demandeur.membresFamille
     );
     return [
+      {
+        question: new RadioQuestion({
+          key: `taxeOfficeAFC`,
+          dataCyIdentifier: `1402_taxeOfficeAFC`,
+          label: (value: any) => {
+            const hasPartenaire = eligibiliteGroup.demandeur.hasConjoint || (
+              eligibiliteGroup.demandeur.hasConcubin &&
+              this.hasEnfantEnCommun(value, eligibiliteGroup.demandeur)
+            );
+            return {
+              key: 'question.taxeOfficeAFC.label',
+              parameters: {
+                hasPartenaire: hasPartenaire ? 'yes' : 'no',
+                partenaire: hasPartenaire ? eligibiliteGroup.demandeur.partenaire.prenom : '',
+                annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
+              }
+            } as I18nString;
+          },
+          help: {key: 'question.taxeOfficeAFC.help'},
+          errorLabels: {required: {key: 'question.taxeOfficeAFC.error.required'}},
+          inline: true,
+          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
+        }),
+        calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
+          'taxeOfficeAFC',
+          ReponseProgressive.OUI,
+          Prestation.SUBSIDES,
+          eligibilite => ({key: `question.taxeOfficeAFC.motifRefus.${eligibilite.prestation}`})
+        ),
+        eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
+        categorie: Categorie.COMPLEMENTS,
+        subcategorie: Subcategorie.SITUATION_FISCALE
+      },
       {
         question: new CompositeQuestion({
           key: `fonctionnaireInternational`,
@@ -111,6 +147,11 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
     ];
   }
 
+  private hasEnfantEnCommun(value: any, demandeur: Demandeur) {
+    const answers = value['parentsEnfants'];
+    return demandeur.enfants.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
+  }
+
   private calculateFonctionnaireInternationalRefus(
     formData: FormData, eligibilites: Eligibilite[]
   ): EligibiliteRefusee[] {
@@ -151,40 +192,4 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
       }
     } as EligibiliteRefusee));
   }
-
 }
-
-/*
-new RadioQuestion({
-  key: 'exempteImpot',
-  code: '1401',
-  categorie: Categorie.COMPLEMENTS,
-  subcategorie: Subcategorie.SITUATION_FISCALE,
-  help: true,
-  inline: true,
-  options: Object.keys(ReponseProgressive).map(label => ({label: label})),
-  eligibilite: [
-    {
-      prestation: Prestation.SUBSIDES,
-      isEligible: (value: any) => value['exempteImpot'] !== ReponseProgressive.OUI
-    }
-  ]
-}),
-new RadioQuestion({
-  key: 'taxeOfficeAFC',
-  code: '1402',
-  categorie: Categorie.COMPLEMENTS,
-  subcategorie: Subcategorie.SITUATION_FISCALE,
-  help: true,
-  inline: true,
-  labelParameters: {
-    annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
-  },
-  options: Object.keys(ReponseProgressive).map(label => ({label: label})),
-  eligibilite: [
-    {
-      prestation: Prestation.SUBSIDES,
-      isEligible: (value: any) => value['taxeOfficeAFC'] !== ReponseProgressive.OUI
-    }
-  ]
-})*/
