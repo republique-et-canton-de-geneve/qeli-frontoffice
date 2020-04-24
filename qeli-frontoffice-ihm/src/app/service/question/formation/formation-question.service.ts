@@ -27,8 +27,8 @@ export class FormationQuestionService implements QuestionLoader {
 
     questions.push({
       question: new CompositeQuestion({
-        key: `formation`,
-        dataCyIdentifier: `0702_formation`,
+        key: 'formation',
+        dataCyIdentifier: '0702_formation',
         label: {
           key: 'question.formation.label',
           parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
