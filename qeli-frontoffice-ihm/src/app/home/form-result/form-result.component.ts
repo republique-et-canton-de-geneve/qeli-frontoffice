@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Eligibilite, EligibiliteRefusee } from '../../service/question/eligibilite.model';
 import { QeliStateMachine } from '../../service/question/qeli-state.model';
 import { TranslateService } from '@ngx-translate/core';
 import { PDFGenerationService } from '../../service/pdf-generation.service';
 import { FormData } from '../../dynamic-question/model/question.model';
+import { Prestation } from '../../service/configuration/prestation.model';
+import { Eligibilite, EligibiliteRefusee } from '../../service/question/eligibilite.model';
 import * as FileSaver from 'file-saver';
+import { Result, ResultsByPrestation, resultsComparator } from './result-block/result.model';
 
 @Component({
   selector: 'app-form-result',
@@ -13,9 +15,14 @@ import * as FileSaver from 'file-saver';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormResultComponent {
-  eligibilites: Eligibilite[];
-  eligibilitesRefusees: EligibiliteRefusee[];
   formData: FormData;
+
+  prestationEligibles: ResultsByPrestation[] = [];
+  prestationRefusees: ResultsByPrestation[] = [];
+  prestationDejaPercues: ResultsByPrestation[] = [];
+
+  private eligibilites: Eligibilite[];
+  private eligibilitesRefusees: EligibiliteRefusee[];
 
   constructor(private translateService: TranslateService,
               private pdfGenerationService: PDFGenerationService) {
@@ -25,17 +32,39 @@ export class FormResultComponent {
   @Input()
   set qeliStateMachine(qeliStateMachine: QeliStateMachine) {
     const state = qeliStateMachine.state;
+
+    Object.values(Prestation).filter(prestation => prestation !== Prestation.SUBVENTION_HM).forEach(prestation => {
+      const results: Result[] = [];
+
+      qeliStateMachine.currentEligibilites.filter(
+        eligibilite => eligibilite.prestation === prestation
+      ).map(eligibilite => ({membre: eligibilite.membre, eligible: true})).forEach(result => results.push(result));
+
+      state.eligibilitesRefusees.filter(eligibiliteRefusee =>
+        eligibiliteRefusee.eligibilite.prestation === prestation
+      ).map(eligibiliteRefusee => ({
+        membre: eligibiliteRefusee.eligibilite.membre,
+        eligible: false,
+        dejaPercue: eligibiliteRefusee.dejaPercue,
+        motifRefus: eligibiliteRefusee.motif
+      })).forEach(result => results.push(result));
+
+      if (results.some(result => result.eligible)) {
+        this.prestationEligibles.push({
+          prestation: prestation,
+          results: results.sort(resultsComparator).reverse()
+        });
+      } else if (results.every(result => result.dejaPercue)) {
+        this.prestationDejaPercues.push({prestation: prestation, results: results});
+      } else {
+        this.prestationRefusees.push({prestation: prestation, results: results});
+      }
+    });
+
     this.eligibilites = qeliStateMachine.currentEligibilites;
     this.eligibilitesRefusees = state.eligibilitesRefusees;
+
     this.formData = state.formData;
-  }
-
-  get dejaPercues() {
-    return this.eligibilitesRefusees.filter(e => e.dejaPercue).map(e => e.eligibilite);
-  }
-
-  get refusees() {
-    return this.eligibilitesRefusees.filter(e => !e.dejaPercue);
   }
 
   generatePDF() {
@@ -51,5 +80,4 @@ export class FormResultComponent {
       console.log('error : ', err);
     });
   }
-
 }
