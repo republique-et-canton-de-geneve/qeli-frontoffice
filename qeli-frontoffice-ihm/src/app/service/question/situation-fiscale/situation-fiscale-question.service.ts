@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader } from '../question-loader';
+import { QuestionLoader, QuestionUtils } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Personne, Relation } from '../../configuration/demandeur.model';
+import { Demandeur, Personne } from '../../configuration/demandeur.model';
 import {
   CompositeAnswer, CompositeQuestion
 } from '../../../dynamic-question/composite-question/composite-question.model';
@@ -29,6 +29,39 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
       eligibiliteGroup.demandeur.membresFamille
     );
     return [
+      {
+        question: new RadioQuestion({
+          key: `taxeOfficeAFC`,
+          dataCyIdentifier: `1402_taxeOfficeAFC`,
+          label: (value: any) => {
+            const hasPartenaire = eligibiliteGroup.demandeur.hasConjoint || (
+              eligibiliteGroup.demandeur.hasConcubin &&
+              this.hasEnfantEnCommun(value, eligibiliteGroup.demandeur)
+            );
+            return {
+              key: 'question.taxeOfficeAFC.label',
+              parameters: {
+                hasPartenaire: hasPartenaire ? 'yes' : 'no',
+                partenaire: hasPartenaire ? eligibiliteGroup.demandeur.partenaire.prenom : '',
+                annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
+              }
+            } as I18nString;
+          },
+          help: {key: 'question.taxeOfficeAFC.help'},
+          errorLabels: {required: {key: 'question.taxeOfficeAFC.error.required'}},
+          inline: true,
+          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
+        }),
+        calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
+          'taxeOfficeAFC',
+          ReponseProgressive.OUI,
+          Prestation.SUBSIDES,
+          eligibilite => ({key: `question.taxeOfficeAFC.motifRefus.${eligibilite.prestation}`})
+        ),
+        eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
+        categorie: Categorie.COMPLEMENTS,
+        subcategorie: Subcategorie.SITUATION_FISCALE
+      },
       {
         question: new CompositeQuestion({
           key: `fonctionnaireInternational`,
@@ -110,57 +143,13 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
         calculateRefus: this.calculateRefusParentsHabiteFranceTravailleSuisse,
         categorie: Categorie.COMPLEMENTS,
         subcategorie: Subcategorie.SITUATION_FISCALE
-      },
-      {
-        question: new RadioQuestion({
-          key: `taxeOfficeAFC`,
-          help: {
-            key: 'question.taxeOfficeAFC.help',
-          },
-          dataCyIdentifier: `1402_taxeOfficeAFC`,
-          label: (value: any) => {
-            const answers = value['parentsEnfants'];
-            const membresFamille  = eligibiliteGroup.demandeur.membresFamille;
-            const hasEnfantToutLesDeux = membresFamille.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
-            const isValidConjoint = eligibiliteGroup.demandeur.hasConjoint ||
-              (eligibiliteGroup.demandeur.hasConcubin && hasEnfantToutLesDeux);
-            const conjointPrenom = hasEnfantToutLesDeux ? eligibiliteGroup.demandeur.partenaire.prenom : '';
-            return {
-              key: 'question.taxeOfficeAFC.label',
-              parameters: {
-                hasConjoint: isValidConjoint ? 'yes' : 'no',
-                conjoint: conjointPrenom,
-                annee: moment().subtract(2, 'year').format('YYYY')}
-            } as I18nString;
-          },
-          radioOptions: Object.keys(ReponseProgressive).map(reponse => ({
-            value: reponse,
-            label: {key: `common.reponseProgressive.${reponse}`}
-          })),
-        }),
-        calculateRefus: this.calculateTaxeOfficeRefusFn,
-        eligibilites: eligibiliteGroup.findByPrestation(
-          Prestation.SUBSIDES),
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.SITUATION_FISCALE
       }
-
     ];
   }
 
-  private calculateTaxeOfficeRefusFn(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
-
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    return eligibiliteGroup.findByPrestation(Prestation.SUBSIDES).filter(eligibilite => {
-      const answer = (formData[`taxeOfficeAFC`] as OptionAnswer<string>);
-      const choice = answer ? answer.value : null;
-      return !!choice && choice.value === ReponseProgressive.OUI;
-    }).map(eligibilite => ({
-      eligibilite: eligibilite,
-      motif: {
-        key: `question.taxeOfficeAFC.motifRefus.${Prestation.SUBSIDES}`,
-      }
-    }));
+  private hasEnfantEnCommun(value: any, demandeur: Demandeur) {
+    const answers = value['parentsEnfants'];
+    return demandeur.enfants.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
   }
 
   private calculateFonctionnaireInternationalRefus(
@@ -203,40 +192,4 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
       }
     } as EligibiliteRefusee));
   }
-
 }
-
-/*
-new RadioQuestion({
-  key: 'exempteImpot',
-  code: '1401',
-  categorie: Categorie.COMPLEMENTS,
-  subcategorie: Subcategorie.SITUATION_FISCALE,
-  help: true,
-  inline: true,
-  options: Object.keys(ReponseProgressive).map(label => ({label: label})),
-  eligibilite: [
-    {
-      prestation: Prestation.SUBSIDES,
-      isEligible: (value: any) => value['exempteImpot'] !== ReponseProgressive.OUI
-    }
-  ]
-}),
-new RadioQuestion({
-  key: 'taxeOfficeAFC',
-  code: '1402',
-  categorie: Categorie.COMPLEMENTS,
-  subcategorie: Subcategorie.SITUATION_FISCALE,
-  help: true,
-  inline: true,
-  labelParameters: {
-    annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
-  },
-  options: Object.keys(ReponseProgressive).map(label => ({label: label})),
-  eligibilite: [
-    {
-      prestation: Prestation.SUBSIDES,
-      isEligible: (value: any) => value['taxeOfficeAFC'] !== ReponseProgressive.OUI
-    }
-  ]
-})*/
