@@ -27,8 +27,8 @@ export class FormationQuestionService implements QuestionLoader {
 
     questions.push({
       question: new CompositeQuestion({
-        key: `formation`,
-        dataCyIdentifier: `0702_formation`,
+        key: 'formation',
+        dataCyIdentifier: '0702_formation',
         label: {
           key: 'question.formation.label',
           parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
@@ -102,7 +102,7 @@ export class FormationQuestionService implements QuestionLoader {
 
     // Refus PC AVS AI pour les enfants qui ne sont pas à charge
     eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(eligibilite => {
-      return !AnswerUtils.isEnfantACharge(formData, eligibilite.membre);
+      return !AnswerUtils.isEnfantACharge(formData, eligibilite.membre, demandeur);
     }).map((eligibilite) => ({
         eligibilite: eligibilite,
         motif: {
