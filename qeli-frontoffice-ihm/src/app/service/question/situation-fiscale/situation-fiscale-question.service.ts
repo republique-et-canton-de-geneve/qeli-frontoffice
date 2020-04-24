@@ -29,6 +29,40 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
       eligibiliteGroup.demandeur.membresFamille
     );
     return [
+
+      {
+        question: new RadioQuestion({
+          key: `exempteImpot`,
+          dataCyIdentifier: `1401_exempteImpot`,
+          label: (value: any) => {
+            const hasPartenaire = eligibiliteGroup.demandeur.hasConjoint || (
+              eligibiliteGroup.demandeur.hasConcubin &&
+              this.hasEnfantEnCommun(value, eligibiliteGroup.demandeur)
+            );
+            return {
+              key: 'question.exempteImpot.label',
+              parameters: {
+                hasPartenaire: hasPartenaire ? 'yes' : 'no',
+                partenaire: hasPartenaire ? eligibiliteGroup.demandeur.partenaire.prenom : '',
+                annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
+              }
+            } as I18nString;
+          },
+          help: {key: 'question.exempteImpot.help'},
+          errorLabels: {required: {key: 'question.taxeOfficeAFC.error.required'}},
+          inline: true,
+          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
+        }),
+        calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
+          'exempteImpot',
+          ReponseProgressive.OUI,
+          Prestation.SUBSIDES,
+          eligibilite => ({key: `question.exempteImpot.motifRefus.${eligibilite.prestation}`})
+        ),
+        eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
+        categorie: Categorie.SITUATION_PERSONELLE,
+        subcategorie: Subcategorie.SITUATION_FISCALE
+      },
       {
         question: new RadioQuestion({
           key: `taxeOfficeAFC`,
@@ -120,9 +154,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
                 key: `parentsHabiteFranceTravailleSuisse_${membre.id}`,
                 dataCyIdentifier: `1404_parentsHabiteFranceTravailleSuisse_${membre.id}`,
                 label: {key: 'question.parentsHabiteFranceTravailleSuisse.membre', parameters: translateParams},
-                errorLabels: {
-                  required: {key: 'question.parentsHabiteFranceTravailleSuisse.error.required'}
-                },
+                errorLabels: {required: {key: 'question.parentsHabiteFranceTravailleSuisse.error.required'}},
                 radioOptions: REPONSE_PROGRESSIVE_OPTIONS,
                 inline: true
               }),
