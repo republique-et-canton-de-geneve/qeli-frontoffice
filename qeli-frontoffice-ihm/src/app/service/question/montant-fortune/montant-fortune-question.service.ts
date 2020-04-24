@@ -92,7 +92,8 @@ export class MontantFortuneQuestionService implements QuestionLoader {
     const formationAnswers = value['formation'];
     return demandeur.enfants.filter(enfant =>
       parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.LES_DEUX ||
-      parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.MOI
+      parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.MOI ||
+      (parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.AUTRE_PARENT && demandeur.hasConjoint)
     ).filter(enfant =>
       !enfant.isMajeur ||
       (enfant.age <= 25 && formationAnswers[`formation_${enfant.id}`] === ReponseBinaire.OUI)
