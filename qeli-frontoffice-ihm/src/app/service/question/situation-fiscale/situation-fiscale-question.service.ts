@@ -5,7 +5,7 @@ import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { MembreFamille, Personne, Relation } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { ReponseProgressive } from '../reponse-binaire.model';
+import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { CheckboxGroupAnswer } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
@@ -38,7 +38,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
             const hasEnfantToutLesDeux = membresFamille.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
             const isValidConjoint = eligibiliteGroup.demandeur.hasConjoint ||
                                     (eligibiliteGroup.demandeur.hasConcubin && hasEnfantToutLesDeux);
-            const conjointPrenom = hasEnfantToutLesDeux ? eligibiliteGroup.demandeur.partenaire.prenom : '';
+            const conjointPrenom = isValidConjoint ? eligibiliteGroup.demandeur.partenaire.prenom : '';
             return {
               key: 'question.exempteImpot.label',
               parameters: {
@@ -47,10 +47,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
               }
             } as I18nString;
           },
-          radioOptions: Object.keys(ReponseProgressive).map(reponse => ({
-            value: reponse,
-            label: {key: `common.reponseProgressive.${reponse}`}
-          }))
+          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
           'exempteImpot',

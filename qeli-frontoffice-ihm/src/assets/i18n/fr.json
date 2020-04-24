@@ -573,7 +573,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué {who, select, me{être} other{que {membre} est}} exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)"
+        "SUBSIDES": "Vous avez indiqué être exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)"
       }
     },
     "taxeOfficeAFC": {
