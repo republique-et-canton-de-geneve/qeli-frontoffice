@@ -6,7 +6,7 @@
              [ngClass]="question.showErrors && !isValid ? 'text-danger' : ''"
              [attr.for]="question.key"
              [attr.data-cy-label]="question.dataCyIdentifier">
-        {{ question.label.key | translate:question.label.parameters }}
+        {{ label.key | translate:label.parameters }}
         <span *ngIf="question.required"
               class="form-required"
               title="{{ 'form.required' | translate }}">*</span>
@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <p *ngIf="question.help" class="help-block" [innerHtml]="question.help.key | translate:question.help.parameters"></p>
+  <p *ngIf="help" class="help-block" [innerHtml]="help.key | translate:help.parameters"></p>
 
   <div *ngIf="question.showErrors && !isValid && errors.length > 0"
        class="error-block text-danger"

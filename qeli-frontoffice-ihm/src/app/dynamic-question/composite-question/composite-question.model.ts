@@ -42,11 +42,11 @@ export interface CompositeItem {
    */
   question: Question<any>;
   /**
-   * Un callback pour déterminer si une question doit être montrée ou pas à partir des données déjà saisie dans
-   * son group. Quand une question n'est pas montrée elle est aussi désactivé, elle n'est pas valide et les données
+   * Une méthode pour déterminer si une question doit être montrée ou pas à partir des données déjà saisie dans le
+   * formulaire. Quand une question n'est pas montrée elle est aussi désactivé, elle n'est pas valide et les données
    * saisies ne sont pas prise en compte dans la réponse.
    *
-   * @param value es données saisies dans le group.
+   * @param value les données saisies dans le formulaire.
    */
   isShown?: (value: any) => boolean;
 }

@@ -7,7 +7,7 @@ import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-qu
 import { Prestation } from '../../configuration/prestation.model';
 import { Logement } from './logement.model';
 import { NumberAnswer } from '../../../dynamic-question/model/answer.model';
-import { ReponseProgressive } from '../reponse-binaire.model';
+import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
 import { NumberQuestion } from '../../../dynamic-question/number-question/number-question.model';
 import { Loyer } from './loyer.model';
 
@@ -25,6 +25,7 @@ export class LogementQuestionService implements QuestionLoader {
           dataCyIdentifier: '1001_proprietaireOuLocataireLogement',
           label: {key: 'question.proprietaireOuLocataireLogement.label'},
           help: {key: 'question.proprietaireOuLocataireLogement.help'},
+          errorLabels: {required: {key: 'question.proprietaireOuLocataireLogement.error.required'}},
           inline: true,
           radioOptions: Object.keys(Logement).map(logement => ({
             value: logement,
@@ -35,7 +36,7 @@ export class LogementQuestionService implements QuestionLoader {
           'proprietaireOuLocataireLogement',
           Logement.PROPRIETAIRE,
           Prestation.ALLOCATION_LOGEMENT,
-          {key: `question.residenceEffectiveCantonGE.motifRefus.${Prestation.ALLOCATION_LOGEMENT}`}
+          (eligibilite) => ({key: `question.proprietaireOuLocataireLogement.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
         categorie: Categorie.COMPLEMENTS,
@@ -47,17 +48,15 @@ export class LogementQuestionService implements QuestionLoader {
           dataCyIdentifier: '1002_bailLogementAVotreNom',
           label: {key: 'question.bailLogementAVotreNom.label'},
           help: {key: 'question.bailLogementAVotreNom.help'},
+          errorLabels: {required: {key: 'question.bailLogementAVotreNom.error.required'}},
           inline: true,
-          radioOptions: Object.keys(ReponseProgressive).map(logement => ({
-            value: logement,
-            label: {key: `common.reponseProgressive.${logement}`}
-          }))
+          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
           'bailLogementAVotreNom',
           ReponseProgressive.NON,
           Prestation.ALLOCATION_LOGEMENT,
-          {key: `question.bailLogementAVotreNom.motifRefus.${Prestation.ALLOCATION_LOGEMENT}`}
+          (eligibilite) => ({key: `question.bailLogementAVotreNom.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
         categorie: Categorie.COMPLEMENTS,
@@ -69,6 +68,7 @@ export class LogementQuestionService implements QuestionLoader {
           dataCyIdentifier: '1003_nombreDePersonnesLogement',
           label: {key: 'question.nombreDePersonnesLogement.label'},
           help: {key: 'question.nombreDePersonnesLogement.help'},
+          errorLabels: QuestionUtils.toErrorLabels('nombreDePersonnesLogement', ['required', 'pattern', 'min', 'max']),
           min: 1,
           max: 20
         }),
@@ -83,6 +83,7 @@ export class LogementQuestionService implements QuestionLoader {
           dataCyIdentifier: '1004_nombreDePiecesLogement',
           label: {key: 'question.nombreDePiecesLogement.label'},
           help: {key: 'question.nombreDePiecesLogement.help'},
+          errorLabels: QuestionUtils.toErrorLabels('nombreDePiecesLogement', ['required', 'pattern', 'min', 'max']),
           min: 1,
           max: 20
         }),
@@ -93,7 +94,7 @@ export class LogementQuestionService implements QuestionLoader {
             return (nbPieces - nbPersonnes) > 2;
           },
           Prestation.ALLOCATION_LOGEMENT,
-          {key: `question.nombreDePiecesLogement.motifRefus.${Prestation.ALLOCATION_LOGEMENT}`}
+          (eligibilite) => ({key: `question.nombreDePiecesLogement.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
         categorie: Categorie.COMPLEMENTS,
@@ -105,17 +106,15 @@ export class LogementQuestionService implements QuestionLoader {
           dataCyIdentifier: '1005_appartementHabitationMixte',
           label: {key: 'question.appartementHabitationMixte.label'},
           help: {key: 'question.appartementHabitationMixte.help'},
+          errorLabels: {required: {key: 'question.appartementHabitationMixte.error.required'}},
           inline: true,
-          radioOptions: Object.keys(ReponseProgressive).map(logement => ({
-            value: logement,
-            label: {key: `common.reponseProgressive.${logement}`}
-          }))
+          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
         calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
           'appartementHabitationMixte',
           ReponseProgressive.OUI,
           Prestation.ALLOCATION_LOGEMENT,
-          {key: `question.appartementHabitationMixte.motifRefus.${Prestation.ALLOCATION_LOGEMENT}`}
+          (eligibilite) => ({key: `question.appartementHabitationMixte.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
         categorie: Categorie.COMPLEMENTS,
@@ -127,6 +126,7 @@ export class LogementQuestionService implements QuestionLoader {
           dataCyIdentifier: '1006_montantLoyerFixeOuVariable',
           label: {key: 'question.montantLoyerFixeOuVariable.label'},
           help: {key: 'question.montantLoyerFixeOuVariable.help'},
+          errorLabels: {required: {key: 'question.montantLoyerFixeOuVariable.error.required'}},
           radioOptions: Object.keys(Loyer).map(loyer => ({
             value: loyer,
             label: {key: `common.loyer.${loyer}`}
@@ -136,7 +136,7 @@ export class LogementQuestionService implements QuestionLoader {
           'montantLoyerFixeOuVariable',
           Loyer.EN_FONCTION_REVENU,
           Prestation.ALLOCATION_LOGEMENT,
-          {key: `question.montantLoyerFixeOuVariable.motifRefus.${Prestation.ALLOCATION_LOGEMENT}`}
+          (eligibilite) => ({key: `question.montantLoyerFixeOuVariable.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
         categorie: Categorie.COMPLEMENTS,
