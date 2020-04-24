@@ -123,7 +123,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
             }),
             isShown: (value: any) => {
               const situation = value[`situationMembre_${membre.id}`];
-              const refugie = situation ? situation[`refugie_${membre.id}`] : null;
+              const refugie = situation ? situation['refugie'] : null;
               return refugie !== RequerantRefugie.REFUGIE;
             }
           }))

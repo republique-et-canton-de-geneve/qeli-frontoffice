@@ -146,6 +146,17 @@
     }
   },
   "question": {
+    "parentsEnfants": {
+      "label": "Qui sont les parents des enfants vivant dans votre foyer ?",
+      "membre": "{membre} est :",
+      "error": {
+        "required": "Ce champ est obligatoire"
+      },
+      "motifRefus": {
+        "PC_AVS_AI": "Vous avez indiqué que {enfant} n'est pas un enfant à votre charge.",
+        "PC_FAM": "Vous avez indiqué ne pas avoir des enfants en commun avec {prenomAutreParent}"
+      }
+    },
     "prestations": {
       "label": "Recevez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
       "help": "En cas de doute sur une prestation, ne pas cocher la case concernée.<br>Si vous ne savez pas du tout si vous recevez des prestations et lesquelles, cocher \"Non\".",
@@ -179,16 +190,6 @@
       "error": {
         "required": "Vos prestations doivent être fournie",
         "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
-      }
-    },
-    "parentsEnfants": {
-      "label": "Qui sont les parents des enfants vivant dans votre foyer ?",
-      "membre": "{membre} est :",
-      "error": {
-        "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "PC_FAM": "Vous avez indiqué ne pas avoir des enfants en commun avec {prenomAutreParent}"
       }
     },
     "situationMembre": {
