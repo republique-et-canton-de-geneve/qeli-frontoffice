@@ -133,15 +133,17 @@ export class NationaliteQuestionService implements QuestionLoader {
               const isApatride = nationalite ? !!nationalite['apatride'] : false;
               const isSuisse = (nationalite ? (nationalite.pays || []) : []).includes(Pays.CH);
 
-              return !isSuisse && !isApatride && refugie !== RequerantRefugie.REFUGIE;
+              return !isSuisse || !isApatride || refugie !== RequerantRefugie.REFUGIE;
             }
           };
         })
       }),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.BOURSES),
-      skip: formData => {
+      skip: (formData, currentEligibilites) => {
+        const currentEligibiliteGroup = new EligibiliteGroup(currentEligibilites);
         return membres.every(membre => {
-          return AnswerUtils.isApatride(formData, membre) ||
+          return currentEligibiliteGroup.findByPrestationEtMembre(Prestation.BOURSES, membre).length === 0 ||
+                 AnswerUtils.isApatride(formData, membre) ||
                  AnswerUtils.isNationalite(formData, membre, Pays.CH) ||
                  AnswerUtils.isRefugie(formData, membre);
         });

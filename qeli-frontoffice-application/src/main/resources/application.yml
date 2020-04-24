@@ -43,4 +43,6 @@ server:
         http-only: true
         secure: true
 
+  max-http-header-size: 100KB
+
 logging.level.root: INFO

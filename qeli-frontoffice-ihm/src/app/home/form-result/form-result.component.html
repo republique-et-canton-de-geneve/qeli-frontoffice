@@ -1,4 +1,4 @@
-<div>
+<div class="form-result">
   <div class="row form-result-title">
     <div class="col-xs-12 col-sm-8">
       <h2>{{ 'home.result.title' | translate }}</h2>
@@ -8,44 +8,42 @@
     </div>
   </div>
 
-  <div *ngIf="eligibilites.length > 0">
+  <div *ngIf="prestationEligibles.length > 0">
     <h3>{{ 'home.result.eligibilite.oui' | translate }}</h3>
-    <result-block *ngFor="let eligibilite of eligibilites"
-                  type="success"
-                  title="{{ 'home.result.prestation.' + eligibilite.prestation + '.title'  | translate:{membre: eligibilite.membre.prenom} }}"
-                  [attr.data-cy-prestations-eligibles]="eligibilite.prestation">
-      <p>{{ 'home.result.prestation.' + eligibilite.prestation + '.content' | translate }}</p>
+    <result-block *ngFor="let resultsByPrestation of prestationEligibles"
+                  type="eligible"
+                  [resultsByPrestation]="resultsByPrestation"
+                  [attr.data-cy-prestations-eligibles]="resultsByPrestation.prestation">
     </result-block>
+    <hr>
   </div>
 
-  <div *ngIf="refusees.length > 0">
-    <hr>
+  <div *ngIf="prestationRefusees.length > 0">
     <h3>{{ 'home.result.eligibilite.non' | translate }}</h3>
-    <result-block *ngFor="let refus of refusees"
-                  type="warning"
-                  title="{{ 'home.result.prestation.' + refus.eligibilite.prestation + '.title' | translate:{membre: refus.eligibilite.membre.prenom} }}"
-                  subtitle="{{ refus.motif.key | translate:refus.motif.parameters }}"
-                  [attr.data-cy-prestations-refusees]="refus.eligibilite.prestation">
-      <p>{{ 'home.result.prestation.' + refus.eligibilite.prestation + '.content' | translate }}</p>
-    </result-block>
-  </div>
-
-  <div *ngIf="dejaPercues.length > 0">
-    <hr>
-    <h3 *ngIf="dejaPercues.length > 0">{{ 'home.result.eligibilite.deja' | translate }}</h3>
-    <result-block *ngFor="let eligibilite of dejaPercues"
-                  type="info"
-                  title="{{ 'home.result.prestation.' + eligibilite.prestation + '.title' | translate:{membre: eligibilite.membre.prenom} }}"
-                  [attr.data-cy-prestations-percues]="eligibilite.prestation">
-      <p>{{ 'home.result.prestation.' + eligibilite.prestation + '.content' | translate }}</p>
+    <result-block *ngFor="let resultsByPrestation of prestationRefusees"
+                  type="refusee"
+                  [resultsByPrestation]="resultsByPrestation"
+                  [attr.data-cy-prestations-eligibles]="resultsByPrestation.prestation">
     </result-block>
     <hr>
   </div>
 
-  <button class="btn btn-primary"
-          (click)="generatePDF()"
-          type="button">
-    {{ 'home.result.pdf' | translate }} <i class="fa fa-chevron-right"></i>
-  </button>
+  <div *ngIf="prestationDejaPercues.length > 0">
+    <h3>{{ 'home.result.eligibilite.deja' | translate }}</h3>
+    <result-block *ngFor="let resultsByPrestation of prestationDejaPercues"
+                  type="dejaPercue"
+                  [resultsByPrestation]="resultsByPrestation"
+                  [attr.data-cy-prestations-eligibles]="resultsByPrestation.prestation">
+    </result-block>
+    <hr>
+  </div>
+
+  <div class="row form-result-action">
+    <div class="col-xs-12 col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6 text-right">
+      <button class="btn btn-primary" (click)="generatePDF()" type="button">
+        <i class="fa fa-file-pdf-o"></i> {{ 'home.result.pdf' | translate }}
+      </button>
+    </div>
+  </div>
 
 </div>
