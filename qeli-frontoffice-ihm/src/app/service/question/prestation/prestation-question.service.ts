@@ -8,7 +8,7 @@ import { QeliConfiguration } from '../../configuration/qeli-configuration.model'
 import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
-import { Demandeur, Relation } from '../../configuration/demandeur.model';
+import { Demandeur } from '../../configuration/demandeur.model';
 
 @Injectable({
   providedIn: 'root'
@@ -144,8 +144,9 @@ export class PrestationQuestionService implements QuestionLoader {
     }
 
     const eligibiliteAsGroup = new EligibiliteGroup(eligibilites);
+    const demandeur = eligibiliteAsGroup.demandeur;
 
-    if (!this.hasEnfantsMoins25Ans(eligibiliteAsGroup.demandeur)) {
+    if (!this.hasEnfantsMoins25Ans(demandeur)) {
       QuestionUtils.createRefusByPrestation(
         eligibilites, Prestation.PC_FAM, eligibilite => ({
           key: `question.prestations.motifRefus.${eligibilite.prestation}_SANS_ENFANTS`
@@ -157,7 +158,7 @@ export class PrestationQuestionService implements QuestionLoader {
       });
     }
 
-    if (!eligibiliteAsGroup.demandeur.isMajeur) {
+    if (!demandeur.isMajeur) {
       QuestionUtils.createRefusByPrestation(
         eligibilites, Prestation.AIDE_SOCIALE, eligibilite => ({
           key: `question.prestations.motifRefus.${eligibilite.prestation}_MINEUR`
@@ -173,9 +174,7 @@ export class PrestationQuestionService implements QuestionLoader {
   }
 
   private hasEnfantsMoins25Ans(demandeur: Demandeur) {
-    return demandeur.membresFamille
-                    .filter(membre => membre.relation === Relation.ENFANT)
-                    .some(enfant => enfant.age <= 25);
+    return demandeur.enfants.some(enfant => enfant.age <= 25);
   }
 
   private isEligibiliteRefusee(refus: EligibiliteRefusee[], eligibilite: Eligibilite) {
