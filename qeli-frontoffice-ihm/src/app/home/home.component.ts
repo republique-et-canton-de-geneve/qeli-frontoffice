@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
       this.trackingService.initMatomo(configuration);
 
       this.route.queryParams.subscribe(params => {
-        //if (this.firstLoad) {
+        // if (this.firstLoad) {
         const state = this.deepLinkService.decryptQueryParamsData(params);
         if (state !== null) {
           const demandeur = new Demandeur(state.demandeur);
@@ -53,16 +53,16 @@ export class HomeComponent implements OnInit {
             .map(decorator => decorator.question)
             .filter(question => state.formData.hasOwnProperty(question.key))
             .map(question => {
-              let entry = {};
+              const entry = {};
               entry[question.key] = question.accept(new FromSchemaToAnswerVisitor(state.formData[question.key]));
-              return entry
+              return entry;
             }).reduce((r, c) => Object.assign(r, c), {});
 
           this.qeliStateMachine = new QeliStateMachine(questions, new QeliState(state));
         } else {
           this.qeliStateMachine = null;
         }
-        //}
+        // }
 
         this.firstLoad = false;
         this.ref.markForCheck();
@@ -106,6 +106,11 @@ export class HomeComponent implements OnInit {
       );
       this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
       this.updateDeepLink();
+    } else if (!!this.qeliForm && !this.qeliForm.isCurrentQuestionValid()) {
+      console.log('erreur dans la question courante');
+    } else if (!!this.qeliSetupForm && !this.qeliSetupForm.isValid) {
+      console.log('erreur dans le setupForm');
+
     }
 
 

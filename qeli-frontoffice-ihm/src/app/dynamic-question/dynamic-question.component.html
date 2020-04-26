@@ -5,7 +5,8 @@
       <label class="control-label"
              [ngClass]="question.showErrors && !isValid ? 'text-danger' : ''"
              [attr.for]="question.key"
-             [attr.data-cy-label]="question.dataCyIdentifier">
+             [attr.data-cy-label]="question.dataCyIdentifier"
+             focusOnInit="true">
         {{ label.key | translate:label.parameters }}
         <span *ngIf="question.required"
               class="form-required"

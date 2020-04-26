@@ -8,7 +8,6 @@
       <select class="form-control"
               [formControlName]="i"
               [attr.disabled]="!isLast || isApatride ? 'disabled' : null"
-              [focusOnInit]="isFirst"
               [attr.data-cy]="question.dataCyIdentifier + '_select_nationalite_' + i"
               [attr.data-matomo-name]="question.dataCyIdentifier">
         <option></option>

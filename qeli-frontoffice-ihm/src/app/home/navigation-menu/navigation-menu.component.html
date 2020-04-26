@@ -10,6 +10,7 @@
             <button type="button"
                     class="navbar-toggle"
               [attr.aria-expanded]="navigationCollapsed"
+              [attr.aria-label]="'home.navigation.title' | translate"
               (click)="navigationCollapsed = !navigationCollapsed">
               <span class="sr-only">Décourvrir le menu</span>
               <span class="icon-bar"></span>
