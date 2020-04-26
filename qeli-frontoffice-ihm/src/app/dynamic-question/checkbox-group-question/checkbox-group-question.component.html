@@ -9,7 +9,6 @@
                [value]="question.someOption.value"
                formControlName="none"
                (change)="onNoneChanged()"
-               [focusOnInit]="true"
                [attr.data-matomo-name]="question.dataCyIdentifier">
         {{ question.someOption.label.key| translate:question.someOption.label.parameters }}
       </label>

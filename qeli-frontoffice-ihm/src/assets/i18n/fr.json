@@ -45,6 +45,12 @@
         },
         "dateNaissance": {
           "label": "Leur date de naissance"
+        },
+        "supprimer": {
+          "label": "Supprimer un autre membre"
+        },
+        "ajouter": {
+          "label": "Ajouter un autre membre"
         }
       },
       "errors": {

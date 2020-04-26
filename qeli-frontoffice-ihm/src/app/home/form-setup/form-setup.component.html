@@ -120,9 +120,10 @@
       <div class="col-xs-12 text-right">
         <button class="btn btn-info"
                 [attr.disabled]="!isValid ? 'disabled' : null"
+                [attr.aria-label]="'home.setup.membre.ajouter.label' | translate"
                 (click)="onAddMembre()"
                 type="button">
-          <i class="fa fa-plus"></i> <span class="btn-text">Ajouter un autre membre</span>
+          <i class="fa fa-plus"></i> <span class="btn-text">{{'home.setup.membre.ajouter.label' | translate}}</span>
         </button>
       </div>
     </div>

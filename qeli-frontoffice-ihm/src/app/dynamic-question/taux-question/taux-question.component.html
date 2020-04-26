@@ -20,7 +20,6 @@
       <select [id]="question.key + '-select'"
               formControlName="taux"
               [attr.disabled]="isOtherSelected ? 'disabled' : null"
-              focusOnInit="true"
               class="form-control form-select"
               [attr.data-cy]="question.dataCyIdentifier"
               [attr.data-matomo-name]="question.dataCyIdentifier">
