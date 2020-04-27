@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateValidators } from '../../ge-forms/date.validators';
 import * as moment from 'moment';
@@ -16,6 +16,7 @@ const MAX_NUMBER_OF_MEMBRES = 20;
   styleUrls: ['./form-setup.component.scss']
 })
 export class FormSetupComponent {
+
   setupForm: FormGroup;
   numberOfMembres = 0;
   etatCivilOptions = Object.keys(EtatCivil);
@@ -24,11 +25,12 @@ export class FormSetupComponent {
 
   constructor(private fb: FormBuilder,
               private translateService: TranslateService) {
+
     this.setupForm = this.fb.group({
       id: new FormControl(0),
-      prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
-      etatCivil: new FormControl(null, Validators.required),
-      dateNaissance: new FormControl(null, this.dateNaissanceValidators),
+      prenom: new FormControl('', this.uniquePrenomValidator.bind(this)),
+      etatCivil: new FormControl('', Validators.required),
+      dateNaissance: new FormControl('', this.dateNaissanceValidators),
       membresFamille: this.fb.array([])
     });
 

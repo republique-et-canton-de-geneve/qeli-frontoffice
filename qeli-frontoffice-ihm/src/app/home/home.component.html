@@ -22,7 +22,7 @@
 
     <app-navigation-controls
       *ngIf="!qeliStateMachine || (qeliStateMachine && !qeliStateMachine.state.done)"
-      [disableNext]="qeliStateMachine"
+      [disableNext]="false"
       [disablePrevious]="!qeliStateMachine || qeliStateMachine.state.currentQuestionIndex === 0"
       (onNextClicked)="onNextQuestion()"
       (onPreviousClicked)="onPreviousquestion()">
