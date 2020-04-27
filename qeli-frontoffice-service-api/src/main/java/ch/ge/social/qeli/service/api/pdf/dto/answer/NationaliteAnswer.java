@@ -7,4 +7,8 @@ import lombok.Data;
 public class NationaliteAnswer implements Answer {
   List<QuestionOption<String>> pays;
   boolean                      apatride;
+
+  public T accept<T>(AnswerVisitorModel<E> visitor) {
+    return visitor.visitNationaliteAnswer(this);
+  }
 }
