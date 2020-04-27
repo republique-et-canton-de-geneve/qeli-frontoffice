@@ -7,4 +7,8 @@ import lombok.Data;
 public class DateAnswer implements Answer {
   QuestionOption<String> shortcut;
   LocalDate              value;
+
+  public T accept<T>(AnswerVisitorModel<E> visitor) {
+    return visitor.visitDateAnser(this);
+  }
 }
