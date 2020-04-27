@@ -23,7 +23,7 @@ export class EnfantsQuestionService implements QuestionLoader {
     const enfants = eligibiliteGroup.demandeur.enfants;
     const autreParent = eligibiliteGroup.demandeur.partenaire;
 
-    if (enfants.length === 0 || !autreParent) {
+    if (enfants.length === 0) {
       return [];
     } else {
       return [{
@@ -46,7 +46,6 @@ export class EnfantsQuestionService implements QuestionLoader {
             })
           }))
         }),
-        skip: () => !enfants.some(enfant => enfant.age <= 25),
         calculateRefus: this.calculateRefus.bind(this),
         eligibilites: eligibilites,
         categorie: Categorie.SITUATION_PERSONELLE,
