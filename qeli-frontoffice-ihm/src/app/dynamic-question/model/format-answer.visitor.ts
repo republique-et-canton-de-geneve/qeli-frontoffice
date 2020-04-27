@@ -55,5 +55,4 @@ export class FormatAnswerVisitor implements AnswerVisitor<string> {
   visitCompositeAnswer(answer: CompositeAnswer): string {
     return Object.values(answer.answers).map(answer => answer.accept(this)).join(', ');
   }
-
 }

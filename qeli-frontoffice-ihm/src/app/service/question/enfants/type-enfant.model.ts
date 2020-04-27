@@ -8,6 +8,8 @@ export enum TypeEnfant {
   AUTRES       = "AUTRES"
 }
 
+const OPTIONS_SANS_AUTRES_PARENTS = [TypeEnfant.MOI, TypeEnfant.AUTRES];
+
 function typeEnfantTopOption(typeEnfant: TypeEnfant, autreParent: Personne): QuestionOption<string> {
   return {
     value: typeEnfant,
@@ -19,5 +21,6 @@ function typeEnfantTopOption(typeEnfant: TypeEnfant, autreParent: Personne): Que
 }
 
 export function typeEnfantAsOptions(autreParent: Personne): QuestionOption<string>[] {
-  return Object.values(TypeEnfant).map(typeEnfant => typeEnfantTopOption(typeEnfant, autreParent));
+  const options: TypeEnfant[] = autreParent ? Object.values(TypeEnfant) : OPTIONS_SANS_AUTRES_PARENTS;
+  return options.map(typeEnfant => typeEnfantTopOption(typeEnfant, autreParent));
 }
