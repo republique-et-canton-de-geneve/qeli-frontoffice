@@ -12,6 +12,7 @@ import { Demandeur } from '../service/configuration/demandeur.model';
 import { FromSchemaToAnswerVisitor } from '../dynamic-question/model/to-answer.visitor.model';
 import { Eligibilite, EligibiliteRefusee } from '../service/question/eligibilite.model';
 import { StatsService } from '../service/stats.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -107,12 +108,10 @@ export class HomeComponent implements OnInit {
       this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
       this.updateDeepLink();
     } else if (!!this.qeliForm && !this.qeliForm.isCurrentQuestionValid()) {
-      console.log('erreur dans la question courante');
+      this.markAsDirtyAllFormControls(this.qeliForm.form);
     } else if (!!this.qeliSetupForm && !this.qeliSetupForm.isValid) {
-      console.log('erreur dans le setupForm');
-
+      this.markAsDirtyAllFormControls(this.qeliSetupForm.setupForm);
     }
-
 
   }
 
@@ -127,6 +126,17 @@ export class HomeComponent implements OnInit {
       this.qeliStateMachine.currentEligibilites,
       state.eligibilitesRefusees
     ).subscribe();
+  }
+
+  /**
+   * Re-calculates the value and validation status of the entire controls tree.
+   */
+  private markAsDirtyAllFormControls(group: FormGroup): void {
+    Object.keys(group.controls).forEach((key: string) => {
+      const abstractControl = group.controls[key];
+      abstractControl.markAsDirty();
+
+    });
   }
 
   /*
