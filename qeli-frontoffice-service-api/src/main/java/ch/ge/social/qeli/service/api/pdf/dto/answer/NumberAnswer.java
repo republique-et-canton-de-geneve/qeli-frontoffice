@@ -6,7 +6,8 @@ import lombok.Data;
 public class NumberAnswer implements Answer {
   Double value;
 
-  public T accept<T>(AnswerVisitorModel<E> visitor) {
+  @Override
+  public <T> T accept(AnswerVisitorModel<T> visitor) {
     return visitor.visitNumberAnswer(this);
   }
 }

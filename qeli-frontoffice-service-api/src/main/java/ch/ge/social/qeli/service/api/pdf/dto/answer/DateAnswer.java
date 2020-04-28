@@ -8,7 +8,8 @@ public class DateAnswer implements Answer {
   QuestionOption<String> shortcut;
   LocalDate              value;
 
-  public T accept<T>(AnswerVisitorModel<E> visitor) {
-    return visitor.visitDateAnser(this);
+  @Override
+  public <T> T accept(AnswerVisitorModel<T> visitor) {
+    return  visitor.visitDateAnser(this);
   }
 }

@@ -4,8 +4,11 @@ import lombok.Data;
 
 @Data
 public class StringAnswer implements Answer {
+
   String value;
-  public T accept<T>(AnswerVisitorModel<E> visitor) {
+
+  @Override
+  public <T> T accept(AnswerVisitorModel<T> visitor) {
     return visitor.visitTextAnswer(this);
   }
 }

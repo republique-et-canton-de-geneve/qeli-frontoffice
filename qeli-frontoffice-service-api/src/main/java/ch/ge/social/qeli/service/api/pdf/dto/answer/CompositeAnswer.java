@@ -6,4 +6,9 @@ import lombok.Data;
 @Data
 public class CompositeAnswer implements Answer {
   Map<String, Answer> answers;
+
+  @Override
+  public <T> T accept(AnswerVisitorModel<T> visitor) {
+    return visitor.visitCompositeAnswer(this);
+  }
 }

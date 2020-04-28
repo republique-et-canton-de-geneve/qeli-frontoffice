@@ -1,12 +1,14 @@
 package ch.ge.social.qeli.service.stats;
 
 import ch.ge.social.qeli.service.api.pdf.dto.QeliResult;
-import ch.ge.social.qeli.service.api.pdf.dto.answer.Answer;
+import ch.ge.social.qeli.service.api.pdf.dto.answer.AnswerValue;
+import ch.ge.social.qeli.service.api.pdf.dto.answer.ToAnswerValueVisitor;
 import ch.ge.social.qeli.service.api.stats.StatsService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,20 +24,11 @@ public class StatsServiceImpl implements StatsService {
 
   @Override
   public void saveFormData(QeliResult result) {
-    String type;
-    String key;
 
+    List<AnswerValue> answerValues =
+      result.getAnswers().entrySet().stream().flatMap(answer -> answer.getValue().accept((new ToAnswerValueVisitor(answer.getKey()))).stream()).collect(Collectors.toList());
 
-    for (Map.Entry<String, Answer> answer : result.getAnswers().entrySet()) {
-      // key = key de question (prestation, parentsEnfants ...) ; Value = c'est ici qu'il faut visitor pour recuperer la donnée.
-      // Le visitor du value va donner une clef et une value que l'on mettra dans clef | value
-      type = DataType.REPONSE.value;
-
-
-
-
-    }
-    result.getAnswers();
+    answerValues.forEach(System.out::println);
 
     String id = UUID.randomUUID().toString();
     String data = result.toString();
