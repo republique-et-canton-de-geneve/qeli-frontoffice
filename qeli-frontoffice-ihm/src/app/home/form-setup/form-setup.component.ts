@@ -41,7 +41,8 @@ export class FormSetupComponent {
       required: {key: 'home.setup.errors.required'},
       maxDate: {key: 'home.setup.errors.maxDate'},
       minDate: {key: 'home.setup.errors.minDate'},
-      invalidDate: {key: 'home.setup.errors.invalidDate'}
+      invalidDate: {key: 'home.setup.errors.invalidDate'},
+      marieOuPartenaireSansConjoint: {key: 'home.setup.errors.marieOuPartenaireSansConjoint'}
     };
   }
 
@@ -58,6 +59,16 @@ export class FormSetupComponent {
     }
 
     return null;
+  }
+
+  private marieOuPartenaireSansConjoint(control: AbstractControl) {
+    if (control && control.value) {
+      return ((this.isEtatCivil(EtatCivil.MARIE)
+               || this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE))
+              && this.hasMembreFamilleWithRelation(Relation.EPOUX)) ? {'marieOuPartenaireSansConjoint': true} : null;
+    }
+    return null;
+
   }
 
   private get dateNaissanceValidators() {
@@ -82,7 +93,7 @@ export class FormSetupComponent {
       this.membresFamille.push(this.fb.group({
         id: new FormControl(this.numberOfMembres + 1),
         prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
-        relation: new FormControl(null, Validators.required),
+        relation: new FormControl(null, [Validators.required, this.marieOuPartenaireSansConjoint.bind(this)]),
         dateNaissance: new FormControl(null, this.dateNaissanceValidators)
       }));
 
@@ -103,8 +114,11 @@ export class FormSetupComponent {
   }
 
   get demandeur() {
+    console.log(this.isValid);
     if (this.isValid) {
       const demandeurOptions = this.setupForm.value as DemandeurSchema;
+      console.log(demandeurOptions);
+
       demandeurOptions.prenom = demandeurOptions.prenom || 'Demandeur';
       demandeurOptions.membresFamille.forEach((membre, index) => {
         membre.prenom = membre.prenom || this.getDefaultPrenomByMembre(membre)
@@ -132,6 +146,9 @@ export class FormSetupComponent {
         !this.hasMembreFamilleWithRelation(Relation.CONCUBIN)) {
       relationOptions.push(Relation.CONCUBIN);
     }
+
+    relationOptions.push(Relation.PARENTS);
+    relationOptions.push(Relation.AUTRES);
 
     return relationOptions;
   }

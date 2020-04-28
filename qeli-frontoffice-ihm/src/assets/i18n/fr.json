@@ -2,7 +2,7 @@
   "home": {
     "setup": {
       "title": "Comment se compose votre foyer ? Qui habite avec vous ?",
-      "subtitle": "Merci d'ajouter toutes les personnes qui vivent avec vous.<br>Veuillez rajouter tous les enfants habitant avec vous, même à temps partiel. ",
+      "subtitle": "Merci d'ajouter toutes les personnes qui vivent avec vous.<br>Veuillez rajouter tous les enfants habitant avec vous, même à temps partiel. <br>NB : pas d'éligibilité pour les parents/beaux-parents et autres",
       "demandeur": {
         "prenom": {
           "label": "Votre prénom",
@@ -31,7 +31,9 @@
             "PARTENAIRE_ENREGISTRE": "Conjoint",
             "CONCUBIN": "Concubin·e",
             "ENFANT": "Enfant { index }",
-            "DEFAULT": "Membre { index }"
+            "DEFAULT": "Membre { index }",
+            "PARENTS": "Parents/beaux-parents",
+            "AUTRES": "Autres"
           }
         },
         "relation": {
@@ -40,7 +42,9 @@
             "EPOUX": "Epoux·se",
             "PARTENAIRE_ENREGISTRE": "Partenaire enregistré·e",
             "CONCUBIN": "Concubin·e",
-            "ENFANT": "Enfant "
+            "ENFANT": "Enfant ",
+            "PARENTS": "Parents/beaux-parents",
+            "AUTRES": "Autres"
           }
         },
         "dateNaissance": {
@@ -54,7 +58,8 @@
         "required": "Ce champ est obligatoire",
         "maxDate": "La date de naissance ne peut pas être dans le futur.",
         "minDate": "Date incorrecte",
-        "invalidDate": "Date incorrecte"
+        "invalidDate": "Date incorrecte",
+        "marieOuPartenaireSansConjoint": "Vous devez saisir votre époux.se ou votre partenaire même si il.elle n'habite pas avec vous"
       }
     },
     "result": {
