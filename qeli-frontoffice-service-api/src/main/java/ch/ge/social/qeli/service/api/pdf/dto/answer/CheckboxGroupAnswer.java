@@ -8,8 +8,9 @@ import lombok.Getter;
 public class CheckboxGroupAnswer implements Answer {
   QuestionOption<String>       none;
   List<QuestionOption<String>> choices;
-  public T accept<T>(AnswerVisitorModel<E> visitor) {
+
+  @Override
+  public <T> T accept(AnswerVisitorModel<T> visitor) {
     return visitor.visitCheckboxGroupAnswer(this);
   }
-
 }

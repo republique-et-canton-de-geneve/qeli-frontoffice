@@ -8,7 +8,9 @@ public class NationaliteAnswer implements Answer {
   List<QuestionOption<String>> pays;
   boolean                      apatride;
 
-  public T accept<T>(AnswerVisitorModel<E> visitor) {
+
+  @Override
+  public <T> T accept(AnswerVisitorModel<T> visitor) {
     return visitor.visitNationaliteAnswer(this);
   }
 }
