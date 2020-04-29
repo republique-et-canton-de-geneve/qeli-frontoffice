@@ -2,8 +2,7 @@ package ch.ge.social.qeli.service.stats;
 
 
 /**
- * Une implementation du service de stats, les données provenant du formulaire sont ajoutées à un log journal au format
- * csv.
+ *  Type de des données
  */
 public enum DataType {
   REPONSE("Reponse"),

@@ -1,14 +1,14 @@
 package ch.ge.social.qeli.service.stats;
 
+import ch.ge.social.qeli.service.api.pdf.dto.Eligibilite;
+import ch.ge.social.qeli.service.api.pdf.dto.EligibiliteRefusee;
 import ch.ge.social.qeli.service.api.pdf.dto.QeliResult;
-import ch.ge.social.qeli.service.api.pdf.dto.answer.AnswerValue;
+import ch.ge.social.qeli.service.api.pdf.dto.answer.Answer;
 import ch.ge.social.qeli.service.api.pdf.dto.answer.ToAnswerValueVisitor;
 import ch.ge.social.qeli.service.api.stats.StatsService;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,27 +20,69 @@ import org.springframework.stereotype.Service;
 @Service
 public class StatsServiceImpl implements StatsService {
 
+
   private static Logger logger = LoggerFactory.getLogger(StatsServiceImpl.class);
 
   @Override
   public void saveFormData(QeliResult result) {
 
-    List<AnswerValue> answerValues =
-      result.getAnswers().entrySet().stream().flatMap(answer -> answer.getValue().accept((new ToAnswerValueVisitor(answer.getKey()))).stream()).collect(Collectors.toList());
+    StringBuilder builder = new StringBuilder();
 
-    answerValues.forEach(System.out::println);
+   builder.append(prepareAnswers(result.getAnswers()))
+          .append(prepareRefus(result.getEligibiliteRefusees()))
+          .append(prepareEligibilite(result.getEligibilites()));
 
-    String id = UUID.randomUUID().toString();
-    String data = result.toString();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-    String formatDateTime = LocalDateTime.now().format(formatter);
-
-    StringBuilder sb = new StringBuilder();
-    sb.append(id).append(";").append(formatDateTime).append(";").append(data).append("|");
-
-    logger.trace(sb.toString());
+    logger.trace(builder.toString());
   }
 
+  private String prepareAnswers(Map<String, Answer> answers) {
+    StringBuilder sb = new StringBuilder();
+    for (Map.Entry<String, Answer> answer : answers.entrySet()) {
+      answer.getValue().accept(new ToAnswerValueVisitor(answer.getKey()))
+            .forEach(answerValue ->
+                       sb.append(buildLigne(DataType.REPONSE, answerValue.getKey(), answerValue.getValue()))
+            );
+    }
+    return sb.toString();
+  }
 
+  private String prepareRefus (List<EligibiliteRefusee> eligibiliteRefusees) {
+    StringBuilder sb = new StringBuilder();
+    eligibiliteRefusees.forEach(refus -> {
+      ReponseStatus status = refus.isDejaPercue() ? ReponseStatus.DEJA_PERCUE : ReponseStatus.REFUSE;
+      String key = refus.getEligibilite().getPrestation().name() + "_" + refus.getEligibilite().getMembre().getId();
+      sb.append(buildLigne(DataType.RESULTAT, key, status.value));
+    });
+    return sb.toString();
+  }
 
+  private String prepareEligibilite (List<Eligibilite> eligibilites) {
+    StringBuilder sb = new StringBuilder();
+    eligibilites.forEach(eligible -> {
+      String key = eligible.getPrestation().name() + "_" + eligible.getMembre().getId();
+      sb.append(buildLigne(DataType.RESULTAT, key, ReponseStatus.ELIGIBLE.value));
+    });
+    return sb.toString();
+
+  }
+
+  private String transformKey(String key) {
+    return (key.contains("_")
+            && (key.substring(key.indexOf("_") + 1) == "0"))
+           ? key.substring(0, key.indexOf("_")) + "DEMANDEUR"
+           : key;
+  }
+
+  private String buildLigne(DataType type, String key, String value) {
+    StringBuilder res = new StringBuilder();
+    return res.append(UUID.randomUUID().toString())
+              .append(";")
+              .append(type.value)
+              .append(";")
+              .append(transformKey(key))
+              .append(";")
+              .append(value)
+              .append("|")
+              .toString();
+  }
 }
