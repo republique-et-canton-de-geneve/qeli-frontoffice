@@ -10,7 +10,6 @@ import { QeliState, QeliStateMachine } from '../service/question/qeli-state.mode
 import { QeliConfiguration } from '../service/configuration/qeli-configuration.model';
 import { Demandeur } from '../service/configuration/demandeur.model';
 import { FromSchemaToAnswerVisitor } from '../dynamic-question/model/to-answer.visitor.model';
-import { Eligibilite, EligibiliteRefusee } from '../service/question/eligibilite.model';
 import { StatsService } from '../service/stats.service';
 
 @Component({
@@ -43,7 +42,7 @@ export class HomeComponent implements OnInit {
       this.trackingService.initMatomo(configuration);
 
       this.route.queryParams.subscribe(params => {
-        //if (this.firstLoad) {
+        // if (this.firstLoad) {
         const state = this.deepLinkService.decryptQueryParamsData(params);
         if (state !== null) {
           const demandeur = new Demandeur(state.demandeur);
@@ -53,16 +52,16 @@ export class HomeComponent implements OnInit {
             .map(decorator => decorator.question)
             .filter(question => state.formData.hasOwnProperty(question.key))
             .map(question => {
-              let entry = {};
+              const entry = {};
               entry[question.key] = question.accept(new FromSchemaToAnswerVisitor(state.formData[question.key]));
-              return entry
+              return entry;
             }).reduce((r, c) => Object.assign(r, c), {});
 
           this.qeliStateMachine = new QeliStateMachine(questions, new QeliState(state));
         } else {
           this.qeliStateMachine = null;
         }
-        //}
+        // }
 
         this.firstLoad = false;
         this.ref.markForCheck();
@@ -78,8 +77,16 @@ export class HomeComponent implements OnInit {
     this.updateDeepLink();
   }
 
-  onNextQuestion() {
-    if (this.qeliForm && this.qeliForm.isCurrentQuestionValid()) {
+  onNextClicked() {
+    if (this.qeliForm) {
+      this.showNextQuestion();
+    } else if (this.qeliSetupForm) {
+      this.submitSetupForm();
+    }
+  }
+
+  private showNextQuestion() {
+    if (this.qeliForm.isCurrentQuestionValid()) {
       this.trackingService.trackReponseInconnu(
         this.qeliStateMachine.currentQuestion.question,
         this.qeliForm.currentAnswer
@@ -97,7 +104,13 @@ export class HomeComponent implements OnInit {
       }
 
       this.updateDeepLink();
-    } else if (this.qeliSetupForm && this.qeliSetupForm.isValid) {
+    } else {
+      this.qeliForm.displayErrors();
+    }
+  }
+
+  private submitSetupForm() {
+    if (this.qeliSetupForm.isValid) {
       const demandeur = new Demandeur(this.qeliSetupForm.demandeur);
       const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur.toEligibilite());
 
@@ -106,10 +119,11 @@ export class HomeComponent implements OnInit {
       );
       this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
       this.updateDeepLink();
+    } else {
+      this.qeliSetupForm.displayErrors();
     }
-
-
   }
+
 
   private updateDeepLink() {
     this.deepLinkService.updateUrl(this.qeliStateMachine.state, this.route);
@@ -123,11 +137,4 @@ export class HomeComponent implements OnInit {
       state.eligibilitesRefusees
     ).subscribe();
   }
-
-  /*
-  onKeyUp(event: KeyboardEvent) {
-    if (event.key === "Enter" && this.isCurrentQuestionValid()) {
-      this.nextQuestion();
-    }
-  }*/
 }

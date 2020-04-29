@@ -1,7 +1,10 @@
 <div>
   <div *ngIf="form && currentQuestion">
     <form [formGroup]="form" data-matomo-form data-matomo-name="formElement" id="formElement" #formElement>
-      <app-dynamic-question [question]="currentQuestion" [form]="form"></app-dynamic-question>
+      <app-dynamic-question [question]="currentQuestion"
+                            [form]="form"
+                            #dynamicQuestionComponent>
+      </app-dynamic-question>
     </form>
   </div>
 </div>

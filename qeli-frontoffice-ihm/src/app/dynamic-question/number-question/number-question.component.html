@@ -7,8 +7,10 @@
          (keypress)="isNumber($event)"
          [min]="question.min"
          [max]="question.max"
-         focusOnInit="true"
+         [focusOnInit]="!disableFocusOnInit"
          class="form-control"
+         [attr.aria-invalid]="!isValid"
+         [attr.aria-required]="question.required"
          [attr.data-cy]="question.dataCyIdentifier"
          [attr.data-matomo-name]="question.dataCyIdentifier">
 </div>

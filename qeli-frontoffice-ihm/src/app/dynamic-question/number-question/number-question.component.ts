@@ -9,12 +9,12 @@ import { NumberAnswer } from '../model/answer.model';
 @Component({
   selector: 'app-text-question',
   templateUrl: './number-question.component.html',
-  styleUrls: ['./number-question.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./number-question.component.scss']
 })
 export class NumberQuestionComponent implements QuestionComponent<NumberAnswer> {
   @Input() question: NumberQuestion;
   @Input() form: FormGroup;
+  @Input() disableFocusOnInit: boolean;
 
   isNumber(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
@@ -34,5 +34,9 @@ export class NumberQuestionComponent implements QuestionComponent<NumberAnswer> 
     }
   }
 
+  get isValid() {
+    return this.form.controls[this.question.key].pristine ||
+           this.form.controls[this.question.key].valid;
+  }
 }
 

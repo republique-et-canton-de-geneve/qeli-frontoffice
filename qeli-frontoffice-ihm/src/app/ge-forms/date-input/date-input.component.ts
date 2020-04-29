@@ -16,6 +16,8 @@ export class DateInputComponent implements OnInit {
   @Input() minDate: Date = null;
   @Input() maxDate: Date = null;
   @Input() disabled: boolean = false;
+  @Input() required: boolean = false;
+  @Input() focusOnInit: boolean = false;
   @Input() identifier: string;
 
   @ViewChild('textInputDate', {static: false}) textInputDate: ElementRef<HTMLInputElement>;

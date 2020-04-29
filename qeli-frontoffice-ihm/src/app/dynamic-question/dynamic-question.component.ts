@@ -1,10 +1,11 @@
-import { Component, ComponentFactoryResolver, Input, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { QuestionDirective } from './model/question.directive';
 import { QuestionComponent } from './model/question.component';
 import { QuestionRegistryModel } from './model/question-registry.model';
 import { Question } from './model/question.model';
 import { I18nString } from '../core/i18n/i18nstring.model';
+import { FormUtils } from '../ge-forms/form-utils';
 
 @Component({
   selector: 'app-dynamic-question',
@@ -13,6 +14,7 @@ import { I18nString } from '../core/i18n/i18nstring.model';
 })
 export class DynamicQuestionComponent {
   @Input() form: FormGroup;
+  @Input() disableFocusOnInit: boolean = false;
   @Input() disableDeepLink: boolean = false;
 
   question: Question<any>;
@@ -21,7 +23,8 @@ export class DynamicQuestionComponent {
 
   @ViewChild(QuestionDirective, {static: true}) questionDirective: QuestionDirective;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,
+              private elementRef: ElementRef) {
 
   }
 
@@ -62,5 +65,21 @@ export class DynamicQuestionComponent {
     const componentRef = viewContainerRef.createComponent(componentFactory);
     (<QuestionComponent<any>>componentRef.instance).form = this.form;
     (<QuestionComponent<any>>componentRef.instance).question = this.question;
+    (<QuestionComponent<any>>componentRef.instance).disableFocusOnInit = this.disableFocusOnInit;
+  }
+
+  displayErrors() {
+    FormUtils.markAllAsDirty(this.form.controls[this.question.key]);
+    setTimeout(() => {
+      const formGroupInvalid = this.elementRef.nativeElement.querySelectorAll(
+        'input[aria-invalid]:not([aria-invalid="false"]),' +
+        'select[aria-invalid]:not([aria-invalid="false"]),' +
+        '*[aria-invalid]:not([aria-invalid="false"]) input,' +
+        '*[aria-invalid]:not([aria-invalid="false"]) select'
+      );
+      if (formGroupInvalid.length > 0) {
+        (<HTMLInputElement>formGroupInvalid[0]).focus();
+      }
+    });
   }
 }

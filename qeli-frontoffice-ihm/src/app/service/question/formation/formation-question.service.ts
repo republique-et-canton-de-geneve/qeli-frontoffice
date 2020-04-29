@@ -42,7 +42,7 @@ export class FormationQuestionService implements QuestionLoader {
               key: 'question.formation.membre',
               parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
             },
-            errorLabels: {required: {key: 'question.formation.error.required'}},
+            errorLabels: QuestionUtils.toErrorLabels(`formation`, ['required']),
             inline: true,
             radioOptions: REPONSE_BINAIRE_OPTIONS
           })
