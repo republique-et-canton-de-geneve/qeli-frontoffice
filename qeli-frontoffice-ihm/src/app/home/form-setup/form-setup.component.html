@@ -2,7 +2,7 @@
   <h2>{{ 'home.setup.title' | translate }}</h2>
   <p class="help-block" [innerHtml]="'home.setup.subtitle' | translate"></p>
 
-  <form [formGroup]="setupForm">
+  <form [formGroup]="setupForm" #formElement>
     <div class="row form-group">
 
       <div class="col-sm-4">
@@ -13,6 +13,8 @@
                              [control]="setupForm.controls['etatCivil']"
                              [errorLabels]="errorLabels">
           <select id="etatCivil"
+                  aria-required="true"
+                  [attr.aria-invalid]="isInvalid(setupForm.controls['etatCivil'])"
                   [attr.disabled]="numberOfMembres > 0 ? 'disabled' : null"
                   formControlName="etatCivil"
                   class="form-control form-select">
@@ -31,6 +33,7 @@
                              [control]="setupForm.controls['dateNaissance']"
                              [errorLabels]="errorLabels">
           <app-date-input identifier="dateNaissance"
+                          required="true"
                           [disabled]="numberOfMembres > 0"
                           [minDate]="minDateNaissance"
                           [maxDate]="maxDateNaissance"
@@ -46,6 +49,7 @@
                              [errorLabels]="errorLabels">
           <input id="prenom"
                  [attr.disabled]="numberOfMembres > 0 ? 'disabled' : null"
+                 [attr.aria-invalid]="isInvalid(setupForm.controls['prenom'])"
                  formControlName="prenom"
                  placeholder="{{ 'home.setup.demandeur.prenom.placeholder' | translate }}"
                  type="text"
@@ -66,6 +70,9 @@
                                [errorLabels]="errorLabels">
             <select id="{{ 'relationMembre' + i }}"
                     formControlName="relation"
+                    [focusOnInit]="isLast"
+                    aria-required="true"
+                    [attr.aria-invalid]="isInvalid(membre.controls['relation'])"
                     [attr.disabled]="!isLast ? 'disabled' : null"
                     class="form-control form-select">
               <option></option>
@@ -83,6 +90,7 @@
                                [control]="membre.controls['dateNaissance']"
                                [errorLabels]="errorLabels">
             <app-date-input identifier="{{ 'dateNaissanceMembre' + i }}"
+                            required="true"
                             [disabled]="!isLast"
                             [minDate]="minDateNaissance"
                             [maxDate]="maxDateNaissance"
@@ -99,6 +107,7 @@
             <input id="{{ 'prenomMembre' + i }}"
                    formControlName="prenom"
                    [attr.disabled]="!isLast ? 'disabled' : null"
+                   [attr.aria-invalid]="isInvalid(membre.controls['prenom'])"
                    placeholder="{{ getDefaultPrenomByMembre(membre.value) }}"
                    type="text"
                    class="form-control">
@@ -108,6 +117,7 @@
         <div class="col-sm-1 text-right remove-btn-col">
           <button class="btn btn-danger"
                   [attr.disabled]="!isLast ? 'disabled' : null"
+                  [title]="'home.setup.membre.supprimer' | translate"
                   [attr.aria-label]="'home.setup.membre.supprimer' | translate"
                   (click)="deleteMembre(i)">
             <i class="fa fa-trash"></i>
@@ -120,10 +130,10 @@
       <div class="col-xs-12 text-right">
         <button class="btn btn-info"
                 [attr.disabled]="!isValid ? 'disabled' : null"
-                [attr.aria-label]="'home.setup.membre.ajouter.label' | translate"
+                [attr.aria-label]="'home.setup.membre.ajouter' | translate"
                 (click)="onAddMembre()"
                 type="button">
-          <i class="fa fa-plus"></i> <span class="btn-text">{{'home.setup.membre.ajouter.label' | translate}}</span>
+          <i class="fa fa-plus"></i> <span class="btn-text">{{'home.setup.membre.ajouter' | translate}}</span>
         </button>
       </div>
     </div>

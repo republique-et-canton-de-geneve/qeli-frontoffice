@@ -10,12 +10,12 @@ import { RegisterQuestionComponent } from '../model/question-registry.model';
 @Component({
   selector: 'app-checkbox-group-question',
   templateUrl: './checkbox-group-question.component.html',
-  styleUrls: ['./checkbox-group-question.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./checkbox-group-question.component.scss']
 })
 export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionComponent<CheckboxGroupAnswer> {
   @Input() question: CheckboxGroupQuestion;
   @Input() form: FormGroup;
+  @Input() disableFocusOnInit: boolean;
 
   @ViewChildren('optionCheckboxes') optionCheckboxes: ElementRef<HTMLInputElement>[];
 
@@ -59,8 +59,13 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
     });
   }
 
-  private get formGroup() {
+  get formGroup() {
     return this.form.controls[this.question.key] as FormGroup;
+  }
+
+  get isValid() {
+    return this.form.controls[this.question.key].pristine ||
+           this.form.controls[this.question.key].valid;
   }
 
   private get choicesControl() {

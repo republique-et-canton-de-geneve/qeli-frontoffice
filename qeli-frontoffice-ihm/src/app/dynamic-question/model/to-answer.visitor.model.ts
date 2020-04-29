@@ -63,7 +63,8 @@ export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
     const apatride = this.rawAnswer['apatride'] as boolean;
 
     return new NationaliteAnswer({
-      pays: !apatride && pays ? pays.map(value => question.paysOptions.find(option => option.value === value)) : [],
+      pays: !apatride && pays ? pays.filter(item => item !== null && item !== undefined)
+                                    .map(value => question.paysOptions.find(option => option.value === value)) : [],
       apatride: apatride
     });
   }

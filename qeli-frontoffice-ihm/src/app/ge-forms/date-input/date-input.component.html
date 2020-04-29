@@ -2,6 +2,8 @@
   <div *ngIf="useNativeInputDate">
     <input [id]="identifier"
            [attr.disabled]="disabled ? 'disabled' : null"
+           [attr.aria-required]="required"
+           [attr.aria-invalid]="!dateControl.pristine && !dateControl.valid"
            formControlName="value"
            type="date"
            class="form-control"
@@ -10,7 +12,10 @@
 
   <div *ngIf="!useNativeInputDate" class="input-group">
     <input [id]="identifier"
+           [focusOnInit]="focusOnInit"
            [attr.disabled]="disabled ? 'disabled' : null"
+           [attr.aria-required]="required"
+           [attr.aria-invalid]="!dateControl.pristine && !dateControl.valid"
            type="text"
            class="form-control"
            #textInputDate
@@ -22,9 +27,9 @@
 
     <div class="input-group-addon has-btn">
       <button class="btn btn-info"
-              [attr.disabled]="disabled ? 'disabled' : null"
               type="button"
-              [attr.aria-label]="'common.setup.demandeur.dateNaissance' | translate"
+              [attr.disabled]="disabled ? 'disabled' : null"
+              [attr.aria-label]="(!showDatePicker ? 'common.datepicker.open' : 'common.datepicker.close') | translate"
               (click)="showDatePicker = !showDatePicker">
         <i class="fa fa-calendar"></i>
       </button>
