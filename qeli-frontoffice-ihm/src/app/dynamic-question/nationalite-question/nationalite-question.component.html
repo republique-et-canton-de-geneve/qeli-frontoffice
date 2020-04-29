@@ -1,6 +1,8 @@
 <div [formGroup]="form">
   <div [formGroupName]="question.key"
        [attr.data-cy]="question.dataCyIdentifier"
+       role="group"
+       [attr.aria-labelledby]="question.key+'_label'"
        data-cy-type="nationalite">
     <div *ngFor="let pays of paysArray.value; index as i; last as isLast; first as isFirst"
          class="nationalite-selection-box"
@@ -8,8 +10,11 @@
       <select class="form-control"
               [formControlName]="i"
               [attr.disabled]="!isLast || isApatride ? 'disabled' : null"
-              [focusOnInit]="isFirst"
+              [focusOnInit]="!disableFocusOnInit && isFirst"
               [attr.data-cy]="question.dataCyIdentifier + '_select_nationalite_' + i"
+              [attr.aria-invalid]="!isValid && isLast"
+              [attr.aria-required]="question.required"
+              [attr.aria-label]="('common.selectNationalite.' + i) | translate"
               [attr.data-matomo-name]="question.dataCyIdentifier">
         <option></option>
         <option *ngFor="let pays of question.paysOptions"
@@ -20,6 +25,7 @@
 
       <button class="btn btn-primary"
               [attr.aria-label]="'common.ajouterNationalite' | translate"
+              [title]="'common.ajouterNationalite' | translate"
               [disabled]="!isLast || numberOfNationalites >= maxNumberOfNationalites || isApatride || !pays"
               [style.visibility]="isLast ? 'visible' : 'hidden'"
               [attr.data-cy]="question.dataCyIdentifier + '_ajouter_nationalite_' + i"
@@ -28,6 +34,7 @@
       </button>
       <button class="btn btn-danger"
               [attr.aria-label]="'common.supprimerNationalite' | translate"
+              [title]="'common.supprimerNationalite' | translate"
               [disabled]="!isLast || isApatride"
               [style.visibility]="isLast ? 'visible' : 'hidden'"
               [attr.data-cy]="question.dataCyIdentifier + '_supprimer_nationalite_' + i"

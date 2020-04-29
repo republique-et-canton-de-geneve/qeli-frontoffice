@@ -10,14 +10,14 @@ import { QuestionOption } from '../model/question.model';
 @Component({
   selector: 'app-date-question',
   templateUrl: './date-question.component.html',
-  styleUrls: ['./date-question.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./date-question.component.scss']
 })
 export class DateQuestionComponent implements QuestionComponent<DateAnswer>, AfterViewInit {
   @ViewChild('dateInputComponent', {static: true}) dateInputComponent: DateInputComponent;
 
   @Input() question: DateQuestion;
   @Input() form: FormGroup;
+  @Input() disableFocusOnInit: boolean;
 
   ngAfterViewInit(): void {
     if (this.dateControl.value) {
@@ -51,5 +51,10 @@ export class DateQuestionComponent implements QuestionComponent<DateAnswer>, Aft
 
   get dateErrors() {
     return !this.isDateValid ? Object.keys(this.dateControl.errors) : null;
+  }
+
+  get isValid() {
+    return this.form.controls[this.question.key].pristine ||
+           this.form.controls[this.question.key].valid;
   }
 }

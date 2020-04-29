@@ -1,45 +1,52 @@
 <div [formGroup]="form">
   <div [formGroupName]="question.key"
+       role="radiogroup"
+       [attr.aria-labelledby]="question.key+'_label'"
+       [attr.aria-required]="question.required"
+       [attr.aria-invalid]="!isValid"
        [attr.data-cy]="question.dataCyIdentifier">
 
     <hr *ngIf="question.hasNone">
     <div *ngIf="question.hasNone" class="radio">
-      <label>
+      <label [id]="question.key + '_some_option_label'">
         <input type="radio"
                [value]="question.someOption.value"
                formControlName="none"
+               [focusOnInit]="!disableFocusOnInit"
                (change)="onNoneChanged()"
-               [focusOnInit]="true"
                [attr.data-matomo-name]="question.dataCyIdentifier">
         {{ question.someOption.label.key| translate:question.someOption.label.parameters }}
       </label>
     </div>
 
-    <div *ngFor="let optionOrGroup of question.checkboxOptions; first as isFirstGroup"
-         class="checkbox" [ngClass]="question.hasNone ? 'tab' : null">
+    <div role="group"
+         [attr.aria-labelledby]="question.key + '_some_option_label'">
+      <div *ngFor="let optionOrGroup of question.checkboxOptions"
+           class="checkbox" [ngClass]="question.hasNone ? 'tab' : null">
 
-      <p *ngIf="optionOrGroup.hasOwnProperty('options')" class="checkbox-group-title">
-        {{ optionOrGroup.label.key | translate: optionOrGroup.label.parameters }}
-      </p>
+        <p *ngIf="optionOrGroup.hasOwnProperty('options')" class="checkbox-group-title">
+          {{ optionOrGroup.label.key | translate: optionOrGroup.label.parameters }}
+        </p>
 
-      <div [ngClass]="optionOrGroup.hasOwnProperty('options') ? 'tab subgroup' : null">
-        <div *ngFor="let option of (optionOrGroup.hasOwnProperty('options') ? optionOrGroup.options : [optionOrGroup]);
-                     first as isFirstOption" class="checkbox">
-          <label>
-            <input type="checkbox"
-                   [attr.disabled]="isNoneOrInconnuSelected ? 'disabled' : null"
-                   [focusOnInit]="!question.hasNone && isFirstGroup && isFirstOption"
-                   [value]="option.value"
-                   (change)="onOptionChanged($event.currentTarget.value, $event.currentTarget.checked)"
-                   [attr.data-cy]="option.value"
-                   #optionCheckboxes
-                   [attr.data-matomo-name]="question.dataCyIdentifier">
-            {{ option.label.key | translate:option.label.parameters }}
-          </label>
+        <div [ngClass]="optionOrGroup.hasOwnProperty('options') ? 'tab subgroup' : null">
+          <div
+            *ngFor="let option of (optionOrGroup.hasOwnProperty('options') ? optionOrGroup.options : [optionOrGroup])"
+            class="checkbox">
+            <label>
+              <input type="checkbox"
+                     [attr.disabled]="isNoneOrInconnuSelected ? 'disabled' : null"
+                     [value]="option.value"
+                     (change)="onOptionChanged($event.currentTarget.value, $event.currentTarget.checked)"
+                     [attr.data-cy]="option.value"
+                     #optionCheckboxes
+                     [attr.data-matomo-name]="question.dataCyIdentifier">
+              {{ option.label.key | translate:option.label.parameters }}
+            </label>
 
-          <p *ngIf="option.help" class="help-block">
-            {{ option.help.key | translate:option.help.parameters }}
-          </p>
+            <p *ngIf="option.help" class="help-block">
+              {{ option.help.key | translate:option.help.parameters }}
+            </p>
+          </div>
         </div>
       </div>
     </div>

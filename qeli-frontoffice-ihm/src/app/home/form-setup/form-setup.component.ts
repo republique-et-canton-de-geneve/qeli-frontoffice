@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateValidators } from '../../ge-forms/date.validators';
 import * as moment from 'moment';
@@ -7,6 +7,7 @@ import {
 } from '../../service/configuration/demandeur.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
 import { TranslateService } from '@ngx-translate/core';
+import { FormUtils } from '../../ge-forms/form-utils';
 
 const MAX_NUMBER_OF_MEMBRES = 20;
 
@@ -16,6 +17,9 @@ const MAX_NUMBER_OF_MEMBRES = 20;
   styleUrls: ['./form-setup.component.scss']
 })
 export class FormSetupComponent {
+
+  @ViewChild('formElement', {static: false}) formElement: ElementRef;
+
   setupForm: FormGroup;
   numberOfMembres = 0;
   etatCivilOptions = Object.keys(EtatCivil);
@@ -54,14 +58,6 @@ export class FormSetupComponent {
     }
 
     return null;
-  }
-
-  get maxDateNaissance() {
-    return new Date();
-  }
-
-  get minDateNaissance() {
-    return moment().subtract(130, 'year').toDate();
   }
 
   private get dateNaissanceValidators() {
@@ -159,5 +155,27 @@ export class FormSetupComponent {
 
   get isValid() {
     return this.setupForm.valid;
+  }
+
+  get maxDateNaissance() {
+    return new Date();
+  }
+
+  get minDateNaissance() {
+    return moment().subtract(130, 'year').toDate();
+  }
+
+  isInvalid(control: AbstractControl) {
+    return !control.pristine && !control.valid;
+  }
+
+  displayErrors() {
+    FormUtils.markAllAsDirty(this.setupForm);
+    setTimeout(() => {
+      const formGroupInvalid = this.formElement.nativeElement.querySelectorAll(
+        '*[aria-invalid]:not([aria-invalid="false"])'
+      );
+      (<HTMLInputElement>formGroupInvalid[0]).focus();
+    });
   }
 }
