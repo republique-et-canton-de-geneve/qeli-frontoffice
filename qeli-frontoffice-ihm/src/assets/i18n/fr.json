@@ -46,12 +46,8 @@
         "dateNaissance": {
           "label": "Leur date de naissance"
         },
-        "supprimer": {
-          "label": "Supprimer un autre membre"
-        },
-        "ajouter": {
-          "label": "Ajouter un autre membre"
-        }
+        "supprimer": "Supprimer le dernier membre",
+        "ajouter": "Ajouter un autre membre"
       },
       "errors": {
         "uniquePrenom": "Les prénoms doivent être différents (vous pouvez ajouter une lettre ou un chiffre pour les différencier).",
@@ -112,6 +108,11 @@
     },
     "navigation": {
       "title": "Evaluer mon droit aux prestations sociales",
+      "menu": {
+        "title": "Menu de navigation",
+        "open": "Ouvrir le menu de navigation",
+        "close": "Fermer le menu de navigation"
+      },
       "categorie": {
         "SITUATION_PERSONELLE": "Situation personnelle",
         "COMPLEMENTS": "Précisions / compléments"
@@ -204,7 +205,7 @@
         "label": "Quelle est {who, select, me{votre nationalité} other{la nationalité de {membre}}} ?",
         "help": "Nationalité : Etat dont {who, select, me{vous possédez} other{{membre} possède}} un passeport.<br>Si {who, select, me{vous avez} other{{membre} a}} plusieurs nationalités indiquez les toutes.",
         "error": {
-          "required": "{who, select, me{Votre nationalité} other{La nationalité de {membre}}} nationalité doit être fournie"
+          "required": "{who, select, me{Votre nationalité} other{La nationalité de {membre}}} doit être fournie"
         }
       },
       "refugie": {
@@ -637,6 +638,16 @@
     }
   },
   "common": {
+    "errorPrefix": "Erreur : ",
+    "datepicker": {
+      "open": "Sélectionner la date à l'aide d'un calendrier",
+      "close": "Fermer le calendrier"
+    },
+    "selectNationalite": {
+      "0": "Première nationalité",
+      "1": "Deuxième nationalité",
+      "2": "Troisième nationalité"
+    },
     "ajouterNationalite": "Ajouter une autre nationalité",
     "supprimerNationalite": "Supprimer cette nationalité",
     "apatride": {

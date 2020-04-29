@@ -14,8 +14,8 @@
       <div class="panel-row-text">
         <h4>
           {{ 'home.result.prestation.' + resultsByPrestation.prestation + '.title'  | translate }}
-          <a
-            href="{{'home.result.prestation.' + resultsByPrestation.prestation + '.plusInformation:ink'  | translate}}">
+          <a target="_blank"
+             href="{{'home.result.prestation.' + resultsByPrestation.prestation + '.plusInformation:ink'  | translate}}">
             {{ 'home.result.plusInformation'  | translate }}
           </a>
         </h4>
@@ -33,7 +33,8 @@
          }">{{ translateResult(result) }}</span>
           <span *ngIf="result.motifRefus">{{ result.motifRefus.key | translate:result.motifRefus.parameters }}</span>
           <a *ngIf="result.eligible"
-             href="{{ 'home.result.prestation.' + resultsByPrestation.prestation + '.demandeLink'  | translate }}">
+             href="{{ 'home.result.prestation.' + resultsByPrestation.prestation + '.demandeLink'  | translate }}"
+             target="_blank">
             {{ 'home.result.demandeMembre' | translate:toTranslateParams(result)}}
           </a>
         </div>
@@ -48,7 +49,8 @@
 
     <span *ngIf="isPrestationEligible && !isPrestationIndividuel">
       {{ 'home.result.prestation.' + resultsByPrestation.prestation + '.eligible' | translate }}
-      <a href="{{ 'home.result.prestation.' + resultsByPrestation.prestation + '.demandeLink'  | translate }}">
+      <a href="{{ 'home.result.prestation.' + resultsByPrestation.prestation + '.demandeLink'  | translate }}"
+         target="_blank">
         {{'home.result.demande'  | translate }}
       </a>
     </span>

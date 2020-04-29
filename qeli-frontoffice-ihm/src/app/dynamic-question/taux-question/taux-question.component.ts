@@ -9,12 +9,12 @@ import { NumberAnswer } from '../model/answer.model';
 @Component({
   selector: 'app-text-question',
   templateUrl: './taux-question.component.html',
-  styleUrls: ['./taux-question.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./taux-question.component.scss']
 })
 export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
   @Input() question: TauxQuestion;
   @Input() form: FormGroup;
+  @Input() disableFocusOnInit: boolean;
 
   options = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
 
@@ -38,6 +38,11 @@ export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
 
   private get formGroup() {
     return this.form.controls[this.question.key] as FormGroup;
+  }
+
+  get isValid() {
+    return this.form.controls[this.question.key].pristine ||
+           this.form.controls[this.question.key].valid;
   }
 }
 

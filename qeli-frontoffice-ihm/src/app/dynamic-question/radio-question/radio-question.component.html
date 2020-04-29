@@ -1,4 +1,8 @@
-<div [formGroup]="form">
+<div [formGroup]="form"
+     role="radiogroup"
+     [attr.aria-labelledby]="question.key+'_label'"
+     [attr.aria-invalid]="!isValid"
+     [attr.aria-required]="question.required">
   <div *ngFor="let option of question.radioOptions; first as isFirst"
        [class]="question.inline ? 'radio radio-inline' : 'radio'"
        [attr.data-cy]="question.dataCyIdentifier">
@@ -6,6 +10,7 @@
       <input type="radio"
              [value]="option.value"
              [formControlName]="question.key"
+             [focusOnInit]="!disableFocusOnInit && isFirst"
              [attr.data-cy]="option.value"
              [attr.data-matomo-name]="question.dataCyIdentifier">
       {{ option.label.key | translate:option.label.parameters }}
@@ -16,3 +21,4 @@
     </p>
   </div>
 </div>
+

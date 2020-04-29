@@ -3,6 +3,7 @@
           (click)="showCopyPanel = !showCopyPanel"
           type="button"
           title="{{ 'form.deepLink.copyLink' | translate }}"
+          [attr.aria-label]="'form.deepLink.copyLink' | translate"
           [attr.id]="'deep-link-dropdown-btn-' + id"
           id="dropdownMenuButton"
           aria-haspopup="true"
@@ -30,6 +31,7 @@
         <button class="btn btn-info"
                 type="button"
                 (click)="copyDeepLink()"
+                [attr.aria-label]="'form.deepLink.copyButton'| translate"
                 title="{{ 'form.deepLink.copyButton'| translate }}">
           <i class="fa fa-copy"></i>
         </button>

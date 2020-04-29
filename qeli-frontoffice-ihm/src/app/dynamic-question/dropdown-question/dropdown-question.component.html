@@ -1,6 +1,9 @@
 <div [formGroup]="form">
   <select [id]="question.key"
           [formControlName]="question.key"
+          [focusOnInit]="!disableFocusOnInit"
+          [attr.aria-invalid]="!isValid"
+          [attr.aria-required]="question.required"
           class="form-control form-select"
           [attr.data-cy]="question.dataCyIdentifier"
           [attr.data-matomo-name]="question.dataCyIdentifier">

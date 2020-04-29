@@ -1,6 +1,7 @@
 <div [formGroup]="form">
-
   <div [formGroupName]="question.key"
+       role="radiogroup"
+       [attr.aria-labelledby]="question.key+'_label'"
        [attr.data-cy]="question.dataCyIdentifier">
     <hr>
 
@@ -17,9 +18,11 @@
 
     <div class="tab"
          [hidden]="isOtherSelected">
-      <select [id]="question.key + '-select'"
-              formControlName="taux"
+      <select formControlName="taux"
               [attr.disabled]="isOtherSelected ? 'disabled' : null"
+              [attr.aria-invalid]="!isValid"
+              [attr.aria-required]="question.required"
+              [focusOnInit]="!disableFocusOnInit"
               class="form-control form-select"
               [attr.data-cy]="question.dataCyIdentifier"
               [attr.data-matomo-name]="question.dataCyIdentifier">
@@ -42,9 +45,11 @@
 
     <div class="tab"
          [hidden]="!isOtherSelected">
-      <input [id]="question.key"
-             [formGroup]="form"
+      <input [formGroup]="form"
              [attr.disabled]="!isOtherSelected ? 'disabled' : null"
+             [attr.aria-invalid]="!isValid"
+             [attr.aria-required]="question.required"
+             [focusOnInit]="!disableFocusOnInit"
              formControlName="taux"
              type="number"
              (keypress)="isNumber($event)"
