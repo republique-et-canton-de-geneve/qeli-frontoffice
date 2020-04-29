@@ -147,9 +147,6 @@ export class FormSetupComponent {
       relationOptions.push(Relation.CONCUBIN);
     }
 
-    relationOptions.push(Relation.PARENTS);
-    relationOptions.push(Relation.AUTRES);
-
     return relationOptions;
   }
 
