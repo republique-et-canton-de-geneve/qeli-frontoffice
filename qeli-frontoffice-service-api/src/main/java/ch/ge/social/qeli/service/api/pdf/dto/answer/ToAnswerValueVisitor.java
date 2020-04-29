@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ToAnswerValueVisitor implements AnswerVisitorModel<List<AnswerValue>> {
 
@@ -66,9 +67,11 @@ public class ToAnswerValueVisitor implements AnswerVisitorModel<List<AnswerValue
 
   @Override
   public List<AnswerValue> visitCompositeAnswer(CompositeAnswer answer) {
-    answer.answers.entrySet().stream().map(subAnswer -> subAnswer.getValue().accept(new ToAnswerValueVisitor(subAnswer.getKey())));
-                                      // .map(answerValue -> new AnswerValue(key, answerValue.getValue()));
-
-    return null;
+    List<AnswerValue> res = new ArrayList<>();
+    for (Map.Entry<String, Answer> subAnswer: answer.answers.entrySet()) {
+      res.addAll(subAnswer.getValue().accept(new ToAnswerValueVisitor(subAnswer.getKey())).stream().map(subAnswerValue-> new AnswerValue(this.key, subAnswerValue.getValue())).collect(
+        Collectors.toList()));
+    }
+    return res;
   }
 }
