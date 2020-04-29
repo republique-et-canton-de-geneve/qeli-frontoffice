@@ -2,7 +2,7 @@
   "home": {
     "setup": {
       "title": "Comment se compose votre foyer ? Qui habite avec vous ?",
-      "subtitle": "Merci d'ajouter toutes les personnes qui vivent avec vous.<br>Veuillez rajouter tous les enfants habitant avec vous, même à temps partiel. <br>NB : pas d'éligibilité pour les parents/beaux-parents et autres",
+      "subtitle": "Merci d'ajouter toutes les personnes qui vivent avec vous.<br>Veuillez rajouter tous les enfants habitant avec vous, même à temps partiel.",
       "demandeur": {
         "prenom": {
           "label": "Votre prénom",
@@ -32,7 +32,6 @@
             "CONCUBIN": "Concubin·e",
             "ENFANT": "Enfant { index }",
             "DEFAULT": "Membre { index }",
-            "PARENTS": "Parents/beaux-parents",
             "AUTRES": "Autres"
           }
         },
@@ -43,8 +42,7 @@
             "PARTENAIRE_ENREGISTRE": "Partenaire enregistré·e",
             "CONCUBIN": "Concubin·e",
             "ENFANT": "Enfant ",
-            "PARENTS": "Parents/beaux-parents",
-            "AUTRES": "Autres"
+            "AUTRES": "Autres (NB : pas d'éligibilité pour les autres personnes)"
           }
         },
         "dateNaissance": {
