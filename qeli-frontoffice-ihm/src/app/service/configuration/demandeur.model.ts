@@ -10,8 +10,6 @@ export enum Relation {
   PARTENAIRE_ENREGISTRE = 'PARTENAIRE_ENREGISTRE',
   CONCUBIN              = 'CONCUBIN',
   ENFANT                = 'ENFANT',
-  PARENTS               = 'PARENTS',
-  AUTRES                = 'AUTRES'
 }
 
 /**

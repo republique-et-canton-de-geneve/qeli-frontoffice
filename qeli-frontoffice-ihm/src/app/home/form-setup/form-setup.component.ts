@@ -62,12 +62,14 @@ export class FormSetupComponent {
   }
 
   private marieOuPartenaireSansConjoint(control: AbstractControl) {
-    if (control && control.value) {
-      return ((this.isEtatCivil(EtatCivil.MARIE)
-               || this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE))
-              && this.hasMembreFamilleWithRelation(Relation.EPOUX)) ? {'marieOuPartenaireSansConjoint': true} : null;
+
+    let invalid = false;
+    if (this.isEtatCivil(EtatCivil.MARIE) && !this.hasMembreFamilleWithRelation(Relation.EPOUX)) {
+      invalid = control.value !== Relation.EPOUX;
+    } else if (this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE) && !this.hasMembreFamilleWithRelation(Relation.PARTENAIRE_ENREGISTRE)) {
+      invalid = control.value !== Relation.PARTENAIRE_ENREGISTRE;
     }
-    return null;
+    return invalid ? {'marieOuPartenaireSansConjoint': true} : null;
 
   }
 
@@ -114,7 +116,6 @@ export class FormSetupComponent {
   }
 
   get demandeur() {
-    console.log(this.isValid);
     if (this.isValid) {
       const demandeurOptions = this.setupForm.value as DemandeurSchema;
       console.log(demandeurOptions);
