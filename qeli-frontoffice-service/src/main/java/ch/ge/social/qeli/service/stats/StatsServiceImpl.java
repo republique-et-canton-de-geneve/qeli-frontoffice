@@ -27,59 +27,68 @@ public class StatsServiceImpl implements StatsService {
   public void saveFormData(QeliResult result) {
 
     StringBuilder builder = new StringBuilder();
+    String uuid = UUID.randomUUID().toString();
 
-   builder.append(prepareAnswers(result.getAnswers()))
-          .append(prepareRefus(result.getEligibiliteRefusees()))
-          .append(prepareEligibilite(result.getEligibilites()));
+    builder.append(prepareAnswers(uuid, result.getAnswers()))
+           .append(prepareRefus(uuid, result.getEligibiliteRefusees()))
+           .append(prepareEligibilite(uuid, result.getEligibilites()));
 
     logger.trace(builder.toString());
   }
 
-  private String prepareAnswers(Map<String, Answer> answers) {
+  private String prepareAnswers(String id, Map<String, Answer> answers) {
     StringBuilder sb = new StringBuilder();
     for (Map.Entry<String, Answer> answer : answers.entrySet()) {
       answer.getValue().accept(new ToAnswerValueVisitor(answer.getKey()))
             .forEach(answerValue ->
-                       sb.append(buildLigne(DataType.REPONSE, answerValue.getKey(), answerValue.getValue()))
+                       sb.append(buildLigne(id, DataType.REPONSE, answerValue.getKey(), answerValue.getValue()))
             );
     }
     return sb.toString();
   }
 
-  private String prepareRefus (List<EligibiliteRefusee> eligibiliteRefusees) {
+  private String prepareRefus(String id, List<EligibiliteRefusee> eligibiliteRefusees) {
     StringBuilder sb = new StringBuilder();
     eligibiliteRefusees.forEach(refus -> {
       ReponseStatus status = refus.isDejaPercue() ? ReponseStatus.DEJA_PERCUE : ReponseStatus.REFUSE;
       String key = refus.getEligibilite().getPrestation().name() + "_" + refus.getEligibilite().getMembre().getId();
-      sb.append(buildLigne(DataType.RESULTAT, key, status.value));
+      sb.append(buildLigne(id, DataType.RESULTAT, key, status.value));
     });
     return sb.toString();
   }
 
-  private String prepareEligibilite (List<Eligibilite> eligibilites) {
+  private String prepareEligibilite(String id, List<Eligibilite> eligibilites) {
     StringBuilder sb = new StringBuilder();
     eligibilites.forEach(eligible -> {
       String key = eligible.getPrestation().name() + "_" + eligible.getMembre().getId();
-      sb.append(buildLigne(DataType.RESULTAT, key, ReponseStatus.ELIGIBLE.value));
+      sb.append(buildLigne(id, DataType.RESULTAT, key, ReponseStatus.ELIGIBLE.value));
     });
     return sb.toString();
 
   }
 
-  private String transformKey(String key) {
-    return (key.contains("_")
-            && (key.substring(key.indexOf("_") + 1) == "0"))
-           ? key.substring(0, key.indexOf("_")) + "DEMANDEUR"
+  private String getKey(String key) {
+    return key.contains("_")
+           ? key.substring(key.indexOf("_") + 1)
+           : "";
+  }
+
+  private String getMembre(String key) {
+    return key.contains("_")
+           ? key.substring(0, key.indexOf("_"))
            : key;
   }
 
-  private String buildLigne(DataType type, String key, String value) {
+  private String buildLigne(String id, DataType type, String key, String value) {
     StringBuilder res = new StringBuilder();
-    return res.append(UUID.randomUUID().toString())
+
+    return res.append(id)
               .append(";")
               .append(type.value)
               .append(";")
-              .append(transformKey(key))
+              .append(getKey(key))
+              .append(";")
+              .append(getMembre(key))
               .append(";")
               .append(value)
               .append("|")
