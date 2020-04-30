@@ -31,8 +31,7 @@
             "PARTENAIRE_ENREGISTRE": "Conjoint",
             "CONCUBIN": "Concubin·e",
             "ENFANT": "Enfant { index }",
-            "DEFAULT": "Membre { index }",
-            "AUTRES": "Autres"
+            "DEFAULT": "Membre { index }"
           }
         },
         "relation": {
@@ -41,8 +40,7 @@
             "EPOUX": "Epoux·se",
             "PARTENAIRE_ENREGISTRE": "Partenaire enregistré·e",
             "CONCUBIN": "Concubin·e",
-            "ENFANT": "Enfant ",
-            "AUTRES": "Autres (NB : pas d'éligibilité pour les autres personnes)"
+            "ENFANT": "Enfant "
           }
         },
         "dateNaissance": {
@@ -51,6 +49,7 @@
         "supprimer": "Supprimer le dernier membre",
         "ajouter": "Ajouter un autre membre"
       },
+      "autresCheckbox": "Autres (NB : pas d'éligibilité pour les autres personnes)",
       "errors": {
         "uniquePrenom": "Les prénoms doivent être différents (vous pouvez ajouter une lettre ou un chiffre pour les différencier).",
         "required": "Ce champ est obligatoire",
