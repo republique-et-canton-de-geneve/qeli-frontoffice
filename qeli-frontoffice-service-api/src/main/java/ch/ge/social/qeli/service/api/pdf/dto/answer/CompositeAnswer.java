@@ -8,7 +8,7 @@ public class CompositeAnswer implements Answer {
   Map<String, Answer> answers;
 
   @Override
-  public <T> T accept(AnswerVisitorModel<T> visitor) {
+  public <T> T accept(AnswerModel<T> visitor) throws ToAnswerValueVisitor.InvalidAnswerFormat {
     return visitor.visitCompositeAnswer(this);
   }
 }

@@ -6,7 +6,7 @@ package ch.ge.social.qeli.service.stats;
  */
 public enum ReponseStatus {
   ELIGIBLE("Eligible"),
-  REFUSE("Refuse"),
+  REFUSE("Refusé"),
   DEJA_PERCUE("Déjà perçue");
 
   public final String value;

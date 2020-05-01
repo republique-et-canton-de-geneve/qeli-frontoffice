@@ -2,7 +2,6 @@ package ch.ge.social.qeli.service.api.pdf.dto.answer;
 
 import java.util.List;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class CheckboxGroupAnswer implements Answer {
@@ -10,7 +9,7 @@ public class CheckboxGroupAnswer implements Answer {
   List<QuestionOption<String>> choices;
 
   @Override
-  public <T> T accept(AnswerVisitorModel<T> visitor) {
+  public <T> T accept(AnswerModel<T> visitor) throws ToAnswerValueVisitor.InvalidAnswerFormat {
     return visitor.visitCheckboxGroupAnswer(this);
   }
 }

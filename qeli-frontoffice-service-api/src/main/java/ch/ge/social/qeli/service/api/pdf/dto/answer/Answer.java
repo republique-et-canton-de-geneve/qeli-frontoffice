@@ -21,6 +21,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 public interface Answer {
 
-  abstract <T> T accept(AnswerVisitorModel<T> visitor);
+  abstract <T> T accept(AnswerModel<T> visitor) throws ToAnswerValueVisitor.InvalidAnswerFormat;
 
 }

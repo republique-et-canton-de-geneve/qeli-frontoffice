@@ -8,7 +8,7 @@ public class StringAnswer implements Answer {
   String value;
 
   @Override
-  public <T> T accept(AnswerVisitorModel<T> visitor) {
+  public <T> T accept(AnswerModel<T> visitor) {
     return visitor.visitTextAnswer(this);
   }
 }
