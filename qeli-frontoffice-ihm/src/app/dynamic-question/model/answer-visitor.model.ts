@@ -3,6 +3,7 @@ import { DateAnswer } from '../date-question/date-question.model';
 import { NumberAnswer, OptionAnswer, StringAnswer } from './answer.model';
 import { NationaliteAnswer } from '../nationalite-question/nationalite-question.model';
 import { CompositeAnswer } from '../composite-question/composite-question.model';
+import { TauxAnswer } from '../taux-question/taux-question.model';
 
 /**
  * L'interface visiteur déclare un ensemble de méthodes de visite qui correspondent aux classes des réponses.
@@ -71,4 +72,13 @@ export interface AnswerVisitor<T> {
    * @return le résultat du traitement de la question.
    */
   visitCompositeAnswer(answer: CompositeAnswer): T;
+
+  /**
+   * Une méthode pour visiter une réponse de type: {@link TauxAnswer}.
+   *
+   * @param {TauxAnswer} answer la réponse à visiter.
+   *
+   * @return le résultat du traitement de la question.
+   */
+  visitTauxAnswer(answer: TauxAnswer): T;
 }

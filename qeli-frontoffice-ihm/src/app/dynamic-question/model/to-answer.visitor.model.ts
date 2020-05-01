@@ -9,7 +9,7 @@ import {
 } from '../nationalite-question/nationalite-question.model';
 import { NumberQuestion } from '../number-question/number-question.model';
 import { RadioQuestion } from '../radio-question/radio-question.model';
-import { TauxQuestion } from '../taux-question/taux-question.model';
+import { TauxAnswer, TauxAnswerSchema, TauxQuestion } from '../taux-question/taux-question.model';
 import { TextQuestion } from '../text-question/text-question.model';
 import { QuestionVisitorModel } from './question-visitor.model';
 import { CompositeAnswer, CompositeQuestion } from '../composite-question/composite-question.model';
@@ -70,7 +70,7 @@ export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
   }
 
   visitNumberQuestion(question: NumberQuestion): Answer {
-    return new NumberAnswer({value: this.rawAnswer as number});
+    return new NumberAnswer({value: parseFloat(this.rawAnswer)});
   }
 
   visitRadioQuestion(question: RadioQuestion): Answer {
@@ -79,7 +79,14 @@ export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
   }
 
   visitTauxQuestion(question: TauxQuestion): Answer {
-    return new NumberAnswer({value: this.rawAnswer['taux'] as number});
+    console.log(this.rawAnswer['value']);
+    const toto = new TauxAnswer({
+      value: parseInt(this.rawAnswer['value']),
+      other: this.rawAnswer['other'] as boolean
+    });
+
+    console.log(toto.value);
+    return toto;
   }
 
   visitTextQuestion(question: TextQuestion): Answer {
@@ -132,7 +139,7 @@ export class FromSchemaToAnswerVisitor implements QuestionVisitorModel<Answer> {
   }
 
   visitTauxQuestion(question: TauxQuestion): Answer {
-    return new NumberAnswer(this.schemaAnswer as SimpleAnswerSchema<number>);
+    return new TauxAnswer(this.schemaAnswer as TauxAnswerSchema);
   }
 
   visitTextQuestion(question: TextQuestion): Answer {

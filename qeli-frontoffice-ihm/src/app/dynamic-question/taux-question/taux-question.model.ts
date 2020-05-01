@@ -1,12 +1,32 @@
 import { QuestionVisitorModel } from '../model/question-visitor.model';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Question, QuestionSchema } from '../model/question.model';
-import { NumberAnswer } from '../model/answer.model';
+import { Answer } from '../model/answer.model';
+import { AnswerVisitor } from '../model/answer-visitor.model';
 
 export const TAUX_CONTROL_TYPE = 'taux';
 
-// TODO NumberAnswer n'est pas suffisant ici à cause de la coche: 'other'
-export class TauxQuestion extends Question<NumberAnswer> {
+export interface TauxAnswerSchema {
+  value: number;
+  other?: boolean;
+}
+
+export class TauxAnswer extends Answer {
+  value: number;
+  other: boolean;
+
+  constructor(options: TauxAnswerSchema) {
+    super();
+    this.value = options.value;
+    this.other = !!options.other;
+  }
+
+  accept<E>(visitor: AnswerVisitor<E>): E {
+    return visitor.visitTauxAnswer(this);
+  }
+}
+
+export class TauxQuestion extends Question<TauxAnswer> {
   controlType = TAUX_CONTROL_TYPE;
 
   constructor(options: QuestionSchema) {
@@ -16,7 +36,7 @@ export class TauxQuestion extends Question<NumberAnswer> {
   protected requiredValidator(): ValidatorFn {
     return (control: AbstractControl) => {
       if (control && control.value) {
-        return control.value['taux'] === null || control.value['taux'] === undefined ? {'required': true} : null;
+        return control.value['value'] === null || control.value['value'] === undefined ? {'required': true} : null;
       }
 
       return null;
@@ -27,14 +47,14 @@ export class TauxQuestion extends Question<NumberAnswer> {
     return visitor.visitTauxQuestion(this);
   }
 
-  toFormControl(defaultValue: NumberAnswer): AbstractControl {
+  toFormControl(defaultValue: TauxAnswer): AbstractControl {
     let group: any = {};
 
-    group['taux'] = new FormControl(
+    group['value'] = new FormControl(
       defaultValue ? defaultValue.value : null,
       [Validators.max(100), Validators.min(0), Validators.pattern(/-?\d+(,\d+)?/)]
     );
-    group['other'] = new FormControl(defaultValue ? defaultValue['other'] : false);
+    group['other'] = new FormControl(defaultValue ? defaultValue.other : false);
 
     return new FormGroup(group, this.validators);
   }
