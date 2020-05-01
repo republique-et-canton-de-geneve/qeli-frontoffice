@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader, QuestionUtils } from '../question-loader';
+import { QuestionLoader} from '../question-loader';
 import {
   CheckboxGroup, CheckboxGroupAnswer, CheckboxGroupQuestion
 } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
@@ -9,6 +9,7 @@ import { FormData, QuestionOption } from '../../../dynamic-question/model/questi
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Demandeur } from '../../configuration/demandeur.model';
+import { QuestionUtils } from '../qeli-questions.utils';
 
 @Injectable({
   providedIn: 'root'

@@ -12,13 +12,13 @@
                formControlName="other"
                [attr.data-matomo-name]="question.dataCyIdentifier"
                (change)="onOtherChanged()">
-        {{ 'question.' + question.key + '.defaultOptions' | translate }}
+        {{ 'common.taux.selectboxOption' | translate }}
       </label>
     </div>
 
     <div class="tab"
          [hidden]="isOtherSelected">
-      <select formControlName="taux"
+      <select formControlName="value"
               [attr.disabled]="isOtherSelected ? 'disabled' : null"
               [attr.aria-invalid]="!isValid"
               [attr.aria-required]="question.required"
@@ -39,7 +39,7 @@
                formControlName="other"
                [attr.data-matomo-name]="question.dataCyIdentifier"
                (change)="onOtherChanged()">
-        {{ 'question.' + question.key + '.other' | translate }}
+        {{ 'common.taux.textboxOption' | translate }}
       </label>
     </div>
 
@@ -50,7 +50,7 @@
              [attr.aria-invalid]="!isValid"
              [attr.aria-required]="question.required"
              [focusOnInit]="!disableFocusOnInit"
-             formControlName="taux"
+             formControlName="value"
              type="number"
              (keypress)="isNumber($event)"
              min="0"

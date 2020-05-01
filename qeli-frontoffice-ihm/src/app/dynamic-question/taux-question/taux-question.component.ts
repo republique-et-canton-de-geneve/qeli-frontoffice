@@ -29,7 +29,8 @@ export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
   }
 
   onOtherChanged() {
-    this.formGroup.controls['taux'].setValue(null);
+    this.formGroup.controls['value'].setValue(null);
+    this.formGroup.markAsPristine();
   }
 
   get isOtherSelected() {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader, QuestionUtils } from '../question-loader';
+import { QuestionLoader} from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
@@ -13,6 +13,7 @@ import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-questio
 import * as moment from 'moment';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
+import { QuestionUtils } from '../qeli-questions.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -57,24 +58,11 @@ export class DomicileQuestionService implements QuestionLoader {
           },
           maxDate: new Date(),
           minDate: moment().subtract(configuration.minYearsFromNow, 'year').toDate(),
-          errorLabels: {
-            required: {
-              key: 'question.dateArriveeGeneve.error.required',
-              parameters: translateParams
-            },
-            maxDate: {
-              key: 'question.dateArriveeGeneve.error.maxDate',
-              parameters: translateParams
-            },
-            minDate: {
-              key: 'question.dateArriveeGeneve.error.minDate',
-              parameters: translateParams
-            },
-            invalidDate: {
-              key: 'question.dateArriveeGeneve.error.invalidDate',
-              parameters: translateParams
-            }
-          },
+          errorLabels: QuestionUtils.toErrorLabels(
+            'dateArriveeGeneve',
+            ['required', 'maxDate', 'minDate', 'invalidDate'],
+            translateParams
+          ),
           shortcuts: ['NO_SHORTCUT', 'DEPUIS_NAISSANCE', 'INCONNU'].map(shortcut => ({
             value: shortcut,
             label: {
