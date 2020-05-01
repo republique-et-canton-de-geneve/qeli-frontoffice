@@ -10,7 +10,7 @@ public class NationaliteAnswer implements Answer {
 
 
   @Override
-  public <T> T accept(AnswerVisitorModel<T> visitor) {
+  public <T> T accept(AnswerModel<T> visitor) {
     return visitor.visitNationaliteAnswer(this);
   }
 }

@@ -9,7 +9,7 @@ public class DateAnswer implements Answer {
   LocalDate              value;
 
   @Override
-  public <T> T accept(AnswerVisitorModel<T> visitor) {
+  public <T> T accept(AnswerModel<T> visitor) {
     return  visitor.visitDateAnser(this);
   }
 }

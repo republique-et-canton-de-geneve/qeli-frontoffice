@@ -3,9 +3,9 @@ package ch.ge.social.qeli.service.api.pdf.dto.answer;
 /**
  * Interface Visitor Model
  */
-public interface AnswerVisitorModel<T> {
+public interface AnswerModel<T> {
 
-  T visitCheckboxGroupAnswer(CheckboxGroupAnswer answer);
+  T visitCheckboxGroupAnswer(CheckboxGroupAnswer answer) throws ToAnswerValueVisitor.InvalidAnswerFormat;
 
   T visitDateAnser(DateAnswer answer);
 
@@ -17,6 +17,6 @@ public interface AnswerVisitorModel<T> {
 
   T visitTextAnswer(StringAnswer answer);
 
-  T visitCompositeAnswer(CompositeAnswer answer);
+  T visitCompositeAnswer(CompositeAnswer answer) throws ToAnswerValueVisitor.InvalidAnswerFormat;
 
 }
