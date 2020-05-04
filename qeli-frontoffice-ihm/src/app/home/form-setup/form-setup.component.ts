@@ -33,6 +33,7 @@ export class FormSetupComponent {
       prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
       etatCivil: new FormControl(null, Validators.required),
       dateNaissance: new FormControl(null, this.dateNaissanceValidators),
+      autres: new FormControl(null, null),
       membresFamille: this.fb.array([])
     });
 
