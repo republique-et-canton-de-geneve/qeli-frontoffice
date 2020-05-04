@@ -139,7 +139,13 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
             }))
           }),
           skip: (formData) => {
-            let taux = this.sumTauxActiviteByKeys(formData, [`tauxActivite_${membre.id}`]);
+            let taux = this.sumTauxActiviteByKeys(
+              formData, [
+                `tauxActivite_${membre.id}`,
+                `tauxActiviteDernierEmploi_${membre.id}`
+              ]
+            );
+
             if (membre.id !== 0) {
               taux += this.sumTauxActiviteByMembre(formData, demandeur);
             }
