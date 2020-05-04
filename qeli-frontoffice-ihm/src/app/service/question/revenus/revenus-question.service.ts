@@ -84,6 +84,7 @@ export class RevenusQuestionService implements QuestionLoader {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const refus: EligibiliteRefusee[] = [];
       const revenusAnswer = formData[`revenus_${membre.id}`] as CheckboxGroupAnswer;
+      const isInconnu = revenusAnswer.none.value === 'INCONNU';
       const choices = revenusAnswer.choices;
       const eligibiliteToMotifRefus = eligibilite => ({
         key: `question.revenus.motifRefus.${eligibilite.prestation}`,
@@ -105,9 +106,9 @@ export class RevenusQuestionService implements QuestionLoader {
         QuestionUtils.createRefusByPrestationAndMembre(
           eligibilites, [Prestation.PC_FAM, Prestation.AIDE_SOCIALE], membre, eligibiliteToMotifRefus
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
-      } else if (!choices.some(choice => choice.value === TypeRevenus.EMPLOI ||
-                                         choice.value === TypeRevenus.CHOMAGE ||
-                                         choice.value === TypeRevenus.APG)) {
+      } else if (!isInconnu && !choices.some(choice => choice.value === TypeRevenus.EMPLOI ||
+                                                       choice.value === TypeRevenus.CHOMAGE ||
+                                                       choice.value === TypeRevenus.APG)) {
         // Refus PC FAM si la personne n'est ni employée, ni au chômage ni reçoit des indemnités journalières / perte
         // de gain.
         QuestionUtils.createRefusByPrestationAndMembre(
