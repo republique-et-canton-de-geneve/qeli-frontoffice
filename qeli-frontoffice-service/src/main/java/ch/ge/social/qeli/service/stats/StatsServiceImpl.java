@@ -6,7 +6,7 @@ import ch.ge.social.qeli.service.api.pdf.dto.QeliResult;
 import ch.ge.social.qeli.service.api.pdf.dto.answer.Answer;
 import ch.ge.social.qeli.service.api.pdf.dto.answer.ToAnswerValueVisitor;
 import ch.ge.social.qeli.service.api.stats.StatsService;
-import java.io.FileWriter;
+import com.opencsv.CSVWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import com.opencsv.CSVWriter;
 
 /**
  * Une implementation du service de stats, les données provenant du formulaire sont ajoutées à un log journal au format
@@ -34,31 +33,21 @@ public class StatsServiceImpl implements StatsService {
     StringBuilder builder = new StringBuilder();
     String uuid = UUID.randomUUID().toString();
 
-    try {
       builder.append(prepareAnswers(uuid, result.getAnswers()))
              .append(prepareRefus(uuid, result.getEligibiliteRefusees()))
              .append(prepareEligibilite(uuid, result.getEligibilites()));
-    } catch (ToAnswerValueVisitor.InvalidAnswerFormat invalidAnswerFormat) {
-      invalidAnswerFormat.printStackTrace();
-    }
 
     logger.trace(builder.toString());
   }
 
-  private String prepareAnswers(String id, Map<String, Answer> answers)
-    throws ToAnswerValueVisitor.InvalidAnswerFormat {
+  private String prepareAnswers(String id, Map<String, Answer> answers) {
     StringBuilder sb = new StringBuilder();
     answers.entrySet().stream()
-         .map(answer -> {
-           try {
-             return answer.getValue().accept(new ToAnswerValueVisitor(answer.getKey()));
-           } catch (ToAnswerValueVisitor.InvalidAnswerFormat invalidAnswerFormat) {
-             invalidAnswerFormat.printStackTrace();
-           }
-           return null;
-         })
-         .flatMap(List::stream) // Décompose les listes : Stream<List<AnswerValue>> devient Stream<AnswerVAlue>
-         .forEach(answerValue ->  sb.append(buildLigne(id, DataType.REPONSE, answerValue.getKey(), answerValue.getValue())));
+         .map(answer ->
+              answer.getValue().accept(new ToAnswerValueVisitor(answer.getKey()))
+         )
+         .flatMap(List::stream)
+         .forEach(answerValue ->  sb.append(buildLigne(id, DataType.REPONSE, getKey(answerValue.getKey()), getMembre(answerValue.getKey()),answerValue.getValue())));
 
     return sb.toString();
   }
@@ -68,8 +57,7 @@ public class StatsServiceImpl implements StatsService {
     StringBuilder sb = new StringBuilder();
     eligibiliteRefusees.forEach(refus -> {
       ReponseStatus status = refus.isDejaPercue() ? ReponseStatus.DEJA_PERCUE : ReponseStatus.REFUSE;
-      String key = refus.getEligibilite().getPrestation().name() + "_" + refus.getEligibilite().getMembre().getId();
-      sb.append(buildLigne(id, DataType.RESULTAT, key, status.value));
+      sb.append(buildLigne(id, DataType.RESULTAT, refus.getEligibilite().getPrestation().name(), refus.getEligibilite().getMembre().getId().toString(), status.value));
     });
     return sb.toString();
   }
@@ -77,39 +65,37 @@ public class StatsServiceImpl implements StatsService {
   private String prepareEligibilite(String id, List<Eligibilite> eligibilites) {
     StringBuilder sb = new StringBuilder();
     eligibilites.forEach(eligible -> {
-      String key = eligible.getPrestation().name() + "_" + eligible.getMembre().getId();
-      sb.append(buildLigne(id, DataType.RESULTAT, key, ReponseStatus.ELIGIBLE.value));
+      sb.append(buildLigne(id, DataType.RESULTAT, eligible.getPrestation().name(), eligible.getMembre().getId().toString(), ReponseStatus.ELIGIBLE.value));
     });
     return sb.toString();
 
   }
 
-  private String getKey(String key) {
+  private String getMembre(String key) {
     return key.contains("_")
-           ? key.substring(key.indexOf("_") + 1)
+           ? key.substring(key.lastIndexOf("_") + 1)
            : "";
   }
 
-  private String getMembre(String key) {
+  private String getKey(String key) {
     return key.contains("_")
-           ? key.substring(0, key.indexOf("_"))
+           ? key.substring(0, key.lastIndexOf("_"))
            : key;
   }
 
-  private String buildLigne(String id, DataType type, String key, String value) {
+  private String buildLigne(String id, DataType type, String key, String membre, String value) {
     StringWriter sw = new StringWriter();
     try {
-      CSVWriter writer = null;
-      writer = new CSVWriter(sw, ';', '"', ';', "|");
+      CSVWriter writer = new CSVWriter(sw, ';', '"', ';', "|");
       // feed in your array (or convert your data to an array)
       StringBuilder sb = new StringBuilder();
       String[] entries = sb.append(id)
                            .append(";")
                            .append(escapeSeparator(type.value))
                            .append(";")
-                           .append(escapeSeparator(getKey(key)))
+                           .append(key)
                            .append(";")
-                           .append(escapeSeparator(getMembre(key)))
+                           .append(membre)
                            .append(";")
                            .append(escapeSeparator(value))
                            .toString()

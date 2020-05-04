@@ -1,14 +1,18 @@
 package ch.ge.social.qeli.service.api.pdf.dto.answer;
 
+import ch.ge.social.qeli.service.api.exception.InvalidAnswerFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ToAnswerValueVisitor implements AnswerModel<List<AnswerValue>> {
+public class ToAnswerValueVisitor implements AnswerVisitor<List<AnswerValue>> {
 
   String key;
+
+  public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-YYYY");
 
   public ToAnswerValueVisitor(String key) {
     this.key = key;
@@ -17,7 +21,9 @@ public class ToAnswerValueVisitor implements AnswerModel<List<AnswerValue>> {
   @Override
   public List<AnswerValue> visitCheckboxGroupAnswer(CheckboxGroupAnswer answers) throws InvalidAnswerFormat {
     List<AnswerValue> res = new ArrayList<>();
-    if (answers.none != null && "NON".equals(answers.none.value)) {
+    if (answers.none != null &&
+        ("NON".equals(answers.none.value)
+         || "INCONNU".equals(answers.none.value))) {
       res.add(new AnswerValue(key, answers.none.value));
     } else if (answers.choices != null && answers.choices.size() > 0) {
       for (QuestionOption<String> answer : answers.choices) {
@@ -32,8 +38,7 @@ public class ToAnswerValueVisitor implements AnswerModel<List<AnswerValue>> {
   @Override
   public List<AnswerValue> visitDateAnser(DateAnswer answer) {
     List<AnswerValue> res = new ArrayList<>();
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-YYYY");
-    String date = answer.value.format(format);
+    String date = answer.value.format(FORMATTER);
     res.add(new AnswerValue(key, date));
     return res;
   }
@@ -47,13 +52,14 @@ public class ToAnswerValueVisitor implements AnswerModel<List<AnswerValue>> {
 
   @Override
   public List<AnswerValue> visitNationaliteAnswer(NationaliteAnswer answer) {
-    List<AnswerValue> res = new ArrayList<>();
-    answer.pays.forEach(
-      pays -> {
-        String nationalite = answer.apatride ? "apatride" : pays.value;
-        res.add(new AnswerValue(key, nationalite));
-      });
-    return res;
+    if (answer.apatride) {
+      return Arrays.asList(new AnswerValue(key, "apatride"));
+    }
+
+    return answer.pays.stream().map(pays -> {
+      return new AnswerValue(key, pays.value);
+    }).collect(Collectors.toList());
+
   }
 
   @Override
@@ -83,9 +89,4 @@ public class ToAnswerValueVisitor implements AnswerModel<List<AnswerValue>> {
     return res;
   }
 
-  public static class InvalidAnswerFormat extends Exception {
-    public InvalidAnswerFormat(String errorMessage) {
-      super(errorMessage);
-    }
-  }
 }

@@ -1,5 +1,6 @@
 package ch.ge.social.qeli.service.api.pdf.dto.answer;
 
+import ch.ge.social.qeli.service.api.exception.InvalidAnswerFormat;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -21,6 +22,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 public interface Answer {
 
-  abstract <T> T accept(AnswerModel<T> visitor) throws ToAnswerValueVisitor.InvalidAnswerFormat;
+  abstract <T> T accept(AnswerVisitor<T> visitor) throws InvalidAnswerFormat;
 
 }
