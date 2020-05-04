@@ -7,6 +7,8 @@ import { NationaliteAnswer } from '../../dynamic-question/nationalite-question/n
 import { RequerantRefugie } from './nationalite/requerant-refugie.model';
 import { ReponseBinaire, ReponseProgressive } from './reponse-binaire.model';
 import { TypeEnfant } from './enfants/type-enfant.model';
+import { TypeRevenus } from './revenus/revenus.model';
+import { CheckboxGroupAnswer } from '../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 
 export class AnswerUtils {
 
@@ -92,5 +94,27 @@ export class AnswerUtils {
       return demandeur.enfants.some(enfant => this.isEnfantACharge(formData, enfant, demandeur));
     }
     return false;
+  }
+
+  static isRevenuInconnu(formData: FormData, personne: Personne) {
+    const answer = (formData[`revenus_${personne.id}`] as CheckboxGroupAnswer);
+    return answer && answer.none && answer.none.value === 'INCONNU';
+  }
+
+  static hasAnyRevenus(formData: FormData, personne: Personne, revenus: TypeRevenus[]) {
+    const answer = (formData[`revenus_${personne.id}`] as CheckboxGroupAnswer);
+    if (answer.none.value !== 'NON') {
+      return false;
+    }
+
+    return (answer.choices.some(choice => revenus.includes(TypeRevenus[choice.value])));
+  }
+
+  static hasEnfantEnCommun(formData: FormData) {
+    const answers = (formData['parentsEnfants'] as CompositeAnswer).answers;
+    return Object.values(answers).some(answer => {
+      const option = (answer as OptionAnswer<string>).value;
+      return option.value === TypeEnfant.LES_DEUX;
+    });
   }
 }

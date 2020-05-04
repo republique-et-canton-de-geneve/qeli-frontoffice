@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader, QuestionUtils } from '../question-loader';
+import { QuestionLoader} from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
@@ -10,6 +10,7 @@ import { NumberAnswer } from '../../../dynamic-question/model/answer.model';
 import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
 import { NumberQuestion } from '../../../dynamic-question/number-question/number-question.model';
 import { Loyer } from './loyer.model';
+import { QuestionUtils } from '../qeli-questions.utils';
 
 @Injectable({
   providedIn: 'root'
