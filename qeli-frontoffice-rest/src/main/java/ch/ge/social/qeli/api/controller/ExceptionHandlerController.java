@@ -1,5 +1,6 @@
 package ch.ge.social.qeli.api.controller;
 
+import ch.ge.social.qeli.service.api.exception.InvalidAnswerFormat;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
 import java.util.UUID;
 import javax.validation.ConstraintViolationException;
@@ -70,7 +71,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     {
       ConstraintViolationException.class,
       MethodArgumentTypeMismatchException.class,
-      UnsatisfiedServletRequestParameterException.class
+      UnsatisfiedServletRequestParameterException.class,
+      InvalidAnswerFormat.class
     }
   )
   public ResponseEntity<ApiErrorDto> badRequest(RuntimeException ex) {

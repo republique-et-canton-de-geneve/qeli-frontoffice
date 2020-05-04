@@ -8,7 +8,7 @@ public class OptionAnswer<T> implements Answer {
   QuestionOption<T> value;
 
   @Override
-  public <T> T accept(AnswerModel<T> visitor) {
+  public <T> T accept(AnswerVisitor<T> visitor) {
     return visitor.visitOptionAnswer(this);
   }
 }

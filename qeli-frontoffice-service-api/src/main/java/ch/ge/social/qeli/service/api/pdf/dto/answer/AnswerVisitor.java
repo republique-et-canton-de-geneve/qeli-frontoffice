@@ -1,11 +1,13 @@
 package ch.ge.social.qeli.service.api.pdf.dto.answer;
 
+import ch.ge.social.qeli.service.api.exception.InvalidAnswerFormat;
+
 /**
  * Interface Visitor Model
  */
-public interface AnswerModel<T> {
+public interface AnswerVisitor<T> {
 
-  T visitCheckboxGroupAnswer(CheckboxGroupAnswer answer) throws ToAnswerValueVisitor.InvalidAnswerFormat;
+  T visitCheckboxGroupAnswer(CheckboxGroupAnswer answer) throws InvalidAnswerFormat;
 
   T visitDateAnser(DateAnswer answer);
 
@@ -17,6 +19,6 @@ public interface AnswerModel<T> {
 
   T visitTextAnswer(StringAnswer answer);
 
-  T visitCompositeAnswer(CompositeAnswer answer) throws ToAnswerValueVisitor.InvalidAnswerFormat;
+  T visitCompositeAnswer(CompositeAnswer answer) throws InvalidAnswerFormat;
 
 }

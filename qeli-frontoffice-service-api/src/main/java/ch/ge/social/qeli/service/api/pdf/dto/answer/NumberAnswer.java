@@ -7,7 +7,7 @@ public class NumberAnswer implements Answer {
   Double value;
 
   @Override
-  public <T> T accept(AnswerModel<T> visitor) {
+  public <T> T accept(AnswerVisitor<T> visitor) {
     return visitor.visitNumberAnswer(this);
   }
 }
