@@ -23,6 +23,15 @@
     </div>
   </div>
   <div class="panel-body" *ngIf=" !isPrestationDejaPercue">
+    <ul *ngIf="isPrestationRefusee">
+      <li *ngFor="let result of resultsByPrestation.results">
+        <div *ngIf="!isPrestationIndividuel">
+          <span *ngIf="result.motifRefus" class="text-danger">
+            {{ result.motifRefus.key | translate:result.motifRefus.parameters }}
+          </span>
+        </div>
+      </li>
+    </ul>
     <ul *ngIf="isPrestationRefusee || (isPrestationEligible && isPrestationIndividuel)">
       <li *ngFor="let result of resultsByPrestation.results">
 

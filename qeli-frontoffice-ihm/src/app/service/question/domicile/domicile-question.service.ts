@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader} from '../question-loader';
+import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { QuestionUtils } from '../qeli-questions.utils';
+import { AnswerUtils } from '../answer-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class DomicileQuestionService implements QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const demandeur = eligibiliteGroup.demandeur;
     const membres: Personne[] = [
       eligibiliteGroup.demandeur,
       eligibiliteGroup.demandeur.partenaire
@@ -41,6 +43,9 @@ export class DomicileQuestionService implements QuestionLoader {
           inline: true,
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
+        skip: formData => membre.id !== demandeur.id &&
+                          demandeur.hasConcubin &&
+                          !AnswerUtils.hasEnfantEnCommun(formData),
         calculateRefus: this.calculateDomicileCantonGERefusFn(membre),
         eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.PC_FAM,
                                                                  Prestation.AVANCES,
@@ -71,6 +76,9 @@ export class DomicileQuestionService implements QuestionLoader {
             }
           }))
         }),
+        skip: formData => membre.id !== demandeur.id &&
+                          demandeur.hasConcubin &&
+                          !AnswerUtils.hasEnfantEnCommun(formData),
         calculateRefus: this.calculatesDateArriveeGeneveRefusFn(membre),
         eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_FAM, membre),
         categorie: Categorie.SITUATION_PERSONELLE,

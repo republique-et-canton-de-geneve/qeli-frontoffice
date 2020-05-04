@@ -158,10 +158,6 @@
       "membre": "{membre} est :",
       "error": {
         "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "PC_AVS_AI": "Vous avez indiqué que {enfant} n'est pas un enfant à votre charge.",
-        "PC_FAM": "Vous avez indiqué ne pas avoir des enfants en commun avec {prenomAutreParent}"
       }
     },
     "prestations": {
@@ -191,12 +187,36 @@
         "PC_AVS_AI": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_FAM": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_FAM_SANS_ENFANTS": "Vous n'avez aucun enfant à charge",
+        "PC_FAM_SANS_ENFANTS_COMMUN": "Vous avez indiqué ne pas avoir des enfants en commun avec {prenomAutreParent}",
         "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "AIDE_SOCIALE_MINEUR": "Vous êtes mineur au moment de la demande"
       },
       "error": {
         "required": "Vos prestations doivent être fournie",
         "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
+      }
+    },
+    "formation": {
+      "label": "Qui est en formation ou va commencer bientôt une formation ?",
+      "membre": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} en formation / {who, select, me{allez-vous} other{va-t-il·elle}} bientôt commencer une formation ?",
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation",
+        "PC_FAM": "Vous n'avez plus d'enfants à charge",
+        "PC_AVS_AI": "{membre} n'est plus un enfant à votre charge"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
+      }
+    },
+    "scolarite": {
+      "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre}}} ?",
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} suit}} une formation qui ne peut pas faire objet d'une bourse",
+        "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
+        "PC_FAM": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation"
+      },
+      "error": {
+        "required": "Ce champ est obligatoire"
       }
     },
     "situationMembre": {
@@ -312,29 +332,6 @@
       "error": {
         "required": "{who, select, me{Votre situation} other{La situation de {membre}}} doit être fournie",
         "atLeastOneSelected": "Au moins une option doit être sélectionnée"
-      }
-    },
-    "formation": {
-      "label": "Qui est en formation ou va commencer bientôt une formation ?",
-      "membre": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} en formation / {who, select, me{allez-vous} other{va-t-il·elle}} bientôt commencer une formation ?",
-      "motifRefus": {
-        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation",
-        "PC_FAM": "Vous n'avez plus d'enfants à charge",
-        "PC_AVS_AI": "{membre} n'est plus à votre charge"
-      },
-      "error": {
-        "required": "Ce champ est obligatoire"
-      }
-    },
-    "scolarite": {
-      "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre}}} ?",
-      "motifRefus": {
-        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} suit}} une formation qui ne peut pas faire objet d'une bourse",
-        "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
-        "PC_FAM": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation"
-      },
-      "error": {
-        "required": "Ce champ est obligatoire"
       }
     },
     "taxationOffice": {
