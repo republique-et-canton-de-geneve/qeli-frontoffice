@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
   @ViewChild('qeliSetupForm', {static: false}) qeliSetupForm: FormSetupComponent;
   @ViewChild('qeliForm', {static: false}) qeliForm: QeliFormComponent;
 
+  @ViewChild('myModal', {static: false}) myModal;
+
   qeliConfiguration: QeliConfiguration;
   qeliStateMachine: QeliStateMachine;
   firstLoad = true;
@@ -144,26 +146,11 @@ export class HomeComponent implements OnInit {
     ).subscribe();
   }
 
-  closeResult: string;
-
-  private openModal(content) {
-    console.log('openModal');
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      console.log('inside');
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      console.log('inside 2');
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  openModel() {
+    this.myModal.nativeElement.className = 'modal fade show';
+  }
+  closeModel() {
+    this.myModal.nativeElement.className = 'modal hide';
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
 }

@@ -20,22 +20,23 @@
       #qeliForm>
     </app-qeli-form>
 
-    <button class="btn btn-lg btn-outline-primary" (click)="openModal(mymodal)">Open My Modal</button>
+    <button type="button" (click)="openModel()">Open Modal</button>
 
-    <ng-template #mymodal let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Bootstrap Modal</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">×</span>
-        </button>
+    <div #myModal class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title ">Title</h5>
+            <button type="button" class="close" (click)="closeModel()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        This is example from ItSolutionStuff.com
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
-      </div>
-    </ng-template>
+    </div>
 
     <app-navigation-controls
       *ngIf="!qeliStateMachine || (qeliStateMachine && !qeliStateMachine.state.done)"
