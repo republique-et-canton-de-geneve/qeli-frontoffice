@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DeepLinkService } from '../deep-link/deep-link.service';
 import { TrackingService } from '../service/tracking/tracking.service';
@@ -11,6 +11,7 @@ import { QeliConfiguration } from '../service/configuration/qeli-configuration.m
 import { Demandeur } from '../service/configuration/demandeur.model';
 import { FromSchemaToAnswerVisitor } from '../dynamic-question/model/to-answer.visitor.model';
 import { StatsService } from '../service/stats.service';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +34,8 @@ export class HomeComponent implements OnInit {
               private qeliConfigurationService: QeliConfigurationService,
               private questionService: QuestionService,
               private ref: ChangeDetectorRef,
-              private statsService: StatsService) {
+              private statsService: StatsService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -72,9 +74,13 @@ export class HomeComponent implements OnInit {
   }
 
   onPreviousquestion() {
-    this.qeliStateMachine.previousQuestion();
-    this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
-    this.updateDeepLink();
+    if(this.qeliStateMachine.state.currentQuestionIndex === 0) {
+      console.log('open Modal');
+    } else {
+      this.qeliStateMachine.previousQuestion();
+      this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
+      this.updateDeepLink();
+    }
   }
 
   onNextClicked() {
@@ -124,7 +130,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
   private updateDeepLink() {
     this.deepLinkService.updateUrl(this.qeliStateMachine.state, this.route);
   }
@@ -137,5 +142,28 @@ export class HomeComponent implements OnInit {
       state.eligibilitesRefusees,
       state.demandeur
     ).subscribe();
+  }
+
+  closeResult: string;
+
+  private openModal(content) {
+    console.log('openModal');
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      console.log('inside');
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      console.log('inside 2');
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 }
