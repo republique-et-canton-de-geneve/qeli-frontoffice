@@ -42,8 +42,7 @@ export class FormSetupComponent {
       required: {key: 'home.setup.errors.required'},
       maxDate: {key: 'home.setup.errors.maxDate'},
       minDate: {key: 'home.setup.errors.minDate'},
-      invalidDate: {key: 'home.setup.errors.invalidDate'},
-      marieOuPartenaireSansConjoint: {key: 'home.setup.errors.marieOuPartenaireSansConjoint'}
+      invalidDate: {key: 'home.setup.errors.invalidDate'}
     };
   }
 
@@ -62,18 +61,6 @@ export class FormSetupComponent {
     return null;
   }
 
-  private marieOuPartenaireSansConjoint(control: AbstractControl) {
-    let invalid = false;
-
-    if (this.isEtatCivil(EtatCivil.MARIE) && !this.hasMembreFamilleWithRelation(Relation.EPOUX)) {
-      invalid = control.value !== Relation.EPOUX;
-    } else if (this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE) &&
-               !this.hasMembreFamilleWithRelation(Relation.PARTENAIRE_ENREGISTRE)) {
-      invalid = control.value !== Relation.PARTENAIRE_ENREGISTRE;
-    }
-
-    return invalid ? {'marieOuPartenaireSansConjoint': true} : null;
-  }
 
   private get dateNaissanceValidators() {
     return [
@@ -97,7 +84,7 @@ export class FormSetupComponent {
       this.membresFamille.push(this.fb.group({
         id: new FormControl(this.numberOfMembres + 1),
         prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
-        relation: new FormControl(null, [Validators.required, this.marieOuPartenaireSansConjoint.bind(this)]),
+        relation: new FormControl(null, [Validators.required]),
         dateNaissance: new FormControl(null, this.dateNaissanceValidators)
       }));
 
@@ -170,7 +157,7 @@ export class FormSetupComponent {
   }
 
   get isValid() {
-    return this.setupForm.valid;
+    return this.setupForm.valid && !this.marieOuPartenaireSansConjoint;
   }
 
   get maxDateNaissance() {
@@ -181,6 +168,16 @@ export class FormSetupComponent {
     return moment().subtract(130, 'year').toDate();
   }
 
+  get marieOuPartenaireSansConjoint() {
+    return (
+             this.isEtatCivil(EtatCivil.MARIE) &&
+             !this.hasMembreFamilleWithRelation(Relation.EPOUX)
+           ) || (
+             this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE) &&
+             !this.hasMembreFamilleWithRelation(Relation.PARTENAIRE_ENREGISTRE)
+           );
+  }
+
   isInvalid(control: AbstractControl) {
     return !control.pristine && !control.valid;
   }
@@ -189,9 +186,15 @@ export class FormSetupComponent {
     FormUtils.markAllAsDirty(this.setupForm);
     setTimeout(() => {
       const formGroupInvalid = this.formElement.nativeElement.querySelectorAll(
-        '*[aria-invalid]:not([aria-invalid="false"])'
+        'input[aria-invalid]:not([aria-invalid="false"]),' +
+        'select[aria-invalid]:not([aria-invalid="false"]),' +
+        '*[aria-invalid]:not([aria-invalid="false"]) input,' +
+        '*[aria-invalid]:not([aria-invalid="false"]) select'
       );
-      (<HTMLInputElement>formGroupInvalid[0]).focus();
+
+      if (formGroupInvalid.length > 0) {
+        (<HTMLInputElement>formGroupInvalid[0]).focus();
+      }
     });
   }
 }

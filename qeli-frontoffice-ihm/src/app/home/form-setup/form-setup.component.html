@@ -2,6 +2,14 @@
   <h2>{{ 'home.setup.title' | translate }}</h2>
   <p class="help-block" [innerHtml]="'home.setup.subtitle' | translate"></p>
 
+  <div *ngIf="marieOuPartenaireSansConjoint"
+       class="error-block text-danger"
+       role="alert">
+    <p>
+      {{ 'home.setup.errors.marieOuPartenaireSansConjoint' | translate }}
+    </p>
+  </div>
+
   <form [formGroup]="setupForm" #formElement>
     <div class="row form-group">
 
@@ -129,7 +137,7 @@
     <div class="row">
       <div class="col-xs-12 text-right">
         <button class="btn btn-info"
-                [attr.disabled]="!isValid ? 'disabled' : null"
+                [attr.disabled]="!setupForm.valid ? 'disabled' : null"
                 [attr.aria-label]="'home.setup.membre.ajouter' | translate"
                 (click)="onAddMembre()"
                 type="button">
