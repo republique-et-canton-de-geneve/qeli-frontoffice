@@ -2,9 +2,9 @@ package ch.ge.social.qeli.service.pdf;
 
 import ch.ge.social.qeli.service.api.pdf.PDFCreationService;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
-import ch.ge.social.qeli.service.api.pdf.dto.Eligibilite;
-import ch.ge.social.qeli.service.api.pdf.dto.EligibiliteRefusee;
-import ch.ge.social.qeli.service.api.pdf.dto.QeliResult;
+import ch.ge.social.qeli.service.api.result.dto.Eligibilite;
+import ch.ge.social.qeli.service.api.result.dto.EligibiliteRefusee;
+import ch.ge.social.qeli.service.api.result.dto.QeliResult;
 import ch.ge.social.qeli.service.common.MustacheTemplateLoader;
 import ch.ge.social.qeli.service.editique.EditiqueClient;
 import ch.ge.social.qeli.service.editique.EditiqueClientException;

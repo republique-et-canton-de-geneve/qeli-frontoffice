@@ -12,6 +12,7 @@ export interface TauxAnswerSchema {
 }
 
 export class TauxAnswer extends Answer {
+  type = TAUX_CONTROL_TYPE;
   value: number;
   other: boolean;
 

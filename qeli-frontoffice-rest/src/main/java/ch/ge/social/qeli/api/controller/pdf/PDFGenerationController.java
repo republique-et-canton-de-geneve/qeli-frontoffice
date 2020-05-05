@@ -2,7 +2,7 @@ package ch.ge.social.qeli.api.controller.pdf;
 
 import ch.ge.social.qeli.service.api.pdf.PDFCreationService;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
-import ch.ge.social.qeli.service.api.pdf.dto.QeliResult;
+import ch.ge.social.qeli.service.api.result.dto.QeliResult;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
