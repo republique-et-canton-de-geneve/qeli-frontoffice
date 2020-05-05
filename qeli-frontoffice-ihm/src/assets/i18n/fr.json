@@ -56,7 +56,7 @@
         "maxDate": "La date de naissance ne peut pas être dans le futur.",
         "minDate": "Date incorrecte",
         "invalidDate": "Date incorrecte",
-        "marieOuPartenaireSansConjoint": "Vous devez saisir votre époux.se ou votre partenaire même si il.elle n'habite pas avec vous"
+        "marieOuPartenaireSansConjoint": "Attention : Vous devez saisir votre époux·se ou votre partenaire même si il·elle n'habite pas avec vous"
       }
     },
     "result": {
