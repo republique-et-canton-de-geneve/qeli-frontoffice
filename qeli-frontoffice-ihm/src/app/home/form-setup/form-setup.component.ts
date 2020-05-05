@@ -119,7 +119,6 @@ export class FormSetupComponent {
   get demandeur() {
     if (this.isValid) {
       const demandeurOptions = this.setupForm.value as DemandeurSchema;
-      console.log(demandeurOptions);
 
       demandeurOptions.prenom = demandeurOptions.prenom || 'Demandeur';
       demandeurOptions.membresFamille.forEach((membre, index) => {
