@@ -47,10 +47,12 @@ export class DomicileQuestionService implements QuestionLoader {
                           demandeur.hasConcubin &&
                           !AnswerUtils.hasEnfantEnCommun(formData),
         calculateRefus: this.calculateDomicileCantonGERefusFn(membre),
-        eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.PC_FAM,
-                                                                 Prestation.AVANCES,
-                                                                 Prestation.ALLOCATION_LOGEMENT,
-                                                                 Prestation.AIDE_SOCIALE], membre),
+        eligibilites: eligibiliteGroup.findByPrestationEtMembre([
+          Prestation.PC_FAM,
+          Prestation.PC_AVS_AI,
+          Prestation.AVANCES,
+          Prestation.ALLOCATION_LOGEMENT,
+          Prestation.AIDE_SOCIALE], membre),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
       }, {
