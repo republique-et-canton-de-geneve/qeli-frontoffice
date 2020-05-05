@@ -23,12 +23,23 @@ export class RevenusQuestionService implements QuestionLoader {
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
 
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const demandeur = eligibiliteGroup.demandeur;
     const membres = ([eligibiliteGroup.demandeur] as Personne[]).concat(
       eligibiliteGroup.demandeur.membresFamille
     );
 
     return membres.map((membre): QeliQuestionDecorator<any>[] => {
       const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
+      const isParent = membre.id === demandeur.id || demandeur.partenaire.id === membre.id;
+      const eligibilitesRevenus = (
+        (isParent) ? eligibiliteGroup.findByPrestation(Prestation.PC_FAM) : []
+      ).concat(
+        eligibiliteGroup.findByPrestationEtMembre([
+          Prestation.AIDE_SOCIALE,
+          Prestation.PC_AVS_AI,
+          Prestation.BOURSES], membre
+        )
+      );
       return [
         {
           question: new CheckboxGroupQuestion({
@@ -42,10 +53,18 @@ export class RevenusQuestionService implements QuestionLoader {
             noneOptions: checkboxGroupNoneOptionsFor('revenus', membre),
             checkboxOptions: typeRevenusToCheckboxOptions(membre)
           }),
+          skip: (formData, skipEligibilites) => {
+            if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
+                                .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
+              return membre.id !== demandeur.id &&
+                     demandeur.hasConcubin &&
+                     !AnswerUtils.hasEnfantEnCommun(formData)
+            }
+
+            return false;
+          },
           calculateRefus: this.calculateRevenusRefusFn(membre),
-          eligibilites: eligibiliteGroup.findByPrestationEtMembre(
-            [Prestation.PC_FAM, Prestation.AIDE_SOCIALE, Prestation.PC_AVS_AI, Prestation.BOURSES], membre
-          ),
+          eligibilites: eligibilitesRevenus,
           categorie: Categorie.SITUATION_PERSONELLE,
           subcategorie: Subcategorie.REVENUS
         },

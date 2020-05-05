@@ -103,7 +103,7 @@ export class AnswerUtils {
 
   static hasAnyRevenus(formData: FormData, personne: Personne, revenus: TypeRevenus[]) {
     const answer = (formData[`revenus_${personne.id}`] as CheckboxGroupAnswer);
-    if (answer.none.value !== 'NON') {
+    if (!answer || answer.none.value !== 'NON') {
       return false;
     }
 
