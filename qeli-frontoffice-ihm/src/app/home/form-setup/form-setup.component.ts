@@ -33,7 +33,7 @@ export class FormSetupComponent {
       prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
       etatCivil: new FormControl(null, Validators.required),
       dateNaissance: new FormControl(null, this.dateNaissanceValidators),
-      autres: new FormControl(null, null),
+      autres: new FormControl(false, null),
       membresFamille: this.fb.array([])
     });
 
@@ -63,15 +63,16 @@ export class FormSetupComponent {
   }
 
   private marieOuPartenaireSansConjoint(control: AbstractControl) {
-
     let invalid = false;
+
     if (this.isEtatCivil(EtatCivil.MARIE) && !this.hasMembreFamilleWithRelation(Relation.EPOUX)) {
       invalid = control.value !== Relation.EPOUX;
-    } else if (this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE) && !this.hasMembreFamilleWithRelation(Relation.PARTENAIRE_ENREGISTRE)) {
+    } else if (this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE) &&
+               !this.hasMembreFamilleWithRelation(Relation.PARTENAIRE_ENREGISTRE)) {
       invalid = control.value !== Relation.PARTENAIRE_ENREGISTRE;
     }
-    return invalid ? {'marieOuPartenaireSansConjoint': true} : null;
 
+    return invalid ? {'marieOuPartenaireSansConjoint': true} : null;
   }
 
   private get dateNaissanceValidators() {
