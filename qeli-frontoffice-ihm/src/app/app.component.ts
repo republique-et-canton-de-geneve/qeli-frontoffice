@@ -10,9 +10,6 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit {
 
-  private popupOpenSubscription: Subscription;
-  private popupCloseSubscription: Subscription;
-
   constructor(private translate: TranslateService, private ccService: NgcCookieConsentService) {
 
   }
@@ -22,15 +19,5 @@ export class AppComponent implements OnInit {
     this.translate.setDefaultLang("fr");
     this.translate.use("fr");
 
-    this.popupOpenSubscription = this.ccService.popupOpen$.subscribe(
-      () => {
-        console.log('open popup');
-      });
-
-    this.popupCloseSubscription = this.ccService.popupClose$.subscribe(
-      () => {
-        console.log('close popup');
-
-      });
   }
 }

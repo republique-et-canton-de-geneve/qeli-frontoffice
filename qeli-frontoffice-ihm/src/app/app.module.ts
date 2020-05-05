@@ -12,10 +12,11 @@ import { HomeModule } from './home/home.module';
 import { MatomoModule } from 'ngx-matomo';
 import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
 import {NgcCookieConsentModule, NgcCookieConsentConfig} from 'ngx-cookieconsent';
+import { environment } from '../environments/environment';
 
 const cookieConfig:NgcCookieConsentConfig = {
   cookie: {
-    domain: 'localhost:4200'
+    domain: environment.domain
   },
   palette: {
     popup: {
@@ -29,14 +30,17 @@ const cookieConfig:NgcCookieConsentConfig = {
   },
   theme: 'edgeless',
   type: 'info',
-  "message": "Ce site web utilise des cookies pour vous assurer la meilleure expérience de navigation sur notre site.",
-  "dismiss": "OK, j'ai compris!",
-  "deny": "Refuser",
-  "link": "Plus d'information",
-  "href": "https://cookiesandyou.com",
-  "policy": "Cookie Policy",
-  "header": "Cookies sur le site!",
-  "allow": "Autoriser les cookies"
+
+  content: {
+    "message": "En naviguant sur ce site, vous acceptez l'utilisation statistique de cookies destinés à son amélioration continue.",
+    "dismiss": "Accepter",
+    "deny": "Refuser",
+    "link": "Plus d'information",
+    "href": "https://www.ge.ch/conditions-generales",
+    "policy": "Cookie Policy",
+    "header": "Cookies sur le site",
+    "allow": "Autoriser les cookies"
+  }
 
 };
 registerLocaleData(localeFrCH);
