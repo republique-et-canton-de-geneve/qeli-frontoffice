@@ -1,5 +1,6 @@
 package ch.ge.social.qeli.api.controller;
 
+import ch.ge.social.qeli.service.api.answer.InvalidAnswerFormatException;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
 import java.util.UUID;
 import javax.validation.ConstraintViolationException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import ch.ge.social.qeli.service.api.stats.CannotSaveStatsException;
 
 /**
  * Un controller advice contenant le mapping des exception fonctionelles et son status HTTP.
@@ -70,7 +72,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     {
       ConstraintViolationException.class,
       MethodArgumentTypeMismatchException.class,
-      UnsatisfiedServletRequestParameterException.class
+      UnsatisfiedServletRequestParameterException.class,
+      InvalidAnswerFormatException.class
     }
   )
   public ResponseEntity<ApiErrorDto> badRequest(RuntimeException ex) {
@@ -86,7 +89,10 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
    *
    * @see PDFGenerationException
    */
-  @ExceptionHandler(PDFGenerationException.class)
+  @ExceptionHandler({
+                      PDFGenerationException.class,
+                      CannotSaveStatsException.class
+                    })
   public ResponseEntity<ApiErrorDto> serviceUnavailable(RuntimeException ex) {
     return buildResponseEntity(handleError(ex), HttpStatus.SERVICE_UNAVAILABLE);
   }

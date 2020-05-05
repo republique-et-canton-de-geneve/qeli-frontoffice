@@ -134,7 +134,8 @@ export class HomeComponent implements OnInit {
     this.statsService.saveStats(
       state.formData,
       this.qeliStateMachine.currentEligibilites,
-      state.eligibilitesRefusees
+      state.eligibilitesRefusees,
+      state.demandeur
     ).subscribe();
   }
 }
