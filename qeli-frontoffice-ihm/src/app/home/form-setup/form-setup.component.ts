@@ -33,6 +33,7 @@ export class FormSetupComponent {
       prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
       etatCivil: new FormControl(null, Validators.required),
       dateNaissance: new FormControl(null, this.dateNaissanceValidators),
+      autres: new FormControl(false, null),
       membresFamille: this.fb.array([])
     });
 
@@ -60,6 +61,7 @@ export class FormSetupComponent {
     return null;
   }
 
+
   private get dateNaissanceValidators() {
     return [
       Validators.required,
@@ -82,7 +84,7 @@ export class FormSetupComponent {
       this.membresFamille.push(this.fb.group({
         id: new FormControl(this.numberOfMembres + 1),
         prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
-        relation: new FormControl(null, Validators.required),
+        relation: new FormControl(null, [Validators.required]),
         dateNaissance: new FormControl(null, this.dateNaissanceValidators)
       }));
 
@@ -105,6 +107,7 @@ export class FormSetupComponent {
   get demandeur() {
     if (this.isValid) {
       const demandeurOptions = this.setupForm.value as DemandeurSchema;
+
       demandeurOptions.prenom = demandeurOptions.prenom || 'Demandeur';
       demandeurOptions.membresFamille.forEach((membre, index) => {
         membre.prenom = membre.prenom || this.getDefaultPrenomByMembre(membre)
@@ -154,7 +157,7 @@ export class FormSetupComponent {
   }
 
   get isValid() {
-    return this.setupForm.valid;
+    return this.setupForm.valid && !this.marieOuPartenaireSansConjoint;
   }
 
   get maxDateNaissance() {
@@ -165,6 +168,16 @@ export class FormSetupComponent {
     return moment().subtract(130, 'year').toDate();
   }
 
+  get marieOuPartenaireSansConjoint() {
+    return (
+             this.isEtatCivil(EtatCivil.MARIE) &&
+             !this.hasMembreFamilleWithRelation(Relation.EPOUX)
+           ) || (
+             this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE) &&
+             !this.hasMembreFamilleWithRelation(Relation.PARTENAIRE_ENREGISTRE)
+           );
+  }
+
   isInvalid(control: AbstractControl) {
     return !control.pristine && !control.valid;
   }
@@ -173,9 +186,15 @@ export class FormSetupComponent {
     FormUtils.markAllAsDirty(this.setupForm);
     setTimeout(() => {
       const formGroupInvalid = this.formElement.nativeElement.querySelectorAll(
-        '*[aria-invalid]:not([aria-invalid="false"])'
+        'input[aria-invalid]:not([aria-invalid="false"]),' +
+        'select[aria-invalid]:not([aria-invalid="false"]),' +
+        '*[aria-invalid]:not([aria-invalid="false"]) input,' +
+        '*[aria-invalid]:not([aria-invalid="false"]) select'
       );
-      (<HTMLInputElement>formGroupInvalid[0]).focus();
+
+      if (formGroupInvalid.length > 0) {
+        (<HTMLInputElement>formGroupInvalid[0]).focus();
+      }
     });
   }
 }

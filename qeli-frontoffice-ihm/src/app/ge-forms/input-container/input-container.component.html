@@ -17,7 +17,7 @@
        [attr.aria-describedby]="identifier + '_label'">
     <p *ngFor="let error of errors">
       {{ 'common.errorPrefix' | translate }}
-      {{ errorLabels && errorLabels[error] ? (errorLabels[error].key | translate:errorLabels[error].parameters) : 'unknown error' }}
+      {{ errorLabels && errorLabels[error] ? (errorLabels[error].key | translate:errorLabels[error].parameters) : 'erreur inconnu' }}
     </p>
   </div>
 </div>
