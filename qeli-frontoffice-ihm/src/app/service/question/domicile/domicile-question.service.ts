@@ -47,10 +47,12 @@ export class DomicileQuestionService implements QuestionLoader {
                           demandeur.hasConcubin &&
                           !AnswerUtils.hasEnfantEnCommun(formData),
         calculateRefus: this.calculateDomicileCantonGERefusFn(membre),
-        eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.PC_FAM,
-                                                                 Prestation.AVANCES,
-                                                                 Prestation.ALLOCATION_LOGEMENT,
-                                                                 Prestation.AIDE_SOCIALE], membre),
+        eligibilites: eligibiliteGroup.findByPrestationEtMembre([
+          Prestation.PC_FAM,
+          Prestation.PC_AVS_AI,
+          Prestation.AVANCES,
+          Prestation.ALLOCATION_LOGEMENT,
+          Prestation.AIDE_SOCIALE], membre),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
       }, {
@@ -118,7 +120,8 @@ export class DomicileQuestionService implements QuestionLoader {
         const prestationToRefuse = [Prestation.PC_FAM,
                                     Prestation.AVANCES,
                                     Prestation.ALLOCATION_LOGEMENT,
-                                    Prestation.AIDE_SOCIALE];
+                                    Prestation.AIDE_SOCIALE,
+                                    Prestation.PC_AVS_AI];
 
         return QuestionUtils.createRefusByPrestationAndMembre(
           eligibilites, prestationToRefuse, membre, eligibilite => ({
