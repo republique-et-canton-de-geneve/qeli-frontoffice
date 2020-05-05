@@ -1,13 +1,13 @@
-package ch.ge.social.qeli.service.api.pdf.dto.answer;
+package ch.ge.social.qeli.service.api.answer.dto;
 
+import ch.ge.social.qeli.service.api.answer.AnswerVisitor;
 import java.util.List;
 import lombok.Data;
 
 @Data
 public class NationaliteAnswer implements Answer {
-  List<QuestionOption<String>> pays;
-  boolean                      apatride;
-
+  private List<QuestionOption<String>> pays;
+  private boolean                      apatride;
 
   @Override
   public <T> T accept(AnswerVisitor<T> visitor) {

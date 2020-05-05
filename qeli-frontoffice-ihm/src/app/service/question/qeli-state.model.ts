@@ -33,13 +33,13 @@ export class NextQuestionFinder {
         return false;
       }
 
-      if (!question.eligibilites.some(el => eligibiliteAsGroup.includes(el))) {
+      if (!question.eligibilites.some(el => eligibiliteAsGroup.includes(el)) ||
+          (question.skip !== null && question.skip !== undefined && question.skip(formData, eligibilites))) {
+        delete formData[question.question.key];
         return false;
       }
 
-      return question.skip === null ||
-             question.skip === undefined ||
-             !question.skip(formData, eligibilites);
+      return true;
     });
   }
 }
