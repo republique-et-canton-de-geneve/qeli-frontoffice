@@ -43,16 +43,25 @@ export class DomicileQuestionService implements QuestionLoader {
           inline: true,
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
-        skip: formData => membre.id !== demandeur.id &&
-                          demandeur.hasConcubin &&
-                          !AnswerUtils.hasEnfantEnCommun(formData),
+        skip: (formData, skipEligibilites) => {
+          if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
+                              .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
+            return membre.id !== demandeur.id &&
+                   demandeur.hasConcubin &&
+                   !AnswerUtils.hasEnfantEnCommun(formData)
+          }
+
+          return false;
+        },
         calculateRefus: this.calculateDomicileCantonGERefusFn(membre),
-        eligibilites: eligibiliteGroup.findByPrestationEtMembre([
-          Prestation.PC_FAM,
-          Prestation.PC_AVS_AI,
-          Prestation.AVANCES,
-          Prestation.ALLOCATION_LOGEMENT,
-          Prestation.AIDE_SOCIALE], membre),
+        eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM).concat(
+          eligibiliteGroup.findByPrestationEtMembre([
+            Prestation.PC_AVS_AI,
+            Prestation.AVANCES,
+            Prestation.ALLOCATION_LOGEMENT,
+            Prestation.AIDE_SOCIALE], membre
+          )
+        ),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
       }, {
@@ -78,11 +87,18 @@ export class DomicileQuestionService implements QuestionLoader {
             }
           }))
         }),
-        skip: formData => membre.id !== demandeur.id &&
-                          demandeur.hasConcubin &&
-                          !AnswerUtils.hasEnfantEnCommun(formData),
+        skip: (formData, skipEligibilites) => {
+          if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
+                              .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
+            return membre.id !== demandeur.id &&
+                   demandeur.hasConcubin &&
+                   !AnswerUtils.hasEnfantEnCommun(formData)
+          }
+
+          return false;
+        },
         calculateRefus: this.calculatesDateArriveeGeneveRefusFn(membre),
-        eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_FAM, membre),
+        eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
       }];
