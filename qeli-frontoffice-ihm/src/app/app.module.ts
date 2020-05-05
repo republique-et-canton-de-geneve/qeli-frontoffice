@@ -11,7 +11,34 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 import { MatomoModule } from 'ngx-matomo';
 import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
+import {NgcCookieConsentModule, NgcCookieConsentConfig} from 'ngx-cookieconsent';
 
+const cookieConfig:NgcCookieConsentConfig = {
+  cookie: {
+    domain: 'localhost:4200'
+  },
+  palette: {
+    popup: {
+      background: '#fff',
+      text:'#2d7a8a'
+    },
+    button: {
+      background: '#2d7a8a',
+      text: '#fff'
+    }
+  },
+  theme: 'edgeless',
+  type: 'info',
+  "message": "Ce site web utilise des cookies pour vous assurer la meilleure expérience de navigation sur notre site.",
+  "dismiss": "OK, j'ai compris!",
+  "deny": "Refuser",
+  "link": "Plus d'information",
+  "href": "https://cookiesandyou.com",
+  "policy": "Cookie Policy",
+  "header": "Cookies sur le site!",
+  "allow": "Autoriser les cookies"
+
+};
 registerLocaleData(localeFrCH);
 
 @NgModule({
@@ -25,7 +52,8 @@ registerLocaleData(localeFrCH);
     LayoutModule,
     HomeModule,
     RouterModule,
-    MatomoModule
+    MatomoModule,
+    NgcCookieConsentModule.forRoot(cookieConfig)
   ],
   providers: [
     {provide: LOCALE_ID, useValue: "fr-CH"},

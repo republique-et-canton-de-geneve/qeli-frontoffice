@@ -1,6 +1,6 @@
 {
   "name": "@ch.ge.social.tools/qeli-frontoffice-ihm",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "scripts": {
     "ng": "ng",
     "start": "NODE_OPTIONS=\"--max-http-header-size=100000\" ng serve --source-map=true",
@@ -24,9 +24,11 @@
     "@ngx-translate/http-loader": "~4.0.0",
     "bowser": "~2.9.0",
     "classlist.js": "~1.1.20150312",
+    "cookieconsent": "^3.1.1",
     "file-saver": "^2.0.2",
     "messageformat": "^2.3.0",
     "moment": "~2.24.0",
+    "ngx-cookieconsent": "^2.2.3",
     "ngx-mask": "~8.1.7",
     "ngx-matomo": "~0.1.4",
     "ngx-translate-messageformat-compiler": "^4.6.0",
