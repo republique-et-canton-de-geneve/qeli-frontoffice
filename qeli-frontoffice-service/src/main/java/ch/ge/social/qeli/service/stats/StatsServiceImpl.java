@@ -6,6 +6,7 @@ import ch.ge.social.qeli.service.api.pdf.dto.QeliResult;
 import ch.ge.social.qeli.service.api.pdf.dto.answer.Answer;
 import ch.ge.social.qeli.service.api.pdf.dto.answer.ToAnswerValueVisitor;
 import ch.ge.social.qeli.service.api.stats.StatsService;
+import ch.ge.social.qeli.service.common.CannotWrite;
 import com.opencsv.CSVWriter;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -87,23 +88,10 @@ public class StatsServiceImpl implements StatsService {
     StringWriter sw = new StringWriter();
     try {
       CSVWriter writer = new CSVWriter(sw, ';', '"', ';', "|");
-      // feed in your array (or convert your data to an array)
-      StringBuilder sb = new StringBuilder();
-      String[] entries = sb.append(id)
-                           .append(";")
-                           .append(escapeSeparator(type.value))
-                           .append(";")
-                           .append(key)
-                           .append(";")
-                           .append(membre)
-                           .append(";")
-                           .append(escapeSeparator(value))
-                           .toString()
-                           .split(";");
-      writer.writeNext(entries);
+      writer.writeNext(new String[]{id, escapeSeparator(type.value), key, membre, value});
       writer.close();
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new CannotWrite(e.getMessage());
     }
     return sw.toString();
   }

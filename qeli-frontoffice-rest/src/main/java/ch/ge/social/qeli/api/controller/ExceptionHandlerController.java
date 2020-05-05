@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import ch.ge.social.qeli.service.common.CannotWrite;
 
 /**
  * Un controller advice contenant le mapping des exception fonctionelles et son status HTTP.
@@ -88,7 +89,10 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
    *
    * @see PDFGenerationException
    */
-  @ExceptionHandler(PDFGenerationException.class)
+  @ExceptionHandler({
+                      PDFGenerationException.class,
+                      CannotWrite.class
+                    })
   public ResponseEntity<ApiErrorDto> serviceUnavailable(RuntimeException ex) {
     return buildResponseEntity(handleError(ex), HttpStatus.SERVICE_UNAVAILABLE);
   }
