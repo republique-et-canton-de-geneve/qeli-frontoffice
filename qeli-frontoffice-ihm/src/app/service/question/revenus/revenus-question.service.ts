@@ -30,7 +30,7 @@ export class RevenusQuestionService implements QuestionLoader {
 
     return membres.map((membre): QeliQuestionDecorator<any>[] => {
       const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
-      const isParent = membre.id === demandeur.id || demandeur.partenaire.id === membre.id;
+      const isParent = membre.id === demandeur.id || (demandeur.partenaire && demandeur.partenaire.id === membre.id);
       const eligibilitesRevenus = (
         (isParent) ? eligibiliteGroup.findByPrestation(Prestation.PC_FAM) : []
       ).concat(
