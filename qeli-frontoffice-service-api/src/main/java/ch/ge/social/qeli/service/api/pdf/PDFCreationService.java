@@ -1,6 +1,6 @@
 package ch.ge.social.qeli.service.api.pdf;
 
-import ch.ge.social.qeli.service.api.pdf.dto.QeliResult;
+import ch.ge.social.qeli.service.api.result.dto.QeliResult;
 
 /**
  * Un service qui permet de créer un PDF récapitulatif du résultat du questionnaire d'éligibilité.

@@ -1,11 +1,11 @@
-package ch.ge.social.qeli.service.api.pdf.dto.answer;
+package ch.ge.social.qeli.service.api.answer.dto;
 
+import ch.ge.social.qeli.service.api.answer.AnswerVisitor;
 import lombok.Data;
 
 @Data
 public class StringAnswer implements Answer {
-
-  String value;
+  private String value;
 
   @Override
   public <T> T accept(AnswerVisitor<T> visitor) {
