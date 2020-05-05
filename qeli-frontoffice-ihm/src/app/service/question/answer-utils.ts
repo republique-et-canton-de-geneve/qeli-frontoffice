@@ -111,8 +111,8 @@ export class AnswerUtils {
   }
 
   static hasEnfantEnCommun(formData: FormData) {
-    const answers = (formData['parentsEnfants'] as CompositeAnswer).answers;
-    return Object.values(answers).some(answer => {
+    const parentEnfantsAnswer = (formData['parentsEnfants'] as CompositeAnswer);
+    return parentEnfantsAnswer && Object.values(parentEnfantsAnswer.answers).some(answer => {
       const option = (answer as OptionAnswer<string>).value;
       return option.value === TypeEnfant.LES_DEUX;
     });
