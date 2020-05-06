@@ -1,9 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateValidators } from '../../ge-forms/date.validators';
 import * as moment from 'moment';
 import {
-  Demandeur, DemandeurSchema, EtatCivil, MembreFamilleSchema, Relation
+  Demandeur, DemandeurSchema, EtatCivil, MembreFamille, MembreFamilleSchema, Personne, Relation
 } from '../../service/configuration/demandeur.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,18 +25,12 @@ export class FormSetupComponent {
   etatCivilOptions = Object.keys(EtatCivil);
   relationOptionsByMember: Relation[][] = [];
   errorLabels: { [key: string]: I18nString } = {};
+  formBuilder: FormBuilder
 
   constructor(private fb: FormBuilder,
               private translateService: TranslateService) {
-    this.setupForm = this.fb.group({
-      id: new FormControl(0),
-      prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
-      etatCivil: new FormControl(null, Validators.required),
-      dateNaissance: new FormControl(null, this.dateNaissanceValidators),
-      autres: new FormControl(false, null),
-      membresFamille: this.fb.array([])
-    });
-
+    this.formBuilder = fb;
+    this.setupForm = this.initForm(0, null, null, null);
     this.errorLabels = {
       uniquePrenom: {key: 'home.setup.errors.uniquePrenom'},
       required: {key: 'home.setup.errors.required'},
@@ -52,7 +46,7 @@ export class FormSetupComponent {
         this.membresFamilleControls.map(membreFamilleControl => membreFamilleControl.controls['prenom'] as FormControl)
       );
       const prenoms = prenomControls.filter(
-        prenomControl => prenomControl.parent.value['id'] !== control.parent.value['id']
+        prenomControl => control.parent && (prenomControl.parent.value['id'] !== control.parent.value['id'])
       ).map(prenomControl => prenomControl.value);
 
       return prenoms.includes(control.value) ? {'uniquePrenom': true} : null;
@@ -78,14 +72,14 @@ export class FormSetupComponent {
     }
   }
 
-  onAddMembre() {
+  onAddMembre(membre: MembreFamille) {
     if (this.numberOfMembres < MAX_NUMBER_OF_MEMBRES) {
       this.relationOptionsByMember[this.numberOfMembres] = this.availableRelationOptions();
       this.membresFamille.push(this.fb.group({
-        id: new FormControl(this.numberOfMembres + 1),
-        prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
-        relation: new FormControl(null, [Validators.required]),
-        dateNaissance: new FormControl(null, this.dateNaissanceValidators)
+        id: new FormControl(!!membre ? membre.id : this.numberOfMembres + 1),
+        prenom: new FormControl(!!membre ? membre.prenom : null, this.uniquePrenomValidator.bind(this)),
+        relation: new FormControl(!!membre ? membre.relation : null, Validators.required),
+        dateNaissance: new FormControl(!!membre ? membre.dateNaissance: null, this.dateNaissanceValidators)
       }));
 
       this.numberOfMembres += 1;
@@ -104,6 +98,21 @@ export class FormSetupComponent {
     )
   }
 
+  @Input()
+  set demandeur(demandeur: Demandeur) {
+    if(!!demandeur) {
+      this.setupForm.controls['prenom'].setValue(demandeur.prenom);
+      this.setupForm.controls['dateNaissance'].setValue(demandeur.dateNaissance);
+      this.setupForm.controls['etatCivil'].setValue(demandeur.etatCivil);
+      if (demandeur.membresFamille) {
+        demandeur.membresFamille.forEach(membre => {
+          this.onAddMembre(membre);
+        });
+        console.log(this.setupForm.controls['membresFamille']);
+      }
+    }
+  }
+
   get demandeur() {
     if (this.isValid) {
       const demandeurOptions = this.setupForm.value as DemandeurSchema;
@@ -116,6 +125,18 @@ export class FormSetupComponent {
     }
 
     return null;
+  }
+
+  initForm (id, prenom, etatCivil, dateNaissance) {
+    return this.formBuilder.group({
+      id: new FormControl(id),
+      prenom: new FormControl(prenom, this.uniquePrenomValidator.bind(this)),
+      etatCivil: new FormControl(etatCivil, Validators.required),
+      dateNaissance: new FormControl(dateNaissance, this.dateNaissanceValidators),
+      autres: new FormControl(false, null),
+      membresFamille: this.formBuilder.array([])
+    });
+
   }
 
   private availableRelationOptions() {

@@ -11,7 +11,6 @@ import { QeliConfiguration } from '../service/configuration/qeli-configuration.m
 import { Demandeur } from '../service/configuration/demandeur.model';
 import { FromSchemaToAnswerVisitor } from '../dynamic-question/model/to-answer.visitor.model';
 import { StatsService } from '../service/stats.service';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-home',
@@ -24,11 +23,11 @@ export class HomeComponent implements OnInit {
   @ViewChild('qeliSetupForm', {static: false}) qeliSetupForm: FormSetupComponent;
   @ViewChild('qeliForm', {static: false}) qeliForm: QeliFormComponent;
 
-  @ViewChild('myModal', {static: false}) myModal;
-
+  demandeurData: Demandeur = null;
   qeliConfiguration: QeliConfiguration;
   qeliStateMachine: QeliStateMachine;
   firstLoad = true;
+  display = "none";
 
   constructor(private deepLinkService: DeepLinkService,
               private route: ActivatedRoute,
@@ -36,8 +35,7 @@ export class HomeComponent implements OnInit {
               private qeliConfigurationService: QeliConfigurationService,
               private questionService: QuestionService,
               private ref: ChangeDetectorRef,
-              private statsService: StatsService,
-              private modalService: NgbModal) {
+              private statsService: StatsService) {
   }
 
   ngOnInit() {
@@ -76,8 +74,9 @@ export class HomeComponent implements OnInit {
   }
 
   onPreviousquestion() {
-    if(this.qeliStateMachine.state.currentQuestionIndex === 0) {
+    if (this.qeliStateMachine.state.currentQuestionIndex === 0) {
       console.log('open Modal');
+      this.openModal();
     } else {
       this.qeliStateMachine.previousQuestion();
       this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
@@ -146,11 +145,17 @@ export class HomeComponent implements OnInit {
     ).subscribe();
   }
 
-  openModel() {
-    this.myModal.nativeElement.className = 'modal fade show';
-  }
-  closeModel() {
-    this.myModal.nativeElement.className = 'modal hide';
+  openModal() {
+    this.display = "block";
   }
 
+  onRefuseHandled() {
+    this.display = "none";
+  }
+
+  onAcceptHandled() {
+    this.display = "none";
+    this.demandeurData = this.qeliStateMachine.state.demandeur;
+    this.qeliStateMachine = null;
+  }
 }
