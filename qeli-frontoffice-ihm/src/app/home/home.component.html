@@ -2,9 +2,32 @@
   <app-navigation-menu [qeliStateMachine]="qeliStateMachine">
   </app-navigation-menu>
 
+  <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{'common.modal.attention' | translate}}</h4>
+          <button type="button" class="close" aria-label="Close" (click)="onRefuseHandled()"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <p>{{'common.modal.question' | translate}}</p>
+        </div>
+        <div class="modal-footer">
+          <span style="margin: 5px">
+            <button aria-label="Bouton annulé" type="button" class="btn btn-danger" (click)="onRefuseHandled()">{{'common.modal.annuler' | translate}}</button>
+          </span>
+          <span style="margin: 5px">
+            <button aria-label="Bouton continuer" type="button" class="btn btn-success" (click)="onAcceptHandled()">{{'common.modal.continuer' | translate}}</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <app-form-setup
       *ngIf="!qeliStateMachine"
+      [demandeur]="demandeurData"
       #qeliSetupForm>
     </app-form-setup>
 
@@ -19,24 +42,6 @@
       [qeliStateMachine]="qeliStateMachine"
       #qeliForm>
     </app-qeli-form>
-
-    <button type="button" (click)="openModel()">Open Modal</button>
-
-    <div #myModal class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title ">Title</h5>
-            <button type="button" class="close" (click)="closeModel()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Some text in the modal.</p>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <app-navigation-controls
       *ngIf="!qeliStateMachine || (qeliStateMachine && !qeliStateMachine.state.done)"
