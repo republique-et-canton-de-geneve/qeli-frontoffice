@@ -2,29 +2,14 @@
   <app-navigation-menu [qeliStateMachine]="qeliStateMachine">
   </app-navigation-menu>
 
-  <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">{{'common.modal.attention' | translate}}</h4>
-          <button type="button" class="close" aria-label="Close" (click)="onRefuseHandled()"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <p>{{'common.modal.question' | translate}}</p>
-        </div>
-        <div class="modal-footer">
-          <span style="margin: 5px">
-            <button aria-label="Bouton annulé" type="button" class="btn btn-danger" (click)="onRefuseHandled()">{{'common.modal.annuler' | translate}}</button>
-          </span>
-          <span style="margin: 5px">
-            <button aria-label="Bouton continuer" type="button" class="btn btn-success" (click)="onAcceptHandled()">{{'common.modal.continuer' | translate}}</button>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="container">
+
+    <app-modal-validation
+      [display]="displayModal"
+      (onRefuse)="onCancel()"
+      (onAccepte)="returnToSetup()">
+    </app-modal-validation>
+
     <app-form-setup
       *ngIf="!qeliStateMachine"
       [demandeur]="demandeurData"
