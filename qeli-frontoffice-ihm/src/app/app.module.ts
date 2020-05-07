@@ -11,24 +11,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 import { MatomoModule } from 'ngx-matomo';
 import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
-import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
+import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
 
-const cookieConfig:NgcCookieConsentConfig = {
+const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
     domain: 'localhost:4200'
   },
   palette: {
     popup: {
-      background: '#fff',
-      text:'#2d7a8a'
+      background: '#EDEDED',
+      text: '#337ab7'
     },
     button: {
-      background: '#2d7a8a',
+      background: '#337ab7',
       text: '#fff'
     }
   },
-  theme: 'edgeless',
-  type: 'info',
+  theme: 'classic',
+  type: 'info'
 };
 registerLocaleData(localeFrCH);
 
