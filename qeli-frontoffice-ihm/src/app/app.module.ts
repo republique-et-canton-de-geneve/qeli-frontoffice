@@ -12,7 +12,6 @@ import { HomeModule } from './home/home.module';
 import { MatomoModule } from 'ngx-matomo';
 import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
-import { Location } from '@angular/common';
 
 const cookieConfig:NgcCookieConsentConfig = {
   cookie: {

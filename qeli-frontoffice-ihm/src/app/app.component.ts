@@ -9,7 +9,7 @@ import { NgcCookieConsentService } from 'ngx-cookieconsent';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private translate: TranslateService, private ccService: NgcCookieConsentService) {
+  constructor(private translate: TranslateService, private ccService: NgcCookieConsentService, private location: Location) {
 
   }
 
@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
           this.ccService.getConfig().content.link = data['common.cookie.link'];
           this.ccService.getConfig().content.policy = data['common.cookie.policy'];
           this.ccService.getConfig().content.href = data['common.cookie.href'];
+          this.ccService.getConfig().cookie.domain = this.location.pathname;
 
           this.ccService.destroy(); // remove previous cookie bar (with default messages)
           this.ccService.init(this.ccService.getConfig()); // update config with translated messages
