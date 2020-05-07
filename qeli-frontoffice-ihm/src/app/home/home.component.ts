@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   qeliConfiguration: QeliConfiguration;
   qeliStateMachine: QeliStateMachine;
   firstLoad = true;
-  display = "none";
+  displayModal = "none";
 
   constructor(private deepLinkService: DeepLinkService,
               private route: ActivatedRoute,
@@ -44,7 +44,6 @@ export class HomeComponent implements OnInit {
       this.trackingService.initMatomo(configuration);
 
       this.route.queryParams.subscribe(params => {
-        // if (this.firstLoad) {
         const state = this.deepLinkService.decryptQueryParamsData(params);
         if (state !== null) {
           const demandeur = new Demandeur(state.demandeur);
@@ -63,7 +62,6 @@ export class HomeComponent implements OnInit {
         } else {
           this.qeliStateMachine = null;
         }
-        // }
 
         this.firstLoad = false;
         this.ref.markForCheck();
@@ -75,7 +73,6 @@ export class HomeComponent implements OnInit {
 
   onPreviousquestion() {
     if (this.qeliStateMachine.state.currentQuestionIndex === 0) {
-      console.log('open Modal');
       this.openModal();
     } else {
       this.qeliStateMachine.previousQuestion();
@@ -146,16 +143,18 @@ export class HomeComponent implements OnInit {
   }
 
   openModal() {
-    this.display = "block";
+    console.log(this.displayModal);
+    this.displayModal = "block";
   }
 
-  onRefuseHandled() {
-    this.display = "none";
+  onCancel() {
+    this.displayModal = "none";
   }
 
-  onAcceptHandled() {
-    this.display = "none";
+  returnToSetup() {
+    this.displayModal = "none";
     this.demandeurData = this.qeliStateMachine.state.demandeur;
     this.qeliStateMachine = null;
   }
+
 }
