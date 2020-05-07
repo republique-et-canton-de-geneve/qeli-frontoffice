@@ -36,6 +36,31 @@ footer {
   font-weight: bold;
 }
 
+.cc-theme-classic {
+  &.cc-window {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cc-message {
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  .cc-btn {
+    border-radius: 0;
+    transition: all;
+    transition-duration: 300ms;
+  }
+
+  .cc-btn:hover {
+    background-color: #fff !important;
+    color: #337ab7;
+    border-color: #337ab7;
+    text-decoration: none;
+  }
+}
+
 // ***********************
 // Form
 // ***********************
