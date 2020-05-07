@@ -33,8 +33,8 @@
             "styles": [
               "src/assets/charte/resources/common/css/style.css",
               "src/assets/charte/resources/common/css/font-awesome.min.css",
-              "src/styles.scss",
-              "../node_modules/cookieconsent/build/cookieconsent.min.css"
+              "../node_modules/cookieconsent/build/cookieconsent.min.css",
+              "src/styles.scss"
             ],
             "scripts": ["../node_modules/cookieconsent/build/cookieconsent.min.js"]
           },

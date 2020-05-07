@@ -650,6 +650,16 @@
         "help": "En arrêt maladie / accident ou en congé maternité"
       }
     },
+    "cookie": {
+        "message": "En naviguant sur ce site, vous acceptez l'utilisation statistique de cookies destinés à son amélioration continue.",
+        "dismiss": "Accepter",
+        "deny": "Refuser",
+        "link": "Plus d'information",
+        "href": "https://www.ge.ch/conditions-generales",
+        "policy": "Cookie Policy",
+        "header": "Cookies sur le site",
+        "allow": "Autoriser les cookies"
+    },
     "typeRevenusGroup": {
       "AVS": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AVS",
       "AI": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AI"
