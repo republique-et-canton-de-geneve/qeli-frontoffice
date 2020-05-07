@@ -4,8 +4,8 @@
        [attr.aria-labelledby]="question.key+'_label'"
        [attr.aria-required]="question.required"
        [attr.aria-invalid]="!isValid"
-       [attr.data-cy]="question.dataCyIdentifier"
-       data-cy-type="date">
+       data-cy-question-input
+       data-cy-question-type="date">
 
     <div class="radio" *ngIf="question.hasShortcuts">
       <label>
@@ -13,7 +13,6 @@
                [value]="question.noShortcutOption.value"
                formControlName="shortcut"
                (change)="onShortcutChanged($event.currentTarget.checked, null)"
-               [attr.data-cy]="question.noShortcutOption.value"
                data-matomo-ignore>
         {{ question.noShortcutOption.label.key | translate:question.noShortcutOption.label.parameters }}
       </label>
@@ -23,7 +22,7 @@
          class="error-block text-danger"
          role="alert"
          [attr.aria-describedby]="question.key + '_label'"
-         data-cy-label="validation_message">
+         data-cy="validation_message">
       <p *ngFor="let error of dateErrors">
         {{ 'common.errorPrefix' | translate }}
         {{ question.errorLabels[error].key | translate:question.errorLabels[error].parameters  }}
@@ -48,7 +47,6 @@
                  [value]="shortcut.value"
                  formControlName="shortcut"
                  (change)="onShortcutChanged($event.currentTarget.checked, shortcut)"
-                 [attr.data-cy]="shortcut.value"
                  [attr.data-matomo-name]="question.dataCyIdentifier">
           {{ shortcut.label.key | translate:shortcut.label.parameters }}
         </label>

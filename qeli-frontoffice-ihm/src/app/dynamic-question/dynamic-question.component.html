@@ -1,4 +1,5 @@
-<div class="form-group">
+<div class="form-group"
+     [attr.data-cy-question]="question.dataCyIdentifier">
   <div class="row question-title">
     <div class="col-xs-12 col-sm-8"
          [ngClass]="disableDeepLink ? '': 'col-sm-8'">
@@ -6,7 +7,7 @@
              [ngClass]="question.showErrors && !isValid ? 'text-danger' : ''"
              [attr.for]="question.key"
              [id]="question.key + '_label'"
-             [attr.data-cy-label]="question.dataCyIdentifier">
+             data-cy-question-label>
         {{ label.key | translate:label.parameters }}
         <span *ngIf="question.required"
               class="form-required"
@@ -23,7 +24,7 @@
 
   <div *ngIf="question.showErrors && !isValid && errors.length > 0"
        class="error-block text-danger"
-       data-cy-label="validation_message"
+       data-cy="validation_message"
        role="alert"
        [attr.aria-describedby]="question.key + '_label'">
     <p *ngFor="let error of errors">

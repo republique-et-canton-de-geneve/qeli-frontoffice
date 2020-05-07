@@ -127,6 +127,12 @@
                     <webApp>
                         <contextPath>/socialqeli_pub</contextPath>
                     </webApp>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>spring.profiles.active</name>
+                            <value>development,cypress</value>
+                        </systemProperty>
+                    </systemProperties>
                     <httpConnector>
                         <port>8080</port>
                     </httpConnector>

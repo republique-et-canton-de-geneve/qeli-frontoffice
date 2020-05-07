@@ -23,7 +23,7 @@
     <result-block *ngFor="let resultsByPrestation of prestationRefusees"
                   type="refusee"
                   [resultsByPrestation]="resultsByPrestation"
-                  [attr.data-cy-prestations-eligibles]="resultsByPrestation.prestation">
+                  [attr.data-cy-prestations-refusees]="resultsByPrestation.prestation">
     </result-block>
     <hr>
   </div>
@@ -33,7 +33,7 @@
     <result-block *ngFor="let resultsByPrestation of prestationDejaPercues"
                   type="dejaPercue"
                   [resultsByPrestation]="resultsByPrestation"
-                  [attr.data-cy-prestations-eligibles]="resultsByPrestation.prestation">
+                  [attr.data-cy-prestations-deja-percues]="resultsByPrestation.prestation">
     </result-block>
     <hr>
   </div>

@@ -13,7 +13,7 @@
   <form [formGroup]="setupForm" #formElement>
     <div class="row form-group">
 
-      <div class="col-sm-4">
+      <div class="col-sm-4" data-cy="demandeur-etat-civil">
         <input type="hidden" formControlName="id" value="0">
         <app-input-container identifier="etatCivil"
                              required="true"
@@ -34,7 +34,7 @@
         </app-input-container>
       </div>
 
-      <div class="col-sm-4">
+      <div class="col-sm-4" data-cy="demandeur-date-naissance">
         <app-input-container identifier="dateNaissance"
                              required="true"
                              label="{{ 'home.setup.demandeur.dateNaissance.label' | translate }}"
@@ -50,7 +50,7 @@
         </app-input-container>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-3" data-cy="demandeur-prenom">
         <app-input-container identifier="prenom"
                              label="{{ 'home.setup.demandeur.prenom.label' | translate }}"
                              [control]="setupForm.controls['prenom']"
@@ -66,10 +66,10 @@
       </div>
     </div>
 
-    <div *ngFor="let membre of membresFamilleControls; index as i; last as isLast;">
+    <div *ngFor="let membre of membresFamilleControls; index as i; last as isLast;" [attr.data-cy]="'membre-' + i">
       <hr>
       <div class="row member-row" [formGroup]="membre">
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-cy="membre-relation">
           <input type="hidden" formControlName="id" [value]="i + 1">
           <app-input-container identifier="{{ 'relationMembre' + i }}"
                                required="true"
@@ -91,7 +91,7 @@
           </app-input-container>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-cy="membre-date-naisance">
           <app-input-container identifier="{{ 'dateNaissanceMembre' + i }}"
                                required="true"
                                label="{{ 'home.setup.membre.dateNaissance.label' | translate }}"
@@ -107,7 +107,7 @@
           </app-input-container>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-3" data-cy="membre-prenom">
           <app-input-container identifier="{{ 'prenomMembre' + i }}"
                                label="{{ 'home.setup.membre.prenom.label' | translate }}"
                                [control]="membre.controls['prenom']"
@@ -140,7 +140,8 @@
                 [attr.disabled]="!setupForm.valid ? 'disabled' : null"
                 [attr.aria-label]="'home.setup.membre.ajouter' | translate"
                 (click)="onAddMembre()"
-                type="button">
+                type="button"
+                data-cy="ajouter-membre">
           <i class="fa fa-plus"></i> <span class="btn-text">{{'home.setup.membre.ajouter' | translate}}</span>
         </button>
 
