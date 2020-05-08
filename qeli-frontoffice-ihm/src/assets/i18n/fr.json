@@ -566,6 +566,11 @@
     }
   },
   "common": {
+    "modal": {
+      "annuler": "Annuler",
+      "continuer": "Continuer",
+      "question": "Attention : Si vous poursuivez cette action, toutes les données précédemment saisies dans le questionnaire seront effacées."
+    },
     "errorPrefix": "Erreur : ",
     "datepicker": {
       "open": "Sélectionner la date à l'aide d'un calendrier",
