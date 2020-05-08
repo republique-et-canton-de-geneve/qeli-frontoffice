@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DeepLinkService } from '../deep-link/deep-link.service';
 import { TrackingService } from '../service/tracking/tracking.service';
@@ -23,9 +23,11 @@ export class HomeComponent implements OnInit {
   @ViewChild('qeliSetupForm', {static: false}) qeliSetupForm: FormSetupComponent;
   @ViewChild('qeliForm', {static: false}) qeliForm: QeliFormComponent;
 
+  demandeurData: Demandeur = null;
   qeliConfiguration: QeliConfiguration;
   qeliStateMachine: QeliStateMachine;
   firstLoad = true;
+  displayFormSetupAlertModal = false;
 
   constructor(private deepLinkService: DeepLinkService,
               private route: ActivatedRoute,
@@ -42,7 +44,6 @@ export class HomeComponent implements OnInit {
       this.trackingService.initMatomo(configuration);
 
       this.route.queryParams.subscribe(params => {
-        // if (this.firstLoad) {
         const state = this.deepLinkService.decryptQueryParamsData(params);
         if (state !== null) {
           const demandeur = new Demandeur(state.demandeur);
@@ -61,7 +62,6 @@ export class HomeComponent implements OnInit {
         } else {
           this.qeliStateMachine = null;
         }
-        // }
 
         this.firstLoad = false;
         this.ref.markForCheck();
@@ -72,9 +72,13 @@ export class HomeComponent implements OnInit {
   }
 
   onPreviousquestion() {
-    this.qeliStateMachine.previousQuestion();
-    this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
-    this.updateDeepLink();
+    if (this.qeliStateMachine.state.currentQuestionIndex === 0) {
+      this.openModal();
+    } else {
+      this.qeliStateMachine.previousQuestion();
+      this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
+      this.updateDeepLink();
+    }
   }
 
   onNextClicked() {
@@ -124,9 +128,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
   private updateDeepLink() {
-    this.deepLinkService.updateUrl(this.qeliStateMachine.state, this.route);
+    if (this.qeliStateMachine) {
+      this.deepLinkService.updateUrl(this.qeliStateMachine.state, this.route);
+    }
   }
 
   private saveStats() {
@@ -138,4 +143,19 @@ export class HomeComponent implements OnInit {
       state.demandeur
     ).subscribe();
   }
+
+  openModal() {
+    this.displayFormSetupAlertModal = true;
+  }
+
+  onCancel() {
+    this.displayFormSetupAlertModal = false;
+  }
+
+  returnToSetup() {
+    this.displayFormSetupAlertModal = false;
+    this.demandeurData = this.qeliStateMachine.state.demandeur;
+    this.qeliStateMachine = null;
+  }
+
 }

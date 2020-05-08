@@ -1,0 +1,19 @@
+<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>{{titre}}</p>
+      </div>
+      <div class="modal-footer">
+          <span>
+            <button type="button" class="btn btn-info" [focusOnInit]=""
+                    (click)="onRefuseHandled()">{{'common.modal.annuler' | translate}}</button>
+          </span>
+        <span>
+            <button type="button" class="btn btn-primary"
+                    (click)="onAcceptHandled()">{{'common.modal.continuer' | translate}}</button>
+          </span>
+      </div>
+    </div>
+  </div>
+</div>
