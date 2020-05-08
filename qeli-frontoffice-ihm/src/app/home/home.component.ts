@@ -129,7 +129,9 @@ export class HomeComponent implements OnInit {
   }
 
   private updateDeepLink() {
-    this.deepLinkService.updateUrl(this.qeliStateMachine.state, this.route);
+    if (this.qeliStateMachine) {
+      this.deepLinkService.updateUrl(this.qeliStateMachine.state, this.route);
+    }
   }
 
   private saveStats() {
@@ -144,7 +146,6 @@ export class HomeComponent implements OnInit {
 
   openModal() {
     this.displayFormSetupAlertModal = true;
-    console.log("hola");
   }
 
   onCancel() {
