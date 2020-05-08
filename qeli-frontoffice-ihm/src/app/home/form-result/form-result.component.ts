@@ -7,6 +7,7 @@ import { Prestation } from '../../service/configuration/prestation.model';
 import { Eligibilite, EligibiliteRefusee } from '../../service/question/eligibilite.model';
 import * as FileSaver from 'file-saver';
 import { Result, ResultsByPrestation, resultsComparator } from './result-block/result.model';
+import { I18nString } from '../../core/i18n/i18nstring.model';
 
 @Component({
   selector: 'app-form-result',
@@ -47,7 +48,17 @@ export class FormResultComponent {
         eligible: false,
         dejaPercue: eligibiliteRefusee.dejaPercue,
         motifRefus: eligibiliteRefusee.motif
-      })).forEach(result => results.push(result));
+      })).forEach(result => {
+        if (result.motifRefus && ![Prestation.BOURSES, Prestation.SUBSIDES].includes(prestation)) {
+          const translateMotif = (i18n: I18nString) => this.translateService.instant(i18n.key, i18n.parameters);
+          const translatedResultMotif = translateMotif(result.motifRefus);
+          if (!results.some(r => translateMotif(r.motifRefus) === translatedResultMotif)) {
+            results.push(result)
+          }
+        } else {
+          results.push(result)
+        }
+      });
 
       if (results.some(result => result.eligible)) {
         this.prestationEligibles.push({
