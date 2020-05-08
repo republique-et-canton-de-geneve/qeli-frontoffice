@@ -130,17 +130,6 @@ export class FormSetupComponent {
     return null;
   }
 
-  initForm (id, prenom, etatCivil, dateNaissance) {
-    return this.formBuilder.group({
-      id: new FormControl(id),
-      prenom: new FormControl(prenom, this.uniquePrenomValidator.bind(this)),
-      etatCivil: new FormControl(etatCivil, Validators.required),
-      dateNaissance: new FormControl(dateNaissance, this.dateNaissanceValidators),
-      autres: new FormControl(false, null),
-      membresFamille: this.formBuilder.array([])
-    });
-
-  }
   private availableRelationOptions() {
     const relationOptions = [Relation.ENFANT];
 
