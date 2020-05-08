@@ -2,7 +2,8 @@
   <div [formGroupName]="question.key"
        role="radiogroup"
        [attr.aria-labelledby]="question.key+'_label'"
-       [attr.data-cy]="question.dataCyIdentifier">
+       data-cy-question-input
+       data-cy-question-type="taux">
     <hr>
 
     <div class="radio">
@@ -10,21 +11,19 @@
         <input type="radio"
                [value]="false"
                formControlName="other"
-               [attr.data-matomo-name]="question.dataCyIdentifier"
-               (change)="onOtherChanged()">
+               (change)="onOtherChanged()"
+               [attr.data-matomo-name]="question.dataCyIdentifier">
         {{ 'common.taux.selectboxOption' | translate }}
       </label>
     </div>
 
-    <div class="tab"
-         [hidden]="isOtherSelected">
+    <div class="tab" [hidden]="isOtherSelected">
       <select formControlName="value"
               [attr.disabled]="isOtherSelected ? 'disabled' : null"
               [attr.aria-invalid]="!isValid"
               [attr.aria-required]="question.required"
               [focusOnInit]="!disableFocusOnInit"
               class="form-control form-select"
-              [attr.data-cy]="question.dataCyIdentifier"
               [attr.data-matomo-name]="question.dataCyIdentifier">
         <option></option>
         <option *ngFor="let option of options" [value]="option">{{  option + '%' }}</option>
@@ -37,8 +36,8 @@
         <input type="radio"
                [value]="true"
                formControlName="other"
-               [attr.data-matomo-name]="question.dataCyIdentifier"
-               (change)="onOtherChanged()">
+               (change)="onOtherChanged()"
+               [attr.data-matomo-name]="question.dataCyIdentifier">
         {{ 'common.taux.textboxOption' | translate }}
       </label>
     </div>
