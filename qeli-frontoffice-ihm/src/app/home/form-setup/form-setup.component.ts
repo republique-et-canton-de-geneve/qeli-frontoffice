@@ -44,6 +44,7 @@ export class FormSetupComponent {
       prenom: new FormControl(demandeur ? demandeur.prenom : null, this.uniquePrenomValidator.bind(this)),
       etatCivil: new FormControl(demandeur ? demandeur.etatCivil : null, Validators.required),
       dateNaissance: new FormControl(demandeur ? demandeur.dateNaissance : null, this.dateNaissanceValidators),
+      autresMembres: new FormControl(demandeur && demandeur.autresMembres, null),
       membresFamille: this.fb.array([])
     });
 
