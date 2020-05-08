@@ -7,6 +7,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ModalValidationComponent {
 
+  @Input()
+  titre;
+
   @Output()
   onAccepte = new EventEmitter();
 

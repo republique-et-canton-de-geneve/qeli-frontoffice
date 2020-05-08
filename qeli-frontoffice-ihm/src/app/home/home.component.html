@@ -6,6 +6,7 @@
 
     <app-modal-validation
       *ngIf="displayFormSetupAlertModal"
+      [titre]="'common.modal.question' | translate"
       (onRefuse)="onCancel()"
       (onAccepte)="returnToSetup()">
     </app-modal-validation>
