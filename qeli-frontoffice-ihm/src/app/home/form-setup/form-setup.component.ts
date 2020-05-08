@@ -30,7 +30,7 @@ export class FormSetupComponent {
   constructor(private fb: FormBuilder,
               private translateService: TranslateService) {
     this.formBuilder = fb;
-    this.formBuilder.group({
+    this.setupForm = this.formBuilder.group({
       id: new FormControl(0),
       prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
       etatCivil: new FormControl(null, Validators.required),
@@ -107,8 +107,8 @@ export class FormSetupComponent {
   @Input()
   set demandeur(demandeur: Demandeur) {
     if(!!demandeur) {
-      demandeur.membresFamille = [];
-      this.numberOfMembres = 0;
+      this.numberOfMembres=0;
+      this.membresFamille.setValue([]);
       this.setupForm.controls['prenom'].setValue(demandeur.prenom);
       this.setupForm.controls['dateNaissance'].setValue(demandeur.dateNaissance);
       this.setupForm.controls['etatCivil'].setValue(demandeur.etatCivil);
@@ -145,7 +145,6 @@ export class FormSetupComponent {
     });
 
   }
-
   private availableRelationOptions() {
     const relationOptions = [Relation.ENFANT];
 
