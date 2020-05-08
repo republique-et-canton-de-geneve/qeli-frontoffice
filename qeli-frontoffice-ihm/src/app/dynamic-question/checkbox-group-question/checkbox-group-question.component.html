@@ -4,7 +4,8 @@
        [attr.aria-labelledby]="question.key+'_label'"
        [attr.aria-required]="question.required"
        [attr.aria-invalid]="!isValid"
-       [attr.data-cy]="question.dataCyIdentifier">
+       data-cy-question-input
+       data-cy-question-type="checkbox-group">
 
     <hr *ngIf="question.hasNone">
     <div *ngIf="question.hasNone" class="radio">
@@ -34,11 +35,10 @@
             class="checkbox">
             <label>
               <input type="checkbox"
+                     #optionCheckboxes
                      [attr.disabled]="isNoneOrInconnuSelected ? 'disabled' : null"
                      [value]="option.value"
                      (change)="onOptionChanged($event.currentTarget.value, $event.currentTarget.checked)"
-                     [attr.data-cy]="option.value"
-                     #optionCheckboxes
                      [attr.data-matomo-name]="question.dataCyIdentifier">
               {{ option.label.key | translate:option.label.parameters }}
             </label>
@@ -58,7 +58,6 @@
                [value]="question.noneOption.value"
                formControlName="none"
                (change)="onNoneChanged()"
-               [attr.data-cy]="question.noneOption.value"
                [attr.data-matomo-name]="question.dataCyIdentifier">
         {{ question.noneOption.label.key| translate:question.noneOption.label.parameters }}
       </label>
@@ -71,7 +70,6 @@
                [value]="question.inconnuOption.value"
                formControlName="none"
                (change)="onNoneChanged()"
-               [attr.data-cy]="question.inconnuOption.value"
                [attr.data-matomo-name]="question.dataCyIdentifier">
         {{ question.inconnuOption.label.key| translate:question.inconnuOption.label.parameters }}
       </label>
