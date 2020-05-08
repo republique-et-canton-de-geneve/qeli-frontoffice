@@ -30,7 +30,13 @@ export class FormSetupComponent {
   constructor(private fb: FormBuilder,
               private translateService: TranslateService) {
     this.formBuilder = fb;
-    this.setupForm = this.initForm(0, null, null, null);
+    this.formBuilder.group({
+      id: new FormControl(0),
+      prenom: new FormControl(null, this.uniquePrenomValidator.bind(this)),
+      etatCivil: new FormControl(null, Validators.required),
+      dateNaissance: new FormControl(null, this.dateNaissanceValidators),
+      membresFamille: this.formBuilder.array([])
+    });
     this.errorLabels = {
       uniquePrenom: {key: 'home.setup.errors.uniquePrenom'},
       required: {key: 'home.setup.errors.required'},
@@ -72,7 +78,7 @@ export class FormSetupComponent {
     }
   }
 
-  onAddMembre(membre: MembreFamille) {
+  onAddMembre(membre?: MembreFamille) {
     if (this.numberOfMembres < MAX_NUMBER_OF_MEMBRES) {
       this.relationOptionsByMember[this.numberOfMembres] = this.availableRelationOptions();
       this.membresFamille.push(this.fb.group({
@@ -101,6 +107,8 @@ export class FormSetupComponent {
   @Input()
   set demandeur(demandeur: Demandeur) {
     if(!!demandeur) {
+      demandeur.membresFamille = [];
+      this.numberOfMembres = 0;
       this.setupForm.controls['prenom'].setValue(demandeur.prenom);
       this.setupForm.controls['dateNaissance'].setValue(demandeur.dateNaissance);
       this.setupForm.controls['etatCivil'].setValue(demandeur.etatCivil);
@@ -108,7 +116,6 @@ export class FormSetupComponent {
         demandeur.membresFamille.forEach(membre => {
           this.onAddMembre(membre);
         });
-        console.log(this.setupForm.controls['membresFamille']);
       }
     }
   }
