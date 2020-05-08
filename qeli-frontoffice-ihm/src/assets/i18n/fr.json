@@ -337,7 +337,7 @@
       }
     },
     "taxationOffice": {
-      "label": " Votre dernière taxation est-elle une taxation d'office ?",
+      "label": " Votre dernière taxation {hasConcubin, select, yes{ou celle de {membre} } other{}}est-elle une taxation d'office ?",
       "altText": {
         "avecConcubin": "Votre dernière taxation ou celle de votre concubin est-elle une taxation d'office ?"
       },
@@ -650,10 +650,10 @@
       }
     },
     "cookie": {
-        "message": "En naviguant sur ce site, vous acceptez l'utilisation statistique de cookies destinés à son amélioration continue.",
-        "dismiss": "Accepter",
-        "link": "Plus d'information",
-        "href": "https://www.ge.ch/conditions-generales"
+      "message": "En naviguant sur ce site, vous acceptez l'utilisation statistique de cookies destinés à son amélioration continue.",
+      "dismiss": "Accepter",
+      "link": "Plus d'information",
+      "href": "https://www.ge.ch/conditions-generales"
     },
     "typeRevenusGroup": {
       "AVS": "{who, select, me{Je reçois} other{{membre} reçoit}} une rente AVS",
