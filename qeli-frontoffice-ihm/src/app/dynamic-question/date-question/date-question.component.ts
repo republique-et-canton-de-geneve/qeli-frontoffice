@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { DATE_CONTROL_TYPE, DateAnswer, DateQuestion } from './date-question.model';
 import { FormGroup } from '@angular/forms';
@@ -12,18 +12,12 @@ import { QuestionOption } from '../model/question.model';
   templateUrl: './date-question.component.html',
   styleUrls: ['./date-question.component.scss']
 })
-export class DateQuestionComponent implements QuestionComponent<DateAnswer>, AfterViewInit {
+export class DateQuestionComponent implements QuestionComponent<DateAnswer> {
   @ViewChild('dateInputComponent', {static: true}) dateInputComponent: DateInputComponent;
 
   @Input() question: DateQuestion;
   @Input() form: FormGroup;
   @Input() disableFocusOnInit: boolean;
-
-  ngAfterViewInit(): void {
-    if (this.dateControl.value) {
-      this.dateInputComponent.setTextInputData(this.dateControl.value);
-    }
-  }
 
   onShortcutChanged(checked: boolean, shortcut: QuestionOption<string>) {
     if (checked && shortcut !== null) {
