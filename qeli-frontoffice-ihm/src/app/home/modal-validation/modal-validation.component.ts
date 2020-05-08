@@ -7,9 +7,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ModalValidationComponent {
 
-  @Input()
-  display;
-
   @Output()
   onAccepte = new EventEmitter();
 
@@ -20,12 +17,10 @@ export class ModalValidationComponent {
   }
 
   onRefuseHandled() {
-    this.display = "none";
     this.onRefuse.emit();
   }
 
   onAcceptHandled() {
-    this.display = "none";
     this.onAccepte.emit();
   }
 

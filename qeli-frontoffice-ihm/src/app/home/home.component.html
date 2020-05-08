@@ -5,7 +5,7 @@
   <div class="container">
 
     <app-modal-validation
-      [display]="displayModal"
+      *ngIf="displayFormSetupAlertModal"
       (onRefuse)="onCancel()"
       (onAccepte)="returnToSetup()">
     </app-modal-validation>

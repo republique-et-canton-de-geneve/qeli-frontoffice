@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   qeliConfiguration: QeliConfiguration;
   qeliStateMachine: QeliStateMachine;
   firstLoad = true;
-  displayModal = "none";
+  displayFormSetupAlertModal = false;
 
   constructor(private deepLinkService: DeepLinkService,
               private route: ActivatedRoute,
@@ -143,16 +143,16 @@ export class HomeComponent implements OnInit {
   }
 
   openModal() {
-    console.log(this.displayModal);
-    this.displayModal = "block";
+    this.displayFormSetupAlertModal = true;
+    console.log("hola");
   }
 
   onCancel() {
-    this.displayModal = "none";
+    this.displayFormSetupAlertModal = false;
   }
 
   returnToSetup() {
-    this.displayModal = "none";
+    this.displayFormSetupAlertModal = false;
     this.demandeurData = this.qeliStateMachine.state.demandeur;
     this.qeliStateMachine = null;
   }

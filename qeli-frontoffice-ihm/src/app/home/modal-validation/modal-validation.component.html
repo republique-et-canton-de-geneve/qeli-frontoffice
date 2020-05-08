@@ -1,18 +1,17 @@
-<div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+<div class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">{{'common.modal.attention' | translate}}</h4>
-      </div>
       <div class="modal-body">
         <p>{{'common.modal.question' | translate}}</p>
       </div>
       <div class="modal-footer">
-          <span style="margin: 5px">
-            <button aria-label="Bouton annulé" type="button" class="btn btn-primary" (click)="onRefuseHandled()">{{'common.modal.annuler' | translate}}</button>
+          <span>
+            <button type="button" class="btn btn-info" [focusOnInit]=""
+                    (click)="onRefuseHandled()">{{'common.modal.annuler' | translate}}</button>
           </span>
-        <span style="margin: 5px">
-            <button aria-label="Bouton continuer" type="button" class="btn btn-primary" (click)="onAcceptHandled()">{{'common.modal.continuer' | translate}}</button>
+        <span>
+            <button type="button" class="btn btn-primary"
+                    (click)="onAcceptHandled()">{{'common.modal.continuer' | translate}}</button>
           </span>
       </div>
     </div>

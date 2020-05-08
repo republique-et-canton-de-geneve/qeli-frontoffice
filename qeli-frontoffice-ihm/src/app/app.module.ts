@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 import { MatomoModule } from 'ngx-matomo';
 import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
-import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
+import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';¡
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
