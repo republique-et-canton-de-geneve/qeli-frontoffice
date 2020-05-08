@@ -49,7 +49,7 @@ export class FormResultComponent {
         dejaPercue: eligibiliteRefusee.dejaPercue,
         motifRefus: eligibiliteRefusee.motif
       })).forEach(result => {
-        if (result.motifRefus) {
+        if (result.motifRefus && ![Prestation.BOURSES, Prestation.SUBSIDES].includes(prestation)) {
           const translateMotif = (i18n: I18nString) => this.translateService.instant(i18n.key, i18n.parameters);
           const translatedResultMotif = translateMotif(result.motifRefus);
           if (!results.some(r => translateMotif(r.motifRefus) === translatedResultMotif)) {
