@@ -569,8 +569,7 @@
     "modal": {
       "annuler": "Annuler",
       "continuer": "Continuer",
-      "question": "Si vous poursuivez cette action, toutes les données précédemment saisies dans le formulaire seront effacées",
-      "attention": "Attention"
+      "question": "Attention : Si vous poursuivez cette action, toutes les données précédemment saisies dans le questionnaire seront effacées."
     },
     "errorPrefix": "Erreur : ",
     "datepicker": {
