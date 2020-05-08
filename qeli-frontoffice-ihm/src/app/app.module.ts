@@ -11,7 +11,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 import { MatomoModule } from 'ngx-matomo';
 import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
+import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
 
+const cookieConfig: NgcCookieConsentConfig = {
+  cookie: {
+    domain: 'localhost:4200'
+  },
+  palette: {
+    popup: {
+      background: '#EDEDED',
+      text: '#337ab7'
+    },
+    button: {
+      background: '#337ab7',
+      text: '#fff'
+    }
+  },
+  theme: 'classic',
+  type: 'info'
+};
 registerLocaleData(localeFrCH);
 
 @NgModule({
@@ -25,7 +43,8 @@ registerLocaleData(localeFrCH);
     LayoutModule,
     HomeModule,
     RouterModule,
-    MatomoModule
+    MatomoModule,
+    NgcCookieConsentModule.forRoot(cookieConfig)
   ],
   providers: [
     {provide: LOCALE_ID, useValue: "fr-CH"},
