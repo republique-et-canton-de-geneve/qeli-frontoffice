@@ -4,7 +4,7 @@
            [attr.disabled]="disabled ? 'disabled' : null"
            [attr.aria-required]="required"
            [attr.aria-invalid]="!dateControl.pristine && !dateControl.valid"
-           formControlName="value"
+           [formControlName]="dateControlName"
            type="date"
            class="form-control">
   </div>
