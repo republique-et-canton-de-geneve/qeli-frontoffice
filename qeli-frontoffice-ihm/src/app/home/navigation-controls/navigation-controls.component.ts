@@ -7,19 +7,9 @@ import { QeliState } from '../../service/question/qeli-state.model';
   styleUrls: ['./navigation-controls.component.scss']
 })
 export class NavigationControlsComponent {
-
-
-  @Input() disablePrevious: boolean;
-  @Input() disableNext: boolean;
+  @Input() disablePrevious: boolean = false;
+  @Input() disableNext: boolean = false;
 
   @Output() onNextClicked: EventEmitter<QeliState> = new EventEmitter();
   @Output() onPreviousClicked: EventEmitter<QeliState> = new EventEmitter();
-
-  nextQuestion() {
-    this.onNextClicked.emit();
-  }
-
-  previousQuestion() {
-    this.onPreviousClicked.emit();
-  }
 }

@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToAnswerVisitor } from '../../dynamic-question/model/to-answer.visitor.model';
 import { QeliStateMachine } from '../../service/question/qeli-state.model';
+import { DynamicQuestionComponent } from '../../dynamic-question/dynamic-question.component';
 
 @Component({
   selector: 'app-qeli-form',
@@ -11,6 +12,7 @@ import { QeliStateMachine } from '../../service/question/qeli-state.model';
 export class QeliFormComponent implements OnInit {
 
   @ViewChild('formElement', {static: false}) formElement: ElementRef;
+  @ViewChild('dynamicQuestionComponent', {static: false}) dynamicQuestionComponent: DynamicQuestionComponent;
 
   @Input() qeliStateMachine: QeliStateMachine;
 
@@ -48,5 +50,9 @@ export class QeliFormComponent implements OnInit {
   get currentQuestion() {
     const questionDecorator = this.qeliStateMachine.currentQuestion;
     return questionDecorator !== null ? questionDecorator.question : null;
+  }
+
+  displayErrors() {
+    this.dynamicQuestionComponent.displayErrors();
   }
 }

@@ -1,4 +1,4 @@
-package ch.ge.social.qeli.service.api.pdf.dto.answer;
+package ch.ge.social.qeli.service.api.answer.dto;
 
 import ch.ge.social.qeli.service.api.i18n.dto.I18nString;
 import lombok.Data;
@@ -11,10 +11,10 @@ public class QuestionOption<T> {
   /**
    * La valeur de cette option.
    */
-  T value;
+  private T value;
 
   /**
    * Le libellé de la question.
    */
-  I18nString label;
+  private I18nString label;
 }

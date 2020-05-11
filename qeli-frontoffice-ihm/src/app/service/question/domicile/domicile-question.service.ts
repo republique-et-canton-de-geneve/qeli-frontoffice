@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader, QuestionUtils } from '../question-loader';
+import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
@@ -13,6 +13,8 @@ import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-questio
 import * as moment from 'moment';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
+import { QuestionUtils } from '../qeli-questions.utils';
+import { AnswerUtils } from '../answer-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,7 @@ export class DomicileQuestionService implements QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const demandeur = eligibiliteGroup.demandeur;
     const membres: Personne[] = [
       eligibiliteGroup.demandeur,
       eligibiliteGroup.demandeur.partenaire
@@ -40,11 +43,25 @@ export class DomicileQuestionService implements QuestionLoader {
           inline: true,
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
+        skip: (formData, skipEligibilites) => {
+          if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
+                              .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
+            return membre.id !== demandeur.id &&
+                   demandeur.hasConcubin &&
+                   !AnswerUtils.hasEnfantEnCommun(formData)
+          }
+
+          return false;
+        },
         calculateRefus: this.calculateDomicileCantonGERefusFn(membre),
-        eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.PC_FAM,
-                                                                 Prestation.AVANCES,
-                                                                 Prestation.ALLOCATION_LOGEMENT,
-                                                                 Prestation.AIDE_SOCIALE], membre),
+        eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM).concat(
+          eligibiliteGroup.findByPrestationEtMembre([
+            Prestation.PC_AVS_AI,
+            Prestation.AVANCES,
+            Prestation.ALLOCATION_LOGEMENT,
+            Prestation.AIDE_SOCIALE], membre
+          )
+        ),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
       }, {
@@ -57,24 +74,11 @@ export class DomicileQuestionService implements QuestionLoader {
           },
           maxDate: new Date(),
           minDate: moment().subtract(configuration.minYearsFromNow, 'year').toDate(),
-          errorLabels: {
-            required: {
-              key: 'question.dateArriveeGeneve.error.required',
-              parameters: translateParams
-            },
-            maxDate: {
-              key: 'question.dateArriveeGeneve.error.maxDate',
-              parameters: translateParams
-            },
-            minDate: {
-              key: 'question.dateArriveeGeneve.error.minDate',
-              parameters: translateParams
-            },
-            invalidDate: {
-              key: 'question.dateArriveeGeneve.error.invalidDate',
-              parameters: translateParams
-            }
-          },
+          errorLabels: QuestionUtils.toErrorLabels(
+            'dateArriveeGeneve',
+            ['required', 'maxDate', 'minDate', 'invalidDate'],
+            translateParams
+          ),
           shortcuts: ['NO_SHORTCUT', 'DEPUIS_NAISSANCE', 'INCONNU'].map(shortcut => ({
             value: shortcut,
             label: {
@@ -83,8 +87,18 @@ export class DomicileQuestionService implements QuestionLoader {
             }
           }))
         }),
+        skip: (formData, skipEligibilites) => {
+          if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
+                              .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
+            return membre.id !== demandeur.id &&
+                   demandeur.hasConcubin &&
+                   !AnswerUtils.hasEnfantEnCommun(formData)
+          }
+
+          return false;
+        },
         calculateRefus: this.calculatesDateArriveeGeneveRefusFn(membre),
-        eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_FAM, membre),
+        eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
       }];
@@ -122,7 +136,8 @@ export class DomicileQuestionService implements QuestionLoader {
         const prestationToRefuse = [Prestation.PC_FAM,
                                     Prestation.AVANCES,
                                     Prestation.ALLOCATION_LOGEMENT,
-                                    Prestation.AIDE_SOCIALE];
+                                    Prestation.AIDE_SOCIALE,
+                                    Prestation.PC_AVS_AI];
 
         return QuestionUtils.createRefusByPrestationAndMembre(
           eligibilites, prestationToRefuse, membre, eligibilite => ({

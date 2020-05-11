@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { QuestionComponent } from '../model/question.component';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -14,13 +14,19 @@ import { NATIONALITE_CONTROL_TYPE, NationaliteAnswer, NationaliteQuestion } from
 export class NationaliteQuestionComponent implements OnInit, QuestionComponent<NationaliteAnswer> {
   @Input() question: NationaliteQuestion;
   @Input() form: FormGroup;
+  @Input() disableFocusOnInit: boolean;
 
   numberOfNationalites = 1;
   maxNumberOfNationalites = 3;
 
+  constructor(private ref: ChangeDetectorRef) {
+
+  }
+
   ngOnInit() {
     const paysValues = this.form.value[this.question.key]['pays'];
     this.numberOfNationalites = paysValues ? paysValues.length : 1;
+    this.form.controls[this.question.key].statusChanges.subscribe(() => this.ref.markForCheck());
   }
 
   onApatrideChanged() {
@@ -56,4 +62,8 @@ export class NationaliteQuestionComponent implements OnInit, QuestionComponent<N
     }
   }
 
+  get isValid() {
+    return this.form.controls[this.question.key].pristine ||
+           this.form.controls[this.question.key].valid;
+  }
 }

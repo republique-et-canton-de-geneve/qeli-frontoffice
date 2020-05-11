@@ -3,8 +3,17 @@
   </app-navigation-menu>
 
   <div class="container">
+
+    <app-modal-validation
+      *ngIf="displayFormSetupAlertModal"
+      [titre]="'common.modal.question' | translate"
+      (onRefuse)="onCancel()"
+      (onAccepte)="returnToSetup()">
+    </app-modal-validation>
+
     <app-form-setup
       *ngIf="!qeliStateMachine"
+      [defaultValue]="demandeurData"
       #qeliSetupForm>
     </app-form-setup>
 
@@ -22,9 +31,8 @@
 
     <app-navigation-controls
       *ngIf="!qeliStateMachine || (qeliStateMachine && !qeliStateMachine.state.done)"
-      [disableNext]="(qeliStateMachine && qeliForm && !qeliForm.isCurrentQuestionValid()) || (qeliSetupForm && !qeliSetupForm.isValid)"
-      [disablePrevious]="!qeliStateMachine || qeliStateMachine.state.currentQuestionIndex === 0"
-      (onNextClicked)="onNextQuestion()"
+      [disablePrevious]="!qeliStateMachine"
+      (onNextClicked)="onNextClicked()"
       (onPreviousClicked)="onPreviousquestion()">
     </app-navigation-controls>
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { COMPOSITE_CONTROL_TYPE, CompositeAnswer, CompositeQuestion } from './composite-question.model';
 import { QuestionComponent } from '../model/question.component';
@@ -8,12 +8,12 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-composite-question',
   templateUrl: './composite-question.component.html',
-  styleUrls: ['./composite-question.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./composite-question.component.scss']
 })
 export class CompositeQuestionComponent implements QuestionComponent<CompositeAnswer>, OnInit {
   @Input() question: CompositeQuestion;
   @Input() form: FormGroup;
+  @Input() disableFocusOnInit: boolean;
 
   ngOnInit(): void {
     this.updateControls();
@@ -25,6 +25,7 @@ export class CompositeQuestionComponent implements QuestionComponent<CompositeAn
     this.question.items.filter(items => items.isShown).forEach(item => {
       const controls = formGroup.controls[item.question.key];
       if (!controls.enabled && item.isShown(this.form.value)) {
+        controls.markAsPristine();
         controls.enable();
       } else if (!controls.disabled && !item.isShown(this.form.value)) {
         controls.disable();

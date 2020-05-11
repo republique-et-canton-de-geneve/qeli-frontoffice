@@ -10,6 +10,7 @@ import { QeliState } from '../question/qeli-state.model';
 import { TranslateService } from '@ngx-translate/core';
 import { CompositeAnswer } from '../../dynamic-question/composite-question/composite-question.model';
 import { QeliConfiguration } from '../configuration/qeli-configuration.model';
+import { TauxAnswer } from '../../dynamic-question/taux-question/taux-question.model';
 
 const TRACK_FORM = 'Formulaire';
 const TRACK_QUESTION = 'question';
@@ -142,5 +143,9 @@ class IsInconnuAnswerVisitor implements AnswerVisitor<boolean> {
 
   visitCompositeAnswer(answer: CompositeAnswer): boolean {
     return Object.values(answer.answers).some(answer => answer.accept(this));
+  }
+
+  visitTauxAnswer(answer: TauxAnswer): boolean {
+    return false;
   }
 }

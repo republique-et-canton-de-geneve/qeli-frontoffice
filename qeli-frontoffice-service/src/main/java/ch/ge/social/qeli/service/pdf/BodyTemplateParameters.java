@@ -1,6 +1,6 @@
 package ch.ge.social.qeli.service.pdf;
 
-import ch.ge.social.qeli.service.api.pdf.dto.Prestation;
+import ch.ge.social.qeli.service.api.result.dto.Prestation;
 import java.util.List;
 import lombok.Builder;
 import lombok.Value;

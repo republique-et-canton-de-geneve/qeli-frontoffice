@@ -1,0 +1,24 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.modal-footer {
+  * {
+    margin-right: 1rem;
+  }
+
+  *:last-child {
+    margin-right: 0;
+  }
+
+  border: 0;
+  padding-top: 0;
+}
+
+.moda-body p {
+  text-align: justify;
+  padding-bottom: 10px;
+}

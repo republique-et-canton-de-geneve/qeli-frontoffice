@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader, QuestionUtils } from '../question-loader';
+import { QuestionLoader} from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
@@ -13,6 +13,7 @@ import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { Demandeur } from '../../configuration/demandeur.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
+import { QuestionUtils } from '../qeli-questions.utils';
 
 
 @Injectable({

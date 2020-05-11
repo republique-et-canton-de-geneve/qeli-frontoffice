@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader, QuestionUtils } from '../question-loader';
+import { QuestionLoader } from '../question-loader';
 import {
   CheckboxGroup, CheckboxGroupAnswer, CheckboxGroupQuestion
 } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
@@ -9,6 +9,8 @@ import { FormData, QuestionOption } from '../../../dynamic-question/model/questi
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Demandeur } from '../../configuration/demandeur.model';
+import { QuestionUtils } from '../qeli-questions.utils';
+import { AnswerUtils } from '../answer-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -162,6 +164,19 @@ export class PrestationQuestionService implements QuestionLoader {
       QuestionUtils.createRefusByPrestation(
         eligibilites, Prestation.AIDE_SOCIALE, eligibilite => ({
           key: `question.prestations.motifRefus.${eligibilite.prestation}_MINEUR`
+        })
+      ).forEach(eligibiliteRefusee => {
+        if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
+          refus.push(eligibiliteRefusee);
+        }
+      });
+    }
+
+    if (demandeur.hasConcubin && !AnswerUtils.hasEnfantEnCommun(formData)) {
+      QuestionUtils.createRefusByPrestationAndMembre(
+        eligibilites, Prestation.PC_FAM, demandeur.partenaire, eligibilite => ({
+          key: `question.prestations.motifRefus.${eligibilite.prestation}_SANS_ENFANTS_COMMUN`,
+          parameters: {prenomAutreParent: demandeur.partenaire.prenom}
         })
       ).forEach(eligibiliteRefusee => {
         if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {

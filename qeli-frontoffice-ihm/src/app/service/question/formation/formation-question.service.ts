@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader, QuestionUtils } from '../question-loader';
+import { QuestionLoader} from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
@@ -12,6 +12,7 @@ import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
 import { AnswerUtils } from '../answer-utils';
+import { QuestionUtils } from '../qeli-questions.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class FormationQuestionService implements QuestionLoader {
               key: 'question.formation.membre',
               parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
             },
-            errorLabels: {required: {key: 'question.formation.error.required'}},
+            errorLabels: QuestionUtils.toErrorLabels(`formation`, ['required']),
             inline: true,
             radioOptions: REPONSE_BINAIRE_OPTIONS
           })
