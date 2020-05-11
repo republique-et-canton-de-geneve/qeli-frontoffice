@@ -41,6 +41,7 @@
                              [control]="setupForm.controls['dateNaissance']"
                              [errorLabels]="errorLabels">
           <app-date-input identifier="dateNaissance"
+                          dateControlName="dateNaissance"
                           required="true"
                           [disabled]="numberOfMembres > 0"
                           [minDate]="minDateNaissance"
@@ -98,6 +99,7 @@
                                [control]="membre.controls['dateNaissance']"
                                [errorLabels]="errorLabels">
             <app-date-input identifier="{{ 'dateNaissanceMembre' + i }}"
+                            dateControlName="dateNaissance"
                             required="true"
                             [disabled]="!isLast"
                             [minDate]="minDateNaissance"

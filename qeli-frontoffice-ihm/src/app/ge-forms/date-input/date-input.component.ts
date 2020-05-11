@@ -13,6 +13,7 @@ import { NgbDateTransformer } from './ngb-date.transformer';
 export class DateInputComponent implements OnInit, AfterViewInit {
 
   @Input() dateControl: AbstractControl;
+  @Input() dateControlName: string;
   @Input() minDate: Date = null;
   @Input() maxDate: Date = null;
   @Input() disabled: boolean = false;
