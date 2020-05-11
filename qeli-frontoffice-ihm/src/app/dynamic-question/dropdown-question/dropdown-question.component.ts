@@ -9,10 +9,15 @@ import { OptionAnswer } from '../model/answer.model';
 @Component({
   selector: 'app-dropdown-question',
   templateUrl: './dropdown-question.component.html',
-  styleUrls: ['./dropdown-question.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./dropdown-question.component.scss']
 })
 export class DropdownQuestionComponent implements QuestionComponent<OptionAnswer<string>> {
   @Input() question: DropdownQuestion;
   @Input() form: FormGroup;
+  @Input() disableFocusOnInit: boolean;
+
+  get isValid() {
+    return this.form.controls[this.question.key].pristine ||
+           this.form.controls[this.question.key].valid;
+  }
 }

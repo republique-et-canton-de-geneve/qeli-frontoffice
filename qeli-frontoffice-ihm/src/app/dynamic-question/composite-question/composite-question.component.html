@@ -1,6 +1,7 @@
-<div *ngFor="let component of question.items; last as isLast">
+<div *ngFor="let component of question.items; last as isLast; first as isFirst;">
   <app-dynamic-question disableDeepLink="true"
                         *ngIf="!component.isShown || component.isShown(form.value)"
+                        [disableFocusOnInit]="!isFirst || disableFocusOnInit"
                         [question]="component.question"
                         [form]="formGroup">
   </app-dynamic-question>

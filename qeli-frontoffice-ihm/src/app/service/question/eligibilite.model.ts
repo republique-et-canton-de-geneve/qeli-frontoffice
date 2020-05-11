@@ -108,6 +108,20 @@ export class EligibiliteGroup {
     }
   }
 
+  /**
+   * Retrouve toutes les éligibilités qui concerne au membre donnée.
+   *
+   * @param membre le membre recherchée.
+   *
+   * @return les éligibilités concernées.
+   */
+  findByMembre(prestations: Prestation | Prestation[]) {
+    if (Array.isArray(prestations)) {
+      return this.eligibilites.filter(eligibilite => prestations.includes(eligibilite.prestation));
+    } else {
+      return this.eligibilites.filter(eligibilite => eligibilite.prestation === prestations);
+    }
+  }
 
   /**
    * Retrouve toutes les éligibilités qui concerne la ou les prestations données pour le membre en paramètre.

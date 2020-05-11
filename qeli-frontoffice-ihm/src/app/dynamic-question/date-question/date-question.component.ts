@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { DATE_CONTROL_TYPE, DateAnswer, DateQuestion } from './date-question.model';
 import { FormGroup } from '@angular/forms';
@@ -10,20 +10,14 @@ import { QuestionOption } from '../model/question.model';
 @Component({
   selector: 'app-date-question',
   templateUrl: './date-question.component.html',
-  styleUrls: ['./date-question.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./date-question.component.scss']
 })
-export class DateQuestionComponent implements QuestionComponent<DateAnswer>, AfterViewInit {
+export class DateQuestionComponent implements QuestionComponent<DateAnswer> {
   @ViewChild('dateInputComponent', {static: true}) dateInputComponent: DateInputComponent;
 
   @Input() question: DateQuestion;
   @Input() form: FormGroup;
-
-  ngAfterViewInit(): void {
-    if (this.dateControl.value) {
-      this.dateInputComponent.setTextInputData(this.dateControl.value);
-    }
-  }
+  @Input() disableFocusOnInit: boolean;
 
   onShortcutChanged(checked: boolean, shortcut: QuestionOption<string>) {
     if (checked && shortcut !== null) {
@@ -51,5 +45,10 @@ export class DateQuestionComponent implements QuestionComponent<DateAnswer>, Aft
 
   get dateErrors() {
     return !this.isDateValid ? Object.keys(this.dateControl.errors) : null;
+  }
+
+  get isValid() {
+    return this.form.controls[this.question.key].pristine ||
+           this.form.controls[this.question.key].valid;
   }
 }

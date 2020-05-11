@@ -11,9 +11,10 @@ public class I18nString {
   /**
    * La clé de traduction.
    */
-  String              key;
+  private String key;
+
   /**
    * Optionnellement, des paramètres de traduction.
    */
-  Map<String, Object> parameters;
+  private Map<String, Object> parameters;
 }

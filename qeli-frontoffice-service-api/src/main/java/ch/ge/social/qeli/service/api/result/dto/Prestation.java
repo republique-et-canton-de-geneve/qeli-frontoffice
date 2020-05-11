@@ -1,4 +1,4 @@
-package ch.ge.social.qeli.service.api.pdf.dto;
+package ch.ge.social.qeli.service.api.result.dto;
 
 /**
  * Un enum représentant toutes les prestations connues par le questionnaire d'éligibilité.

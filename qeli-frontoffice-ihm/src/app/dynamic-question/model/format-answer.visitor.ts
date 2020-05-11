@@ -7,6 +7,7 @@ import { AnswerVisitor } from './answer-visitor.model';
 import { NumberAnswer, OptionAnswer, StringAnswer } from './answer.model';
 import { CompositeAnswer } from '../composite-question/composite-question.model';
 import * as moment from 'moment';
+import { TauxAnswer } from '../taux-question/taux-question.model';
 
 export class FormatAnswerVisitor implements AnswerVisitor<string> {
   constructor(private translate: TranslateService) {
@@ -56,4 +57,7 @@ export class FormatAnswerVisitor implements AnswerVisitor<string> {
     return Object.values(answer.answers).map(answer => answer.accept(this)).join(', ');
   }
 
+  visitTauxAnswer(answer: TauxAnswer): string {
+    return answer.value.toString() + '%';
+  }
 }

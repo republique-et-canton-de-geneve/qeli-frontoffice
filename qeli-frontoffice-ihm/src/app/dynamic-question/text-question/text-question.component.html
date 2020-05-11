@@ -1,11 +1,14 @@
-<div [formGroup]="form">
+<div [formGroup]="form"
+     data-cy-question-input
+     data-cy-question-type="text">
   <input [id]="question.key"
          [formGroup]="form"
          [formControlName]="question.key"
          [placeholder]="question.placeholder"
          [type]="question.type"
-         focusOnInit="true"
+         [focusOnInit]="!disableFocusOnInit"
          class="form-control"
-         [attr.data-cy]="question.dataCyIdentifier"
+         [attr.aria-invalid]="!isValid"
+         [attr.aria-required]="question.required"
          [attr.data-matomo-name]="question.dataCyIdentifier">
 </div>

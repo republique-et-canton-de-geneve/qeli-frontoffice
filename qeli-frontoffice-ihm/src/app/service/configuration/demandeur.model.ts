@@ -9,7 +9,7 @@ export enum Relation {
   EPOUX                 = 'EPOUX',
   PARTENAIRE_ENREGISTRE = 'PARTENAIRE_ENREGISTRE',
   CONCUBIN              = 'CONCUBIN',
-  ENFANT                = 'ENFANT'
+  ENFANT                = 'ENFANT',
 }
 
 /**
@@ -78,6 +78,7 @@ export abstract class Personne {
 export interface DemandeurSchema extends PersonneSchema {
   etatCivil: EtatCivil;
   membresFamille?: MembreFamilleSchema[];
+  autresMembres: boolean;
 }
 
 /**
@@ -95,10 +96,16 @@ export class Demandeur extends Personne {
    */
   membresFamille: MembreFamille[];
 
+  /**
+   * Si le demandeur habite avec d'autre personnes qui n'ont aucun rapport avec son éligibilité.
+   */
+  autresMembres: boolean;
+
   constructor(options: DemandeurSchema) {
     super(options);
     this.etatCivil = options.etatCivil;
     this.membresFamille = (options.membresFamille || []).map(membre => new MembreFamille(membre));
+    this.autresMembres = options.autresMembres;
   }
 
   toEligibilite(): Eligibilite[] {

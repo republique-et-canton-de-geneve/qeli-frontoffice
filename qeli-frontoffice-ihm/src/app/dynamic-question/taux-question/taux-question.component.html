@@ -1,7 +1,9 @@
 <div [formGroup]="form">
-
   <div [formGroupName]="question.key"
-       [attr.data-cy]="question.dataCyIdentifier">
+       role="radiogroup"
+       [attr.aria-labelledby]="question.key+'_label'"
+       data-cy-question-input
+       data-cy-question-type="taux">
     <hr>
 
     <div class="radio">
@@ -9,20 +11,19 @@
         <input type="radio"
                [value]="false"
                formControlName="other"
-               [attr.data-matomo-name]="question.dataCyIdentifier"
-               (change)="onOtherChanged()">
-        {{ 'question.' + question.key + '.defaultOptions' | translate }}
+               (change)="onOtherChanged()"
+               [attr.data-matomo-name]="question.dataCyIdentifier">
+        {{ 'common.taux.selectboxOption' | translate }}
       </label>
     </div>
 
-    <div class="tab"
-         [hidden]="isOtherSelected">
-      <select [id]="question.key + '-select'"
-              formControlName="taux"
+    <div class="tab" [hidden]="isOtherSelected">
+      <select formControlName="value"
               [attr.disabled]="isOtherSelected ? 'disabled' : null"
-              focusOnInit="true"
+              [attr.aria-invalid]="!isValid"
+              [attr.aria-required]="question.required"
+              [focusOnInit]="!disableFocusOnInit"
               class="form-control form-select"
-              [attr.data-cy]="question.dataCyIdentifier"
               [attr.data-matomo-name]="question.dataCyIdentifier">
         <option></option>
         <option *ngFor="let option of options" [value]="option">{{  option + '%' }}</option>
@@ -35,18 +36,20 @@
         <input type="radio"
                [value]="true"
                formControlName="other"
-               [attr.data-matomo-name]="question.dataCyIdentifier"
-               (change)="onOtherChanged()">
-        {{ 'question.' + question.key + '.other' | translate }}
+               (change)="onOtherChanged()"
+               [attr.data-matomo-name]="question.dataCyIdentifier">
+        {{ 'common.taux.textboxOption' | translate }}
       </label>
     </div>
 
     <div class="tab"
          [hidden]="!isOtherSelected">
-      <input [id]="question.key"
-             [formGroup]="form"
+      <input [formGroup]="form"
              [attr.disabled]="!isOtherSelected ? 'disabled' : null"
-             formControlName="taux"
+             [attr.aria-invalid]="!isValid"
+             [attr.aria-required]="question.required"
+             [focusOnInit]="!disableFocusOnInit"
+             formControlName="value"
              type="number"
              (keypress)="isNumber($event)"
              min="0"

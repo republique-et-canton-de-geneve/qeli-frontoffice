@@ -2,10 +2,18 @@
   <h2>{{ 'home.setup.title' | translate }}</h2>
   <p class="help-block" [innerHtml]="'home.setup.subtitle' | translate"></p>
 
-  <form [formGroup]="setupForm">
+  <div *ngIf="marieOuPartenaireSansConjoint"
+       class="error-block text-danger"
+       role="alert">
+    <p>
+      {{ 'home.setup.errors.marieOuPartenaireSansConjoint' | translate }}
+    </p>
+  </div>
+
+  <form [formGroup]="setupForm" #formElement>
     <div class="row form-group">
 
-      <div class="col-sm-4">
+      <div class="col-sm-4" data-cy="demandeur-etat-civil">
         <input type="hidden" formControlName="id" value="0">
         <app-input-container identifier="etatCivil"
                              required="true"
@@ -13,6 +21,8 @@
                              [control]="setupForm.controls['etatCivil']"
                              [errorLabels]="errorLabels">
           <select id="etatCivil"
+                  aria-required="true"
+                  [attr.aria-invalid]="isInvalid(setupForm.controls['etatCivil'])"
                   [attr.disabled]="numberOfMembres > 0 ? 'disabled' : null"
                   formControlName="etatCivil"
                   class="form-control form-select">
@@ -24,13 +34,14 @@
         </app-input-container>
       </div>
 
-      <div class="col-sm-4">
+      <div class="col-sm-4" data-cy="demandeur-date-naissance">
         <app-input-container identifier="dateNaissance"
                              required="true"
                              label="{{ 'home.setup.demandeur.dateNaissance.label' | translate }}"
                              [control]="setupForm.controls['dateNaissance']"
                              [errorLabels]="errorLabels">
           <app-date-input identifier="dateNaissance"
+                          required="true"
                           [disabled]="numberOfMembres > 0"
                           [minDate]="minDateNaissance"
                           [maxDate]="maxDateNaissance"
@@ -39,13 +50,14 @@
         </app-input-container>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-3" data-cy="demandeur-prenom">
         <app-input-container identifier="prenom"
                              label="{{ 'home.setup.demandeur.prenom.label' | translate }}"
                              [control]="setupForm.controls['prenom']"
                              [errorLabels]="errorLabels">
           <input id="prenom"
                  [attr.disabled]="numberOfMembres > 0 ? 'disabled' : null"
+                 [attr.aria-invalid]="isInvalid(setupForm.controls['prenom'])"
                  formControlName="prenom"
                  placeholder="{{ 'home.setup.demandeur.prenom.placeholder' | translate }}"
                  type="text"
@@ -54,10 +66,10 @@
       </div>
     </div>
 
-    <div *ngFor="let membre of membresFamilleControls; index as i; last as isLast;">
+    <div *ngFor="let membre of membresFamilleControls; index as i; last as isLast;" [attr.data-cy]="'membre-' + i">
       <hr>
       <div class="row member-row" [formGroup]="membre">
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-cy="membre-relation">
           <input type="hidden" formControlName="id" [value]="i + 1">
           <app-input-container identifier="{{ 'relationMembre' + i }}"
                                required="true"
@@ -66,6 +78,9 @@
                                [errorLabels]="errorLabels">
             <select id="{{ 'relationMembre' + i }}"
                     formControlName="relation"
+                    [focusOnInit]="isLast"
+                    aria-required="true"
+                    [attr.aria-invalid]="isInvalid(membre.controls['relation'])"
                     [attr.disabled]="!isLast ? 'disabled' : null"
                     class="form-control form-select">
               <option></option>
@@ -76,13 +91,14 @@
           </app-input-container>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-4" data-cy="membre-date-naisance">
           <app-input-container identifier="{{ 'dateNaissanceMembre' + i }}"
                                required="true"
                                label="{{ 'home.setup.membre.dateNaissance.label' | translate }}"
                                [control]="membre.controls['dateNaissance']"
                                [errorLabels]="errorLabels">
             <app-date-input identifier="{{ 'dateNaissanceMembre' + i }}"
+                            required="true"
                             [disabled]="!isLast"
                             [minDate]="minDateNaissance"
                             [maxDate]="maxDateNaissance"
@@ -91,7 +107,7 @@
           </app-input-container>
         </div>
 
-        <div class="col-sm-3">
+        <div class="col-sm-3" data-cy="membre-prenom">
           <app-input-container identifier="{{ 'prenomMembre' + i }}"
                                label="{{ 'home.setup.membre.prenom.label' | translate }}"
                                [control]="membre.controls['prenom']"
@@ -99,6 +115,7 @@
             <input id="{{ 'prenomMembre' + i }}"
                    formControlName="prenom"
                    [attr.disabled]="!isLast ? 'disabled' : null"
+                   [attr.aria-invalid]="isInvalid(membre.controls['prenom'])"
                    placeholder="{{ getDefaultPrenomByMembre(membre.value) }}"
                    type="text"
                    class="form-control">
@@ -108,6 +125,7 @@
         <div class="col-sm-1 text-right remove-btn-col">
           <button class="btn btn-danger"
                   [attr.disabled]="!isLast ? 'disabled' : null"
+                  [title]="'home.setup.membre.supprimer' | translate"
                   [attr.aria-label]="'home.setup.membre.supprimer' | translate"
                   (click)="deleteMembre(i)">
             <i class="fa fa-trash"></i>
@@ -119,13 +137,27 @@
     <div class="row">
       <div class="col-xs-12 text-right">
         <button class="btn btn-info"
-                [attr.disabled]="!isValid ? 'disabled' : null"
+                [attr.disabled]="!setupForm.valid ? 'disabled' : null"
+                [attr.aria-label]="'home.setup.membre.ajouter' | translate" s
                 (click)="onAddMembre()"
-                type="button">
-          <i class="fa fa-plus"></i> <span class="btn-text">Ajouter un autre membre</span>
+                type="button"
+                data-cy="ajouter-membre">
+          <i class="fa fa-plus"></i> <span class="btn-text">{{'home.setup.membre.ajouter' | translate}}</span>
         </button>
+
+        <hr>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-sm-offset-6 col-sm-6 col-xs-12 text-justify checkbox">
+        <label>
+          <input type="checkbox" id="autresMembres" formControlName="autresMembres">
+          {{'home.setup.autresCheckbox' | translate}}
+        </label>
+      </div>
+    </div>
+
   </form>
 
   <hr>

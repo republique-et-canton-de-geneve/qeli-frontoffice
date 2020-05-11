@@ -1,4 +1,6 @@
-<div [formGroup]="form">
+<div [formGroup]="form"
+     data-cy-question-input
+     data-cy-question-type="number">
   <input [id]="question.key"
          [formGroup]="form"
          [formControlName]="question.key"
@@ -7,8 +9,9 @@
          (keypress)="isNumber($event)"
          [min]="question.min"
          [max]="question.max"
-         focusOnInit="true"
+         [focusOnInit]="!disableFocusOnInit"
          class="form-control"
-         [attr.data-cy]="question.dataCyIdentifier"
+         [attr.aria-invalid]="!isValid"
+         [attr.aria-required]="question.required"
          [attr.data-matomo-name]="question.dataCyIdentifier">
 </div>

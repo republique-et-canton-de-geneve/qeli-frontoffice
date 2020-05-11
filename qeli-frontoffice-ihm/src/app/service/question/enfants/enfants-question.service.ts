@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
-import { QuestionLoader, QuestionUtils } from '../question-loader';
+import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
-import {
-  CompositeAnswer, CompositeQuestion
-} from '../../../dynamic-question/composite-question/composite-question.model';
-import { Prestation } from '../../configuration/prestation.model';
-import { Relation } from '../../configuration/demandeur.model';
+import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { TypeEnfant, typeEnfantAsOptions } from './type-enfant.model';
-import { FormData } from '../../../dynamic-question/model/question.model';
-import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
+import { typeEnfantAsOptions } from './type-enfant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +17,7 @@ export class EnfantsQuestionService implements QuestionLoader {
     const enfants = eligibiliteGroup.demandeur.enfants;
     const autreParent = eligibiliteGroup.demandeur.partenaire;
 
-    if (enfants.length === 0 || !autreParent) {
+    if (enfants.length === 0) {
       return [];
     } else {
       return [{
@@ -46,35 +40,11 @@ export class EnfantsQuestionService implements QuestionLoader {
             })
           }))
         }),
-        skip: () => !enfants.some(enfant => enfant.age <= 25),
-        calculateRefus: this.calculateRefus.bind(this),
+        calculateRefus: () => [],
         eligibilites: eligibilites,
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.ETAT_CIVIL
       }];
-    }
-  }
-
-  private calculateRefus(formData: FormData, eligibilites: Eligibilite[]) {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const concubin = eligibiliteGroup.demandeur.membresFamille.find(membre => membre.relation === Relation.CONCUBIN);
-    const answers = (formData['parentsEnfants'] as CompositeAnswer).answers;
-    const hasEnfantToutLesDeux = Object.values(answers).some(answer => {
-      const option = (answer as OptionAnswer<string>).value;
-      return option.value === TypeEnfant.LES_DEUX;
-    });
-
-    if (!concubin || hasEnfantToutLesDeux) {
-      return [];
-    } else {
-      // TODO Attention dans l'écran de résultat si on coche 'déjà péçue` dans la prochaine question PC FAM apparaît
-      //  quand-même refusée alors qu'elle ne devrait pas. Il faudrait bouger ce check.
-      return QuestionUtils.createRefusByPrestationAndMembre(
-        eligibilites, Prestation.PC_FAM, concubin, eligibilite => ({
-          key: `question.parentsEnfants.motifRefus.${eligibilite.prestation}`,
-          parameters: {prenomAutreParent: concubin.prenom}
-        })
-      );
     }
   }
 }

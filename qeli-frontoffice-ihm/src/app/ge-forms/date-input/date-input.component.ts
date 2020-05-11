@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { BowserService } from '../../core/bowser/bowser.service';
@@ -10,12 +10,14 @@ import { NgbDateTransformer } from './ngb-date.transformer';
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss']
 })
-export class DateInputComponent implements OnInit {
+export class DateInputComponent implements OnInit, AfterViewInit {
 
   @Input() dateControl: AbstractControl;
   @Input() minDate: Date = null;
   @Input() maxDate: Date = null;
   @Input() disabled: boolean = false;
+  @Input() required: boolean = false;
+  @Input() focusOnInit: boolean = false;
   @Input() identifier: string;
 
   @ViewChild('textInputDate', {static: false}) textInputDate: ElementRef<HTMLInputElement>;
@@ -28,6 +30,12 @@ export class DateInputComponent implements OnInit {
 
   ngOnInit(): void {
     this.dateControl.valueChanges.subscribe(this.setTextInputData.bind(this));
+  }
+
+  ngAfterViewInit(): void {
+    if (this.dateControl.value) {
+      this.setTextInputData(this.dateControl.value);
+    }
   }
 
   setTextInputData(value: string) {

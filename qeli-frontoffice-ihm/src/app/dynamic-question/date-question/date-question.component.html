@@ -1,8 +1,11 @@
 <div [formGroup]="form">
-
   <div [formGroupName]="question.key"
-       [attr.data-cy]="question.dataCyIdentifier"
-       data-cy-type="date">
+       role="radiogroup"
+       [attr.aria-labelledby]="question.key+'_label'"
+       [attr.aria-required]="question.required"
+       [attr.aria-invalid]="!isValid"
+       data-cy-question-input
+       data-cy-question-type="date">
 
     <div class="radio" *ngIf="question.hasShortcuts">
       <label>
@@ -10,7 +13,6 @@
                [value]="question.noShortcutOption.value"
                formControlName="shortcut"
                (change)="onShortcutChanged($event.currentTarget.checked, null)"
-               [attr.data-cy]="question.noShortcutOption.value"
                data-matomo-ignore>
         {{ question.noShortcutOption.label.key | translate:question.noShortcutOption.label.parameters }}
       </label>
@@ -18,13 +20,18 @@
 
     <div *ngIf="!isDateValid && dateErrors.length > 0"
          class="error-block text-danger"
-         data-cy-label="validation_message">
+         role="alert"
+         [attr.aria-describedby]="question.key + '_label'"
+         data-cy="validation_message">
       <p *ngFor="let error of dateErrors">
-        {{ 'question.' + question.key + '.error.' + error | translate }}
+        {{ 'common.errorPrefix' | translate }}
+        {{ question.errorLabels[error].key | translate:question.errorLabels[error].parameters  }}
       </p>
     </div>
 
     <app-date-input [dateControl]="dateControl"
+                    [focusOnInit]="!disableFocusOnInit"
+                    [required]="question.required"
                     [minDate]="question.minDate"
                     [maxDate]="question.maxDate"
                     [disabled]="isShortcutSelected"
@@ -40,7 +47,6 @@
                  [value]="shortcut.value"
                  formControlName="shortcut"
                  (change)="onShortcutChanged($event.currentTarget.checked, shortcut)"
-                 [attr.data-cy]="shortcut.value"
                  [attr.data-matomo-name]="question.dataCyIdentifier">
           {{ shortcut.label.key | translate:shortcut.label.parameters }}
         </label>
