@@ -29,12 +29,12 @@
       </p>
     </div>
 
-    <app-date-input [dateControl]="dateControl"
-                    dateControlName="value"
+    <app-date-input [form]="formGroup"
+                    controlName="value"
                     [focusOnInit]="!disableFocusOnInit"
                     [required]="question.required"
                     [minDate]="question.minDate"
-                    [maxDate]="question.maxDate"
+                    [maxDate]="question.maxD  ate"
                     [disabled]="isShortcutSelected"
                     [identifier]="question.key"
                     #dateInputComponent>
