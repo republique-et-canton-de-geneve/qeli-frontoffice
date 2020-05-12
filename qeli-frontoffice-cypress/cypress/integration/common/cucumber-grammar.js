@@ -6,7 +6,7 @@ Given('Je/je suis sur le formulaire',
       () => cy.visit(Cypress.config('baseUrl')));
 Given("Je/je suis {string}(,) j'ai {int} an(s) et je m'appelle {string}",
       (etatCivil, age, prenom) => cy.setDemandeur(etatCivil, age, prenom));
-Given("/j'ai un/une {string}(,) qui a {int} an(s) et il/elle s'appelle {string}",
+Given("j'ai un/une {string}(,) qui a {int} an(s) et il/elle s'appelle {string}",
       (relation, age, prenom) => cy.addMembre(relation, age, prenom));
 
 // When statements
