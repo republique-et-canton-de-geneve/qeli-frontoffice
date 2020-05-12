@@ -38,9 +38,10 @@ Cypress.Commands.add('addMembre', (relation, age, prenom) => {
   const membres = Cypress.env('membres') || [];
   const currentMembreIndex = membres.length;
 
-  cy.get(`[data-cy=membre-${currentMembreIndex}] [data-cy=relation] select`).select(relation);
-  cy.get(`[data-cy=membre-${currentMembreIndex}] [data-cy=date-naissance] [data-cy=date-input]`).type(dateNaissance);
-  cy.get(`[data-cy=membre-${currentMembreIndex}] [data-cy=prenom] input`).type(prenom);
+  cy.get('[data-cy=ajouter-membre]').click();
+  cy.get(`[data-cy=membre-${currentMembreIndex}] [data-cy=membre-relation] select`).select(relation);
+  cy.get(`[data-cy=membre-${currentMembreIndex}] [data-cy=membre-date-naissance] [data-cy=date-input]`).type(dateNaissance);
+  cy.get(`[data-cy=membre-${currentMembreIndex}] [data-cy=membre-prenom] input`).type(prenom);
 
   Cypress.env('membres', membres.concat({id: currentMembreIndex + 1, prenom: prenom}));
 });
