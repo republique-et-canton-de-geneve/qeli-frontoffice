@@ -15,9 +15,9 @@ export const CHECKBOX_GROUP_CONTROL_TYPE = 'checkbox-group';
  */
 export interface CheckboxGroupAnswerSchema {
   /**
-   * 'OUI' ou 'INCONNU' si aucun choix ne satisfait la question.
+   * 'NON' ou 'INCONNU' si aucun choix ne satisfait la question.
    */
-  none?: QuestionOption<'OUI' | 'NON' | 'INCONNU'>;
+  hasSome?: QuestionOption<'OUI' | 'NON' | 'INCONNU'>;
   /**
    * Les choix de l'utilisteur.
    */
@@ -30,9 +30,9 @@ export interface CheckboxGroupAnswerSchema {
 export class CheckboxGroupAnswer extends Answer {
   type = CHECKBOX_GROUP_CONTROL_TYPE;
   /**
-   * 'OUI' ou 'INCONNU' si aucun choix ne satisfait la question.
+   * 'NON' ou 'INCONNU' si aucun choix ne satisfait la question.
    */
-  none?: QuestionOption<'OUI' | 'NON' | 'INCONNU'>;
+  hasSome?: QuestionOption<'OUI' | 'NON' | 'INCONNU'>;
   /**
    * Les choix de l'utilisteur.
    */
@@ -40,7 +40,7 @@ export class CheckboxGroupAnswer extends Answer {
 
   constructor(options: CheckboxGroupAnswerSchema) {
     super();
-    this.none = options.none || null;
+    this.hasSome = options.hasSome || null;
     this.choices = options.choices || [];
   }
 
@@ -71,7 +71,7 @@ export interface CheckboxGroupQuestionSchema extends QuestionSchema {
    * S'il y a des options pour indiquer qu’aucun choix ne satisfait pas l'utilistauer ou ne réponds pas à la question
    * pour son cas.
    */
-  noneOptions?: QuestionOption<'OUI' | 'NON' | 'INCONNU'>[];
+  hasSomeOptions?: QuestionOption<'OUI' | 'NON' | 'INCONNU'>[];
   /**
    * La liste des choix, sois des choix simples, sois des choix regroupés.
    */
@@ -87,7 +87,7 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
    * S'il y a des options pour indiquer qu’aucun choix ne satisfait pas l'utilistauer ou ne réponds pas à la question
    * pour son cas.
    */
-  noneOptions: QuestionOption<'OUI' | 'NON' | 'INCONNU'>[];
+  hasSomeOptions: QuestionOption<'OUI' | 'NON' | 'INCONNU'>[];
   /**
    * La liste des choix, sois des choix simples, sois des choix regroupés.
    */
@@ -96,14 +96,14 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
   constructor(options: CheckboxGroupQuestionSchema) {
     super(options);
     this.checkboxOptions = options.checkboxOptions || [];
-    this.noneOptions = options.noneOptions || [];
+    this.hasSomeOptions = options.hasSomeOptions || [];
   }
 
   protected requiredValidator(): ValidatorFn {
     return (control: AbstractControl) => {
       if (control && control.value) {
         const atLeastOneOption = this.listOfOptions.some(option => control.value['choices'].includes(option.value));
-        const isNoneSelected = (this.hasNone || this.hasInconnu) && control.value['none'] !== 'NON';
+        const isNoneSelected = (this.hasNone || this.hasInconnu) && control.value['hasSome'] !== 'OUI';
         return !atLeastOneOption && !isNoneSelected ? {'atLeastOneSelected': true} : null;
       }
 
@@ -115,7 +115,7 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
     let group: any = {};
 
     if (this.hasNone || this.hasInconnu) {
-      group['none'] = new FormControl(defaultValue ? defaultValue.none.value : 'NON');
+      group['hasSome'] = new FormControl(defaultValue ? defaultValue.hasSome.value : 'OUI');
     }
 
     const defaultChoices = defaultValue ? defaultValue.choices || [] : [];
@@ -132,21 +132,21 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
    * Quand au moins un des choix réponds à la question pour l'utilistateur, cette option est cochée.
    */
   get someOption() {
-    return this.findNoneOptionByKey('NON');
+    return this.findHasSomeOptionByKey('OUI');
   }
 
   /**
    * Si elle existe, l'option pour indiquer qu’aucun choix n'est satisfait pas la question pour l'utilisateur.s
    */
   get noneOption() {
-    return this.findNoneOptionByKey('OUI');
+    return this.findHasSomeOptionByKey('NON');
   }
 
   /**
    * si elle existe, l'option pour indiquer que l'utilisateur ne connais pas la réponse à la question en ce moment.
    */
   get inconnuOption() {
-    return this.findNoneOptionByKey('INCONNU');
+    return this.findHasSomeOptionByKey('INCONNU');
   }
 
   /**
@@ -168,8 +168,8 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
    *
    * @param key la clé pour l'option recherchée.
    */
-  findNoneOptionByKey(key: 'OUI' | 'NON' | 'INCONNU') {
-    return this.noneOptions.find(option => option.value === key);
+  findHasSomeOptionByKey(key: 'OUI' | 'NON' | 'INCONNU') {
+    return this.hasSomeOptions.find(option => option.value === key);
   }
 
   /**

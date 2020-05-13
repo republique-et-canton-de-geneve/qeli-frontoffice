@@ -50,7 +50,7 @@ export class RevenusQuestionService implements QuestionLoader {
               parameters: translateParams
             },
             errorLabels: QuestionUtils.toErrorLabels('revenus', ['required', 'atLeastOneSelected']),
-            noneOptions: checkboxGroupNoneOptionsFor('revenus', membre),
+            hasSomeOptions: checkboxGroupNoneOptionsFor('revenus', membre),
             checkboxOptions: typeRevenusToCheckboxOptions(membre)
           }),
           skip: (formData, skipEligibilites) => {
@@ -80,7 +80,7 @@ export class RevenusQuestionService implements QuestionLoader {
               required: {key: 'question.situationRente.error.required'},
               atLeastOneSelected: {key: 'question.situationRente.error.atLeastOneSelected'}
             },
-            noneOptions: checkboxGroupNoneOptionsFor('situationRente', membre, false),
+            hasSomeOptions: checkboxGroupNoneOptionsFor('situationRente', membre, false),
             checkboxOptions: situationRenteAsOptions(membre)
           }),
           skip: formData => this.hasAnyRevenusAVSOrAI(formData, membre),
@@ -103,7 +103,7 @@ export class RevenusQuestionService implements QuestionLoader {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const refus: EligibiliteRefusee[] = [];
       const revenusAnswer = formData[`revenus_${membre.id}`] as CheckboxGroupAnswer;
-      const isInconnu = revenusAnswer.none.value === 'INCONNU';
+      const isInconnu = revenusAnswer.hasSome.value === 'INCONNU';
       const choices = revenusAnswer.choices;
       const eligibiliteToMotifRefus = eligibilite => ({
         key: `question.revenus.motifRefus.${eligibilite.prestation}`,
@@ -153,7 +153,7 @@ export class RevenusQuestionService implements QuestionLoader {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const situationRenteAnswer = formData[`situationRente_${membre.id}`] as CheckboxGroupAnswer;
 
-      if (situationRenteAnswer.none.value === 'OUI') {
+      if (situationRenteAnswer.hasSome.value === 'OUI') {
         return QuestionUtils.createRefusByPrestationAndMembre(
           // Refus PC AVS AI si aucune des options n'est pas coché.
           eligibilites, Prestation.PC_AVS_AI, membre, eligibilite => ({
@@ -175,14 +175,14 @@ function checkboxGroupNoneOptionsFor(questionKey: string,
     {
       value: 'OUI',
       label: {
-        key: `question.${questionKey}.none`,
+        key: `question.${questionKey}.some`,
         parameters: translateParams
       }
     },
     {
       value: 'NON',
       label: {
-        key: `question.${questionKey}.some`,
+        key: `question.${questionKey}.none`,
         parameters: translateParams
       }
     }

@@ -12,10 +12,11 @@
       <label [id]="question.key + '_some_option_label'">
         <input type="radio"
                [value]="question.someOption.value"
-               formControlName="none"
+               formControlName="hasSome"
                [focusOnInit]="!disableFocusOnInit"
                (change)="onNoneChanged()"
-               [attr.data-matomo-name]="question.dataCyIdentifier">
+               [attr.data-cy-value]="question.someOption.value"
+               data-matomo-ignore>
         {{ question.someOption.label.key| translate:question.someOption.label.parameters }}
       </label>
     </div>
@@ -56,8 +57,9 @@
       <label>
         <input type="radio"
                [value]="question.noneOption.value"
-               formControlName="none"
+               formControlName="hasSome"
                (change)="onNoneChanged()"
+               [attr.data-cy-value]="question.noneOption.value"
                [attr.data-matomo-name]="question.dataCyIdentifier">
         {{ question.noneOption.label.key| translate:question.noneOption.label.parameters }}
       </label>
@@ -68,8 +70,9 @@
       <label>
         <input type="radio"
                [value]="question.inconnuOption.value"
-               formControlName="none"
+               formControlName="hasSome"
                (change)="onNoneChanged()"
+               [attr.data-cy-value]="question.inconnuOption.value"
                [attr.data-matomo-name]="question.dataCyIdentifier">
         {{ question.inconnuOption.label.key| translate:question.inconnuOption.label.parameters }}
       </label>
