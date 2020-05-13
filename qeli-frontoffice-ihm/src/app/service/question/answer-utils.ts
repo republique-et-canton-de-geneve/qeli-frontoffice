@@ -98,12 +98,12 @@ export class AnswerUtils {
 
   static isRevenuInconnu(formData: FormData, personne: Personne) {
     const answer = (formData[`revenus_${personne.id}`] as CheckboxGroupAnswer);
-    return answer && answer.none && answer.none.value === 'INCONNU';
+    return answer && answer.hasSome && answer.hasSome.value === 'INCONNU';
   }
 
   static hasAnyRevenus(formData: FormData, personne: Personne, revenus: TypeRevenus[]) {
     const answer = (formData[`revenus_${personne.id}`] as CheckboxGroupAnswer);
-    if (!answer || answer.none.value !== 'NON') {
+    if (!answer || answer.hasSome.value !== 'OUI') {
       return false;
     }
 

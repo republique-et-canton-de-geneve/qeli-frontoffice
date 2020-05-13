@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class CheckboxGroupAnswer implements Answer {
-  private QuestionOption<String>       none;
+  private QuestionOption<String>       hasSome;
   private List<QuestionOption<String>> choices;
 
   @Override
@@ -17,16 +17,16 @@ public class CheckboxGroupAnswer implements Answer {
   }
 
   public boolean isInconnuSelected() {
-    return Optional.ofNullable(none)
+    return Optional.ofNullable(hasSome)
                    .map(QuestionOption::getValue)
                    .map("INCONNU"::equals)
                    .orElse(false);
   }
 
   public boolean isNonSelected() {
-    return Optional.ofNullable(none)
+    return Optional.ofNullable(hasSome)
                    .map(QuestionOption::getValue)
-                   .map("OUI"::equals)
+                   .map("NON"::equals)
                    .orElse(false);
   }
 }

@@ -58,37 +58,36 @@ declare namespace Cypress {
     /**
      * Réponds à une question du formulaire.
      *
-     * @param question Couple 'code + key' de la question, exemple : "0101_prestations".
+     * @param questionKey Couple 'code + key' de la question, exemple : "0101_prestations".
      * @param answer Réponse à la question, peut être une liste de valeurs séparée par une virgule pour les checkbox.
      * @param submit si true passe à la question suivante en cliquant sur le bouton suivant. Par défaut c'est true.
      *
      * @example cy.answerQuestion('0101_prestations', 'SUBSIDES', false)
      * @example cy.answerQuestion('0501_dateArriveGeneve', '01.01.1970', true, 'demandeur')
      */
-    answerQuestion(question: string, answer: string, submit?: boolean): Chainable<any>
+    answerQuestion(questionKey: string, answer: string, submit?: boolean): Chainable<any>
 
     /**
      * Réponds à une question de type nationalité du formulaire.
      *
-     * @param question couple 'code + key' de la question, exemple : "0401_nationalite"
+     * @param questionKey couple 'code + key' de la question, exemple : "0401_nationalite"
      * @param answer réponse à la question, peut être une liste de valeurs séparée par une virgule
      *
      * @example cy.answerQuestion('0401_nationalite', 'ch,be')
      */
-    answerNationalite(question: string, answer: string): Chainable<any>
+    answerNationalite(questionKey: string, answer: string): Chainable<any>
 
     /**
      * Réponds à une question du formulaire de type date à partir d'un âge.
      *
-     * @param question Couple 'code + key' de la question, exemple : "0501_dateArriveGeneve".
+     * @param questionKey Couple 'code + key' de la question, exemple : "0501_dateArriveGeneve".
      * @param years Réponse à la question en nombre d'années (l'âge).
      * @param submit si true passe à la question suivante en cliquant sur le bouton suivant. Par défaut c'est true.
-     * @param prenomMembre le prénom du membre au quelle cette question est dirigée, optionnelle.
      *
      * @example cy.answerQuestion('0501_dateArriveGeneve', 30, false)
      * @example cy.answerQuestion('0501_dateArriveGeneve', 30, true, 'concubin')
      */
-    answerYearsQuestion(question: string, years: number, submit?: boolean): Chainable<any>
+    answerYearsQuestion(questionKey: string, years: number, submit?: boolean): Chainable<any>
 
     /**
      * Vérifie l'affichage du résultat d'une ou plusieurs prestations par statut.

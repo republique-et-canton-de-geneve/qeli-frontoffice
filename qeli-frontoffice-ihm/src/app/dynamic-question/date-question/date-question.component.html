@@ -13,6 +13,7 @@
                [value]="question.noShortcutOption.value"
                formControlName="shortcut"
                (change)="onShortcutChanged($event.currentTarget.checked, null)"
+               [attr.data-cy-value]="question.noShortcutOption.value"
                data-matomo-ignore>
         {{ question.noShortcutOption.label.key | translate:question.noShortcutOption.label.parameters }}
       </label>
@@ -48,6 +49,7 @@
                  [value]="shortcut.value"
                  formControlName="shortcut"
                  (change)="onShortcutChanged($event.currentTarget.checked, shortcut)"
+                 [attr.data-cy-value]="shortcut.value"
                  [attr.data-matomo-name]="question.dataCyIdentifier">
           {{ shortcut.label.key | translate:shortcut.label.parameters }}
         </label>

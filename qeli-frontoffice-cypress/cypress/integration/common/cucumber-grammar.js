@@ -58,7 +58,7 @@ Then("Un/un message d'erreur {string} s'affiche",
 Then('La/la prestation {string} est éligible/eligible',
      (prestation) => cy.isPrestationInStatus(prestation, PrestationStatus.ELIGIBLE)
 );
-Then('La/la prestation {string} est réfusée/refusee/refuse',
+Then('La/la prestation {string} est refusée/refusee/refuse',
      (prestation) => cy.isPrestationInStatus(prestation, PrestationStatus.REFUSEE,)
 );
 Then('La/la prestation {string} est déjà/deja perçue/percue',
