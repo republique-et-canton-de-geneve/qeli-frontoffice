@@ -153,7 +153,7 @@ export class RevenusQuestionService implements QuestionLoader {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const situationRenteAnswer = formData[`situationRente_${membre.id}`] as CheckboxGroupAnswer;
 
-      if (situationRenteAnswer.hasSome.value === 'OUI') {
+      if (situationRenteAnswer.hasSome.value === 'NON') {
         return QuestionUtils.createRefusByPrestationAndMembre(
           // Refus PC AVS AI si aucune des options n'est pas coché.
           eligibilites, Prestation.PC_AVS_AI, membre, eligibilite => ({
