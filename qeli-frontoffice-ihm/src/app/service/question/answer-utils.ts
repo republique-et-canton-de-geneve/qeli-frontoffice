@@ -117,4 +117,16 @@ export class AnswerUtils {
       return option.value === TypeEnfant.LES_DEUX;
     });
   }
+
+  static isMonEnfant(formData: FormData, enfant: Personne) {
+    const parentEnfantsAnswer = (formData['parentsEnfants'] as CompositeAnswer);
+    const option = (parentEnfantsAnswer[`parentsEnfants_${enfant.id}`] as OptionAnswer<string>).value;
+    return option.value === TypeEnfant.MOI;
+  }
+
+  static isEnfantConjoint(formData: FormData, enfant: Personne) {
+    const parentEnfantsAnswer = (formData['parentsEnfants'] as CompositeAnswer);
+    const option = (parentEnfantsAnswer[`parentsEnfants_${enfant.id}`] as OptionAnswer<string>).value;
+    return option.value === TypeEnfant.AUTRES;
+  }
 }

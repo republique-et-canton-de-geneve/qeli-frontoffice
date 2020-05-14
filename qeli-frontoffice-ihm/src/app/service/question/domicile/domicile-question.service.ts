@@ -3,7 +3,7 @@ import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Personne } from '../../configuration/demandeur.model';
+import { Demandeur, MembreFamille, Personne, Relation } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
 import {
@@ -15,6 +15,7 @@ import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 import { AnswerUtils } from '../answer-utils';
+import { CompositeAnswer } from '../../../dynamic-question/composite-question/composite-question.model';
 
 @Injectable({
   providedIn: 'root'
@@ -131,6 +132,8 @@ export class DomicileQuestionService implements QuestionLoader {
   private calculateDomicileCantonGERefusFn(membre: Personne) {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const choosenOption = (formData[`domicileCantonGE_${membre.id}`] as OptionAnswer<string>).value;
+      const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+      const refus: EligibiliteRefusee[] = [];
 
       if (choosenOption.value === ReponseProgressive.NON) {
         const prestationToRefuse = [Prestation.PC_FAM,
@@ -139,17 +142,46 @@ export class DomicileQuestionService implements QuestionLoader {
                                     Prestation.AIDE_SOCIALE,
                                     Prestation.PC_AVS_AI];
 
-        return QuestionUtils.createRefusByPrestationAndMembre(
+        QuestionUtils.createRefusByPrestationAndMembre(
           eligibilites, prestationToRefuse, membre, eligibilite => ({
             key: `question.domicileCantonGE.motifRefus.${eligibilite.prestation}`,
             parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
           })
-        );
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
 
-        // TODO si tout les eligibilite PC AVS AI Demandeur et concubin/partenaire/conjoint tombe, celle des enfants
-        // tombent aussi
+        eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT)
+                        .filter(eligibilite => {
+
+                          if (membre === eligibiliteGroup.demandeur) {
+                            if (eligibiliteGroup.demandeur.hasConcubin) {
+                              return AnswerUtils.isMonEnfant(formData, eligibilite.membre);
+                            }
+                            return !eligibiliteGroup.demandeur.hasConjoint
+                                       || (eligibiliteGroup.demandeur.hasConcubin &&
+                                           !AnswerUtils.hasEnfantEnCommun(formData));
+                          } else if (membre === eligibiliteGroup.demandeur.partenaire) {
+                            if ((membre as MembreFamille).isConcubin) {
+                              return eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI,
+                                eligibiliteGroup.demandeur).length === 0 && AnswerUtils.isEnfantConjoint(formData, eligibilite.membre);
+                            } else if ((membre as MembreFamille).isConjoint){
+                              return eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI,
+                                eligibiliteGroup.demandeur).length === 0
+                                     &&  eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI,
+                                  eligibiliteGroup.demandeur.partenaire).length === 0;
+                            }
+                          }
+                          return null;
+                        }).map((eligibilite) => ({
+            eligibilite: eligibilite,
+            motif: {
+              key: `question.domicileCantonGE.motifRefus.${eligibilite.prestation}`,
+              parameters: {membre: eligibilite.membre.prenom}
+            }
+          } as EligibiliteRefusee)
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+
+        return refus;
       }
-
       return [];
     };
   }

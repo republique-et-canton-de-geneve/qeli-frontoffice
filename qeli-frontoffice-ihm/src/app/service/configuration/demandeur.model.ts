@@ -201,4 +201,19 @@ export class MembreFamille extends Personne {
       membre: this
     }));
   }
+
+  /**
+   * Si le demandeur est marié ou en partenariat entregistré.
+   */
+  get isConjoint() {
+    return this.relation === Relation.PARTENAIRE_ENREGISTRE ||
+           this.relation === Relation.EPOUX;
+  }
+
+  /**
+   * Si le demandeur a un concubin.
+   */
+  get isConcubin() {
+    return this.relation === Relation.CONCUBIN;
+  }
 }
