@@ -73,6 +73,6 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
   }
 
   get isNoneOrInconnuSelected() {
-    return this.formGroup.value['none'] !== 'NON';
+    return this.formGroup.value['hasSome'] !== 'OUI';
   }
 }

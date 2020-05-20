@@ -63,14 +63,12 @@ export enum Categorie {
  * sont affichées en deuxième niveau de navigation dans le menu du questionnaire.
  */
 export enum Subcategorie {
-  PRESTATION                = 'PRESTATION',
-  AGE                       = 'AGE',
   ETAT_CIVIL                = 'ETAT_CIVIL',
+  PRESTATION                = 'PRESTATION',
+  FORMATION                 = 'FORMATION',
   NATIONALITE               = 'NATIONALITE',
   DOMICILE                  = 'DOMICILE',
   REVENUS                   = 'REVENUS',
-  FORMATION                 = 'FORMATION',
-  RENTES                    = 'RENTES',
   SITUATION_PROFESSIONNELLE = 'SITUATION_PROFESSIONNELLE',
   LOGEMENT                  = 'LOGEMENT',
   ASSURANCE_MALADIE         = 'ASSURANCE_MALADIE',

@@ -23,6 +23,7 @@ pipeline {
 
   tools {
     jdk 'Java 1.8'
+    // TODO Migrate Maven 3.6.1 to add --no-transfer-progress
     maven 'Maven 3.2.1'
     nodejs 'NodeJS 11.15.0'
   }

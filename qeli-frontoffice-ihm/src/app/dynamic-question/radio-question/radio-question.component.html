@@ -2,16 +2,17 @@
      role="radiogroup"
      [attr.aria-labelledby]="question.key+'_label'"
      [attr.aria-invalid]="!isValid"
-     [attr.aria-required]="question.required">
+     [attr.aria-required]="question.required"
+     data-cy-question-input
+     data-cy-question-type="radio">
   <div *ngFor="let option of question.radioOptions; first as isFirst"
-       [class]="question.inline ? 'radio radio-inline' : 'radio'"
-       data-cy-question-input
-       data-cy-question-type="radio">
+       [class]="question.inline ? 'radio radio-inline' : 'radio'">
     <label>
       <input type="radio"
              [value]="option.value"
              [formControlName]="question.key"
              [focusOnInit]="!disableFocusOnInit && isFirst"
+             [attr.data-cy-value]="option.value"
              [attr.data-matomo-name]="question.dataCyIdentifier">
       {{ option.label.key | translate:option.label.parameters }}
     </label>

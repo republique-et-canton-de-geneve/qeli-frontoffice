@@ -18,10 +18,10 @@ export class FormatAnswerVisitor implements AnswerVisitor<string> {
   }
 
   visitCheckboxGroupAnswer(answer: CheckboxGroupAnswer): string {
-    if (!answer.none || answer.none.value === 'NON') {
+    if (!answer.hasSome || answer.hasSome.value === 'OUI') {
       return answer.choices.map(choice => this.translateOption(choice)).join(', ');
     } else {
-      return this.translateOption(answer.none);
+      return this.translateOption(answer.hasSome);
     }
   }
 

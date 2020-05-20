@@ -27,7 +27,7 @@ export class DateQuestionComponent implements QuestionComponent<DateAnswer> {
     this.dateControl.markAsPristine();
   }
 
-  private get formGroup() {
+  get formGroup() {
     return this.form.controls[this.question.key] as FormGroup;
   }
 

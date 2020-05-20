@@ -61,7 +61,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
           eligibilite => ({key: `question.exempteImpot.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
-        categorie: Categorie.SITUATION_PERSONELLE,
+        categorie: Categorie.COMPLEMENTS,
         subcategorie: Subcategorie.SITUATION_FISCALE
       },
       {
@@ -132,7 +132,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.BOURSES),
         skip: formData => membres.every(membre => AnswerUtils.isRefugie(formData, membre)),
         calculateRefus: this.calculateFonctionnaireInternationalRefus,
-        categorie: Categorie.SITUATION_PERSONELLE,
+        categorie: Categorie.COMPLEMENTS,
         subcategorie: Subcategorie.SITUATION_FISCALE
       }, {
         question: new CompositeQuestion({
