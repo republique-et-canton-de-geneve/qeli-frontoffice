@@ -35,10 +35,10 @@ export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
   visitCheckboxGroupQuestion(question: CheckboxGroupQuestion): Answer {
     const listOfOptions = question.listOfOptions;
     const choices = this.rawAnswer['choices'] as string[];
-    const none = this.rawAnswer['none'] as 'OUI' | 'NON' | 'INCONNU';
+    const none = this.rawAnswer['hasSome'] as 'OUI' | 'NON' | 'INCONNU';
 
     return new CheckboxGroupAnswer({
-      none: question.findNoneOptionByKey(none),
+      hasSome: question.findHasSomeOptionByKey(none),
       choices: choices.map(choice => listOfOptions.find(option => option.value === choice))
     });
   }

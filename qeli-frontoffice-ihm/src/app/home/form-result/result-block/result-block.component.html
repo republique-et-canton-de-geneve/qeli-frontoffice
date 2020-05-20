@@ -25,8 +25,10 @@
   <div class="panel-body" *ngIf=" !isPrestationDejaPercue">
     <ul *ngIf="isPrestationRefusee || (isPrestationEligible && isPrestationIndividuel)">
       <li *ngFor="let result of resultsByPrestation.results">
-
-        <div *ngIf="isPrestationIndividuel">
+        <div *ngIf="isPrestationIndividuel"
+             [attr.data-cy-prestations-eligibles]="result.eligible ? resultsByPrestation.prestation + '_' + result.membre.id : null"
+             [attr.data-cy-prestations-refusees]="!result.eligible && !result.dejaPercue ? resultsByPrestation.prestation + '_' + result.membre.id : null"
+             [attr.data-cy-prestations-deja-percues]="result.dejaPercue ? resultsByPrestation.prestation + '_' + result.membre.id : null">
           <span *ngIf="!isPrestationDejaPercue" [ngClass]="{
           'text-success': result.eligible,
           'text-danger': !result.eligible && !result.dejaPercue

@@ -45,7 +45,8 @@
                           [disabled]="numberOfMembres > 0"
                           [minDate]="minDateNaissance"
                           [maxDate]="maxDateNaissance"
-                          [dateControl]="setupForm.controls['dateNaissance']">
+                          [form]="setupForm"
+                          controlName="dateNaissance">
           </app-date-input>
         </app-input-container>
       </div>
@@ -91,7 +92,7 @@
           </app-input-container>
         </div>
 
-        <div class="col-sm-4" data-cy="membre-date-naisance">
+        <div class="col-sm-4" data-cy="membre-date-naissance">
           <app-input-container identifier="{{ 'dateNaissanceMembre' + i }}"
                                required="true"
                                label="{{ 'home.setup.membre.dateNaissance.label' | translate }}"
@@ -102,7 +103,8 @@
                             [disabled]="!isLast"
                             [minDate]="minDateNaissance"
                             [maxDate]="maxDateNaissance"
-                            [dateControl]="membre.controls['dateNaissance']">
+                            [form]="membre"
+                            controlName="dateNaissance">
             </app-date-input>
           </app-input-container>
         </div>

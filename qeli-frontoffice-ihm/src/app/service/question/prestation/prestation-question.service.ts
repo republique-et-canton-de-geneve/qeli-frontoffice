@@ -30,18 +30,18 @@ export class PrestationQuestionService implements QuestionLoader {
           },
           errorLabels: QuestionUtils.toErrorLabels('prestations', ['required', 'atLeastOneSelected']),
           help: {key: 'question.prestations.help'},
-          noneOptions: [
+          hasSomeOptions: [
             {
               value: 'OUI',
               label: {
-                key: 'question.prestations.none',
+                key: 'question.prestations.some',
                 parameters: {numberOfMemebres: eligibiliteAsGroup.demandeur.membresFamille.length}
               }
             },
             {
               value: 'NON',
               label: {
-                key: 'question.prestations.some',
+                key: 'question.prestations.none',
                 parameters: {numberOfMemebres: eligibiliteAsGroup.demandeur.membresFamille.length}
               }
             },
@@ -84,7 +84,7 @@ export class PrestationQuestionService implements QuestionLoader {
     const prestationsAnswer = formData['prestations'] as CheckboxGroupAnswer;
     const eligibiliteToMotif = eligibilite => ({key: `question.prestations.motifRefus.${eligibilite.prestation}`});
 
-    if (prestationsAnswer.none.value === 'NON') {
+    if (prestationsAnswer.hasSome.value === 'OUI') {
       const choices = prestationsAnswer.choices;
 
       // Création des refus pour les prestations cochées (c'est-à-dire déjà perçues).

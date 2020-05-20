@@ -112,7 +112,7 @@ export class TrackingService {
 
 class IsInconnuAnswerVisitor implements AnswerVisitor<boolean> {
   visitCheckboxGroupAnswer(answer: CheckboxGroupAnswer): boolean {
-    return answer.none.value === 'INCONNU';
+    return answer.hasSome.value === 'INCONNU';
   }
 
   visitDateAnswer(answer: DateAnswer): boolean {
