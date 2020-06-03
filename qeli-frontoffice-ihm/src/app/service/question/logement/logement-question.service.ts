@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { QuestionLoader} from '../question-loader';
+import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
-import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
+import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { Logement } from './logement.model';
@@ -12,13 +11,11 @@ import { NumberQuestion } from '../../../dynamic-question/number-question/number
 import { Loyer } from './loyer.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class LogementQuestionService implements QuestionLoader {
+export class LogementQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+
     return [
       {
         question: new RadioQuestion({

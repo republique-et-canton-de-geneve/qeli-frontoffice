@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { QuestionLoader} from '../question-loader';
+import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
@@ -22,15 +21,12 @@ import { REPONSE_PROGRESSIVE_OPTIONS } from '../reponse-binaire.model';
 import { AnswerUtils } from '../answer-utils';
 import { QuestionUtils } from '../qeli-questions.utils';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class NationaliteQuestionService implements QuestionLoader {
+export class NationaliteQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres: Personne[] = ([eligibiliteGroup.demandeur] as Personne[]).concat(
-      eligibiliteGroup.demandeur.membresFamille
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const membres: Personne[] = ([this.demandeur] as Personne[]).concat(
+      this.demandeur.membresFamille
     );
 
     const questions: QeliQuestionDecorator<any>[] = membres.map(
@@ -108,7 +104,7 @@ export class NationaliteQuestionService implements QuestionLoader {
         dataCyIdentifier: '0405_permisBEtudes',
         label: {
           key: 'question.permisBEtudes.label',
-          parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
+          parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
         },
         help: {key: 'question.permisBEtudes.help'},
         showErrors: false,

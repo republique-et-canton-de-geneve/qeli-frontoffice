@@ -1,21 +1,15 @@
-import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
-import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
 import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { typeEnfantAsOptions } from './type-enfant.model';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class EnfantsQuestionService implements QuestionLoader {
+export class EnfantsQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const enfants = eligibiliteGroup.demandeur.enfants;
-    const autreParent = eligibiliteGroup.demandeur.partenaire;
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const enfants = this.demandeur.enfants;
+    const autreParent = this.demandeur.partenaire;
 
     if (enfants.length === 0) {
       return [];
@@ -41,7 +35,7 @@ export class EnfantsQuestionService implements QuestionLoader {
           }))
         }),
         calculateRefus: () => [],
-        eligibilites: eligibilites,
+        eligibilites: this.demandeur.toEligibilite(),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.ETAT_CIVIL
       }];

@@ -187,6 +187,7 @@
         "AVANCES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "ALLOCATION_LOGEMENT": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_AVS_AI": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "PC_AVS_AI_ENFANT_AUTRE": "{prenomEnfant} n'est pas votre enfants ou celui de votre partenaire",
         "PC_FAM": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
         "PC_FAM_SANS_ENFANTS": "Vous n'avez aucun enfant à charge",
         "PC_FAM_SANS_ENFANTS_COMMUN": "Vous avez indiqué ne pas avoir des enfants en commun avec {prenomAutreParent}",
@@ -275,6 +276,7 @@
         "AVANCES": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de {membre}}} n'est pas dans le canton de Genève",
         "ALLOCATION_LOGEMENT": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de {membre}}} n'est pas dans le canton de Genève",
         "PC_AVS_AI": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de {membre}}} n'est pas dans le canton de Genève",
+        "PC_AVS_AI_ENFANT": "Vous avez indiqué que le domicile officiel des parents de {membre} n'est pas dans le canton de Genève",
         "PC_FAM": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de {membre}}} n'est pas dans le canton de Genève",
         "AIDE_SOCIALE": "Vous avez indiqué que {who, select, me{votre domicile officiel} other{le domicile officiel de {membre}}} n'est pas dans le canton de Genève"
       }
