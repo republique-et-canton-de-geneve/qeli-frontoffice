@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Demandeur, MembreFamille, Personne, Relation } from '../../configuration/demandeur.model';
+import { MembreFamille, Personne, Relation } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
 import {
@@ -15,19 +14,15 @@ import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 import { AnswerUtils } from '../answer-utils';
-import { CompositeAnswer } from '../../../dynamic-question/composite-question/composite-question.model';
+import { TypeEnfant } from '../enfants/type-enfant.model';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class DomicileQuestionService implements QuestionLoader {
+export class DomicileQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const demandeur = eligibiliteGroup.demandeur;
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
     const membres: Personne[] = [
-      eligibiliteGroup.demandeur,
-      eligibiliteGroup.demandeur.partenaire
+      this.demandeur,
+      this.demandeur.partenaire
     ].filter(membre => membre !== null && membre !== undefined);
 
     const questions = membres.map((membre): QeliQuestionDecorator<any>[] => {
@@ -47,8 +42,8 @@ export class DomicileQuestionService implements QuestionLoader {
         skip: (formData, skipEligibilites) => {
           if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
                               .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
-            return membre.id !== demandeur.id &&
-                   demandeur.hasConcubin &&
+            return membre.id !== this.demandeur.id &&
+                   this.demandeur.hasConcubin &&
                    !AnswerUtils.hasEnfantEnCommun(formData)
           }
 
@@ -57,11 +52,10 @@ export class DomicileQuestionService implements QuestionLoader {
         calculateRefus: this.calculateDomicileCantonGERefusFn(membre),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM).concat(
           eligibiliteGroup.findByPrestationEtMembre([
-            Prestation.PC_AVS_AI,
             Prestation.AVANCES,
             Prestation.ALLOCATION_LOGEMENT,
             Prestation.AIDE_SOCIALE], membre
-          )
+          ).concat(eligibiliteGroup.findByPrestation(Prestation.PC_AVS_AI))
         ),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
@@ -91,8 +85,8 @@ export class DomicileQuestionService implements QuestionLoader {
         skip: (formData, skipEligibilites) => {
           if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
                               .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
-            return membre.id !== demandeur.id &&
-                   demandeur.hasConcubin &&
+            return membre.id !== this.demandeur.id &&
+                   this.demandeur.hasConcubin &&
                    !AnswerUtils.hasEnfantEnCommun(formData)
           }
 
@@ -149,40 +143,28 @@ export class DomicileQuestionService implements QuestionLoader {
           })
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
 
-        eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT)
-                        .filter(eligibilite => {
+        const isDemandeurEligiblePcAvsAi = eligibiliteGroup.includes(
+          {prestation: Prestation.PC_AVS_AI, membre: this.demandeur});
 
-                          if (membre === eligibiliteGroup.demandeur) {
-                            if (eligibiliteGroup.demandeur.hasConcubin) {
-                              return AnswerUtils.isMonEnfant(formData, eligibilite.membre);
-                            }
-                            return !eligibiliteGroup.demandeur.hasConjoint
-                                       || (eligibiliteGroup.demandeur.hasConcubin &&
-                                           !AnswerUtils.hasEnfantEnCommun(formData));
-                          } else if (membre === eligibiliteGroup.demandeur.partenaire) {
-                            if ((membre as MembreFamille).isConcubin) {
-                              return eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI,
-                                eligibiliteGroup.demandeur).length === 0 && AnswerUtils.isEnfantConjoint(formData, eligibilite.membre);
-                            } else if ((membre as MembreFamille).isConjoint){
-                              return eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI,
-                                eligibiliteGroup.demandeur).length === 0
-                                     &&  eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI,
-                                  eligibiliteGroup.demandeur.partenaire).length === 0;
-                            }
-                          }
-                          return null;
-                        }).map((eligibilite) => ({
+        eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(eligibilite => {
+          if (membre.id === this.demandeur.id) {
+            return !this.demandeur.partenaire ||
+                   (this.demandeur.hasConcubin &&
+                    AnswerUtils.isEnfantType(formData, eligibilite.membre, TypeEnfant.MOI));
+          } else if ((membre as MembreFamille).isConjoint || (membre as MembreFamille).isConcubin) {
+            return !isDemandeurEligiblePcAvsAi;
+          }
+        }).map((eligibilite) => ({
             eligibilite: eligibilite,
             motif: {
-              key: `question.domicileCantonGE.motifRefus.${eligibilite.prestation}`,
+              key: `question.domicileCantonGE.motifRefus.${eligibilite.prestation}_ENFANT`,
               parameters: {membre: eligibilite.membre.prenom}
             }
           } as EligibiliteRefusee)
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
-
-        return refus;
       }
-      return [];
+
+      return refus;
     };
   }
 

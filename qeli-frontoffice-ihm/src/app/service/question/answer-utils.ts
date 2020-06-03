@@ -68,9 +68,10 @@ export class AnswerUtils {
   }
 
   static isEnFormation(formData: FormData, personne: Personne) {
-    const answers = (formData['formation'] as CompositeAnswer).answers;
-    const answer = (answers[`formation_${personne.id}`] as OptionAnswer<string>);
-    const choosenOption = answer ? answer.value : null;
+    const formationAnswer = this.findAnswerByKey(
+      formData, `formation.formation_${personne.id}`
+    ) as OptionAnswer<string>;
+    const choosenOption = formationAnswer ? formationAnswer.value : null;
 
     return choosenOption && choosenOption.value === ReponseBinaire.OUI;
   }
@@ -82,11 +83,14 @@ export class AnswerUtils {
   }
 
   static isEnfantOfDemandeur(formData: FormData, enfant: Personne, demandeur: Demandeur) {
-    const answers = (formData['parentsEnfants'] as CompositeAnswer).answers;
-    const option = (answers[`parentsEnfants_${enfant.id}`] as OptionAnswer<string>).value;
-    return option.value === TypeEnfant.MOI ||
-           option.value === TypeEnfant.LES_DEUX ||
-           (option.value === TypeEnfant.AUTRE_PARENT && demandeur.hasConjoint);
+    const parentsEnfantsAnswer = this.findAnswerByKey(
+      formData, `parentsEnfants.parentsEnfants_${enfant.id}`
+    ) as OptionAnswer<string>;
+    const choosenOption = parentsEnfantsAnswer ? parentsEnfantsAnswer.value : null;
+
+    return choosenOption.value === TypeEnfant.MOI ||
+           choosenOption.value === TypeEnfant.LES_DEUX ||
+           (choosenOption.value === TypeEnfant.AUTRE_PARENT && demandeur.hasConjoint);
   }
 
   static hasEnfantACharge(formData: FormData, demandeur: Demandeur) {
@@ -118,15 +122,11 @@ export class AnswerUtils {
     });
   }
 
-  static isMonEnfant(formData: FormData, enfant: Personne) {
-    const parentEnfantsAnswer = (formData['parentsEnfants'] as CompositeAnswer);
-    const option = (parentEnfantsAnswer[`parentsEnfants_${enfant.id}`] as OptionAnswer<string>).value;
-    return option.value === TypeEnfant.MOI;
-  }
-
-  static isEnfantConjoint(formData: FormData, enfant: Personne) {
-    const parentEnfantsAnswer = (formData['parentsEnfants'] as CompositeAnswer);
-    const option = (parentEnfantsAnswer[`parentsEnfants_${enfant.id}`] as OptionAnswer<string>).value;
-    return option.value === TypeEnfant.AUTRES;
+  static isEnfantType(formData: FormData, enfant: Personne, typeEnfant: TypeEnfant) {
+    const parentsEnfantsAnswer = this.findAnswerByKey(
+      formData, `parentsEnfants.parentsEnfants_${enfant.id}`
+    ) as OptionAnswer<string>;
+    const choosenOption = parentsEnfantsAnswer ? parentsEnfantsAnswer.value : null;
+    return choosenOption.value === typeEnfant;
   }
 }
