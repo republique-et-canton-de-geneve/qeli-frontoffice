@@ -203,7 +203,7 @@ export class MembreFamille extends Personne {
   }
 
   /**
-   * Si le demandeur est marié ou en partenariat entregistré.
+   * Si ce membre est le conjoint du demandeur.
    */
   get isConjoint() {
     return this.relation === Relation.PARTENAIRE_ENREGISTRE ||
@@ -211,7 +211,7 @@ export class MembreFamille extends Personne {
   }
 
   /**
-   * Si le demandeur a un concubin.
+   * Si ce membre est le concubin du demandeur.
    */
   get isConcubin() {
     return this.relation === Relation.CONCUBIN;

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DeepLinkService } from '../deep-link/deep-link.service';
 import { TrackingService } from '../service/tracking/tracking.service';
@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
         const state = this.deepLinkService.decryptQueryParamsData(params);
         if (state !== null) {
           const demandeur = new Demandeur(state.demandeur);
-          const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur.toEligibilite());
+          const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur);
 
           state.formData = questions
             .map(decorator => decorator.question)
@@ -116,7 +116,7 @@ export class HomeComponent implements OnInit {
   private submitSetupForm() {
     if (this.qeliSetupForm.isValid) {
       const demandeur = new Demandeur(this.qeliSetupForm.demandeur);
-      const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur.toEligibilite());
+      const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur);
 
       this.qeliStateMachine = new QeliStateMachine(
         questions, new QeliState({demandeur: demandeur})

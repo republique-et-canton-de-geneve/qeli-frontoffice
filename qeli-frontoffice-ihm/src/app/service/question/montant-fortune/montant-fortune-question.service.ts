@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { QuestionLoader} from '../question-loader';
+import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
-import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
+import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import {
   REPONSE_BINAIRE_OPTIONS, REPONSE_PROGRESSIVE_OPTIONS, ReponseBinaire, ReponseProgressive
@@ -11,28 +10,23 @@ import { Prestation } from '../../configuration/prestation.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { I18nString } from '../../../core/i18n/i18nstring.model';
-import { Demandeur } from '../../configuration/demandeur.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 
 
-@Injectable({
-  providedIn: 'root'
-})
-export class MontantFortuneQuestionService implements QuestionLoader {
+export class MontantFortuneQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
     return [{
       question: new RadioQuestion({
         key: 'fortuneSuperieureA',
         dataCyIdentifier: '1302_fortuneSuperieureA',
         label: (value: any) => {
-          const demandeur = eligibiliteGroup.demandeur;
-          const nbrEnfantsACharge = this.getNombreEnfantsACharge(value, demandeur);
+          const nbrEnfantsACharge = this.getNombreEnfantsACharge(value);
           const limiteFortune = configuration.limiteFortune +
                                 (nbrEnfantsACharge * configuration.limiteFortunePerEnfant) +
-                                (demandeur.hasConjoint ? configuration.limiteFortuneConjoint : 0);
+                                (this.demandeur.hasConjoint ? configuration.limiteFortuneConjoint : 0);
 
           return {
             key: 'question.fortuneSuperieureA.label',
@@ -88,13 +82,13 @@ export class MontantFortuneQuestionService implements QuestionLoader {
     return choosenOption.value === ReponseBinaire.OUI;
   }
 
-  private getNombreEnfantsACharge(value: any, demandeur: Demandeur) {
+  private getNombreEnfantsACharge(value: any) {
     const parentsEnfantsAnswers = value['parentsEnfants'];
     const formationAnswers = value['formation'];
-    return demandeur.enfants.filter(enfant =>
+    return this.demandeur.enfants.filter(enfant =>
       parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.LES_DEUX ||
       parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.MOI ||
-      (parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.AUTRE_PARENT && demandeur.hasConjoint)
+      (parentsEnfantsAnswers[`parentsEnfants_${enfant.id}`] === TypeEnfant.AUTRE_PARENT && this.demandeur.hasConjoint)
     ).filter(enfant =>
       !enfant.isMajeur ||
       (enfant.age <= 25 && formationAnswers[`formation_${enfant.id}`] === ReponseBinaire.OUI)

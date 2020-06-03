@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
@@ -13,16 +12,13 @@ import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-bina
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AssuranceMaladieQuestionService implements QuestionLoader {
+export class AssuranceMaladieQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
     const membres: Personne[] = (
-      [eligibiliteGroup.demandeur] as Personne[]
-    ).concat(eligibiliteGroup.demandeur.membresFamille);
+      [this.demandeur] as Personne[]
+    ).concat(this.demandeur.membresFamille);
 
     return [{
       question: new CompositeQuestion({
@@ -30,7 +26,7 @@ export class AssuranceMaladieQuestionService implements QuestionLoader {
         dataCyIdentifier: '1101_assuranceMaladieSuisse',
         label: {
           key: 'question.assuranceMaladieSuisse.label',
-          parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
+          parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
         },
         help: {key: 'question.assuranceMaladieSuisse.help'},
         showErrors: false,
