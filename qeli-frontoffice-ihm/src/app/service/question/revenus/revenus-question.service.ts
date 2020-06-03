@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { isTypeRevenusAI, isTypeRevenusAVS, TypeRevenus, typeRevenusToCheckboxOptions } from './revenus.model';
@@ -15,22 +14,16 @@ import { situationRenteAsOptions } from './situation-rente.model';
 import { AnswerUtils } from '../answer-utils';
 import { QuestionUtils } from '../qeli-questions.utils';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class RevenusQuestionService implements QuestionLoader {
+export class RevenusQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const demandeur = eligibiliteGroup.demandeur;
-    const membres = ([eligibiliteGroup.demandeur] as Personne[]).concat(
-      eligibiliteGroup.demandeur.membresFamille
-    );
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const membres = ([this.demandeur] as Personne[]).concat(this.demandeur.membresFamille);
 
     return membres.map((membre): QeliQuestionDecorator<any>[] => {
       const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
-      const isParent = membre.id === demandeur.id || (demandeur.partenaire && demandeur.partenaire.id === membre.id);
+      const isParent = membre.id === this.demandeur.id ||
+                       (this.demandeur.partenaire && this.demandeur.partenaire.id === membre.id);
       const eligibilitesRevenus = (
         (isParent) ? eligibiliteGroup.findByPrestation(Prestation.PC_FAM) : []
       ).concat(
@@ -56,8 +49,8 @@ export class RevenusQuestionService implements QuestionLoader {
           skip: (formData, skipEligibilites) => {
             if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
                                 .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
-              return membre.id !== demandeur.id &&
-                     demandeur.hasConcubin &&
+              return membre.id !== this.demandeur.id &&
+                     this.demandeur.hasConcubin &&
                      !AnswerUtils.hasEnfantEnCommun(formData)
             }
 

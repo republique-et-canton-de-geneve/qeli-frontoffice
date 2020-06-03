@@ -201,4 +201,19 @@ export class MembreFamille extends Personne {
       membre: this
     }));
   }
+
+  /**
+   * Si ce membre est le conjoint du demandeur.
+   */
+  get isConjoint() {
+    return this.relation === Relation.PARTENAIRE_ENREGISTRE ||
+           this.relation === Relation.EPOUX;
+  }
+
+  /**
+   * Si ce membre est le concubin du demandeur.
+   */
+  get isConcubin() {
+    return this.relation === Relation.CONCUBIN;
+  }
 }

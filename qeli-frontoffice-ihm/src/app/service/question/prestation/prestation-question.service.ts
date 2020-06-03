@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
 import {
   CheckboxGroup, CheckboxGroupAnswer, CheckboxGroupQuestion
@@ -8,17 +7,15 @@ import { QeliConfiguration } from '../../configuration/qeli-configuration.model'
 import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
-import { Demandeur } from '../../configuration/demandeur.model';
+import { Relation } from '../../configuration/demandeur.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 import { AnswerUtils } from '../answer-utils';
+import { TypeEnfant } from '../enfants/type-enfant.model';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class PrestationQuestionService implements QuestionLoader {
+export class PrestationQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteAsGroup = new EligibiliteGroup(eligibilites);
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteAsGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
     return [
       {
         question: new CheckboxGroupQuestion({
@@ -26,7 +23,7 @@ export class PrestationQuestionService implements QuestionLoader {
           dataCyIdentifier: '0101_prestations',
           label: {
             key: 'question.prestations.label',
-            parameters: {numberOfMemebres: eligibiliteAsGroup.demandeur.membresFamille.length}
+            parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
           },
           errorLabels: QuestionUtils.toErrorLabels('prestations', ['required', 'atLeastOneSelected']),
           help: {key: 'question.prestations.help'},
@@ -35,14 +32,14 @@ export class PrestationQuestionService implements QuestionLoader {
               value: 'OUI',
               label: {
                 key: 'question.prestations.some',
-                parameters: {numberOfMemebres: eligibiliteAsGroup.demandeur.membresFamille.length}
+                parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
               }
             },
             {
               value: 'NON',
               label: {
                 key: 'question.prestations.none',
-                parameters: {numberOfMemebres: eligibiliteAsGroup.demandeur.membresFamille.length}
+                parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
               }
             },
             {value: 'INCONNU', label: {key: 'question.prestations.inconnu'}}
@@ -56,12 +53,12 @@ export class PrestationQuestionService implements QuestionLoader {
                   parameters: {
                     who: eligibilite.membre.id === 0 ? 'me' : 'them',
                     membre: eligibilite.membre.prenom,
-                    numberOfMemebres: eligibiliteAsGroup.demandeur.membresFamille.length
+                    numberOfMemebres: this.demandeur.membresFamille.length
                   }
                 }
               })) as QuestionOption<string>[];
 
-              return (eligibiliteAsGroup.demandeur.membresFamille.length > 0) ? [{
+              return (this.demandeur.membresFamille.length > 0) ? [{
                 label: {key: `question.prestations.checkboxGroup.${prestation}`},
                 options: checkBoxGroupOptions
               }] as CheckboxGroup[] : checkBoxGroupOptions;
@@ -71,7 +68,7 @@ export class PrestationQuestionService implements QuestionLoader {
             }] as QuestionOption<string>[];
           }).reduce((result, current) => result.concat(current), [] as (QuestionOption<string> | CheckboxGroup)[])
         }),
-        eligibilites: eligibilites,
+        eligibilites: this.demandeur.toEligibilite(),
         calculateRefus: this.calculateRefus.bind(this),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.PRESTATION
@@ -146,9 +143,24 @@ export class PrestationQuestionService implements QuestionLoader {
     }
 
     const eligibiliteAsGroup = new EligibiliteGroup(eligibilites);
-    const demandeur = eligibiliteAsGroup.demandeur;
 
-    if (!this.hasEnfantsMoins25Ans(demandeur)) {
+    // Refus PC AVS AI pour les enfants 'AUTRES'
+    eligibiliteAsGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(
+      eligibilite => AnswerUtils.isEnfantType(formData, eligibilite.membre, TypeEnfant.AUTRES)
+    ).map((eligibilite) => ({
+        eligibilite: eligibilite,
+        motif: {
+          key: `question.prestations.motifRefus.${eligibilite.prestation}_ENFANT_AUTRE`,
+          parameters: {prenomEnfant: eligibilite.membre.prenom}
+        }
+      } as EligibiliteRefusee)
+    ).forEach(eligibiliteRefusee => {
+      if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
+        refus.push(eligibiliteRefusee);
+      }
+    });
+
+    if (!this.hasEnfantsMoins25Ans()) {
       QuestionUtils.createRefusByPrestation(
         eligibilites, Prestation.PC_FAM, eligibilite => ({
           key: `question.prestations.motifRefus.${eligibilite.prestation}_SANS_ENFANTS`
@@ -160,7 +172,7 @@ export class PrestationQuestionService implements QuestionLoader {
       });
     }
 
-    if (!demandeur.isMajeur) {
+    if (!this.demandeur.isMajeur) {
       QuestionUtils.createRefusByPrestation(
         eligibilites, Prestation.AIDE_SOCIALE, eligibilite => ({
           key: `question.prestations.motifRefus.${eligibilite.prestation}_MINEUR`
@@ -172,11 +184,11 @@ export class PrestationQuestionService implements QuestionLoader {
       });
     }
 
-    if (demandeur.hasConcubin && !AnswerUtils.hasEnfantEnCommun(formData)) {
+    if (this.demandeur.hasConcubin && !AnswerUtils.hasEnfantEnCommun(formData)) {
       QuestionUtils.createRefusByPrestationAndMembre(
-        eligibilites, Prestation.PC_FAM, demandeur.partenaire, eligibilite => ({
+        eligibilites, Prestation.PC_FAM, this.demandeur.partenaire, eligibilite => ({
           key: `question.prestations.motifRefus.${eligibilite.prestation}_SANS_ENFANTS_COMMUN`,
-          parameters: {prenomAutreParent: demandeur.partenaire.prenom}
+          parameters: {prenomAutreParent: this.demandeur.partenaire.prenom}
         })
       ).forEach(eligibiliteRefusee => {
         if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
@@ -188,12 +200,11 @@ export class PrestationQuestionService implements QuestionLoader {
     return refus;
   }
 
-  private hasEnfantsMoins25Ans(demandeur: Demandeur) {
-    return demandeur.enfants.some(enfant => enfant.age <= 25);
+  private hasEnfantsMoins25Ans() {
+    return this.demandeur.enfants.some(enfant => enfant.age <= 25);
   }
 
   private isEligibiliteRefusee(refus: EligibiliteRefusee[], eligibilite: Eligibilite) {
     return new EligibiliteGroup(refus.map(refus => refus.eligibilite)).includes(eligibilite);
   }
-
 }
