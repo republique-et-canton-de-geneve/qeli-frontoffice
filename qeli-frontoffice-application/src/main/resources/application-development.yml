@@ -1,5 +1,8 @@
 social.tools:
-  frontoffice.ihm-resource-location: classpath:/formulaire
+  frontoffice:
+    ihm-resource-location: classpath:/formulaire
+    send-error-message: true
+
   editique.ws-location: ***REMOVED***
   qeli.matomo:
     server: ***REMOVED***
