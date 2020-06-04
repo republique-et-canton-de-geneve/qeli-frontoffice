@@ -2,6 +2,7 @@ package ch.ge.social.qeli.api.controller;
 
 import ch.ge.social.qeli.service.api.answer.InvalidAnswerFormatException;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
+import ch.ge.social.qeli.service.api.stats.CannotSaveStatsException;
 import java.util.UUID;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ch.ge.social.qeli.service.api.stats.CannotSaveStatsException;
 
 /**
  * Un controller advice contenant le mapping des exception fonctionelles et son status HTTP.
@@ -33,7 +33,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
    *                            générique sera envoyé.
    */
   public ExceptionHandlerController(
-    @Value("${social.tools.frontoffice.send-error-message:true}") boolean displayErrorMessage
+    @Value("${social.tools.frontoffice.send-error-message:false}") boolean displayErrorMessage
   ) {
     this.displayErrorMessage = displayErrorMessage;
   }
@@ -124,7 +124,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   private ApiErrorDto handleError(Exception ex) {
     String uuid = UUID.randomUUID().toString();
     logger.error(String.format("Une exception opérationnelle a été intercepté, le code d'erreur est: [%s]", uuid), ex);
-    return new ApiErrorDto(uuid, (displayErrorMessage) ? DEFAULT_ERROR_MESSAGE : ex.getMessage());
+    return new ApiErrorDto(uuid, (displayErrorMessage) ? ex.getMessage() : DEFAULT_ERROR_MESSAGE);
   }
 
   private ResponseEntity<ApiErrorDto> buildResponseEntity(ApiErrorDto apiError, HttpStatus status) {
