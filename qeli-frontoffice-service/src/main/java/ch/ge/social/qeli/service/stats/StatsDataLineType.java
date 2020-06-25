@@ -8,5 +8,5 @@ import lombok.Getter;
 @Getter
 enum StatsDataLineType {
   REPONSE,
-  RESULTAT;
+  RESULTAT
 }

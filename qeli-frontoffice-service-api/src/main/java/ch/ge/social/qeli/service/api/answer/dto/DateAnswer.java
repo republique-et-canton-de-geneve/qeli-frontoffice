@@ -11,6 +11,6 @@ public class DateAnswer implements Answer {
 
   @Override
   public <T> T accept(AnswerVisitor<T> visitor) {
-    return  visitor.visitDateAnswer(this);
+    return visitor.visitDateAnswer(this);
   }
 }

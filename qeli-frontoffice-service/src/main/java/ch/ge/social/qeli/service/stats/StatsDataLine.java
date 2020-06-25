@@ -9,6 +9,6 @@ class StatsDataLine {
   private final String            id;
   private final StatsDataLineType dataType;
   private final String            key;
-  private final String   membre;
-  private final String   value;
+  private final String            membre;
+  private final String            value;
 }
