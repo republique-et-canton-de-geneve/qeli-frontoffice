@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 enum ResultStatus {
-  ELIGIBLE, REFUSE, DEJA_PERCUE;
+  ELIGIBLE, REFUSE, DEJA_PERCUE
 }
