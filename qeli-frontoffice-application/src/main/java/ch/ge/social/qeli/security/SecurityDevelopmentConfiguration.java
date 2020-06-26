@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * Configuration de la sécurité une fois l'application est deployée dans l'environment de l'état.
+ * Configuration de la sécurité en mode dévelopement.
  */
 @Configuration
 @Profile("development")

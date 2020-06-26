@@ -14,7 +14,6 @@
 
     <properties>
         <npm.build.directory>dist/</npm.build.directory>
-        <sonar.sources>src</sonar.sources>
     </properties>
 
     <build>
