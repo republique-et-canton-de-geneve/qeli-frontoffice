@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import { QuestionLoader} from '../question-loader';
+import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Demandeur, Personne } from '../../configuration/demandeur.model';
+import { Personne } from '../../configuration/demandeur.model';
 import {
   CompositeAnswer, CompositeQuestion
 } from '../../../dynamic-question/composite-question/composite-question.model';
@@ -19,32 +18,25 @@ import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class SituationFiscaleQuestionService implements QuestionLoader {
+export class SituationFiscaleQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres = ([eligibiliteGroup.demandeur] as (Personne)[]).concat(
-      eligibiliteGroup.demandeur.membresFamille
-    );
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const membres = ([this.demandeur] as (Personne)[]).concat(this.demandeur.membresFamille);
     return [
-
       {
         question: new RadioQuestion({
           key: `exempteImpot`,
           dataCyIdentifier: `1401_exempteImpot`,
           label: (value: any) => {
-            const hasPartenaire = eligibiliteGroup.demandeur.hasConjoint || (
-              eligibiliteGroup.demandeur.hasConcubin &&
-              this.hasEnfantEnCommun(value, eligibiliteGroup.demandeur)
+            const hasPartenaire = this.demandeur.hasConjoint || (
+              this.demandeur.hasConcubin && this.hasEnfantEnCommun(value)
             );
             return {
               key: 'question.exempteImpot.label',
               parameters: {
                 hasPartenaire: hasPartenaire ? 'yes' : 'no',
-                partenaire: hasPartenaire ? eligibiliteGroup.demandeur.partenaire.prenom : '',
+                partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : '',
                 annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
               }
             } as I18nString;
@@ -69,15 +61,14 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
           key: `taxeOfficeAFC`,
           dataCyIdentifier: `1402_taxeOfficeAFC`,
           label: (value: any) => {
-            const hasPartenaire = eligibiliteGroup.demandeur.hasConjoint || (
-              eligibiliteGroup.demandeur.hasConcubin &&
-              this.hasEnfantEnCommun(value, eligibiliteGroup.demandeur)
+            const hasPartenaire = this.demandeur.hasConjoint || (
+              this.demandeur.hasConcubin && this.hasEnfantEnCommun(value)
             );
             return {
               key: 'question.taxeOfficeAFC.label',
               parameters: {
                 hasPartenaire: hasPartenaire ? 'yes' : 'no',
-                partenaire: hasPartenaire ? eligibiliteGroup.demandeur.partenaire.prenom : '',
+                partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : '',
                 annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
               }
             } as I18nString;
@@ -103,7 +94,7 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
           dataCyIdentifier: `1403_fonctionnaireInternational`,
           label: {
             key: 'question.fonctionnaireInternational.label',
-            parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
+            parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
           },
           help: {key: 'question.fonctionnaireInternational.help'},
           showErrors: false,
@@ -177,9 +168,9 @@ export class SituationFiscaleQuestionService implements QuestionLoader {
     ];
   }
 
-  private hasEnfantEnCommun(value: any, demandeur: Demandeur) {
+  private hasEnfantEnCommun(value: any) {
     const answers = value['parentsEnfants'];
-    return demandeur.enfants.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
+    return this.demandeur.enfants.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
   }
 
   private calculateFonctionnaireInternationalRefus(

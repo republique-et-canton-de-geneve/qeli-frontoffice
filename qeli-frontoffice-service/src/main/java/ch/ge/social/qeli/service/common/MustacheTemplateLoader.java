@@ -1,4 +1,4 @@
- package ch.ge.social.qeli.service.common;
+package ch.ge.social.qeli.service.common;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
