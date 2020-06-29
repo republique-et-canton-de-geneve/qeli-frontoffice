@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
-import { Eligibilite, EligibiliteGroup } from '../eligibilite.model';
+import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { REPONSE_PROGRESSIVE_OPTIONS, ReponseBinaire, ReponseProgressive } from '../reponse-binaire.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { TauxAnswer, TauxQuestion } from '../../../dynamic-question/taux-question/taux-question.model';
 import { I18nString } from '../../../core/i18n/i18nstring.model';
-import { Demandeur, Personne } from '../../configuration/demandeur.model';
+import { Personne } from '../../configuration/demandeur.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { AnswerUtils } from '../answer-utils';
 import { TypeRevenus } from '../revenus/revenus.model';
@@ -16,26 +15,22 @@ import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class SituationProfesionelleQuestionService implements QuestionLoader {
+export class SituationProfesionelleQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const demandeur = eligibiliteGroup.demandeur;
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
 
     const questions: QeliQuestionDecorator<any>[] = [{
       question: new RadioQuestion({
         key: 'taxationOffice',
         dataCyIdentifier: '0901_taxationOffice',
         label: (value: any) => {
-          const hasConcubin = demandeur.hasConcubin && this.hasEnfantEnCommun(value, demandeur);
+          const hasConcubin = this.demandeur.hasConcubin && this.hasEnfantEnCommun(value);
           return {
             key: 'question.taxationOffice.label',
             parameters: {
               hasConcubin: hasConcubin ? 'yes' : 'no',
-              membre: hasConcubin ? demandeur.partenaire.prenom : ''
+              membre: hasConcubin ? this.demandeur.partenaire.prenom : ''
             }
           } as I18nString;
         },
@@ -57,8 +52,7 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
 
 
     const membres: Personne[] = [
-      eligibiliteGroup.demandeur,
-      eligibiliteGroup.demandeur.partenaire
+      this.demandeur, this.demandeur.partenaire
     ].filter(membre => membre !== null && membre !== undefined);
 
     return questions.concat(
@@ -82,19 +76,19 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
           calculateRefus: QuestionUtils.rejectPrestationFn(
             (formData: FormData) => {
               if (membre.id === 0 &&
-                  this.isFormeFamilleAvecPartenaire(formData, demandeur) &&
-                  this.isPartenaireActif(formData, demandeur)) {
+                  this.isFormeFamilleAvecPartenaire(formData) &&
+                  this.isPartenaireActif(formData)) {
                 return false;
               }
 
               let taux = this.sumTauxActiviteByKeys(formData, `tauxActivite_${membre.id}`);
               if (membre.id !== 0) {
-                taux += this.sumTauxActiviteByMembre(formData, demandeur);
+                taux += this.sumTauxActiviteByMembre(formData, this.demandeur);
               }
 
               return !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
                      !AnswerUtils.isRevenuInconnu(formData, membre) &&
-                     taux < this.getMinTauxActiviteBySituation(formData, demandeur, configuration);
+                     taux < this.getMinTauxActiviteBySituation(formData, configuration);
             },
             Prestation.PC_FAM,
             (eligibilite) => ({key: `question.tauxActivite.motifRefus.${eligibilite.prestation}`})
@@ -147,18 +141,18 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
             );
 
             if (membre.id !== 0) {
-              taux += this.sumTauxActiviteByMembre(formData, demandeur);
+              taux += this.sumTauxActiviteByMembre(formData, this.demandeur);
             }
 
-            return taux >= this.getMinTauxActiviteBySituation(formData, demandeur, configuration) ||
+            return taux >= this.getMinTauxActiviteBySituation(formData, configuration) ||
                    (!AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
                     !AnswerUtils.isRevenuInconnu(formData, membre));
           },
           calculateRefus: QuestionUtils.rejectPrestationFn(
             (formData: FormData) => {
               if (membre.id === 0 &&
-                  this.isFormeFamilleAvecPartenaire(formData, demandeur) &&
-                  this.isPartenaireActif(formData, demandeur)) {
+                  this.isFormeFamilleAvecPartenaire(formData) &&
+                  this.isPartenaireActif(formData)) {
                 return false;
               }
 
@@ -191,12 +185,12 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
           calculateRefus: QuestionUtils.rejectPrestationFn(
             (formData: FormData) => {
               if (membre.id === 0 &&
-                  this.isFormeFamilleAvecPartenaire(formData, demandeur) &&
-                  this.isPartenaireActif(formData, demandeur)) {
+                  this.isFormeFamilleAvecPartenaire(formData) &&
+                  this.isPartenaireActif(formData)) {
                 return false;
               }
 
-              return !this.isTauxActiviteSuffissant(formData, demandeur, configuration);
+              return !this.isTauxActiviteSuffissant(formData, configuration);
             },
             Prestation.PC_FAM,
             (eligibilite) => ({key: `question.tauxActiviteMoyen6DernierMois.motifRefus.${eligibilite.prestation}`})
@@ -209,20 +203,20 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
     );
   }
 
-  hasEnfantEnCommun(value: any, demandeur: Demandeur) {
+  hasEnfantEnCommun(value: any) {
     const answers = value['parentsEnfants'];
-    return demandeur.enfants.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
+    return this.demandeur.enfants.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
   }
 
-  isFormeFamilleAvecPartenaire(formData: FormData, demandeur: Demandeur) {
-    return demandeur.hasConjoint || (demandeur.hasConcubin && AnswerUtils.hasEnfantEnCommun(formData));
+  isFormeFamilleAvecPartenaire(formData: FormData) {
+    return this.demandeur.hasConjoint || (this.demandeur.hasConcubin && AnswerUtils.hasEnfantEnCommun(formData));
   }
 
-  isPartenaireActif(formData: FormData, demandeur: Demandeur) {
-    return AnswerUtils.isRevenuInconnu(formData, demandeur.partenaire) ||
+  isPartenaireActif(formData: FormData) {
+    return AnswerUtils.isRevenuInconnu(formData, this.demandeur.partenaire) ||
            AnswerUtils.hasAnyRevenus(
              formData,
-             demandeur.partenaire,
+             this.demandeur.partenaire,
              [TypeRevenus.EMPLOI, TypeRevenus.CHOMAGE, TypeRevenus.APG]
            );
   }
@@ -237,8 +231,8 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
     return arrayOfKeys.map(key => this.getTauxActiviteByKey(formData, key)).reduce((c, r) => c + r, 0);
   }
 
-  getMinTauxActiviteBySituation(formData: FormData, demandeur: Demandeur, configuration: QeliConfiguration) {
-    return this.isFormeFamilleAvecPartenaire(formData, demandeur) ?
+  getMinTauxActiviteBySituation(formData: FormData, configuration: QeliConfiguration) {
+    return this.isFormeFamilleAvecPartenaire(formData) ?
            configuration.minTauxActiviteAvecConjoint :
            configuration.minTauxActiviteSeul;
   }
@@ -258,13 +252,13 @@ export class SituationProfesionelleQuestionService implements QuestionLoader {
     );
   }
 
-  isTauxActiviteSuffissant(formData: FormData, demandeur: Demandeur, configuration: QeliConfiguration) {
-    let taux = this.sumTauxActiviteByMembre(formData, demandeur);
+  isTauxActiviteSuffissant(formData: FormData, configuration: QeliConfiguration) {
+    let taux = this.sumTauxActiviteByMembre(formData, this.demandeur);
 
-    if (this.isFormeFamilleAvecPartenaire(formData, demandeur)) {
-      taux += this.sumTauxActiviteByMembre(formData, demandeur.partenaire);
+    if (this.isFormeFamilleAvecPartenaire(formData)) {
+      taux += this.sumTauxActiviteByMembre(formData, this.demandeur.partenaire);
     }
 
-    return taux >= this.getMinTauxActiviteBySituation(formData, demandeur, configuration);
+    return taux >= this.getMinTauxActiviteBySituation(formData, configuration);
   }
 }

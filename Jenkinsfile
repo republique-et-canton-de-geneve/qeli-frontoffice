@@ -31,10 +31,10 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh "mvn clean package -s ${env.USER_SETTINGS_DIR}social_settings.xml \
-                              -pl '!qeli-frontoffice-cypress'                \
-                              -Dihm.test.skip=true                           \
-                              -Pci"
+        sh "mvn clean verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
+                             -pl '!qeli-frontoffice-cypress'                \
+                             -Dihm.test.skip=true                           \
+                             -Pci"
 
         junit '**/target/surefire-reports/*.xml'
         step([$class: 'JacocoPublisher'])
@@ -88,25 +88,27 @@ pipeline {
 
           steps {
             script {
-             configFileProvider([configFile(fileId: 'a625574f-5000-45c1-8bce-929ea9eacf59', variable: 'PRIVATE_PROPERTIES')]) {
-              def privateProps = readProperties file: "$PRIVATE_PROPERTIES"
+              configFileProvider([
+                configFile(fileId: 'a625574f-5000-45c1-8bce-929ea9eacf59', variable: 'PRIVATE_PROPERTIES')
+              ]) {
+                def privateProps = readProperties file: "$PRIVATE_PROPERTIES"
 
-              def remote = [:]
-              remote.name = 'qeli-dev'
-              remote.host = privateProps['QELI_DEV_A_HOST']
-              remote.user = env.QELI_DEV_CREDENTIALS_USR
-              remote.password = env.QELI_DEV_CREDENTIALS_PSW
-              remote.allowAnyHosts = true
+                def remote = [:]
+                remote.name = 'qeli-dev'
+                remote.host = privateProps['QELI_DEV_A_HOST']
+                remote.user = env.QELI_DEV_CREDENTIALS_USR
+                remote.password = env.QELI_DEV_CREDENTIALS_PSW
+                remote.allowAnyHosts = true
 
-              sshPut remote: remote,
-                     from: './qeli-frontoffice-application/target/qeli-frontoffice-application.war',
-                     into: '***REMOVED***/livraison/qeli-frontoffice-application.war',
-                     override: true
+                sshPut remote: remote,
+                       from: './qeli-frontoffice-application/target/qeli-frontoffice-application.war',
+                       into: '***REMOVED***/livraison/qeli-frontoffice-application.war',
+                       override: true
 
-              sshScript remote: remote,
-                        script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
+                sshScript remote: remote,
+                          script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
+              }
             }
-           }
           }
         }
 
@@ -115,25 +117,27 @@ pipeline {
 
           steps {
             script {
-             configFileProvider([configFile(fileId: 'a625574f-5000-45c1-8bce-929ea9eacf59', variable: 'PRIVATE_PROPERTIES')]) {
-              def privateProps = readProperties file: "$PRIVATE_PROPERTIES"
+              configFileProvider([
+                configFile(fileId: 'a625574f-5000-45c1-8bce-929ea9eacf59', variable: 'PRIVATE_PROPERTIES')
+              ]) {
+                def privateProps = readProperties file: "$PRIVATE_PROPERTIES"
 
-              def remote = [:]
-              remote.name = 'qeli-dev'
-              remote.host = privateProps['QELI_DEV_B_HOST']
-              remote.user = env.QELI_DEV_CREDENTIALS_USR
-              remote.password = env.QELI_DEV_CREDENTIALS_PSW
-              remote.allowAnyHosts = true
+                def remote = [:]
+                remote.name = 'qeli-dev'
+                remote.host = privateProps['QELI_DEV_B_HOST']
+                remote.user = env.QELI_DEV_CREDENTIALS_USR
+                remote.password = env.QELI_DEV_CREDENTIALS_PSW
+                remote.allowAnyHosts = true
 
-              sshPut remote: remote,
-                     from: './qeli-frontoffice-application/target/qeli-frontoffice-application.war',
-                     into: '***REMOVED***/livraison/qeli-frontoffice-application.war',
-                     override: true
+                sshPut remote: remote,
+                       from: './qeli-frontoffice-application/target/qeli-frontoffice-application.war',
+                       into: '***REMOVED***/livraison/qeli-frontoffice-application.war',
+                       override: true
 
-              sshScript remote: remote,
-                        script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
+                sshScript remote: remote,
+                          script: './qeli-frontoffice-application/src/distrib/dev-deploy.sh'
+              }
             }
-           }
           }
         }
       }

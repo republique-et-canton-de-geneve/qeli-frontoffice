@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { QuestionLoader} from '../question-loader';
+import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
@@ -14,16 +13,11 @@ import { CompositeQuestion } from '../../../dynamic-question/composite-question/
 import { AnswerUtils } from '../answer-utils';
 import { QuestionUtils } from '../qeli-questions.utils';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class FormationQuestionService implements QuestionLoader {
+export class FormationQuestionService extends QuestionLoader {
 
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const membres = ([eligibiliteGroup.demandeur] as (Personne)[]).concat(
-      eligibiliteGroup.demandeur.membresFamille
-    );
+  loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const membres = ([this.demandeur] as (Personne)[]).concat(this.demandeur.membresFamille);
     const questions: QeliQuestionDecorator<any>[] = [];
 
     questions.push({
@@ -32,7 +26,7 @@ export class FormationQuestionService implements QuestionLoader {
         dataCyIdentifier: '0702_formation',
         label: {
           key: 'question.formation.label',
-          parameters: {numberOfMemebres: eligibiliteGroup.demandeur.membresFamille.length}
+          parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
         },
         showErrors: false,
         items: membres.map(membre => ({
@@ -50,7 +44,9 @@ export class FormationQuestionService implements QuestionLoader {
         }))
       }),
       calculateRefus: this.calculateFormationRefusFn.bind(this),
-      eligibilites: eligibiliteGroup.findByPrestation([Prestation.BOURSES, Prestation.PC_FAM, Prestation.PC_AVS_AI]),
+      eligibilites: eligibiliteGroup.findByPrestation([Prestation.BOURSES, Prestation.PC_FAM]).concat(
+        eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT)
+      ),
       categorie: Categorie.SITUATION_PERSONELLE,
       subcategorie: Subcategorie.FORMATION
     });
@@ -77,11 +73,10 @@ export class FormationQuestionService implements QuestionLoader {
 
   calculateFormationRefusFn(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
     const eligibiliteGroup = new EligibiliteGroup(eligibilites);
-    const demandeur = eligibiliteGroup.demandeur;
     const refus: EligibiliteRefusee[] = [];
 
     // Si pas d'enfant à charge, refus PC FAM
-    if (!AnswerUtils.hasEnfantACharge(formData, demandeur)) {
+    if (!AnswerUtils.hasEnfantACharge(formData, this.demandeur)) {
       QuestionUtils.createRefusByPrestation(
         eligibilites, Prestation.PC_FAM, eligibilite => ({
           key: `question.formation.motifRefus.${eligibilite.prestation}`
@@ -103,7 +98,7 @@ export class FormationQuestionService implements QuestionLoader {
 
     // Refus PC AVS AI pour les enfants qui ne sont pas à charge
     eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(eligibilite => {
-      return !AnswerUtils.isEnfantACharge(formData, eligibilite.membre, demandeur);
+      return !AnswerUtils.isEnfantACharge(formData, eligibilite.membre, this.demandeur);
     }).map((eligibilite) => ({
         eligibilite: eligibilite,
         motif: {

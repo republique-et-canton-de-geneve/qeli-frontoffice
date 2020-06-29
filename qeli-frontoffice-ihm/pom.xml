@@ -6,7 +6,7 @@
     <parent>
         <groupId>ch.ge.social.qeli</groupId>
         <artifactId>qeli-frontoffice</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2</version>
     </parent>
 
     <artifactId>qeli-frontoffice-ihm</artifactId>
@@ -14,7 +14,6 @@
 
     <properties>
         <npm.build.directory>dist/</npm.build.directory>
-        <sonar.sources>src</sonar.sources>
     </properties>
 
     <build>

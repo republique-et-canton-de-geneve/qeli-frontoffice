@@ -1,57 +1,39 @@
 import { Injectable } from '@angular/core';
 import { QeliConfiguration } from '../configuration/qeli-configuration.model';
-import { QuestionLoader } from './question-loader';
-import { PrestationQuestionService } from './prestation/prestation-question.service';
-import { DomicileQuestionService } from './domicile/domicile-question.service';
 import { QeliQuestionDecorator } from './qeli-question-decorator.model';
-import { Eligibilite } from './eligibilite.model';
 import { EnfantsQuestionService } from './enfants/enfants-question.service';
-import { NationaliteQuestionService } from './nationalite/nationalite-question.service';
-import { LogementQuestionService } from './logement/logement-question.service';
-import { PensionAlimentaireQuestionService } from './pension-alimentaire/pension-alimentaire-question.service';
-import { AssuranceMaladieQuestionService } from './assurance-maladie/assurance-maladie-question.service';
-import { RevenusQuestionService } from './revenus/revenus-question.service';
+import { Demandeur } from '../configuration/demandeur.model';
+import { PrestationQuestionService } from './prestation/prestation-question.service';
 import { FormationQuestionService } from './formation/formation-question.service';
+import { NationaliteQuestionService } from './nationalite/nationalite-question.service';
+import { DomicileQuestionService } from './domicile/domicile-question.service';
+import { RevenusQuestionService } from './revenus/revenus-question.service';
+import { LogementQuestionService } from './logement/logement-question.service';
+import { SituationProfesionelleQuestionService } from './situation-profesionelle/situation-profesionelle-question.service';
+import { AssuranceMaladieQuestionService } from './assurance-maladie/assurance-maladie-question.service';
+import { PensionAlimentaireQuestionService } from './pension-alimentaire/pension-alimentaire-question.service';
 import { MontantFortuneQuestionService } from './montant-fortune/montant-fortune-question.service';
 import { SituationFiscaleQuestionService } from './situation-fiscale/situation-fiscale-question.service';
-import { SituationProfesionelleQuestionService } from './situation-profesionelle/situation-profesionelle-question.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class QuestionService implements QuestionLoader {
+export class QuestionService {
 
-  constructor(
-    private enfantsQuestionService: EnfantsQuestionService,
-    private prestationQuestionService: PrestationQuestionService,
-    private formationQuestionService: FormationQuestionService,
-    private nationaliteQuestion: NationaliteQuestionService,
-    private domicileQuestionService: DomicileQuestionService,
-    private revenusQuestionService: RevenusQuestionService,
-    private situationProfesionelleQuestionService: SituationProfesionelleQuestionService,
-    private logementQuestionService: LogementQuestionService,
-    private assuranceMaladieQuestionService: AssuranceMaladieQuestionService,
-    private pensionAlimentaireQuestionService: PensionAlimentaireQuestionService,
-    private montantFortuneQuestionService: MontantFortuneQuestionService,
-    private situationFiscaleQuestionService: SituationFiscaleQuestionService
-  ) {
-
-  }
-
-  loadQuestions(configuration: QeliConfiguration, eligibilites: Eligibilite[]): QeliQuestionDecorator<any>[] {
+  loadQuestions(configuration: QeliConfiguration, demandeur: Demandeur): QeliQuestionDecorator<any>[] {
     return [].concat(
-      this.enfantsQuestionService.loadQuestions(configuration, eligibilites),
-      this.prestationQuestionService.loadQuestions(configuration, eligibilites),
-      this.formationQuestionService.loadQuestions(configuration, eligibilites),
-      this.nationaliteQuestion.loadQuestions(configuration, eligibilites),
-      this.domicileQuestionService.loadQuestions(configuration, eligibilites),
-      this.revenusQuestionService.loadQuestions(configuration, eligibilites),
-      this.situationProfesionelleQuestionService.loadQuestions(configuration, eligibilites),
-      this.logementQuestionService.loadQuestions(configuration, eligibilites),
-      this.assuranceMaladieQuestionService.loadQuestions(configuration, eligibilites),
-      this.pensionAlimentaireQuestionService.loadQuestions(configuration, eligibilites),
-      this.montantFortuneQuestionService.loadQuestions(configuration, eligibilites),
-      this.situationFiscaleQuestionService.loadQuestions(configuration, eligibilites)
+      new EnfantsQuestionService(demandeur).loadQuestions(configuration),
+      new PrestationQuestionService(demandeur).loadQuestions(configuration),
+      new FormationQuestionService(demandeur).loadQuestions(configuration),
+      new NationaliteQuestionService(demandeur).loadQuestions(configuration),
+      new DomicileQuestionService(demandeur).loadQuestions(configuration),
+      new RevenusQuestionService(demandeur).loadQuestions(configuration),
+      new SituationProfesionelleQuestionService(demandeur).loadQuestions(configuration),
+      new LogementQuestionService(demandeur).loadQuestions(configuration),
+      new AssuranceMaladieQuestionService(demandeur).loadQuestions(configuration),
+      new PensionAlimentaireQuestionService(demandeur).loadQuestions(configuration),
+      new MontantFortuneQuestionService(demandeur).loadQuestions(configuration),
+      new SituationFiscaleQuestionService(demandeur).loadQuestions(configuration)
     );
   }
 }
