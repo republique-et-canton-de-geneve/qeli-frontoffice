@@ -2,10 +2,10 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-    <property name="CSV_LOG_FILE" value="logs/qeli-stats.csv"/>
+    <property name="CSV_LOG_FILE" value="/mnt/10818-QELI-logs/qeli-stats.csv"/>
     <appender name="CSV" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
-            <pattern>%msg%n</pattern>
+            <pattern>%d{dd-MM-yyyy},%d{HH:mm:ss},%msg%n</pattern>
         </encoder>
         <file value="${CSV_LOG_FILE}"/>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
