@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <include
+        resource="org/springframework/boot/logging/logback/base.xml" />
 
-    <property name="CSV_LOG_FILE" value="stats/qeli-stats.csv"/>
-    <appender name="CSV" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="CSV"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>stats/stats.csv</file>
         <encoder>
             <pattern>%d{dd-MM-yyyy},%d{HH:mm:ss},%msg%n</pattern>
         </encoder>
-        <file value="${CSV_LOG_FILE}"/>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${CSV_LOG_FILE}.%d{yyyy-MM-dd_HH:mm:ss}.%i.gz</fileNamePattern>
-            <maxFileSize>10MB</maxFileSize>
-            <maxHistory>-0</maxHistory>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>stats/stats_%d{dd-MM-yyyy}.csv
+            </fileNamePattern>
+            <maxHistory>-1</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
-    <logger name="ch.ge.social.qeli.service.stats.StatsServiceImpl" additivity="false" level="TRACE">
-        <appender-ref ref="CSV"/>
+    <logger
+        name="ch.ge.social.qeli.service.stats.StatsServiceImpl"
+        additivity="false" level="TRACE">
+        <appender-ref ref="CSV" />
     </logger>
 
 </configuration>
+
+
