@@ -2,14 +2,14 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-    <property name="CSV_LOG_FILE" value="logs/stats/qeli-stats.csv"/>
+    <property name="CSV_LOG_FILE" value="stats/qeli-stats.csv"/>
     <appender name="CSV" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder>
             <pattern>%d{dd-MM-yyyy},%d{HH:mm:ss},%msg%n</pattern>
         </encoder>
         <file value="${CSV_LOG_FILE}"/>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${CSV_LOG_FILE}.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <fileNamePattern>${CSV_LOG_FILE}.%d{yyyy-MM-dd_HH:mm:ss}.%i.gz</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <maxHistory>-0</maxHistory>
         </rollingPolicy>
