@@ -5,7 +5,7 @@
 
     <appender name="CSV"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>stats/stats.csv</file>
+        <file>stats/${HOSTNAME}-stats.csv</file>
         <encoder
             class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="ch.qos.logback.classic.PatternLayout">
@@ -15,9 +15,9 @@
         </encoder>
         <rollingPolicy
             class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>stats/stats.%d{dd-MM-yyyy}.%i.csv
+            <fileNamePattern>stats/${HOSTNAME}-stats.%d{dd-MM-yyyy}.%i.csv
             </fileNamePattern>
-            <maxFileSize>5KB</maxFileSize>
+            <maxFileSize>200KB</maxFileSize>
             <maxHistory>-1</maxHistory>
             <totalSizeCap>20GB</totalSizeCap>
         </rollingPolicy>
