@@ -19,6 +19,7 @@ export class EnfantsQuestionService extends QuestionLoader {
           key: 'parentsEnfants',
           dataCyIdentifier: '0506_parentsEnfants',
           label: {key: 'question.parentsEnfants.label'},
+          help: {key: 'question.parentsEnfants.help'},
           showErrors: false,
           items: enfants.map(enfant => ({
             question: new RadioQuestion({
