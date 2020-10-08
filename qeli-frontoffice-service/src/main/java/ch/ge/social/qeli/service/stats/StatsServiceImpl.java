@@ -1,5 +1,16 @@
 package ch.ge.social.qeli.service.stats;
 
+import ch.ge.social.qeli.service.api.answer.InvalidAnswerFormatException;
+import ch.ge.social.qeli.service.api.answer.dto.Answer;
+import ch.ge.social.qeli.service.api.demandeur.dto.Demandeur;
+import ch.ge.social.qeli.service.api.demandeur.dto.MembreFamille;
+import ch.ge.social.qeli.service.api.demandeur.dto.Relation;
+import ch.ge.social.qeli.service.api.result.dto.Eligibilite;
+import ch.ge.social.qeli.service.api.result.dto.EligibiliteRefusee;
+import ch.ge.social.qeli.service.api.result.dto.QeliResult;
+import ch.ge.social.qeli.service.api.stats.CannotSaveStatsException;
+import ch.ge.social.qeli.service.api.stats.StatsService;
+import com.opencsv.CSVWriter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -11,23 +22,9 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import com.opencsv.CSVWriter;
-
-import ch.ge.social.qeli.service.api.answer.InvalidAnswerFormatException;
-import ch.ge.social.qeli.service.api.answer.dto.Answer;
-import ch.ge.social.qeli.service.api.demandeur.dto.Demandeur;
-import ch.ge.social.qeli.service.api.demandeur.dto.MembreFamille;
-import ch.ge.social.qeli.service.api.demandeur.dto.Relation;
-import ch.ge.social.qeli.service.api.result.dto.Eligibilite;
-import ch.ge.social.qeli.service.api.result.dto.EligibiliteRefusee;
-import ch.ge.social.qeli.service.api.result.dto.QeliResult;
-import ch.ge.social.qeli.service.api.stats.CannotSaveStatsException;
-import ch.ge.social.qeli.service.api.stats.StatsService;
 
 /**
  * Une implementation du service de stats, les données provenant du formulaire sont ajoutées à un log journal au format
@@ -57,11 +54,7 @@ public class StatsServiceImpl implements StatsService {
       eligibiliteToStatsDataLines(uuid, result.getEligibilites(), result.getDemandeur()).forEach(writeNextLine);
 
       BufferedReader bufReader = new BufferedReader(new StringReader(sw.toString().trim()));
-      String line=null;
-      while( (line=bufReader.readLine()) != null )
-      {
-        logger.trace(line);
-      }
+      bufReader.lines().forEach(logger::trace);
     } catch (IOException e) {
       throw new CannotSaveStatsException("Un problème est survenu lors de l'écriture du CSV", e);
     }
