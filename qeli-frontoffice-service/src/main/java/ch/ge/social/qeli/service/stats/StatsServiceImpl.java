@@ -11,7 +11,9 @@ import ch.ge.social.qeli.service.api.result.dto.QeliResult;
 import ch.ge.social.qeli.service.api.stats.CannotSaveStatsException;
 import ch.ge.social.qeli.service.api.stats.StatsService;
 import com.opencsv.CSVWriter;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +53,8 @@ public class StatsServiceImpl implements StatsService {
       refusToStatsDataLines(uuid, result.getEligibiliteRefusees(), result.getDemandeur()).forEach(writeNextLine);
       eligibiliteToStatsDataLines(uuid, result.getEligibilites(), result.getDemandeur()).forEach(writeNextLine);
 
-      logger.trace(sw.toString().trim());
+      BufferedReader bufReader = new BufferedReader(new StringReader(sw.toString().trim()));
+      bufReader.lines().forEach(logger::trace);
     } catch (IOException e) {
       throw new CannotSaveStatsException("Un problème est survenu lors de l'écriture du CSV", e);
     }
