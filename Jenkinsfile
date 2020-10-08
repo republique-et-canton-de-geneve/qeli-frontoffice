@@ -84,6 +84,8 @@ pipeline {
     stage('Deploy') {
       parallel {
         stage('DEV Instance A') {
+          when { branch 'develop' }
+
           steps {
             script {
               configFileProvider([
@@ -111,6 +113,8 @@ pipeline {
         }
 
         stage('DEV Instance B') {
+          when { branch 'develop' }
+
           steps {
             script {
               configFileProvider([
