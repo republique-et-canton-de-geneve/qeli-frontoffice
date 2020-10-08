@@ -66,6 +66,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               key: 'question.tauxActivite.label',
               parameters: translateParams
             },
+            help: {key: 'question.tauxActivite.help'},
             errorLabels: QuestionUtils.toErrorLabels(
               'tauxActivite', ['required', 'pattern', 'min', 'max'], translateParams
             )
