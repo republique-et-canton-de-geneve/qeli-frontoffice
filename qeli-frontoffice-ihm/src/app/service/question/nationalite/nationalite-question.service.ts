@@ -59,6 +59,7 @@ export class NationaliteQuestionService extends QuestionLoader {
                   key: 'refugie',
                   dataCyIdentifier: `0402_refugie_${membre.id}`,
                   label: {key: 'question.situationMembre.refugie.label', parameters: translateParams},
+                  help: {key: 'question.situationMembre.refugie.help', parameters: translateParams},
                   errorLabels: {
                     required: {key: 'question.situationMembre.refugie.error.required', parameters: translateParams}
                   },
