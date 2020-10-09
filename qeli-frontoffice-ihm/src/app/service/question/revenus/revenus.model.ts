@@ -14,7 +14,7 @@ export enum TypeRevenus {
 }
 
 
-const HAS_HELP = [TypeRevenus.APG];
+const HAS_HELP = [TypeRevenus.APG, TypeRevenus.CHOMAGE];
 
 export function isTypeRevenusAVS(typeRevenus: TypeRevenus | string) {
   return typeRevenus === TypeRevenus.AVS_RETRAITE ||

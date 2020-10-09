@@ -17,6 +17,7 @@ export interface QuestionSchema {
   dataCyIdentifier: string;
   label: I18nString | ((value: any) => I18nString);
   help?: I18nString | ((value: any) => I18nString);
+  preface?: I18nString | ((value: any) => I18nString);
   errorLabels?: { [key: string]: I18nString };
   validators?: ValidatorFn[];
 }
@@ -60,6 +61,12 @@ export abstract class Question<T extends Answer> {
    * formulaire.
    */
   help?: I18nString | ((value: any) => I18nString);
+
+  /**
+   * Optionnellement, un texte qui précède la question une méthode qui génère le texte à partir des données déjà
+   * saisie dans le formulaire.
+   */
+  preface?: I18nString | ((value: any) => I18nString);
 
   /**
    * Les libellés pour les messages d'erreurs qui sont lié à cette question

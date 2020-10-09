@@ -15,6 +15,7 @@ export class LogementQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const hasPartenaire = this.demandeur.hasConjoint || this.demandeur.hasConcubin;
 
     return [
       {
@@ -45,7 +46,13 @@ export class LogementQuestionService extends QuestionLoader {
           key: 'bailLogementAVotreNom',
           dataCyIdentifier: '1002_bailLogementAVotreNom',
           label: {key: 'question.bailLogementAVotreNom.label'},
-          help: {key: 'question.bailLogementAVotreNom.help'},
+          help: {
+            key: 'question.bailLogementAVotreNom.help',
+            parameters: {
+              hasPartenaire: hasPartenaire ? 'yes' : 'no',
+              partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : ''
+            }
+          },
           errorLabels: {required: {key: 'question.bailLogementAVotreNom.error.required'}},
           inline: true,
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS
