@@ -314,7 +314,7 @@
     },
     "revenus": {
       "label": "Quels types de revenus {who, select, me{recevez-vous} other{{membre} reçoit-il(elle)}} ?",
-      "help": "Si {who, select, me{vous avez} other{{membre} a}} d'autres revenus que ceux de la liste, pas besoin de les indiquer.",
+      "help": "Si vous avez d'autres revenus que ceux de la liste, pas besoin de les indiquer.",
       "some": "Sélectionnez chacun {who, select, me{de vos revenus} other{des revenus de {membre}}} :",
       "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
       "inconnu": "Je ne sais pas",
@@ -414,7 +414,7 @@
       }
     },
     "bailLogementAVotreNom": {
-      "label": "Le bail de votre logement est-il à votre nom ?",
+      "label": "Le bail de votre logement est-il à votre nom {hasPartenaire, select, no{} other{ou celui de {partenaire}}} ?",
       "help": "Votre nom {hasPartenaire, select, no{} other{ou celui de {partenaire}}} figure sur le bail à loyer du logement que vous occupez.<br>Si vous êtes un sous-locataire déclaré à la régie, vous êtes également considéré comme titulaire du bail. En cas de doute, demandez au locataire.",
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué que le bail de votre logement n'est pas à votre nom"
