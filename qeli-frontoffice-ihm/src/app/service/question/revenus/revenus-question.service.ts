@@ -42,6 +42,10 @@ export class RevenusQuestionService extends QuestionLoader {
               key: 'question.revenus.label',
               parameters: translateParams
             },
+            help: {
+              key: 'question.revenus.help',
+              parameters: translateParams
+            },
             errorLabels: QuestionUtils.toErrorLabels('revenus', ['required', 'atLeastOneSelected']),
             hasSomeOptions: checkboxGroupNoneOptionsFor('revenus', membre),
             checkboxOptions: typeRevenusToCheckboxOptions(membre)
@@ -65,6 +69,7 @@ export class RevenusQuestionService extends QuestionLoader {
           question: new CheckboxGroupQuestion({
             key: `situationRente_${membre.id}`,
             dataCyIdentifier: `0602_situationRente_${membre.id}`,
+            preface: {key: 'question.situationRente.preface'},
             label: {
               key: 'question.situationRente.label',
               parameters: translateParams
