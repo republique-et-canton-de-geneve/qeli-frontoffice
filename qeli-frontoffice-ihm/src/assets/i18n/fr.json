@@ -25,7 +25,7 @@
       },
       "membre": {
         "prenom": {
-          "label": "Leur prénom",
+          "label": "Son prénom",
           "placeholder": {
             "EPOUX": "Conjoint",
             "PARTENAIRE_ENREGISTRE": "Conjoint",
@@ -44,19 +44,19 @@
           }
         },
         "dateNaissance": {
-          "label": "Leur date de naissance"
+          "label": "Sa date de naissance"
         },
         "supprimer": "Supprimer le dernier membre",
         "ajouter": "Ajouter un autre membre"
       },
-      "autresCheckbox": "Je vis avec d'autres personnes qui ne sont ni mon conjoint, ni mon concubin, ni mes enfants (exemple : mes parents, des colocataires etc.)",
+      "autresCheckbox": "Je vis avec d'autres personnes qui ne sont ni mon conjoint, ni mon concubin, ni mes enfants. Par exemple : mes parents, des colocataires, etc.",
       "errors": {
-        "uniquePrenom": "Les prénoms doivent être différents (vous pouvez ajouter une lettre ou un chiffre pour les différencier).",
+        "uniquePrenom": "Les prénoms doivent être différents. Vous pouvez ajouter une lettre ou un chiffre pour les différencier.",
         "required": "Ce champ est obligatoire",
         "maxDate": "La date de naissance ne peut pas être dans le futur.",
         "minDate": "Date incorrecte",
         "invalidDate": "Date incorrecte",
-        "marieOuPartenaireSansConjoint": "Attention : Vous devez saisir votre époux·se ou votre partenaire même si il·elle n'habite pas avec vous"
+        "marieOuPartenaireSansConjoint": "Attention : Vous devez saisir votre époux·se ou votre partenaire même s'il·elle n'habite pas avec vous car certaines prestations sociales en tiennent compte."
       }
     },
     "result": {
@@ -68,8 +68,8 @@
         "deja": "D'après ce que vous avez répondu, vous bénéficiez déjà des prestations suivantes :"
       },
       "plusInformation": "+ Plus d'information",
-      "demande": "Faites une demande maintenant",
-      "demandeMembre": "Faites une demande pour {who, select, me{vous} other{{membre}}}",
+      "demande": "Faire une demande",
+      "demandeMembre": "Faire une demande pour {who, select, me{vous} other{{membre}}}",
       "prestation": {
         "SUBSIDES": {
           "title": "Subsides d'assurance-maladie",
@@ -156,15 +156,16 @@
   },
   "question": {
     "parentsEnfants": {
-      "label": "Qui sont les parents des enfants vivant dans votre foyer ?",
+      "label": "Qui sont les parents de ces enfants ?",
       "membre": "{membre} est :",
+      "help": "Le parent d'un enfant est celui qui en a fait la reconnaissance officielle (enfant légitime, enfant reconnu, enfant adopté).",
       "error": {
         "required": "Ce champ est obligatoire"
       }
     },
     "prestations": {
       "label": "Recevez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
-      "help": "En cas de doute sur une prestation, ne pas cocher la case concernée.<br>Si vous ne savez pas du tout si vous recevez des prestations et lesquelles, cocher \"Non\".",
+      "help": "Les prestations sociales sont toutes les aides financières apportées par l'Etat de Genève dans le domaine social et qui dépendent de vos revenus. Elles sont toutes nommées dans  la liste des réponses possibles. Les allocations familiales n'en font par exemple pas partie.<br>Si vous n'êtes pas sûr.e de toucher une prestation, laissez la case vide (NE PAS cochez la case).<br>Si vous pensez ne toucher aucune prestation, sélectionnez la case \"Non, je ne reçois aucune prestation sociale / Non, personne de mon foyer ne reçoit de prestation sociale\".",
       "option": {
         "SUBSIDES": "{numberOfMemebres, select, 0{Subsides d'assurance-maladie (SAM)} other {{who, select, me{Je reçois} other{{membre} reçoit}} des subsides d'assurance-maladie}}",
         "AVANCES": "Avance de pensions alimentaires (SCARPA)",
@@ -200,8 +201,8 @@
       }
     },
     "formation": {
-      "label": "Qui est en formation ou va commencer bientôt une formation ?",
-      "membre": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} en formation / {who, select, me{allez-vous} other{va-t-il·elle}} bientôt commencer une formation ?",
+      "label": "Qui est en formation ou va commencer une formation dans les 12 prochains mois ?",
+      "membre": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} en formation ou {who, select, me{allez-vous} other{va-t-il·elle}} commencer une formation dans les 12 prochains mois ?",
       "motifRefus": {
         "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation",
         "PC_FAM": "Vous n'avez plus d'enfants à charge",
@@ -214,7 +215,7 @@
     "scolarite": {
       "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre}}} ?",
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} suit}} une formation qui ne peut pas faire objet d'une bourse",
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous suivez} other{{membre} suit}} une formation qui ne peut pas faire objet d'une bourse",
         "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
         "PC_FAM": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation"
       },
@@ -226,13 +227,14 @@
       "label": "Décrivez {who, select, me{votre situation} other{la situation de {membre}}} :",
       "nationalite": {
         "label": "Quelle est {who, select, me{votre nationalité} other{la nationalité de {membre}}} ?",
-        "help": "Nationalité : Etat dont {who, select, me{vous possédez} other{{membre} possède}} un passeport.<br>Si {who, select, me{vous avez} other{{membre} a}} plusieurs nationalités indiquez les toutes.",
+        "help": "Nationalité : pays dont {who, select, me{vous avez} other{{membre} a}} un passeport ou une carte d'identité (même si vous n'avez plus le document avec vous).<br>Si {who, select, me{vous avez} other{{membre} a}} plusieurs nationalités, indiquez-les toutes.",
         "error": {
           "required": "{who, select, me{Votre nationalité} other{La nationalité de {membre}}} doit être fournie"
         }
       },
       "refugie": {
         "label": "{who, select, me{Etes-vous} other{Est {membre}}} :",
+        "help": "Requérant·e d'asile : Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM).<br>Réfugié·e : Vous avez obtenu l'asile en Suisse (statut reconnu/accordé/délivré par l'office cantonal de la population et des migrations (OCPM)).<br>Si vous avez été débouté·e de votre demande d'asile ou que vous êtes en procédure de recours, cocher \"Aucun des deux\".",
         "error": {
           "required": "{who, select, me{Votre statut} other{Le statut de réfugié de {membre}}} doit être fourni"
         }
@@ -259,16 +261,16 @@
       }
     },
     "permisBEtudes": {
-      "label": "Qui a un permis B pour raisons d'études ?",
-      "membre": "{who, select, me{Avez-vous} other{Est-ce que {membre} a}} un Permis B pour raison d'études ?",
-      "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour délivré aux résidents longue durée qui font des études dans le canton par l'office cantonal de la population et de la migration (OCPM)).",
+      "label": "Qui a un permis B pour raison d'études ?",
+      "membre": "{who, select, me{Avez-vous} other{Est-ce que {membre} a}} un permis B pour raison d'études ?",
+      "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour pour les résidents longue durée qui font des études dans le canton, délivré par l'office cantonal de la population et des migrations (OCPM)).<br>ATTENTION : si vous avez un permis B classique (non étudiant), répondez \"Non\".",
       "error": {
         "required": "Ce champ est obligatoire"
       }
     },
     "domicileCantonGE": {
       "label": "{who, select, me{Votre domicile officiel} other{Le domicile officiel de {membre}}} est-il dans le canton de Genève ?",
-      "help": "Domicile : {who, select, me{vous avez} other{{membre} a}} une adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
+      "help": "Domicile : adresse dans le canton de Genève enregistrée à l'office cantonal de la population et des migrations (OCPM).",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -283,7 +285,7 @@
     },
     "dateArriveeGeneve": {
       "label": "Quelle est la date officielle {who, select, me{de votre arrivée à Genève} other{d'arrivée à Genève de {membre}}} ?",
-      "help": "Date officielle d'arrivée : date indiquée par l'office cantonal de la population et de la migration (OCPM). Si {who, select, me{vous êtes} other{{membre} est }} suisse : date de naissance ou date de déménagement à Genève annoncée à l'OCPM.",
+      "help": "Date officielle d'arrivée : date indiquée  sur votre permis d'établissement ou de séjour. Si {who, select, me{vous êtes} other{{membre} est }} né·e à Genève et {who, select, me{n'êtes} other{n'est }} jamais parti·e habiter ailleurs, sélectionnez \"Depuis ma naissance\".",
       "shortcut": {
         "NO_SHORTCUT": "{who, select, me{Ma date officielle d'arrivée à Genève} other{La date officielle d'arrivée à Genève de {membre}}} est le :",
         "DEPUIS_NAISSANCE": "Depuis {who, select, me{ma} other{sa}} naissance",
@@ -301,8 +303,8 @@
       }
     },
     "residenceEffectiveCantonGE": {
-      "label": "Avez-vous votre résidence effective dans le canton de Genève ?",
-      "help": "Résidence effective : votre logement se trouve bien dans le canton de Genève.",
+      "label": "Avez-vous votre résidence effective dans le canton de Genève ? (Variante : habitez-vous vraiment dans le canton de Genève ?)",
+      "help": "Résidence effective : votre logement se trouve bien dans le canton de Genève. Vous pouvez prouver que vous habitez à Genève, avec des factures par exemple.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -311,7 +313,8 @@
       }
     },
     "revenus": {
-      "label": "Quels revenus {who, select, me{recevez vous} other{{membre} reçoit-il(elle)}} ?",
+      "label": "Quels types de revenus {who, select, me{recevez-vous} other{{membre} reçoit-il(elle)}} ?",
+      "help": "Si vous avez d'autres revenus que ceux de la liste, pas besoin de les indiquer.",
       "some": "Sélectionnez chacun {who, select, me{de vos revenus} other{des revenus de {membre}}} :",
       "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
       "inconnu": "Je ne sais pas",
@@ -327,9 +330,10 @@
       }
     },
     "situationRente": {
-      "label": "{who, select, me{Votre situation} other{La situation de {membre}}} est-elle parmi les suivantes ?",
+      "preface": "Dans certaines situations particulières, des personnes sont officiellement invalides, retraitées ou veuves mais ne touchent pas de rente (pas d'argent reçu). Ces personnes pourraient pourtant recevoir des prestations complémentaires AVS/AI.",
+      "label": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} dans une des situations suivantes ?",
       "some": "Sélectionnez toutes les options qui décrivent {who, select, me{votre situation} other{la situation de {membre}}} :",
-      "none": "Aucune des situation précedentes",
+      "none": "Non, aucune de ces situations ne me concerne",
       "motifRefus": {
         "PC_AVS_AI": "{who, select, me{Votre situation} other{La situation de {membre}}} vous empêche de bénéficier de cette prestation"
       },
@@ -339,11 +343,11 @@
       }
     },
     "taxationOffice": {
-      "label": " Votre dernière taxation {hasConcubin, select, yes{ou celle de {membre} } other{}}est-elle une taxation d'office ?",
+      "label": " Votre dernière taxation reçue des impôts {hasConcubin, select, yes{ou celle de {membre} } other{}}est-elle une taxation d'office ?",
       "altText": {
         "avecConcubin": "Votre dernière taxation ou celle de votre concubin est-elle une taxation d'office ?"
       },
-      "help": "Taxation d'office : vous n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais. Vous avez reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".",
+      "help": "Taxation d'office : vous n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais et vous avez donc reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".<br>Impôts : administration fiscale cantonale (AFC).<br>Pour les concubins, si un seul des deux est taxé d'office, sélectionnez \"Oui\".<br>ATTENTION : ce n'est PAS l'impôt à la source.",
       "motifRefus": {
         "PC_FAM": "Votre dernière taxation ou celle de votre concubin est une taxation d'office"
       },
@@ -353,6 +357,7 @@
     },
     "tauxActivite": {
       "label": "Quel est {who, select, me{votre taux d'activité} other{le taux d'activité de {membre}}} ?",
+      "help": "Taux d'activité : pourcentage (%) de travail payé.<br>Si vous avez plusieurs emplois, noter le total (la somme).<br>Si vos emplois sont irréguliers, estimer la moyenne d'heures totales par semaine.<br>Exemple : environ 8 heures par semaine.<br>Calcul : 8 : 40 x 100 = 20.<br>Réponse : 20%.<br>Exemples comme : 80% (4 jours complets par semaine ou 6h par jour, 5 jours par semaine)",
       "motifRefus": {
         "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
       },
@@ -386,7 +391,7 @@
       }
     },
     "tauxActiviteMoyen6DernierMois": {
-      "label": "En moyenne, quel était  {who, select, me{votre taux d'activité} other{le taux d'activité de {membre}}} des 6 derniers mois de travail ?",
+      "label": "En moyenne, quel était {who, select, me{votre taux d'activité} other{le taux d'activité de {membre}}} des 6 derniers mois de travail ?",
       "help": "Moyenne : additionnez les 6 taux d'activité mensuels, puis divisez par 6.<br>Exemple :<br>Vos taux d'activité étaient de 20% en janvier, de 25% en février, de 30% en mars, de 35% en avril, de 40% en mai et de 45% en juin.<br>Calculs : 20 + 25 + 30 + 35 + 40 + 45 = 195<br>195 / 6 = 32.5<br>Notez 32.5 dans la réponse.",
       "motifRefus": {
         "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
@@ -400,7 +405,7 @@
     },
     "proprietaireOuLocataireLogement": {
       "label": "Etes-vous propriétaire ou locataire de votre logement ?",
-      "help": "Logement : l'appartement ou la maison dans laquelle vous habitez.",
+      "help": "Logement : l'appartement ou la maison dans laquelle vous habitez (résidence principale).<br>Pour les colocations, cocher \"Locataire, sous-locataire\".",
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous êtes propriétaire de votre logement"
       },
@@ -409,8 +414,8 @@
       }
     },
     "bailLogementAVotreNom": {
-      "label": "Le bail de votre logement est-il à votre nom ?",
-      "help": "Votre nom figure sur le bail à loyer du logement que vous occupez. Si vous êtes un sous-locataire déclaré à la régie, vous êtes également considéré comme titulaire du bail.",
+      "label": "Le bail de votre logement est-il à votre nom {hasPartenaire, select, no{} other{ou celui de {partenaire}}} ?",
+      "help": "Votre nom {hasPartenaire, select, no{} other{ou celui de {partenaire}}} figure sur le bail à loyer du logement que vous occupez.<br>Si vous êtes un sous-locataire déclaré à la régie, vous êtes également considéré comme titulaire du bail. En cas de doute, demandez au locataire.",
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué que le bail de votre logement n'est pas à votre nom"
       },
@@ -420,7 +425,7 @@
     },
     "nombreDePersonnesLogement": {
       "label": "Combien de personnes vivent dans votre logement ?",
-      "help": "N'oubliez pas de vous compter.",
+      "help": "N'oubliez pas de vous compter.<br>Les enfants doivent être inclus.",
       "error": {
         "required": "Merci de saisir le nombre de personnes",
         "pattern": "Merci de saisir le nombre de personnes",
@@ -430,7 +435,7 @@
     },
     "nombreDePiecesLogement": {
       "label": "Combien de pièces a votre logement ?",
-      "help": "Le nombre de pièces est mentionné sur votre bail.",
+      "help": "Le nombre de pièces est mentionné sur votre bail.<br><br>En général, le nombre de pièces est la somme des pièces suivantes :<br>- cuisine<br>- salon<br>- chambre.<br><br>Exemples :<br>Studio : 1 pièce<br>cuisine + chambre : 2 pièces<br>cuisine + salon + 1 chambre : 3 pièces<br>cuisine + salon + 2 chambres : 4 pièces<br><br>Les salles d'eau (bain, douche, WC) et les balcons ne comptent pas comme pièce.<br><br>En cas de différence entre le nombre de pièces que vous avez calculé et le nombre de pièces sur le bail, c'est le nombre de pièces sur le bail qu'il faut noter.<br><br>Ce n'est pas le nombre de chambre.",
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué un nombre de personnes trop important par rapport au nombre de pièces de votre logement"
       },
@@ -453,7 +458,7 @@
     },
     "montantLoyerFixeOuVariable": {
       "label": "Le montant de votre loyer est-il fixe ou variable en fonction de votre revenu (HLM, HBM, HM, appartement de la Gérance immobilière municipale) ?",
-      "help": "Loyer fixé en fonction de votre revenu si vous habitez dans :<br><ul><li>un HBM (habitation bon marché) subventionné par l'Etat, destiné aux personnes à revenus modestes. Son loyer est contrôlé de façon permanente.</li><li>un HLM (habitation à loyer modéré) destiné aux personnes à revenus modérés, subventionné par l'Etat pendant une période de 20 ans</li><li>ou un HM (habitation mixte) destiné aux personnes à revenus moyens, dont le loyer peut être subventionné par l'Etat pendant une période de 25 ans</li><li>un logement géré par la GIM (Gestion immobilière municipale)</li></ul>",
+      "help": "Loyer fixe : si vous n'avez ni un HLM (habitation à loyer modéré), ni un HBM (habitation bon marché), ni une HM (habitation mixte), ni un appartement de la GIM (Gestion immobilière municipale).<br><br>Loyer déterminé en fonction de votre revenu si vous habitez dans :<br><ul><li>un HBM (habitation bon marché) subventionné par l'Etat, destiné aux personnes à revenus modestes. Son loyer est contrôlé de façon permanente.</li><li>un HLM (habitation à loyer modéré) destiné aux personnes à revenus modérés, subventionné par l'Etat pendant une période de 20 ans</li><li>ou une HM (habitation mixte) destinée aux personnes à revenus moyens, dont le loyer peut être subventionné par l'Etat pendant une période de 25 ans</li><li>un logement géré par la GIM (Gestion immobilière municipale)</li></ul>",
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué avoir un montant de loyer en fonction du revenu (HLM, HBM, HM, appartement de la GIM)"
       },
@@ -463,7 +468,7 @@
     },
     "assuranceMaladieSuisse": {
       "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} une assurance-maladie suisse (LAMal) ?",
-      "help": "Affiliation à l'assurance-maladie : En Suisse, l'assurance de base pour les soins (LAMal) en cas de maladie et d'accident est obligatoire. Toute personne, dès sa prise de domicile en Suisse, est tenue d'être assurée pour les soins en cas de maladie et d'accident. Etre affilié signifie avoir souscrit à une police d'assurance-maladie suisse. Par exemple, Assura, CSS, Helsana ou Mutuel.",
+      "help": "LAMal : assurance de base.<br>Affiliation à l'assurance-maladie : En Suisse, l'assurance de base pour les soins (LAMal) en cas de maladie et d'accident est obligatoire. Toute personne, dès sa prise de domicile en Suisse, est tenue d'être assurée pour les soins en cas de maladie et d'accident. Etre affilié signifie avoir souscrit à une police d'assurance-maladie suisse. Par exemple, Assura, CSS, Helsana ou Mutuel.",
       "membre": "{who, select, me{J'ai} other{{membre} a}} une assurance-maladie suisse (LAMal) :",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -473,8 +478,8 @@
       }
     },
     "droitPensionAlimentaire": {
-      "label": "Avez-vous aujourd'hui droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s) ?",
-      "help": "Droit à une(des) pension(s) alimentaire(s) : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre(vos) enfant(s).",
+      "label": "Aujourd'hui, avez-vous droit à une ou plusieurs pensions alimentaires pour vous-même ou pour votre·vos enfant·s ?",
+      "help": "Pension alimentaire : argent versé par un parent à l'autre pour payer une partie des besoin de l'enfant. Par exemple : versé à la mère qui a la garde de l'enfant par le père qui n'en a pas la garde.<br>Droit à une pension alimentaire : vous êtes en possession d'un jugement qui attribue une pension alimentaire à vous ou votre·vos enfant·s.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -484,7 +489,7 @@
     },
     "recoisEntierementPensionAlimentaire": {
       "label": "Recevez-vous entièrement le montant des pensions alimentaires ?",
-      "help": "Pensions entièrement payées : tous les montants qui vous sont dus vous ont été versés.",
+      "help": "Pensions entièrement payées : l'autre parent de votre enfant (par exemple : le père) vous verse tous les montants qui vous sont dus, tous les mois.<br>Si c'est le SCARPA qui vous verse la pension, répondre \"Non\" car ce n'est pas l'autre parent qui paye.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -494,7 +499,7 @@
     },
     "fortuneSuperieureA": {
       "label": "Avez-vous une fortune supérieure à { limite }.- ?",
-      "help": "Fortune : le montant de vos comptes en banque, de vos comptes postaux et de vos biens immobiliers (maison, appartement) est-il plus élevé que le montant affiché ?<br>Les limites sont de Fr. 4'000.- pour une personne seule, Fr. 8'000.- pour un couple, Fr. 2'000.- pour chaque enfant à charge, mais au maximum Fr. 10'000.-.",
+      "help": "Fortune : le montant de tous vos comptes en banque et comptes postaux, de vos autres biens mobiliers/matériels (voiture, bijoux) et de vos biens immobiliers (maison, appartement), pour l'ensemble du ménage.<br>Est-il plus élevé que le montant affiché ? ",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -503,8 +508,8 @@
       }
     },
     "impotFortune": {
-      "label": "Payez-vous des impôts sur la fortune ?",
-      "help": "Fortune imposable : au-delà d'un certain montant, vous devez payer un impôt sur la fortune. Payez-vous un impôt sur la fortune ?",
+      "label": "Payez-vous un impôt sur la fortune à Genève ?",
+      "help": "Fortune imposable : au-dessus d'un certain montant (environ 80'000 CHF), vous devez payer un impôt sur la fortune.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -523,8 +528,8 @@
       }
     },
     "taxeOfficeAFC": {
-      "label": "Etes-vous {hasPartenaire, select, no{} other{ou {partenaire}}} taxé d'office par l'administration fiscale cantonale (AFC) en {annee} ?",
-      "help": "Taxation d'office : Sanction prise contre le contribuable qui n'a pas effectué de déclaration : le fisc lui-même procède à une estimation du revenu, du profit ou de la valeur imposable, au moyen des éléments d'information en sa possession.",
+      "label": "Etiez-vous {hasPartenaire, select, no{} other{ou {partenaire}}} taxé.e d'office par l'administration fiscale cantonale (AFC) en {annee} ?",
+      "help": "Taxation d'office : vous n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais et vous avez donc reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".<br>ATTENTION : ce n'est PAS l'impôt à la source.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -534,8 +539,8 @@
     },
     "fonctionnaireInternational": {
       "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} un parent fonctionnaire internationnal ?",
-      "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il fonctionnaire international ?",
-      "help": "Fonctionnaire international : Les missions diplomatiques/ ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.",
+      "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il.elle fonctionnaire international.e à Genève ?",
+      "help": "Fonctionnaire international : Les missions diplomatiques, les ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.<br>Parents : la mère ou le père.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -545,8 +550,8 @@
     },
     "parentsHabiteFranceTravailleSuisse": {
       "label": "Les parents sont-ils frontalier ?",
-      "membre": "Est-ce que l'un {who, select, me{vos parents} other{des parents de {membre}}} est frontalier (habite en France et travaille en Suisse) ?",
-      "help": "Impôts sur les revenus de son activité lucrative au canton de Genève : l'un ou vos deux parents travaille(nt) ou habite(nt) sur le canton de Genève et paye(nt) des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
+      "membre": "Est-ce que l'un {who, select, me{de vos parents} other{des parents de {membre}}} est frontalier·ère (habite en France et travaille en Suisse) ?",
+      "help": "Parent frontalier·ère : votre mère ou votre père travaille ou habite sur le canton de Genève et paye des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -587,7 +592,7 @@
     "supprimerNationalite": "Supprimer cette nationalité",
     "apatride": {
       "label": "Apatride",
-      "help": "Personne n'ayant pas de nationalité (statut reconnu par l'OCPM : office cantonal de la population et de la migration)."
+      "help": "Apatride : Personne n'ayant pas de nationalité (statut accordé/délivré par le Secrétariat d’Etat aux migrations (SEM))."
     },
     "requerantRefugie": {
       "REQUERANT_ASILE": {
@@ -596,7 +601,7 @@
       },
       "REFUGIE": {
         "label": "Réfugié",
-        "help": "{who, select, me{Vous avez} other{{membre} a}} obtenu l'asile en Suisse (statut délivré par l'office cantonal de la population et des migrations (OCPM))."
+        "help": "{who, select, me{Vous avez} other{{membre} a}} obtenu l'asile en Suisse (statut reconnu/accordé/délivré par l'office cantonal de la population et des migrations (OCPM))."
       },
       "AUCUN": "Aucun des deux",
       "INCONNU": "Je ne sais pas"
@@ -634,7 +639,7 @@
       },
       "FORMATION_DOCTORALE": {
         "label": "Un doctorat",
-        "help": "Formation doctorale : Le doctorat consiste en une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
+        "help": "Formation doctorale : Le doctorat est une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
       },
       "FORMATION_CONTINUE": {
         "label": "Une formation continue",
@@ -645,7 +650,10 @@
     },
     "typeRevenus": {
       "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé / indépendant",
-      "CHOMAGE": "{who, select, me{Je reçois} other{{membre} reçoit}} l'assurance-chômage",
+      "CHOMAGE": {
+        "label": "{who, select, me{Je reçois} other{{membre} reçoit}} l'assurance-chômage",
+        "help": "Si {who, select, me{vous êtes} other{{membre} est}} au chômage, cochez cette réponse (assurance-chômage) PAS les indemnités journalières."
+      },
       "AVS_RETRAITE": "Rente de vieillesse (AVS)",
       "AVS_VEUF": "Rente de veuf/ve (AVS)",
       "AVS_ENFANT": "Rente d'orphelin ou pour enfant (AVS)",
@@ -653,7 +661,7 @@
       "AI_ENFANT": "Rente pour enfant d'AI (AI)",
       "APG": {
         "label": "{who, select, me{Je reçois} other{{membre} reçoit}} des indemnités journalières / perte de gain",
-        "help": "En arrêt maladie / accident ou en congé maternité"
+        "help": "Si {who, select, me{vous êtes} other{{membre} est}} en arrêt maladie, en arrêt accident ou en congé maternité."
       }
     },
     "cookie": {
@@ -668,15 +676,15 @@
     },
     "situationRente": {
       "RECONNU_OCAI": {
-        "label": "{who, select, me{Je suis} other{{membre} est}} reconnu invalide par l'OCAI avec un taux minimum de 40%",
-        "help": "OCAI : l'office cantonal de l'assurance invalidité."
+        "label": "{who, select, me{Je suis} other{{membre} est}} reconnu·e invalide par l'OCAS avec un taux minimum de 40%",
+        "help": "OCAS : office cantonal des assurances sociales."
       },
-      "RETRAITE_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} retraité·e sans rente",
-      "VEUF_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} veuf·ve sans rente"
+      "RETRAITE_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} retraité·e (sans rente)",
+      "VEUF_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} veuf·ve (sans rente)"
     },
     "taux": {
-      "selectboxOption": "Sélectionnez une option parmis les suivantes :",
-      "textboxOption": "Saisissez le taux manuellement :"
+      "selectboxOption": "Sélectionnez un taux :",
+      "textboxOption": "Saisissez le taux souhaité :"
     },
     "pays": {
       "af": "Afghanistan",

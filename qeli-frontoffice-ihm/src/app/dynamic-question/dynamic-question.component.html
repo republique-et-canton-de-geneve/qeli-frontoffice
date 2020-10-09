@@ -3,6 +3,7 @@
   <div class="row question-title">
     <div class="col-xs-12 col-sm-8"
          [ngClass]="disableDeepLink ? '': 'col-sm-8'">
+      <p *ngIf="preface" [innerHtml]="preface.key | translate:preface.parameters"></p>
       <label class="control-label"
              [ngClass]="question.showErrors && !isValid ? 'text-danger' : ''"
              [attr.for]="question.key"
