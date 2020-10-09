@@ -63,7 +63,7 @@ export abstract class Question<T extends Answer> {
   help?: I18nString | ((value: any) => I18nString);
 
   /**
-   * Optionnellement, une texte qui précède la question une méthode qui génère le texte à partir des données déjà
+   * Optionnellement, un texte qui précède la question une méthode qui génère le texte à partir des données déjà
    * saisie dans le formulaire.
    */
   preface?: I18nString | ((value: any) => I18nString);
