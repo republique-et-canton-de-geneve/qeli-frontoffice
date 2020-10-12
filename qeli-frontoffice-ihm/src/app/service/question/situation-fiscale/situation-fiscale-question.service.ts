@@ -19,30 +19,32 @@ import { TypeEnfant } from '../enfants/type-enfant.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 
 export class SituationFiscaleQuestionService extends QuestionLoader {
-
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
     const membres = ([this.demandeur] as (Personne)[]).concat(this.demandeur.membresFamille);
+    const generateTranslateParams = (value: any) => {
+      const hasPartenaire = this.demandeur.hasConjoint || (
+        this.demandeur.hasConcubin && this.hasEnfantEnCommun(value)
+      );
+      return {
+        hasPartenaire: hasPartenaire ? 'yes' : 'no',
+        partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : '',
+        annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
+      };
+    };
     return [
       {
         question: new RadioQuestion({
           key: `exempteImpot`,
           dataCyIdentifier: `1401_exempteImpot`,
           label: (value: any) => {
-            const hasPartenaire = this.demandeur.hasConjoint || (
-              this.demandeur.hasConcubin && this.hasEnfantEnCommun(value)
-            );
             return {
               key: 'question.exempteImpot.label',
-              parameters: {
-                hasPartenaire: hasPartenaire ? 'yes' : 'no',
-                partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : '',
-                annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
-              }
+              parameters: generateTranslateParams(value)
             } as I18nString;
           },
           help: {key: 'question.exempteImpot.help'},
-          errorLabels: {required: {key: 'question.taxeOfficeAFC.error.required'}},
+          errorLabels: {required: {key: 'question.exempteImpot.error.required'}},
           inline: true,
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
@@ -61,19 +63,17 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
           key: `taxeOfficeAFC`,
           dataCyIdentifier: `1402_taxeOfficeAFC`,
           label: (value: any) => {
-            const hasPartenaire = this.demandeur.hasConjoint || (
-              this.demandeur.hasConcubin && this.hasEnfantEnCommun(value)
-            );
             return {
               key: 'question.taxeOfficeAFC.label',
-              parameters: {
-                hasPartenaire: hasPartenaire ? 'yes' : 'no',
-                partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : '',
-                annee: moment().subtract(configuration.taxationAfcYearsFromNow, 'year').get('year')
-              }
+              parameters: generateTranslateParams(value)
             } as I18nString;
           },
-          help: {key: 'question.taxeOfficeAFC.help'},
+          help: (value: any) => {
+            return {
+              key: 'question.taxeOfficeAFC.help',
+              parameters: generateTranslateParams(value)
+            } as I18nString;
+          },
           errorLabels: {required: {key: 'question.taxeOfficeAFC.error.required'}},
           inline: true,
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS

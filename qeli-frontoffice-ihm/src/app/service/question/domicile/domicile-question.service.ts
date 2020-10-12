@@ -67,6 +67,10 @@ export class DomicileQuestionService extends QuestionLoader {
             key: 'question.dateArriveeGeneve.label',
             parameters: translateParams
           },
+          help: {
+            key: 'question.dateArriveeGeneve.help',
+            parameters: translateParams
+          },
           maxDate: new Date(),
           minDate: moment().subtract(configuration.minYearsFromNow, 'year').toDate(),
           errorLabels: QuestionUtils.toErrorLabels(

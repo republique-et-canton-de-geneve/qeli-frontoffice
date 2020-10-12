@@ -107,7 +107,10 @@ export class NationaliteQuestionService extends QuestionLoader {
           key: 'question.permisBEtudes.label',
           parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
         },
-        help: {key: 'question.permisBEtudes.help'},
+        help: {
+          key: 'question.permisBEtudes.help',
+          parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
+        },
         showErrors: false,
         items: membres.map(membre => {
           const translateParams = {
