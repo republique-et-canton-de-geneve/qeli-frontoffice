@@ -165,7 +165,7 @@
     },
     "prestations": {
       "label": "Recevez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
-      "help": "Les prestations sociales sont toutes les aides financières apportées par l'Etat de Genève dans le domaine social et qui dépendent de vos revenus. Elles sont toutes nommées dans  la liste des réponses possibles. Les allocations familiales n'en font par exemple pas partie.<br>Si vous n'êtes pas sûr.e de toucher une prestation, laissez la case vide (NE PAS cochez la case).<br>Si vous pensez ne toucher aucune prestation, sélectionnez la case \"Non, je ne reçois aucune prestation sociale / Non, personne de mon foyer ne reçoit de prestation sociale\".",
+      "help": "Les prestations sociales sont toutes les aides financières apportées par l'Etat de Genève dans le domaine social et qui dépendent de vos revenus. Elles sont toutes nommées dans la liste des réponses possibles. Les allocations familiales n'en font par exemple pas partie.<br>Si vous n'êtes pas sûr·e de toucher une prestation, laissez la case vide (NE PAS cochez la case).<br>Si vous pensez ne toucher aucune prestation, sélectionnez la case \"Non, je ne reçois aucune prestation sociale / Non, personne de mon foyer ne reçoit de prestation sociale\".",
       "option": {
         "SUBSIDES": "{numberOfMemebres, select, 0{Subsides d'assurance-maladie (SAM)} other {{who, select, me{Je reçois} other{{membre} reçoit}} des subsides d'assurance-maladie}}",
         "AVANCES": "Avance de pensions alimentaires (SCARPA)",
@@ -227,14 +227,14 @@
       "label": "Décrivez {who, select, me{votre situation} other{la situation de {membre}}} :",
       "nationalite": {
         "label": "Quelle est {who, select, me{votre nationalité} other{la nationalité de {membre}}} ?",
-        "help": "Nationalité : pays dont {who, select, me{vous avez} other{{membre} a}} un passeport ou une carte d'identité (même si vous n'avez plus le document avec vous).<br>Si {who, select, me{vous avez} other{{membre} a}} plusieurs nationalités, indiquez-les toutes.",
+        "help": "Nationalité : pays dont {who, select, me{vous avez} other{{membre} a}} un passeport ou une carte d'identité (même si {who, select, me{vous n'avez} other{{membre} n'a}} plus le document {who, select, me{avec vous} other{}}).<br>Si {who, select, me{vous avez} other{{membre} a}} plusieurs nationalités, indiquez-les toutes.",
         "error": {
           "required": "{who, select, me{Votre nationalité} other{La nationalité de {membre}}} doit être fournie"
         }
       },
       "refugie": {
         "label": "{who, select, me{Etes-vous} other{Est {membre}}} :",
-        "help": "Requérant·e d'asile : Vous avez déposé une demande d’asile en Suisse et attendez une décision du Secrétariat d’Etat aux migrations (SEM).<br>Réfugié·e : Vous avez obtenu l'asile en Suisse (statut reconnu/accordé/délivré par l'office cantonal de la population et des migrations (OCPM)).<br>Si vous avez été débouté·e de votre demande d'asile ou que vous êtes en procédure de recours, cocher \"Aucun des deux\".",
+        "help": "Requérant·e d'asile : {who, select, me{Vous avez} other{{membre} a}} déposé une demande d’asile en Suisse et {who, select, me{attendez} other{attend}} une décision du Secrétariat d’Etat aux migrations (SEM).<br>Réfugié·e : {who, select, me{Vous avez} other{{membre} a}} obtenu l'asile en Suisse (statut reconnu/accordé/délivré par l'office cantonal de la population et des migrations (OCPM)).<br>Si {who, select, me{vous avez} other{{membre} a}} été débouté·e de {who, select, me{votre} other{sa}} demande d'asile ou que {who, select, me{vous êtes} other{{membre} est}} en procédure de recours, cocher \"Aucun des deux\".",
         "error": {
           "required": "{who, select, me{Votre statut} other{Le statut de réfugié de {membre}}} doit être fourni"
         }
@@ -255,15 +255,15 @@
           "Mask error": ""
         },
         "motifRefus": {
-          "BOURSES": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}}  est trop récente",
-          "PC_AVS_AI": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}}  est trop récente"
+          "BOURSES": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}} est trop récente",
+          "PC_AVS_AI": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}} est trop récente"
         }
       }
     },
     "permisBEtudes": {
       "label": "Qui a un permis B pour raison d'études ?",
       "membre": "{who, select, me{Avez-vous} other{Est-ce que {membre} a}} un permis B pour raison d'études ?",
-      "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour pour les résidents longue durée qui font des études dans le canton, délivré par l'office cantonal de la population et des migrations (OCPM)).<br>ATTENTION : si vous avez un permis B classique (non étudiant), répondez \"Non\".",
+      "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour pour les résidents longue durée qui font des études dans le canton, délivré par l'office cantonal de la population et des migrations (OCPM).<br>ATTENTION : si vous {numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} avez un permis B classique (non étudiant), répondez \"Non\".",
       "error": {
         "required": "Ce champ est obligatoire"
       }
@@ -285,7 +285,7 @@
     },
     "dateArriveeGeneve": {
       "label": "Quelle est la date officielle {who, select, me{de votre arrivée à Genève} other{d'arrivée à Genève de {membre}}} ?",
-      "help": "Date officielle d'arrivée : date indiquée  sur votre permis d'établissement ou de séjour. Si {who, select, me{vous êtes} other{{membre} est }} né·e à Genève et {who, select, me{n'êtes} other{n'est }} jamais parti·e habiter ailleurs, sélectionnez \"Depuis ma naissance\".",
+      "help": "Date officielle d'arrivée : date indiquée sur {who, select, me{votre permis d'établissement ou de séjour} other{le permis d'établissement ou de séjour de {membre}}}. Si {who, select, me{vous êtes} other{{membre} est }} né·e à Genève et {who, select, me{n'êtes} other{n'est}} jamais parti·e habiter ailleurs, sélectionnez \"Depuis ma naissance\".",
       "shortcut": {
         "NO_SHORTCUT": "{who, select, me{Ma date officielle d'arrivée à Genève} other{La date officielle d'arrivée à Genève de {membre}}} est le :",
         "DEPUIS_NAISSANCE": "Depuis {who, select, me{ma} other{sa}} naissance",
@@ -314,7 +314,7 @@
     },
     "revenus": {
       "label": "Quels types de revenus {who, select, me{recevez-vous} other{{membre} reçoit-il(elle)}} ?",
-      "help": "Si vous avez d'autres revenus que ceux de la liste, pas besoin de les indiquer.",
+      "help": "Si {who, select, me{vous avez} other{{membre} a}} d'autres revenus que ceux de la liste, pas besoin de les indiquer.",
       "some": "Sélectionnez chacun {who, select, me{de vos revenus} other{des revenus de {membre}}} :",
       "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
       "inconnu": "Je ne sais pas",
@@ -333,7 +333,7 @@
       "preface": "Dans certaines situations particulières, des personnes sont officiellement invalides, retraitées ou veuves mais ne touchent pas de rente (pas d'argent reçu). Ces personnes pourraient pourtant recevoir des prestations complémentaires AVS/AI.",
       "label": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} dans une des situations suivantes ?",
       "some": "Sélectionnez toutes les options qui décrivent {who, select, me{votre situation} other{la situation de {membre}}} :",
-      "none": "Non, aucune de ces situations ne me concerne",
+      "none": "Non, aucune de ces situations {who, select, me{ne me concerne} other{ne concerne {membre}}}",
       "motifRefus": {
         "PC_AVS_AI": "{who, select, me{Votre situation} other{La situation de {membre}}} vous empêche de bénéficier de cette prestation"
       },
@@ -343,7 +343,7 @@
       }
     },
     "taxationOffice": {
-      "label": " Votre dernière taxation reçue des impôts {hasConcubin, select, yes{ou celle de {membre} } other{}}est-elle une taxation d'office ?",
+      "label": " Votre dernière taxation reçue des impôts {hasConcubin, select, yes{ou celle de {membre}} other{}} est-elle une taxation d'office ?",
       "altText": {
         "avecConcubin": "Votre dernière taxation ou celle de votre concubin est-elle une taxation d'office ?"
       },
@@ -357,7 +357,7 @@
     },
     "tauxActivite": {
       "label": "Quel est {who, select, me{votre taux d'activité} other{le taux d'activité de {membre}}} ?",
-      "help": "Taux d'activité : pourcentage (%) de travail payé.<br>Si vous avez plusieurs emplois, noter le total (la somme).<br>Si vos emplois sont irréguliers, estimer la moyenne d'heures totales par semaine.<br>Exemple : environ 8 heures par semaine.<br>Calcul : 8 : 40 x 100 = 20.<br>Réponse : 20%.<br>Exemples comme : 80% (4 jours complets par semaine ou 6h par jour, 5 jours par semaine)",
+      "help": "Taux d'activité : pourcentage (%) de travail payé.<br>Si {who, select, me{vous avez} other{{membre} a}} plusieurs emplois, noter le total (la somme).<br>Si {who, select, me{vos} other{ses}} emplois sont irréguliers, estimer la moyenne d'heures totales par semaine.<br>Exemple : environ 8 heures par semaine.<br>Calcul : 8 : 40 x 100 = 20.<br>Réponse : 20%.<br>Exemples comme : 80% (4 jours complets par semaine ou 6h par jour, 5 jours par semaine)",
       "motifRefus": {
         "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
       },
@@ -529,7 +529,7 @@
     },
     "taxeOfficeAFC": {
       "label": "Etiez-vous {hasPartenaire, select, no{} other{ou {partenaire}}} taxé.e d'office par l'administration fiscale cantonale (AFC) en {annee} ?",
-      "help": "Taxation d'office : vous n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais et vous avez donc reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".<br>ATTENTION : ce n'est PAS l'impôt à la source.",
+      "help": "Taxation d'office : vous {hasPartenaire, select, no{} other{ou {partenaire}}} n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais et vous avez donc reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".<br>ATTENTION : ce n'est PAS l'impôt à la source.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -551,7 +551,7 @@
     "parentsHabiteFranceTravailleSuisse": {
       "label": "Les parents sont-ils frontalier ?",
       "membre": "Est-ce que l'un {who, select, me{de vos parents} other{des parents de {membre}}} est frontalier·ère (habite en France et travaille en Suisse) ?",
-      "help": "Parent frontalier·ère : votre mère ou votre père travaille ou habite sur le canton de Genève et paye des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
+      "help": "Parent frontalier·ère : la mère ou le père travaille ou habite sur le canton de Genève et paye des impôts sur leur revenu (salarié ou indépendant) au canton de Genève.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
