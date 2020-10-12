@@ -165,7 +165,7 @@
     },
     "prestations": {
       "label": "Recevez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
-      "help": "Les prestations sociales sont toutes les aides financières apportées par l'Etat de Genève dans le domaine social et qui dépendent de vos revenus. Elles sont toutes nommées dans la liste des réponses possibles. Les allocations familiales n'en font par exemple pas partie.<br>Si vous n'êtes pas sûr.e de toucher une prestation, laissez la case vide (NE PAS cochez la case).<br>Si vous pensez ne toucher aucune prestation, sélectionnez la case \"Non, je ne reçois aucune prestation sociale / Non, personne de mon foyer ne reçoit de prestation sociale\".",
+      "help": "Les prestations sociales sont toutes les aides financières apportées par l'Etat de Genève dans le domaine social et qui dépendent de vos revenus. Elles sont toutes nommées dans la liste des réponses possibles. Les allocations familiales n'en font par exemple pas partie.<br>Si vous n'êtes pas sûr·e de toucher une prestation, laissez la case vide (NE PAS cochez la case).<br>Si vous pensez ne toucher aucune prestation, sélectionnez la case \"Non, je ne reçois aucune prestation sociale / Non, personne de mon foyer ne reçoit de prestation sociale\".",
       "option": {
         "SUBSIDES": "{numberOfMemebres, select, 0{Subsides d'assurance-maladie (SAM)} other {{who, select, me{Je reçois} other{{membre} reçoit}} des subsides d'assurance-maladie}}",
         "AVANCES": "Avance de pensions alimentaires (SCARPA)",
