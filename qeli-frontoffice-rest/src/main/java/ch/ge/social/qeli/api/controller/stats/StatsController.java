@@ -2,6 +2,7 @@ package ch.ge.social.qeli.api.controller.pdf;
 
 import ch.ge.social.qeli.service.api.result.dto.QeliResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import ch.ge.social.qeli.service.api.stats.StatsService;
  */
 @RestController
 @RequestMapping("/api")
+@ConditionalOnProperty(name = "social.tools.api.stats.enabled", havingValue="true")
 public class StatsController {
 
   private final StatsService statsService;

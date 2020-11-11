@@ -53,6 +53,10 @@ export class QeliConfiguration {
    */
   matomo: { server: string, siteId: number };
 
+  api: { pdf: RestConfiguration, stats: RestConfiguration };
+
+  deepLinkEnabled: boolean;
+
   constructor(options: any = {}) {
     this.minYearsFromNow = getOrDefault(options.minYearsFromNow, 130);
     this.maxEnfantsACharge = getOrDefault(options.maxEnfantsACharge, 20);
@@ -64,7 +68,13 @@ export class QeliConfiguration {
     this.maxLimiteFortune = getOrDefault(options.maxLimiteFortune, 10000);
     this.taxationAfcYearsFromNow = getOrDefault(options.taxationAfcYearsFromNow, 2);
     this.matomo = getOrDefault(options.matomo);
+    this.api = getOrDefault(options.api, {pdf: {enabled: true}, stats: {enabled: true}});
+    this.deepLinkEnabled = getOrDefault(options.deepLinkEnabled, true);
   }
+}
+
+export interface RestConfiguration {
+  enabled: boolean;
 }
 
 function getOrDefault<T>(actual: T, defaultValue: T = null) {
