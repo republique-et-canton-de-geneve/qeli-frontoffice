@@ -21,6 +21,8 @@ export class FormResultComponent {
   prestationEligibles: ResultsByPrestation[] = [];
   prestationRefusees: ResultsByPrestation[] = [];
   prestationDejaPercues: ResultsByPrestation[] = [];
+  @Input() canSavePDF: boolean = true;
+  @Input() disableDeepLink: boolean = false;
 
   private eligibilites: Eligibilite[];
   private eligibilitesRefusees: EligibiliteRefusee[];
@@ -53,10 +55,10 @@ export class FormResultComponent {
           const translateMotif = (i18n: I18nString) => this.translateService.instant(i18n.key, i18n.parameters);
           const translatedResultMotif = translateMotif(result.motifRefus);
           if (!results.some(r => r.motifRefus && translateMotif(r.motifRefus) === translatedResultMotif)) {
-            results.push(result)
+            results.push(result);
           }
         } else {
-          results.push(result)
+          results.push(result);
         }
       });
 

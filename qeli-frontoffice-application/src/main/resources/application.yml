@@ -17,6 +17,9 @@ social.tools:
     limite-fortune-conjoint: 4000
     max-limite-fortune: 10000
     taxation-afc-years-from-now: 2
+    deep-link-enabled: false
+    api:
+      pdf.enabled: false
 
 spring:
   application:
