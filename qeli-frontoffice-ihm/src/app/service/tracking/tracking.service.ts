@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CompositeAnswer } from '../../dynamic-question/composite-question/composite-question.model';
 import { QeliConfiguration } from '../configuration/qeli-configuration.model';
 import { TauxAnswer } from '../../dynamic-question/taux-question/taux-question.model';
+import { DropdownAnswer } from '../../dynamic-question/dropdown-question/dropdown-question.model';
 
 const TRACK_FORM = 'Formulaire';
 const TRACK_QUESTION = 'question';
@@ -117,6 +118,10 @@ class IsInconnuAnswerVisitor implements AnswerVisitor<boolean> {
 
   visitDateAnswer(answer: DateAnswer): boolean {
     return answer.shortcut && answer.shortcut.value === 'INCONNU';
+  }
+
+  visitDropdownAnswer(answer: DropdownAnswer): boolean {
+    return answer.hasSome.value === 'INCONNU';
   }
 
   visitNationaliteAnswer(answer: NationaliteAnswer): boolean {
