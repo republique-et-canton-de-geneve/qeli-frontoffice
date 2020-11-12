@@ -4,6 +4,7 @@ import { NumberAnswer, OptionAnswer, StringAnswer } from './answer.model';
 import { NationaliteAnswer } from '../nationalite-question/nationalite-question.model';
 import { CompositeAnswer } from '../composite-question/composite-question.model';
 import { TauxAnswer } from '../taux-question/taux-question.model';
+import { DropdownAnswer } from '../dropdown-question/dropdown-question.model';
 
 /**
  * L'interface visiteur déclare un ensemble de méthodes de visite qui correspondent aux classes des réponses.
@@ -54,6 +55,15 @@ export interface AnswerVisitor<T> {
    * @return le résultat du traitement de la question.
    */
   visitDateAnswer(answer: DateAnswer): T;
+
+  /**
+   * Une méthode pour visiter une réponse de type: {@link DropdownAnswer}.
+   *
+   * @param {DropdownAnswer} answer la réponse à visiter.
+   *
+   * @return le résultat du traitement de la question.
+   */
+  visitDropdownAnswer(answer: DropdownAnswer): T;
 
   /**
    * Une méthode pour visiter une réponse de type: {@link NationaliteAnswer}.

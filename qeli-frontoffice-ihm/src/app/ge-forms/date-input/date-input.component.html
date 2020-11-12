@@ -14,7 +14,7 @@
            [focusOnInit]="focusOnInit"
            [attr.disabled]="disabled ? 'disabled' : null"
            [attr.aria-required]="required"
-           [attr.aria-invalid]="isValid"
+           [attr.aria-invalid]="!isValid"
            type="text"
            class="form-control"
            #textInputDate
