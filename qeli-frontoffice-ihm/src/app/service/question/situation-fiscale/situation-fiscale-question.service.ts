@@ -8,7 +8,6 @@ import {
 } from '../../../dynamic-question/composite-question/composite-question.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
-import { RequerantRefugie } from '../nationalite/requerant-refugie.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { AnswerUtils } from '../answer-utils';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
@@ -17,6 +16,7 @@ import * as moment from 'moment';
 import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { QuestionUtils } from '../qeli-questions.utils';
+import { TypePermisB, TypePermisC, TypePermisF } from '../nationalite/type-permis.model';
 
 export class SituationFiscaleQuestionService extends QuestionLoader {
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
@@ -114,9 +114,13 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
               radioOptions: REPONSE_PROGRESSIVE_OPTIONS
             }),
             isShown: (value: any) => {
-              const situation = value[`situationMembre_${membre.id}`];
-              const refugie = situation ? situation['refugie'] : null;
-              return refugie !== RequerantRefugie.REFUGIE;
+              // S'il est refugié
+              const situationPermis = value['situationPermis'];
+              return situationPermis && (
+                situationPermis[`complementPermisB_${membre.id}`] === TypePermisB.REFUGIE ||
+                situationPermis[`complementPermisC_${membre.id}`] === TypePermisC.REFUGIE ||
+                situationPermis[`complementPermisF_${membre.id}`] === TypePermisF.REFUGIE
+              );
             }
           }))
         }),
@@ -148,9 +152,9 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
                 inline: true
               }),
               isShown: (value: any) => {
-                const answers = value['permisBEtudes'];
-                const permisBEtudes = answers ? answers[`permisBEtudes_${membre.id}`] : null;
-                return permisBEtudes && permisBEtudes === ReponseProgressive.OUI;
+                // S'il a un permis B pour raison d'études
+                const situationPermis = value['situationPermis'];
+                return situationPermis && situationPermis[`complementPermisB_${membre.id}`] === TypePermisB.ETUDES;
               }
             };
           })
