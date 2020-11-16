@@ -72,8 +72,7 @@ export class DropdownQuestion extends Question<DropdownAnswer> {
       group['hasSome'] = new FormControl(defaultValue ? defaultValue.hasSome.value : 'OUI');
     }
 
-    const selectedOption = defaultValue ? defaultValue.value : null;
-    group['value'] = selectedOption.value;
+    group['value'] = new FormControl(defaultValue && defaultValue.value ? defaultValue.value.value : null);
 
     return new FormGroup(group, this.validators);
   }

@@ -114,12 +114,11 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
               radioOptions: REPONSE_PROGRESSIVE_OPTIONS
             }),
             isShown: (value: any) => {
-              // S'il est refugié
-              const situationPermis = value['situationPermis'];
-              return situationPermis && (
-                situationPermis[`complementPermisB_${membre.id}`] === TypePermisB.REFUGIE ||
-                situationPermis[`complementPermisC_${membre.id}`] === TypePermisC.REFUGIE ||
-                situationPermis[`complementPermisF_${membre.id}`] === TypePermisF.REFUGIE
+              const situationPermis = value[`situationPermis_${membre.id}`];
+              return !situationPermis || !(
+                situationPermis['complementPermisB'] === TypePermisB.REFUGIE ||
+                situationPermis['complementPermisC'] === TypePermisC.REFUGIE ||
+                situationPermis['complementPermisF'] === TypePermisF.REFUGIE
               );
             }
           }))
@@ -153,8 +152,8 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
               }),
               isShown: (value: any) => {
                 // S'il a un permis B pour raison d'études
-                const situationPermis = value['situationPermis'];
-                return situationPermis && situationPermis[`complementPermisB_${membre.id}`] === TypePermisB.ETUDES;
+                const situationPermis = value[`situationPermis_${membre.id}`];
+                return situationPermis && situationPermis['complementPermisB'] === TypePermisB.ETUDES;
               }
             };
           })

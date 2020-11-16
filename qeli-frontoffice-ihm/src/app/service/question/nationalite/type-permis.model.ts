@@ -6,7 +6,6 @@ import { QuestionOption } from '../../../dynamic-question/model/question.model';
 export enum TypePermis {
   B     = 'B',
   C     = 'C',
-  Ci    = 'Ci',
   F     = 'F',
   G     = 'G',
   L     = 'L',
@@ -24,7 +23,7 @@ export function typePermisToOption(typePermis: TypePermis): QuestionOption<strin
   return {
     value: typePermis,
     label: {
-      key: `common.permis.${typePermis}`
+      key: `common.typePermis.${typePermis}`
     }
   };
 }
@@ -54,7 +53,7 @@ export function typePermisBToOption(typePermisB: TypePermisB): QuestionOption<st
   return {
     value: typePermisB,
     label: {
-      key: `common.permis.${typePermisB}`
+      key: `common.typePermisB.${typePermisB}`
     }
   };
 }
@@ -85,7 +84,7 @@ export function typePermisCToOption(typePermisC: TypePermisC): QuestionOption<st
   return {
     value: typePermisC,
     label: {
-      key: `common.typePermisC.${TypePermisC}`
+      key: `common.typePermisC.${typePermisC}`
     }
   };
 }
@@ -115,7 +114,7 @@ export function typePermisFToOption(typePermisF: TypePermisF): QuestionOption<st
   return {
     value: typePermisF,
     label: {
-      key: `common.typePermisF.${TypePermisC}`
+      key: `common.typePermisF.${typePermisF}`
     }
   };
 }
@@ -124,5 +123,5 @@ export function typePermisFToOption(typePermisF: TypePermisF): QuestionOption<st
  * Liste toutes les options des types de permis F.
  */
 export function typePermisFOptions(): QuestionOption<string>[] {
-  return Object.values(TypePermisC).map(typePermisFToOption);
+  return Object.values(TypePermisF).map(typePermisFToOption);
 }
