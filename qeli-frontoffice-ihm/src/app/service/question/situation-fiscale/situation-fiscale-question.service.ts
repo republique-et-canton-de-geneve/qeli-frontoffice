@@ -20,7 +20,7 @@ import { QuestionUtils } from '../qeli-questions.utils';
 
 export class SituationFiscaleQuestionService extends QuestionLoader {
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     const membres = ([this.demandeur] as (Personne)[]).concat(this.demandeur.membresFamille);
     const generateTranslateParams = (value: any) => {
       const hasPartenaire = this.demandeur.hasConjoint || (
@@ -52,6 +52,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
           'exempteImpot',
           ReponseProgressive.OUI,
           Prestation.SUBSIDES,
+          this.demandeur,
           eligibilite => ({key: `question.exempteImpot.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
@@ -82,6 +83,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
           'taxeOfficeAFC',
           ReponseProgressive.OUI,
           Prestation.SUBSIDES,
+          this.demandeur,
           eligibilite => ({key: `question.taxeOfficeAFC.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
@@ -122,7 +124,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
         }),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.BOURSES),
         skip: formData => membres.every(membre => AnswerUtils.isRefugie(formData, membre)),
-        calculateRefus: this.calculateFonctionnaireInternationalRefus,
+        calculateRefus: this.calculateFonctionnaireInternationalRefus.bind(this),
         categorie: Categorie.COMPLEMENTS,
         subcategorie: Subcategorie.SITUATION_FISCALE
       }, {
@@ -161,7 +163,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
             return AnswerUtils.hasPermisBEtudes(formData, membre);
           });
         },
-        calculateRefus: this.calculateRefusParentsHabiteFranceTravailleSuisse,
+        calculateRefus: this.calculateRefusParentsHabiteFranceTravailleSuisse.bind(this),
         categorie: Categorie.COMPLEMENTS,
         subcategorie: Subcategorie.SITUATION_FISCALE
       }
@@ -177,10 +179,10 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
     formData: FormData, eligibilites: Eligibilite[]
   ): EligibiliteRefusee[] {
     const answers = (formData['fonctionnaireInternational'] as CompositeAnswer).answers;
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
     return eligibiliteGroup.findByPrestation(Prestation.BOURSES).filter(eligibilite => {
-      const answer = (answers[`fonctionnaireInternational_${eligibilite.membre.id}`] as OptionAnswer<string>);
+      const answer = (answers[`fonctionnaireInternational_${eligibilite.membreId}`] as OptionAnswer<string>);
       const choice = answer ? answer.value : null;
       return choice && choice.value === ReponseProgressive.OUI;
     }).map(eligibilite => ({
@@ -188,8 +190,8 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
       motif: {
         key: `question.fonctionnaireInternational.motifRefus.${Prestation.BOURSES}`,
         parameters: {
-          who: eligibilite.membre.id === 0 ? 'me' : 'them',
-          membre: eligibilite.membre.prenom
+          who: eligibilite.membreId === 0 ? 'me' : 'them',
+          membre: this.demandeur.findMembrebyId(eligibilite.membreId).prenom
         }
       }
     }));
@@ -198,18 +200,21 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
   private calculateRefusParentsHabiteFranceTravailleSuisse(
     formData: FormData, eligibilites: Eligibilite[]
   ): EligibiliteRefusee[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
     const answers = (formData[`parentsHabiteFranceTravailleSuisse`] as CompositeAnswer).answers;
 
     return eligibiliteGroup.findByPrestation(Prestation.BOURSES).filter(eligibilite => {
-      const answer = (answers[`parentsHabiteFranceTravailleSuisse_${eligibilite.membre.id}`] as OptionAnswer<string>);
+      const answer = (answers[`parentsHabiteFranceTravailleSuisse_${eligibilite.membreId}`] as OptionAnswer<string>);
       const choice = answer ? answer.value : null;
       return choice && choice.value === ReponseProgressive.NON;
     }).map(eligibilite => ({
       eligibilite: eligibilite,
       motif: {
         key: `question.parentsHabiteFranceTravailleSuisse.motifRefus.${eligibilite.prestation}`,
-        parameters: {who: eligibilite.membre.id === 0 ? 'me' : 'them', membre: eligibilite.membre.prenom}
+        parameters: {
+          who: eligibilite.membreId === 0 ? 'me' : 'them',
+          membre: this.demandeur.findMembrebyId(eligibilite.membreId).prenom
+        }
       }
     } as EligibiliteRefusee));
   }

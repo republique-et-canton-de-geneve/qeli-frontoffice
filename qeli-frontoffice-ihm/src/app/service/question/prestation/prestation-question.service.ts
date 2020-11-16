@@ -15,7 +15,7 @@ import { TypeEnfant } from '../enfants/type-enfant.model';
 export class PrestationQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteAsGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteAsGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     return [
       {
         question: new CheckboxGroupQuestion({
@@ -47,12 +47,12 @@ export class PrestationQuestionService extends QuestionLoader {
           checkboxOptions: Object.keys(Prestation).map(prestation => {
             if (prestation === Prestation.SUBSIDES || prestation === Prestation.BOURSES) {
               const checkBoxGroupOptions = eligibiliteAsGroup.findByPrestation(prestation).map(eligibilite => ({
-                value: `${prestation}_${eligibilite.membre.id}`,
+                value: `${prestation}_${eligibilite.membreId}`,
                 label: {
                   key: `question.prestations.option.${prestation}`,
                   parameters: {
-                    who: eligibilite.membre.id === 0 ? 'me' : 'them',
-                    membre: eligibilite.membre.prenom,
+                    who: eligibilite.membreId === 0 ? 'me' : 'them',
+                    membre: this.demandeur.findMembrebyId(eligibilite.membreId).prenom,
                     numberOfMemebres: this.demandeur.membresFamille.length
                   }
                 }
@@ -80,6 +80,7 @@ export class PrestationQuestionService extends QuestionLoader {
     const refus: EligibiliteRefusee[] = [];
     const prestationsAnswer = formData['prestations'] as CheckboxGroupAnswer;
     const eligibiliteToMotif = eligibilite => ({key: `question.prestations.motifRefus.${eligibilite.prestation}`});
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
     if (prestationsAnswer.hasSome.value === 'OUI') {
       const choices = prestationsAnswer.choices;
@@ -87,10 +88,9 @@ export class PrestationQuestionService extends QuestionLoader {
       // Création des refus pour les prestations cochées (c'est-à-dire déjà perçues).
       eligibilites.map(eligibilite => {
         const prestation = eligibilite.prestation;
-        const membre = eligibilite.membre;
 
         if (prestation === Prestation.SUBSIDES || prestation === Prestation.BOURSES) {
-          if (choices.some(choice => choice.value === `${prestation}_${membre.id}`)) {
+          if (choices.some(choice => choice.value === `${prestation}_${eligibilite.membreId}`)) {
             return {eligibilite: eligibilite, dejaPercue: true} as EligibiliteRefusee;
           }
         } else if (choices.some(choice => choice.value === prestation)) {
@@ -103,7 +103,9 @@ export class PrestationQuestionService extends QuestionLoader {
       // Création des refus pour les prestations incompatibles.
       if (choices.some(choice => choice.value === Prestation.PC_AVS_AI)) {
         QuestionUtils.createRefusByPrestation(
-          eligibilites, [Prestation.SUBSIDES, Prestation.ALLOCATION_LOGEMENT, Prestation.PC_FAM], eligibiliteToMotif
+          eligibiliteGroup,
+          [Prestation.SUBSIDES, Prestation.ALLOCATION_LOGEMENT, Prestation.PC_FAM],
+          eligibiliteToMotif
         ).forEach(eligibiliteRefusee => {
           if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
             refus.push(eligibiliteRefusee);
@@ -113,7 +115,7 @@ export class PrestationQuestionService extends QuestionLoader {
 
       if (choices.some(choice => choice.value === Prestation.PC_FAM)) {
         QuestionUtils.createRefusByPrestation(
-          eligibilites, [Prestation.SUBSIDES, Prestation.PC_AVS_AI], eligibiliteToMotif
+          eligibiliteGroup, [Prestation.SUBSIDES, Prestation.PC_AVS_AI], eligibiliteToMotif
         ).forEach(eligibiliteRefusee => {
           if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
             refus.push(eligibiliteRefusee);
@@ -123,7 +125,7 @@ export class PrestationQuestionService extends QuestionLoader {
 
       if (choices.some(choice => choice.value === Prestation.AIDE_SOCIALE)) {
         QuestionUtils.createRefusByPrestation(
-          eligibilites, Prestation.SUBSIDES, eligibiliteToMotif
+          eligibiliteGroup, Prestation.SUBSIDES, eligibiliteToMotif
         ).forEach(eligibiliteRefusee => {
           if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
             refus.push(eligibiliteRefusee);
@@ -133,7 +135,7 @@ export class PrestationQuestionService extends QuestionLoader {
 
       if (choices.some(choice => choice.value === Prestation.SUBVENTION_HM)) {
         QuestionUtils.createRefusByPrestation(
-          eligibilites, Prestation.ALLOCATION_LOGEMENT, eligibiliteToMotif
+          eligibiliteGroup, Prestation.ALLOCATION_LOGEMENT, eligibiliteToMotif
         ).forEach(eligibiliteRefusee => {
           if (!this.isEligibiliteRefusee(refus, eligibiliteRefusee.eligibilite)) {
             refus.push(eligibiliteRefusee);
@@ -142,16 +144,14 @@ export class PrestationQuestionService extends QuestionLoader {
       }
     }
 
-    const eligibiliteAsGroup = new EligibiliteGroup(eligibilites);
-
     // Refus PC AVS AI pour les enfants 'AUTRES'
-    eligibiliteAsGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(
-      eligibilite => AnswerUtils.isEnfantType(formData, eligibilite.membre, TypeEnfant.AUTRES)
+    eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(
+      eligibilite => AnswerUtils.isEnfantType(formData, eligibilite.membreId, TypeEnfant.AUTRES)
     ).map((eligibilite) => ({
         eligibilite: eligibilite,
         motif: {
           key: `question.prestations.motifRefus.${eligibilite.prestation}_ENFANT_AUTRE`,
-          parameters: {prenomEnfant: eligibilite.membre.prenom}
+          parameters: {prenomEnfant: this.demandeur.findMembrebyId(eligibilite.membreId).prenom}
         }
       } as EligibiliteRefusee)
     ).forEach(eligibiliteRefusee => {
@@ -162,7 +162,7 @@ export class PrestationQuestionService extends QuestionLoader {
 
     if (!this.hasEnfantsMoins25Ans()) {
       QuestionUtils.createRefusByPrestation(
-        eligibilites, Prestation.PC_FAM, eligibilite => ({
+        eligibiliteGroup, Prestation.PC_FAM, eligibilite => ({
           key: `question.prestations.motifRefus.${eligibilite.prestation}_SANS_ENFANTS`
         })
       ).forEach(eligibiliteRefusee => {
@@ -174,7 +174,7 @@ export class PrestationQuestionService extends QuestionLoader {
 
     if (!this.demandeur.isMajeur) {
       QuestionUtils.createRefusByPrestation(
-        eligibilites, Prestation.AIDE_SOCIALE, eligibilite => ({
+        eligibiliteGroup, Prestation.AIDE_SOCIALE, eligibilite => ({
           key: `question.prestations.motifRefus.${eligibilite.prestation}_MINEUR`
         })
       ).forEach(eligibiliteRefusee => {
@@ -186,7 +186,7 @@ export class PrestationQuestionService extends QuestionLoader {
 
     if (this.demandeur.hasConcubin && !AnswerUtils.hasEnfantEnCommun(formData)) {
       QuestionUtils.createRefusByPrestationAndMembre(
-        eligibilites, Prestation.PC_FAM, this.demandeur.partenaire, eligibilite => ({
+        eligibiliteGroup, Prestation.PC_FAM, this.demandeur.partenaire, eligibilite => ({
           key: `question.prestations.motifRefus.${eligibilite.prestation}_SANS_ENFANTS_COMMUN`,
           parameters: {prenomAutreParent: this.demandeur.partenaire.prenom}
         })
@@ -205,6 +205,6 @@ export class PrestationQuestionService extends QuestionLoader {
   }
 
   private isEligibiliteRefusee(refus: EligibiliteRefusee[], eligibilite: Eligibilite) {
-    return new EligibiliteGroup(refus.map(refus => refus.eligibilite)).includes(eligibilite);
+    return new EligibiliteGroup(refus.map(refus => refus.eligibilite), this.demandeur).includes(eligibilite);
   }
 }

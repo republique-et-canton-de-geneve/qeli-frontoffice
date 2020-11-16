@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DeepLinkService } from '../deep-link/deep-link.service';
+import { QeliStateService } from './qeli-state.service';
 import { TrackingService } from '../service/tracking/tracking.service';
 import { QeliConfigurationService } from '../service/configuration/qeli-configuration.service';
 import { QuestionService } from '../service/question/question.service';
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   firstLoad = true;
   displayFormSetupAlertModal = false;
 
-  constructor(private deepLinkService: DeepLinkService,
+  constructor(private qeliStateService: QeliStateService,
               private route: ActivatedRoute,
               private trackingService: TrackingService,
               private qeliConfigurationService: QeliConfigurationService,
@@ -43,9 +43,8 @@ export class HomeComponent implements OnInit {
       this.qeliConfiguration = configuration;
       this.trackingService.initMatomo(configuration);
 
-      this.route.queryParams.subscribe(params => {
-        const state = this.deepLinkService.decryptQueryParamsData(params);
-        if (state !== null) {
+      this.qeliStateService.onStateChanged(this.route).subscribe(state => {
+        if (state) {
           const demandeur = new Demandeur(state.demandeur);
           const questions = this.questionService.loadQuestions(this.qeliConfiguration, demandeur);
 
@@ -130,7 +129,7 @@ export class HomeComponent implements OnInit {
 
   private updateDeepLink() {
     if (this.qeliStateMachine) {
-      this.deepLinkService.updateUrl(this.qeliStateMachine.state, this.route);
+      this.qeliStateService.updateState(this.qeliStateMachine.state, this.route);
     }
   }
 

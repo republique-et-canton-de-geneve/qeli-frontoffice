@@ -36,17 +36,20 @@ export class FormResultComponent {
   set qeliStateMachine(qeliStateMachine: QeliStateMachine) {
     const state = qeliStateMachine.state;
 
+    // TODO Create a service for the mapping
     Object.values(Prestation).filter(prestation => prestation !== Prestation.SUBVENTION_HM).forEach(prestation => {
       const results: Result[] = [];
 
       qeliStateMachine.currentEligibilites.filter(
         eligibilite => eligibilite.prestation === prestation
-      ).map(eligibilite => ({membre: eligibilite.membre, eligible: true})).forEach(result => results.push(result));
+      ).map(
+        eligibilite => ({membre: state.demandeur.findMembrebyId(eligibilite.membreId), eligible: true})
+      ).forEach(result => results.push(result));
 
       state.eligibilitesRefusees.filter(eligibiliteRefusee =>
         eligibiliteRefusee.eligibilite.prestation === prestation
       ).map(eligibiliteRefusee => ({
-        membre: eligibiliteRefusee.eligibilite.membre,
+        membre: state.demandeur.findMembrebyId(eligibiliteRefusee.eligibilite.membreId),
         eligible: false,
         dejaPercue: eligibiliteRefusee.dejaPercue,
         motifRefus: eligibiliteRefusee.motif

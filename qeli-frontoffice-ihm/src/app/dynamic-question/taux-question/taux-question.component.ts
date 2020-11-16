@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { TAUX_CONTROL_TYPE, TauxQuestion } from './taux-question.model';
 import { FormGroup } from '@angular/forms';
