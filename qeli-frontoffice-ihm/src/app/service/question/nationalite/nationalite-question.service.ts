@@ -43,7 +43,7 @@ export class NationaliteQuestionService extends QuestionLoader {
 
           return {
             question: new NationaliteQuestion({
-              key: 'nationalite',
+              key: `nationalite_${membre.id}`,
               dataCyIdentifier: `0401_nationalite_${membre.id}`,
               label: {key: 'question.nationalite.membre', parameters: translateParams},
               errorLabels: {
@@ -67,7 +67,7 @@ export class NationaliteQuestionService extends QuestionLoader {
 
       return {
         question: new CompositeQuestion({
-          key: `permis_${membre.id}`,
+          key: `situationPermis_${membre.id}`,
           dataCyIdentifier: `0406_situationPermis_${membre.id}`,
           label: {key: 'question.situationPermis.label', parameters: translateParams},
           showErrors: false,
@@ -77,7 +77,6 @@ export class NationaliteQuestionService extends QuestionLoader {
                 key: 'typePermis',
                 dataCyIdentifier: `0407_typePermis_${membre.id}`,
                 label: {key: 'question.situationPermis.typePermis.label', parameters: translateParams},
-                help: {key: 'question.situationPermis.typePermis.help', parameters: translateParams},
                 errorLabels: {
                   required: {key: 'question.situationPermis.typePermis.error.required', parameters: translateParams}
                 },
@@ -86,7 +85,7 @@ export class NationaliteQuestionService extends QuestionLoader {
                     value: 'OUI',
                     label: {
                       key: 'question.situationPermis.typePermis.some',
-                      parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
+                      parameters: translateParams
                     }
                   },
                   {value: 'INCONNU', label: {key: 'question.situationPermis.typePermis.inconnu'}}
@@ -99,7 +98,6 @@ export class NationaliteQuestionService extends QuestionLoader {
                 key: 'complementPermisB',
                 dataCyIdentifier: `0408_complementPermisB_${membre.id}`,
                 label: {key: 'question.situationPermis.complementPermisB.label', parameters: translateParams},
-                help: {key: 'question.situationPermis.complementPermisB.help', parameters: translateParams},
                 errorLabels: {
                   required: {
                     key: 'question.situationPermis.complementPermisB.error.required', parameters: translateParams
@@ -114,7 +112,6 @@ export class NationaliteQuestionService extends QuestionLoader {
                 key: 'complementPermisC',
                 dataCyIdentifier: `0408_complementPermisC_${membre.id}`,
                 label: {key: 'question.situationPermis.complementPermisC.label', parameters: translateParams},
-                help: {key: 'question.situationPermis.complementPermisC.help', parameters: translateParams},
                 errorLabels: {
                   required: {
                     key: 'question.situationPermis.complementPermisC.error.required', parameters: translateParams
@@ -129,7 +126,6 @@ export class NationaliteQuestionService extends QuestionLoader {
                 key: 'complementPermisF',
                 dataCyIdentifier: `0408_complementPermisF_${membre.id}`,
                 label: {key: 'question.situationPermis.complementPermisF.label', parameters: translateParams},
-                help: {key: 'question.situationPermis.complementPermisF.help', parameters: translateParams},
                 errorLabels: {
                   required: {
                     key: 'question.situationPermis.complementPermisF.error.required', parameters: translateParams
@@ -175,7 +171,7 @@ export class NationaliteQuestionService extends QuestionLoader {
     return (value: any) => {
       const situation = value[`situationPermis_${membre.id}`];
       const selectedType = situation ? situation['typePermis'] : null;
-      return selectedType === typePermis;
+      return selectedType && selectedType.value === typePermis;
     };
   }
 

@@ -21,8 +21,8 @@
       </label>
     </div>
 
-    <select [id]="question.key"
-            [formControlName]="question.key"
+    <select [id]="question.key + '_value'"
+            formControlName="value"
             [focusOnInit]="!disableFocusOnInit"
             [attr.aria-invalid]="!isValid"
             [attr.aria-required]="question.required"

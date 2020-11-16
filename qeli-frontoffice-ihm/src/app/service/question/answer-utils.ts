@@ -59,13 +59,13 @@ export class AnswerUtils {
   }
 
   static isRefugie(formData: FormData, personne: Personne) {
-    return this.checkOptionAnswer(formData, `situationPermis.complementPermisB_${personne.id}`, TypePermisB.REFUGIE) ||
-           this.checkOptionAnswer(formData, `situationPermis.complementPermisC_${personne.id}`, TypePermisC.REFUGIE) ||
-           this.checkOptionAnswer(formData, `situationPermis.complementPermisF_${personne.id}`, TypePermisF.REFUGIE);
+    return this.checkOptionAnswer(formData, `situationPermis_${personne.id}.complementPermisB`, TypePermisB.REFUGIE) ||
+           this.checkOptionAnswer(formData, `situationPermis_${personne.id}.complementPermisC`, TypePermisC.REFUGIE) ||
+           this.checkOptionAnswer(formData, `situationPermis_${personne.id}.complementPermisF`, TypePermisF.REFUGIE);
   }
 
   static hasPermisBEtudes(formData: FormData, personne: Personne) {
-    return this.checkOptionAnswer(formData, `situationPermis.complementPermisB_${personne.id}`, TypePermisB.ETUDES);
+    return this.checkOptionAnswer(formData, `situationPermis_${personne.id}.complementPermisB`, TypePermisB.ETUDES);
   }
 
   static isEnFormation(formData: FormData, personne: Personne) {
