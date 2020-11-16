@@ -1,6 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DeepLinkService } from './deep-link.service';
-import { ActivatedRoute } from '@angular/router';
 import { TrackingService } from '../service/tracking/tracking.service';
 
 @Component({
@@ -10,24 +8,20 @@ import { TrackingService } from '../service/tracking/tracking.service';
 })
 export class DeepLinkComponent implements OnInit {
   id: number;
-  isCopied: boolean = false;
-  showCopyPanel: boolean = false;
+  isCopied = false;
+  showCopyPanel = false;
 
   @ViewChild('deepLinkInput', {static: false}) deepLinkInput: ElementRef;
 
-  constructor(private deepLinkService: DeepLinkService,
-              private route: ActivatedRoute,
-              private trackingService: TrackingService) {
+  constructor(private trackingService: TrackingService) {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(() => {
-      this.showCopyPanel = false;
-      this.isCopied = false;
-    });
+    this.showCopyPanel = false;
+    this.isCopied = false;
   }
 
-  copyDeepLink() {
+  copy() {
     this.isCopied = true;
     // TODO this.trackingService.trackDeepLink();
     this.deepLinkInput.nativeElement.select();
@@ -36,8 +30,7 @@ export class DeepLinkComponent implements OnInit {
     setTimeout(() => this.isCopied = false, 5000);
   }
 
-  get deepLink() {
-    return this.deepLinkService.currentDeepLink;
+  get currentUrl() {
+    return location.href;
   }
-
 }

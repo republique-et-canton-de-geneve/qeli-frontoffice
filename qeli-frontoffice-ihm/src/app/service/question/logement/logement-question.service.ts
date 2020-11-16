@@ -14,7 +14,7 @@ import { QuestionUtils } from '../qeli-questions.utils';
 export class LogementQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     const hasPartenaire = this.demandeur.hasConjoint || this.demandeur.hasConcubin;
 
     return [
@@ -35,6 +35,7 @@ export class LogementQuestionService extends QuestionLoader {
           'proprietaireOuLocataireLogement',
           Logement.PROPRIETAIRE,
           Prestation.ALLOCATION_LOGEMENT,
+          this.demandeur,
           (eligibilite) => ({key: `question.proprietaireOuLocataireLogement.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
@@ -61,6 +62,7 @@ export class LogementQuestionService extends QuestionLoader {
           'bailLogementAVotreNom',
           ReponseProgressive.NON,
           Prestation.ALLOCATION_LOGEMENT,
+          this.demandeur,
           (eligibilite) => ({key: `question.bailLogementAVotreNom.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
@@ -99,6 +101,7 @@ export class LogementQuestionService extends QuestionLoader {
             return (nbPieces - nbPersonnes) > 2;
           },
           Prestation.ALLOCATION_LOGEMENT,
+          this.demandeur,
           (eligibilite) => ({key: `question.nombreDePiecesLogement.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
@@ -119,6 +122,7 @@ export class LogementQuestionService extends QuestionLoader {
           'appartementHabitationMixte',
           ReponseProgressive.OUI,
           Prestation.ALLOCATION_LOGEMENT,
+          this.demandeur,
           (eligibilite) => ({key: `question.appartementHabitationMixte.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
@@ -141,6 +145,7 @@ export class LogementQuestionService extends QuestionLoader {
           'montantLoyerFixeOuVariable',
           Loyer.EN_FONCTION_REVENU,
           Prestation.ALLOCATION_LOGEMENT,
+          this.demandeur,
           (eligibilite) => ({key: `question.montantLoyerFixeOuVariable.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),

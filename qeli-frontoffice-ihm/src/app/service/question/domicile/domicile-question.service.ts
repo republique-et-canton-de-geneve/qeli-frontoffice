@@ -19,7 +19,7 @@ import { TypeEnfant } from '../enfants/type-enfant.model';
 export class DomicileQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     const membres: Personne[] = [
       this.demandeur,
       this.demandeur.partenaire
@@ -40,7 +40,7 @@ export class DomicileQuestionService extends QuestionLoader {
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS
         }),
         skip: (formData, skipEligibilites) => {
-          if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
+          if (skipEligibilites.filter(eligibilite => eligibilite.membreId === membre.id)
                               .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
             return membre.id !== this.demandeur.id &&
                    this.demandeur.hasConcubin &&
@@ -49,7 +49,7 @@ export class DomicileQuestionService extends QuestionLoader {
 
           return false;
         },
-        calculateRefus: this.calculateDomicileCantonGERefusFn(membre),
+        calculateRefus: this.calculateDomicileCantonGERefusFn(membre).bind(this),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM).concat(
           eligibiliteGroup.findByPrestationEtMembre([
             Prestation.AVANCES,
@@ -87,7 +87,7 @@ export class DomicileQuestionService extends QuestionLoader {
           }))
         }),
         skip: (formData, skipEligibilites) => {
-          if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
+          if (skipEligibilites.filter(eligibilite => eligibilite.membreId === membre.id)
                               .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
             return membre.id !== this.demandeur.id &&
                    this.demandeur.hasConcubin &&
@@ -96,7 +96,7 @@ export class DomicileQuestionService extends QuestionLoader {
 
           return false;
         },
-        calculateRefus: this.calculatesDateArriveeGeneveRefusFn(membre),
+        calculateRefus: this.calculatesDateArriveeGeneveRefusFn(membre).bind(this),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
         categorie: Categorie.SITUATION_PERSONELLE,
         subcategorie: Subcategorie.DOMICILE
@@ -117,6 +117,7 @@ export class DomicileQuestionService extends QuestionLoader {
         'residenceEffectiveCantonGE',
         ReponseBinaire.NON,
         Prestation.AIDE_SOCIALE,
+        this.demandeur,
         (eligibilite) => ({key: `question.residenceEffectiveCantonGE.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AIDE_SOCIALE),
@@ -130,7 +131,7 @@ export class DomicileQuestionService extends QuestionLoader {
   private calculateDomicileCantonGERefusFn(membre: Personne) {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const choosenOption = (formData[`domicileCantonGE_${membre.id}`] as OptionAnswer<string>).value;
-      const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+      const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
       const refus: EligibiliteRefusee[] = [];
 
       if (choosenOption.value === ReponseProgressive.NON) {
@@ -141,20 +142,21 @@ export class DomicileQuestionService extends QuestionLoader {
                                     Prestation.PC_AVS_AI];
 
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, prestationToRefuse, membre, eligibilite => ({
+          eligibiliteGroup, prestationToRefuse, membre, eligibilite => ({
             key: `question.domicileCantonGE.motifRefus.${eligibilite.prestation}`,
             parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
           })
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
 
         const isDemandeurEligiblePcAvsAi = eligibiliteGroup.includes(
-          {prestation: Prestation.PC_AVS_AI, membre: this.demandeur});
+          {prestation: Prestation.PC_AVS_AI, membreId: this.demandeur.id}
+        );
 
         eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(eligibilite => {
           if (membre.id === this.demandeur.id) {
             return !this.demandeur.partenaire ||
                    (this.demandeur.hasConcubin &&
-                    AnswerUtils.isEnfantType(formData, eligibilite.membre, TypeEnfant.MOI));
+                    AnswerUtils.isEnfantType(formData, eligibilite.membreId, TypeEnfant.MOI));
           } else if ((membre as MembreFamille).isConjoint || (membre as MembreFamille).isConcubin) {
             return !isDemandeurEligiblePcAvsAi;
           }
@@ -162,7 +164,7 @@ export class DomicileQuestionService extends QuestionLoader {
             eligibilite: eligibilite,
             motif: {
               key: `question.domicileCantonGE.motifRefus.${eligibilite.prestation}_ENFANT`,
-              parameters: {membre: eligibilite.membre.prenom}
+              parameters: {membre: this.demandeur.findMembrebyId(eligibilite.membreId).prenom}
             }
           } as EligibiliteRefusee)
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
@@ -177,6 +179,7 @@ export class DomicileQuestionService extends QuestionLoader {
       const dateArriveeGeneveAnswer = formData[`dateArriveeGeneve_${membre.id}`] as DateAnswer;
       const isDateArriveeInconnu = this.isDateInconnu(dateArriveeGeneveAnswer);
       const dateArriveeGeneve: Date = this.toDate(dateArriveeGeneveAnswer, membre);
+      const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
       // Si la personne habite en Suisse depuis plus de 5 ans (ou elle ne sait pas la date d'arrivée) pas de sortie
       // d'éligibilité.
@@ -184,7 +187,7 @@ export class DomicileQuestionService extends QuestionLoader {
         return [];
       } else {
         return QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, Prestation.PC_FAM, membre, eligibilite => ({
+          eligibiliteGroup, Prestation.PC_FAM, membre, eligibilite => ({
             key: `question.dateArriveeGeneve.motifRefus.${eligibilite.prestation}`,
             parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
           })

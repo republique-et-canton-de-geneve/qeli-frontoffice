@@ -67,9 +67,9 @@ export class AnswerUtils {
     return choosenOption && choosenOption.value === ReponseProgressive.OUI;
   }
 
-  static isEnFormation(formData: FormData, personne: Personne) {
+  static isEnFormation(formData: FormData, personneId: number) {
     const formationAnswer = this.findAnswerByKey(
-      formData, `formation.formation_${personne.id}`
+      formData, `formation.formation_${personneId}`
     ) as OptionAnswer<string>;
     const choosenOption = formationAnswer ? formationAnswer.value : null;
 
@@ -78,7 +78,7 @@ export class AnswerUtils {
 
   static isEnfantACharge(formData: FormData, enfant: Personne, demandeur: Demandeur) {
     return this.isEnfantOfDemandeur(formData, enfant, demandeur) && (
-      !enfant.isMajeur || (enfant.age <= 25 && this.isEnFormation(formData, enfant))
+      !enfant.isMajeur || (enfant.age <= 25 && this.isEnFormation(formData, enfant.id))
     );
   }
 
@@ -122,9 +122,9 @@ export class AnswerUtils {
     });
   }
 
-  static isEnfantType(formData: FormData, enfant: Personne, typeEnfant: TypeEnfant) {
+  static isEnfantType(formData: FormData, enfantId: number, typeEnfant: TypeEnfant) {
     const parentsEnfantsAnswer = this.findAnswerByKey(
-      formData, `parentsEnfants.parentsEnfants_${enfant.id}`
+      formData, `parentsEnfants.parentsEnfants_${enfantId}`
     ) as OptionAnswer<string>;
     const choosenOption = parentsEnfantsAnswer ? parentsEnfantsAnswer.value : null;
     return choosenOption.value === typeEnfant;

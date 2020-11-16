@@ -18,7 +18,7 @@ import { QuestionUtils } from '../qeli-questions.utils';
 export class SituationProfesionelleQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
 
     const questions: QeliQuestionDecorator<any>[] = [{
       question: new RadioQuestion({
@@ -43,6 +43,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
         'taxationOffice',
         ReponseProgressive.OUI,
         Prestation.PC_FAM,
+        this.demandeur,
         (eligibilite) => ({key: `question.taxationOffice.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
@@ -95,6 +96,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
                      taux < this.getMinTauxActiviteBySituation(formData, configuration);
             },
             Prestation.PC_FAM,
+            this.demandeur,
             (eligibilite) => ({key: `question.tauxActivite.motifRefus.${eligibilite.prestation}`})
           ),
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
@@ -164,6 +166,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               return choosenOption.value === ReponseBinaire.NON;
             },
             Prestation.PC_FAM,
+            this.demandeur,
             (eligibilite) => ({key: `question.tauxActiviteVariable6DernierMois.motifRefus.${eligibilite.prestation}`})
           ),
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
@@ -182,7 +185,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             )
           }),
           skip: (formData) => {
-            const isTauxVariableAnswer = (formData[`tauxActiviteVariable6DernierMois_${membre.id}`] as OptionAnswer<string>)
+            const isTauxVariableAnswer = (formData[`tauxActiviteVariable6DernierMois_${membre.id}`] as OptionAnswer<string>);
             const choosenOption = isTauxVariableAnswer ? isTauxVariableAnswer.value : null;
             return !choosenOption || choosenOption.value === ReponseBinaire.NON;
           },
@@ -197,6 +200,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               return !this.isTauxActiviteSuffissant(formData, configuration);
             },
             Prestation.PC_FAM,
+            this.demandeur,
             (eligibilite) => ({key: `question.tauxActiviteMoyen6DernierMois.motifRefus.${eligibilite.prestation}`})
           ),
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),

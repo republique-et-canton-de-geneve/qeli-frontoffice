@@ -23,10 +23,14 @@ export class NextQuestionFinder {
    *
    * @param formData les données saisies dans le formulaire.
    * @param eligibilites les éligibilités encore possibles.
+   * @param demandeur le demandeur.s
    * @param startIndex le point de départ.
    */
-  findNextQuestionIndex(formData: FormData, eligibilites: Eligibilite[], startIndex: number = 0): number {
-    const eligibiliteAsGroup = new EligibiliteGroup(eligibilites);
+  findNextQuestionIndex(formData: FormData,
+                        eligibilites: Eligibilite[],
+                        demandeur: Demandeur,
+                        startIndex: number = 0): number {
+    const eligibiliteAsGroup = new EligibiliteGroup(eligibilites, demandeur);
 
     return this.questions.findIndex((question, index) => {
       if (index < startIndex) {
@@ -161,7 +165,7 @@ export class QeliStateMachine {
       previousQuestion.calculateRefus(this.state.formData, this.currentEligibilites)
     );
     this.state.currentQuestionIndex = this._nextQuestionFinder.findNextQuestionIndex(
-      this.state.formData, this.currentEligibilites, this.state.currentQuestionIndex + 1
+      this.state.formData, this.currentEligibilites, this.state.demandeur, this.state.currentQuestionIndex + 1
     );
     this.state.done = this.state.currentQuestionIndex === -1;
 
@@ -227,7 +231,10 @@ export class QeliStateMachine {
    * La matrice d'élgibilités possibles dans l'état actuel.
    */
   get currentEligibilites() {
-    const eligibilitesRefuseesAsGroup = new EligibiliteGroup(this.state.eligibilitesRefusees.map(r => r.eligibilite));
+    const eligibilitesRefuseesAsGroup = new EligibiliteGroup(
+      this.state.eligibilitesRefusees.map(r => r.eligibilite),
+      this.state.demandeur
+    );
     return this.state.eligibilites.filter(el => !eligibilitesRefuseesAsGroup.includes(el));
   }
 

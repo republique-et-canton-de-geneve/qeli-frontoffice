@@ -17,7 +17,7 @@ import { QuestionUtils } from '../qeli-questions.utils';
 export class RevenusQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     const membres = ([this.demandeur] as Personne[]).concat(this.demandeur.membresFamille);
 
     return membres.map((membre): QeliQuestionDecorator<any>[] => {
@@ -51,7 +51,7 @@ export class RevenusQuestionService extends QuestionLoader {
             checkboxOptions: typeRevenusToCheckboxOptions(membre)
           }),
           skip: (formData, skipEligibilites) => {
-            if (skipEligibilites.filter(eligibilite => eligibilite.membre.id === membre.id)
+            if (skipEligibilites.filter(eligibilite => eligibilite.membreId === membre.id)
                                 .every(eligibilite => eligibilite.prestation === Prestation.PC_FAM)) {
               return membre.id !== this.demandeur.id &&
                      this.demandeur.hasConcubin &&
@@ -60,7 +60,7 @@ export class RevenusQuestionService extends QuestionLoader {
 
             return false;
           },
-          calculateRefus: this.calculateRevenusRefusFn(membre),
+          calculateRefus: this.calculateRevenusRefusFn(membre).bind(this),
           eligibilites: eligibilitesRevenus,
           categorie: Categorie.SITUATION_PERSONELLE,
           subcategorie: Subcategorie.REVENUS
@@ -82,7 +82,7 @@ export class RevenusQuestionService extends QuestionLoader {
             checkboxOptions: situationRenteAsOptions(membre)
           }),
           skip: formData => this.hasAnyRevenusAVSOrAI(formData, membre),
-          calculateRefus: this.calculateSituationRenteRefusFn(membre),
+          calculateRefus: this.calculateSituationRenteRefusFn(membre).bind(this),
           eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI, membre),
           categorie: Categorie.SITUATION_PERSONELLE,
           subcategorie: Subcategorie.REVENUS
@@ -107,13 +107,14 @@ export class RevenusQuestionService extends QuestionLoader {
         key: `question.revenus.motifRefus.${eligibilite.prestation}`,
         parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
       });
+      const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
       if (!choices.some(choice => isTypeRevenusAI(choice.value) || isTypeRevenusAVS(choice.value))) {
         // Refus PC AVS AI si la personne ne reçoit pas de rente AVS / AI et qu'elle mineur ou qu'elle est d'un pays
         // sans convention.
         if (!membre.isMajeur || AnswerUtils.isNationaliteIn(formData, membre, PAYS_NON_CONVENTIONES)) {
           QuestionUtils.createRefusByPrestationAndMembre(
-            eligibilites, Prestation.PC_AVS_AI, membre, eligibiliteToMotifRefus
+            eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibiliteToMotifRefus
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         }
       }
@@ -121,7 +122,7 @@ export class RevenusQuestionService extends QuestionLoader {
       if (choices.some(choice => isTypeRevenusAI(choice.value) || isTypeRevenusAVS(choice.value))) {
         // Refus PC FAM et AIDE SOCIALE si la personne touche une Rente AVS / AI
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, [Prestation.PC_FAM, Prestation.AIDE_SOCIALE], membre, eligibiliteToMotifRefus
+          eligibiliteGroup, [Prestation.PC_FAM, Prestation.AIDE_SOCIALE], membre, eligibiliteToMotifRefus
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       } else if (!isInconnu && !choices.some(choice => choice.value === TypeRevenus.EMPLOI ||
                                                        choice.value === TypeRevenus.CHOMAGE ||
@@ -129,7 +130,7 @@ export class RevenusQuestionService extends QuestionLoader {
         // Refus PC FAM si la personne n'est ni employée, ni au chômage ni reçoit des indemnités journalières / perte
         // de gain.
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
+          eligibiliteGroup, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       }
 
@@ -139,7 +140,7 @@ export class RevenusQuestionService extends QuestionLoader {
                                  choice.value === TypeRevenus.AI_INVALIDITE)) {
         // Refus BOURSES si la personne est au Chomage ou touche une rente AVS Retraite ou AVS Invalidité.
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, Prestation.BOURSES, membre, eligibiliteToMotifRefus
+          eligibiliteGroup, Prestation.BOURSES, membre, eligibiliteToMotifRefus
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       }
 
@@ -150,11 +151,13 @@ export class RevenusQuestionService extends QuestionLoader {
   private calculateSituationRenteRefusFn(membre: Personne): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const situationRenteAnswer = formData[`situationRente_${membre.id}`] as CheckboxGroupAnswer;
+      const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
+
 
       if (situationRenteAnswer.hasSome.value === 'NON') {
         return QuestionUtils.createRefusByPrestationAndMembre(
           // Refus PC AVS AI si aucune des options n'est pas coché.
-          eligibilites, Prestation.PC_AVS_AI, membre, eligibilite => ({
+          eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibilite => ({
             key: `question.situationRente.motifRefus.${eligibilite.prestation}`,
             parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
           })
