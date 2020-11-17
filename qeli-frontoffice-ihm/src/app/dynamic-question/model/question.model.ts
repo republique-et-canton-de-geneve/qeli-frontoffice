@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Answer, OptionAnswer, StringAnswer } from './answer.model';
 import { QuestionVisitorModel } from './question-visitor.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
@@ -19,6 +19,7 @@ export interface QuestionSchema {
   help?: I18nString | ((value: any) => I18nString);
   preface?: I18nString | ((value: any) => I18nString);
   errorLabels?: { [key: string]: I18nString };
+  onValueChanged?: (control: FormGroup) => void;
   validators?: ValidatorFn[];
 }
 
@@ -73,6 +74,13 @@ export abstract class Question<T extends Answer> {
    */
   errorLabels: { [key: string]: I18nString };
 
+  /**
+   * Un callback permettant d'oobserver un changement dans la réponse de la quesiton.
+   *
+   * @param control le control subjacent.
+   */
+  onValueChanged?: (control: FormGroup) => void;
+
   private _validators: ValidatorFn[] = [];
 
   /**
@@ -88,6 +96,7 @@ export abstract class Question<T extends Answer> {
     this.label = options.label;
     this.help = options.help;
     this.errorLabels = options.errorLabels || {};
+    this.onValueChanged = options.onValueChanged;
     this._validators = options.validators !== null && options.validators !== undefined ? options.validators : [];
   }
 
