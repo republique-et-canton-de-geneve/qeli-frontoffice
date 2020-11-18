@@ -3,10 +3,9 @@ import { QeliConfiguration } from '../../configuration/qeli-configuration.model'
 import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { REPONSE_PROGRESSIVE_OPTIONS, ReponseBinaire, ReponseProgressive } from '../reponse-binaire.model';
+import { ReponseBinaire } from '../reponse-binaire.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { TauxAnswer, TauxQuestion } from '../../../dynamic-question/taux-question/taux-question.model';
-import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { Personne } from '../../configuration/demandeur.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { AnswerUtils } from '../answer-utils';
@@ -20,6 +19,9 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
 
+    const questions: QeliQuestionDecorator<any>[] = [];
+    /*
+    todo : à remettre suite à décision métier
     const questions: QeliQuestionDecorator<any>[] = [{
       question: new RadioQuestion({
         key: 'taxationOffice',
@@ -48,7 +50,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
       categorie: Categorie.COMPLEMENTS,
       subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
-    }];
+    }];*/
 
 
     const membres: Personne[] = [
