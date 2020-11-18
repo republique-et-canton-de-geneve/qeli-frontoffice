@@ -53,7 +53,6 @@
         "supprimer": "Supprimer le dernier membre",
         "ajouter": "Ajouter un autre membre"
       },
-      "autresCheckbox": "Je vis avec d'autres personnes qui ne sont ni mon conjoint, ni mon concubin, ni mes enfants. Par exemple : mes parents, des colocataires, etc.",
       "errors": {
         "uniquePrenom": "Les prénoms doivent être différents. Vous pouvez ajouter une lettre ou un chiffre pour les différencier.",
         "required": "Ce champ est obligatoire",
