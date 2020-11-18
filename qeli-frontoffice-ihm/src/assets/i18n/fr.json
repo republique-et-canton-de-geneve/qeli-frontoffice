@@ -53,6 +53,7 @@
         "supprimer": "Supprimer le dernier membre",
         "ajouter": "Ajouter un autre membre"
       },
+      "nombrePersonnesFoyer": "{totalPersonnesFoyer} {totalPersonnesFoyer, select, 1{personne habite} other{personnes habitent}} dans votre foyer (y compris vous)",
       "errors": {
         "uniquePrenom": "Les prénoms doivent être différents. Vous pouvez ajouter une lettre ou un chiffre pour les différencier.",
         "required": "Ce champ est obligatoire",
@@ -426,21 +427,11 @@
         "required": "Ce champ est obligatoire"
       }
     },
-    "nombreDePersonnesLogement": {
-      "label": "Combien de personnes vivent dans votre logement ?",
-      "help": "N'oubliez pas de vous compter.<br>Les enfants doivent être inclus.",
-      "error": {
-        "required": "Merci de saisir le nombre de personnes",
-        "pattern": "Merci de saisir le nombre de personnes",
-        "min": "Il ne peut y avoir moins d'une personne",
-        "max": "Erreur dans la saisie du nombre de personnes"
-      }
-    },
     "nombreDePiecesLogement": {
       "label": "Combien de pièces a votre logement ?",
       "help": "Le nombre de pièces est mentionné sur votre bail.<br><br>En général, le nombre de pièces est la somme des pièces suivantes :<br>- cuisine<br>- salon<br>- chambre.<br><br>Exemples :<br>Studio : 1 pièce<br>cuisine + chambre : 2 pièces<br>cuisine + salon + 1 chambre : 3 pièces<br>cuisine + salon + 2 chambres : 4 pièces<br><br>Les salles d'eau (bain, douche, WC) et les balcons ne comptent pas comme pièce.<br><br>En cas de différence entre le nombre de pièces que vous avez calculé et le nombre de pièces sur le bail, c'est le nombre de pièces sur le bail qu'il faut noter.<br><br>Ce n'est pas le nombre de chambre.",
       "motifRefus": {
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué un nombre de personnes trop important par rapport au nombre de pièces de votre logement"
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué un nombre de pièces trop important par rapport au nombre de personnes de votre logement"
       },
       "error": {
         "required": "Merci de saisir le nombre de pièces",
