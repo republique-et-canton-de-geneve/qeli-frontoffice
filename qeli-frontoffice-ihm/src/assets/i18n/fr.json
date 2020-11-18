@@ -238,7 +238,7 @@
         "some": "Indiquez {who, select, me{votre type de permis} other{le type de permis de {membre}}} :",
         "inconnu": "Je ne sais pas",
         "error": {
-          "required": "{who, select, me{Votre type de permis} other{Le type de permis de {membre}}} doit être fournie"
+          "required": "{who, select, me{Votre type de permis} other{Le type de permis de {membre}}} doit être fourni"
         }
       },
       "complementPermisB": {
