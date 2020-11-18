@@ -649,7 +649,8 @@
       "INCONNU": "Je ne sais pas"
     },
     "typeRevenus": {
-      "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé / indépendant",
+      "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé",
+      "INDEPENDANT": "{who, select, me{Je suis} other{{membre} est}} indépendant",
       "CHOMAGE": {
         "label": "{who, select, me{Je reçois} other{{membre} reçoit}} l'assurance-chômage",
         "help": "Si {who, select, me{vous êtes} other{{membre} est}} au chômage, cochez cette réponse (assurance-chômage) PAS les indemnités journalières."
