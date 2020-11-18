@@ -123,14 +123,18 @@ export class RevenusQuestionService extends QuestionLoader {
         if (this.demandeur.id === membre.id ||
             this.demandeur.partenaire.id === membre.id && this.demandeur.hasConjoint) {
           // Refus PC FAM pour toute la famille si le benéficiaire des de la Rente est un des deux conjoints.
-          QuestionUtils.createRefusByPrestation(eligibilites, Prestation.PC_FAM, eligibiliteToMotifRefus);
+          QuestionUtils.createRefusByPrestation(
+            eligibilites, Prestation.PC_FAM, eligibiliteToMotifRefus
+          ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         } else {
           QuestionUtils.createRefusByPrestationAndMembre(
-            eligibilites, Prestation.PC_FAM, membre, eligibiliteToMotifRefus);
+            eligibilites, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
+          ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         }
 
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, Prestation.AIDE_SOCIALE, membre, eligibiliteToMotifRefus);
+          eligibilites, Prestation.AIDE_SOCIALE, membre, eligibiliteToMotifRefus
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));;
       } else if (!isInconnu && !choices.some(choice => choice.value === TypeRevenus.EMPLOI ||
                                                        choice.value === TypeRevenus.CHOMAGE ||
                                                        choice.value === TypeRevenus.APG)) {
