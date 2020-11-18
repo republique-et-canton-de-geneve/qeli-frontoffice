@@ -31,7 +31,9 @@
             "PARTENAIRE_ENREGISTRE": "Conjoint",
             "CONCUBIN": "Concubin·e",
             "ENFANT": "Enfant { index }",
-            "DEFAULT": "Membre { index }"
+            "DEFAULT": "Membre { index }",
+            "COLOCATAIRE": "Colocataire { index }",
+            "AUTRE": "Autre { index }"
           }
         },
         "relation": {
@@ -40,7 +42,9 @@
             "EPOUX": "Epoux·se",
             "PARTENAIRE_ENREGISTRE": "Partenaire enregistré·e",
             "CONCUBIN": "Concubin·e",
-            "ENFANT": "Enfant "
+            "ENFANT": "Enfant ",
+            "COLOCATAIRE": "Colocataire",
+            "AUTRE": "Autre (parent, grand-parent, etc.)"
           }
         },
         "dateNaissance": {
