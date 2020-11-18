@@ -16,6 +16,10 @@ export class LogementQuestionService extends QuestionLoader {
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
     const hasPartenaire = this.demandeur.hasConjoint || this.demandeur.hasConcubin;
+    const translateParams = {
+      hasPartenaire: hasPartenaire ? 'yes' : 'no',
+      partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : ''
+    };
 
     return [
       {
@@ -45,13 +49,13 @@ export class LogementQuestionService extends QuestionLoader {
         question: new RadioQuestion({
           key: 'bailLogementAVotreNom',
           dataCyIdentifier: '1002_bailLogementAVotreNom',
-          label: {key: 'question.bailLogementAVotreNom.label'},
+          label: {
+            key: 'question.bailLogementAVotreNom.label',
+            parameters: translateParams
+          },
           help: {
             key: 'question.bailLogementAVotreNom.help',
-            parameters: {
-              hasPartenaire: hasPartenaire ? 'yes' : 'no',
-              partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : ''
-            }
+            parameters: translateParams
           },
           errorLabels: {required: {key: 'question.bailLogementAVotreNom.error.required'}},
           inline: true,
@@ -69,21 +73,6 @@ export class LogementQuestionService extends QuestionLoader {
       },
       {
         question: new NumberQuestion({
-          key: 'nombreDePersonnesLogement',
-          dataCyIdentifier: '1003_nombreDePersonnesLogement',
-          label: {key: 'question.nombreDePersonnesLogement.label'},
-          help: {key: 'question.nombreDePersonnesLogement.help'},
-          errorLabels: QuestionUtils.toErrorLabels('nombreDePersonnesLogement', ['required', 'pattern', 'min', 'max']),
-          min: 1,
-          max: 20
-        }),
-        calculateRefus: () => [],
-        eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.LOGEMENT
-      },
-      {
-        question: new NumberQuestion({
           key: 'nombreDePiecesLogement',
           dataCyIdentifier: '1004_nombreDePiecesLogement',
           label: {key: 'question.nombreDePiecesLogement.label'},
@@ -94,7 +83,7 @@ export class LogementQuestionService extends QuestionLoader {
         }),
         calculateRefus: QuestionUtils.rejectPrestationFn(
           data => {
-            const nbPersonnes = (data['nombreDePersonnesLogement'] as NumberAnswer).value;
+            const nbPersonnes = this.demandeur.nombrePersonnesFoyer;
             const nbPieces = (data['nombreDePiecesLogement'] as NumberAnswer).value;
             return (nbPieces - nbPersonnes) > 2;
           },

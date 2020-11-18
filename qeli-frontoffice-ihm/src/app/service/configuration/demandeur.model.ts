@@ -156,6 +156,13 @@ export class Demandeur extends Personne {
     return this.membresFamille.some(membre => membre.relation === Relation.CONCUBIN);
   }
 
+  /**
+   * Nombre total des personnes du foyer, demandeur inclu.
+   */
+  get nombrePersonnesFoyer(): number {
+    return this.membresFamille.length + 1;
+  }
+
 }
 
 export interface MembreFamilleSchema extends PersonneSchema {
