@@ -13,18 +13,17 @@ export enum TypeRevenus {
   APG           = "APG"
 }
 
+export const TYPE_REVENUS_AVS = [TypeRevenus.AVS_ENFANT, TypeRevenus.AVS_RETRAITE, TypeRevenus.AVS_VEUF];
+export const TYPE_REVENUS_AI = [TypeRevenus.AI_ENFANT, TypeRevenus.AI_INVALIDITE];
 
 const HAS_HELP = [TypeRevenus.APG, TypeRevenus.CHOMAGE];
 
 export function isTypeRevenusAVS(typeRevenus: TypeRevenus | string) {
-  return typeRevenus === TypeRevenus.AVS_RETRAITE ||
-         typeRevenus === TypeRevenus.AVS_VEUF ||
-         typeRevenus === TypeRevenus.AVS_ENFANT;
+  return TYPE_REVENUS_AVS.some(revenus => typeRevenus === revenus);
 }
 
 export function isTypeRevenusAI(typeRevenus: TypeRevenus | string) {
-  return typeRevenus === TypeRevenus.AI_INVALIDITE ||
-         typeRevenus === TypeRevenus.AI_ENFANT;
+  return TYPE_REVENUS_AI.some(revenus => typeRevenus === revenus);
 }
 
 export function typeRevenusToOption(typeRevenus: TypeRevenus, membre: Personne): QuestionOption<string> {
