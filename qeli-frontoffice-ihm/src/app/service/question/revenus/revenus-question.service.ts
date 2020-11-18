@@ -119,10 +119,22 @@ export class RevenusQuestionService extends QuestionLoader {
       }
 
       if (choices.some(choice => isTypeRevenusAI(choice.value) || isTypeRevenusAVS(choice.value))) {
-        // Refus PC FAM et AIDE SOCIALE si la personne touche une Rente AVS / AI
+        // Refus PC FAM et Aide sociale si la personne touche une rente AVS / AI
+        if (this.demandeur.id === membre.id ||
+            this.demandeur.partenaire.id === membre.id && this.demandeur.hasConjoint) {
+          // Refus PC FAM pour toute la famille si le benéficiaire des de la Rente est un des deux conjoints.
+          QuestionUtils.createRefusByPrestation(
+            eligibilites, Prestation.PC_FAM, eligibiliteToMotifRefus
+          ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+        } else {
+          QuestionUtils.createRefusByPrestationAndMembre(
+            eligibilites, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
+          ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+        }
+
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, [Prestation.PC_FAM, Prestation.AIDE_SOCIALE], membre, eligibiliteToMotifRefus
-        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+          eligibilites, Prestation.AIDE_SOCIALE, membre, eligibiliteToMotifRefus
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));;
       } else if (!isInconnu && !choices.some(choice => choice.value === TypeRevenus.EMPLOI ||
                                                        choice.value === TypeRevenus.CHOMAGE ||
                                                        choice.value === TypeRevenus.APG)) {

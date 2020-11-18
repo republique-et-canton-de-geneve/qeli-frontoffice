@@ -10,7 +10,7 @@ import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { Personne } from '../../configuration/demandeur.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { AnswerUtils } from '../answer-utils';
-import { TypeRevenus } from '../revenus/revenus.model';
+import { TYPE_REVENUS_AI, TYPE_REVENUS_AVS, TypeRevenus } from '../revenus/revenus.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { QuestionUtils } from '../qeli-questions.utils';
@@ -213,7 +213,15 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
   }
 
   isFormeFamilleAvecPartenaire(formData: FormData) {
-    return this.demandeur.hasConjoint || (this.demandeur.hasConcubin && AnswerUtils.hasEnfantEnCommun(formData));
+    return this.demandeur.hasConjoint || (
+      this.demandeur.hasConcubin &&
+      AnswerUtils.hasEnfantEnCommun(formData) &&
+      !AnswerUtils.hasAnyRevenus(
+        formData,
+        this.demandeur.partenaire,
+        TYPE_REVENUS_AI.concat(TYPE_REVENUS_AVS)
+      )
+    );
   }
 
   isPartenaireActif(formData: FormData) {
