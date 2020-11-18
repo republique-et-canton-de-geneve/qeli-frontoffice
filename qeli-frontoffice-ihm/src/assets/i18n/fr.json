@@ -99,7 +99,8 @@
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
-          "eligible": "Votre foyer est éligible : "
+          "eligible": "Votre foyer est éligible : ",
+          "explication" : "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
