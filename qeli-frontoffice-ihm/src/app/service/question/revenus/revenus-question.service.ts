@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { isTypeRevenusAI, isTypeRevenusAVS, TypeRevenus, typeRevenusToCheckboxOptions } from './revenus.model';
+import { TYPE_REVENUS_AI, TYPE_REVENUS_AVS, TypeRevenus, typeRevenusToCheckboxOptions } from './revenus.model';
 import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import {
@@ -92,23 +92,18 @@ export class RevenusQuestionService extends QuestionLoader {
   }
 
   private hasAnyRevenusAVSOrAI(formData: FormData, membre: Personne) {
-    const revenusAnswer = formData[`revenus_${membre.id}`] as CheckboxGroupAnswer;
-    const choices = revenusAnswer.choices;
-    return choices.some(choice => isTypeRevenusAI(choice.value) || isTypeRevenusAVS(choice.value));
+    return AnswerUtils.hasAnyRevenus(formData, membre, TYPE_REVENUS_AVS.concat(TYPE_REVENUS_AI));
   }
 
   private calculateRevenusRefusFn(membre: Personne): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const refus: EligibiliteRefusee[] = [];
-      const revenusAnswer = formData[`revenus_${membre.id}`] as CheckboxGroupAnswer;
-      const isInconnu = revenusAnswer.hasSome.value === 'INCONNU';
-      const choices = revenusAnswer.choices;
       const eligibiliteToMotifRefus = eligibilite => ({
         key: `question.revenus.motifRefus.${eligibilite.prestation}`,
         parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
       });
 
-      if (!choices.some(choice => isTypeRevenusAI(choice.value) || isTypeRevenusAVS(choice.value))) {
+      if (!this.hasAnyRevenusAVSOrAI(formData, membre)) {
         // Refus PC AVS AI si la personne ne reçoit pas de rente AVS / AI et qu'elle mineur ou qu'elle est d'un pays
         // sans convention.
         if (!membre.isMajeur || AnswerUtils.isNationaliteIn(formData, membre, PAYS_NON_CONVENTIONES)) {
@@ -118,7 +113,7 @@ export class RevenusQuestionService extends QuestionLoader {
         }
       }
 
-      if (choices.some(choice => isTypeRevenusAI(choice.value) || isTypeRevenusAVS(choice.value))) {
+      if (this.hasAnyRevenusAVSOrAI(formData, membre)) {
         // Refus PC FAM et Aide sociale si la personne touche une rente AVS / AI
         if (this.demandeur.id === membre.id ||
             this.demandeur.partenaire.id === membre.id && this.demandeur.hasConjoint) {
@@ -135,9 +130,15 @@ export class RevenusQuestionService extends QuestionLoader {
         QuestionUtils.createRefusByPrestationAndMembre(
           eligibilites, Prestation.AIDE_SOCIALE, membre, eligibiliteToMotifRefus
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));;
-      } else if (!isInconnu && !choices.some(choice => choice.value === TypeRevenus.EMPLOI ||
-                                                       choice.value === TypeRevenus.CHOMAGE ||
-                                                       choice.value === TypeRevenus.APG)) {
+      } else if (AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT)) {
+        // Refus PC FAM si la personne est indépendante.
+        QuestionUtils.createRefusByPrestationAndMembre(
+          eligibilites, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+      } else if (
+        !AnswerUtils.isRevenuInconnu(formData, membre) &&
+        !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.EMPLOI, TypeRevenus.CHOMAGE, TypeRevenus.APG])
+      ) {
         // Refus PC FAM si la personne n'est ni employée, ni au chômage ni reçoit des indemnités journalières / perte
         // de gain.
         QuestionUtils.createRefusByPrestationAndMembre(
@@ -146,9 +147,9 @@ export class RevenusQuestionService extends QuestionLoader {
       }
 
 
-      if (choices.some(choice => choice.value === TypeRevenus.CHOMAGE ||
-                                 choice.value === TypeRevenus.AVS_RETRAITE ||
-                                 choice.value === TypeRevenus.AI_INVALIDITE)) {
+      if (AnswerUtils.hasAnyRevenus(
+        formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.AVS_RETRAITE, TypeRevenus.AI_INVALIDITE])
+      ) {
         // Refus BOURSES si la personne est au Chomage ou touche une rente AVS Retraite ou AVS Invalidité.
         QuestionUtils.createRefusByPrestationAndMembre(
           eligibilites, Prestation.BOURSES, membre, eligibiliteToMotifRefus

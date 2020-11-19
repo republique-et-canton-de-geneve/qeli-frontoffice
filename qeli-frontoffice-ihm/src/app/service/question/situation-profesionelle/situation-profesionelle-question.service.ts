@@ -74,9 +74,10 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               'tauxActivite', ['required', 'pattern', 'min', 'max'], translateParams
             )
           }),
-          skip: (formData) => !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.EMPLOI]) &&
-                              !AnswerUtils.isRevenuInconnu(formData, (membre))
-          ,
+          skip: (formData) => AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) || (
+            !AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.EMPLOI) &&
+            !AnswerUtils.isRevenuInconnu(formData, (membre))
+          ),
           calculateRefus: QuestionUtils.rejectPrestationFn(
             (formData: FormData) => {
               if (membre.id === 0 &&
@@ -112,8 +113,10 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               'tauxActiviteDernierEmploi', ['required', 'pattern', 'min', 'max'], translateParams
             )
           }),
-          skip: (formData) => !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
-                              !AnswerUtils.isRevenuInconnu(formData, membre),
+          skip: (formData) => AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) || (
+            !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
+            !AnswerUtils.isRevenuInconnu(formData, membre)
+          ),
           calculateRefus: () => [],
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
           categorie: Categorie.COMPLEMENTS,
@@ -148,7 +151,8 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               taux += this.sumTauxActiviteByMembre(formData, this.demandeur);
             }
 
-            return taux >= this.getMinTauxActiviteBySituation(formData, configuration) ||
+            return AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) ||
+                   taux >= this.getMinTauxActiviteBySituation(formData, configuration) ||
                    (!AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
                     !AnswerUtils.isRevenuInconnu(formData, membre));
           },
@@ -225,12 +229,14 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
   }
 
   isPartenaireActif(formData: FormData) {
-    return AnswerUtils.isRevenuInconnu(formData, this.demandeur.partenaire) ||
-           AnswerUtils.hasAnyRevenus(
-             formData,
-             this.demandeur.partenaire,
-             [TypeRevenus.EMPLOI, TypeRevenus.CHOMAGE, TypeRevenus.APG]
-           );
+    return !AnswerUtils.hasAnyRevenus(formData, this.demandeur.partenaire, TypeRevenus.INDEPENDANT) && (
+      AnswerUtils.isRevenuInconnu(formData, this.demandeur.partenaire) ||
+      AnswerUtils.hasAnyRevenus(
+        formData,
+        this.demandeur.partenaire,
+        [TypeRevenus.EMPLOI, TypeRevenus.CHOMAGE, TypeRevenus.APG]
+      )
+    );
   }
 
   getTauxActiviteByKey(formData: FormData, questionKey: string): number {
