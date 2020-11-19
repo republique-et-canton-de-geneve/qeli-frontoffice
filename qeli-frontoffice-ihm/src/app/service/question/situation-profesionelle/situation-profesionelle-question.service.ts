@@ -3,10 +3,9 @@ import { QeliConfiguration } from '../../configuration/qeli-configuration.model'
 import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { REPONSE_PROGRESSIVE_OPTIONS, ReponseBinaire, ReponseProgressive } from '../reponse-binaire.model';
+import { ReponseBinaire } from '../reponse-binaire.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { TauxAnswer, TauxQuestion } from '../../../dynamic-question/taux-question/taux-question.model';
-import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { Personne } from '../../configuration/demandeur.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { AnswerUtils } from '../answer-utils';
@@ -20,6 +19,9 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
 
+    const questions: QeliQuestionDecorator<any>[] = [];
+    /*
+    todo : à remettre suite à décision métier
     const questions: QeliQuestionDecorator<any>[] = [{
       question: new RadioQuestion({
         key: 'taxationOffice',
@@ -47,7 +49,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
       categorie: Categorie.SITUATION_PROFESSIONNELLE
-    }];
+    }];*/
 
 
     const membres: Personne[] = [
@@ -73,9 +75,10 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               'tauxActivite', ['required', 'pattern', 'min', 'max'], translateParams
             )
           }),
-          skip: (formData) => !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.EMPLOI]) &&
-                              !AnswerUtils.isRevenuInconnu(formData, (membre))
-          ,
+          skip: (formData) => AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) || (
+            !AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.EMPLOI) &&
+            !AnswerUtils.isRevenuInconnu(formData, (membre))
+          ),
           calculateRefus: QuestionUtils.rejectPrestationFn(
             (formData: FormData) => {
               if (membre.id === 0 &&
@@ -110,8 +113,10 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               'tauxActiviteDernierEmploi', ['required', 'pattern', 'min', 'max'], translateParams
             )
           }),
-          skip: (formData) => !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
-                              !AnswerUtils.isRevenuInconnu(formData, membre),
+          skip: (formData) => AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) || (
+            !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
+            !AnswerUtils.isRevenuInconnu(formData, membre)
+          ),
           calculateRefus: () => [],
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
           categorie: Categorie.SITUATION_PROFESSIONNELLE
@@ -145,7 +150,8 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               taux += this.sumTauxActiviteByMembre(formData, this.demandeur);
             }
 
-            return taux >= this.getMinTauxActiviteBySituation(formData, configuration) ||
+            return AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) ||
+                   taux >= this.getMinTauxActiviteBySituation(formData, configuration) ||
                    (!AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
                     !AnswerUtils.isRevenuInconnu(formData, membre));
           },
@@ -220,12 +226,14 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
   }
 
   isPartenaireActif(formData: FormData) {
-    return AnswerUtils.isRevenuInconnu(formData, this.demandeur.partenaire) ||
-           AnswerUtils.hasAnyRevenus(
-             formData,
-             this.demandeur.partenaire,
-             [TypeRevenus.EMPLOI, TypeRevenus.CHOMAGE, TypeRevenus.APG]
-           );
+    return !AnswerUtils.hasAnyRevenus(formData, this.demandeur.partenaire, TypeRevenus.INDEPENDANT) && (
+      AnswerUtils.isRevenuInconnu(formData, this.demandeur.partenaire) ||
+      AnswerUtils.hasAnyRevenus(
+        formData,
+        this.demandeur.partenaire,
+        [TypeRevenus.EMPLOI, TypeRevenus.CHOMAGE, TypeRevenus.APG]
+      )
+    );
   }
 
   getTauxActiviteByKey(formData: FormData, questionKey: string): number {

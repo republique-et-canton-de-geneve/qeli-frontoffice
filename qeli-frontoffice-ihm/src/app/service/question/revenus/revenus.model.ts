@@ -3,14 +3,15 @@ import { QuestionOption } from '../../../dynamic-question/model/question.model';
 import { CheckboxGroup } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 
 export enum TypeRevenus {
-  EMPLOI        = "EMPLOI",
-  CHOMAGE       = "CHOMAGE",
-  AVS_RETRAITE  = "AVS_RETRAITE",
-  AVS_VEUF      = "AVS_VEUF",
-  AVS_ENFANT    = "AVS_ENFANT",
-  AI_INVALIDITE = "AI_INVALIDITE",
-  AI_ENFANT     = "AI_ENFANT",
-  APG           = "APG"
+  EMPLOI        = 'EMPLOI',
+  INDEPENDANT   = 'INDEPENDANT',
+  CHOMAGE       = 'CHOMAGE',
+  AVS_RETRAITE  = 'AVS_RETRAITE',
+  AVS_VEUF      = 'AVS_VEUF',
+  AVS_ENFANT    = 'AVS_ENFANT',
+  AI_INVALIDITE = 'AI_INVALIDITE',
+  AI_ENFANT     = 'AI_ENFANT',
+  APG           = 'APG'
 }
 
 export const TYPE_REVENUS_AVS = [TypeRevenus.AVS_ENFANT, TypeRevenus.AVS_RETRAITE, TypeRevenus.AVS_VEUF];
@@ -56,6 +57,7 @@ export function typeRevenusToCheckboxOptions(membre: Personne): (QuestionOption<
   const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
   return [
     typeRevenusToOption(TypeRevenus.EMPLOI, membre),
+    typeRevenusToOption(TypeRevenus.INDEPENDANT, membre),
     typeRevenusToOption(TypeRevenus.CHOMAGE, membre),
     {
       label: {
