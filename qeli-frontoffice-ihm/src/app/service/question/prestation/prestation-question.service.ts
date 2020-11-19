@@ -6,7 +6,7 @@ import { Prestation } from '../../configuration/prestation.model';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { Relation } from '../../configuration/demandeur.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 import { AnswerUtils } from '../answer-utils';
@@ -70,8 +70,7 @@ export class PrestationQuestionService extends QuestionLoader {
         }),
         eligibilites: this.demandeur.toEligibilite(),
         calculateRefus: this.calculateRefus.bind(this),
-        categorie: Categorie.SITUATION_PERSONELLE,
-        subcategorie: Subcategorie.PRESTATION
+        categorie: Categorie.PRESTATION
       }
     ];
   }

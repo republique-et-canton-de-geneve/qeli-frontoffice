@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
@@ -20,6 +20,7 @@ export class LogementQuestionService extends QuestionLoader {
       hasPartenaire: hasPartenaire ? 'yes' : 'no',
       partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : ''
     };
+
 
     return [
       {
@@ -42,8 +43,7 @@ export class LogementQuestionService extends QuestionLoader {
           (eligibilite) => ({key: `question.proprietaireOuLocataireLogement.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.LOGEMENT
+        categorie: Categorie.LOGEMENT
       },
       {
         question: new RadioQuestion({
@@ -68,8 +68,21 @@ export class LogementQuestionService extends QuestionLoader {
           (eligibilite) => ({key: `question.bailLogementAVotreNom.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.LOGEMENT
+        categorie: Categorie.LOGEMENT
+      },
+      {
+        question: new NumberQuestion({
+          key: 'nombreDePersonnesLogement',
+          dataCyIdentifier: '1003_nombreDePersonnesLogement',
+          label: {key: 'question.nombreDePersonnesLogement.label'},
+          help: {key: 'question.nombreDePersonnesLogement.help'},
+          errorLabels: QuestionUtils.toErrorLabels('nombreDePersonnesLogement', ['required', 'pattern', 'min', 'max']),
+          min: 1,
+          max: 20
+        }),
+        calculateRefus: () => [],
+        eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
+        categorie: Categorie.LOGEMENT
       },
       {
         question: new NumberQuestion({
@@ -91,8 +104,7 @@ export class LogementQuestionService extends QuestionLoader {
           (eligibilite) => ({key: `question.nombreDePiecesLogement.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.LOGEMENT
+        categorie: Categorie.LOGEMENT
       },
       {
         question: new RadioQuestion({
@@ -111,8 +123,7 @@ export class LogementQuestionService extends QuestionLoader {
           (eligibilite) => ({key: `question.appartementHabitationMixte.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.LOGEMENT
+        categorie: Categorie.LOGEMENT
       },
       {
         question: new RadioQuestion({
@@ -133,8 +144,7 @@ export class LogementQuestionService extends QuestionLoader {
           (eligibilite) => ({key: `question.montantLoyerFixeOuVariable.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.LOGEMENT
+        categorie: Categorie.LOGEMENT
       }
     ];
   }

@@ -18,8 +18,7 @@ social.tools:
     max-limite-fortune: 10000
     taxation-afc-years-from-now: 2
     deep-link-enabled: false
-    api:
-      pdf.enabled: false
+    api.pdf.enabled: false
 
 spring:
   application:
