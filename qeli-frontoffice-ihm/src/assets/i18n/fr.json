@@ -117,10 +117,6 @@
         "close": "Fermer le menu de navigation"
       },
       "categorie": {
-        "SITUATION_PERSONELLE": "Situation personnelle",
-        "COMPLEMENTS": "Précisions / compléments"
-      },
-      "subcategorie": {
         "PRESTATION": "Prestations",
         "AGE": "Age",
         "ETAT_CIVIL": "Etat civil",

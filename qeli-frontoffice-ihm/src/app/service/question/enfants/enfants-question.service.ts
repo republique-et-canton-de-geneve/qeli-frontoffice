@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { typeEnfantAsOptions } from './type-enfant.model';
@@ -37,8 +37,7 @@ export class EnfantsQuestionService extends QuestionLoader {
         }),
         calculateRefus: () => [],
         eligibilites: this.demandeur.toEligibilite(),
-        categorie: Categorie.SITUATION_PERSONELLE,
-        subcategorie: Subcategorie.ETAT_CIVIL
+        categorie: Categorie.ETAT_CIVIL
       }];
     }
   }

@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { ReponseBinaire } from '../reponse-binaire.model';
@@ -48,8 +48,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
         (eligibilite) => ({key: `question.taxationOffice.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
+      categorie: Categorie.SITUATION_PROFESSIONNELLE
     }];*/
 
 
@@ -101,8 +100,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             (eligibilite) => ({key: `question.tauxActivite.motifRefus.${eligibilite.prestation}`})
           ),
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-          categorie: Categorie.COMPLEMENTS,
-          subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
+          categorie: Categorie.SITUATION_PROFESSIONNELLE
         }, {
           question: new TauxQuestion({
             key: `tauxActiviteDernierEmploi_${membre.id}`,
@@ -121,8 +119,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
           ),
           calculateRefus: () => [],
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-          categorie: Categorie.COMPLEMENTS,
-          subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
+          categorie: Categorie.SITUATION_PROFESSIONNELLE
         }, {
           question: new RadioQuestion({
             key: `tauxActiviteVariable6DernierMois_${membre.id}`,
@@ -173,8 +170,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             (eligibilite) => ({key: `question.tauxActiviteVariable6DernierMois.motifRefus.${eligibilite.prestation}`})
           ),
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-          categorie: Categorie.COMPLEMENTS,
-          subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
+          categorie: Categorie.SITUATION_PROFESSIONNELLE
         }, {
           question: new TauxQuestion({
             key: `tauxActiviteMoyen6DernierMois_${membre.id}`,
@@ -206,8 +202,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             (eligibilite) => ({key: `question.tauxActiviteMoyen6DernierMois.motifRefus.${eligibilite.prestation}`})
           ),
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-          categorie: Categorie.COMPLEMENTS,
-          subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
+          categorie: Categorie.SITUATION_PROFESSIONNELLE
         }];
       }).reduce((result, current) => result.concat(current), [])
     );

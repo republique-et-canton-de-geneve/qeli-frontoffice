@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { MembreFamille, Personne, Relation } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
@@ -57,8 +57,7 @@ export class DomicileQuestionService extends QuestionLoader {
             Prestation.AIDE_SOCIALE], membre
           ).concat(eligibiliteGroup.findByPrestation(Prestation.PC_AVS_AI))
         ),
-        categorie: Categorie.SITUATION_PERSONELLE,
-        subcategorie: Subcategorie.DOMICILE
+        categorie: Categorie.DOMICILE
       }, {
         question: new DateQuestion({
           key: `dateArriveeGeneve_${membre.id}`,
@@ -98,8 +97,7 @@ export class DomicileQuestionService extends QuestionLoader {
         },
         calculateRefus: this.calculatesDateArriveeGeneveRefusFn(membre),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-        categorie: Categorie.SITUATION_PERSONELLE,
-        subcategorie: Subcategorie.DOMICILE
+        categorie: Categorie.DOMICILE
       }];
     }).reduce((result, current) => result.concat(current), []);
 
@@ -120,8 +118,7 @@ export class DomicileQuestionService extends QuestionLoader {
         (eligibilite) => ({key: `question.residenceEffectiveCantonGE.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AIDE_SOCIALE),
-      categorie: Categorie.SITUATION_PERSONELLE,
-      subcategorie: Subcategorie.DOMICILE
+      categorie: Categorie.DOMICILE
     });
 
     return questions;
