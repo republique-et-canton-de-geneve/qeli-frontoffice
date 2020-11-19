@@ -16,6 +16,11 @@ export class LogementQuestionService extends QuestionLoader {
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
     const hasPartenaire = this.demandeur.hasConjoint || this.demandeur.hasConcubin;
+    const translateParams = {
+      hasPartenaire: hasPartenaire ? 'yes' : 'no',
+      partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : ''
+    };
+
 
     return [
       {
@@ -46,17 +51,11 @@ export class LogementQuestionService extends QuestionLoader {
           dataCyIdentifier: '1002_bailLogementAVotreNom',
           label: {
             key: 'question.bailLogementAVotreNom.label',
-            parameters: {
-              hasPartenaire: hasPartenaire ? 'yes' : 'no',
-              partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : ''
-            }
+            parameters: translateParams
           },
           help: {
             key: 'question.bailLogementAVotreNom.help',
-            parameters: {
-              hasPartenaire: hasPartenaire ? 'yes' : 'no',
-              partenaire: hasPartenaire ? this.demandeur.partenaire.prenom : ''
-            }
+            parameters: translateParams
           },
           errorLabels: {required: {key: 'question.bailLogementAVotreNom.error.required'}},
           inline: true,
