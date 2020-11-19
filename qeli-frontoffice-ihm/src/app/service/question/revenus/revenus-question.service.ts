@@ -1,7 +1,7 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { TYPE_REVENUS_AI, TYPE_REVENUS_AVS, TypeRevenus, typeRevenusToCheckboxOptions } from './revenus.model';
-import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import {
   CheckboxGroupAnswer, CheckboxGroupQuestion
@@ -62,8 +62,7 @@ export class RevenusQuestionService extends QuestionLoader {
           },
           calculateRefus: this.calculateRevenusRefusFn(membre),
           eligibilites: eligibilitesRevenus,
-          categorie: Categorie.SITUATION_PERSONELLE,
-          subcategorie: Subcategorie.REVENUS
+          categorie: Categorie.REVENUS
         },
         {
           question: new CheckboxGroupQuestion({
@@ -84,8 +83,7 @@ export class RevenusQuestionService extends QuestionLoader {
           skip: formData => this.hasAnyRevenusAVSOrAI(formData, membre),
           calculateRefus: this.calculateSituationRenteRefusFn(membre),
           eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI, membre),
-          categorie: Categorie.SITUATION_PERSONELLE,
-          subcategorie: Subcategorie.REVENUS
+          categorie: Categorie.REVENUS
         }
       ];
     }).reduce((result, current) => result.concat(current), []);
@@ -129,7 +127,7 @@ export class RevenusQuestionService extends QuestionLoader {
 
         QuestionUtils.createRefusByPrestationAndMembre(
           eligibilites, Prestation.AIDE_SOCIALE, membre, eligibiliteToMotifRefus
-        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));;
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       } else if (AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT)) {
         // Refus PC FAM si la personne est indépendante.
         QuestionUtils.createRefusByPrestationAndMembre(
