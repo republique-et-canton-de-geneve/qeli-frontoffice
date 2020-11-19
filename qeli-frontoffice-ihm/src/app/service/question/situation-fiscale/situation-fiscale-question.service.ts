@@ -57,6 +57,8 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
         categorie: Categorie.SITUATION_FISCALE
       },
+      /*
+      todo : à remettre suite à décision métier
       {
         question: new RadioQuestion({
           key: `taxeOfficeAFC`,
@@ -85,7 +87,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
         categorie: Categorie.SITUATION_FISCALE
-      },
+      },*/
       {
         question: new CompositeQuestion({
           key: `fonctionnaireInternational`,
