@@ -12,3 +12,7 @@ social.tools.qeli:
   matomo:
     server: ***REMOVED***
     site-id: 15
+
+  api:
+    pdf.enabled: true
+    stats.enabled: true

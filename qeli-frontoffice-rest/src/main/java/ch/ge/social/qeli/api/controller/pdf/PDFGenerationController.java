@@ -4,7 +4,7 @@ import ch.ge.social.qeli.service.api.pdf.PDFCreationService;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
 import ch.ge.social.qeli.service.api.result.dto.QeliResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api")
-@ConditionalOnProperty(name = "social.tools.api.pdf.enabled", havingValue = "true")
+@ConditionalOnExpression("${social.tools.qeli.api.pdf.enabled:true}")
 public class PDFGenerationController {
 
   private final PDFCreationService pdfCreationService;
