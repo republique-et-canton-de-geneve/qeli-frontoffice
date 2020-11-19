@@ -524,16 +524,6 @@
         "SUBSIDES": "Vous avez indiqué être exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)"
       }
     },
-    "taxeOfficeAFC": {
-      "label": "Etiez-vous {hasPartenaire, select, no{} other{ou {partenaire}}} taxé.e d'office par l'administration fiscale cantonale (AFC) en {annee} ?",
-      "help": "Taxation d'office : vous {hasPartenaire, select, no{} other{ou {partenaire}}} n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais et vous avez donc reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".<br>ATTENTION : ce n'est PAS l'impôt à la source.",
-      "error": {
-        "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué être taxé d'office par l'administration fiscale cantonale (AFC)"
-      }
-    },
     "fonctionnaireInternational": {
       "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} un parent fonctionnaire internationnal ?",
       "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il.elle fonctionnaire international.e à Genève ?",

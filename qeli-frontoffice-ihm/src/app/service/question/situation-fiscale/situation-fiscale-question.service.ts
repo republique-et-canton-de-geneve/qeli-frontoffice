@@ -57,37 +57,6 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
         categorie: Categorie.SITUATION_FISCALE
       },
-      /*
-      todo : à remettre suite à décision métier
-      {
-        question: new RadioQuestion({
-          key: `taxeOfficeAFC`,
-          dataCyIdentifier: `1402_taxeOfficeAFC`,
-          label: (value: any) => {
-            return {
-              key: 'question.taxeOfficeAFC.label',
-              parameters: generateTranslateParams(value)
-            } as I18nString;
-          },
-          help: (value: any) => {
-            return {
-              key: 'question.taxeOfficeAFC.help',
-              parameters: generateTranslateParams(value)
-            } as I18nString;
-          },
-          errorLabels: {required: {key: 'question.taxeOfficeAFC.error.required'}},
-          inline: true,
-          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
-        }),
-        calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
-          'taxeOfficeAFC',
-          ReponseProgressive.OUI,
-          Prestation.SUBSIDES,
-          eligibilite => ({key: `question.taxeOfficeAFC.motifRefus.${eligibilite.prestation}`})
-        ),
-        eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
-        categorie: Categorie.SITUATION_FISCALE
-      },*/
       {
         question: new CompositeQuestion({
           key: `fonctionnaireInternational`,
