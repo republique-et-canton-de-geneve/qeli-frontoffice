@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * statistiques.
  */
 @RestController
-@RequestMapping("/api/saveStats")
+@RequestMapping("/api")
 @ConditionalOnExpression("${social.tools.qeli.api.stats.enabled:true}")
 public class StatsController {
 

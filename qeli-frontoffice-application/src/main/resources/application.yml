@@ -19,6 +19,7 @@ social.tools:
     taxation-afc-years-from-now: 2
     deep-link-enabled: false
     api.pdf.enabled: false
+    api.stats.enabled: true
 
 spring:
   application:
