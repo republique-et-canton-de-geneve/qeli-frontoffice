@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { Personne } from '../../configuration/demandeur.model';
 import {
@@ -55,38 +55,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
           eligibilite => ({key: `question.exempteImpot.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.SITUATION_FISCALE
-      },
-      {
-        question: new RadioQuestion({
-          key: `taxeOfficeAFC`,
-          dataCyIdentifier: `1402_taxeOfficeAFC`,
-          label: (value: any) => {
-            return {
-              key: 'question.taxeOfficeAFC.label',
-              parameters: generateTranslateParams(value)
-            } as I18nString;
-          },
-          help: (value: any) => {
-            return {
-              key: 'question.taxeOfficeAFC.help',
-              parameters: generateTranslateParams(value)
-            } as I18nString;
-          },
-          errorLabels: {required: {key: 'question.taxeOfficeAFC.error.required'}},
-          inline: true,
-          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
-        }),
-        calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
-          'taxeOfficeAFC',
-          ReponseProgressive.OUI,
-          Prestation.SUBSIDES,
-          eligibilite => ({key: `question.taxeOfficeAFC.motifRefus.${eligibilite.prestation}`})
-        ),
-        eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.SITUATION_FISCALE
+        categorie: Categorie.SITUATION_FISCALE
       },
       {
         question: new CompositeQuestion({
@@ -123,8 +92,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.BOURSES),
         skip: formData => membres.every(membre => AnswerUtils.isRefugie(formData, membre)),
         calculateRefus: this.calculateFonctionnaireInternationalRefus,
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.SITUATION_FISCALE
+        categorie: Categorie.SITUATION_FISCALE
       }, {
         question: new CompositeQuestion({
           key: 'parentsHabiteFranceTravailleSuisse',
@@ -162,8 +130,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
           });
         },
         calculateRefus: this.calculateRefusParentsHabiteFranceTravailleSuisse,
-        categorie: Categorie.COMPLEMENTS,
-        subcategorie: Subcategorie.SITUATION_FISCALE
+        categorie: Categorie.SITUATION_FISCALE
       }
     ];
   }

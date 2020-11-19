@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { Personne, Relation } from '../../configuration/demandeur.model';
 import { Prestation } from '../../configuration/prestation.model';
@@ -47,8 +47,7 @@ export class FormationQuestionService extends QuestionLoader {
       eligibilites: eligibiliteGroup.findByPrestation([Prestation.BOURSES, Prestation.PC_FAM]).concat(
         eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT)
       ),
-      categorie: Categorie.SITUATION_PERSONELLE,
-      subcategorie: Subcategorie.FORMATION
+      categorie: Categorie.FORMATION
     });
 
     membres.map((membre): QeliQuestionDecorator<any> => ({
@@ -64,8 +63,7 @@ export class FormationQuestionService extends QuestionLoader {
       }),
       calculateRefus: this.calculateScolariteRefusFn(membre),
       eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.BOURSES, membre),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.FORMATION
+      categorie: Categorie.FORMATION
     } as QeliQuestionDecorator<any>)).forEach(question => questions.push(question));
 
     return questions;

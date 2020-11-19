@@ -103,7 +103,8 @@
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
-          "eligible": "Votre foyer est éligible : "
+          "eligible": "Votre foyer est éligible : ",
+          "explication" : "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
@@ -120,10 +121,6 @@
         "close": "Fermer le menu de navigation"
       },
       "categorie": {
-        "SITUATION_PERSONELLE": "Situation personnelle",
-        "COMPLEMENTS": "Précisions / compléments"
-      },
-      "subcategorie": {
         "PRESTATION": "Prestations",
         "AGE": "Age",
         "ETAT_CIVIL": "Etat civil",
@@ -521,16 +518,6 @@
         "SUBSIDES": "Vous avez indiqué être exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)"
       }
     },
-    "taxeOfficeAFC": {
-      "label": "Etiez-vous {hasPartenaire, select, no{} other{ou {partenaire}}} taxé.e d'office par l'administration fiscale cantonale (AFC) en {annee} ?",
-      "help": "Taxation d'office : vous {hasPartenaire, select, no{} other{ou {partenaire}}} n'avez pas rempli ou renvoyé votre déclaration d'impôt dans les délais et vous avez donc reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".<br>ATTENTION : ce n'est PAS l'impôt à la source.",
-      "error": {
-        "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué être taxé d'office par l'administration fiscale cantonale (AFC)"
-      }
-    },
     "fonctionnaireInternational": {
       "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} un parent fonctionnaire internationnal ?",
       "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il.elle fonctionnaire international.e à Genève ?",
@@ -643,7 +630,8 @@
       "INCONNU": "Je ne sais pas"
     },
     "typeRevenus": {
-      "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé / indépendant",
+      "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé",
+      "INDEPENDANT": "{who, select, me{Je suis} other{{membre} est}} indépendant",
       "CHOMAGE": {
         "label": "{who, select, me{Je reçois} other{{membre} reçoit}} l'assurance-chômage",
         "help": "Si {who, select, me{vous êtes} other{{membre} est}} au chômage, cochez cette réponse (assurance-chômage) PAS les indemnités journalières."

@@ -105,13 +105,14 @@ export class AnswerUtils {
     return answer && answer.hasSome && answer.hasSome.value === 'INCONNU';
   }
 
-  static hasAnyRevenus(formData: FormData, personne: Personne, revenus: TypeRevenus[]) {
+  static hasAnyRevenus(formData: FormData, personne: Personne, revenus: TypeRevenus | TypeRevenus[]) {
+    const _revenus = Array.isArray(revenus) ? revenus as TypeRevenus[] : [revenus as TypeRevenus];
     const answer = (formData[`revenus_${personne.id}`] as CheckboxGroupAnswer);
     if (!answer || answer.hasSome.value !== 'OUI') {
       return false;
     }
 
-    return (answer.choices.some(choice => revenus.includes(TypeRevenus[choice.value])));
+    return (answer.choices.some(choice => _revenus.includes(TypeRevenus[choice.value])));
   }
 
   static hasEnfantEnCommun(formData: FormData) {
