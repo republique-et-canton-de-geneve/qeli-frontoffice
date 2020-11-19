@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -87,46 +87,14 @@ public class QeliConfigurationProperties {
   @JsonProperty
   @NotNull
   @Valid
+  @NestedConfigurationProperty
   private MatomoConfiguration matomo;
 
-  /**
-   * Configuration Matomo.
-   */
-  @Data
-  public static class MatomoConfiguration {
-    /**
-     * L'addresse du server Matomo.
-     */
-    @JsonProperty
-    @NotNull
-    private String server;
-
-    /**
-     * L'id Matomo de cette application.
-     */
-    @JsonProperty
-    @Min(0)
-    private int siteId;
-  }
-
   @JsonProperty
+  @NestedConfigurationProperty
   private ApiConfiguration api = new ApiConfiguration();
 
   @JsonProperty
   private boolean deepLinkEnabled = true;
 
-  @Data
-  public static class ApiConfiguration {
-    @JsonProperty
-    private RestConfiguration pdf = new RestConfiguration();
-
-    @JsonProperty
-    private RestConfiguration stats = new RestConfiguration();
-  }
-
-  @Data
-  public static class RestConfiguration {
-    @JsonProperty
-    private boolean enabled = true;
-  }
 }
