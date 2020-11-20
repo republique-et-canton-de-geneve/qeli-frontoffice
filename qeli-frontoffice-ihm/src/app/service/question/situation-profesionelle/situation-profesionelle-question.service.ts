@@ -7,7 +7,6 @@ import { ReponseBinaire } from '../reponse-binaire.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { TauxAnswer, TauxQuestion } from '../../../dynamic-question/taux-question/taux-question.model';
 import { Personne } from '../../configuration/demandeur.model';
-import { TypeEnfant } from '../enfants/type-enfant.model';
 import { AnswerUtils } from '../answer-utils';
 import { TYPE_REVENUS_AI, TYPE_REVENUS_AVS, TypeRevenus } from '../revenus/revenus.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
@@ -73,7 +72,8 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             },
             errorLabels: QuestionUtils.toErrorLabels(
               'tauxActivite', ['required', 'pattern', 'min', 'max'], translateParams
-            )
+            ),
+            workingHoursByWeek: configuration.heureTravailParSemaine
           }),
           skip: (formData) => AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) || (
             !AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.EMPLOI) &&
@@ -111,7 +111,8 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             },
             errorLabels: QuestionUtils.toErrorLabels(
               'tauxActiviteDernierEmploi', ['required', 'pattern', 'min', 'max'], translateParams
-            )
+            ),
+            workingHoursByWeek: configuration.heureTravailParSemaine
           }),
           skip: (formData) => AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) || (
             !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
@@ -181,7 +182,8 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             },
             errorLabels: QuestionUtils.toErrorLabels(
               'tauxActiviteMoyen6DernierMois', ['required', 'pattern', 'min', 'max'], translateParams
-            )
+            ),
+            workingHoursByWeek: configuration.heureTravailParSemaine
           }),
           skip: (formData) => {
             const isTauxVariableAnswer = (formData[`tauxActiviteVariable6DernierMois_${membre.id}`] as OptionAnswer<string>)
@@ -206,11 +208,6 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
         }];
       }).reduce((result, current) => result.concat(current), [])
     );
-  }
-
-  hasEnfantEnCommun(value: any) {
-    const answers = value['parentsEnfants'];
-    return this.demandeur.enfants.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
   }
 
   isFormeFamilleAvecPartenaire(formData: FormData) {
@@ -238,7 +235,12 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
 
   getTauxActiviteByKey(formData: FormData, questionKey: string): number {
     const answer = (formData[questionKey] as TauxAnswer);
-    return answer ? answer.value : 0;
+
+    if (!answer) {
+      return 0;
+    }
+
+    return answer.isHourly ? answer.value / answer.workingHoursByWeek * 100 : answer.value
   }
 
   sumTauxActiviteByKeys(formData: FormData, keys: string | string[]) {

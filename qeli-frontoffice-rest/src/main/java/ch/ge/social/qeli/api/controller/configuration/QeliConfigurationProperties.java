@@ -82,6 +82,12 @@ public class QeliConfigurationProperties {
   private int taxationAfcYearsFromNow = 2;
 
   /**
+   * Le nombre d'heure de travail par semaine (consideré comme 100% pour les taux d'activité)
+   */
+  @JsonProperty
+  private int heuresTravailParSemaine = 40;
+
+  /**
    * La configuration matomo.
    */
   @JsonProperty

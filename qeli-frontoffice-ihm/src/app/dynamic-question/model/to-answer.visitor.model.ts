@@ -79,14 +79,11 @@ export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
   }
 
   visitTauxQuestion(question: TauxQuestion): Answer {
-    console.log(this.rawAnswer['value']);
-    const toto = new TauxAnswer({
+    return new TauxAnswer({
       value: parseInt(this.rawAnswer['value']),
-      other: this.rawAnswer['other'] as boolean
+      isHourly: this.rawAnswer['isHourly'] as boolean,
+      workingHoursByWeek: question.workingHoursByWeek
     });
-
-    console.log(toto.value);
-    return toto;
   }
 
   visitTextQuestion(question: TextQuestion): Answer {
