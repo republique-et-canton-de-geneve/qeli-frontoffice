@@ -55,6 +55,9 @@
          target="_blank">
         {{'home.result.demande'  | translate }}
       </a>
+      <p *ngIf="resultsByPrestation.prestation === 'PC_FAM'" class="help-block">
+        {{ ('home.result.prestation.' + resultsByPrestation.prestation + '.explication' | translate) }}
+      </p>
     </span>
 
   </div>

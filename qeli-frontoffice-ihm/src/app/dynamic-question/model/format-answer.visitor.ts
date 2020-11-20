@@ -58,6 +58,9 @@ export class FormatAnswerVisitor implements AnswerVisitor<string> {
   }
 
   visitTauxAnswer(answer: TauxAnswer): string {
-    return answer.value.toString() + '%';
+    if (answer.isHourly) {
+      return `${answer.value} ${this.translate.instant('common.taux.hourlySuffix')}`;
+    }
+    return `${answer.value}%`;
   }
 }

@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import {
@@ -46,8 +46,7 @@ export class MontantFortuneQuestionService extends QuestionLoader {
         eligibilite => ({key: `question.fortuneSuperieureA.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AIDE_SOCIALE),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.MONTANT_FORTUNE
+      categorie: Categorie.MONTANT_FORTUNE
     }, {
       question: new RadioQuestion({
         key: 'impotFortune',
@@ -74,8 +73,7 @@ export class MontantFortuneQuestionService extends QuestionLoader {
         eligibilite => ({key: `question.impotFortune.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.MONTANT_FORTUNE
+      categorie: Categorie.MONTANT_FORTUNE
     }];
   }
 

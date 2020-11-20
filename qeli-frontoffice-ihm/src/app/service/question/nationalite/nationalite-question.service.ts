@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import {
   CompositeAnswer, CompositeQuestion
@@ -93,8 +93,7 @@ export class NationaliteQuestionService extends QuestionLoader {
           }),
           eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.PC_AVS_AI, Prestation.BOURSES], membre),
           calculateRefus: this.calculateSituationMembreRefusFn(membre).bind(this),
-          categorie: Categorie.SITUATION_PERSONELLE,
-          subcategorie: Subcategorie.NATIONALITE
+          categorie: Categorie.NATIONALITE
         };
       }
     );
@@ -150,8 +149,7 @@ export class NationaliteQuestionService extends QuestionLoader {
         });
       },
       calculateRefus: () => [],
-      categorie: Categorie.SITUATION_PERSONELLE,
-      subcategorie: Subcategorie.NATIONALITE
+      categorie: Categorie.NATIONALITE
     });
 
     return questions;

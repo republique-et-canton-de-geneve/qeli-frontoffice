@@ -3,28 +3,28 @@ import { QuestionOption } from '../../../dynamic-question/model/question.model';
 import { CheckboxGroup } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 
 export enum TypeRevenus {
-  EMPLOI        = "EMPLOI",
-  CHOMAGE       = "CHOMAGE",
-  AVS_RETRAITE  = "AVS_RETRAITE",
-  AVS_VEUF      = "AVS_VEUF",
-  AVS_ENFANT    = "AVS_ENFANT",
-  AI_INVALIDITE = "AI_INVALIDITE",
-  AI_ENFANT     = "AI_ENFANT",
-  APG           = "APG"
+  EMPLOI        = 'EMPLOI',
+  INDEPENDANT   = 'INDEPENDANT',
+  CHOMAGE       = 'CHOMAGE',
+  AVS_RETRAITE  = 'AVS_RETRAITE',
+  AVS_VEUF      = 'AVS_VEUF',
+  AVS_ENFANT    = 'AVS_ENFANT',
+  AI_INVALIDITE = 'AI_INVALIDITE',
+  AI_ENFANT     = 'AI_ENFANT',
+  APG           = 'APG'
 }
 
+export const TYPE_REVENUS_AVS = [TypeRevenus.AVS_ENFANT, TypeRevenus.AVS_RETRAITE, TypeRevenus.AVS_VEUF];
+export const TYPE_REVENUS_AI = [TypeRevenus.AI_ENFANT, TypeRevenus.AI_INVALIDITE];
 
 const HAS_HELP = [TypeRevenus.APG, TypeRevenus.CHOMAGE];
 
 export function isTypeRevenusAVS(typeRevenus: TypeRevenus | string) {
-  return typeRevenus === TypeRevenus.AVS_RETRAITE ||
-         typeRevenus === TypeRevenus.AVS_VEUF ||
-         typeRevenus === TypeRevenus.AVS_ENFANT;
+  return TYPE_REVENUS_AVS.some(revenus => typeRevenus === revenus);
 }
 
 export function isTypeRevenusAI(typeRevenus: TypeRevenus | string) {
-  return typeRevenus === TypeRevenus.AI_INVALIDITE ||
-         typeRevenus === TypeRevenus.AI_ENFANT;
+  return TYPE_REVENUS_AI.some(revenus => typeRevenus === revenus);
 }
 
 export function typeRevenusToOption(typeRevenus: TypeRevenus, membre: Personne): QuestionOption<string> {
@@ -57,6 +57,7 @@ export function typeRevenusToCheckboxOptions(membre: Personne): (QuestionOption<
   const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
   return [
     typeRevenusToOption(TypeRevenus.EMPLOI, membre),
+    typeRevenusToOption(TypeRevenus.INDEPENDANT, membre),
     typeRevenusToOption(TypeRevenus.CHOMAGE, membre),
     {
       label: {

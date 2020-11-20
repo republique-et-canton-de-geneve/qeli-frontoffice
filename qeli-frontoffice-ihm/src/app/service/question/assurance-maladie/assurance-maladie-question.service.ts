@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import {
   CompositeAnswer, CompositeQuestion
@@ -50,8 +50,7 @@ export class AssuranceMaladieQuestionService extends QuestionLoader {
       }),
       calculateRefus: this.calculateRefus.bind(this),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
-      categorie: Categorie.SITUATION_PERSONELLE,
-      subcategorie: Subcategorie.ASSURANCE_MALADIE
+      categorie: Categorie.ASSURANCE_MALADIE
     }];
   }
 
