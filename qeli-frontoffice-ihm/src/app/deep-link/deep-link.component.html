@@ -2,13 +2,13 @@
   <button class="btn btn-default dropdown-toggle copy-link-toggle"
           (click)="showCopyPanel = !showCopyPanel"
           type="button"
-          title="{{ 'form.currentUrl.copyLink' | translate }}"
-          [attr.aria-label]="'form.currentUrl.copyLink' | translate"
+          title="{{ 'form.deepLink.copyLink' | translate }}"
+          [attr.aria-label]="'form.deepLink.copyLink' | translate"
           [attr.id]="'deep-link-dropdown-btn-' + id"
           aria-haspopup="true"
           [attr.aria-expanded]="showCopyPanel">
     <i class="fa fa-link"></i>
-    <span class="visible-xs-inline-block hidden-sm">{{ 'form.currentUrl.copyLinkShort' | translate }}</span>
+    <span class="visible-xs-inline-block hidden-sm">{{ 'form.deepLink.copyLinkShort' | translate }}</span>
   </button>
 
   <div *ngIf="showCopyPanel === true"
@@ -16,22 +16,22 @@
        [attr.aria-labelledby]="'deep-link-dropdown-btn-' + id">
 
     <label class="help-block" [attr.for]="'deep-link-input-' + id">
-      {{ 'form.currentUrl.copyHelpText'| translate }}
+      {{ 'form.deepLink.copyHelpText'| translate }}
     </label>
 
     <div class="input-group">
       <input class="deep-link-input form-control"
              type="text"
              [attr.id]="'deep-link-input-' + id"
-             value="{{ currentUrl }}"
+             value="{{ deepLink }}"
              readonly
              #deepLinkInput>
       <div class="input-group-addon has-btn">
         <button class="btn btn-info"
                 type="button"
                 (click)="copy()"
-                [attr.aria-label]="'form.currentUrl.copyButton'| translate"
-                title="{{ 'form.currentUrl.copyButton'| translate }}">
+                [attr.aria-label]="'form.deepLink.copyButton'| translate"
+                title="{{ 'form.deepLink.copyButton'| translate }}">
           <i class="fa fa-copy"></i>
         </button>
       </div>

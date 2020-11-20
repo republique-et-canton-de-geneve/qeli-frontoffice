@@ -147,13 +147,18 @@ export class QeliStateMachine {
    * jour.
    *
    * @param answer la réponse à la question actuelle.
+   * @param emitEvent si cette méthode doit déclancher un événtement ou pas.
    */
-  answerAndGetNextQuestion(answer: Answer): QeliQuestionDecorator<any> {
+  answerAndGetNextQuestion(answer: Answer, emitEvent: boolean = true): QeliQuestionDecorator<any> {
     this.state.questionIndexHistory.push(this.state.currentQuestionIndex);
     this.state.eligibilitesRefuseesHistory.push(this.state.eligibilitesRefusees);
 
     const currentQuestion = this._answerAndGetNextQuestion(answer);
-    this._onQuestionChangeEvents.emit(currentQuestion);
+
+    if (emitEvent) {
+      this._onQuestionChangeEvents.emit(currentQuestion);
+    }
+
     return currentQuestion;
   }
 
