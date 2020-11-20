@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
@@ -29,8 +29,7 @@ export class PensionAlimentaireQuestionService extends QuestionLoader {
         (eligibilite) => ({key: `question.droitPensionAlimentaire.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AVANCES),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.PENSION_ALIMENTAIRE
+      categorie: Categorie.PENSION_ALIMENTAIRE
     }, {
       question: new RadioQuestion({
         key: 'recoisEntierementPensionAlimentaire',
@@ -49,8 +48,7 @@ export class PensionAlimentaireQuestionService extends QuestionLoader {
         (eligibilite) => ({key: `question.recoisEntierementPensionAlimentaire.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AVANCES),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.PENSION_ALIMENTAIRE
+      categorie: Categorie.PENSION_ALIMENTAIRE
     }
     ];
   }

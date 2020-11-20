@@ -35,9 +35,11 @@ class QeliConfigurationPropertiesControllerTest extends Specification {
     content.limiteFortuneConjoint == 4000
     content.maxLimiteFortune == 10000
     content.taxationAfcYearsFromNow == 2
+    content.heuresTravailParSemaine == 40
     content.matomo != null
     content.matomo.server == "***REMOVED***"
     content.matomo.siteId == 15
+    content.api.pdf.enabled
+    content.api.stats.enabled
   }
-
 }

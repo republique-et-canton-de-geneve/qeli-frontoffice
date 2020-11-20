@@ -16,8 +16,6 @@ export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
   @Input() form: FormGroup;
   @Input() disableFocusOnInit: boolean;
 
-  options = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
-
   isNumber(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
 
@@ -28,13 +26,24 @@ export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
     return /[\d,]/.test(event.key);
   }
 
-  onOtherChanged() {
+  onTypeOfInputChanged() {
     this.formGroup.controls['value'].setValue(null);
     this.formGroup.markAsPristine();
   }
 
-  get isOtherSelected() {
-    return !!this.formGroup.value['other'];
+  get weeklyTaux() {
+    if (this.isHourlyInputSelected) {
+      const value = this.formGroup.controls['value'].value;
+      if (value || value === 0) {
+        const percentage = value / this.question.workingHoursByWeek * 100
+        return Math.round(percentage * 10) / 10;
+      }
+    }
+    return null;
+  }
+
+  get isHourlyInputSelected() {
+    return !!this.formGroup.value['isHourly'];
   }
 
   private get formGroup() {
