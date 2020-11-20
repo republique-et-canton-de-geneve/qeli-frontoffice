@@ -100,7 +100,7 @@
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
           "eligible": "Votre foyer est éligible : ",
-          "explication" : "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
+          "explication": "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
@@ -671,8 +671,10 @@
       "VEUF_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} veuf·ve (sans rente)"
     },
     "taux": {
-      "selectboxOption": "Sélectionnez un taux :",
-      "textboxOption": "Saisissez le taux souhaité :"
+      "percentageOption": "Saisissez le taux souhaité :",
+      "hourlyOption": "Saisissez le nombre d'heures travaillés par semaine :",
+      "hourlySuffix" : "heures / semaines",
+      "calculatedTaux": "Votre taux d'activité est de : {weeklyTaux} %"
     },
     "pays": {
       "af": "Afghanistan",
