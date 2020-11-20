@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TrackingService } from '../service/tracking/tracking.service';
+import { DeepLinkService } from './deep-link.service';
 
 @Component({
   selector: 'app-deep-link',
@@ -13,7 +14,8 @@ export class DeepLinkComponent implements OnInit {
 
   @ViewChild('deepLinkInput', {static: false}) deepLinkInput: ElementRef;
 
-  constructor(private trackingService: TrackingService) {
+  constructor(private trackingService: TrackingService,
+              private deepLinkService: DeepLinkService) {
   }
 
   ngOnInit() {
@@ -30,7 +32,7 @@ export class DeepLinkComponent implements OnInit {
     setTimeout(() => this.isCopied = false, 5000);
   }
 
-  get currentUrl() {
-    return location.href;
+  get deepLink() {
+    return this.deepLinkService.deepLink;
   }
 }

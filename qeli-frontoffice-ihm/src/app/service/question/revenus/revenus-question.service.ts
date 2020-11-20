@@ -132,7 +132,7 @@ export class RevenusQuestionService extends QuestionLoader {
       } else if (AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT)) {
         // Refus PC FAM si la personne est indépendante.
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
+          eligibiliteGroup, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       } else if (
         !AnswerUtils.isRevenuInconnu(formData, membre) &&
