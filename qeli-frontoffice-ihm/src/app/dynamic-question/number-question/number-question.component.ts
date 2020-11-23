@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { NUMBER_GROUP_TYPE, NumberQuestion } from './number-question.model';
 import { FormGroup } from '@angular/forms';
