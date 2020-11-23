@@ -15,6 +15,7 @@ export class QeliFormComponent implements OnInit {
   @ViewChild('dynamicQuestionComponent', {static: false}) dynamicQuestionComponent: DynamicQuestionComponent;
 
   @Input() qeliStateMachine: QeliStateMachine;
+  @Input() disableDeepLink: boolean = false;
 
   form: FormGroup;
 

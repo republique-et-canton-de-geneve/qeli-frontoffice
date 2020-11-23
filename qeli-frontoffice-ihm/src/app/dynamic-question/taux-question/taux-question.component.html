@@ -10,24 +10,31 @@
       <label>
         <input type="radio"
                [value]="false"
-               formControlName="other"
-               (change)="onOtherChanged()"
+               formControlName="isHourly"
+               (change)="onTypeOfInputChanged()"
                [attr.data-matomo-name]="question.dataCyIdentifier">
-        {{ 'common.taux.selectboxOption' | translate }}
+        {{ 'common.taux.percentageOption' | translate }}
       </label>
     </div>
 
-    <div class="tab" [hidden]="isOtherSelected">
-      <select formControlName="value"
-              [attr.disabled]="isOtherSelected ? 'disabled' : null"
-              [attr.aria-invalid]="!isValid"
-              [attr.aria-required]="question.required"
-              [focusOnInit]="!disableFocusOnInit"
-              class="form-control form-select"
-              [attr.data-matomo-name]="question.dataCyIdentifier">
-        <option></option>
-        <option *ngFor="let option of options" [value]="option">{{  option + '%' }}</option>
-      </select>
+    <div class="tab" [hidden]="isHourlyInputSelected">
+      <div class="input-group">
+        <input [formGroup]="form"
+               [attr.disabled]="isHourlyInputSelected ? 'disabled' : null"
+               [attr.aria-invalid]="!isValid"
+               [attr.aria-required]="question.required"
+               [focusOnInit]="!disableFocusOnInit"
+               formControlName="value"
+               type="number"
+               min="0"
+               max="100"
+               class="form-control"
+               [attr.data-matomo-name]="question.dataCyIdentifier">
+
+        <div class="input-group-addon">
+          <span>%</span>
+        </div>
+      </div>
     </div>
 
     <hr>
@@ -35,27 +42,33 @@
       <label>
         <input type="radio"
                [value]="true"
-               formControlName="other"
-               (change)="onOtherChanged()"
+               formControlName="isHourly"
+               (change)="onTypeOfInputChanged()"
                [attr.data-matomo-name]="question.dataCyIdentifier">
-        {{ 'common.taux.textboxOption' | translate }}
+        {{ 'common.taux.hourlyOption' | translate }}
       </label>
     </div>
 
-    <div class="tab"
-         [hidden]="!isOtherSelected">
-      <input [formGroup]="form"
-             [attr.disabled]="!isOtherSelected ? 'disabled' : null"
-             [attr.aria-invalid]="!isValid"
-             [attr.aria-required]="question.required"
-             [focusOnInit]="!disableFocusOnInit"
-             formControlName="value"
-             type="number"
-             (keypress)="isNumber($event)"
-             min="0"
-             max="100"
-             class="form-control"
-             [attr.data-matomo-name]="question.dataCyIdentifier">
+    <div class="tab" [hidden]="!isHourlyInputSelected">
+      <div class="input-group">
+        <input [formGroup]="form"
+               [attr.disabled]="!isHourlyInputSelected ? 'disabled' : null"
+               [attr.aria-invalid]="!isValid"
+               [attr.aria-required]="question.required"
+               [focusOnInit]="!disableFocusOnInit"
+               formControlName="value"
+               type="number"
+               min="0"
+               max="100"
+               class="form-control"
+               [attr.data-matomo-name]="question.dataCyIdentifier">
+        <div class="input-group-addon">
+          <span>{{'common.taux.hourlySuffix' | translate }}</span>
+        </div>
+      </div>
+      <div class="help-block" *ngIf="weeklyTaux === 0 || weeklyTaux">
+        {{ 'common.taux.calculatedTaux' | translate:{weeklyTaux: weeklyTaux} }}
+      </div>
     </div>
   </div>
 </div>

@@ -1,6 +1,5 @@
 package ch.ge.social.qeli.service.api.result.dto;
 
-import ch.ge.social.qeli.service.api.demandeur.dto.Personne;
 import lombok.Data;
 
 /**
@@ -16,5 +15,5 @@ public class Eligibilite {
   /**
    * Le membre de la famille (ou le demandeur) de cette éligibilité.
    */
-  private Personne membre;
+  private Integer membreId;
 }

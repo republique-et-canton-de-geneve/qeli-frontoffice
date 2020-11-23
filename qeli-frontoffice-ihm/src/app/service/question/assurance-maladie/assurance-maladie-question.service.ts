@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import {
   CompositeAnswer, CompositeQuestion
@@ -15,7 +15,7 @@ import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 export class AssuranceMaladieQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     const membres: Personne[] = (
       [this.demandeur] as Personne[]
     ).concat(this.demandeur.membresFamille);
@@ -48,10 +48,9 @@ export class AssuranceMaladieQuestionService extends QuestionLoader {
           isShown: this.hasNotSubsidesFn(membre)
         }))
       }),
-      calculateRefus: this.calculateRefus,
+      calculateRefus: this.calculateRefus.bind(this),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
-      categorie: Categorie.SITUATION_PERSONELLE,
-      subcategorie: Subcategorie.ASSURANCE_MALADIE
+      categorie: Categorie.ASSURANCE_MALADIE
     }];
   }
 
@@ -65,10 +64,10 @@ export class AssuranceMaladieQuestionService extends QuestionLoader {
 
   private calculateRefus(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
     const answers = (formData['assuranceMaladieSuisse'] as CompositeAnswer).answers;
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
     return eligibiliteGroup.findByPrestation(Prestation.SUBSIDES).filter(eligibilite => {
-      const answer = (answers[`assuranceMaladieSuisse_${eligibilite.membre.id}`] as OptionAnswer<string>);
+      const answer = (answers[`assuranceMaladieSuisse_${eligibilite.membreId}`] as OptionAnswer<string>);
       const choice = answer ? answer.value : null;
 
       return choice && choice.value === ReponseProgressive.NON;
@@ -77,8 +76,8 @@ export class AssuranceMaladieQuestionService extends QuestionLoader {
       motif: {
         key: `question.assuranceMaladieSuisse.motifRefus.${Prestation.SUBSIDES}`,
         parameters: {
-          who: eligibilite.membre.id === 0 ? 'me' : 'them',
-          membre: eligibilite.membre.prenom
+          who: eligibilite.membreId === 0 ? 'me' : 'them',
+          membre: this.demandeur.findMembrebyId(eligibilite.membreId).prenom
         }
       }
     }));

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -81,29 +82,32 @@ public class QeliConfigurationProperties {
   private int taxationAfcYearsFromNow = 2;
 
   /**
-   * Le nombre d'années écoulées depuis la dernière taxation AFC pertinente.
+   * Le nombre d'heure de travail par semaine (consideré comme 100% pour les taux d'activité)
+   */
+  @JsonProperty
+  private int heuresTravailParSemaine = 40;
+
+  /**
+   * La configuration matomo.
    */
   @JsonProperty
   @NotNull
   @Valid
+  @NestedConfigurationProperty
   private MatomoConfiguration matomo;
 
-  /**
-   * Configuration Matomo.
-   */
-  @Data
-  public static class MatomoConfiguration {
-    /**
-     * L'addresse du server Matomo.
-     */
-    @JsonProperty
-    @NotNull
-    private String server;
 
-    /**
-     * L'id Matomo de cette application.
-     */
-    @JsonProperty
-    private int siteId;
-  }
+  /**
+   * Active ou désactive le bandeau cookie
+   */
+  @JsonProperty
+  private boolean cookieBannerEnabled = false;
+
+  @JsonProperty
+  @NestedConfigurationProperty
+  private ApiConfiguration api = new ApiConfiguration();
+
+  @JsonProperty
+  private boolean deepLinkEnabled = true;
+
 }

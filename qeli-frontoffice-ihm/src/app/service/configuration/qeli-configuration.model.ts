@@ -49,9 +49,20 @@ export class QeliConfiguration {
   taxationAfcYearsFromNow: number;
 
   /**
+   * Le nombre d'heure de travail par semaine (consideré comme 100% pour les taux d'activité).
+   */
+  heureTravailParSemaine: number;
+
+  /**
    * Configuration Matomo.
    */
-  matomo: { server: string, siteId: number };
+  matomo: { server: string, siteId: number, enabled: boolean };
+
+  cookieBannerEnabled: boolean;
+
+  api: { pdf: RestConfiguration, stats: RestConfiguration };
+
+  deepLinkEnabled: boolean;
 
   constructor(options: any = {}) {
     this.minYearsFromNow = getOrDefault(options.minYearsFromNow, 130);
@@ -63,8 +74,16 @@ export class QeliConfiguration {
     this.limiteFortuneConjoint = getOrDefault(options.limiteFortuneConjoint, 4000);
     this.maxLimiteFortune = getOrDefault(options.maxLimiteFortune, 10000);
     this.taxationAfcYearsFromNow = getOrDefault(options.taxationAfcYearsFromNow, 2);
+    this.heureTravailParSemaine = getOrDefault(options.heureTravailParSemaine, 40);
     this.matomo = getOrDefault(options.matomo);
+    this.cookieBannerEnabled = getOrDefault(options.cookieBannerEnabled, false);
+    this.api = getOrDefault(options.api, {pdf: {enabled: true}, stats: {enabled: true}});
+    this.deepLinkEnabled = getOrDefault(options.deepLinkEnabled, true);
   }
+}
+
+export interface RestConfiguration {
+  enabled: boolean;
 }
 
 function getOrDefault<T>(actual: T, defaultValue: T = null) {

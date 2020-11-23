@@ -41,46 +41,6 @@ pipeline {
       }
     }
 
-    stage('Sonar') {
-      when { branch 'develop' }
-
-      steps {
-        withSonarQubeEnv('Sonarqube') {
-          sh "mvn ${env.SONAR_MAVEN_GOAL} -Dsonar.host.url=${env.SONAR_HOST_URL} \
-                                          -pl '!qeli-frontoffice-cypress'        \
-                                          -Pci"
-        }
-      }
-    }
-
-    stage('Integration tests') {
-      agent { label 'CypressAgent' }
-
-      steps {
-        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-          sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
-                         -Dihm.test.skip=true                           \
-                         -Dsurefire.test.skip=true                      \
-                         -Pci"
-        }
-      }
-    }
-
-    stage('Deploy artifact') {
-      when {
-        anyOf {
-          branch 'develop'
-          branch 'master'
-        }
-      }
-
-      steps {
-        sh "mvn clean source:jar deploy -s ${env.USER_SETTINGS_DIR}social_settings.xml -DskipTests=true  \
-                                        -pl '!qeli-frontoffice-cypress'                                  \
-                                        -Pci"
-      }
-    }
-
     stage('Deploy') {
       parallel {
         stage('DEV Instance A') {
@@ -140,6 +100,47 @@ pipeline {
             }
           }
         }
+      }
+    }
+
+    stage('Sonar') {
+      when { branch 'develop' }
+
+      steps {
+        withSonarQubeEnv('Sonarqube') {
+          sh "mvn ${env.SONAR_MAVEN_GOAL} -Dsonar.host.url=${env.SONAR_HOST_URL} \
+                                          -pl '!qeli-frontoffice-cypress'        \
+                                          -Pci"
+        }
+      }
+    }
+
+    stage('Integration tests') {
+      agent { label 'CypressAgent' }
+      when { branch 'develop' }
+
+      steps {
+        catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+          sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
+                         -Dihm.test.skip=true                           \
+                         -Dsurefire.test.skip=true                      \
+                         -Pci"
+        }
+      }
+    }
+
+    stage('Deploy artifact') {
+      when {
+        anyOf {
+          branch 'develop'
+          branch 'master'
+        }
+      }
+
+      steps {
+        sh "mvn clean source:jar deploy -s ${env.USER_SETTINGS_DIR}social_settings.xml -DskipTests=true  \
+                                        -pl '!qeli-frontoffice-cypress'                                  \
+                                        -Pci"
       }
     }
   }
