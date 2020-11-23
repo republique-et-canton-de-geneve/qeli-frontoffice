@@ -56,7 +56,7 @@ export class QeliConfiguration {
   /**
    * Configuration Matomo.
    */
-  matomo: { server: string, siteId: number };
+  matomo: { server: string, siteId: number, enabled: boolean };
 
   api: { pdf: RestConfiguration, stats: RestConfiguration };
 
