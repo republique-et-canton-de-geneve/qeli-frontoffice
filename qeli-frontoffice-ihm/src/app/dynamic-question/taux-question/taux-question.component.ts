@@ -18,11 +18,6 @@ export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
 
   isNumber(event: KeyboardEvent) {
     const target = event.target as HTMLInputElement;
-
-    if (event.key === ',' && target.value.includes(',')) {
-      return false;
-    }
-
     return /[\d,]/.test(event.key);
   }
 
