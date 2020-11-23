@@ -39,6 +39,7 @@ class QeliConfigurationPropertiesControllerTest extends Specification {
     content.matomo != null
     content.matomo.server == "***REMOVED***"
     content.matomo.siteId == 15
+    content.matomo.enabled
     content.api.pdf.enabled
     content.api.stats.enabled
   }

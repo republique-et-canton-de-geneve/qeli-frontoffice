@@ -25,6 +25,8 @@ const DIMENSION_LINK = 2;
 })
 export class TrackingService {
 
+  private enabled = false;
+
   constructor(private translateService: TranslateService,
               private matomoInjector: MatomoInjector,
               private matomoTracker: MatomoTracker) {
@@ -34,8 +36,11 @@ export class TrackingService {
    * Injecte le code de traçage.
    */
   initMatomo(configuration: QeliConfiguration) {
-    this.matomoInjector.init(configuration.matomo.server, configuration.matomo.siteId);
-    this.matomoTracker.setSecureCookie(true);
+    this.enabled = configuration.matomo.enabled;
+    if (this.enabled) {
+      this.matomoInjector.init(configuration.matomo.server, configuration.matomo.siteId);
+      this.matomoTracker.setSecureCookie(true);
+    }
   }
 
   /**
@@ -44,10 +49,12 @@ export class TrackingService {
    * @param currentQuestion la question affichée en ce moment.
    */
   trackDeepLink(currentQuestion: Question<any>) {
-    const trackingPage = currentQuestion ? currentQuestion.dataCyIdentifier : 'resultat';
-    this.matomoTracker.setCustomDimension(DIMENSION_LINK, trackingPage);
-    this.trackEvent(TRACK_LINK, trackingPage);
-    this.matomoTracker.deleteCustomDimension(DIMENSION_LINK);
+    if (this.enabled) {
+      const trackingPage = currentQuestion ? currentQuestion.dataCyIdentifier : 'resultat';
+      this.matomoTracker.setCustomDimension(DIMENSION_LINK, trackingPage);
+      this.trackEvent(TRACK_LINK, trackingPage);
+      this.matomoTracker.deleteCustomDimension(DIMENSION_LINK);
+    }
   }
 
   /**
@@ -55,7 +62,8 @@ export class TrackingService {
    * une valeur numérique optionnelle.
    */
   private trackEvent(action: string, name?: string, value?: number) {
-    this.matomoTracker.trackEvent(TRACK_FORM, action, name, value);
+    if (this.enabled)
+      this.matomoTracker.trackEvent(TRACK_FORM, action, name, value);
   }
 
   /**
@@ -64,10 +72,12 @@ export class TrackingService {
    * @param question la question à tracer.
    */
   trackQuestion(question: Question<any>) {
-    const trackingUrl = location.href.split('?')[0] + TRACK_QUESTION + '/' + question.dataCyIdentifier;
-    this.matomoTracker.setCustomUrl(trackingUrl);
-    this.matomoTracker.trackPageView(TRACK_QUESTION + '/' + question.dataCyIdentifier);
-    window["_paq"].push(['FormAnalytics::scanForForms']);
+    if (this.enabled) {
+      const trackingUrl = location.href.split('?')[0] + TRACK_QUESTION + '/' + question.dataCyIdentifier;
+      this.matomoTracker.setCustomUrl(trackingUrl);
+      this.matomoTracker.trackPageView(TRACK_QUESTION + '/' + question.dataCyIdentifier);
+      window["_paq"].push(['FormAnalytics::scanForForms']);
+    }
   }
 
   /**
@@ -77,7 +87,7 @@ export class TrackingService {
    * @param answer la réponse donée.
    */
   trackReponseInconnu(question: Question<any>, answer: Answer) {
-    if (answer.accept(new IsInconnuAnswerVisitor())) {
+    if (this.enabled && answer.accept(new IsInconnuAnswerVisitor())) {
       this.matomoTracker.setCustomDimension(DIMENSION_INCONNU, question.dataCyIdentifier);
       this.trackEvent(TRACK_INCONNU, question.dataCyIdentifier);
       this.matomoTracker.deleteCustomDimension(DIMENSION_INCONNU);
@@ -91,7 +101,8 @@ export class TrackingService {
    * @param formElement l'élément form affiché sur l'écran lors du questionnaire.
    */
   trackQeliResult(state: QeliState, formElement: HTMLElement) {
-    this.trackFormSubmission(formElement);
+    if (this.enabled)
+      this.trackFormSubmission(formElement);
   }
 
   private trackFormSubmission(formElement: HTMLElement) {
