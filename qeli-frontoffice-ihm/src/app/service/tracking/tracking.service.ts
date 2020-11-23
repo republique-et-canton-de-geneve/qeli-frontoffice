@@ -25,7 +25,7 @@ const DIMENSION_LINK = 2;
 })
 export class TrackingService {
 
-  private enabled = false;
+  private enabled = true;
 
   constructor(private translateService: TranslateService,
               private matomoInjector: MatomoInjector,
