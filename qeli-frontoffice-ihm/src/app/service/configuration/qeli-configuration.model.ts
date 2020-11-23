@@ -58,6 +58,8 @@ export class QeliConfiguration {
    */
   matomo: { server: string, siteId: number, enabled: boolean };
 
+  cookieBannerEnabled: boolean;
+
   api: { pdf: RestConfiguration, stats: RestConfiguration };
 
   deepLinkEnabled: boolean;
@@ -74,6 +76,7 @@ export class QeliConfiguration {
     this.taxationAfcYearsFromNow = getOrDefault(options.taxationAfcYearsFromNow, 2);
     this.heureTravailParSemaine = getOrDefault(options.heureTravailParSemaine, 40);
     this.matomo = getOrDefault(options.matomo);
+    this.cookieBannerEnabled = getOrDefault(options.cookieBannerEnabled, false);
     this.api = getOrDefault(options.api, {pdf: {enabled: true}, stats: {enabled: true}});
     this.deepLinkEnabled = getOrDefault(options.deepLinkEnabled, true);
   }

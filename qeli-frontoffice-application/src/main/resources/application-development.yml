@@ -4,10 +4,12 @@ social.tools:
     send-error-message: true
 
   editique.ws-location: ***REMOVED***
-  qeli.matomo:
-    server: ***REMOVED***
-    site-id: 15
-    enabled: false
+  qeli:
+    matomo:
+      server: ***REMOVED***
+      site-id: 15
+      enabled: false
+    cookie-banner-enabled: false
 
 server:
   port: 8080
