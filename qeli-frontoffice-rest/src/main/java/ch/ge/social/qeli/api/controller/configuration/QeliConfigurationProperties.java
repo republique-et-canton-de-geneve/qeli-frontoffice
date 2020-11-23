@@ -96,6 +96,13 @@ public class QeliConfigurationProperties {
   @NestedConfigurationProperty
   private MatomoConfiguration matomo;
 
+
+  /**
+   * Active ou désactive le bandeau cookie
+   */
+  @JsonProperty
+  private boolean cookieBannerEnabled = false;
+
   @JsonProperty
   @NestedConfigurationProperty
   private ApiConfiguration api = new ApiConfiguration();

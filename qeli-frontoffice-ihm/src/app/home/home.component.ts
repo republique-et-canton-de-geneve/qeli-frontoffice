@@ -12,6 +12,8 @@ import { FromSchemaToAnswerVisitor } from '../dynamic-question/model/to-answer.v
 import { StatsService } from '../service/stats.service';
 import { DeepLinkService } from '../deep-link/deep-link.service';
 import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { NgcCookieConsentService } from 'ngx-cookieconsent';
 
 
 @Component({
@@ -38,12 +40,15 @@ export class HomeComponent implements OnInit {
               private questionService: QuestionService,
               private deepLinkService: DeepLinkService,
               private ref: ChangeDetectorRef,
-              private statsService: StatsService) {
+              private statsService: StatsService,
+              private translate: TranslateService,
+              private ccService: NgcCookieConsentService) {
   }
 
   ngOnInit() {
     this.qeliConfigurationService.loadConfiguration().subscribe(configuration => {
       this.qeliConfiguration = configuration;
+      this.initCookieBanner(configuration);
       this.trackingService.initMatomo(configuration);
 
       this.deepLinkService.onStateUpdated(this.route).subscribe(state => {
@@ -62,6 +67,23 @@ export class HomeComponent implements OnInit {
       });
 
       this.ref.markForCheck();
+    });
+  }
+
+  private initCookieBanner(configuration: QeliConfiguration) {
+    this.translate.get([
+      'common.cookie.message', 'common.cookie.dismiss', 'common.cookie.link', 'common.cookie.href'
+    ]).subscribe(data => {
+      this.ccService.getConfig().content = this.ccService.getConfig().content || {};
+      // Override default messages with the translated ones
+      this.ccService.getConfig().content.message = data['common.cookie.message'];
+      this.ccService.getConfig().content.dismiss = data['common.cookie.dismiss'];
+      this.ccService.getConfig().content.link = data['common.cookie.link'];
+      this.ccService.getConfig().content.href = data['common.cookie.href'];
+      this.ccService.getConfig().cookie.domain = window.location.hostname;
+      this.ccService.getConfig().enabled = configuration.cookieBannerEnabled;
+      this.ccService.destroy(); // remove previous cookie bar (with default messages)
+      this.ccService.init(this.ccService.getConfig()); // update config with translated messages
     });
   }
 
@@ -134,7 +156,7 @@ export class HomeComponent implements OnInit {
       } else {
         this.trackingService.trackQuestion(this.qeliStateMachine.currentQuestion.question);
       }
-      
+
       this.deepLinkService.updateState(this.qeliStateMachine.state, this.route);
     }
   }
