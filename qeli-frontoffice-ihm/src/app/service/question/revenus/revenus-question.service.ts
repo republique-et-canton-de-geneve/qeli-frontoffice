@@ -115,7 +115,7 @@ export class RevenusQuestionService extends QuestionLoader {
       if (this.hasAnyRevenusAVSOrAI(formData, membre)) {
         // Refus PC FAM et Aide sociale si la personne touche une rente AVS / AI
         if (this.demandeur.id === membre.id ||
-            this.demandeur.partenaire.id === membre.id && this.demandeur.hasConjoint) {
+            this.demandeur.hasConjoint && this.demandeur.partenaire.id === membre.id) {
           // Refus PC FAM pour toute la famille si le benéficiaire des de la Rente est un des deux conjoints.
           QuestionUtils.createRefusByPrestation(
             eligibiliteGroup, Prestation.PC_FAM, eligibiliteToMotifRefus
