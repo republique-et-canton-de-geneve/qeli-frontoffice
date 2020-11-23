@@ -371,19 +371,13 @@
         "PC_FAM": "Votre taux d'activité est trop faible pour bénéficier des prestations complémentaires famille"
       },
       "error": {
-        "required": "Ce champ est obligatoire",
-        "pattern": "Merci de saisir le taux d'activité",
-        "min": "Erreur dans la saisie du taux d'activité",
-        "max": "Erreur dans la saisie du taux d'activité"
+        "required": "Ce champ est obligatoire, merci de saisir uniquement de chiffres"
       }
     },
     "tauxActiviteDernierEmploi": {
       "label": "Dans {who, select, me{votre dernier emploi} other{le dernier emploi de {membre}}}, quel était {who, select, me{votre} other{son}} taux d'activité ?",
       "error": {
-        "required": "Ce champ est obligatoire",
-        "pattern": "Merci de saisir le taux d'activité",
-        "min": "Erreur dans la saisie du taux d'activité",
-        "max": "Erreur dans la saisie du taux d'activité"
+        "required": "Ce champ est obligatoire, merci de saisir uniquement des chiffres"
       }
     },
     "tauxActiviteVariable6DernierMois": {
@@ -685,7 +679,7 @@
     "taux": {
       "percentageOption": "Saisissez le taux souhaité :",
       "hourlyOption": "Saisissez le nombre d'heures travaillés par semaine :",
-      "hourlySuffix" : "heures / semaines",
+      "hourlySuffix": "heures / semaines",
       "calculatedTaux": "Votre taux d'activité est de : {weeklyTaux} %"
     },
     "pays": {
