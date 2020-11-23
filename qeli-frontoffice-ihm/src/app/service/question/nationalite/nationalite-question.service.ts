@@ -24,7 +24,7 @@ import { QuestionUtils } from '../qeli-questions.utils';
 export class NationaliteQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     const membres: Personne[] = ([this.demandeur] as Personne[]).concat(
       this.demandeur.membresFamille
     );
@@ -92,7 +92,7 @@ export class NationaliteQuestionService extends QuestionLoader {
             ]
           }),
           eligibilites: eligibiliteGroup.findByPrestationEtMembre([Prestation.PC_AVS_AI, Prestation.BOURSES], membre),
-          calculateRefus: this.calculateSituationMembreRefusFn(membre),
+          calculateRefus: this.calculateSituationMembreRefusFn(membre).bind(this),
           categorie: Categorie.NATIONALITE
         };
       }
@@ -140,7 +140,7 @@ export class NationaliteQuestionService extends QuestionLoader {
       }),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.BOURSES),
       skip: (formData, currentEligibilites) => {
-        const currentEligibiliteGroup = new EligibiliteGroup(currentEligibilites);
+        const currentEligibiliteGroup = new EligibiliteGroup(currentEligibilites, this.demandeur);
         return membres.every(membre => {
           return currentEligibiliteGroup.findByPrestationEtMembre(Prestation.BOURSES, membre).length === 0 ||
                  AnswerUtils.isApatride(formData, membre) ||
@@ -221,6 +221,7 @@ export class NationaliteQuestionService extends QuestionLoader {
         key: `question.situationMembre.dateArriveeSuisse.motifRefus.${eligibilite.prestation}`,
         parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
       });
+      const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
       if (this.habiteEnSuisseDepuis(dateArriveEnSuisse, 5)) {
         const isRefugieOrInconnu = isReugie || refugieAnswer.value.value === RequerantRefugie.INCONNU;
@@ -229,19 +230,19 @@ export class NationaliteQuestionService extends QuestionLoader {
         // avec une nationalité d'un pays conventionné, elle a un refus PC AVS AI.
         if (!isRefugieOrInconnu && !this.isAnswerPaysConventionne(nationaliteAnswer)) {
           QuestionUtils.createRefusByPrestationAndMembre(
-            eligibilites, Prestation.PC_AVS_AI, membre, eligibiliteToMotifFn
+            eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibiliteToMotifFn
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         }
       } else {
         // Refus PC AVS AI si la personne habite en Suisse depuis moins de 5 ans.
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, Prestation.PC_AVS_AI, membre, eligibiliteToMotifFn
+          eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibiliteToMotifFn
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
 
         // Refus BOURSE si la personne habite en Suisse depuis moins de 5 ans et elle n'est pas réfugiée.
         if (!isReugie) {
           QuestionUtils.createRefusByPrestationAndMembre(
-            eligibilites, Prestation.BOURSES, membre, eligibiliteToMotifFn
+            eligibiliteGroup, Prestation.BOURSES, membre, eligibiliteToMotifFn
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         }
       }

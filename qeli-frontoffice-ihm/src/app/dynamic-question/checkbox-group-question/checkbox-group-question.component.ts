@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChildren } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import {
   CHECKBOX_GROUP_CONTROL_TYPE, CheckboxGroupAnswer, CheckboxGroupQuestion

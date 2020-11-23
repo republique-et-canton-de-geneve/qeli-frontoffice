@@ -13,6 +13,7 @@ social.tools.qeli:
   matomo:
     server: ***REMOVED***
     site-id: 15
+    enabled: true
 
   api:
     pdf.enabled: true
