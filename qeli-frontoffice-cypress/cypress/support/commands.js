@@ -55,11 +55,6 @@ Cypress.Commands.add('getQuestionLabel', (questionKey) =>
   cy.getQuestion(questionKey).getAttribute('data-cy-question-label')
 );
 Cypress.Commands.add('answerNationalite', (questionKey, answer) => {
-  cy.getQuestion(questionKey)
-    .find('[data-cy-question-input]')
-    .invoke('attr', 'data-cy-question-type')
-    .should('be', 'nationalite');
-
   cy.getQuestion(questionKey).find('[data-cy-question-input]').then($question => {
     if (answer === 'apatride') {
       cy.dataCy('apatride').check();
