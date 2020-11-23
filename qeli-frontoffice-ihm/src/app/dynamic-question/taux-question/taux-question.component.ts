@@ -16,11 +16,6 @@ export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
   @Input() form: FormGroup;
   @Input() disableFocusOnInit: boolean;
 
-  isNumber(event: KeyboardEvent) {
-    const target = event.target as HTMLInputElement;
-    return /[\d,]/.test(event.key);
-  }
-
   onTypeOfInputChanged() {
     this.formGroup.controls['value'].setValue(null);
     this.formGroup.markAsPristine();
