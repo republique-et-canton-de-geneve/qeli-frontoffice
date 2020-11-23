@@ -109,7 +109,7 @@
           "title": "Prestations complémentaires familiales",
           "plusInformationLink": "https://www.ge.ch/demander-prestations-complementaires-familiales",
           "demandeLink": "https://www.ge.ch/demander-prestations-complementaires-familiales/faire-demande-prestations-complementaires",
-          "eligible": "Votre foyer est éligible : "
+          "eligible": "Votre foyer est éligible : ",
           "explication": "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
         },
         "AIDE_SOCIALE": {
@@ -331,7 +331,7 @@
         "BOURSES": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation (assurance-chômage, rente de viellesse (AVS) ou rente d'invalidité (AI))",
         "PC_FAM": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation (rente AVS ou rente AI)",
         "PC_AVS_AI": "Vous avez indiqué {who, select, me{ne recevoir} other{que {membre} ne reçoit}} aucune rente (AVS ou AI) ce qui  vous empêche de bénéficier de cette prestation",
-        "AIDE_SOCIALE": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui  vous empêche de bénéficier de cette prestation (rente AVS ou rente AI)",
+        "AIDE_SOCIALE": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui  vous empêche de bénéficier de cette prestation (rente AVS ou rente AI)"
       },
       "error": {
         "required": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} doivent être fournis",
