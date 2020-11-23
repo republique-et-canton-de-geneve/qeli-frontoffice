@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Configuration Matomo.
@@ -31,4 +32,10 @@ public class MatomoConfiguration {
   @JsonProperty
   @Min(0)
   private int siteId;
+
+  /**
+   * Active ou désactive le tracking Matomo
+   */
+  @JsonProperty
+  private boolean enabled = true;
 }
