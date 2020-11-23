@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
@@ -10,7 +10,7 @@ import { QuestionUtils } from '../qeli-questions.utils';
 export class PensionAlimentaireQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     return [{
       question: new RadioQuestion({
         key: 'droitPensionAlimentaire',
@@ -25,11 +25,11 @@ export class PensionAlimentaireQuestionService extends QuestionLoader {
         'droitPensionAlimentaire',
         ReponseBinaire.NON,
         Prestation.AVANCES,
+        this.demandeur,
         (eligibilite) => ({key: `question.droitPensionAlimentaire.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AVANCES),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.PENSION_ALIMENTAIRE
+      categorie: Categorie.PENSION_ALIMENTAIRE
     }, {
       question: new RadioQuestion({
         key: 'recoisEntierementPensionAlimentaire',
@@ -44,11 +44,11 @@ export class PensionAlimentaireQuestionService extends QuestionLoader {
         'recoisEntierementPensionAlimentaire',
         ReponseBinaire.OUI,
         Prestation.AVANCES,
+        this.demandeur,
         (eligibilite) => ({key: `question.recoisEntierementPensionAlimentaire.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AVANCES),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.PENSION_ALIMENTAIRE
+      categorie: Categorie.PENSION_ALIMENTAIRE
     }
     ];
   }

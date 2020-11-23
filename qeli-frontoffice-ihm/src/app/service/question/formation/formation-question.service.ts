@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
 import { Personne, Relation } from '../../configuration/demandeur.model';
 import { Prestation } from '../../configuration/prestation.model';
@@ -16,7 +16,7 @@ import { QuestionUtils } from '../qeli-questions.utils';
 export class FormationQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     const membres = ([this.demandeur] as (Personne)[]).concat(this.demandeur.membresFamille);
     const questions: QeliQuestionDecorator<any>[] = [];
 
@@ -47,8 +47,7 @@ export class FormationQuestionService extends QuestionLoader {
       eligibilites: eligibiliteGroup.findByPrestation([Prestation.BOURSES, Prestation.PC_FAM]).concat(
         eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT)
       ),
-      categorie: Categorie.SITUATION_PERSONELLE,
-      subcategorie: Subcategorie.FORMATION
+      categorie: Categorie.FORMATION
     });
 
     membres.map((membre): QeliQuestionDecorator<any> => ({
@@ -62,23 +61,22 @@ export class FormationQuestionService extends QuestionLoader {
         errorLabels: {required: {key: 'question.scolarite.error.required'}},
         radioOptions: SCOLARITE_OPTIONS
       }),
-      calculateRefus: this.calculateScolariteRefusFn(membre),
+      calculateRefus: this.calculateScolariteRefusFn(membre).bind(this),
       eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.BOURSES, membre),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.FORMATION
+      categorie: Categorie.FORMATION
     } as QeliQuestionDecorator<any>)).forEach(question => questions.push(question));
 
     return questions;
   }
 
   calculateFormationRefusFn(formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
     const refus: EligibiliteRefusee[] = [];
 
     // Si pas d'enfant à charge, refus PC FAM
     if (!AnswerUtils.hasEnfantACharge(formData, this.demandeur)) {
       QuestionUtils.createRefusByPrestation(
-        eligibilites, Prestation.PC_FAM, eligibilite => ({
+        eligibiliteGroup, Prestation.PC_FAM, eligibilite => ({
           key: `question.formation.motifRefus.${eligibilite.prestation}`
         })
       ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
@@ -86,24 +84,32 @@ export class FormationQuestionService extends QuestionLoader {
 
     // Refus de BOURSES pour les membre qui ne sont pas en formation
     eligibiliteGroup.findByPrestation(Prestation.BOURSES).filter(eligibilite => {
-      return !AnswerUtils.isEnFormation(formData, eligibilite.membre);
+      return !AnswerUtils.isEnFormation(formData, eligibilite.membreId);
     }).map((eligibilite) => ({
         eligibilite: eligibilite,
         motif: {
           key: `question.formation.motifRefus.${eligibilite.prestation}`,
-          parameters: {who: eligibilite.membre.id === 0 ? 'me' : 'them', membre: eligibilite.membre.prenom}
+          parameters: {
+            who: eligibilite.membreId === 0 ? 'me' : 'them',
+            membre: this.demandeur.findMembrebyId(eligibilite.membreId).prenom
+          }
         }
       } as EligibiliteRefusee)
     ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
 
     // Refus PC AVS AI pour les enfants qui ne sont pas à charge
-    eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(eligibilite => {
-      return !AnswerUtils.isEnfantACharge(formData, eligibilite.membre, this.demandeur);
-    }).map((eligibilite) => ({
+    eligibiliteGroup.findByPrestationEtRelation(Prestation.PC_AVS_AI, Relation.ENFANT).filter(
+      eligibilite =>
+        !AnswerUtils.isEnfantACharge(
+          formData,
+          this.demandeur.findMembrebyId(eligibilite.membreId),
+          this.demandeur
+        )
+    ).map((eligibilite) => ({
         eligibilite: eligibilite,
         motif: {
           key: `question.formation.motifRefus.${eligibilite.prestation}`,
-          parameters: {membre: eligibilite.membre.prenom}
+          parameters: {membre: this.demandeur.findMembrebyId(eligibilite.membreId).prenom}
         }
       } as EligibiliteRefusee)
     ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
@@ -119,7 +125,10 @@ export class FormationQuestionService extends QuestionLoader {
         return [];
       } else {
         return QuestionUtils.createRefusByPrestationAndMembre(
-          eligibilites, Prestation.BOURSES, membre, eligibilite => ({
+          new EligibiliteGroup(eligibilites, this.demandeur),
+          Prestation.BOURSES,
+          membre,
+          () => ({
             key: `question.scolarite.motifRefus.${Prestation.BOURSES}`,
             parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
           })

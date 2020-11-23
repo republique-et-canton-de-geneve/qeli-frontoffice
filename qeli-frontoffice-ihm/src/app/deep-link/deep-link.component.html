@@ -5,7 +5,6 @@
           title="{{ 'form.deepLink.copyLink' | translate }}"
           [attr.aria-label]="'form.deepLink.copyLink' | translate"
           [attr.id]="'deep-link-dropdown-btn-' + id"
-          id="dropdownMenuButton"
           aria-haspopup="true"
           [attr.aria-expanded]="showCopyPanel">
     <i class="fa fa-link"></i>
@@ -30,7 +29,7 @@
       <div class="input-group-addon has-btn">
         <button class="btn btn-info"
                 type="button"
-                (click)="copyDeepLink()"
+                (click)="copy()"
                 [attr.aria-label]="'form.deepLink.copyButton'| translate"
                 title="{{ 'form.deepLink.copyButton'| translate }}">
           <i class="fa fa-copy"></i>

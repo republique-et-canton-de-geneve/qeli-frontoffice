@@ -73,7 +73,7 @@ export abstract class Question<T extends Answer> {
    */
   errorLabels: { [key: string]: I18nString };
 
-  private _validators: ValidatorFn[] = [];
+  private readonly _validators: ValidatorFn[] = [];
 
   /**
    * Crée une nouvelle question.

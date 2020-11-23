@@ -1,45 +1,56 @@
+import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QeliState, QeliStateSchema } from '../service/question/qeli-state.model';
+import { QeliStateSchema } from '../service/question/qeli-state.model';
+import * as LZUTF8 from 'lzutf8';
 
+
+/**
+ * Un service qui permet de mettre à jour le statut du formulaire en gérant la navigation.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class DeepLinkService {
-
   constructor(private router: Router) {
   }
 
   /**
-   * Retourne le lien profond de la page qui est affichée en ce moment.
-   */
-  get currentDeepLink() {
-    return location.href;
-  }
-
-  /**
+   * Met à jour le statut du formulaire.
    *
-   * @param state
-   * @param route
+   * @param state le nouveau srtatut.
+   * @param route la page actuel.
    */
-  updateUrl(state: QeliStateSchema, route: ActivatedRoute): void {
+  updateState(state: QeliStateSchema, route: ActivatedRoute) {
     this.router.navigate([], {
-      queryParams: {data: this.encryptParams(state)},
+      queryParams: {
+        data: this.compressState(state)
+      },
       relativeTo: route
     });
   }
 
-  private encryptParams(data: any) {
-    return btoa(JSON.stringify(data));
+  onStateUpdated(route: ActivatedRoute) {
+    return route.queryParams.pipe(
+      map(params => params && params['data'] ? this.decompressState(params['data']) : null)
+    );
   }
 
-  /**
-   * Décrypte les paramètres de la requête (queryParam)
-   *
-   * @param queryParams {}|null
-   */
-  decryptQueryParamsData(queryParams: any): QeliStateSchema {
-    return queryParams && queryParams['data'] ? JSON.parse(atob(queryParams['data'])) : null;
+  private compressState(state: QeliStateSchema) {
+    const result = LZUTF8.compress(JSON.stringify({
+      formData: state.formData,
+      demandeur: state.demandeur,
+      currentQuestionIndex: state.currentQuestionIndex
+    }), {outputEncoding: 'Base64'});
+    return result;
   }
 
+  private decompressState(encryptedData: string): QeliStateSchema {
+    const result = JSON.parse(LZUTF8.decompress(encryptedData, {inputEncoding: 'Base64'}));
+    return result;
+  }
+
+  get deepLink() {
+    return location.href;
+  }
 }

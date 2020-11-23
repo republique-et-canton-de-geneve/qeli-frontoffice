@@ -5,7 +5,7 @@
         <div class="col-xs-9">
           <h1>{{ 'home.navigation.title' | translate }}</h1>
         </div>
-        <div class="col-xs-3" *ngIf="categorieTree.length > 0">
+        <div class="col-xs-3" *ngIf="categorieList.length > 0">
           <div class="menu-button-toggle">
             <button type="button" class="navbar-toggle"
               [attr.aria-expanded]="navigationCollapsed"
@@ -21,35 +21,28 @@
         </div>
       </div>
 
-      <div class="row row-navigation" [ngbCollapse]="navigationCollapsed" *ngIf="categorieTree.length > 0">
+      <div class="row row-navigation" [ngbCollapse]="navigationCollapsed" *ngIf="categorieList.length > 0">
         <div class="col-sm-12">
           <ul class="item-list">
-            <li *ngFor="let categorie of categorieTree">
+            <li *ngFor="let categorie of categorieList">
               <a (click)="categorie.collapsed = !categorie.collapsed" href="javascript:void(0);">
                 <i class="fa" [ngClass]="categorie.collapsed ? 'fa-chevron-circle-down': 'fa-chevron-circle-up'"></i>
                 {{ 'home.navigation.categorie.' + categorie.name | translate }}
               </a>
               <ul [ngbCollapse]="categorie.collapsed">
-                <li *ngFor="let subcategorie of categorie.subcategories">
-                  <a (click)="subcategorie.collapsed = !subcategorie.collapsed" href="javascript:void(0);">
-                    <i class="fa" [ngClass]="subcategorie.collapsed ? 'fa-chevron-circle-down': 'fa-chevron-circle-up'"></i>
-                    {{ 'home.navigation.subcategorie.' + subcategorie.name | translate }}
+                <li *ngFor="let question of categorie.questions" class="leaf">
+                  <a [ngClass]="isCurrentQuestion(question) ? 'disabled' : 'text-success'"
+                     href="javascript:void(0);"
+                     (click)="selectQuestion(question)">
+                    <i
+                      class="fa" [ngClass]="isCurrentQuestion(question) ? 'fa-question-circle' : 'fa-check-circle'"></i>
+                    <span>
+                      {{ question.label.key | translate:question.label.parameters }}
+                      <span class="answer-block" *ngIf="!isCurrentQuestion(question)">
+                        {{ getAnswerForQuestion(question) }}
+                      </span>
+                    </span>
                   </a>
-                  <ul [ngbCollapse]="subcategorie.collapsed">
-                    <li *ngFor="let question of subcategorie.questions" class="leaf">
-                      <a [ngClass]="isCurrentQuestion(question) ? 'disabled' : 'text-success'"
-                        href="javascript:void(0);"
-                        (click)="selectQuestion(question)">
-                        <i class="fa" [ngClass]="isCurrentQuestion(question) ? 'fa-question-circle' : 'fa-check-circle'"></i>
-                        <span>
-                          {{ question.label.key | translate:question.label.parameters }}
-                          <span class="answer-block" *ngIf="!isCurrentQuestion(question)">
-                            {{ getAnswerForQuestion(question) }}
-                          </span>
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
                 </li>
               </ul>
             </li>
@@ -57,7 +50,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="categorieTree">
+      <div class="row" *ngIf="categorieList">
         <div class="col-sm-12">
           <div class="progress">
             <div role="progressbar"

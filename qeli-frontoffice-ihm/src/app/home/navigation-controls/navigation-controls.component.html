@@ -1,8 +1,7 @@
 <div class="navigation-controls row" (keyup)="$event.preventDefault()">
-  <div class="previous-question col-xs-12 col-sm-6">
+  <div *ngIf="!disablePrevious" class="previous-question col-xs-12 col-sm-6">
     <button class="btn btn-primary"
             data-cy='previousQuestion'
-            [disabled]="disablePrevious"
             [attr.aria-label]="'form.previous' | translate"
             (click)="onPreviousClicked.emit()"
             type="button">
@@ -10,10 +9,11 @@
     </button>
   </div>
 
-  <div class="next-question col-xs-12 col-sm-6 text-right">
+  <div *ngIf="!disableNext"
+       class="next-question col-xs-12 text-right"
+       [ngClass]="disablePrevious ? 'col-sm-12': 'col-sm-6'">
     <button class="btn btn-primary"
             data-cy='nextQuestion'
-            [disabled]="disableNext"
             [attr.aria-label]="'form.next' | translate"
             (click)="onNextClicked.emit()"
             type="button">

@@ -3,6 +3,7 @@
     <form [formGroup]="form" data-matomo-form data-matomo-name="formElement" id="formElement" #formElement>
       <app-dynamic-question [question]="currentQuestion"
                             [form]="form"
+                            [disableDeepLink]="disableDeepLink"
                             #dynamicQuestionComponent>
       </app-dynamic-question>
     </form>
