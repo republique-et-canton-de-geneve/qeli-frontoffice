@@ -117,6 +117,7 @@ pipeline {
 
     stage('Integration tests') {
       agent { label 'CypressAgent' }
+      when { branch 'develop' }
 
       steps {
         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
