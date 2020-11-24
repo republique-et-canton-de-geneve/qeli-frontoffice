@@ -40,3 +40,5 @@ overlays/
 ### System Files ###
 .DS_Store
 Thumbs.db
+qeli-frontoffice-application/stats/*-stats.csv
+stats/*-stats.csv
