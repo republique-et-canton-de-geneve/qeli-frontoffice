@@ -39,7 +39,7 @@
       (onPreviousClicked)="onPreviousquestion()">
     </app-navigation-controls>
 
-    <div class="row visible-xs hidden-sm" *ngIf="qeliConfiguration.deepLinkEnabled">
+    <div class="row visible-xs hidden-sm" *ngIf="qeliConfiguration.deepLinkEnabled && qeliStateMachine">
       <div class="col-xs-12 text-right">
         <app-deep-link></app-deep-link>
       </div>
