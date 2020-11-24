@@ -8,6 +8,9 @@ import { Eligibilite, EligibiliteRefusee } from '../../service/question/eligibil
 import * as FileSaver from 'file-saver';
 import { Result, ResultsByPrestation, resultsComparator } from './result-block/result.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
+import { AnswerUtils } from '../../service/question/answer-utils';
+import { Relation } from '../../service/configuration/demandeur.model';
+import { TypeEnfant } from '../../service/question/enfants/type-enfant.model';
 
 @Component({
   selector: 'app-form-result',
@@ -37,6 +40,12 @@ export class FormResultComponent {
     const state = qeliStateMachine.state;
 
     // TODO Create a service for the mapping
+
+    const enfants = state.demandeur.membresFamille.filter(membre => membre.relation === Relation.ENFANT);
+    const conjointEnfantsPropres = enfants.some(enfant =>
+      AnswerUtils.isEnfantType(state.formData, enfant.id, TypeEnfant.AUTRE_PARENT)
+    );
+
     Object.values(Prestation).filter(prestation => prestation !== Prestation.SUBVENTION_HM).forEach(prestation => {
       const results: Result[] = [];
 
@@ -64,6 +73,10 @@ export class FormResultComponent {
           results.push(result);
         }
       });
+
+      results
+        .filter(result => result.membre.id === 0)
+        .forEach(result => result.conjointEnfantsPropres = conjointEnfantsPropres);
 
       if (results.some(result => result.eligible)) {
         this.prestationEligibles.push({
