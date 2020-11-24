@@ -38,10 +38,9 @@ export class ResultBlockComponent {
 
   get isConcubinAvecEnfantsPropres(): boolean {
     const demandeurResult = this.resultsByPrestation.results.find(r => r.membre.id === 0);
-    const me: Demandeur = demandeurResult.membre as Demandeur;
-    const concubin: MembreFamille = (me.membresFamille || []).find(m => m.relation === Relation.CONCUBIN);
+    const demandeur: Demandeur = demandeurResult.membre as Demandeur;
 
-    return concubin && !!demandeurResult.conjointEnfantsPropres;
+    return demandeur.hasConcubin && !!demandeurResult.conjointEnfantsPropres;
   }
 
   toTranslateParams(result: Result) {

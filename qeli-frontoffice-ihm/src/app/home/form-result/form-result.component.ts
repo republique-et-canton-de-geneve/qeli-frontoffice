@@ -41,8 +41,7 @@ export class FormResultComponent {
 
     // TODO Create a service for the mapping
 
-    const enfants = state.demandeur.membresFamille.filter(membre => membre.relation === Relation.ENFANT);
-    const conjointEnfantsPropres = enfants.some(enfant =>
+    const conjointEnfantsPropres = state.demandeur.enfants.some(enfant =>
       AnswerUtils.isEnfantType(state.formData, enfant.id, TypeEnfant.AUTRE_PARENT)
     );
 
