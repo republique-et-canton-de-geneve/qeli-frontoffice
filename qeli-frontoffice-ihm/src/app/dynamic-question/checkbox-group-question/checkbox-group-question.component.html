@@ -7,8 +7,8 @@
        data-cy-question-input
        data-cy-question-type="checkbox-group">
 
-    <hr *ngIf="question.hasNone">
-    <div *ngIf="question.hasNone" class="radio">
+    <hr *ngIf="question.hasNone || question.hasInconnu">
+    <div *ngIf="question.hasNone || question.hasInconnu" class="radio">
       <label [id]="question.key + '_some_option_label'">
         <input type="radio"
                [value]="question.someOption.value"
@@ -24,7 +24,7 @@
     <div role="group"
          [attr.aria-labelledby]="question.key + '_some_option_label'">
       <div *ngFor="let optionOrGroup of question.checkboxOptions"
-           class="checkbox" [ngClass]="question.hasNone ? 'tab' : null">
+           class="checkbox" [ngClass]="question.hasNone || question.hasInconnu ? 'tab' : null">
 
         <p *ngIf="optionOrGroup.hasOwnProperty('options')" class="checkbox-group-title">
           {{ optionOrGroup.label.key | translate: optionOrGroup.label.parameters }}
