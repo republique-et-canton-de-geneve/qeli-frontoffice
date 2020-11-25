@@ -8,18 +8,21 @@ export const TAUX_CONTROL_TYPE = 'taux';
 
 export interface TauxAnswerSchema {
   value: number;
-  other?: boolean;
+  isHourly?: boolean;
+  workingHoursByWeek: number;
 }
 
 export class TauxAnswer extends Answer {
   type = TAUX_CONTROL_TYPE;
   value: number;
-  other: boolean;
+  isHourly: boolean;
+  workingHoursByWeek: number;
 
   constructor(options: TauxAnswerSchema) {
     super();
     this.value = options.value;
-    this.other = !!options.other;
+    this.isHourly = !!options.isHourly;
+    this.workingHoursByWeek = options.workingHoursByWeek;
   }
 
   accept<E>(visitor: AnswerVisitor<E>): E {
@@ -27,17 +30,25 @@ export class TauxAnswer extends Answer {
   }
 }
 
+export interface TauxQuestionSchema extends QuestionSchema {
+  workingHoursByWeek: number;
+}
+
 export class TauxQuestion extends Question<TauxAnswer> {
   controlType = TAUX_CONTROL_TYPE;
+  workingHoursByWeek: number;
 
-  constructor(options: QuestionSchema) {
+  constructor(options: TauxQuestionSchema) {
     super(options);
+    this.workingHoursByWeek = options.workingHoursByWeek &&
+                              options.workingHoursByWeek !== 0 ? options.workingHoursByWeek : 40;
   }
 
   protected requiredValidator(): ValidatorFn {
     return (control: AbstractControl) => {
       if (control && control.value) {
-        return control.value['value'] === null || control.value['value'] === undefined ? {'required': true} : null;
+        return control.value['value'] === null ||
+               control.value['value'] === undefined ? {'required': true} : null;
       }
 
       return null;
@@ -55,7 +66,7 @@ export class TauxQuestion extends Question<TauxAnswer> {
       defaultValue ? defaultValue.value : null,
       [Validators.max(100), Validators.min(0), Validators.pattern(/-?\d+(,\d+)?/)]
     );
-    group['other'] = new FormControl(defaultValue ? defaultValue.other : false);
+    group['isHourly'] = new FormControl(defaultValue ? defaultValue.isHourly : false);
 
     return new FormGroup(group, this.validators);
   }

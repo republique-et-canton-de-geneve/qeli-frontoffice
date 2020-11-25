@@ -1,16 +1,14 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { REPONSE_PROGRESSIVE_OPTIONS, ReponseBinaire, ReponseProgressive } from '../reponse-binaire.model';
+import { ReponseBinaire } from '../reponse-binaire.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { TauxAnswer, TauxQuestion } from '../../../dynamic-question/taux-question/taux-question.model';
-import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { Personne } from '../../configuration/demandeur.model';
-import { TypeEnfant } from '../enfants/type-enfant.model';
 import { AnswerUtils } from '../answer-utils';
-import { TypeRevenus } from '../revenus/revenus.model';
+import { TYPE_REVENUS_AI, TYPE_REVENUS_AVS, TypeRevenus } from '../revenus/revenus.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { QuestionUtils } from '../qeli-questions.utils';
@@ -18,8 +16,11 @@ import { QuestionUtils } from '../qeli-questions.utils';
 export class SituationProfesionelleQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
 
+    const questions: QeliQuestionDecorator<any>[] = [];
+    /*
+    todo : à remettre suite à décision métier
     const questions: QeliQuestionDecorator<any>[] = [{
       question: new RadioQuestion({
         key: 'taxationOffice',
@@ -43,12 +44,12 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
         'taxationOffice',
         ReponseProgressive.OUI,
         Prestation.PC_FAM,
+        this.demandeur,
         (eligibilite) => ({key: `question.taxationOffice.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
-    }];
+      categorie: Categorie.SITUATION_PROFESSIONNELLE
+    }];*/
 
 
     const membres: Personne[] = [
@@ -72,11 +73,13 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             },
             errorLabels: QuestionUtils.toErrorLabels(
               'tauxActivite', ['required', 'pattern', 'min', 'max'], translateParams
-            )
+            ),
+            workingHoursByWeek: configuration.heureTravailParSemaine
           }),
-          skip: (formData) => !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.EMPLOI]) &&
-                              !AnswerUtils.isRevenuInconnu(formData, (membre))
-          ,
+          skip: (formData) => AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) || (
+            !AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.EMPLOI) &&
+            !AnswerUtils.isRevenuInconnu(formData, (membre))
+          ),
           calculateRefus: QuestionUtils.rejectPrestationFn(
             (formData: FormData) => {
               if (membre.id === 0 &&
@@ -95,11 +98,11 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
                      taux < this.getMinTauxActiviteBySituation(formData, configuration);
             },
             Prestation.PC_FAM,
+            this.demandeur,
             (eligibilite) => ({key: `question.tauxActivite.motifRefus.${eligibilite.prestation}`})
           ),
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-          categorie: Categorie.COMPLEMENTS,
-          subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
+          categorie: Categorie.SITUATION_PROFESSIONNELLE
         }, {
           question: new TauxQuestion({
             key: `tauxActiviteDernierEmploi_${membre.id}`,
@@ -110,14 +113,16 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             },
             errorLabels: QuestionUtils.toErrorLabels(
               'tauxActiviteDernierEmploi', ['required', 'pattern', 'min', 'max'], translateParams
-            )
+            ),
+            workingHoursByWeek: configuration.heureTravailParSemaine
           }),
-          skip: (formData) => !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
-                              !AnswerUtils.isRevenuInconnu(formData, membre),
+          skip: (formData) => AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) || (
+            !AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
+            !AnswerUtils.isRevenuInconnu(formData, membre)
+          ),
           calculateRefus: () => [],
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-          categorie: Categorie.COMPLEMENTS,
-          subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
+          categorie: Categorie.SITUATION_PROFESSIONNELLE
         }, {
           question: new RadioQuestion({
             key: `tauxActiviteVariable6DernierMois_${membre.id}`,
@@ -148,7 +153,8 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               taux += this.sumTauxActiviteByMembre(formData, this.demandeur);
             }
 
-            return taux >= this.getMinTauxActiviteBySituation(formData, configuration) ||
+            return AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT) ||
+                   taux >= this.getMinTauxActiviteBySituation(formData, configuration) ||
                    (!AnswerUtils.hasAnyRevenus(formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.APG]) &&
                     !AnswerUtils.isRevenuInconnu(formData, membre));
           },
@@ -164,11 +170,11 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               return choosenOption.value === ReponseBinaire.NON;
             },
             Prestation.PC_FAM,
+            this.demandeur,
             (eligibilite) => ({key: `question.tauxActiviteVariable6DernierMois.motifRefus.${eligibilite.prestation}`})
           ),
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-          categorie: Categorie.COMPLEMENTS,
-          subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
+          categorie: Categorie.SITUATION_PROFESSIONNELLE
         }, {
           question: new TauxQuestion({
             key: `tauxActiviteMoyen6DernierMois_${membre.id}`,
@@ -179,10 +185,11 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             },
             errorLabels: QuestionUtils.toErrorLabels(
               'tauxActiviteMoyen6DernierMois', ['required', 'pattern', 'min', 'max'], translateParams
-            )
+            ),
+            workingHoursByWeek: configuration.heureTravailParSemaine
           }),
           skip: (formData) => {
-            const isTauxVariableAnswer = (formData[`tauxActiviteVariable6DernierMois_${membre.id}`] as OptionAnswer<string>)
+            const isTauxVariableAnswer = (formData[`tauxActiviteVariable6DernierMois_${membre.id}`] as OptionAnswer<string>);
             const choosenOption = isTauxVariableAnswer ? isTauxVariableAnswer.value : null;
             return !choosenOption || choosenOption.value === ReponseBinaire.NON;
           },
@@ -197,37 +204,47 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
               return !this.isTauxActiviteSuffissant(formData, configuration);
             },
             Prestation.PC_FAM,
+            this.demandeur,
             (eligibilite) => ({key: `question.tauxActiviteMoyen6DernierMois.motifRefus.${eligibilite.prestation}`})
           ),
           eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
-          categorie: Categorie.COMPLEMENTS,
-          subcategorie: Subcategorie.SITUATION_PROFESSIONNELLE
+          categorie: Categorie.SITUATION_PROFESSIONNELLE
         }];
       }).reduce((result, current) => result.concat(current), [])
     );
   }
 
-  hasEnfantEnCommun(value: any) {
-    const answers = value['parentsEnfants'];
-    return this.demandeur.enfants.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
-  }
-
   isFormeFamilleAvecPartenaire(formData: FormData) {
-    return this.demandeur.hasConjoint || (this.demandeur.hasConcubin && AnswerUtils.hasEnfantEnCommun(formData));
+    return this.demandeur.hasConjoint || (
+      this.demandeur.hasConcubin &&
+      AnswerUtils.hasEnfantEnCommun(formData) &&
+      !AnswerUtils.hasAnyRevenus(
+        formData,
+        this.demandeur.partenaire,
+        TYPE_REVENUS_AI.concat(TYPE_REVENUS_AVS)
+      )
+    );
   }
 
   isPartenaireActif(formData: FormData) {
-    return AnswerUtils.isRevenuInconnu(formData, this.demandeur.partenaire) ||
-           AnswerUtils.hasAnyRevenus(
-             formData,
-             this.demandeur.partenaire,
-             [TypeRevenus.EMPLOI, TypeRevenus.CHOMAGE, TypeRevenus.APG]
-           );
+    return !AnswerUtils.hasAnyRevenus(formData, this.demandeur.partenaire, TypeRevenus.INDEPENDANT) && (
+      AnswerUtils.isRevenuInconnu(formData, this.demandeur.partenaire) ||
+      AnswerUtils.hasAnyRevenus(
+        formData,
+        this.demandeur.partenaire,
+        [TypeRevenus.EMPLOI, TypeRevenus.CHOMAGE, TypeRevenus.APG]
+      )
+    );
   }
 
   getTauxActiviteByKey(formData: FormData, questionKey: string): number {
     const answer = (formData[questionKey] as TauxAnswer);
-    return answer ? answer.value : 0;
+
+    if (!answer) {
+      return 0;
+    }
+
+    return answer.isHourly ? answer.value / answer.workingHoursByWeek * 100 : answer.value
   }
 
   sumTauxActiviteByKeys(formData: FormData, keys: string | string[]) {

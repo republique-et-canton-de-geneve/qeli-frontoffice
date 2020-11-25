@@ -50,19 +50,9 @@ export interface DefaultAnswerFn<T> {
 }
 
 /**
- * Un enum représentant toutes les catégories des questions pour le questionnaire d'éligibilité. Les categories sont
- * affichées en premier niveau de navigation dans le menu du questionnaire.
+ * Un enum représentant toutes les catégories des questions pour le questionnaire d'éligibilité.
  */
 export enum Categorie {
-  SITUATION_PERSONELLE = 'SITUATION_PERSONELLE',
-  COMPLEMENTS          = 'COMPLEMENTS'
-}
-
-/**
- * Un enum représentant toutes les subcatégories des questions pour le questionnaire d'éligibilité. Les subcategories
- * sont affichées en deuxième niveau de navigation dans le menu du questionnaire.
- */
-export enum Subcategorie {
   ETAT_CIVIL                = 'ETAT_CIVIL',
   PRESTATION                = 'PRESTATION',
   FORMATION                 = 'FORMATION',
@@ -111,9 +101,4 @@ export interface QeliQuestionDecorator<T extends Answer> {
    * La catégorie à la quelle appartient cette question.
    */
   categorie: Categorie;
-
-  /**
-   * La subcatégorie à la quelle appartient cette question.
-   */
-  subcategorie: Subcategorie;
 }
