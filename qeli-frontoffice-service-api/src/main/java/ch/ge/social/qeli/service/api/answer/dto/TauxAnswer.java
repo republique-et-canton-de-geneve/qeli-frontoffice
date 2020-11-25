@@ -5,8 +5,9 @@ import lombok.Data;
 
 @Data
 public class TauxAnswer implements Answer {
-  private Integer value;
-  private boolean other;
+  private Double  value;
+  private boolean isHourly;
+  private Integer workingHoursByWeek;
 
   @Override
   public <T> T accept(AnswerVisitor<T> visitor) {

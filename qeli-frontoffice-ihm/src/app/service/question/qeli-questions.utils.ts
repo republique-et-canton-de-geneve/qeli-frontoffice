@@ -1,5 +1,5 @@
 import { Prestation } from '../configuration/prestation.model';
-import { Personne } from '../configuration/demandeur.model';
+import { Demandeur, Personne } from '../configuration/demandeur.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from './eligibilite.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
 import { RefusEligibiliteFn } from './qeli-question-decorator.model';
@@ -12,8 +12,9 @@ export class QuestionUtils {
    * {@link OptionAnswer}. Un refus est cré lorsque l'utilisateur choisit l'option en paramètre.
    *
    * @param questionKey la clé de la question répondue.
-   * @param prestation la prestation ou les prestations à refuser.
    * @param answer l'option qui déclenche le refus.
+   * @param prestation la prestation ou les prestations à refuser.
+   * @param demandeur le demandeur.
    * @param eligibiliteToMotif une méthode qui génère un motif de refus pour une éligibilité.
    *
    * @return la fonction de refus d'éligibilité.
@@ -21,12 +22,13 @@ export class QuestionUtils {
   static rejectPrestationByOptionAnswerFn(questionKey: string,
                                           answer: any,
                                           prestation: Prestation | Prestation[],
+                                          demandeur: Demandeur,
                                           eligibiliteToMotif: (eligibilite: Eligibilite) => I18nString): RefusEligibiliteFn {
     return this.rejectPrestationFn(
       formData => {
         const choosenOption = (formData[questionKey] as OptionAnswer<any>).value;
         return choosenOption.value === answer
-      }, prestation, eligibiliteToMotif
+      }, prestation, demandeur, eligibiliteToMotif
     );
   }
 
@@ -36,16 +38,20 @@ export class QuestionUtils {
    *
    * @param isRejected la condition de refus.
    * @param prestation la prestation ou les prestations à refuser.
+   * @param demandeur le demandeur.
    * @param eligibiliteToMotif une méthode qui génère un motif de refus pour une éligibilité.
    *
    * @return la fonction de refus d'éligibilité.
    */
   static rejectPrestationFn(isRejected: (formData: FormData) => boolean,
                             prestation: Prestation | Prestation[],
+                            demandeur: Demandeur,
                             eligibiliteToMotif: (eligibilite: Eligibilite) => I18nString): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]) => {
       if (isRejected(formData)) {
-        return this.createRefusByPrestation(eligibilites, prestation, eligibiliteToMotif);
+        return this.createRefusByPrestation(
+          new EligibiliteGroup(eligibilites, demandeur), prestation, eligibiliteToMotif
+        );
       } else {
         return [];
       }
@@ -55,16 +61,15 @@ export class QuestionUtils {
   /**
    * Crée une liste de refus pour une ou plusieurs prestations.
    *
-   * @param eligibilites les éligibilités encore possibles.
+   * @param eligibiliteGroup les éligibilités encore possibles.
    * @param prestation la prestation ou les prestations à refuser.
    * @param eligibiliteToMotif une méthode qui génère un motif de refus pour une éligibilité.
    *
    * @return la liste des refus.
    */
-  static createRefusByPrestation(eligibilites: Eligibilite[],
+  static createRefusByPrestation(eligibiliteGroup: EligibiliteGroup,
                                  prestation: Prestation | Prestation[],
                                  eligibiliteToMotif: (eligibilite: Eligibilite) => I18nString): EligibiliteRefusee[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
     return eligibiliteGroup
       .findByPrestation(prestation)
       .map(eligibilite => ({eligibilite: eligibilite, motif: eligibiliteToMotif(eligibilite)} as EligibiliteRefusee));
@@ -73,18 +78,17 @@ export class QuestionUtils {
   /**
    * Crée une liste de refus pour une ou plusieurs prestations associées à un membre.
    *
-   * @param eligibilites les éligibilités encore possibles.
+   * @param eligibiliteGroup les éligibilités encore possibles.
    * @param prestation la prestation ou les prestations à refuser.
    * @param membre le membre associé aux prestations.
    * @param eligibiliteToMotif une méthode qui génère un motif de refus pour une éligibilité.
    *
    * @return la liste des refus.
    */
-  static createRefusByPrestationAndMembre(eligibilites: Eligibilite[],
+  static createRefusByPrestationAndMembre(eligibiliteGroup: EligibiliteGroup,
                                           prestation: Prestation | Prestation[],
                                           membre: Personne,
                                           eligibiliteToMotif: (eligibilite: Eligibilite) => I18nString): EligibiliteRefusee[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
     return eligibiliteGroup
       .findByPrestationEtMembre(prestation, membre)
       .map(eligibilite => ({eligibilite: eligibilite, motif: eligibiliteToMotif(eligibilite)} as EligibiliteRefusee));

@@ -1,6 +1,6 @@
 import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
-import { Categorie, QeliQuestionDecorator, Subcategorie } from '../qeli-question-decorator.model';
+import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import {
@@ -17,7 +17,7 @@ import { QuestionUtils } from '../qeli-questions.utils';
 export class MontantFortuneQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     return [{
       question: new RadioQuestion({
         key: 'fortuneSuperieureA',
@@ -42,11 +42,11 @@ export class MontantFortuneQuestionService extends QuestionLoader {
         'fortuneSuperieureA',
         ReponseBinaire.OUI,
         Prestation.AIDE_SOCIALE,
+        this.demandeur,
         eligibilite => ({key: `question.fortuneSuperieureA.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.AIDE_SOCIALE),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.MONTANT_FORTUNE
+      categorie: Categorie.MONTANT_FORTUNE
     }, {
       question: new RadioQuestion({
         key: 'impotFortune',
@@ -69,11 +69,11 @@ export class MontantFortuneQuestionService extends QuestionLoader {
         'impotFortune',
         ReponseProgressive.OUI,
         Prestation.ALLOCATION_LOGEMENT,
+        this.demandeur,
         eligibilite => ({key: `question.impotFortune.motifRefus.${eligibilite.prestation}`})
       ),
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-      categorie: Categorie.COMPLEMENTS,
-      subcategorie: Subcategorie.MONTANT_FORTUNE
+      categorie: Categorie.MONTANT_FORTUNE
     }];
   }
 

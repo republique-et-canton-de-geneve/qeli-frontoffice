@@ -12,9 +12,9 @@ export interface Eligibilite {
   prestation: Prestation;
 
   /**
-   * Le membre de la famille (ou le demandeur) de cette éligibilité.
+   * L'id du membre de la famille (ou le demandeur) de cette éligibilité.
    */
-  membre: Personne;
+  membreId: number;
 }
 
 /**
@@ -55,11 +55,11 @@ export class EligibiliteGroup {
    * Crée un nouveau décorateur d'eligibilités.
    *
    * @param eligibilites la liste d'éligibilités.
+   * @param demandeur le demandeur.
    */
-  constructor(eligibilites: Eligibilite[]) {
+  constructor(eligibilites: Eligibilite[], demandeur: Demandeur) {
     this.eligibilites = eligibilites;
-    this.demandeur = eligibilites.map(eligibilite => eligibilite.membre)
-                                 .find(membre => membre.id === 0) as Demandeur;
+    this.demandeur = demandeur;
   }
 
   /**
@@ -71,7 +71,7 @@ export class EligibiliteGroup {
    */
   includes(eligibilite: Eligibilite) {
     return this.eligibilites.some(el => el.prestation === eligibilite.prestation &&
-                                        el.membre.id === eligibilite.membre.id);
+                                        el.membreId === eligibilite.membreId);
   }
 
   /**
@@ -85,11 +85,11 @@ export class EligibiliteGroup {
    */
   includesPrestationWithRelation(prestation: Prestation, relation: Relation) {
     return this.eligibilites.some(el => {
-      if (el.prestation !== prestation ||
-          el.membre instanceof Demandeur) {
+      const membre = this.demandeur.findMembrebyId(el.membreId);
+      if (el.prestation !== prestation || membre instanceof Demandeur) {
         return false;
       }
-      return (el.membre as MembreFamille).relation === relation;
+      return (membre as MembreFamille).relation === relation;
     });
   }
 
@@ -115,12 +115,8 @@ export class EligibiliteGroup {
    *
    * @return les éligibilités concernées.
    */
-  findByMembre(prestations: Prestation | Prestation[]) {
-    if (Array.isArray(prestations)) {
-      return this.eligibilites.filter(eligibilite => prestations.includes(eligibilite.prestation));
-    } else {
-      return this.eligibilites.filter(eligibilite => eligibilite.prestation === prestations);
-    }
+  findByMembre(membre: Personne) {
+    return this.eligibilites.filter(eligibilite => eligibilite.membreId === membre.id);
   }
 
   /**
@@ -133,7 +129,7 @@ export class EligibiliteGroup {
    */
   findByPrestationEtMembre(prestations: Prestation | Prestation[], membre: Personne) {
     const _pestations = Array.isArray(prestations) ? prestations as Prestation[] : [prestations as Prestation];
-    return this.eligibilites.filter(eligibilite => eligibilite.membre.id === membre.id &&
+    return this.eligibilites.filter(eligibilite => eligibilite.membreId === membre.id &&
                                                    _pestations.includes(eligibilite.prestation));
   }
 
@@ -150,9 +146,12 @@ export class EligibiliteGroup {
     const _relations = Array.isArray(relations) ? relations as Relation[] : [relations as Relation];
 
     return this.eligibilites
-               .filter(eligibilite => eligibilite.membre.id !== 0)
-               .filter(eligibilite => _pestations.includes(eligibilite.prestation) &&
-                                      _relations.includes((eligibilite.membre as MembreFamille).relation));
+               .filter(eligibilite => eligibilite.membreId !== 0)
+               .filter(eligibilite => {
+                 const membre = this.demandeur.findMembrebyId(eligibilite.membreId);
+                 _pestations.includes(eligibilite.prestation) &&
+                 _relations.includes((membre as MembreFamille).relation)
+               });
   }
 }
 

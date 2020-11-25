@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CategorieTree, SubcategorieTree } from './categorie-tree.model';
+import { CategorieListNode } from './categorie-list.model';
 import { FormatAnswerVisitor } from '../../dynamic-question/model/format-answer.visitor';
 import { FormData, Question } from '../../dynamic-question/model/question.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ import { TrackingService } from '../../service/tracking/tracking.service';
 export class NavigationMenuComponent {
 
   currentQuestion: QeliQuestionDecorator<any> = null;
-  categorieTree: CategorieTree[] = [];
+  categorieList: CategorieListNode[] = [];
   progress: number = 0;
   reponses: FormData = {};
   navigationCollapsed: boolean = true;
@@ -34,7 +34,7 @@ export class NavigationMenuComponent {
       const state = this._qeliStateMachine.state;
       const questions = this._qeliStateMachine.questions;
 
-      this.categorieTree = this.toCategorieTree(this._qeliStateMachine);
+      this.categorieList = this.toCategorieList(this._qeliStateMachine);
       this.progress = state.done ? 100 : (state.currentQuestionIndex / (questions.length - 1)) * 100;
       this.currentQuestion = this._qeliStateMachine.currentQuestion;
       this.reponses = state.formData;
@@ -68,7 +68,7 @@ export class NavigationMenuComponent {
     }
   }
 
-  private toCategorieTree(stateMachine: QeliStateMachine) {
+  private toCategorieList(stateMachine: QeliStateMachine) {
     const state = stateMachine.state;
     const questions = stateMachine.questions;
 
@@ -82,7 +82,7 @@ export class NavigationMenuComponent {
 
     return indexHistory.reduce((result, current) => {
       const questionDecorator = questions[current];
-      let categorie: CategorieTree, subcategorie: SubcategorieTree;
+      let categorie: CategorieListNode;
 
       categorie = result.find(item => item.name === questionDecorator.categorie);
 
@@ -90,24 +90,13 @@ export class NavigationMenuComponent {
         categorie = {
           name: questionDecorator.categorie,
           collapsed: (currentQuestion) ? currentQuestion.categorie !== questionDecorator.categorie : true,
-          subcategories: []
+          questions: []
         };
 
         result.push(categorie);
       }
 
-      subcategorie = categorie.subcategories.find(item => item.name === questionDecorator.subcategorie);
-
-      if (!subcategorie) {
-        subcategorie = {
-          name: questionDecorator.subcategorie,
-          collapsed: (currentQuestion) ? currentQuestion.subcategorie !== questionDecorator.subcategorie : true,
-          questions: []
-        };
-        categorie.subcategories.push(subcategorie);
-      }
-
-      subcategorie.questions.push(questionDecorator.question);
+      categorie.questions.push(questionDecorator.question);
 
       return result;
     }, []);

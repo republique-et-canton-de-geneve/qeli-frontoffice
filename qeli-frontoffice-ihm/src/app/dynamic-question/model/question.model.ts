@@ -81,7 +81,7 @@ export abstract class Question<T extends Answer> {
    */
   onValueChanged?: (control: FormGroup) => void;
 
-  private _validators: ValidatorFn[] = [];
+  private readonly _validators: ValidatorFn[] = [];
 
   /**
    * Crée une nouvelle question.

@@ -68,13 +68,13 @@ export class AnswerUtils {
     return this.checkOptionAnswer(formData, `situationPermis_${personne.id}.complementPermisB`, TypePermisB.ETUDES);
   }
 
-  static isEnFormation(formData: FormData, personne: Personne) {
-    return this.checkOptionAnswer(formData, `formation.formation_${personne.id}`, ReponseBinaire.OUI);
+  static isEnFormation(formData: FormData, personneId: number) {
+    return this.checkOptionAnswer(formData, `formation.formation_${personneId}`, ReponseBinaire.OUI);
   }
 
   static isEnfantACharge(formData: FormData, enfant: Personne, demandeur: Demandeur) {
     return this.isEnfantOfDemandeur(formData, enfant, demandeur) && (
-      !enfant.isMajeur || (enfant.age <= 25 && this.isEnFormation(formData, enfant))
+      !enfant.isMajeur || (enfant.age <= 25 && this.isEnFormation(formData, enfant.id))
     );
   }
 
@@ -101,13 +101,14 @@ export class AnswerUtils {
     return answer && answer.hasSome && answer.hasSome.value === 'INCONNU';
   }
 
-  static hasAnyRevenus(formData: FormData, personne: Personne, revenus: TypeRevenus[]) {
+  static hasAnyRevenus(formData: FormData, personne: Personne, revenus: TypeRevenus | TypeRevenus[]) {
+    const _revenus = Array.isArray(revenus) ? revenus as TypeRevenus[] : [revenus as TypeRevenus];
     const answer = (formData[`revenus_${personne.id}`] as CheckboxGroupAnswer);
     if (!answer || answer.hasSome.value !== 'OUI') {
       return false;
     }
 
-    return (answer.choices.some(choice => revenus.includes(TypeRevenus[choice.value])));
+    return (answer.choices.some(choice => _revenus.includes(TypeRevenus[choice.value])));
   }
 
   static hasEnfantEnCommun(formData: FormData) {
@@ -118,7 +119,7 @@ export class AnswerUtils {
     });
   }
 
-  static isEnfantType(formData: FormData, enfant: Personne, typeEnfant: TypeEnfant) {
-    return this.checkOptionAnswer(formData, `parentsEnfants.parentsEnfants_${enfant.id}`, typeEnfant);
+  static isEnfantType(formData: FormData, enfantId: number, typeEnfant: TypeEnfant) {
+    return this.checkOptionAnswer(formData, `parentsEnfants.parentsEnfants_${enfantId}`, typeEnfant);
   }
 }
