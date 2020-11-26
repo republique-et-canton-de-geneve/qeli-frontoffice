@@ -70,6 +70,7 @@
       "plusInformation": "+ Plus d'information",
       "demande": "Faire une demande",
       "demandeMembre": "Faire une demande pour {who, select, me{vous} other{{membre}}}",
+      "verifierConcubin": "Attention, il est possible que votre concubin soit éligible{prestation, select, PC_FAM{ aux prestations complémentaires famille} PC_AVS_AI{ aux prestations complémentaires AVS AI} other{}}. Il devrait faire le questionnaire pour en être sûr.",
       "prestation": {
         "SUBSIDES": {
           "title": "Subsides d'assurance-maladie",
@@ -110,8 +111,7 @@
           "plusInformationLink": "https://www.ge.ch/demander-prestations-complementaires-familiales",
           "demandeLink": "https://www.ge.ch/demander-prestations-complementaires-familiales/faire-demande-prestations-complementaires",
           "eligible": "Votre foyer est éligible : ",
-          "explication": "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office",
-          "verifierConcubin": "Attention, il est possible que votre concubin soit éligible aux prestations complémentaires famille. Il devrait faire le questionnaire pour en être sûr."
+          "explication": "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",

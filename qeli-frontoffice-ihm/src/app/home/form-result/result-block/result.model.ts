@@ -44,6 +44,17 @@ export interface Result {
   conjointEnfantsPropres?: boolean;
 }
 
+/**
+ * Map contenant comme:
+ *   - clé, le type de prestation
+ *   - valeur, une fonction retournant la clé du message à afficher dans le bloc de résultats de la prestation.
+ *       Cette valeur peut être un chaîne, qui sera utilisée comme clé de traduction;
+ *       ou un I18nString si l'élément à traduire nécessite des paramètres.
+ */
+export interface MessageEvaluatorByPrestation {
+  [key: string]: () => string | I18nString;
+}
+
 export function resultsComparator(a: Result, b: Result) {
   if (!a.eligible && !b.eligible) {
     if (a.dejaPercue && !b.dejaPercue) {
