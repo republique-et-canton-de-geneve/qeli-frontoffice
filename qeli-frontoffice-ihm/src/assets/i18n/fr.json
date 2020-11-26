@@ -110,7 +110,8 @@
           "plusInformationLink": "https://www.ge.ch/demander-prestations-complementaires-familiales",
           "demandeLink": "https://www.ge.ch/demander-prestations-complementaires-familiales/faire-demande-prestations-complementaires",
           "eligible": "Votre foyer est éligible : ",
-          "explication": "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
+          "explication": "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office",
+          "verifierConcubin": "Attention, il est possible que votre concubin soit éligible aux prestations complémentaires famille. Il devrait faire le questionnaire pour en être sûr."
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
