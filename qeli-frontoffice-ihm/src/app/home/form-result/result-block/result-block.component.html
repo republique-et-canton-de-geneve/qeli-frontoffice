@@ -60,5 +60,8 @@
       </p>
     </span>
 
+    <span *ngIf="isPrestationRefusee && resultsByPrestation.prestation === 'PC_FAM' && isConcubinAvecEnfantsPropres" class="help-block">
+      {{ 'home.result.prestation.' + resultsByPrestation.prestation + '.verifierConcubin'  | translate }}
+    </span>
   </div>
 </div>
