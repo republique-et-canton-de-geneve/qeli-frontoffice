@@ -7,12 +7,11 @@ import { Prestation } from '../../configuration/prestation.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { REPONSE_BINAIRE_OPTIONS } from '../reponse-binaire.model';
 import { Scolarite, typeScolariteOptions } from './scolarite.model';
-import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
 import { AnswerUtils } from '../answer-utils';
 import { QuestionUtils } from '../qeli-questions.utils';
-import { DropdownQuestion } from '../../../dynamic-question/dropdown-question/dropdown-question.model';
+import { DropdownAnswer, DropdownQuestion } from '../../../dynamic-question/dropdown-question/dropdown-question.model';
 
 export const SORTIES_ELIGIBILITE_BOURSES = [
   Scolarite.SCOLARITE_OBLIGATOIRE_1P_A_11P,
@@ -142,9 +141,9 @@ export class FormationQuestionService extends QuestionLoader {
 
   private calculateScolariteRefusFn(membre: Personne): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]) => {
-      const answer = (formData[`scolarite_${membre.id}`] as OptionAnswer<string>).value;
+      const answer = formData[`scolarite_${membre.id}`] as DropdownAnswer;
 
-      if (!answer || SORTIES_ELIGIBILITE_BOURSES.includes(Scolarite[answer.value])) {
+      if (answer.hasSome.value === 'OUI' && SORTIES_ELIGIBILITE_BOURSES.includes(Scolarite[answer.value.value])) {
         return QuestionUtils.createRefusByPrestationAndMembre(
           new EligibiliteGroup(eligibilites, this.demandeur),
           Prestation.BOURSES,
