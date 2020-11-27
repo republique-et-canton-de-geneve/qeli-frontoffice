@@ -77,37 +77,50 @@
       "prestation": {
         "SUBSIDES": {
           "title": "Subsides d'assurance-maladie",
-          "plusInformationLink": "https://ge.ch",
-          "demandeLink": "http://ge.ch",
+          "plusInformationLink": "https://www.ge.ch/informations-generales-subside-assurance-maladie",
+          "demandeLink": "https://www.ge.ch/demander-subside-assurance-maladie-2020",
           "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
           "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
         },
         "AVANCES": {
           "title": "Avances de pensions alimentaires",
+          "plusInformationLink": "https://www.ge.ch/pensions-alimentaires-impayees",
+          "demandeLink": "https://www.ge.ch/pensions-alimentaires-impayees/creancier-aliments-deposer-demande-aupres-du-scarpa",
           "eligible": "Vous êtes éligible : "
         },
         "ALLOCATION_LOGEMENT": {
           "title": "Allocation logement",
+          "plusInformationLink": "https://www.ge.ch/allocation-logement",
+          "demandeLink": "https://www.ge.ch/allocation-logement/demander-allocation-logement",
           "eligible": "Vous êtes éligible : "
         },
         "PC_AVS_AI": {
           "title": "Prestations complémentaires AVS/AI",
+          "plusInformationLink": "https://www.ge.ch/prestations-complementaires-avs/ai",
+          "demandeLink": "https://www.ge.ch/prestations-complementaires-avs/ai/demander-prestations-complementaires-avs/ai",
           "eligible": "Votre foyer est éligible : "
         },
         "BOURSES": {
           "title": "Bourses d'études",
+          "plusInformationLink": "https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage",
+          "demandeLink": "https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage/procedure-demande-bourse-pret",
           "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
           "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
+          "plusInformationLink": "https://www.ge.ch/demander-prestations-complementaires-familiales",
+          "demandeLink": "https://www.ge.ch/demander-prestations-complementaires-familiales/faire-demande-prestations-complementaires",
           "eligible": "Votre foyer est éligible : ",
-          "explication" : "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
+          "explication": "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office",
+          "verifierConcubin": "Attention, il est possible que votre concubin soit éligible aux prestations complémentaires famille. Il devrait faire le questionnaire pour en être sûr."
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
+          "plusInformationLink": "https://www.hospicegeneral.ch/fr/aide_financiere",
+          "demandeLink": "https://www.hospicegeneral.ch/fr/votre-centre-de-quartier",
           "eligible": "Vous êtes éligible : "
         }
       },
@@ -152,7 +165,7 @@
     },
     "toolbar": {
       "home": "Plus d'informations",
-      "link": "https://www.ge.ch/node/10471"
+      "link": "https://www.ge.ch/node/19715"
     }
   },
   "question": {
@@ -166,7 +179,7 @@
     },
     "prestations": {
       "label": "Recevez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} déjà des prestations sociales ? Si oui, lesquelles ? ",
-      "help": "Les prestations sociales sont toutes les aides financières apportées par l'Etat de Genève dans le domaine social et qui dépendent de vos revenus. Elles sont toutes nommées dans la liste des réponses possibles. Les allocations familiales n'en font par exemple pas partie.<br>Si vous n'êtes pas sûr·e de toucher une prestation, laissez la case vide (NE PAS cochez la case).<br>Si vous pensez ne toucher aucune prestation, sélectionnez la case \"Non, je ne reçois aucune prestation sociale / Non, personne de mon foyer ne reçoit de prestation sociale\".",
+      "help": "Les prestations sociales sont toutes les aides financières apportées par l'Etat de Genève dans le domaine social et qui dépendent de vos revenus. Elles sont toutes nommées dans  la liste des réponses possibles. Les allocations familiales n'en font par exemple pas partie.<br>Si vous n'êtes pas sûr.e de toucher une prestation, laissez la case vide (NE PAS cochez la case).<br>Si vous pensez ne toucher aucune prestation, sélectionnez la case \"Non, je ne reçois aucune prestation sociale / Non, personne de mon foyer ne reçoit de prestation sociale\".",
       "option": {
         "SUBSIDES": "{numberOfMemebres, select, 0{Subsides d'assurance-maladie (SAM)} other {{who, select, me{Je reçois} other{{membre} reçoit}} des subsides d'assurance-maladie}}",
         "AVANCES": "Avance de pensions alimentaires (SCARPA)",
@@ -185,16 +198,16 @@
         "BOURSES": "Bourses d'études (SBPE) :"
       },
       "motifRefus": {
-        "SUBSIDES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "SUBSIDES": "Vous avez indiqué toucher une autre prestation qui inclue déjà les subsides",
         "AVANCES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
-        "ALLOCATION_LOGEMENT": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
-        "PC_AVS_AI": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
-        "PC_AVS_AI_ENFANT_AUTRE": "{prenomEnfant} n'est pas votre enfants ou celui de votre partenaire",
-        "PC_FAM": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué toucher une autre prestation (subvention HM ou prestation complémentaire AVS/AI) qui vous empêche de toucher celle-ci",
+        "PC_AVS_AI": "Vous avez indiqué toucher une autre prestation (prestation complémentaire famille) qui vous empêche de toucher celle-ci",
+        "PC_AVS_AI_ENFANT_AUTRE": "{prenomEnfant} n'est pas votre enfant ou celui de votre partenaire",
+        "PC_FAM": "Vous avez indiqué toucher une autre prestation (prestation complémentaire AVS/AI) qui vous empêche de toucher celle-ci",
         "PC_FAM_SANS_ENFANTS": "Vous n'avez aucun enfant à charge",
-        "PC_FAM_SANS_ENFANTS_COMMUN": "Vous avez indiqué ne pas avoir des enfants en commun avec {prenomAutreParent}",
+        "PC_FAM_SANS_ENFANTS_COMMUN": "Vous avez indiqué ne pas avoir d'enfant en commun avec {prenomAutreParent}",
         "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
-        "AIDE_SOCIALE_MINEUR": "Vous êtes mineur au moment de la demande"
+        "AIDE_SOCIALE_MINEUR": "Vous êtes mineur. Vos parents doivent remplir ce questionnaire"
       },
       "error": {
         "required": "Vos prestations doivent être fournie",
@@ -216,7 +229,7 @@
     "scolarite": {
       "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre}}} ?",
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que {who, select, me{vous suivez} other{{membre} suit}} une formation qui ne peut pas faire objet d'une bourse",
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous suivez} other{{membre} suit}} une formation qui ne peut pas faire l'objet d'une bourse",
         "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
         "PC_FAM": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation"
       },
@@ -224,20 +237,40 @@
         "required": "Ce champ est obligatoire"
       }
     },
-    "situationMembre": {
+    "nationalite": {
+      "label": "Ajoutez les nationalité des membres du foyer :",
+      "membre": "Quelle est {who, select, me{votre nationalité} other{la nationalité de {membre}}} ?",
+      "help": "Nationalité : pays dont la personne a un passeport ou une carte d'identité (même si la personne n'a plus le document avec elle)).<br>Si une personne a plusieurs nationalités, indiquez-les toutes.",
+      "error": {
+        "required": "{who, select, me{Votre nationalité} other{La nationalité de {membre}}} doit être fournie"
+      }
+    },
+    "situationPermis": {
       "label": "Décrivez {who, select, me{votre situation} other{la situation de {membre}}} :",
-      "nationalite": {
-        "label": "Quelle est {who, select, me{votre nationalité} other{la nationalité de {membre}}} ?",
-        "help": "Nationalité : pays dont {who, select, me{vous avez} other{{membre} a}} un passeport ou une carte d'identité (même si {who, select, me{vous n'avez} other{{membre} n'a}} plus le document {who, select, me{avec vous} other{}}).<br>Si {who, select, me{vous avez} other{{membre} a}} plusieurs nationalités, indiquez-les toutes.",
+      "typePermis": {
+        "label": "Quel permis de séjour (ou de travail) {who, select, me{avez-vous} other{{membre} a-t-il·elle}} ?",
+        "some": "Indiquez {who, select, me{votre type de permis} other{le type de permis de {membre}}} :",
+        "inconnu": "Je ne sais pas",
         "error": {
-          "required": "{who, select, me{Votre nationalité} other{La nationalité de {membre}}} doit être fournie"
+          "required": "{who, select, me{Votre type de permis} other{Le type de permis de {membre}}} doit être fourni"
         }
       },
-      "refugie": {
-        "label": "{who, select, me{Etes-vous} other{Est {membre}}} :",
-        "help": "Requérant·e d'asile : {who, select, me{Vous avez} other{{membre} a}} déposé une demande d’asile en Suisse et {who, select, me{attendez} other{attend}} une décision du Secrétariat d’Etat aux migrations (SEM).<br>Réfugié·e : {who, select, me{Vous avez} other{{membre} a}} obtenu l'asile en Suisse (statut reconnu/accordé/délivré par l'office cantonal de la population et des migrations (OCPM)).<br>Si {who, select, me{vous avez} other{{membre} a}} été débouté·e de {who, select, me{votre} other{sa}} demande d'asile ou que {who, select, me{vous êtes} other{{membre} est}} en procédure de recours, cocher \"Aucun des deux\".",
+      "complementPermisB": {
+        "label": "{who, select, me{Quel type de permis B avez-vous} other{Quel est le type de permis B de {membre}}} ?",
         "error": {
-          "required": "{who, select, me{Votre statut} other{Le statut de réfugié de {membre}}} doit être fourni"
+          "required": "{who, select, me{Votre type de permis B} other{Le type de permis B de {membre}}} doit être fournie"
+        }
+      },
+      "complementPermisC": {
+        "label": "{who, select, me{Quel type de permis C avez-vous} other{Quel est le type de permis C de {membre}}} ?",
+        "error": {
+          "required": "{who, select, me{Votre type de permis C} other{Le type de permis C de {membre}}} doit être fournie"
+        }
+      },
+      "complementPermisF": {
+        "label": "{who, select, me{Quel type de permis F avez-vous} other{Quel est le type de permis F de {membre}}} ?",
+        "error": {
+          "required": "{who, select, me{Votre type de permis F} other{Le type de permis F de {membre}}} doit être fournie"
         }
       },
       "dateArriveeSuisse": {
@@ -259,14 +292,6 @@
           "BOURSES": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}} est trop récente",
           "PC_AVS_AI": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}} est trop récente"
         }
-      }
-    },
-    "permisBEtudes": {
-      "label": "Qui a un permis B pour raison d'études ?",
-      "membre": "{who, select, me{Avez-vous} other{Est-ce que {membre} a}} un permis B pour raison d'études ?",
-      "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour pour les résidents longue durée qui font des études dans le canton, délivré par l'office cantonal de la population et des migrations (OCPM).<br>ATTENTION : si vous {numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} avez un permis B classique (non étudiant), répondez \"Non\".",
-      "error": {
-        "required": "Ce champ est obligatoire"
       }
     },
     "domicileCantonGE": {
@@ -320,10 +345,10 @@
       "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
       "inconnu": "Je ne sais pas",
       "motifRefus": {
-        "BOURSES": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
-        "PC_FAM": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
-        "PC_AVS_AI": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation",
-        "AIDE_SOCIALE": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} vous empêchent de bénéficier de cette prestation"
+        "BOURSES": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation (assurance-chômage, rente de viellesse (AVS) ou rente d'invalidité (AI))",
+        "PC_FAM": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation (rente AVS ou rente AI)",
+        "PC_AVS_AI": "Vous avez indiqué {who, select, me{ne recevoir} other{que {membre} ne reçoit}} aucune rente (AVS ou AI) ce qui  vous empêche de bénéficier de cette prestation",
+        "AIDE_SOCIALE": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui  vous empêche de bénéficier de cette prestation (rente AVS ou rente AI)"
       },
       "error": {
         "required": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} doivent être fournis",
@@ -360,22 +385,16 @@
       "label": "Quel est {who, select, me{votre taux d'activité} other{le taux d'activité de {membre}}} ?",
       "help": "Taux d'activité : pourcentage (%) de travail payé.<br>Si {who, select, me{vous avez} other{{membre} a}} plusieurs emplois, noter le total (la somme).<br>Si {who, select, me{vos} other{ses}} emplois sont irréguliers, estimer la moyenne d'heures totales par semaine.<br>Exemple : environ 8 heures par semaine.<br>Calcul : 8 : 40 x 100 = 20.<br>Réponse : 20%.<br>Exemples comme : 80% (4 jours complets par semaine ou 6h par jour, 5 jours par semaine)",
       "motifRefus": {
-        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+        "PC_FAM": "Votre taux d'activité est trop faible pour bénéficier des prestations complémentaires famille"
       },
       "error": {
-        "required": "Ce champ est obligatoire",
-        "pattern": "Merci de saisir le taux d'activité",
-        "min": "Erreur dans la saisie du taux d'activité",
-        "max": "Erreur dans la saisie du taux d'activité"
+        "required": "Ce champ est obligatoire, merci de saisir uniquement de chiffres"
       }
     },
     "tauxActiviteDernierEmploi": {
       "label": "Dans {who, select, me{votre dernier emploi} other{le dernier emploi de {membre}}}, quel était {who, select, me{votre} other{son}} taux d'activité ?",
       "error": {
-        "required": "Ce champ est obligatoire",
-        "pattern": "Merci de saisir le taux d'activité",
-        "min": "Erreur dans la saisie du taux d'activité",
-        "max": "Erreur dans la saisie du taux d'activité"
+        "required": "Ce champ est obligatoire, merci de saisir uniquement des chiffres"
       }
     },
     "tauxActiviteVariable6DernierMois": {
@@ -385,7 +404,7 @@
         "NON": "Non, {who, select, me{j'avais} other{{membre} avait}} un taux d'activité fixe "
       },
       "motifRefus": {
-        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+        "PC_FAM": "Votre taux d'activité est trop faible pour bénéficier des prestations complémentaires famille"
       },
       "error": {
         "required": "Ce champ est obligatoire"
@@ -395,7 +414,7 @@
       "label": "En moyenne, quel était {who, select, me{votre taux d'activité} other{le taux d'activité de {membre}}} des 6 derniers mois de travail ?",
       "help": "Moyenne : additionnez les 6 taux d'activité mensuels, puis divisez par 6.<br>Exemple :<br>Vos taux d'activité étaient de 20% en janvier, de 25% en février, de 30% en mars, de 35% en avril, de 40% en mai et de 45% en juin.<br>Calculs : 20 + 25 + 30 + 35 + 40 + 45 = 195<br>195 / 6 = 32.5<br>Notez 32.5 dans la réponse.",
       "motifRefus": {
-        "PC_FAM": "Votre taux d'activité est trop faible par rapport à votre situation"
+        "PC_FAM": "Votre taux d'activité est trop faible pour bénéficier des prestations complémentaires famille"
       },
       "error": {
         "required": "Ce champ est obligatoire",
@@ -428,7 +447,7 @@
       "label": "Combien de pièces a votre logement ?",
       "help": "Le nombre de pièces est mentionné sur votre bail.<br><br>En général, le nombre de pièces est la somme des pièces suivantes :<br>- cuisine<br>- salon<br>- chambre.<br><br>Exemples :<br>Studio : 1 pièce<br>cuisine + chambre : 2 pièces<br>cuisine + salon + 1 chambre : 3 pièces<br>cuisine + salon + 2 chambres : 4 pièces<br><br>Les salles d'eau (bain, douche, WC) et les balcons ne comptent pas comme pièce.<br><br>En cas de différence entre le nombre de pièces que vous avez calculé et le nombre de pièces sur le bail, c'est le nombre de pièces sur le bail qu'il faut noter.<br><br>Ce n'est pas le nombre de chambre.",
       "motifRefus": {
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué un nombre de pièces trop important par rapport au nombre de personnes de votre logement"
+        "ALLOCATION_LOGEMENT": "Le nombre de pièces de votre logement est trop important par rapport au nombre de personnes qui y vivent"
       },
       "error": {
         "required": "Merci de saisir le nombre de pièces",
@@ -465,7 +484,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué {who, select, me{ne pas être affilié} other{que {membre} n'est pas affilié}} à l'assurance maladie suisse (LAMal)"
+        "SUBSIDES": "Vous avez indiqué {who, select, me{ne pas être affilié} other{que {membre} n'est pas affilié}} à l'assurance-maladie suisse (LAMal)"
       }
     },
     "droitPensionAlimentaire": {
@@ -475,7 +494,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AVANCES": "Vous avez indiqué n'avoir pas le droit à une(des) pension(s) alimentaire(s) pour vous-même et/ou pour votre(vos) enfant(s)"
+        "AVANCES": "Vous avez indiqué ne pas avoir droit à une.des pension.s alimentaire.s pour vous-même et/ou pour votre.vos enfant.s"
       }
     },
     "recoisEntierementPensionAlimentaire": {
@@ -485,7 +504,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires auxquelles vous avez le droit"
+        "AVANCES": "Vous avez indiqué que vous recevez entièrement le montant des pensions alimentaires auxquelles vous avez droit"
       }
     },
     "fortuneSuperieureA": {
@@ -495,7 +514,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "AIDE_SOCIALE": "Vous avez indiqué avoir une fortune trop élevée"
+        "AIDE_SOCIALE": "La fortune que vous avez indiquée est trop élevée"
       }
     },
     "impotFortune": {
@@ -515,12 +534,12 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "SUBSIDES": "Vous avez indiqué être exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés)"
+        "SUBSIDES": "Vous avez indiqué être exempté de l'impôt"
       }
     },
     "fonctionnaireInternational": {
       "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} un parent fonctionnaire internationnal ?",
-      "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il.elle fonctionnaire international.e à Genève ?",
+      "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il·elle fonctionnaire international.e à Genève ?",
       "help": "Fonctionnaire international : Les missions diplomatiques, les ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.<br>Parents : la mère ou le père.",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -537,7 +556,7 @@
         "required": "Ce champ est obligatoire"
       },
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué que {who, select, me{vos parents} other{les parents de {membre}}} ne sont pas contribuable sur le canton de Genève"
+        "BOURSES": "Vous avez indiqué que {who, select, me{vos parents} other{les parents de {membre}}} ne sont pas contribuables sur le canton de Genève"
       }
     }
   },
@@ -575,17 +594,30 @@
       "label": "Apatride",
       "help": "Apatride : Personne n'ayant pas de nationalité (statut accordé/délivré par le Secrétariat d’Etat aux migrations (SEM))."
     },
-    "requerantRefugie": {
-      "REQUERANT_ASILE": {
-        "label": "Requérant d'asile",
-        "help": "{who, select, me{Vous avez} other{{membre} a}} déposé une demande d’asile en Suisse et {who, select, me{attendez} other{attend}} une décision du Secrétariat d’Etat aux migrations (SEM)."
-      },
-      "REFUGIE": {
-        "label": "Réfugié",
-        "help": "{who, select, me{Vous avez} other{{membre} a}} obtenu l'asile en Suisse (statut reconnu/accordé/délivré par l'office cantonal de la population et des migrations (OCPM))."
-      },
-      "AUCUN": "Aucun des deux",
-      "INCONNU": "Je ne sais pas"
+    "typePermis": {
+      "B": "Permis B",
+      "C": "Permis C",
+      "F": "Permis F",
+      "G": "Permis G",
+      "L": "Permis L",
+      "N": "Permis N",
+      "S": "Permis S",
+      "AUCUN": "Aucun"
+    },
+    "typePermisB": {
+      "ETUDES": "Permis B étudiant",
+      "UE_AELE": "Permis B UE/AELE",
+      "REFUGIE": "Permis B Refugié"
+    },
+    "typePermisC": {
+      "UE_AELE": "Permis C UE/AELE",
+      "CI_UE_AELE": "Permis Ci UE/AELE",
+      "CI": "Permis Ci",
+      "REFUGIE": "Permis C Refugié"
+    },
+    "typePermisF": {
+      "F": "Permis F",
+      "REFUGIE": "Permis F Refugié"
     },
     "typeEnfant": {
       "MOI": "Mon enfant",
@@ -665,8 +697,10 @@
       "VEUF_SANS_RENTE": "{who, select, me{Je suis} other{{membre} est}} veuf·ve (sans rente)"
     },
     "taux": {
-      "selectboxOption": "Sélectionnez un taux :",
-      "textboxOption": "Saisissez le taux souhaité :"
+      "percentageOption": "Saisissez le taux souhaité :",
+      "hourlyOption": "Saisissez le nombre d'heures travaillés par semaine :",
+      "hourlySuffix": "heures / semaines",
+      "calculatedTaux": "Votre taux d'activité est de : {weeklyTaux} %"
     },
     "pays": {
       "af": "Afghanistan",

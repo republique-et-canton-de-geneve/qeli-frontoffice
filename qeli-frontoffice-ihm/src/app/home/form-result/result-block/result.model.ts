@@ -37,6 +37,11 @@ export interface Result {
    * Le motif de refus.
    */
   motifRefus?: I18nString;
+  /**
+   * Si le conjoint a des enfants propres, true; false, sinon.
+   * Calculé uniquement pour le demandeur.
+   */
+  conjointEnfantsPropres?: boolean;
 }
 
 export function resultsComparator(a: Result, b: Result) {

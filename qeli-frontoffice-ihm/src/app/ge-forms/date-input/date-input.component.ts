@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import * as moment from 'moment';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { BowserService } from '../../core/bowser/bowser.service';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { NgbDateTransformer } from './ngb-date.transformer';
 
 @Component({

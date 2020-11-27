@@ -3,7 +3,7 @@ import {
   CheckboxGroupAnswer, CheckboxGroupAnswerSchema, CheckboxGroupQuestion
 } from '../checkbox-group-question/checkbox-group-question.model';
 import { DateAnswer, DateAnswerSchema, DateQuestion } from '../date-question/date-question.model';
-import { DropdownQuestion } from '../dropdown-question/dropdown-question.model';
+import { DropdownAnswer, DropdownAnswerSchema, DropdownQuestion } from '../dropdown-question/dropdown-question.model';
 import {
   NationaliteAnswer, NationaliteAnswerSchema, NationaliteQuestion
 } from '../nationalite-question/nationalite-question.model';
@@ -54,8 +54,13 @@ export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
   }
 
   visitDropdownQuestion(question: DropdownQuestion): Answer {
-    const value = question.dropdownOptions.find(option => option.value === this.rawAnswer);
-    return new OptionAnswer({value: value});
+    const value = this.rawAnswer['value'] as string;
+    const someOption = this.rawAnswer['hasSome'] as 'OUI' | 'INCONNU';
+
+    return new DropdownAnswer({
+      value: question.dropdownOptions.find(option => option.value === value),
+      hasSome: question.findHasSomeOptionByKey(someOption)
+    });
   }
 
   visitNationaliteQuestion(question: NationaliteQuestion): Answer {
@@ -79,14 +84,11 @@ export class ToAnswerVisitor implements QuestionVisitorModel<Answer> {
   }
 
   visitTauxQuestion(question: TauxQuestion): Answer {
-    console.log(this.rawAnswer['value']);
-    const toto = new TauxAnswer({
+    return new TauxAnswer({
       value: parseInt(this.rawAnswer['value']),
-      other: this.rawAnswer['other'] as boolean
+      isHourly: this.rawAnswer['isHourly'] as boolean,
+      workingHoursByWeek: question.workingHoursByWeek
     });
-
-    console.log(toto.value);
-    return toto;
   }
 
   visitTextQuestion(question: TextQuestion): Answer {
@@ -123,7 +125,7 @@ export class FromSchemaToAnswerVisitor implements QuestionVisitorModel<Answer> {
   }
 
   visitDropdownQuestion(question: DropdownQuestion): Answer {
-    return new OptionAnswer(this.schemaAnswer as SimpleAnswerSchema<QuestionOption<string>>);
+    return new DropdownAnswer(this.schemaAnswer as DropdownAnswerSchema);
   }
 
   visitNationaliteQuestion(question: NationaliteQuestion): Answer {

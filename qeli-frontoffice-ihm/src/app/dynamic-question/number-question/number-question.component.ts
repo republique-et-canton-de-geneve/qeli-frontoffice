@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { NUMBER_GROUP_TYPE, NumberQuestion } from './number-question.model';
 import { FormGroup } from '@angular/forms';
@@ -15,24 +15,6 @@ export class NumberQuestionComponent implements QuestionComponent<NumberAnswer> 
   @Input() question: NumberQuestion;
   @Input() form: FormGroup;
   @Input() disableFocusOnInit: boolean;
-
-  isNumber(event: KeyboardEvent) {
-    const target = event.target as HTMLInputElement;
-
-    if (event.key === '-' && (this.question.min >= 0 || target.value.length > 0)) {
-      return false;
-    }
-
-    if (event.key === ',' && (!this.question.showDecimals || target.value.includes(','))) {
-      return false;
-    }
-
-    if (this.question.showDecimals) {
-      return /[-\d,]/.test(event.key);
-    } else {
-      return /[-\d]/.test(event.key);
-    }
-  }
 
   get isValid() {
     return this.form.controls[this.question.key].pristine ||

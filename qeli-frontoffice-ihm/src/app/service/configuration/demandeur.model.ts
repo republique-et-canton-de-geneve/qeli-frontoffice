@@ -51,7 +51,7 @@ export abstract class Personne {
    */
   dateNaissance: Date;
 
-  constructor(options: PersonneSchema) {
+  protected constructor(options: PersonneSchema) {
     this.id = options.id;
     this.prenom = options.prenom;
     this.dateNaissance = options.dateNaissance;
@@ -103,6 +103,9 @@ export class Demandeur extends Personne {
     this.membresFamille = (options.membresFamille || []).map(membre => new MembreFamille(membre));
   }
 
+  /**
+   * Crée les éligibilités de base pour le demandeur et les membres de sa famille.
+   */
   toEligibilite(): Eligibilite[] {
     const eligibilites: Eligibilite[] = [];
 
@@ -110,7 +113,7 @@ export class Demandeur extends Personne {
           .filter(prestation => prestation !== Prestation.SUBVENTION_HM)
           .forEach(prestation => eligibilites.push({
             prestation: prestation,
-            membre: this
+            membreId: this.id
           }));
 
 
@@ -121,6 +124,19 @@ export class Demandeur extends Personne {
     );
 
     return eligibilites;
+  }
+
+  /**
+   * Retrouve un membre par son id.
+   *
+   * @param id l'id du membre.
+   */
+  findMembrebyId(id: number): Personne {
+    if (id === this.id) {
+      return this;
+    }
+
+    return this.membresFamille.find(membre => membre.id === id);
   }
 
   /**
@@ -200,7 +216,7 @@ export class MembreFamille extends Personne {
 
     return prestations.map(prestation => ({
       prestation: prestation,
-      membre: this
+      membreId: this.id
     }));
   }
 

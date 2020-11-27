@@ -14,6 +14,7 @@ import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
 import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
 
 const cookieConfig: NgcCookieConsentConfig = {
+  enabled: false,
   cookie: {
     domain: 'localhost:4200'
   },

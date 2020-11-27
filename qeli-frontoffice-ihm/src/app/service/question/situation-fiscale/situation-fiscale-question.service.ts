@@ -8,7 +8,6 @@ import {
 } from '../../../dynamic-question/composite-question/composite-question.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
-import { RequerantRefugie } from '../nationalite/requerant-refugie.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { AnswerUtils } from '../answer-utils';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
@@ -17,10 +16,11 @@ import * as moment from 'moment';
 import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { QuestionUtils } from '../qeli-questions.utils';
+import { TypePermisB, TypePermisC, TypePermisF } from '../nationalite/type-permis.model';
 
 export class SituationFiscaleQuestionService extends QuestionLoader {
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
-    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite());
+    const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
     const membres = ([this.demandeur] as (Personne)[]).concat(this.demandeur.membresFamille);
     const generateTranslateParams = (value: any) => {
       const hasPartenaire = this.demandeur.hasConjoint || (
@@ -52,6 +52,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
           'exempteImpot',
           ReponseProgressive.OUI,
           Prestation.SUBSIDES,
+          this.demandeur,
           eligibilite => ({key: `question.exempteImpot.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.SUBSIDES),
@@ -83,15 +84,18 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
               radioOptions: REPONSE_PROGRESSIVE_OPTIONS
             }),
             isShown: (value: any) => {
-              const situation = value[`situationMembre_${membre.id}`];
-              const refugie = situation ? situation['refugie'] : null;
-              return refugie !== RequerantRefugie.REFUGIE;
+              const situationPermis = value[`situationPermis_${membre.id}`];
+              return !situationPermis || !(
+                situationPermis['complementPermisB'] === TypePermisB.REFUGIE ||
+                situationPermis['complementPermisC'] === TypePermisC.REFUGIE ||
+                situationPermis['complementPermisF'] === TypePermisF.REFUGIE
+              );
             }
           }))
         }),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.BOURSES),
         skip: formData => membres.every(membre => AnswerUtils.isRefugie(formData, membre)),
-        calculateRefus: this.calculateFonctionnaireInternationalRefus,
+        calculateRefus: this.calculateFonctionnaireInternationalRefus.bind(this),
         categorie: Categorie.SITUATION_FISCALE
       }, {
         question: new CompositeQuestion({
@@ -116,9 +120,9 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
                 inline: true
               }),
               isShown: (value: any) => {
-                const answers = value['permisBEtudes'];
-                const permisBEtudes = answers ? answers[`permisBEtudes_${membre.id}`] : null;
-                return permisBEtudes && permisBEtudes === ReponseProgressive.OUI;
+                // S'il a un permis B pour raison d'études
+                const situationPermis = value[`situationPermis_${membre.id}`];
+                return situationPermis && situationPermis['complementPermisB'] === TypePermisB.ETUDES;
               }
             };
           })
@@ -129,7 +133,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
             return AnswerUtils.hasPermisBEtudes(formData, membre);
           });
         },
-        calculateRefus: this.calculateRefusParentsHabiteFranceTravailleSuisse,
+        calculateRefus: this.calculateRefusParentsHabiteFranceTravailleSuisse.bind(this),
         categorie: Categorie.SITUATION_FISCALE
       }
     ];
@@ -144,10 +148,10 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
     formData: FormData, eligibilites: Eligibilite[]
   ): EligibiliteRefusee[] {
     const answers = (formData['fonctionnaireInternational'] as CompositeAnswer).answers;
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
     return eligibiliteGroup.findByPrestation(Prestation.BOURSES).filter(eligibilite => {
-      const answer = (answers[`fonctionnaireInternational_${eligibilite.membre.id}`] as OptionAnswer<string>);
+      const answer = (answers[`fonctionnaireInternational_${eligibilite.membreId}`] as OptionAnswer<string>);
       const choice = answer ? answer.value : null;
       return choice && choice.value === ReponseProgressive.OUI;
     }).map(eligibilite => ({
@@ -155,8 +159,8 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
       motif: {
         key: `question.fonctionnaireInternational.motifRefus.${Prestation.BOURSES}`,
         parameters: {
-          who: eligibilite.membre.id === 0 ? 'me' : 'them',
-          membre: eligibilite.membre.prenom
+          who: eligibilite.membreId === 0 ? 'me' : 'them',
+          membre: this.demandeur.findMembrebyId(eligibilite.membreId).prenom
         }
       }
     }));
@@ -165,18 +169,21 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
   private calculateRefusParentsHabiteFranceTravailleSuisse(
     formData: FormData, eligibilites: Eligibilite[]
   ): EligibiliteRefusee[] {
-    const eligibiliteGroup = new EligibiliteGroup(eligibilites);
+    const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
     const answers = (formData[`parentsHabiteFranceTravailleSuisse`] as CompositeAnswer).answers;
 
     return eligibiliteGroup.findByPrestation(Prestation.BOURSES).filter(eligibilite => {
-      const answer = (answers[`parentsHabiteFranceTravailleSuisse_${eligibilite.membre.id}`] as OptionAnswer<string>);
+      const answer = (answers[`parentsHabiteFranceTravailleSuisse_${eligibilite.membreId}`] as OptionAnswer<string>);
       const choice = answer ? answer.value : null;
       return choice && choice.value === ReponseProgressive.NON;
     }).map(eligibilite => ({
       eligibilite: eligibilite,
       motif: {
         key: `question.parentsHabiteFranceTravailleSuisse.motifRefus.${eligibilite.prestation}`,
-        parameters: {who: eligibilite.membre.id === 0 ? 'me' : 'them', membre: eligibilite.membre.prenom}
+        parameters: {
+          who: eligibilite.membreId === 0 ? 'me' : 'them',
+          membre: this.demandeur.findMembrebyId(eligibilite.membreId).prenom
+        }
       }
     } as EligibiliteRefusee));
   }

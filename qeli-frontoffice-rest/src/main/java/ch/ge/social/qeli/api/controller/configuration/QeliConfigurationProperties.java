@@ -82,6 +82,12 @@ public class QeliConfigurationProperties {
   private int taxationAfcYearsFromNow = 2;
 
   /**
+   * Le nombre d'heure de travail par semaine (consideré comme 100% pour les taux d'activité)
+   */
+  @JsonProperty
+  private int heuresTravailParSemaine = 40;
+
+  /**
    * La configuration matomo.
    */
   @JsonProperty
@@ -89,6 +95,13 @@ public class QeliConfigurationProperties {
   @Valid
   @NestedConfigurationProperty
   private MatomoConfiguration matomo;
+
+
+  /**
+   * Active ou désactive le bandeau cookie
+   */
+  @JsonProperty
+  private boolean cookieBannerEnabled = false;
 
   @JsonProperty
   @NestedConfigurationProperty

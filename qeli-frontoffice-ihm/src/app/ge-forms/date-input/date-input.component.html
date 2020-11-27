@@ -16,7 +16,7 @@
            [attr.disabled]="disabled ? 'disabled' : null"
            [attr.required]="required"
            [attr.aria-required]="required"
-           [attr.aria-invalid]="isValid"
+           [attr.aria-invalid]="!isValid"
            type="text"
            class="form-control"
            #textInputDate

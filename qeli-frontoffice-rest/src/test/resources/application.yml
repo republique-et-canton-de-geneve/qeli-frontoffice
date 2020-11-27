@@ -8,10 +8,14 @@ social.tools.qeli:
   limite-fortune-conjoint: 4000
   max-limite-fortune: 10000
   taxation-afc-years-from-now: 2
+  heures-travail-par-semaine: 40
 
   matomo:
     server: ***REMOVED***
     site-id: 15
+    enabled: true
+
+  cookie-banner-enabled: false
 
   api:
     pdf.enabled: true

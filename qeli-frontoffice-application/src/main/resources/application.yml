@@ -17,8 +17,11 @@ social.tools:
     limite-fortune-conjoint: 4000
     max-limite-fortune: 10000
     taxation-afc-years-from-now: 2
-    deep-link-enabled: false
+    heures-travail-par-semaine: 40
+    deep-link-enabled: true
     api.pdf.enabled: false
+    api.stats.enabled: true
+    cookie-banner-enabled: false
 
 spring:
   application:
