@@ -98,7 +98,7 @@ export class LogementQuestionService extends QuestionLoader {
         }),
         calculateRefus: QuestionUtils.rejectPrestationFn(
           data => {
-            const nbPersonnes = (data['nombreDePersonnesLogement'] as NumberAnswer).value;
+            const nbPersonnes = this.demandeur.nombrePersonnesFoyer;
             const nbPieces = (data['nombreDePiecesLogement'] as NumberAnswer).value;
             return (nbPieces - nbPersonnes) > 2;
           },
