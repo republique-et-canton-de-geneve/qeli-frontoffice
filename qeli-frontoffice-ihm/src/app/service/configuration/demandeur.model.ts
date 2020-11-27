@@ -10,6 +10,8 @@ export enum Relation {
   PARTENAIRE_ENREGISTRE = 'PARTENAIRE_ENREGISTRE',
   CONCUBIN              = 'CONCUBIN',
   ENFANT                = 'ENFANT',
+  COLOCATAIRE           = 'COLOCATAIRE',
+  AUTRE                 = 'AUTRE',
 }
 
 /**
@@ -78,7 +80,6 @@ export abstract class Personne {
 export interface DemandeurSchema extends PersonneSchema {
   etatCivil: EtatCivil;
   membresFamille?: MembreFamilleSchema[];
-  autresMembres: boolean;
 }
 
 /**
@@ -96,16 +97,10 @@ export class Demandeur extends Personne {
    */
   membresFamille: MembreFamille[];
 
-  /**
-   * Si le demandeur habite avec d'autre personnes qui n'ont aucun rapport avec son éligibilité.
-   */
-  autresMembres: boolean;
-
   constructor(options: DemandeurSchema) {
     super(options);
     this.etatCivil = options.etatCivil;
     this.membresFamille = (options.membresFamille || []).map(membre => new MembreFamille(membre));
-    this.autresMembres = options.autresMembres;
   }
 
   /**
@@ -177,6 +172,13 @@ export class Demandeur extends Personne {
     return this.membresFamille.some(membre => membre.relation === Relation.CONCUBIN);
   }
 
+  /**
+   * Nombre total des personnes du foyer, demandeur inclu.
+   */
+  get nombrePersonnesFoyer(): number {
+    return this.membresFamille.length + 1;
+  }
+
 }
 
 export interface MembreFamilleSchema extends PersonneSchema {
@@ -231,5 +233,12 @@ export class MembreFamille extends Personne {
    */
   get isConcubin() {
     return this.relation === Relation.CONCUBIN;
+  }
+
+  /**
+   * Si les informations de saisie de ce membre sont optionnelles
+   */
+  get isOptional() {
+    return this.relation === Relation.COLOCATAIRE || this.relation === Relation.AUTRE;
   }
 }

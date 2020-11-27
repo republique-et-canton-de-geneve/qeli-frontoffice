@@ -31,7 +31,9 @@
             "PARTENAIRE_ENREGISTRE": "Conjoint",
             "CONCUBIN": "Concubin·e",
             "ENFANT": "Enfant { index }",
-            "DEFAULT": "Membre { index }"
+            "DEFAULT": "Membre { index }",
+            "COLOCATAIRE": "Colocataire { index }",
+            "AUTRE": "Autre { index }"
           }
         },
         "relation": {
@@ -40,7 +42,9 @@
             "EPOUX": "Epoux·se",
             "PARTENAIRE_ENREGISTRE": "Partenaire enregistré·e",
             "CONCUBIN": "Concubin·e",
-            "ENFANT": "Enfant "
+            "ENFANT": "Enfant ",
+            "COLOCATAIRE": "Colocataire",
+            "AUTRE": "Autre (parent, grand-parent, etc.)"
           }
         },
         "dateNaissance": {
@@ -49,7 +53,7 @@
         "supprimer": "Supprimer le dernier membre",
         "ajouter": "Ajouter un autre membre"
       },
-      "autresCheckbox": "Je vis avec d'autres personnes qui ne sont ni mon conjoint, ni mon concubin, ni mes enfants. Par exemple : mes parents, des colocataires, etc.",
+      "nombrePersonnesFoyer": "{totalPersonnesFoyer} {totalPersonnesFoyer, select, 1{personne habite} other{personnes habitent}} dans votre foyer (y compris vous)",
       "errors": {
         "uniquePrenom": "Les prénoms doivent être différents. Vous pouvez ajouter une lettre ou un chiffre pour les différencier.",
         "required": "Ce champ est obligatoire",
@@ -206,7 +210,7 @@
         "AIDE_SOCIALE_MINEUR": "Vous êtes mineur. Vos parents doivent remplir ce questionnaire"
       },
       "error": {
-        "required": "Vos prestations doivent être fournie",
+        "required": "Vos prestations doivent être fournies",
         "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
       }
     },
@@ -254,19 +258,19 @@
       "complementPermisB": {
         "label": "{who, select, me{Quel type de permis B avez-vous} other{Quel est le type de permis B de {membre}}} ?",
         "error": {
-          "required": "{who, select, me{Votre type de permis B} other{Le type de permis B de {membre}}} doit être fournie"
+          "required": "{who, select, me{Votre type de permis B} other{Le type de permis B de {membre}}} doit être fourni"
         }
       },
       "complementPermisC": {
         "label": "{who, select, me{Quel type de permis C avez-vous} other{Quel est le type de permis C de {membre}}} ?",
         "error": {
-          "required": "{who, select, me{Votre type de permis C} other{Le type de permis C de {membre}}} doit être fournie"
+          "required": "{who, select, me{Votre type de permis C} other{Le type de permis C de {membre}}} doit être fourni"
         }
       },
       "complementPermisF": {
         "label": "{who, select, me{Quel type de permis F avez-vous} other{Quel est le type de permis F de {membre}}} ?",
         "error": {
-          "required": "{who, select, me{Votre type de permis F} other{Le type de permis F de {membre}}} doit être fournie"
+          "required": "{who, select, me{Votre type de permis F} other{Le type de permis F de {membre}}} doit être fourni"
         }
       },
       "dateArriveeSuisse": {
@@ -437,16 +441,6 @@
       },
       "error": {
         "required": "Ce champ est obligatoire"
-      }
-    },
-    "nombreDePersonnesLogement": {
-      "label": "Combien de personnes vivent dans votre logement ?",
-      "help": "N'oubliez pas de vous compter.<br>Les enfants doivent être inclus.",
-      "error": {
-        "required": "Merci de saisir le nombre de personnes",
-        "pattern": "Merci de saisir le nombre de personnes",
-        "min": "Il ne peut y avoir moins d'une personne",
-        "max": "Erreur dans la saisie du nombre de personnes"
       }
     },
     "nombreDePiecesLogement": {
