@@ -2,6 +2,7 @@
   <div *ngIf="useNativeInputDate">
     <input [id]="identifier"
            [attr.disabled]="disabled ? 'disabled' : null"
+           [attr.required]="required"
            [attr.aria-required]="required"
            [attr.aria-invalid]="isValid"
            [formControlName]="controlName"
@@ -13,6 +14,7 @@
     <input [id]="identifier"
            [focusOnInit]="focusOnInit"
            [attr.disabled]="disabled ? 'disabled' : null"
+           [attr.required]="required"
            [attr.aria-required]="required"
            [attr.aria-invalid]="!isValid"
            type="text"
