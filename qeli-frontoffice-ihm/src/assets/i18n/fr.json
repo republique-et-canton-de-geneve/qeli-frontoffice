@@ -224,6 +224,11 @@
     },
     "scolarite": {
       "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre}}} ?",
+      "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I).<br>Formation doctorale : Le doctorat est une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue.<br>Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale.",
+      "typeScolarite": {
+        "label": "Indiquez le type de formation",
+        "inconnu": "Je ne sais pas"
+      },
       "motifRefus": {
         "BOURSES": "Vous avez indiqué que {who, select, me{vous suivez} other{{membre} suit}} une formation qui ne peut pas faire l'objet d'une bourse",
         "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
@@ -651,21 +656,17 @@
       "INCONNU": "Je ne sais pas"
     },
     "scolarite": {
-      "SCOLARITE_OBLIGATOIRE_1P_A_10P": "La scolarité obligatoire, de 1 P à 10 P",
-      "SCOLARITE_OBLIGATOIRE_11P": {
-        "label": "La scolarité obligatoire, en 11 P",
-        "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I)."
-      },
-      "FORMATION_DOCTORALE": {
-        "label": "Un doctorat",
-        "help": "Formation doctorale : Le doctorat est une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
-      },
-      "FORMATION_CONTINUE": {
-        "label": "Une formation continue",
-        "help": "Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
-      },
-      "AUCUNE": "Aucune de ces réponses",
-      "INCONNU": "Je ne sais pas"
+      "SCOLARITE_OBLIGATOIRE_1P_A_11P": "École obligatoire (primaire et cycle d'orientation, 1P - 11P)",
+      "COLLEGE_APRENTISSAGE": "Collège, école de culture générale (ECG), apprentissage (y compris école de commerce)",
+      "CLASSE_PREPARATOIRE": "Classe préparatoire",
+      "ECOLE_SUPERIEUR": "École supérieure (ES)",
+      "BREVET": "Brevet ou diplôme fédéral",
+      "UNIVERSITE_MASTER": "Université, haute école spécialisée HES (bachelor ou master)",
+      "UNIVERSITE_DOCTORAT": "Université, haute école spécialisée HES (doctorat)",
+      "FORMATION_CONTINUE_CERTIFIANTE": "Formation continue (CAS, DAS, MAS)",
+      "FORMATION_CONTINUE_COURTE": "Formation continue de moins d'une année",
+      "FORMATION_CONTINUE_AUTRE": "Formation continue (autre)",
+      "AUTRE_FORMATION": "Autre formation"
     },
     "typeRevenus": {
       "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé",
