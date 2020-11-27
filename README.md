@@ -19,7 +19,7 @@ Le questionnaire d'éligibilité aux prestations sociales est une e-démarche d�
  la planification foncière (OCLPF)](https://www.ge.ch/organisation/office-cantonal-du-logement-planification-fonciere).
  - Prestations complémentaires AVS/AI, délivrées par le [service des
  prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires).
- - Bourse d'études, délivrée par le [service des bourses et prêts d'étiudes
+ - Bourse d'études, délivrée par le [service des bourses et prêts d'études
  (SBPE)](https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage).
  - Prestations complémentaires familiales, délivrées par le [service des
  prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires).

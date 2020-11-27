@@ -44,7 +44,6 @@ export class FormSetupComponent {
       prenom: new FormControl(demandeur ? demandeur.prenom : null, this.uniquePrenomValidator.bind(this)),
       etatCivil: new FormControl(demandeur ? demandeur.etatCivil : null, Validators.required),
       dateNaissance: new FormControl(demandeur ? demandeur.dateNaissance : null, this.dateNaissanceValidators),
-      autresMembres: new FormControl(demandeur && demandeur.autresMembres, null),
       membresFamille: this.fb.array([])
     });
 
@@ -92,14 +91,25 @@ export class FormSetupComponent {
       this.membresFamille.push(
         this.fb.group({
           id: new FormControl(membre ? membre.id : this.numberOfMembres + 1),
-          prenom: new FormControl(membre ? membre.prenom : null, this.uniquePrenomValidator.bind(this)),
+          prenom: new FormControl(membre ? membre.prenom : null,
+            membre && !membre.isOptional ? this.uniquePrenomValidator.bind(this) : null),
           relation: new FormControl(membre ? membre.relation : null, Validators.required),
-          dateNaissance: new FormControl(membre ? membre.dateNaissance : null, this.dateNaissanceValidators)
+          dateNaissance: new FormControl(membre ? membre.dateNaissance : null,
+            membre && !membre.isOptional ? this.dateNaissanceValidators : null)
         })
       );
 
       this.numberOfMembres += 1;
     }
+  }
+
+  onRelationChange(event, membreIndex: number) {
+    if (event.target.value === Relation.COLOCATAIRE || event.target.value === Relation.AUTRE) {
+      this.membresFamille.controls[membreIndex].get('dateNaissance').clearValidators();
+    } else {
+      this.membresFamille.controls[membreIndex].get('dateNaissance').setValidators(this.dateNaissanceValidators);
+    }
+    this.membresFamille.controls[membreIndex].get('dateNaissance').updateValueAndValidity();
   }
 
   getDefaultPrenomByMembre(membre: MembreFamilleSchema) {
@@ -149,6 +159,9 @@ export class FormSetupComponent {
       relationOptions.push(Relation.CONCUBIN);
     }
 
+    relationOptions.push(Relation.COLOCATAIRE);
+    relationOptions.push(Relation.AUTRE);
+
     return relationOptions;
   }
 
@@ -193,6 +206,14 @@ export class FormSetupComponent {
 
   isInvalid(control: AbstractControl) {
     return !control.pristine && !control.valid;
+  }
+
+  isRequired(control: AbstractControl) {
+    return !!(control.errors && control.errors.required);
+  }
+
+  isDisabled(control: AbstractControl, isLast: boolean) {
+    return (!isLast || control.value === Relation.COLOCATAIRE || control.value === Relation.AUTRE)
   }
 
   displayErrors() {
