@@ -6,6 +6,7 @@ import { QuestionRegistryModel } from './model/question-registry.model';
 import { Question } from './model/question.model';
 import { I18nString } from '../core/i18n/i18nstring.model';
 import { FormUtils } from '../ge-forms/form-utils';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dynamic-question',
@@ -21,6 +22,7 @@ export class DynamicQuestionComponent {
   label: I18nString;
   help: I18nString;
   preface: I18nString;
+  questionValueChangeSubscription: Subscription;
 
   @ViewChild(QuestionDirective, {static: true}) questionDirective: QuestionDirective;
 
@@ -36,7 +38,20 @@ export class DynamicQuestionComponent {
     this.label = this.resolveI18nString(question.label);
     this.help = this.resolveI18nString(question.help);
     this.preface = this.resolveI18nString(question.preface);
+
+    this.loadOnValueChangeSubscription();
     this.loadComponent();
+  }
+
+  private loadOnValueChangeSubscription() {
+    if (this.questionValueChangeSubscription) {
+      this.questionValueChangeSubscription.unsubscribe();
+    }
+    if (this.question.onValueChanged) {
+      this.questionValueChangeSubscription = this.form.valueChanges.subscribe(
+        () => this.question.onValueChanged(this.form)
+      );
+    }
   }
 
   get isValid() {

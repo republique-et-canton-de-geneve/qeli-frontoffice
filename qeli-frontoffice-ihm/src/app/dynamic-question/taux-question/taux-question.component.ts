@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { TAUX_CONTROL_TYPE, TauxQuestion } from './taux-question.model';
 import { FormGroup } from '@angular/forms';
@@ -16,25 +16,24 @@ export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
   @Input() form: FormGroup;
   @Input() disableFocusOnInit: boolean;
 
-  options = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
-
-  isNumber(event: KeyboardEvent) {
-    const target = event.target as HTMLInputElement;
-
-    if (event.key === ',' && target.value.includes(',')) {
-      return false;
-    }
-
-    return /[\d,]/.test(event.key);
-  }
-
-  onOtherChanged() {
+  onTypeOfInputChanged() {
     this.formGroup.controls['value'].setValue(null);
     this.formGroup.markAsPristine();
   }
 
-  get isOtherSelected() {
-    return !!this.formGroup.value['other'];
+  get weeklyTaux() {
+    if (this.isHourlyInputSelected) {
+      const value = this.formGroup.controls['value'].value;
+      if (value || value === 0) {
+        const percentage = value / this.question.workingHoursByWeek * 100
+        return Math.round(percentage * 10) / 10;
+      }
+    }
+    return null;
+  }
+
+  get isHourlyInputSelected() {
+    return !!this.formGroup.value['isHourly'];
   }
 
   private get formGroup() {

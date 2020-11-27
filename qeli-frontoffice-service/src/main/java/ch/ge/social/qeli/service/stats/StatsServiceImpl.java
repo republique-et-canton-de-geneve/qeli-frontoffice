@@ -92,7 +92,7 @@ public class StatsServiceImpl implements StatsService {
         return new StatsDataLine(uuid,
                                  StatsDataLineType.RESULTAT,
                                  eligibilite.getPrestation().name(),
-                                 membreIdToRelation(eligibilite.getMembre().getId(), demandeur),
+                                 membreIdToRelation(eligibilite.getMembreId(), demandeur),
                                  status.name());
       });
   }
@@ -105,7 +105,7 @@ public class StatsServiceImpl implements StatsService {
                          uuid,
                          StatsDataLineType.RESULTAT,
                          eligibilite.getPrestation().name(),
-                         membreIdToRelation(eligibilite.getMembre().getId(), demandeur),
+                         membreIdToRelation(eligibilite.getMembreId(), demandeur),
                          ResultStatus.ELIGIBLE.name())
                        );
   }
