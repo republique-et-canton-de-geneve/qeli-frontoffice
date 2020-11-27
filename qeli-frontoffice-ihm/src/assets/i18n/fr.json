@@ -210,7 +210,7 @@
         "AIDE_SOCIALE_MINEUR": "Vous êtes mineur. Vos parents doivent remplir ce questionnaire"
       },
       "error": {
-        "required": "Vos prestations doivent être fournie",
+        "required": "Vos prestations doivent être fournies",
         "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
       }
     },
@@ -258,19 +258,19 @@
       "complementPermisB": {
         "label": "{who, select, me{Quel type de permis B avez-vous} other{Quel est le type de permis B de {membre}}} ?",
         "error": {
-          "required": "{who, select, me{Votre type de permis B} other{Le type de permis B de {membre}}} doit être fournie"
+          "required": "{who, select, me{Votre type de permis B} other{Le type de permis B de {membre}}} doit être fourni"
         }
       },
       "complementPermisC": {
         "label": "{who, select, me{Quel type de permis C avez-vous} other{Quel est le type de permis C de {membre}}} ?",
         "error": {
-          "required": "{who, select, me{Votre type de permis C} other{Le type de permis C de {membre}}} doit être fournie"
+          "required": "{who, select, me{Votre type de permis C} other{Le type de permis C de {membre}}} doit être fourni"
         }
       },
       "complementPermisF": {
         "label": "{who, select, me{Quel type de permis F avez-vous} other{Quel est le type de permis F de {membre}}} ?",
         "error": {
-          "required": "{who, select, me{Votre type de permis F} other{Le type de permis F de {membre}}} doit être fournie"
+          "required": "{who, select, me{Votre type de permis F} other{Le type de permis F de {membre}}} doit être fourni"
         }
       },
       "dateArriveeSuisse": {
