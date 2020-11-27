@@ -55,13 +55,10 @@
          target="_blank">
         {{'home.result.demande'  | translate }}
       </a>
-      <p *ngIf="resultsByPrestation.prestation === 'PC_FAM'" class="help-block">
-        {{ ('home.result.prestation.' + resultsByPrestation.prestation + '.explication' | translate) }}
-      </p>
     </span>
 
-    <span *ngIf="isPrestationRefusee && resultsByPrestation.prestation === 'PC_FAM' && isConcubinAvecEnfantsPropres" class="help-block">
-      {{ 'home.result.prestation.' + resultsByPrestation.prestation + '.verifierConcubin'  | translate }}
+    <span *ngIf="informationMessage; let informationMsg" class="help-block">
+      {{(informationMsg?.key || informationMsg) | translate : informationMsg?.parameters}}
     </span>
   </div>
 </div>
