@@ -21,7 +21,7 @@ social.tools:
     deep-link-enabled: true
     api.pdf.enabled: false
     api.stats.enabled: true
-    cookie-banner-enabled: false
+    cookie-banner-enabled: true
 
 spring:
   application:

@@ -41,7 +41,23 @@ export class TrackingService {
     if (this.enabled) {
       this.matomoInjector.init(configuration.matomo.server, configuration.matomo.siteId);
       this.matomoTracker.setSecureCookie(true);
+      this.requireConsent();
     }
+  }
+
+  /**
+   * Nécessite le consentement de l'utilisateur.
+   * Aucune requête de traçage n'est envoyée à Matomo, et aucun cookie n'est écrit.
+   */
+  requireConsent() {
+    window["_paq"].push(['requireConsent']);
+  }
+
+  /**
+   * L'utilisateur a accepté le traitement des données.
+   */
+  setConsentGiven() {
+    window["_paq"].push(['setConsentGiven']);
   }
 
   /**
@@ -63,8 +79,9 @@ export class TrackingService {
    * une valeur numérique optionnelle.
    */
   private trackEvent(action: string, name?: string, value?: number) {
-    if (this.enabled)
+    if (this.enabled) {
       this.matomoTracker.trackEvent(TRACK_FORM, action, name, value);
+    }
   }
 
   /**
@@ -82,10 +99,10 @@ export class TrackingService {
   }
 
   /**
-   * Trace les réponses de genre : 'Je ne sais pas'.
+   * Trace les réponses de type : 'Je ne sais pas'.
    *
    * @param question la question qui a été posée.
-   * @param answer la réponse donée.
+   * @param answer la réponse donnée.
    */
   trackReponseInconnu(question: Question<any>, answer: Answer) {
     if (this.enabled && answer.accept(new IsInconnuAnswerVisitor())) {
@@ -96,14 +113,15 @@ export class TrackingService {
   }
 
   /**
-   * Trace le résultat du formulaire d'éligibilité ainsi que les réponse donées.
+   * Trace le résultat du formulaire d'éligibilité ainsi que les réponse données.
    *
    * @param state l'état du formulaire d'éligibilité.
    * @param formElement l'élément form affiché sur l'écran lors du questionnaire.
    */
   trackQeliResult(state: QeliState, formElement: HTMLElement) {
-    if (this.enabled)
+    if (this.enabled) {
       this.trackFormSubmission(formElement);
+    }
   }
 
   private trackFormSubmission(formElement: HTMLElement) {
