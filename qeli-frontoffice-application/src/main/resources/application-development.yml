@@ -8,8 +8,8 @@ social.tools:
     matomo:
       server: ***REMOVED***
       site-id: 15
-      enabled: false
-    cookie-banner-enabled: false
+      enabled: true
+    cookie-banner-enabled: true
 
 server:
   port: 8080

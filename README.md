@@ -246,3 +246,24 @@ registry=***REMOVED***/content/repositories/npmjs/
 
 En cas de problème avec node-sass, exécuter la commande suivante :
 `npm rebuild node-sass`.
+
+### Utiliser un domaine pour l'IHM
+
+Utile pour tester le partage entre le partage de cookie entre le domaine principal et
+un sous-domaine.
+
+Configurer un host personnalisé, par exemple :
+
+```
+127.0.0.1   localqeli.etat-ge.ch
+```
+
+* *Windows : C:\Windows\System32\drivers\etc\hosts*
+* *Linux : /etc/hosts*
+
+Puis lancer l'IHM avec la commande :
+
+```bash
+cd qeli-frontoffice-ihm
+npm run start-host
+```
