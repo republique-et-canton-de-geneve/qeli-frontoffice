@@ -249,8 +249,7 @@ En cas de problème avec node-sass, exécuter la commande suivante :
 
 ### Utiliser un domaine pour l'IHM
 
-Utile pour tester le partage entre le partage de cookie entre le domaine principal et
-un sous-domaine.
+Utile pour tester le partage de cookie entre le domaine principal et un sous-domaine.
 
 Configurer un host personnalisé, par exemple :
 
