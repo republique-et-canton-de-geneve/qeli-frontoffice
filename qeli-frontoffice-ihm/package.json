@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "NODE_OPTIONS=\"--max-http-header-size=100000\" ng serve --source-map=true",
+    "start-host" : "node --max-http-header-size=100000 ./node_modules/@angular/cli/bin/ng serve --source-map=true --host \"localqeli.etat-ge.ch\"",
     "build": "ng build --prod --base-href=/socialqeli_pub/formulaire/ --no-progress",
     "test": "ng test --watch=false",
     "lint": "ng lint",
@@ -29,6 +30,7 @@
     "lzutf8": "~0.5.6",
     "messageformat": "~2.3.0",
     "moment": "~2.24.0",
+    "ngx-cookie-service": "~10.1.1",
     "ngx-cookieconsent": "~2.2.3",
     "ngx-mask": "~8.1.7",
     "ngx-matomo": "~0.1.4",
