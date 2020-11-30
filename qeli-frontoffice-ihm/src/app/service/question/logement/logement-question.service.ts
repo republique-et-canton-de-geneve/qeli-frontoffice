@@ -74,20 +74,6 @@ export class LogementQuestionService extends QuestionLoader {
       },
       {
         question: new NumberQuestion({
-          key: 'nombreDePersonnesLogement',
-          dataCyIdentifier: '1003_nombreDePersonnesLogement',
-          label: {key: 'question.nombreDePersonnesLogement.label'},
-          help: {key: 'question.nombreDePersonnesLogement.help'},
-          errorLabels: QuestionUtils.toErrorLabels('nombreDePersonnesLogement', ['required', 'pattern', 'min', 'max']),
-          min: 1,
-          max: 20
-        }),
-        calculateRefus: () => [],
-        eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.LOGEMENT
-      },
-      {
-        question: new NumberQuestion({
           key: 'nombreDePiecesLogement',
           dataCyIdentifier: '1004_nombreDePiecesLogement',
           label: {key: 'question.nombreDePiecesLogement.label'},
