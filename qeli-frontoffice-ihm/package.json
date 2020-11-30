@@ -3,8 +3,8 @@
   "version": "1.5.0",
   "scripts": {
     "ng": "ng",
-    "start": "NODE_OPTIONS=\"--max-http-header-size=100000\" ng serve --source-map=true",
-    "start-host" : "node --max-http-header-size=100000 ./node_modules/@angular/cli/bin/ng serve --source-map=true --host \"localqeli.etat-ge.ch\"",
+    "start": "ng serve --source-map=true",
+    "start-host" : "ng serve --source-map=true --host \"localqeli.etat-ge.ch\"",
     "build": "ng build --prod --base-href=/socialqeli_pub/formulaire/ --no-progress",
     "test": "ng test --watch=false",
     "lint": "ng lint",
