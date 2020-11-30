@@ -40,6 +40,23 @@ export class ResultBlockComponent {
         };
       }
       return null;
+    },
+
+    [Prestation.BOURSES]: () => {
+      const enfants11P = this.enfants11P;
+      if (enfants11P && enfants11P.length) {
+        return {
+          key: 'home.result.prestation.BOURSES.information11P',
+          parameters: {
+            nombreEnfants11P: enfants11P.length,
+            enfants11P: enfants11P.reduce(
+              (res, enf, idx, all) => `${res}${res ? (idx === all.length - 1 ? " et " : ", ") : ""}${enf}`,
+              ''
+            )
+          }
+        };
+      }
+      return null;
     }
   };
 
@@ -65,22 +82,27 @@ export class ResultBlockComponent {
   }
 
   get isConcubinAvecEnfantsPropres(): boolean {
-    const demandeurResult = this.resultsByPrestation.results.find(r => r.membre.id === 0);
-
-    return this.isConcubin && !!demandeurResult.conjointEnfantsPropres;
+    return this.isConcubin && !!this.resultatDemandeur.conjointEnfantsPropres;
   }
 
   get isConcubin(): boolean {
-    const demandeurResult = this.resultsByPrestation.results.find(r => r.membre.id === 0);
-    const demandeur: Demandeur = demandeurResult.membre as Demandeur;
+    const demandeur: Demandeur = this.resultatDemandeur.membre as Demandeur;
 
     return demandeur.hasConcubin;
+  }
+
+  get enfants11P() {
+    return (this.resultatDemandeur.enfants11P || []).map(enfant => enfant.prenom);
   }
 
   get informationMessage() {
     const messageEvaluator = this.exportBlockMessageEvaluators[this.resultsByPrestation.prestation];
 
     return messageEvaluator ? messageEvaluator() : null;
+  }
+
+  private get resultatDemandeur() {
+    return this.resultsByPrestation.results.find(r => r.membre.id === 0);
   }
 
   toTranslateParams(result: Result) {
