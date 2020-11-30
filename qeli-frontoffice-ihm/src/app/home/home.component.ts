@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.ccService.getConfig().content.dismiss = data['common.cookie.dismiss'];
       this.ccService.getConfig().content.link = data['common.cookie.link'];
       this.ccService.getConfig().content.href = data['common.cookie.href'];
-      this.ccService.getConfig().cookie.name = 'cookie-banner';
+      this.ccService.getConfig().cookie.name = COOKIE_BANNER;
       this.ccService.getConfig().cookie.domain = this.cookieDomain;
 
       // Banner enabled by configuration, and if cookie-agreed is not set :
