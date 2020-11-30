@@ -108,7 +108,8 @@
           "demandeLink": "https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage/procedure-demande-bourse-pret",
           "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
-          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : ",
+          "information11P": "Attention : l'année prochaine, {enfants11P} {nombreEnfants11P, select, 1{sera} other{seront}} potentiellement éligible aux bourses."
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
@@ -650,7 +651,8 @@
       "INCONNU": "Je ne sais pas"
     },
     "scolarite": {
-      "SCOLARITE_OBLIGATOIRE_1P_A_11P": "École obligatoire (primaire et cycle d'orientation, 1P - 11P)",
+      "SCOLARITE_OBLIGATOIRE_1P_A_10P": "École obligatoire (primaire et cycle d'orientation, 1P - 10P)",
+      "SCOLARITE_OBLIGATOIRE_11P": "École obligatoire (11P)",
       "COLLEGE_APRENTISSAGE": "Collège, école de culture générale (ECG), apprentissage (y compris école de commerce)",
       "CLASSE_PREPARATOIRE": "Classe préparatoire",
       "ECOLE_SUPERIEUR": "École supérieure (ES)",

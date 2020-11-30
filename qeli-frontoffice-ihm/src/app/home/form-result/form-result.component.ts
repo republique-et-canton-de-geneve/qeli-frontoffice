@@ -9,8 +9,8 @@ import * as FileSaver from 'file-saver';
 import { Result, ResultsByPrestation, resultsComparator } from './result-block/result.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
 import { AnswerUtils } from '../../service/question/answer-utils';
-import { Relation } from '../../service/configuration/demandeur.model';
 import { TypeEnfant } from '../../service/question/enfants/type-enfant.model';
+import { Scolarite } from '../../service/question/formation/scolarite.model';
 
 @Component({
   selector: 'app-form-result',
@@ -60,7 +60,7 @@ export class FormResultComponent {
         membre: state.demandeur.findMembrebyId(eligibiliteRefusee.eligibilite.membreId),
         eligible: false,
         dejaPercue: eligibiliteRefusee.dejaPercue,
-        motifRefus: eligibiliteRefusee.motif
+        motifRefus: eligibiliteRefusee.motif,
       })).forEach(result => {
         if (result.motifRefus && ![Prestation.BOURSES, Prestation.SUBSIDES].includes(prestation)) {
           const translateMotif = (i18n: I18nString) => this.translateService.instant(i18n.key, i18n.parameters);
@@ -70,6 +70,11 @@ export class FormResultComponent {
           }
         } else {
           results.push(result);
+        }
+        if (!result.eligible && prestation === Prestation.BOURSES) {
+          (result as Result).enfants11P = state.demandeur.enfants.filter(
+            enfant => AnswerUtils.isScolarite(state.formData, enfant.id, Scolarite.SCOLARITE_OBLIGATOIRE_11P)
+          );
         }
       });
 
