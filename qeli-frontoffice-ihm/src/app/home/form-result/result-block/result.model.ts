@@ -42,6 +42,12 @@ export interface Result {
    * Calculé uniquement pour le demandeur.
    */
   conjointEnfantsPropres?: boolean;
+
+  /**
+   * Les enfants scolarisés en 11P.
+   * Calculé uniquement en cas de refus des BOURSES.
+   */
+  enfants11P?: Personne[];
 }
 
 /**

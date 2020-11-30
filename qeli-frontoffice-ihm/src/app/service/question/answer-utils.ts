@@ -9,6 +9,7 @@ import { TypeEnfant } from './enfants/type-enfant.model';
 import { TypeRevenus } from './revenus/revenus.model';
 import { CheckboxGroupAnswer } from '../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 import { TypePermisB, TypePermisC, TypePermisF } from './nationalite/type-permis.model';
+import { Scolarite } from './formation/scolarite.model';
 
 /**
  * Une collection de méthodes permettant l'extraction des informations à partir des réponse de l'utilisateur.
@@ -121,5 +122,9 @@ export class AnswerUtils {
 
   static isEnfantType(formData: FormData, enfantId: number, typeEnfant: TypeEnfant) {
     return this.checkOptionAnswer(formData, `parentsEnfants.parentsEnfants_${enfantId}`, typeEnfant);
+  }
+
+  static isScolarite(formData: FormData, personId: number, scolarite: Scolarite) {
+    return this.checkOptionAnswer(formData, `scolarite_${personId}`, scolarite);
   }
 }

@@ -14,7 +14,8 @@ import { QuestionUtils } from '../qeli-questions.utils';
 import { DropdownAnswer, DropdownQuestion } from '../../../dynamic-question/dropdown-question/dropdown-question.model';
 
 export const SORTIES_ELIGIBILITE_BOURSES = [
-  Scolarite.SCOLARITE_OBLIGATOIRE_1P_A_11P,
+  Scolarite.SCOLARITE_OBLIGATOIRE_1P_A_10P,
+  Scolarite.SCOLARITE_OBLIGATOIRE_11P,
   Scolarite.UNIVERSITE_DOCTORAT,
   Scolarite.FORMATION_CONTINUE_CERTIFIANTE,
   Scolarite.FORMATION_CONTINUE_COURTE
