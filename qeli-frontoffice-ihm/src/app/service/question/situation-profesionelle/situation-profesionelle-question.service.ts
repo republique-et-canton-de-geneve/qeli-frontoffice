@@ -3,7 +3,7 @@ import { QeliConfiguration } from '../../configuration/qeli-configuration.model'
 import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { EligibiliteGroup } from '../eligibilite.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
-import { ReponseBinaire } from '../reponse-binaire.model';
+import { REPONSE_PROGRESSIVE_OPTIONS, ReponseBinaire } from '../reponse-binaire.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { TauxAnswer, TauxQuestion } from '../../../dynamic-question/taux-question/taux-question.model';
 import { Personne } from '../../configuration/demandeur.model';
@@ -12,15 +12,14 @@ import { TYPE_REVENUS_AI, TYPE_REVENUS_AVS, TypeRevenus } from '../revenus/reven
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
 import { QuestionUtils } from '../qeli-questions.utils';
+import { I18nString } from '../../../core/i18n/i18nstring.model';
+import { TypeEnfant } from '../enfants/type-enfant.model';
 
 export class SituationProfesionelleQuestionService extends QuestionLoader {
 
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
     const eligibiliteGroup = new EligibiliteGroup(this.demandeur.toEligibilite(), this.demandeur);
 
-    const questions: QeliQuestionDecorator<any>[] = [];
-    /*
-    todo : à remettre suite à décision métier
     const questions: QeliQuestionDecorator<any>[] = [{
       question: new RadioQuestion({
         key: 'taxationOffice',
@@ -40,16 +39,10 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
         inline: true,
         radioOptions: REPONSE_PROGRESSIVE_OPTIONS
       }),
-      calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
-        'taxationOffice',
-        ReponseProgressive.OUI,
-        Prestation.PC_FAM,
-        this.demandeur,
-        (eligibilite) => ({key: `question.taxationOffice.motifRefus.${eligibilite.prestation}`})
-      ),
+      calculateRefus: () => [],
       eligibilites: eligibiliteGroup.findByPrestation(Prestation.PC_FAM),
       categorie: Categorie.SITUATION_PROFESSIONNELLE
-    }];*/
+    }];
 
 
     const membres: Personne[] = [
@@ -212,6 +205,11 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
         }];
       }).reduce((result, current) => result.concat(current), [])
     );
+  }
+
+  hasEnfantEnCommun(value: any) {
+    const answers = value['parentsEnfants'];
+    return this.demandeur.enfants.some(membre => answers[`parentsEnfants_${membre.id}`] === TypeEnfant.LES_DEUX);
   }
 
   isFormeFamilleAvecPartenaire(formData: FormData) {
