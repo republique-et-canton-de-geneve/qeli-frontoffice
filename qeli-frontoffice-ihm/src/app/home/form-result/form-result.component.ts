@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { PDFGenerationService } from '../../service/pdf-generation.service';
 import { FormData } from '../../dynamic-question/model/question.model';
 import * as FileSaver from 'file-saver';
-import { Result, ResultsByPrestation, resultsComparator } from './result-block/result.model';
 import { FormResult } from '../../service/question/result.model';
 import { FormResultService } from '../../service/question/form-result.service';
 import { Demandeur } from '../../service/configuration/demandeur.model';
