@@ -110,7 +110,7 @@ public class StatsServiceImpl implements StatsService {
   private String membreIdToRelation(Integer id, Demandeur demandeur) {
     return demandeur.getId().equals(id) ?
            "DEMANDEUR" :
-           demandeur.getMembresFamille()
+           demandeur.fetchMembresFamille()
                     .stream()
                     .filter(membre -> membre.getId().equals(id))
                     .map(MembreFamille::getRelation)
