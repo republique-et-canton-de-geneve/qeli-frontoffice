@@ -1,6 +1,12 @@
-import { Prestation } from '../../../service/configuration/prestation.model';
-import { Personne } from '../../../service/configuration/demandeur.model';
-import { I18nString } from '../../../core/i18n/i18nstring.model';
+import { Prestation } from '../configuration/prestation.model';
+import { Personne } from '../configuration/demandeur.model';
+import { I18nString } from '../../core/i18n/i18nstring.model';
+
+export interface FormResult {
+  prestationsEligibles: ResultsByPrestation[];
+  prestationsDejaPercues: ResultsByPrestation[];
+  prestationsRefusees: ResultsByPrestation[];
+}
 
 export type TypeEligibilite = 'eligible' | 'refusee' | 'dejaPercue';
 
