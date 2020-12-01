@@ -4,10 +4,11 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   MessageEvaluatorByPrestation, Result, ResultsByPrestation, TypeEligibilite
 } from '../../../service/question/result.model';
-import { EvaluatorUtils } from './evaluator-utils';
-import { BoursesEvaluator } from './message-evaluators/bourses.evaluator';
-import { PcAvsAiEvaluator } from './message-evaluators/pcavsai.evaluator';
-import { PcFamEvaluator } from './message-evaluators/pcfam.evaluator';
+import { EvaluatorUtils } from '../../../service/question/evaluator-utils';
+import { BoursesEvaluator } from '../../../service/question/message-evaluators/bourses.evaluator';
+import { PcAvsAiEvaluator } from '../../../service/question/message-evaluators/pcavsai.evaluator';
+import { PcFamEvaluator } from '../../../service/question/message-evaluators/pcfam.evaluator';
+import { FormData } from '../../../dynamic-question/model/question.model';
 
 @Component({
   selector: 'result-block',
@@ -18,6 +19,7 @@ import { PcFamEvaluator } from './message-evaluators/pcfam.evaluator';
 export class ResultBlockComponent {
   @Input() resultsByPrestation: ResultsByPrestation;
   @Input() type: TypeEligibilite;
+  @Input() formData: FormData;
 
   private readonly exportBlockMessageEvaluators: MessageEvaluatorByPrestation = {
     [Prestation.PC_FAM]: new PcFamEvaluator(),
@@ -49,7 +51,7 @@ export class ResultBlockComponent {
   get informationMessage() {
     const messageEvaluator = this.exportBlockMessageEvaluators[this.resultsByPrestation.prestation];
 
-    return messageEvaluator ? messageEvaluator.evaluate(this.type, this.resultsByPrestation) : null;
+    return messageEvaluator ? messageEvaluator.evaluate(this.type, this.resultsByPrestation, this.formData) : null;
   }
 
   toTranslateParams(result: Result) {

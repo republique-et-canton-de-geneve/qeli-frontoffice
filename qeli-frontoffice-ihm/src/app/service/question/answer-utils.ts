@@ -127,4 +127,8 @@ export class AnswerUtils {
   static isScolarite(formData: FormData, personId: number, scolarite: Scolarite) {
     return this.checkOptionAnswer(formData, `scolarite_${personId}`, scolarite);
   }
+
+  static isTaxationOffice(formData: FormData) {
+    return this.checkOptionAnswer(formData, 'taxationOffice', 'OUI');
+  }
 }
