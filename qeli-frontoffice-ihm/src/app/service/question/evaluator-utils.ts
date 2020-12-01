@@ -1,6 +1,6 @@
 import { Result, ResultsByPrestation, TypeEligibilite } from './result.model';
-import { Prestation } from '../../../service/configuration/prestation.model';
-import { Demandeur } from '../../../service/configuration/demandeur.model';
+import { Prestation } from '../configuration/prestation.model';
+import { Demandeur } from '../configuration/demandeur.model';
 
 export class EvaluatorUtils {
   public static isPrestationRefusee(type: TypeEligibilite) {

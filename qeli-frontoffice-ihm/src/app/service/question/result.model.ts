@@ -1,6 +1,7 @@
 import { Prestation } from '../configuration/prestation.model';
 import { Personne } from '../configuration/demandeur.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
+import { FormData } from '../../dynamic-question/model/question.model';
 
 export interface FormResult {
   prestationsEligibles: ResultsByPrestation[];
@@ -68,8 +69,9 @@ export interface MessageEvaluator {
    *       ou un I18nString si l'élément à traduire nécessite des paramètres.
    * @param type le type d'éligibilité
    * @param results le bloc contenant les résultats
+   * @param formData les réponses du formulaire
    */
-  evaluate(type: TypeEligibilite, results: ResultsByPrestation): string | I18nString;
+  evaluate(type: TypeEligibilite, results: ResultsByPrestation, formData: FormData): string | I18nString;
 }
 
 /**
