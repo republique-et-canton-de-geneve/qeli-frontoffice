@@ -2,10 +2,8 @@ package ch.ge.social.qeli.service.pdf;
 
 import ch.ge.social.qeli.service.api.pdf.PDFCreationService;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
-import ch.ge.social.qeli.service.api.result.dto.Eligibilite;
-import ch.ge.social.qeli.service.api.result.dto.EligibiliteRefusee;
 import ch.ge.social.qeli.service.api.result.dto.QeliResult;
-import ch.ge.social.qeli.service.common.MustacheTemplateLoader;
+import ch.ge.social.qeli.service.common.VelocityTemplateLoader;
 import ch.ge.social.qeli.service.editique.EditiqueClient;
 import ch.ge.social.qeli.service.editique.EditiqueClientException;
 import ch.ge.social.qeli.xml.edition.DebutDocumentType;
@@ -13,12 +11,12 @@ import ch.ge.social.qeli.xml.edition.DocumentType;
 import ch.ge.social.qeli.xml.edition.ExpediteurType;
 import ch.ge.social.qeli.xml.edition.MetierType;
 import ch.ge.social.qeli.xml.edition.RapportType;
-import com.samskivert.mustache.Template;
+import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.stream.Collectors;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,14 +25,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class PDFCreationServiceImpl implements PDFCreationService {
 
-  private final EditiqueClient editiqueClient;
-  private final Template       bodyTemplate;
+  private final EditiqueClient                 editiqueClient;
+  private final PDFRecapitulatifContextBuilder pdfRecapitulatifContextBuilder;
+  private final Template                       pdfRecapitulatifTemplate;
 
   @Autowired
-  public PDFCreationServiceImpl(EditiqueClient editiqueClient) {
+  public PDFCreationServiceImpl(EditiqueClient editiqueClient,
+                                PDFRecapitulatifContextBuilder pdfRecapitulatifContextBuilder,
+                                VelocityTemplateLoader velocityTemplateLoader) {
     this.editiqueClient = editiqueClient;
-    this.bodyTemplate =
-      MustacheTemplateLoader.load(new ClassPathResource("mustache/pdf-recapitulatif-body-template.mustache"));
+    this.pdfRecapitulatifContextBuilder = pdfRecapitulatifContextBuilder;
+    this.pdfRecapitulatifTemplate = velocityTemplateLoader.load("pdf-recapitulatif-body-template.vm");
   }
 
   @Override
@@ -72,30 +73,14 @@ public class PDFCreationServiceImpl implements PDFCreationService {
     return expediteur;
   }
 
-  private MetierType createMetier(QeliResult result) {
+  private MetierType createMetier(QeliResult qeliResult) {
     MetierType metier = new MetierType();
-    metier.setTexte1(bodyTemplate.execute(this.toBodyTemplateParameters(result)));
-    return metier;
-  }
+    VelocityContext context = pdfRecapitulatifContextBuilder.createContext(qeliResult.getResult());
 
-  private BodyTemplateParameters toBodyTemplateParameters(QeliResult result) {
-    return BodyTemplateParameters.builder()
-                                 .prestationsDejaPercues(
-                                   result.getEligibiliteRefusees().stream()
-                                         .filter(EligibiliteRefusee::isDejaPercue)
-                                         .map(EligibiliteRefusee::getEligibilite)
-                                         .map(Eligibilite::getPrestation)
-                                         .collect(Collectors.toList()))
-                                 .prestationsRefusees(
-                                   result.getEligibiliteRefusees().stream()
-                                         .filter(eliligibiliteRefusee -> !eliligibiliteRefusee.isDejaPercue())
-                                         .map(EligibiliteRefusee::getEligibilite)
-                                         .map(Eligibilite::getPrestation)
-                                         .collect(Collectors.toList()))
-                                 .prestationsEligibles(
-                                   result.getEligibilites().stream()
-                                         .map(Eligibilite::getPrestation)
-                                         .collect(Collectors.toList()))
-                                 .build();
+    StringWriter writer = new StringWriter();
+    pdfRecapitulatifTemplate.merge(context, writer);
+    metier.setTexte1(writer.toString());
+
+    return metier;
   }
 }
