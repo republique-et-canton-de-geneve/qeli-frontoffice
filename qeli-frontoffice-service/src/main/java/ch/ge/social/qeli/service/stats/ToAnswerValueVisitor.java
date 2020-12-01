@@ -6,6 +6,7 @@ import ch.ge.social.qeli.service.api.answer.dto.Answer;
 import ch.ge.social.qeli.service.api.answer.dto.CheckboxGroupAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.CompositeAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.DateAnswer;
+import ch.ge.social.qeli.service.api.answer.dto.DropdownAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.NationaliteAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.NumberAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.OptionAnswer;
@@ -47,6 +48,18 @@ class ToAnswerValueVisitor implements AnswerVisitor<List<AnswerValue>> {
     return Optional.ofNullable(answer.getValue())
                    .map(date -> Collections.singletonList(new AnswerValue(key, date.format(FORMATTER))))
                    .orElse(Collections.emptyList());
+  }
+
+  @Override
+  public List<AnswerValue> visitDropdownAnswer(DropdownAnswer answer) {
+    if (answer.isInconnuSelected()) {
+      return Collections.singletonList(new AnswerValue(key, "INCONNU"));
+    } else {
+      return Optional.ofNullable(answer.getValue())
+                     .map(QuestionOption::getValue)
+                     .map(value -> Collections.singletonList(new AnswerValue(key, value.toString())))
+                     .orElse(Collections.emptyList());
+    }
   }
 
   @Override

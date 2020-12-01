@@ -8,9 +8,9 @@
     </div>
   </div>
 
-  <div *ngIf="prestationEligibles.length > 0">
+  <div *ngIf="formResult.prestationsEligibles.length > 0">
     <h3>{{ 'home.result.eligibilite.oui' | translate }}</h3>
-    <result-block *ngFor="let resultsByPrestation of prestationEligibles"
+    <result-block *ngFor="let resultsByPrestation of formResult.prestationsEligibles"
                   type="eligible"
                   [resultsByPrestation]="resultsByPrestation"
                   [attr.data-cy-prestations-eligibles]="resultsByPrestation.prestation">
@@ -18,9 +18,9 @@
     <hr>
   </div>
 
-  <div *ngIf="prestationRefusees.length > 0">
+  <div *ngIf="formResult.prestationsRefusees.length > 0">
     <h3>{{ 'home.result.eligibilite.non' | translate }}</h3>
-    <result-block *ngFor="let resultsByPrestation of prestationRefusees"
+    <result-block *ngFor="let resultsByPrestation of formResult.prestationsRefusees"
                   type="refusee"
                   [resultsByPrestation]="resultsByPrestation"
                   [attr.data-cy-prestations-refusees]="resultsByPrestation.prestation">
@@ -28,9 +28,9 @@
     <hr>
   </div>
 
-  <div *ngIf="prestationDejaPercues.length > 0">
+  <div *ngIf="formResult.prestationsDejaPercues.length > 0">
     <h3>{{ 'home.result.eligibilite.deja' | translate }}</h3>
-    <result-block *ngFor="let resultsByPrestation of prestationDejaPercues"
+    <result-block *ngFor="let resultsByPrestation of formResult.prestationsDejaPercues"
                   type="dejaPercue"
                   [resultsByPrestation]="resultsByPrestation"
                   [attr.data-cy-prestations-deja-percues]="resultsByPrestation.prestation">

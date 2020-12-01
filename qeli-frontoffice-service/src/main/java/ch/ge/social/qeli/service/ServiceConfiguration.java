@@ -19,7 +19,6 @@ import outils.exception.CtiMetierException;
 @ComponentScan("ch.ge.social.qeli.service")
 public class ServiceConfiguration {
 
-
   @Bean("editiqueJaxbMarshaller")
   public Jaxb2Marshaller editiqueJaxbMarshaller() {
     Jaxb2Marshaller marshaller = new Jaxb2Marshaller();

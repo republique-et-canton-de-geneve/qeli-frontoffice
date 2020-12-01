@@ -16,9 +16,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgcCookieConsentService, NgcInitializeEvent, NgcStatusChangeEvent } from 'ngx-cookieconsent';
 import { CookieService } from 'ngx-cookie-service';
 import {
-  COOKIE_AGREED, COOKIE_EXPIRY_DAYS, COOKIE_BANNER, COOKIE_BANNER_STATUS_DISMISS, CookieAgreedStatus,
-  CookieStatusUtils
+  COOKIE_AGREED, COOKIE_BANNER, COOKIE_BANNER_STATUS_DISMISS, COOKIE_EXPIRY_DAYS, CookieAgreedStatus, CookieStatusUtils
 } from '../service/cookie-status.utils';
+import { FormResultService } from '../service/question/form-result.service';
+
 
 @Component({
   selector: 'app-home',
@@ -46,6 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               private trackingService: TrackingService,
               private qeliConfigurationService: QeliConfigurationService,
               private questionService: QuestionService,
+              private formResultService: FormResultService,
               private deepLinkService: DeepLinkService,
               private ref: ChangeDetectorRef,
               private statsService: StatsService,
@@ -214,8 +216,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const state = this.qeliStateMachine.state;
     this.statsService.saveStats(
       state.formData,
-      this.qeliStateMachine.currentEligibilites,
-      state.eligibilitesRefusees,
+      this.formResultService.toFormResult(this.qeliStateMachine),
       state.demandeur
     ).subscribe();
   }
