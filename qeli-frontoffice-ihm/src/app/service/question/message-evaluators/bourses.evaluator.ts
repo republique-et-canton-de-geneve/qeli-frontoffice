@@ -1,10 +1,11 @@
 import { MessageEvaluator, ResultsByPrestation, TypeEligibilite } from '../result.model';
-import { I18nString } from '../../../../core/i18n/i18nstring.model';
+import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { EvaluatorUtils } from '../evaluator-utils';
+import { FormData } from '../../../dynamic-question/model/question.model';
 
 export class BoursesEvaluator implements MessageEvaluator {
 
-  evaluate(type: TypeEligibilite, results: ResultsByPrestation): string | I18nString {
+  evaluate(type: TypeEligibilite, results: ResultsByPrestation, formData: FormData): string | I18nString {
     const enfants11P = (EvaluatorUtils.getResultsDemandeur(results).enfants11P || []).map(enfant => enfant.prenom);
     if (enfants11P && enfants11P.length) {
       return {
