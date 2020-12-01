@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Prestation } from '../../../service/configuration/prestation.model';
 import { TranslateService } from '@ngx-translate/core';
-import { MessageEvaluatorByPrestation, Result, ResultsByPrestation } from './result.model';
+import { MessageEvaluatorByPrestation, Result, ResultsByPrestation } from '../../../service/question/result.model';
 import { Demandeur } from '../../../service/configuration/demandeur.model';
 
 @Component({
