@@ -3,6 +3,7 @@ package ch.ge.social.qeli.service.api.answer;
 import ch.ge.social.qeli.service.api.answer.dto.CheckboxGroupAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.CompositeAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.DateAnswer;
+import ch.ge.social.qeli.service.api.answer.dto.DropdownAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.NationaliteAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.NumberAnswer;
 import ch.ge.social.qeli.service.api.answer.dto.OptionAnswer;
@@ -36,6 +37,18 @@ public interface AnswerVisitor<T> {
    * @throws InvalidAnswerFormatException Si la réponse n'est pas lisible.
    */
   T visitDateAnswer(DateAnswer answer);
+
+
+  /**
+   * Une méthode pour visiter une réponse de type: {@link DropdownAnswer}.
+   *
+   * @param answer la réponse à visiter.
+   *
+   * @return le résultat du traitement de la question.
+   *
+   * @throws InvalidAnswerFormatException Si la réponse n'est pas lisible.
+   */
+  T visitDropdownAnswer(DropdownAnswer answer);
 
   /**
    * Une méthode pour visiter une réponse de type: {@link OptionAnswer}.

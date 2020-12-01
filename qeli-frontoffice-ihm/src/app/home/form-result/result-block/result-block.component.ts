@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Prestation } from '../../../service/configuration/prestation.model';
 import { TranslateService } from '@ngx-translate/core';
-import { MessageEvaluatorByPrestation, Result, ResultsByPrestation, TypeEligibilite } from './result.model';
+import {
+  MessageEvaluatorByPrestation, Result, ResultsByPrestation, TypeEligibilite
+} from '../../../service/question/result.model';
 import { EvaluatorUtils } from './evaluator-utils';
 import { BoursesEvaluator } from './message-evaluators/bourses.evaluator';
 import { PcAvsAiEvaluator } from './message-evaluators/pcavsai.evaluator';
