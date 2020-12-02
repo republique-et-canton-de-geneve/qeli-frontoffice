@@ -3,6 +3,7 @@ import { DateInputComponent } from './date-input/date-input.component';
 import { InputContainerComponent } from './input-container/input-container.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '../core/core.module';
+import { HelpBlockComponent } from './help-block/help-block.component';
 
 @NgModule({
   imports: [
@@ -12,17 +13,20 @@ import { CoreModule } from '../core/core.module';
   ],
   declarations: [
     InputContainerComponent,
-    DateInputComponent
+    DateInputComponent,
+    HelpBlockComponent
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
     InputContainerComponent,
+    HelpBlockComponent,
     DateInputComponent
   ],
   entryComponents: [
     InputContainerComponent,
-    DateInputComponent
+    DateInputComponent,
+    HelpBlockComponent
   ]
 })
 export class GeFormsModule {

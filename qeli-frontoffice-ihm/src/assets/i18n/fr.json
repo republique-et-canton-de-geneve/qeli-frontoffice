@@ -589,6 +589,11 @@
       "open": "Sélectionner la date à l'aide d'un calendrier",
       "close": "Fermer le calendrier"
     },
+    "help-block": {
+      "open": "Déplier le texte d'aide",
+      "close": "Réplier le texte d'aide",
+      "collapse-btn-title": "Déplier le texte d'aide"
+    },
     "selectNationalite": {
       "0": "Première nationalité",
       "1": "Deuxième nationalité",
