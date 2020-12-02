@@ -33,6 +33,7 @@
           'text-success': result.eligible,
           'text-danger': !result.eligible && !result.dejaPercue
          }">{{ translateResult(result) }}</span>
+          <span *ngIf="result.eligible || result.motifRefus"> : </span>
           <span *ngIf="result.motifRefus">{{ result.motifRefus.key | translate:result.motifRefus.parameters }}</span>
           <a *ngIf="result.eligible"
              href="{{ 'home.result.prestation.' + resultsByPrestation.prestation + '.demandeLink'  | translate }}"

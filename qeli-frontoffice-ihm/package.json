@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --source-map=true",
-    "start-host" : "ng serve --source-map=true --host \"localqeli.etat-ge.ch\"",
+    "start-host": "ng serve --source-map=true --host \"localqeli.etat-ge.ch\"",
     "build": "ng build --prod --base-href=/socialqeli_pub/formulaire/ --no-progress",
     "test": "ng test --watch=false",
     "lint": "ng lint",

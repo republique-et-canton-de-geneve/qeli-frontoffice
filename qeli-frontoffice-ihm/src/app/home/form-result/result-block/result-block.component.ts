@@ -87,7 +87,6 @@ export class ResultBlockComponent {
 
   get isConcubin(): boolean {
     const demandeur: Demandeur = this.resultatDemandeur.membre as Demandeur;
-
     return demandeur.hasConcubin;
   }
 
