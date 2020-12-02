@@ -33,8 +33,4 @@ export class EvaluatorUtils {
   public static getResultsDemandeur(results: ResultsByPrestation): Result {
     return results.results.find(r => r.membre.id === 0);
   }
-
-  public static getEnfants11P(results: ResultsByPrestation) {
-    return (this.getResultsDemandeur(results).enfants11P || []).map(enfant => enfant.prenom);
-  }
 }
