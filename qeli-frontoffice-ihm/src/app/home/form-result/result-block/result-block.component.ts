@@ -1,8 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Prestation } from '../../../service/configuration/prestation.model';
 import { TranslateService } from '@ngx-translate/core';
-import { MessageEvaluatorByPrestation, Result, ResultsByPrestation } from '../../../service/question/result.model';
-import { Demandeur } from '../../../service/configuration/demandeur.model';
+import {
+  MessageEvaluatorByPrestation, Result, ResultsByPrestation, TypeEligibilite
+} from '../../../service/question/result.model';
+import { EvaluatorUtils } from '../../../service/question/evaluator-utils';
+import { BoursesEvaluator } from '../../../service/question/message-evaluators/bourses.evaluator';
+import { PcAvsAiEvaluator } from '../../../service/question/message-evaluators/pcavsai.evaluator';
+import { PcFamEvaluator } from '../../../service/question/message-evaluators/pcfam.evaluator';
+import { FormData } from '../../../dynamic-question/model/question.model';
 
 @Component({
   selector: 'result-block',
@@ -12,52 +18,13 @@ import { Demandeur } from '../../../service/configuration/demandeur.model';
 })
 export class ResultBlockComponent {
   @Input() resultsByPrestation: ResultsByPrestation;
-  @Input() type: 'eligible' | 'refusee' | 'dejaPercue';
+  @Input() type: TypeEligibilite;
+  @Input() formData: FormData;
 
   private readonly exportBlockMessageEvaluators: MessageEvaluatorByPrestation = {
-    [Prestation.PC_FAM]: () => {
-      if (this.isPrestationEligible && !this.isPrestationIndividuel) {
-        return 'home.result.prestation.PC_FAM.explication';
-      }
-      if (this.isPrestationRefusee && this.isConcubinAvecEnfantsPropres) {
-        return {
-          key: 'home.result.verifierConcubin',
-          parameters: {
-            prestation: Prestation.PC_FAM
-          }
-        };
-      }
-      return null;
-    },
-
-    [Prestation.PC_AVS_AI]: () => {
-      if (this.isPrestationRefusee && this.isConcubin) {
-        return {
-          key: 'home.result.verifierConcubin',
-          parameters: {
-            prestation: Prestation.PC_AVS_AI
-          }
-        };
-      }
-      return null;
-    },
-
-    [Prestation.BOURSES]: () => {
-      const enfants11P = this.enfants11P;
-      if (enfants11P && enfants11P.length) {
-        return {
-          key: 'home.result.prestation.BOURSES.information11P',
-          parameters: {
-            nombreEnfants11P: enfants11P.length,
-            enfants11P: enfants11P.reduce(
-              (res, enf, idx, all) => `${res}${res ? (idx === all.length - 1 ? " et " : ", ") : ""}${enf}`,
-              ''
-            )
-          }
-        };
-      }
-      return null;
-    }
+    [Prestation.PC_FAM]: new PcFamEvaluator(),
+    [Prestation.PC_AVS_AI]: new PcAvsAiEvaluator(),
+    [Prestation.BOURSES]: new BoursesEvaluator()
   };
 
   constructor(private translateService: TranslateService) {
@@ -65,15 +32,15 @@ export class ResultBlockComponent {
   }
 
   get isPrestationRefusee() {
-    return this.type === 'refusee'
+    return EvaluatorUtils.isPrestationRefusee(this.type);
   }
 
   get isPrestationDejaPercue() {
-    return this.type === 'dejaPercue';
+    return EvaluatorUtils.isPrestationDejaPercue(this.type);
   }
 
   get isPrestationEligible() {
-    return this.type === 'eligible';
+    return EvaluatorUtils.isPrestationEligible(this.type);
   }
 
   get isPrestationIndividuel() {
@@ -81,27 +48,10 @@ export class ResultBlockComponent {
            this.resultsByPrestation.prestation === Prestation.BOURSES;
   }
 
-  get isConcubinAvecEnfantsPropres(): boolean {
-    return this.isConcubin && !!this.resultatDemandeur.conjointEnfantsPropres;
-  }
-
-  get isConcubin(): boolean {
-    const demandeur: Demandeur = this.resultatDemandeur.membre as Demandeur;
-    return demandeur.hasConcubin;
-  }
-
-  get enfants11P() {
-    return (this.resultatDemandeur.enfants11P || []).map(enfant => enfant.prenom);
-  }
-
   get informationMessage() {
     const messageEvaluator = this.exportBlockMessageEvaluators[this.resultsByPrestation.prestation];
 
-    return messageEvaluator ? messageEvaluator() : null;
-  }
-
-  private get resultatDemandeur() {
-    return this.resultsByPrestation.results.find(r => r.membre.id === 0);
+    return messageEvaluator ? messageEvaluator.evaluate(this.type, this.resultsByPrestation, this.formData) : null;
   }
 
   toTranslateParams(result: Result) {
