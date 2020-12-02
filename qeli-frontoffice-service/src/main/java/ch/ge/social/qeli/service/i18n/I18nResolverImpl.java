@@ -32,7 +32,9 @@ public class I18nResolverImpl implements I18nResolver {
 
   @Override
   public String translate(Prestation prestation, Result result) {
-    String resultAsString = result.isEligible() ? "eligible" : (result.isDejaPercue()) ? "dejaPercue" : "refusee";
+    String refuseeOrDejaPercue = (result.isDejaPercue()) ? "dejaPercue" : "refusee";
+    String resultAsString = result.isEligible() ? "eligible" : refuseeOrDejaPercue;
+
     return this.translate(new I18nString(
       String.format("home.result.prestation.%s.%s", prestation.name(), resultAsString),
       ImmutableMap.<String, Object>builder()
