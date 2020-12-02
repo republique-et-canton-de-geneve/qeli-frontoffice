@@ -80,49 +80,49 @@
           "title": "Subsides d'assurance-maladie",
           "plusInformationLink": "https://www.ge.ch/informations-generales-subside-assurance-maladie",
           "demandeLink": "https://www.ge.ch/demander-subside-assurance-maladie-2020",
-          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
-          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}"
         },
         "AVANCES": {
           "title": "Avances de pensions alimentaires",
           "plusInformationLink": "https://www.ge.ch/pensions-alimentaires-impayees",
           "demandeLink": "https://www.ge.ch/pensions-alimentaires-impayees/creancier-aliments-deposer-demande-aupres-du-scarpa",
-          "eligible": "Vous êtes éligible : "
+          "eligible": "Vous êtes éligible"
         },
         "ALLOCATION_LOGEMENT": {
           "title": "Allocation logement",
           "plusInformationLink": "https://www.ge.ch/allocation-logement",
           "demandeLink": "https://www.ge.ch/allocation-logement/demander-allocation-logement",
-          "eligible": "Vous êtes éligible : "
+          "eligible": "Vous êtes éligible"
         },
         "PC_AVS_AI": {
           "title": "Prestations complémentaires AVS/AI",
           "plusInformationLink": "https://www.ge.ch/prestations-complementaires-avs/ai",
           "demandeLink": "https://www.ge.ch/prestations-complementaires-avs/ai/demander-prestations-complementaires-avs/ai",
-          "eligible": "Votre foyer est éligible : "
+          "eligible": "Votre foyer est éligible"
         },
         "BOURSES": {
           "title": "Bourses d'études",
           "plusInformationLink": "https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage",
           "demandeLink": "https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage/procedure-demande-bourse-pret",
-          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
-          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : ",
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}",
           "information11P": "Attention : l'année prochaine, {enfants11P} {nombreEnfants11P, select, 1{sera} other{seront}} potentiellement éligible aux bourses."
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
           "plusInformationLink": "https://www.ge.ch/demander-prestations-complementaires-familiales",
           "demandeLink": "https://www.ge.ch/demander-prestations-complementaires-familiales/faire-demande-prestations-complementaires",
-          "eligible": "Votre foyer est éligible : ",
+          "eligible": "Votre foyer est éligible",
           "explication": "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
           "plusInformationLink": "https://www.hospicegeneral.ch/fr/aide_financiere",
           "demandeLink": "https://www.hospicegeneral.ch/fr/votre-centre-de-quartier",
-          "eligible": "Vous êtes éligible : "
+          "eligible": "Vous êtes éligible"
         }
       },
       "reponses": "Veuillez retrouver ci-dessous un résumé des réponses que vous avez donné au questionnaire :"

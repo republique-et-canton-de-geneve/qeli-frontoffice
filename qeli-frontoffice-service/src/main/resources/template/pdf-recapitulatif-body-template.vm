@@ -1,45 +1,48 @@
 #* @vtlvariable name="formResult" type="ch.ge.social.qeli.service.api.result.dto.FormResult" *#
 #* @vtlvariable name="i18nResolver" type="ch.ge.social.qeli.service.api.i18n.I18nResolver" *#
 [center][b]Récapitulatif des résultats du questionnaire[/b][/center]
-[center][b]"Ai-je droit à des prestations sociales ?"[/b][/center][cr]
+[center][b]"Ai-je droit à des prestations sociales ?"[/b][/center][cr][cr]
 
 [p]Pour rappel, le résultat de ce questionnaire est indicatif. Il n'est pas une preuve que vous recevrez ces prestations sociales.[cr]
 
 #if(!$formResult.prestationsEligibles.isEmpty())
-[p]Sur la base de vos réponses, il est possible que vous puissiez bénéficier des prestations sociales suivantes :[cr]
+[p][u]Sur la base de vos réponses, il est possible que vous puissiez bénéficier des prestations sociales suivantes[/u] :[cr]
 
   #foreach($resultByPrestation in $formResult.prestationsEligibles)
   [p][b]${i18nResolver.translate("home.result.prestation.${resultByPrestation.prestation.name()}.title")}[/b]
     #if($resultByPrestation.prestation.isPrestationIndividuel())
       #foreach($result in $resultByPrestation.results)
-      [bl]$i18nResolver.translate($resultByPrestation.prestation, $result) ##
-        #if($result.motifRefus)
-        : $i18nResolver.translate($result.motifRefus)
-        #end
+      [bl]${i18nResolver.translate($resultByPrestation.prestation, $result)}#if($result.motifRefus) : ${i18nResolver.translate($result.motifRefus)}#end
       #end
+    #else
+    [bl]${i18nResolver.translate("home.result.prestation.${resultByPrestation.prestation.name()}.eligible")}
     #end
   [cr]
   #end
 #end
 
 #if(!$formResult.prestationsRefusees.isEmpty())
-[p]Sur la base de vos réponses, il n'est pas utile de déposer des demandes pour les prestations sociales suivantes :[cr]
+[p][u]Sur la base de vos réponses, il n'est pas utile de déposer des demandes pour les prestations sociales suivantes[/u] :[cr]
 
   #foreach($resultByPrestation in $formResult.prestationsRefusees)
   [p][b]${i18nResolver.translate("home.result.prestation.${resultByPrestation.prestation.name()}.title")}[/b]
   [p]Les raisons qui pourraient vous empêcher de recevoir cette prestation sont :
     #foreach($result in $resultByPrestation.results)
-    [bl]$i18nResolver.translate($result.motifRefus)
+      #if($resultByPrestation.prestation.isPrestationIndividuel())
+      [bl]${i18nResolver.translate($resultByPrestation.prestation, $result)}#if($result.motifRefus) : ${i18nResolver.translate($result.motifRefus)}#end
+      #elseif($result.motifRefus)
+      [bl]${i18nResolver.translate($result.motifRefus)}
+      #end
     #end
-  [cr]
   #end
+[cr]
 #end
 
 #if(!$formResult.prestationsDejaPercues.isEmpty())
-[p]Vous avez indiqué que vous recevez déjà des prestations suivantes :[cr]
+[p][u]Vous avez indiqué que vous recevez déjà des prestations suivantes[/u] :[cr]
 
   #foreach($resultByPrestation in $formResult.prestationsDejaPercues)
-  [p][b]${i18nResolver.translate("home.result.prestation.${resultByPrestation.prestation.name()}.title")}[/b]
+  [bl][b]${i18nResolver.translate("home.result.prestation.${resultByPrestation.prestation.name()}.title")}[/b]
   #end
 [cr]
 #end

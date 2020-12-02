@@ -2,7 +2,7 @@ import { QuestionLoader } from '../question-loader';
 import { QeliConfiguration } from '../../configuration/qeli-configuration.model';
 import { Categorie, QeliQuestionDecorator } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import { MembreFamille, Personne, Relation } from '../../configuration/demandeur.model';
+import { MembreFoyer, Personne, Relation } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
 import {
@@ -154,7 +154,7 @@ export class DomicileQuestionService extends QuestionLoader {
             return !this.demandeur.partenaire ||
                    (this.demandeur.hasConcubin &&
                     AnswerUtils.isEnfantType(formData, eligibilite.membreId, TypeEnfant.MOI));
-          } else if ((membre as MembreFamille).isConjoint || (membre as MembreFamille).isConcubin) {
+          } else if ((membre as MembreFoyer).isConjoint || (membre as MembreFoyer).isConcubin) {
             return !isDemandeurEligiblePcAvsAi;
           }
         }).map((eligibilite) => ({
