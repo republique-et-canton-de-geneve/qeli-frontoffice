@@ -1,12 +1,15 @@
 import { Prestation } from '../configuration/prestation.model';
 import { Personne } from '../configuration/demandeur.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
+import { FormData } from '../../dynamic-question/model/question.model';
 
 export interface FormResult {
   prestationsEligibles: ResultsByPrestation[];
   prestationsDejaPercues: ResultsByPrestation[];
   prestationsRefusees: ResultsByPrestation[];
 }
+
+export type TypeEligibilite = 'eligible' | 'refusee' | 'dejaPercue';
 
 /**
  * Un objet qui permet de mettre en relation une prestation avec plusieurs résultats (normalement, un pour chaque
@@ -57,14 +60,27 @@ export interface Result {
 }
 
 /**
+ * Interface pour séparer la génération des messages informatifs par prestation.
+ */
+export interface MessageEvaluator {
+  /**
+   * Retourne la clé du message à afficher dans le bloc de résultats de la prestation.
+   *       Cette valeur peut être un chaîne, qui sera utilisée comme clé de traduction;
+   *       ou un I18nString si l'élément à traduire nécessite des paramètres.
+   * @param type le type d'éligibilité
+   * @param results le bloc contenant les résultats
+   * @param formData les réponses du formulaire
+   */
+  evaluate(type: TypeEligibilite, results: ResultsByPrestation, formData: FormData): string | I18nString;
+}
+
+/**
  * Map contenant comme:
  *   - clé, le type de prestation
- *   - valeur, une fonction retournant la clé du message à afficher dans le bloc de résultats de la prestation.
- *       Cette valeur peut être un chaîne, qui sera utilisée comme clé de traduction;
- *       ou un I18nString si l'élément à traduire nécessite des paramètres.
+ *   - valeur, l'implémentation du générator des messages informatifs.
  */
 export interface MessageEvaluatorByPrestation {
-  [key: string]: () => string | I18nString;
+  [key: string]: MessageEvaluator;
 }
 
 export function resultsComparator(a: Result, b: Result) {

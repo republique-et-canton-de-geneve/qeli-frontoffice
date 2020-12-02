@@ -13,6 +13,7 @@
     <result-block *ngFor="let resultsByPrestation of formResult.prestationsEligibles"
                   type="eligible"
                   [resultsByPrestation]="resultsByPrestation"
+                  [formData]="formData"
                   [attr.data-cy-prestations-eligibles]="resultsByPrestation.prestation">
     </result-block>
     <hr>
@@ -23,6 +24,7 @@
     <result-block *ngFor="let resultsByPrestation of formResult.prestationsRefusees"
                   type="refusee"
                   [resultsByPrestation]="resultsByPrestation"
+                  [formData]="formData"
                   [attr.data-cy-prestations-refusees]="resultsByPrestation.prestation">
     </result-block>
     <hr>
@@ -33,6 +35,7 @@
     <result-block *ngFor="let resultsByPrestation of formResult.prestationsDejaPercues"
                   type="dejaPercue"
                   [resultsByPrestation]="resultsByPrestation"
+                  [formData]="formData"
                   [attr.data-cy-prestations-deja-percues]="resultsByPrestation.prestation">
     </result-block>
     <hr>
