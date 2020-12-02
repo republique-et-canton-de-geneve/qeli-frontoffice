@@ -17,6 +17,7 @@ export interface QuestionSchema {
   dataCyIdentifier: string;
   label: I18nString | ((value: any) => I18nString);
   help?: I18nString | ((value: any) => I18nString);
+  introduction?: I18nString | ((value: any) => I18nString);
   preface?: I18nString | ((value: any) => I18nString);
   errorLabels?: { [key: string]: I18nString };
   onValueChanged?: (control: FormGroup) => void;
@@ -64,6 +65,11 @@ export abstract class Question<T extends Answer> {
   help?: I18nString | ((value: any) => I18nString);
 
   /**
+   * Optionel. Un texte d'introduction à afficher avant la question.
+   */
+  introduction?: I18nString | ((value: any) => I18nString);
+
+  /**
    * Optionnellement, un texte qui précède la question une méthode qui génère le texte à partir des données déjà
    * saisie dans le formulaire.
    */
@@ -95,6 +101,7 @@ export abstract class Question<T extends Answer> {
     this.dataCyIdentifier = options.dataCyIdentifier;
     this.label = options.label;
     this.help = options.help;
+    this.introduction = options.introduction;
     this.errorLabels = options.errorLabels || {};
     this.onValueChanged = options.onValueChanged;
     this._validators = options.validators !== null && options.validators !== undefined ? options.validators : [];
