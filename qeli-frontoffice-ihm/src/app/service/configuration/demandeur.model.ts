@@ -14,7 +14,7 @@ export enum Relation {
   AUTRE                 = 'AUTRE',
 }
 
-export const RELATION_FAMILIALE = [Relation.EPOUX, Relation.PARTENAIRE_ENREGISTRE, Relation.EPOUX, Relation.ENFANT];
+export const RELATION_FAMILIALE = [Relation.EPOUX, Relation.PARTENAIRE_ENREGISTRE, Relation.CONCUBIN, Relation.ENFANT];
 
 /**
  * Un enum représentant les états civils possibles du demandeur.
