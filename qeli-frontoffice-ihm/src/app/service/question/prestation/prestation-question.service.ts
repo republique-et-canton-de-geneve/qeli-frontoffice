@@ -27,7 +27,6 @@ export class PrestationQuestionService extends QuestionLoader {
           },
           errorLabels: QuestionUtils.toErrorLabels('prestations', ['required', 'atLeastOneSelected']),
           help: {key: 'question.prestations.help'},
-          introduction: {key: 'question.prestations.introduction'},
           hasSomeOptions: [
             {
               value: 'OUI',
