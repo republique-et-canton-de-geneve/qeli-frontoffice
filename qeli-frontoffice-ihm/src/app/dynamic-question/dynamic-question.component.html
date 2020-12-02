@@ -1,5 +1,11 @@
 <div class="form-group"
      [attr.data-cy-question]="question.dataCyIdentifier">
+
+  <div class="introduction-block"
+       *ngIf="introduction"
+       [innerHTML]="introduction.key | translate : introduction.parameters">
+  </div>
+
   <div class="row question-title">
     <div class="col-xs-12 col-sm-8"
          [ngClass]="disableDeepLink ? '': 'col-sm-8'">
