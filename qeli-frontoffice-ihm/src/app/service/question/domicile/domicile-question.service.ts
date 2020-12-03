@@ -5,9 +5,7 @@ import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilit
 import { MembreFoyer, Personne, Relation } from '../../configuration/demandeur.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { Prestation } from '../../configuration/prestation.model';
-import {
-  REPONSE_BINAIRE_OPTIONS, REPONSE_PROGRESSIVE_OPTIONS, ReponseBinaire, ReponseProgressive
-} from '../reponse-binaire.model';
+import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
 import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-question/date-question.model';
 import * as moment from 'moment';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
@@ -25,7 +23,7 @@ export class DomicileQuestionService extends QuestionLoader {
       this.demandeur.partenaire
     ].filter(membre => membre !== null && membre !== undefined);
 
-    const questions = membres.map((membre): QeliQuestionDecorator<any>[] => {
+    return membres.map((membre): QeliQuestionDecorator<any>[] => {
       const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
       return [{
         question: new RadioQuestion({
@@ -100,29 +98,6 @@ export class DomicileQuestionService extends QuestionLoader {
         categorie: Categorie.DOMICILE
       }];
     }).reduce((result, current) => result.concat(current), []);
-
-    questions.push({
-      question: new RadioQuestion({
-        key: 'residenceEffectiveCantonGE',
-        dataCyIdentifier: '0504_residenceEffectiveCantonGE',
-        label: {key: 'question.residenceEffectiveCantonGE.label'},
-        help: {key: 'question.residenceEffectiveCantonGE.help'},
-        errorLabels: {required: {key: 'question.residenceEffectiveCantonGE.error.required'}},
-        inline: true,
-        radioOptions: REPONSE_BINAIRE_OPTIONS
-      }),
-      calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
-        'residenceEffectiveCantonGE',
-        ReponseBinaire.NON,
-        Prestation.AIDE_SOCIALE,
-        this.demandeur,
-        (eligibilite) => ({key: `question.residenceEffectiveCantonGE.motifRefus.${eligibilite.prestation}`})
-      ),
-      eligibilites: eligibiliteGroup.findByPrestation(Prestation.AIDE_SOCIALE),
-      categorie: Categorie.DOMICILE
-    });
-
-    return questions;
   }
 
   private calculateDomicileCantonGERefusFn(membre: Personne) {

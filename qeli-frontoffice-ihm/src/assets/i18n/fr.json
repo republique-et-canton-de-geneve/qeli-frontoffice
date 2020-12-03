@@ -334,16 +334,6 @@
         "PC_FAM": "{who, select, me{Votre date officielle d'arrivée à Genève} other{La date officielle d'arrivée à Genève de {membre}}} est trop récente"
       }
     },
-    "residenceEffectiveCantonGE": {
-      "label": "Avez-vous votre résidence effective dans le canton de Genève ? (Variante : habitez-vous vraiment dans le canton de Genève ?)",
-      "help": "Résidence effective : votre logement se trouve bien dans le canton de Genève. Vous pouvez prouver que vous habitez à Genève, avec des factures par exemple.",
-      "error": {
-        "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève"
-      }
-    },
     "revenus": {
       "label": "Quels types de revenus {who, select, me{recevez-vous} other{{membre} reçoit-il(elle)}} ?",
       "help": "Si {who, select, me{vous avez} other{{membre} a}} d'autres revenus que ceux de la liste, pas besoin de les indiquer.",
