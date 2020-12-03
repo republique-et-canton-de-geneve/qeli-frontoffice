@@ -1,4 +1,3 @@
-
 export enum Pays {
   CH = "ch",
   AF = "af",
@@ -200,7 +199,7 @@ export enum Pays {
   ZW = "zw"
 }
 
-export const PAYS_CONVENTIONES = [
+export const PAYS_CONVENTIONNES = [
   Pays.AU, // Australie
   Pays.BA, // Bosnie-Herzégovine
   Pays.BR, // Brésil
@@ -252,6 +251,6 @@ export const PAYS_AELE_UE = [
   Pays.SE  // Suède
 ];
 
-export const PAYS_NON_CONVENTIONES = Object.values(Pays).filter(
-  pays => (!PAYS_CONVENTIONES.includes(pays) && !PAYS_AELE_UE.includes(pays) && Pays.CH !== pays)
+export const PAYS_NON_CONVENTIONNES = Object.values(Pays).filter(
+  pays => (!PAYS_CONVENTIONNES.includes(pays) && !PAYS_AELE_UE.includes(pays) && Pays.CH !== pays)
 );

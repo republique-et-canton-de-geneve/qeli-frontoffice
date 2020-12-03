@@ -8,7 +8,7 @@ import { ReponseBinaire } from './reponse-binaire.model';
 import { TypeEnfant } from './enfants/type-enfant.model';
 import { TypeRevenus } from './revenus/revenus.model';
 import { CheckboxGroupAnswer } from '../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
-import { TypePermisB, TypePermisC, TypePermisF } from './nationalite/type-permis.model';
+import { TypePermis, TypePermisB, TypePermisC, TypePermisF } from './nationalite/type-permis.model';
 import { Scolarite } from './formation/scolarite.model';
 
 /**
@@ -33,9 +33,13 @@ export class AnswerUtils {
     return findAnswer(key.split('.'), 0, formData);
   }
 
-  private static checkOptionAnswer(formData: FormData, key: string, value: string) {
+  private static getOptionAnswer(formData: FormData, key: string) {
     const answer = this.findAnswerByKey(formData, key) as OptionAnswer<string>;
-    const choosenOption = answer ? answer.value : null;
+    return answer ? answer.value : null;
+  }
+
+  private static checkOptionAnswer(formData: FormData, key: string, value: string) {
+    const choosenOption = this.getOptionAnswer(formData, key);
     return choosenOption && choosenOption.value === value;
   }
 
@@ -130,5 +134,11 @@ export class AnswerUtils {
 
   static isTaxationOffice(formData: FormData) {
     return this.checkOptionAnswer(formData, 'taxationOffice', 'OUI');
+  }
+
+  static hasAnyPermis(formData: FormData, personId: number, types: TypePermis[]) {
+    const selectedType = this.getOptionAnswer(formData, `situationPermis_${personId}.typePermis`);
+    const selectedTypeValue = selectedType ? TypePermis[selectedType.value] : null;
+    return (types || []).includes(selectedTypeValue);
   }
 }
