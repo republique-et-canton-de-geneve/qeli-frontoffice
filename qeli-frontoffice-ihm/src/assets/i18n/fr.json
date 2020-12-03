@@ -626,9 +626,9 @@
       "REFUGIE": "Permis F Refugié"
     },
     "typeEnfant": {
+      "LES_DEUX": "Notre enfant à tous les deux",
       "MOI": "Mon enfant",
       "AUTRE_PARENT": "Celui de {prenomAutreParent}",
-      "LES_DEUX": "Notre enfant à tous les deux",
       "AUTRES": "Autres"
     },
     "reponseBinaire": {
