@@ -232,10 +232,10 @@ export class NationaliteQuestionService extends QuestionLoader {
       });
       const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
-      const annesEnSuisse = moment().endOf('day').get('year') - moment(dateArriveEnSuisse).get('year');
+      const anneesEnSuisse = moment().endOf('day').get('year') - moment(dateArriveEnSuisse).get('year');
       const isNationaliteConventionnee = AnswerUtils.isNationaliteIn(formData, membre, PAYS_CONVENTIONNES);
 
-      if ((annesEnSuisse < 5 && isNationaliteConventionnee) || (annesEnSuisse < 10 && !isNationaliteConventionnee)) {
+      if ((anneesEnSuisse < 5 && isNationaliteConventionnee) || (anneesEnSuisse < 10 && !isNationaliteConventionnee)) {
         // Si < 5 ans en Suisse et pays conventionné      -> refus PC AVS AI
         // Si < 10 ans en Suisse et pays non-conventionné -> refus PC AVS AI
         QuestionUtils.createRefusByPrestationAndMembre(
