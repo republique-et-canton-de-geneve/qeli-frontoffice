@@ -2,9 +2,9 @@ import { QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Personne } from '../../configuration/demandeur.model';
 
 export enum TypeEnfant {
+  LES_DEUX     = "LES_DEUX",
   MOI          = 'MOI',
   AUTRE_PARENT = "AUTRE_PARENT",
-  LES_DEUX     = "LES_DEUX",
   AUTRES       = "AUTRES"
 }
 
