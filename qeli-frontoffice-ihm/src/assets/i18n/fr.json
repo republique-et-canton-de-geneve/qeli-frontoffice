@@ -296,7 +296,7 @@
           "Mask error": ""
         },
         "motifRefus": {
-          "BOURSES": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}} est trop récente",
+          "BOURSES": "{who, select, me{Votre} other{Son}} permis de séjour ne {who, select, me{vous} other{lui}} permet pas de beneficier cette prestation",
           "PC_AVS_AI": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}} est trop récente"
         }
       }

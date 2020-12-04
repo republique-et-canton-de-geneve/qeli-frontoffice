@@ -9,7 +9,7 @@ import {
 import { Personne } from '../../configuration/demandeur.model';
 import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Prestation } from '../../configuration/prestation.model';
-import { PAYS_NON_CONVENTIONES } from '../../../dynamic-question/nationalite-question/pays.model';
+import { PAYS_NON_CONVENTIONNES } from '../../../dynamic-question/nationalite-question/pays.model';
 import { situationRenteAsOptions } from './situation-rente.model';
 import { AnswerUtils } from '../answer-utils';
 import { QuestionUtils } from '../qeli-questions.utils';
@@ -105,7 +105,7 @@ export class RevenusQuestionService extends QuestionLoader {
       if (!this.hasAnyRevenusAVSOrAI(formData, membre)) {
         // Refus PC AVS AI si la personne ne reçoit pas de rente AVS / AI et qu'elle mineur ou qu'elle est d'un pays
         // sans convention.
-        if (!membre.isMajeur || AnswerUtils.isNationaliteIn(formData, membre, PAYS_NON_CONVENTIONES)) {
+        if (!membre.isMajeur || AnswerUtils.isNationaliteIn(formData, membre, PAYS_NON_CONVENTIONNES)) {
           QuestionUtils.createRefusByPrestationAndMembre(
             eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibiliteToMotifRefus
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
