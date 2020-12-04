@@ -462,16 +462,6 @@
         "max": "Erreur dans la saisie du nombre de pièces"
       }
     },
-    "appartementHabitationMixte": {
-      "label": "Etes-vous dans un appartement en habitation mixte (HM) ?",
-      "help": "Logement en habitation mixte (HM) : La subvention personnalisée habitation mixte est une aide personnalisée versée par l'Etat à un locataire de logement HM.",
-      "motifRefus": {
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué être dans un appartement en habitation mixte (HM)"
-      },
-      "error": {
-        "required": "Ce champ est obligatoire"
-      }
-    },
     "montantLoyerFixeOuVariable": {
       "label": "Le montant de votre loyer est-il fixe ou variable en fonction de votre revenu (HLM, HBM, HM, appartement de la Gérance immobilière municipale) ?",
       "help": "Loyer fixe : si vous n'avez ni un HLM (habitation à loyer modéré), ni un HBM (habitation bon marché), ni une HM (habitation mixte), ni un appartement de la GIM (Gestion immobilière municipale).<br><br>Loyer déterminé en fonction de votre revenu si vous habitez dans :<br><ul><li>un HBM (habitation bon marché) subventionné par l'Etat, destiné aux personnes à revenus modestes. Son loyer est contrôlé de façon permanente.</li><li>un HLM (habitation à loyer modéré) destiné aux personnes à revenus modérés, subventionné par l'Etat pendant une période de 20 ans</li><li>ou une HM (habitation mixte) destinée aux personnes à revenus moyens, dont le loyer peut être subventionné par l'Etat pendant une période de 25 ans</li><li>un logement géré par la GIM (Gestion immobilière municipale)</li></ul>",
