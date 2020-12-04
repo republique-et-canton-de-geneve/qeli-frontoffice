@@ -206,10 +206,11 @@ export class NationaliteQuestionService extends QuestionLoader {
   private calculateSituationPermisRefusFn(membre: Personne): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]) => {
       const situationPermis = (formData[`situationPermis_${membre.id}`] as CompositeAnswer).answers;
-      const isRefugie = AnswerUtils.isRefugie(formData, membre);
 
-      // Si la personne à une nationalité Suisse, est apatride ou réfugié pas de sortie d'éligibilité
-      if (AnswerUtils.isApatride(formData, membre) || isRefugie ||
+      // Si la personne à une nationalité Suisse, d'un Pays de l'UE/AELE
+      // ou est apatride ou réfugié pas de sortie d'éligibilité
+      if (AnswerUtils.isApatride(formData, membre) ||
+          AnswerUtils.isRefugie(formData, membre) ||
           AnswerUtils.isNationalite(formData, membre, Pays.CH) ||
           AnswerUtils.isNationaliteIn(formData, membre, PAYS_AELE_UE)) {
         return [];
