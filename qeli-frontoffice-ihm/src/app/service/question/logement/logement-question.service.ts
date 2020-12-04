@@ -97,26 +97,6 @@ export class LogementQuestionService extends QuestionLoader {
       },
       {
         question: new RadioQuestion({
-          key: 'appartementHabitationMixte',
-          dataCyIdentifier: '1005_appartementHabitationMixte',
-          label: {key: 'question.appartementHabitationMixte.label'},
-          help: {key: 'question.appartementHabitationMixte.help'},
-          errorLabels: {required: {key: 'question.appartementHabitationMixte.error.required'}},
-          inline: true,
-          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
-        }),
-        calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
-          'appartementHabitationMixte',
-          ReponseProgressive.OUI,
-          Prestation.ALLOCATION_LOGEMENT,
-          this.demandeur,
-          (eligibilite) => ({key: `question.appartementHabitationMixte.motifRefus.${eligibilite.prestation}`})
-        ),
-        eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.LOGEMENT
-      },
-      {
-        question: new RadioQuestion({
           key: 'montantLoyerFixeOuVariable',
           dataCyIdentifier: '1006_montantLoyerFixeOuVariable',
           label: {key: 'question.montantLoyerFixeOuVariable.label'},
