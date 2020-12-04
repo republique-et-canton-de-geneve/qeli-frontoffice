@@ -12,7 +12,7 @@ import { DateAnswer, DateQuestion } from '../../../dynamic-question/date-questio
 import * as moment from 'moment';
 import { Personne } from '../../configuration/demandeur.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
-import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONES } from '../../../dynamic-question/nationalite-question/pays.model';
+import { Pays, PAYS_AELE_UE, PAYS_CONVENTIONNES } from '../../../dynamic-question/nationalite-question/pays.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 import { DropdownQuestion } from '../../../dynamic-question/dropdown-question/dropdown-question.model';
 import {
@@ -207,8 +207,10 @@ export class NationaliteQuestionService extends QuestionLoader {
     return (formData: FormData, eligibilites: Eligibilite[]) => {
       const situationPermis = (formData[`situationPermis_${membre.id}`] as CompositeAnswer).answers;
 
-      // Si la personne à une nationalité Suisse, d'un Pays de l'UE/AELE ou est apatride pas de sortie d'éligibilité
+      // Si la personne à une nationalité Suisse, d'un Pays de l'UE/AELE
+      // ou est apatride ou réfugié pas de sortie d'éligibilité
       if (AnswerUtils.isApatride(formData, membre) ||
+          AnswerUtils.isRefugie(formData, membre) ||
           AnswerUtils.isNationalite(formData, membre, Pays.CH) ||
           AnswerUtils.isNationaliteIn(formData, membre, PAYS_AELE_UE)) {
         return [];
@@ -225,35 +227,28 @@ export class NationaliteQuestionService extends QuestionLoader {
       }
 
       const refus: EligibiliteRefusee[] = [];
-      const isReugie = AnswerUtils.isRefugie(formData, membre);
       const eligibiliteToMotifFn = eligibilite => ({
         key: `question.situationPermis.dateArriveeSuisse.motifRefus.${eligibilite.prestation}`,
         parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
       });
       const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
-      if (this.habiteEnSuisseDepuis(dateArriveEnSuisse, 5)) {
-        // Si la personne habite en Suisse depuis plus de 5 (mais moins de 10) et qu'elle n'est pas réfugiée ou
-        // avec une nationalité d'un pays conventionné, elle a un refus PC AVS AI.
-        if (isReugie && !AnswerUtils.isNationaliteIn(formData, membre, PAYS_CONVENTIONES)) {
-          QuestionUtils.createRefusByPrestationAndMembre(
-            eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibiliteToMotifFn
-          ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
-        }
-      } else {
-        // Refus PC AVS AI si la personne habite en Suisse depuis moins de 5 ans.
+      const anneesEnSuisse = moment().endOf('day').get('year') - moment(dateArriveEnSuisse).get('year');
+      const isNationaliteConventionnee = AnswerUtils.isNationaliteIn(formData, membre, PAYS_CONVENTIONNES);
+
+      if ((anneesEnSuisse < 5 && isNationaliteConventionnee) || (anneesEnSuisse < 10 && !isNationaliteConventionnee)) {
+        // Si < 5 ans en Suisse et pays conventionné      -> refus PC AVS AI
+        // Si < 10 ans en Suisse et pays non-conventionné -> refus PC AVS AI
         QuestionUtils.createRefusByPrestationAndMembre(
           eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibiliteToMotifFn
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
-
-        // Refus BOURSE si la personne habite en Suisse depuis moins de 5 ans et elle n'est pas réfugiée.
-        if (!isReugie) {
-          QuestionUtils.createRefusByPrestationAndMembre(
-            eligibiliteGroup, Prestation.BOURSES, membre, eligibiliteToMotifFn
-          ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
-        }
       }
 
+      if (AnswerUtils.hasAnyPermis(formData, membre.id, [TypePermis.L, TypePermis.N, TypePermis.S])) {
+        QuestionUtils.createRefusByPrestationAndMembre(
+          eligibiliteGroup, Prestation.BOURSES, membre, eligibiliteToMotifFn
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+      }
       return refus;
     };
   }
