@@ -109,7 +109,8 @@
           "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
           "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}",
-          "information11P": "Attention : l'année prochaine, {enfants11P} {nombreEnfants11P, select, 1{sera} other{seront}} potentiellement éligible aux bourses."
+          "information11P": "Attention : l'année prochaine, {enfants11P} {nombreEnfants11P, select, 1{sera} other{seront}} potentiellement éligible aux bourses.",
+          "informationChomage": "Si votre droit au chômage s'arrête pendant la formation, vous pourriez avoir droit à une bourse."
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",

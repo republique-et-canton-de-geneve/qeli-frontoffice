@@ -2,6 +2,8 @@ import { MessageEvaluator, ResultsByPrestation, TypeEligibilite } from '../resul
 import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { EvaluatorUtils } from '../evaluator-utils';
 import { FormData } from '../../../dynamic-question/model/question.model';
+import { AnswerUtils } from '../answer-utils';
+import { TypeRevenus } from '../revenus/revenus.model';
 
 export class BoursesEvaluator implements MessageEvaluator {
 
@@ -18,6 +20,13 @@ export class BoursesEvaluator implements MessageEvaluator {
           )
         }
       };
+    }
+
+    const refusRevenusChommage = results
+      .results
+      .some(result => !result.eligible && AnswerUtils.hasAnyRevenus(formData, result.membre, TypeRevenus.CHOMAGE));
+    if (refusRevenusChommage) {
+      return 'home.result.prestation.BOURSES.informationChomage';
     }
     return null;
   }
