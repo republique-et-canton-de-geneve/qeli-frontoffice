@@ -362,7 +362,7 @@
       }
     },
     "situationRente": {
-      "preface": "Dans certaines situations particulières, des personnes sont officiellement invalides, retraitées ou veuves mais ne touchent pas de rente (pas d'argent reçu). Ces personnes pourraient pourtant recevoir des prestations complémentaires AVS/AI.",
+      "introduction": "Dans certaines situations particulières, des personnes sont officiellement invalides, retraitées ou veuves mais ne touchent pas de rente (pas d'argent reçu). Ces personnes pourraient pourtant recevoir des prestations complémentaires AVS/AI.",
       "label": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} dans une des situations suivantes ?",
       "some": "Sélectionnez toutes les options qui décrivent {who, select, me{votre situation} other{la situation de {membre}}} :",
       "none": "Non, aucune de ces situations {who, select, me{ne me concerne} other{ne concerne {membre}}}",
