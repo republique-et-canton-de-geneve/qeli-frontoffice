@@ -68,7 +68,7 @@ export class RevenusQuestionService extends QuestionLoader {
           question: new CheckboxGroupQuestion({
             key: `situationRente_${membre.id}`,
             dataCyIdentifier: `0602_situationRente_${membre.id}`,
-            introduction: {key: 'question.situationRente.preface'},
+            introduction: {key: 'question.situationRente.introduction'},
             label: {
               key: 'question.situationRente.label',
               parameters: translateParams
