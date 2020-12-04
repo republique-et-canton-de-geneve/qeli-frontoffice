@@ -22,7 +22,7 @@ export class DynamicQuestionComponent {
   label: I18nString;
   help: I18nString;
   introduction: I18nString;
-  preface: I18nString;
+  extraHelp: I18nString;
   questionValueChangeSubscription: Subscription;
 
   @ViewChild(QuestionDirective, {static: true}) questionDirective: QuestionDirective;
@@ -39,7 +39,7 @@ export class DynamicQuestionComponent {
     this.label = this.resolveI18nString(question.label);
     this.help = this.resolveI18nString(question.help);
     this.introduction = this.resolveI18nString(question.introduction);
-    this.preface = this.resolveI18nString(question.preface);
+    this.extraHelp = this.resolveI18nString(question.extraHelp);
 
     this.loadOnValueChangeSubscription();
     this.loadComponent();

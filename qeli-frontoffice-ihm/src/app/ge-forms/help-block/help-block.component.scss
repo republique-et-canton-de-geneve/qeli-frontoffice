@@ -1,0 +1,29 @@
+.help-block {
+  text-align: justify;
+}
+
+.collapse-button {
+  text-align: center;
+  cursor: pointer;
+  margin-top: 10px;
+
+  span, i {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .outer-line {
+    width: 40%;
+    border-bottom: 1px solid #bbb;
+  }
+
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0 2% 0 2%;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+}
