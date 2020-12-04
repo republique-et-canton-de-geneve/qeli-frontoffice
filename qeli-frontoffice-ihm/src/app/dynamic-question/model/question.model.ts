@@ -18,7 +18,7 @@ export interface QuestionSchema {
   label: I18nString | ((value: any) => I18nString);
   help?: I18nString | ((value: any) => I18nString);
   introduction?: I18nString | ((value: any) => I18nString);
-  preface?: I18nString | ((value: any) => I18nString);
+  extraHelp?: I18nString | ((value: any) => I18nString);
   errorLabels?: { [key: string]: I18nString };
   onValueChanged?: (control: FormGroup) => void;
   validators?: ValidatorFn[];
@@ -70,10 +70,10 @@ export abstract class Question<T extends Answer> {
   introduction?: I18nString | ((value: any) => I18nString);
 
   /**
-   * Optionnellement, un texte qui précède la question une méthode qui génère le texte à partir des données déjà
-   * saisie dans le formulaire.
+   * Optionnellement, une section de texte d'aide supplementaire depliable ou une méthode qui génère le texte à partir
+   * des données déjà saisie dans le formulaire.
    */
-  preface?: I18nString | ((value: any) => I18nString);
+  extraHelp?: I18nString | ((value: any) => I18nString);
 
   /**
    * Les libellés pour les messages d'erreurs qui sont lié à cette question
@@ -102,6 +102,7 @@ export abstract class Question<T extends Answer> {
     this.label = options.label;
     this.help = options.help;
     this.introduction = options.introduction;
+    this.extraHelp = options.extraHelp;
     this.errorLabels = options.errorLabels || {};
     this.onValueChanged = options.onValueChanged;
     this._validators = options.validators !== null && options.validators !== undefined ? options.validators : [];
