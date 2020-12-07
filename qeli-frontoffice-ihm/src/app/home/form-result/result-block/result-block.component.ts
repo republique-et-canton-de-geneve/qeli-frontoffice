@@ -1,7 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Prestation } from '../../../service/configuration/prestation.model';
 import { TranslateService } from '@ngx-translate/core';
-import { Result, ResultsByPrestation } from './result.model';
+import {
+  MessageEvaluatorByPrestation, Result, ResultsByPrestation, TypeEligibilite
+} from '../../../service/question/result.model';
+import { EvaluatorUtils } from '../../../service/question/evaluator-utils';
+import { BoursesEvaluator } from '../../../service/question/message-evaluators/bourses.evaluator';
+import { PcAvsAiEvaluator } from '../../../service/question/message-evaluators/pcavsai.evaluator';
+import { PcFamEvaluator } from '../../../service/question/message-evaluators/pcfam.evaluator';
+import { FormData } from '../../../dynamic-question/model/question.model';
 
 @Component({
   selector: 'result-block',
@@ -11,28 +18,40 @@ import { Result, ResultsByPrestation } from './result.model';
 })
 export class ResultBlockComponent {
   @Input() resultsByPrestation: ResultsByPrestation;
-  @Input() type: 'eligible' | 'refusee' | 'dejaPercue';
+  @Input() type: TypeEligibilite;
+  @Input() formData: FormData;
 
+  private readonly exportBlockMessageEvaluators: MessageEvaluatorByPrestation = {
+    [Prestation.PC_FAM]: new PcFamEvaluator(),
+    [Prestation.PC_AVS_AI]: new PcAvsAiEvaluator(),
+    [Prestation.BOURSES]: new BoursesEvaluator()
+  };
 
   constructor(private translateService: TranslateService) {
 
   }
 
   get isPrestationRefusee() {
-    return this.type === 'refusee'
+    return EvaluatorUtils.isPrestationRefusee(this.type);
   }
 
   get isPrestationDejaPercue() {
-    return this.type === 'dejaPercue';
+    return EvaluatorUtils.isPrestationDejaPercue(this.type);
   }
 
   get isPrestationEligible() {
-    return this.type === 'eligible';
+    return EvaluatorUtils.isPrestationEligible(this.type);
   }
 
   get isPrestationIndividuel() {
     return this.resultsByPrestation.prestation === Prestation.SUBSIDES ||
            this.resultsByPrestation.prestation === Prestation.BOURSES;
+  }
+
+  get informationMessage() {
+    const messageEvaluator = this.exportBlockMessageEvaluators[this.resultsByPrestation.prestation];
+
+    return messageEvaluator ? messageEvaluator.evaluate(this.type, this.resultsByPrestation, this.formData) : null;
   }
 
   toTranslateParams(result: Result) {

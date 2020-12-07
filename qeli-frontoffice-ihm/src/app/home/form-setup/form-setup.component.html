@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <div *ngFor="let membre of membresFamilleControls; index as i; last as isLast;" [attr.data-cy]="'membre-' + i">
+    <div *ngFor="let membre of membresFoyerControls; index as i; last as isLast;" [attr.data-cy]="'membre-' + i">
       <hr>
       <div class="row member-row" [formGroup]="membre">
         <div class="col-sm-4" data-cy="membre-relation">
@@ -83,7 +83,8 @@
                     aria-required="true"
                     [attr.aria-invalid]="isInvalid(membre.controls['relation'])"
                     [attr.disabled]="!isLast ? 'disabled' : null"
-                    class="form-control form-select">
+                    class="form-control form-select"
+                    (change)=onRelationChange($event,i)>
               <option></option>
               <option *ngFor="let option of relationOptionsByMember[i]" [value]="option">
                 {{ 'home.setup.membre.relation.options.' + option | translate }}
@@ -94,13 +95,13 @@
 
         <div class="col-sm-4" data-cy="membre-date-naissance">
           <app-input-container identifier="{{ 'dateNaissanceMembre' + i }}"
-                               required="true"
+                               [required]="isRequired(membre.controls['dateNaissance'])"
                                label="{{ 'home.setup.membre.dateNaissance.label' | translate }}"
                                [control]="membre.controls['dateNaissance']"
                                [errorLabels]="errorLabels">
             <app-date-input identifier="{{ 'dateNaissanceMembre' + i }}"
-                            required="true"
-                            [disabled]="!isLast"
+                            [required]="isRequired(membre.controls['dateNaissance'])"
+                            [disabled]="isDisabled(membre.controls['relation'], isLast)"
                             [minDate]="minDateNaissance"
                             [maxDate]="maxDateNaissance"
                             [form]="membre"
@@ -116,7 +117,7 @@
                                [errorLabels]="errorLabels">
             <input id="{{ 'prenomMembre' + i }}"
                    formControlName="prenom"
-                   [attr.disabled]="!isLast ? 'disabled' : null"
+                   [attr.disabled]="isDisabled(membre.controls['relation'], isLast) ? 'disabled' : null"
                    [attr.aria-invalid]="isInvalid(membre.controls['prenom'])"
                    placeholder="{{ getDefaultPrenomByMembre(membre.value) }}"
                    type="text"
@@ -152,11 +153,10 @@
     </div>
 
     <div class="row">
-      <div class="col-xs-12 text-justify checkbox">
-        <label>
-          <input type="checkbox" id="autresMembres" formControlName="autresMembres">
-          {{'home.setup.autresCheckbox' | translate}}
-        </label>
+      <div class="col-xs-12 text-justify">
+        <p class="help-block">
+          {{'home.setup.nombrePersonnesFoyer' | translate : {totalPersonnesFoyer: numberOfMembres + 1} }}
+        </p>
       </div>
     </div>
 

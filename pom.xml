@@ -11,7 +11,7 @@
 
     <groupId>ch.ge.social.qeli</groupId>
     <artifactId>qeli-frontoffice</artifactId>
-    <version>1.4.1</version>
+    <version>1.4.2</version>
     <packaging>pom</packaging>
 
     <name>qeli-frontoffice</name>
@@ -97,11 +97,12 @@
         <!-- Additional dependencies versions -->
         <ct_springmvc_theme_internet.version>2.0.4</ct_springmvc_theme_internet.version>
         <guava.version>27.0.1-jre</guava.version>
+        <icu4j.version>68.1</icu4j.version>
         <javassist.version>3.23.1-GA</javassist.version>
         <mapstruct.version>1.3.0.Final</mapstruct.version>
         <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
         <xmlschema-core.version>2.2.4</xmlschema-core.version>
-        <mustache.version>0.9.6</mustache.version>
+        <velocity.version>2.2</velocity.version>
         <OutilsRapportDialogue.version>1.5</OutilsRapportDialogue.version>
 
         <!-- Test dependencies versions -->
@@ -116,35 +117,35 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-application</artifactId>
-                <version>1.4.1</version>
+                <version>1.4.2</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-cypress</artifactId>
-                <version>1.4.1</version>
+                <version>1.4.2</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-ihm</artifactId>
-                <version>1.4.1</version>
+                <version>1.4.2</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-rest</artifactId>
-                <version>1.4.1</version>
+                <version>1.4.2</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service</artifactId>
-                <version>1.4.1</version>
+                <version>1.4.2</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service-api</artifactId>
-                <version>1.4.1</version>
+                <version>1.4.2</version>
             </dependency>
 
             <!-- Additional dependencies -->
@@ -152,6 +153,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ibm.icu</groupId>
+                <artifactId>icu4j</artifactId>
+                <version>${icu4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.javassist</groupId>
@@ -167,6 +173,11 @@
                 <groupId>ch.ge.cti.fwk.cmp.dialogue</groupId>
                 <artifactId>OutilsRapportDialogue</artifactId>
                 <version>${OutilsRapportDialogue.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.ws.xmlschema</groupId>

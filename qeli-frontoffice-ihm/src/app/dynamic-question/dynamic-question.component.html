@@ -1,9 +1,14 @@
 <div class="form-group"
      [attr.data-cy-question]="question.dataCyIdentifier">
+
+  <div class="introduction-block"
+       *ngIf="introduction"
+       [innerHTML]="introduction.key | translate : introduction.parameters">
+  </div>
+
   <div class="row question-title">
     <div class="col-xs-12 col-sm-8"
          [ngClass]="disableDeepLink ? '': 'col-sm-8'">
-      <p *ngIf="preface" [innerHtml]="preface.key | translate:preface.parameters"></p>
       <label class="control-label"
              [ngClass]="question.showErrors && !isValid ? 'text-danger' : ''"
              [attr.for]="question.key"
@@ -21,7 +26,8 @@
     </div>
   </div>
 
-  <p *ngIf="help" class="help-block" [innerHtml]="help.key | translate:help.parameters"></p>
+  <app-help-block *ngIf="help" [text]="help" [collapsable]="false"></app-help-block>
+  <app-help-block *ngIf="extraHelp" [text]="extraHelp" [collapsable]="true"></app-help-block>
 
   <div *ngIf="question.showErrors && !isValid && errors.length > 0"
        class="error-block text-danger"

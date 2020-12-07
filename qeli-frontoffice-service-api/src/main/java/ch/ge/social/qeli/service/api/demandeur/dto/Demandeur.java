@@ -1,6 +1,7 @@
 package ch.ge.social.qeli.service.api.demandeur.dto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,5 +19,11 @@ public class Demandeur extends Personne {
   /**
    * Les membres qui composent le foyer du demandeur.
    */
-  private List<MembreFamille> membresFamille;
+  private List<MembreFamille> membresFoyer;
+
+  public List<MembreFamille> fetchMembresFamille() {
+    return this.membresFoyer.stream()
+                            .filter(membre -> membre.getRelation().isMembreFamille())
+                            .collect(Collectors.toList());
+  }
 }

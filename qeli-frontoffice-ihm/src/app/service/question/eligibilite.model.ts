@@ -1,5 +1,5 @@
 import { Prestation } from '../configuration/prestation.model';
-import { Demandeur, MembreFamille, Personne, Relation } from '../configuration/demandeur.model';
+import { Demandeur, MembreFoyer, Personne, Relation } from '../configuration/demandeur.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
 
 /**
@@ -89,7 +89,7 @@ export class EligibiliteGroup {
       if (el.prestation !== prestation || membre instanceof Demandeur) {
         return false;
       }
-      return (membre as MembreFamille).relation === relation;
+      return (membre as MembreFoyer).relation === relation;
     });
   }
 
@@ -150,7 +150,7 @@ export class EligibiliteGroup {
                .filter(eligibilite => {
                  const membre = this.demandeur.findMembrebyId(eligibilite.membreId);
                  _pestations.includes(eligibilite.prestation) &&
-                 _relations.includes((membre as MembreFamille).relation)
+                 _relations.includes((membre as MembreFoyer).relation)
                });
   }
 }

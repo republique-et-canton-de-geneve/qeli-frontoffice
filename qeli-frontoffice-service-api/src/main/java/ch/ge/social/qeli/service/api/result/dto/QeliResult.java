@@ -2,7 +2,6 @@ package ch.ge.social.qeli.service.api.result.dto;
 
 import ch.ge.social.qeli.service.api.answer.dto.Answer;
 import ch.ge.social.qeli.service.api.demandeur.dto.Demandeur;
-import java.util.List;
 import java.util.Map;
 import lombok.Data;
 
@@ -17,14 +16,9 @@ public class QeliResult {
   private Map<String, Answer> answers;
 
   /**
-   * Les éligibilités possibles.
+   * Le résultat avec les éligibilites.
    */
-  private List<Eligibilite> eligibilites;
-
-  /**
-   * Les éligibilités refusées ou déjà perçue.
-   */
-  private List<EligibiliteRefusee> eligibiliteRefusees;
+  private FormResult result;
 
   /**
    * Le demandeur.

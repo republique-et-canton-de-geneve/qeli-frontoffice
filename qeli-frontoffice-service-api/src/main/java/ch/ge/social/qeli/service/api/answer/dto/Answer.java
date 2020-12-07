@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @Type(value = StringAnswer.class, name = "string"),
     @Type(value = NumberAnswer.class, name = "number"),
     @Type(value = DateAnswer.class, name = "date"),
+    @Type(value = DropdownAnswer.class, name = "dropdown"),
     @Type(value = CheckboxGroupAnswer.class, name = "checkbox-group"),
     @Type(value = TauxAnswer.class, name = "taux"),
     @Type(value = NationaliteAnswer.class, name = "nationalite"),

@@ -1,16 +1,51 @@
-<div [formGroup]="form"
-     data-cy-question-input
-     data-cy-question-type="dropdown">
-  <select [id]="question.key"
-          [formControlName]="question.key"
-          [focusOnInit]="!disableFocusOnInit"
-          [attr.aria-invalid]="!isValid"
-          [attr.aria-required]="question.required"
-          class="form-control form-select"
-          [attr.data-matomo-name]="question.dataCyIdentifier">
-    <option></option>
-    <option *ngFor="let option of question.dropdownOptions" [value]="option.value">
-      {{ option.label.key | translate:option.label.parameters }}
-    </option>
-  </select>
+<div [formGroup]="form">
+  <div [formGroupName]="question.key"
+       role="radiogroup"
+       [attr.aria-labelledby]="question.key+'_label'"
+       [attr.aria-required]="question.required"
+       [attr.aria-invalid]="!isValid"
+       data-cy-question-input
+       data-cy-question-type="dropdown">
+
+    <hr *ngIf="question.hasInconnu">
+    <div *ngIf="question.hasInconnu" class="radio">
+      <label [id]="question.key + '_some_option_label'">
+        <input type="radio"
+               [value]="question.someOption.value"
+               formControlName="hasSome"
+               [focusOnInit]="!disableFocusOnInit"
+               (change)="onMainOptionChanged()"
+               [attr.data-cy-value]="question.someOption.value"
+               data-matomo-ignore>
+        {{ question.someOption.label.key| translate:question.someOption.label.parameters }}
+      </label>
+    </div>
+
+    <select [id]="question.key + '_value'"
+            formControlName="value"
+            [focusOnInit]="!disableFocusOnInit"
+            [attr.aria-invalid]="!isValid"
+            [attr.aria-required]="question.required"
+            [attr.disabled]="isInconnuSelected ? 'disabled' : null"
+            class="form-control form-select"
+            [attr.data-matomo-name]="question.dataCyIdentifier">
+      <option></option>
+      <option *ngFor="let option of question.dropdownOptions" [value]="option.value">
+        {{ option.label.key | translate:option.label.parameters }}
+      </option>
+    </select>
+
+    <hr *ngIf="question.hasInconnu">
+    <div *ngIf="question.hasInconnu" class="radio">
+      <label>
+        <input type="radio"
+               [value]="question.inconnuOption.value"
+               formControlName="hasSome"
+               (change)="onMainOptionChanged()"
+               [attr.data-cy-value]="question.inconnuOption.value"
+               [attr.data-matomo-name]="question.dataCyIdentifier">
+        {{ question.inconnuOption.label.key| translate:question.inconnuOption.label.parameters }}
+      </label>
+    </div>
+  </div>
 </div>
