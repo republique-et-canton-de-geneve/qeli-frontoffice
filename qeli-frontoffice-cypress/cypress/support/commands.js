@@ -57,13 +57,13 @@ Cypress.Commands.add('getQuestionLabel', (questionKey) =>
 Cypress.Commands.add('answerNationalite', (questionKey, answer) => {
   cy.getQuestion(questionKey).find('[data-cy-question-input]').then($question => {
     if (answer === 'apatride') {
-      cy.dataCy('apatride').check();
+      cy.wrap($question[0]).find('input[data-cy=apatride]').check();
     } else {
       const nationalites = splitCommaSeparatedString(answer);
       nationalites.forEach((nationalite, i) => {
-        cy.dataCy(`nationalite-${i}`).select(nationalite);
+        cy.wrap($question[0]).find(`select[data-cy=nationalite-${i}]`).select(nationalite);
         if (i < nationalites.length - 1) {
-          cy.dataCy(`ajouter-nationalite-${i}`).should('not.be.disabled').click();
+          cy.wrap($question[0]).find(`button[data-cy=ajouter-nationalite-${i}]`).should('not.be.disabled').click();
         }
       });
     }
