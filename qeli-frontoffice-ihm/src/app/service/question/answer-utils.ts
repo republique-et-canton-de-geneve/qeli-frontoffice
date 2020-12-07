@@ -4,15 +4,19 @@ import { CompositeAnswer } from '../../dynamic-question/composite-question/compo
 import { Demandeur, Personne } from '../configuration/demandeur.model';
 import { Pays } from '../../dynamic-question/nationalite-question/pays.model';
 import { NationaliteAnswer } from '../../dynamic-question/nationalite-question/nationalite-question.model';
-import { RequerantRefugie } from './nationalite/requerant-refugie.model';
-import { ReponseBinaire, ReponseProgressive } from './reponse-binaire.model';
+import { ReponseBinaire } from './reponse-binaire.model';
 import { TypeEnfant } from './enfants/type-enfant.model';
 import { TypeRevenus } from './revenus/revenus.model';
 import { CheckboxGroupAnswer } from '../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
+import { TypePermis, TypePermisB, TypePermisC, TypePermisF } from './nationalite/type-permis.model';
+import { Scolarite } from './formation/scolarite.model';
 
+/**
+ * Une collection de méthodes permettant l'extraction des informations à partir des réponse de l'utilisateur.
+ */
 export class AnswerUtils {
 
-  static findAnswerByKey(formData: FormData, key: string): Answer {
+  private static findAnswerByKey(formData: FormData, key: string): Answer {
     const findAnswer = (path: string[], index: number, answers: { [key: string]: Answer }) => {
       if (index === path.length - 1) {
         return answers[path[index]];
@@ -29,51 +33,48 @@ export class AnswerUtils {
     return findAnswer(key.split('.'), 0, formData);
   }
 
-  static isNationalite(formData: FormData, membre: Personne, pays: Pays) {
-    return this.isNationaliteIn(formData, membre, [pays]);
+  private static getOptionAnswer(formData: FormData, key: string) {
+    const answer = this.findAnswerByKey(formData, key) as OptionAnswer<string>;
+    return answer ? answer.value : null;
   }
 
-  static isNationaliteIn(formData: FormData, membre: Personne, pays: Pays[]) {
+  private static checkOptionAnswer(formData: FormData, key: string, value: string) {
+    const choosenOption = this.getOptionAnswer(formData, key);
+    return choosenOption && choosenOption.value === value;
+  }
+
+  static isNationalite(formData: FormData, personne: Personne, pays: Pays) {
+    return this.isNationaliteIn(formData, personne, [pays]);
+  }
+
+  static isNationaliteIn(formData: FormData, personne: Personne, pays: Pays[]) {
     const nationaliteAnswer = this.findAnswerByKey(
-      formData, `situationMembre_${membre.id}.nationalite`
+      formData, `nationalite.nationalite_${personne.id}`
     ) as NationaliteAnswer;
 
     return nationaliteAnswer && nationaliteAnswer.pays.some(option => pays.includes(option.value));
   }
 
-  static isApatride(formData: FormData, membre: Personne) {
+  static isApatride(formData: FormData, personne: Personne) {
     const nationaliteAnswer = this.findAnswerByKey(
-      formData, `situationMembre_${membre.id}.nationalite`
+      formData, `nationalite.nationalite_${personne.id}`
     ) as NationaliteAnswer;
 
     return nationaliteAnswer && nationaliteAnswer.apatride;
   }
 
-  static isRefugie(formData: FormData, membre: Personne) {
-    const refugieAnswer = this.findAnswerByKey(
-      formData, `situationMembre_${membre.id}.refugie`
-    ) as OptionAnswer<string>;
-    const choosenRefugieOption = refugieAnswer ? refugieAnswer.value : null;
-
-    return choosenRefugieOption && choosenRefugieOption.value === RequerantRefugie.REFUGIE;
+  static isRefugie(formData: FormData, personne: Personne) {
+    return this.checkOptionAnswer(formData, `situationPermis_${personne.id}.complementPermisB`, TypePermisB.REFUGIE) ||
+           this.checkOptionAnswer(formData, `situationPermis_${personne.id}.complementPermisC`, TypePermisC.REFUGIE) ||
+           this.checkOptionAnswer(formData, `situationPermis_${personne.id}.complementPermisF`, TypePermisF.REFUGIE);
   }
 
-  static hasPermisBEtudes(formData: FormData, membre: Personne) {
-    const permisBEtudesAnswer = this.findAnswerByKey(
-      formData, `permisBEtudes.permisBEtudes_${membre.id}`
-    ) as OptionAnswer<string>;
-    const choosenOption = permisBEtudesAnswer ? permisBEtudesAnswer.value : null;
-
-    return choosenOption && choosenOption.value === ReponseProgressive.OUI;
+  static hasPermisBEtudes(formData: FormData, personne: Personne) {
+    return this.checkOptionAnswer(formData, `situationPermis_${personne.id}.complementPermisB`, TypePermisB.ETUDES);
   }
 
   static isEnFormation(formData: FormData, personneId: number) {
-    const formationAnswer = this.findAnswerByKey(
-      formData, `formation.formation_${personneId}`
-    ) as OptionAnswer<string>;
-    const choosenOption = formationAnswer ? formationAnswer.value : null;
-
-    return choosenOption && choosenOption.value === ReponseBinaire.OUI;
+    return this.checkOptionAnswer(formData, `formation.formation_${personneId}`, ReponseBinaire.OUI);
   }
 
   static isEnfantACharge(formData: FormData, enfant: Personne, demandeur: Demandeur) {
@@ -124,10 +125,20 @@ export class AnswerUtils {
   }
 
   static isEnfantType(formData: FormData, enfantId: number, typeEnfant: TypeEnfant) {
-    const parentsEnfantsAnswer = this.findAnswerByKey(
-      formData, `parentsEnfants.parentsEnfants_${enfantId}`
-    ) as OptionAnswer<string>;
-    const choosenOption = parentsEnfantsAnswer ? parentsEnfantsAnswer.value : null;
-    return choosenOption.value === typeEnfant;
+    return this.checkOptionAnswer(formData, `parentsEnfants.parentsEnfants_${enfantId}`, typeEnfant);
+  }
+
+  static isScolarite(formData: FormData, personId: number, scolarite: Scolarite) {
+    return this.checkOptionAnswer(formData, `scolarite_${personId}`, scolarite);
+  }
+
+  static isTaxationOffice(formData: FormData) {
+    return this.checkOptionAnswer(formData, 'taxationOffice', 'OUI');
+  }
+
+  static hasAnyPermis(formData: FormData, personId: number, types: TypePermis[]) {
+    const selectedType = this.getOptionAnswer(formData, `situationPermis_${personId}.typePermis`);
+    const selectedTypeValue = selectedType ? TypePermis[selectedType.value] : null;
+    return (types || []).includes(selectedTypeValue);
   }
 }

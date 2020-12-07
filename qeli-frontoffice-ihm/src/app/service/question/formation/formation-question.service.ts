@@ -6,12 +6,20 @@ import { Personne, Relation } from '../../configuration/demandeur.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { RadioQuestion } from '../../../dynamic-question/radio-question/radio-question.model';
 import { REPONSE_BINAIRE_OPTIONS } from '../reponse-binaire.model';
-import { Scolarite, SCOLARITE_OPTIONS } from './scolarite.model';
-import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
+import { Scolarite, typeScolariteOptions } from './scolarite.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
 import { AnswerUtils } from '../answer-utils';
 import { QuestionUtils } from '../qeli-questions.utils';
+import { DropdownAnswer, DropdownQuestion } from '../../../dynamic-question/dropdown-question/dropdown-question.model';
+
+export const SORTIES_ELIGIBILITE_BOURSES = [
+  Scolarite.SCOLARITE_OBLIGATOIRE_1P_A_10P,
+  Scolarite.SCOLARITE_OBLIGATOIRE_11P,
+  Scolarite.UNIVERSITE_DOCTORAT,
+  Scolarite.FORMATION_CONTINUE_CERTIFIANTE,
+  Scolarite.FORMATION_CONTINUE_COURTE
+];
 
 export class FormationQuestionService extends QuestionLoader {
 
@@ -50,21 +58,36 @@ export class FormationQuestionService extends QuestionLoader {
       categorie: Categorie.FORMATION
     });
 
-    membres.map((membre): QeliQuestionDecorator<any> => ({
-      question: new RadioQuestion({
-        key: `scolarite_${membre.id}`,
-        dataCyIdentifier: `0701_scolarite_${membre.id}`,
-        label: {
-          key: 'question.scolarite.label',
-          parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
-        },
-        errorLabels: {required: {key: 'question.scolarite.error.required'}},
-        radioOptions: SCOLARITE_OPTIONS
-      }),
-      calculateRefus: this.calculateScolariteRefusFn(membre).bind(this),
-      eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.BOURSES, membre),
-      categorie: Categorie.FORMATION
-    } as QeliQuestionDecorator<any>)).forEach(question => questions.push(question));
+    membres.map((membre): QeliQuestionDecorator<any> => {
+      const translateParams = {
+        who: membre.id === 0 ? 'me' : 'them',
+        membre: membre.prenom
+      };
+
+      return {
+        question: new DropdownQuestion({
+          key: `scolarite_${membre.id}`,
+          dataCyIdentifier: `0701_scolarite_${membre.id}`,
+          label: {key: 'question.scolarite.label', parameters: translateParams},
+          help: {key: 'question.scolarite.help', parameters: translateParams},
+          errorLabels: {required: {key: 'question.scolarite.error.required'}},
+          someOptions: [
+            {
+              value: 'OUI',
+              label: {
+                key: 'question.scolarite.typeScolarite.label',
+                parameters: translateParams
+              }
+            },
+            {value: 'INCONNU', label: {key: 'question.scolarite.typeScolarite.inconnu'}}
+          ],
+          dropdownOptions: typeScolariteOptions()
+        }),
+        calculateRefus: this.calculateScolariteRefusFn(membre).bind(this),
+        eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.BOURSES, membre),
+        categorie: Categorie.FORMATION
+      } as QeliQuestionDecorator<any>;
+    }).forEach(question => questions.push(question));
 
     return questions;
   }
@@ -119,11 +142,9 @@ export class FormationQuestionService extends QuestionLoader {
 
   private calculateScolariteRefusFn(membre: Personne): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]) => {
-      const answer = (formData[`scolarite_${membre.id}`] as OptionAnswer<string>).value;
+      const answer = formData[`scolarite_${membre.id}`] as DropdownAnswer;
 
-      if (answer.value === Scolarite.AUCUNE || answer.value === Scolarite.INCONNU) {
-        return [];
-      } else {
+      if (answer.hasSome.value === 'OUI' && SORTIES_ELIGIBILITE_BOURSES.includes(Scolarite[answer.value.value])) {
         return QuestionUtils.createRefusByPrestationAndMembre(
           new EligibiliteGroup(eligibilites, this.demandeur),
           Prestation.BOURSES,
@@ -133,6 +154,8 @@ export class FormationQuestionService extends QuestionLoader {
             parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
           })
         );
+      } else {
+        return [];
       }
     };
   }

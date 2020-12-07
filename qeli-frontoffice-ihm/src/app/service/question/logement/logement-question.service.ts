@@ -74,20 +74,6 @@ export class LogementQuestionService extends QuestionLoader {
       },
       {
         question: new NumberQuestion({
-          key: 'nombreDePersonnesLogement',
-          dataCyIdentifier: '1003_nombreDePersonnesLogement',
-          label: {key: 'question.nombreDePersonnesLogement.label'},
-          help: {key: 'question.nombreDePersonnesLogement.help'},
-          errorLabels: QuestionUtils.toErrorLabels('nombreDePersonnesLogement', ['required', 'pattern', 'min', 'max']),
-          min: 1,
-          max: 20
-        }),
-        calculateRefus: () => [],
-        eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.LOGEMENT
-      },
-      {
-        question: new NumberQuestion({
           key: 'nombreDePiecesLogement',
           dataCyIdentifier: '1004_nombreDePiecesLogement',
           label: {key: 'question.nombreDePiecesLogement.label'},
@@ -98,33 +84,13 @@ export class LogementQuestionService extends QuestionLoader {
         }),
         calculateRefus: QuestionUtils.rejectPrestationFn(
           data => {
-            const nbPersonnes = (data['nombreDePersonnesLogement'] as NumberAnswer).value;
+            const nbPersonnes = this.demandeur.nombrePersonnesFoyer;
             const nbPieces = (data['nombreDePiecesLogement'] as NumberAnswer).value;
             return (nbPieces - nbPersonnes) > 2;
           },
           Prestation.ALLOCATION_LOGEMENT,
           this.demandeur,
           (eligibilite) => ({key: `question.nombreDePiecesLogement.motifRefus.${eligibilite.prestation}`})
-        ),
-        eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
-        categorie: Categorie.LOGEMENT
-      },
-      {
-        question: new RadioQuestion({
-          key: 'appartementHabitationMixte',
-          dataCyIdentifier: '1005_appartementHabitationMixte',
-          label: {key: 'question.appartementHabitationMixte.label'},
-          help: {key: 'question.appartementHabitationMixte.help'},
-          errorLabels: {required: {key: 'question.appartementHabitationMixte.error.required'}},
-          inline: true,
-          radioOptions: REPONSE_PROGRESSIVE_OPTIONS
-        }),
-        calculateRefus: QuestionUtils.rejectPrestationByOptionAnswerFn(
-          'appartementHabitationMixte',
-          ReponseProgressive.OUI,
-          Prestation.ALLOCATION_LOGEMENT,
-          this.demandeur,
-          (eligibilite) => ({key: `question.appartementHabitationMixte.motifRefus.${eligibilite.prestation}`})
         ),
         eligibilites: eligibiliteGroup.findByPrestation(Prestation.ALLOCATION_LOGEMENT),
         categorie: Categorie.LOGEMENT

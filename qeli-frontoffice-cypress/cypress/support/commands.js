@@ -95,8 +95,10 @@ Cypress.Commands.add('answerQuestion', (questionKey, answer, submit = true) => {
       }
     } else if (type === 'nationalite') {
       cy.answerNationalite(questionKey, answer);
-    } else if (type === 'dropdown' || type === 'taux') {
+    } else if (type === 'dropdown') {
       cy.wrap($question[0]).find('select').select(answer);
+    } else if (type === 'taux') {
+      cy.wrap($question[0]).find('input[type=number]').first().type(answer);
     } else if (type === 'radio') {
       cy.wrap($question[0]).find(`input[data-cy-value=${answer}]`).check();
     } else {
@@ -108,6 +110,7 @@ Cypress.Commands.add('answerQuestion', (questionKey, answer, submit = true) => {
     }
   });
 });
+
 Cypress.Commands.add('answerYearsQuestion', (questionKey, years, submit = true) => {
   cy.dataCy(questionKey).find('[data-cy-question-input]').then($question => {
     $question[0].getAttribute('data-cy-question-type').should('be', 'date');

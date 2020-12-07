@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { DateValidators } from '../../ge-forms/date.validators';
 import * as moment from 'moment';
 import {
-  Demandeur, DemandeurSchema, EtatCivil, MembreFamille, MembreFamilleSchema, Relation
+  Demandeur, DemandeurSchema, EtatCivil, MembreFoyer, MembreFoyerSchema, Relation
 } from '../../service/configuration/demandeur.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -44,20 +44,19 @@ export class FormSetupComponent {
       prenom: new FormControl(demandeur ? demandeur.prenom : null, this.uniquePrenomValidator.bind(this)),
       etatCivil: new FormControl(demandeur ? demandeur.etatCivil : null, Validators.required),
       dateNaissance: new FormControl(demandeur ? demandeur.dateNaissance : null, this.dateNaissanceValidators),
-      autresMembres: new FormControl(demandeur && demandeur.autresMembres, null),
-      membresFamille: this.fb.array([])
+      membresFoyer: this.fb.array([])
     });
 
     this.numberOfMembres = 0;
-    if (demandeur && demandeur.membresFamille) {
-      demandeur.membresFamille.forEach(membre => this.onAddMembre(membre));
+    if (demandeur && demandeur.membresFoyer) {
+      demandeur.membresFoyer.forEach(membre => this.onAddMembre(membre));
     }
   }
 
   private uniquePrenomValidator(control: AbstractControl) {
     if (control && control.value) {
       const prenomControls: FormControl[] = [this.setupForm.controls['prenom'] as FormControl].concat(
-        this.membresFamilleControls.map(membreFamilleControl => membreFamilleControl.controls['prenom'] as FormControl)
+        this.membresFoyerControls.map(membreFoyerControl => membreFoyerControl.controls['prenom'] as FormControl)
       );
       const prenoms = prenomControls.filter(
         prenomControl => control.parent && (prenomControl.parent.value['id'] !== control.parent.value['id'])
@@ -81,20 +80,22 @@ export class FormSetupComponent {
 
   deleteMembre(index: number) {
     if (this.numberOfMembres > 0) {
-      this.membresFamille.removeAt(index);
+      this.membresFoyer.removeAt(index);
       this.numberOfMembres -= 1;
     }
   }
 
-  onAddMembre(membre?: MembreFamille) {
+  onAddMembre(membre?: MembreFoyer) {
     if (this.numberOfMembres < MAX_NUMBER_OF_MEMBRES) {
       this.relationOptionsByMember[this.numberOfMembres] = this.availableRelationOptions();
-      this.membresFamille.push(
+      this.membresFoyer.push(
         this.fb.group({
           id: new FormControl(membre ? membre.id : this.numberOfMembres + 1),
-          prenom: new FormControl(membre ? membre.prenom : null, this.uniquePrenomValidator.bind(this)),
+          prenom: new FormControl(membre ? membre.prenom : null,
+            membre && !membre.isOptional ? this.uniquePrenomValidator.bind(this) : null),
           relation: new FormControl(membre ? membre.relation : null, Validators.required),
-          dateNaissance: new FormControl(membre ? membre.dateNaissance : null, this.dateNaissanceValidators)
+          dateNaissance: new FormControl(membre ? membre.dateNaissance : null,
+            membre && !membre.isOptional ? this.dateNaissanceValidators : null)
         })
       );
 
@@ -102,8 +103,17 @@ export class FormSetupComponent {
     }
   }
 
-  getDefaultPrenomByMembre(membre: MembreFamilleSchema) {
-    const membreIndex = this.membresFamilleControls.map(control => control.value as MembreFamilleSchema).filter(
+  onRelationChange(event, membreIndex: number) {
+    if (event.target.value === Relation.COLOCATAIRE || event.target.value === Relation.AUTRE) {
+      this.membresFoyer.controls[membreIndex].get('dateNaissance').clearValidators();
+    } else {
+      this.membresFoyer.controls[membreIndex].get('dateNaissance').setValidators(this.dateNaissanceValidators);
+    }
+    this.membresFoyer.controls[membreIndex].get('dateNaissance').updateValueAndValidity();
+  }
+
+  getDefaultPrenomByMembre(membre: MembreFoyerSchema) {
+    const membreIndex = this.membresFoyerControls.map(control => control.value as MembreFoyerSchema).filter(
       other => other.id < membre.id && other.relation === membre.relation
     ).length + 1;
     return this.translateService.instant(
@@ -122,7 +132,7 @@ export class FormSetupComponent {
       const demandeurOptions = this.setupForm.value as DemandeurSchema;
 
       demandeurOptions.prenom = demandeurOptions.prenom || 'Demandeur';
-      demandeurOptions.membresFamille.forEach((membre, index) => {
+      demandeurOptions.membresFoyer.forEach((membre, index) => {
         membre.prenom = membre.prenom || this.getDefaultPrenomByMembre(membre)
       });
       return new Demandeur(this.setupForm.value as DemandeurSchema);
@@ -135,19 +145,22 @@ export class FormSetupComponent {
     const relationOptions = [Relation.ENFANT];
 
     if (this.isEtatCivil(EtatCivil.MARIE) &&
-        !this.hasMembreFamilleWithRelation(Relation.EPOUX)) {
+        !this.hasMembreFoyerWithRelation(Relation.EPOUX)) {
       relationOptions.push(Relation.EPOUX);
     }
     if (this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE) &&
-        !this.hasMembreFamilleWithRelation(Relation.PARTENAIRE_ENREGISTRE)) {
+        !this.hasMembreFoyerWithRelation(Relation.PARTENAIRE_ENREGISTRE)) {
       relationOptions.push(Relation.PARTENAIRE_ENREGISTRE);
     }
 
     if (!this.isEtatCivil(EtatCivil.MARIE) &&
         !this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE) &&
-        !this.hasMembreFamilleWithRelation(Relation.CONCUBIN)) {
+        !this.hasMembreFoyerWithRelation(Relation.CONCUBIN)) {
       relationOptions.push(Relation.CONCUBIN);
     }
+
+    relationOptions.push(Relation.COLOCATAIRE);
+    relationOptions.push(Relation.AUTRE);
 
     return relationOptions;
   }
@@ -156,17 +169,17 @@ export class FormSetupComponent {
     return (this.setupForm.value['etatCivil'] as EtatCivil) === etatCivil
   }
 
-  private hasMembreFamilleWithRelation(relation: Relation) {
-    const membresFamille = this.setupForm.value['membresFamille'] as MembreFamilleSchema[];
-    return membresFamille.some(membre => membre.relation === relation);
+  private hasMembreFoyerWithRelation(relation: Relation) {
+    const membresFoyer = this.setupForm.value['membresFoyer'] as MembreFoyerSchema[];
+    return membresFoyer.some(membre => membre.relation === relation);
   }
 
-  get membresFamille() {
-    return this.setupForm.controls['membresFamille'] as FormArray;
+  get membresFoyer() {
+    return this.setupForm.controls['membresFoyer'] as FormArray;
   }
 
-  get membresFamilleControls() {
-    return this.membresFamille.controls as FormGroup[];
+  get membresFoyerControls() {
+    return this.membresFoyer.controls as FormGroup[];
   }
 
   get isValid() {
@@ -184,15 +197,23 @@ export class FormSetupComponent {
   get marieOuPartenaireSansConjoint() {
     return (
              this.isEtatCivil(EtatCivil.MARIE) &&
-             !this.hasMembreFamilleWithRelation(Relation.EPOUX)
+             !this.hasMembreFoyerWithRelation(Relation.EPOUX)
            ) || (
              this.isEtatCivil(EtatCivil.PARTENARIAT_ENREGISTRE) &&
-             !this.hasMembreFamilleWithRelation(Relation.PARTENAIRE_ENREGISTRE)
+             !this.hasMembreFoyerWithRelation(Relation.PARTENAIRE_ENREGISTRE)
            );
   }
 
   isInvalid(control: AbstractControl) {
     return !control.pristine && !control.valid;
+  }
+
+  isRequired(control: AbstractControl) {
+    return !!(control.errors && control.errors.required);
+  }
+
+  isDisabled(control: AbstractControl, isLast: boolean) {
+    return (!isLast || control.value === Relation.COLOCATAIRE || control.value === Relation.AUTRE)
   }
 
   displayErrors() {

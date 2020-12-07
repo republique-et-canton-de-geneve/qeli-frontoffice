@@ -8,6 +8,7 @@ import { NumberAnswer, OptionAnswer, StringAnswer } from './answer.model';
 import { CompositeAnswer } from '../composite-question/composite-question.model';
 import * as moment from 'moment';
 import { TauxAnswer } from '../taux-question/taux-question.model';
+import { DropdownAnswer } from '../dropdown-question/dropdown-question.model';
 
 export class FormatAnswerVisitor implements AnswerVisitor<string> {
   constructor(private translate: TranslateService) {
@@ -30,6 +31,14 @@ export class FormatAnswerVisitor implements AnswerVisitor<string> {
       return moment(answer.value).format('DD.MM.YYYY');
     } else {
       return this.translateOption(answer.shortcut);
+    }
+  }
+
+  visitDropdownAnswer(answer: DropdownAnswer): string {
+    if (answer.hasSome && answer.hasSome.value === 'OUI') {
+      return this.translateOption(answer.value);
+    } else {
+      return this.translateOption(answer.hasSome);
     }
   }
 

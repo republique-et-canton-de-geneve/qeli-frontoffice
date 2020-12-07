@@ -1,0 +1,12 @@
+<p class="help-block" [ngbCollapse]="collapsable && collapsed" [innerHtml]="text.key | translate:text.parameters"></p>
+
+<div class="collapse-button" *ngIf="collapsable" (click)="collapsed = !collapsed"
+     title="{{'common.help-block.collapse-btn-title' | translate  }}">
+  <span class="outer-line"></span>
+  <button type="button"
+          [attr.aria-expanded]="collapsed"
+          [attr.aria-label]="(collapsed ? 'common.help-block.open' : 'common.help-block.close') | translate">
+    <i class="fa" [ngClass]="collapsed ? 'fa-chevron-circle-down': 'fa-chevron-circle-up'"></i>
+  </button>
+  <span class="outer-line"></span>
+</div>

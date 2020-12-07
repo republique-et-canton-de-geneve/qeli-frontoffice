@@ -31,7 +31,9 @@
             "PARTENAIRE_ENREGISTRE": "Conjoint",
             "CONCUBIN": "Concubin·e",
             "ENFANT": "Enfant { index }",
-            "DEFAULT": "Membre { index }"
+            "DEFAULT": "Membre { index }",
+            "COLOCATAIRE": "Colocataire { index }",
+            "AUTRE": "Autre { index }"
           }
         },
         "relation": {
@@ -40,7 +42,9 @@
             "EPOUX": "Epoux·se",
             "PARTENAIRE_ENREGISTRE": "Partenaire enregistré·e",
             "CONCUBIN": "Concubin·e",
-            "ENFANT": "Enfant "
+            "ENFANT": "Enfant ",
+            "COLOCATAIRE": "Colocataire",
+            "AUTRE": "Autre (parent, grand-parent, etc.)"
           }
         },
         "dateNaissance": {
@@ -49,7 +53,7 @@
         "supprimer": "Supprimer le dernier membre",
         "ajouter": "Ajouter un autre membre"
       },
-      "autresCheckbox": "Je vis avec d'autres personnes qui ne sont ni mon conjoint, ni mon concubin, ni mes enfants. Par exemple : mes parents, des colocataires, etc.",
+      "nombrePersonnesFoyer": "{totalPersonnesFoyer} {totalPersonnesFoyer, select, 1{personne habite} other{personnes habitent}} dans votre foyer (y compris vous)",
       "errors": {
         "uniquePrenom": "Les prénoms doivent être différents. Vous pouvez ajouter une lettre ou un chiffre pour les différencier.",
         "required": "Ce champ est obligatoire",
@@ -70,53 +74,56 @@
       "plusInformation": "+ Plus d'information",
       "demande": "Faire une demande",
       "demandeMembre": "Faire une demande pour {who, select, me{vous} other{{membre}}}",
+      "verifierConcubin": "Attention, il est possible que votre concubin soit éligible{prestation, select, PC_FAM{ aux prestations complémentaires famille} PC_AVS_AI{ aux prestations complémentaires AVS AI} other{}}. Il devrait faire le questionnaire pour en être sûr.",
       "prestation": {
         "SUBSIDES": {
           "title": "Subsides d'assurance-maladie",
           "plusInformationLink": "https://www.ge.ch/informations-generales-subside-assurance-maladie",
           "demandeLink": "https://www.ge.ch/demander-subside-assurance-maladie-2020",
-          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
-          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}"
         },
         "AVANCES": {
           "title": "Avances de pensions alimentaires",
           "plusInformationLink": "https://www.ge.ch/pensions-alimentaires-impayees",
           "demandeLink": "https://www.ge.ch/pensions-alimentaires-impayees/creancier-aliments-deposer-demande-aupres-du-scarpa",
-          "eligible": "Vous êtes éligible : "
+          "eligible": "Vous êtes éligible"
         },
         "ALLOCATION_LOGEMENT": {
           "title": "Allocation logement",
           "plusInformationLink": "https://www.ge.ch/allocation-logement",
           "demandeLink": "https://www.ge.ch/allocation-logement/demander-allocation-logement",
-          "eligible": "Vous êtes éligible : "
+          "eligible": "Vous êtes éligible"
         },
         "PC_AVS_AI": {
           "title": "Prestations complémentaires AVS/AI",
           "plusInformationLink": "https://www.ge.ch/prestations-complementaires-avs/ai",
           "demandeLink": "https://www.ge.ch/prestations-complementaires-avs/ai/demander-prestations-complementaires-avs/ai",
-          "eligible": "Votre foyer est éligible : "
+          "eligible": "Votre foyer est éligible"
         },
         "BOURSES": {
           "title": "Bourses d'études",
           "plusInformationLink": "https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage",
           "demandeLink": "https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage/procedure-demande-bourse-pret",
-          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}} : ",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçois}} déjà cette prestation.",
-          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}} : "
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}",
+          "information11P": "Attention : l'année prochaine, {enfants11P} {nombreEnfants11P, select, 1{sera} other{seront}} potentiellement éligible aux bourses.",
+          "informationChomage": "Si votre droit au chômage s'arrête pendant la formation, vous pourriez avoir droit à une bourse."
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
           "plusInformationLink": "https://www.ge.ch/demander-prestations-complementaires-familiales",
           "demandeLink": "https://www.ge.ch/demander-prestations-complementaires-familiales/faire-demande-prestations-complementaires",
-          "eligible": "Votre foyer est éligible : ",
-          "explication": "Pour avoir droit aux prestations complémentaires famille, vous devrez vous assurer que vous n'êtes pas taxés d'office"
+          "eligible": "Votre foyer est éligible",
+          "taxationOffice": "Pour avoir droit aux prestations complémentaires famille, vous devrez d'abord régulariser votre situation auprès des impôts."
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
           "plusInformationLink": "https://www.hospicegeneral.ch/fr/aide_financiere",
           "demandeLink": "https://www.hospicegeneral.ch/fr/votre-centre-de-quartier",
-          "eligible": "Vous êtes éligible : "
+          "eligible": "Vous êtes éligible"
         }
       },
       "reponses": "Veuillez retrouver ci-dessous un résumé des réponses que vous avez donné au questionnaire :"
@@ -205,7 +212,7 @@
         "AIDE_SOCIALE_MINEUR": "Vous êtes mineur. Vos parents doivent remplir ce questionnaire"
       },
       "error": {
-        "required": "Vos prestations doivent être fournie",
+        "required": "Vos prestations doivent être fournies",
         "atLeastOneSelected": "Au moins une prestation doit être sélectionnée"
       }
     },
@@ -223,6 +230,11 @@
     },
     "scolarite": {
       "label": "Quelle {who, select, me{formation suivez-vous} other{est la formation suivie par {membre}}} ?",
+      "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I).<br>Formation doctorale : Le doctorat est une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue.<br>Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale.",
+      "typeScolarite": {
+        "label": "Indiquez le type de formation",
+        "inconnu": "Je ne sais pas"
+      },
       "motifRefus": {
         "BOURSES": "Vous avez indiqué que {who, select, me{vous suivez} other{{membre} suit}} une formation qui ne peut pas faire l'objet d'une bourse",
         "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
@@ -232,20 +244,40 @@
         "required": "Ce champ est obligatoire"
       }
     },
-    "situationMembre": {
+    "nationalite": {
+      "label": "Ajoutez les nationalité des membres du foyer :",
+      "membre": "Quelle est {who, select, me{votre nationalité} other{la nationalité de {membre}}} ?",
+      "help": "Nationalité : pays dont la personne a un passeport ou une carte d'identité (même si la personne n'a plus le document avec elle)).<br>Si une personne a plusieurs nationalités, indiquez-les toutes.",
+      "error": {
+        "required": "{who, select, me{Votre nationalité} other{La nationalité de {membre}}} doit être fournie"
+      }
+    },
+    "situationPermis": {
       "label": "Décrivez {who, select, me{votre situation} other{la situation de {membre}}} :",
-      "nationalite": {
-        "label": "Quelle est {who, select, me{votre nationalité} other{la nationalité de {membre}}} ?",
-        "help": "Nationalité : pays dont {who, select, me{vous avez} other{{membre} a}} un passeport ou une carte d'identité (même si {who, select, me{vous n'avez} other{{membre} n'a}} plus le document {who, select, me{avec vous} other{}}).<br>Si {who, select, me{vous avez} other{{membre} a}} plusieurs nationalités, indiquez-les toutes.",
+      "typePermis": {
+        "label": "Quel permis de séjour (ou de travail) {who, select, me{avez-vous} other{{membre} a-t-il·elle}} ?",
+        "some": "Indiquez {who, select, me{votre type de permis} other{le type de permis de {membre}}} :",
+        "inconnu": "Je ne sais pas",
         "error": {
-          "required": "{who, select, me{Votre nationalité} other{La nationalité de {membre}}} doit être fournie"
+          "required": "{who, select, me{Votre type de permis} other{Le type de permis de {membre}}} doit être fourni"
         }
       },
-      "refugie": {
-        "label": "{who, select, me{Etes-vous} other{Est {membre}}} :",
-        "help": "Requérant·e d'asile : {who, select, me{Vous avez} other{{membre} a}} déposé une demande d’asile en Suisse et {who, select, me{attendez} other{attend}} une décision du Secrétariat d’Etat aux migrations (SEM).<br>Réfugié·e : {who, select, me{Vous avez} other{{membre} a}} obtenu l'asile en Suisse (statut reconnu/accordé/délivré par l'office cantonal de la population et des migrations (OCPM)).<br>Si {who, select, me{vous avez} other{{membre} a}} été débouté·e de {who, select, me{votre} other{sa}} demande d'asile ou que {who, select, me{vous êtes} other{{membre} est}} en procédure de recours, cocher \"Aucun des deux\".",
+      "complementPermisB": {
+        "label": "{who, select, me{Quel type de permis B avez-vous} other{Quel est le type de permis B de {membre}}} ?",
         "error": {
-          "required": "{who, select, me{Votre statut} other{Le statut de réfugié de {membre}}} doit être fourni"
+          "required": "{who, select, me{Votre type de permis B} other{Le type de permis B de {membre}}} doit être fourni"
+        }
+      },
+      "complementPermisC": {
+        "label": "{who, select, me{Quel type de permis C avez-vous} other{Quel est le type de permis C de {membre}}} ?",
+        "error": {
+          "required": "{who, select, me{Votre type de permis C} other{Le type de permis C de {membre}}} doit être fourni"
+        }
+      },
+      "complementPermisF": {
+        "label": "{who, select, me{Quel type de permis F avez-vous} other{Quel est le type de permis F de {membre}}} ?",
+        "error": {
+          "required": "{who, select, me{Votre type de permis F} other{Le type de permis F de {membre}}} doit être fourni"
         }
       },
       "dateArriveeSuisse": {
@@ -264,17 +296,9 @@
           "Mask error": ""
         },
         "motifRefus": {
-          "BOURSES": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}} est trop récente",
+          "BOURSES": "{who, select, me{Votre} other{Son}} permis de séjour ne {who, select, me{vous} other{lui}} permet pas de beneficier cette prestation",
           "PC_AVS_AI": "{who, select, me{Votre date officielle d'arrivée en Suisse} other{La date d'arrivée officielle en Suisse de {membre}}} est trop récente"
         }
-      }
-    },
-    "permisBEtudes": {
-      "label": "Qui a un permis B pour raison d'études ?",
-      "membre": "{who, select, me{Avez-vous} other{Est-ce que {membre} a}} un permis B pour raison d'études ?",
-      "help": "Permis B pour raison d'études (permis B étudiant, permis de séjour pour étudiant) : permis de séjour pour les résidents longue durée qui font des études dans le canton, délivré par l'office cantonal de la population et des migrations (OCPM).<br>ATTENTION : si vous {numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} avez un permis B classique (non étudiant), répondez \"Non\".",
-      "error": {
-        "required": "Ce champ est obligatoire"
       }
     },
     "domicileCantonGE": {
@@ -311,16 +335,6 @@
         "PC_FAM": "{who, select, me{Votre date officielle d'arrivée à Genève} other{La date officielle d'arrivée à Genève de {membre}}} est trop récente"
       }
     },
-    "residenceEffectiveCantonGE": {
-      "label": "Avez-vous votre résidence effective dans le canton de Genève ? (Variante : habitez-vous vraiment dans le canton de Genève ?)",
-      "help": "Résidence effective : votre logement se trouve bien dans le canton de Genève. Vous pouvez prouver que vous habitez à Genève, avec des factures par exemple.",
-      "error": {
-        "required": "Ce champ est obligatoire"
-      },
-      "motifRefus": {
-        "AIDE_SOCIALE": "Vous avez indiqué ne pas avoir votre résidence effective dans le canton de Genève"
-      }
-    },
     "revenus": {
       "label": "Quels types de revenus {who, select, me{recevez-vous} other{{membre} reçoit-il(elle)}} ?",
       "help": "Si {who, select, me{vous avez} other{{membre} a}} d'autres revenus que ceux de la liste, pas besoin de les indiquer.",
@@ -339,7 +353,7 @@
       }
     },
     "situationRente": {
-      "preface": "Dans certaines situations particulières, des personnes sont officiellement invalides, retraitées ou veuves mais ne touchent pas de rente (pas d'argent reçu). Ces personnes pourraient pourtant recevoir des prestations complémentaires AVS/AI.",
+      "introduction": "Dans certaines situations particulières, des personnes sont officiellement invalides, retraitées ou veuves mais ne touchent pas de rente (pas d'argent reçu). Ces personnes pourraient pourtant recevoir des prestations complémentaires AVS/AI.",
       "label": "{who, select, me{Etes-vous} other{{membre} est-il·elle}} dans une des situations suivantes ?",
       "some": "Sélectionnez toutes les options qui décrivent {who, select, me{votre situation} other{la situation de {membre}}} :",
       "none": "Non, aucune de ces situations {who, select, me{ne me concerne} other{ne concerne {membre}}}",
@@ -426,16 +440,6 @@
         "required": "Ce champ est obligatoire"
       }
     },
-    "nombreDePersonnesLogement": {
-      "label": "Combien de personnes vivent dans votre logement ?",
-      "help": "N'oubliez pas de vous compter.<br>Les enfants doivent être inclus.",
-      "error": {
-        "required": "Merci de saisir le nombre de personnes",
-        "pattern": "Merci de saisir le nombre de personnes",
-        "min": "Il ne peut y avoir moins d'une personne",
-        "max": "Erreur dans la saisie du nombre de personnes"
-      }
-    },
     "nombreDePiecesLogement": {
       "label": "Combien de pièces a votre logement ?",
       "help": "Le nombre de pièces est mentionné sur votre bail.<br><br>En général, le nombre de pièces est la somme des pièces suivantes :<br>- cuisine<br>- salon<br>- chambre.<br><br>Exemples :<br>Studio : 1 pièce<br>cuisine + chambre : 2 pièces<br>cuisine + salon + 1 chambre : 3 pièces<br>cuisine + salon + 2 chambres : 4 pièces<br><br>Les salles d'eau (bain, douche, WC) et les balcons ne comptent pas comme pièce.<br><br>En cas de différence entre le nombre de pièces que vous avez calculé et le nombre de pièces sur le bail, c'est le nombre de pièces sur le bail qu'il faut noter.<br><br>Ce n'est pas le nombre de chambre.",
@@ -447,16 +451,6 @@
         "pattern": "Merci de saisir le nombre de pièces",
         "min": "Il ne peut y avoir moins d'une pièce",
         "max": "Erreur dans la saisie du nombre de pièces"
-      }
-    },
-    "appartementHabitationMixte": {
-      "label": "Etes-vous dans un appartement en habitation mixte (HM) ?",
-      "help": "Logement en habitation mixte (HM) : La subvention personnalisée habitation mixte est une aide personnalisée versée par l'Etat à un locataire de logement HM.",
-      "motifRefus": {
-        "ALLOCATION_LOGEMENT": "Vous avez indiqué être dans un appartement en habitation mixte (HM)"
-      },
-      "error": {
-        "required": "Ce champ est obligatoire"
       }
     },
     "montantLoyerFixeOuVariable": {
@@ -532,7 +526,7 @@
     },
     "fonctionnaireInternational": {
       "label": "Avez-vous{numberOfMemebres, select, 0{} other{, ou une personne de votre foyer,}} un parent fonctionnaire internationnal ?",
-      "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il.elle fonctionnaire international.e à Genève ?",
+      "membre": "{who, select, me{Etes-vous ou l'un de vos parents} other{{membre} ou l'un de ses parents}} est-il·elle fonctionnaire international.e à Genève ?",
       "help": "Fonctionnaire international : Les missions diplomatiques, les ambassades, les missions permanentes et les postes consulaires, ainsi que les organisations internationales ayant conclu avec le Conseil fédéral suisse un accord en matière de privilèges et immunités (accord de siège), jouissent de privilèges, d‘immunités et de facilités conformément au droit international et aux usages internationaux. Le personnel et les membres de famille en bénéficient également.<br>Parents : la mère ou le père.",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -576,6 +570,11 @@
       "open": "Sélectionner la date à l'aide d'un calendrier",
       "close": "Fermer le calendrier"
     },
+    "help-block": {
+      "open": "Déplier le texte d'aide",
+      "close": "Réplier le texte d'aide",
+      "collapse-btn-title": "Déplier le texte d'aide"
+    },
     "selectNationalite": {
       "0": "Première nationalité",
       "1": "Deuxième nationalité",
@@ -587,22 +586,35 @@
       "label": "Apatride",
       "help": "Apatride : Personne n'ayant pas de nationalité (statut accordé/délivré par le Secrétariat d’Etat aux migrations (SEM))."
     },
-    "requerantRefugie": {
-      "REQUERANT_ASILE": {
-        "label": "Requérant d'asile",
-        "help": "{who, select, me{Vous avez} other{{membre} a}} déposé une demande d’asile en Suisse et {who, select, me{attendez} other{attend}} une décision du Secrétariat d’Etat aux migrations (SEM)."
-      },
-      "REFUGIE": {
-        "label": "Réfugié",
-        "help": "{who, select, me{Vous avez} other{{membre} a}} obtenu l'asile en Suisse (statut reconnu/accordé/délivré par l'office cantonal de la population et des migrations (OCPM))."
-      },
-      "AUCUN": "Aucun des deux",
-      "INCONNU": "Je ne sais pas"
+    "typePermis": {
+      "B": "Permis B",
+      "C": "Permis C",
+      "F": "Permis F",
+      "G": "Permis G",
+      "L": "Permis L",
+      "N": "Permis N",
+      "S": "Permis S",
+      "AUCUN": "Aucun"
+    },
+    "typePermisB": {
+      "ETUDES": "Permis B étudiant",
+      "UE_AELE": "Permis B UE/AELE",
+      "REFUGIE": "Permis B Refugié"
+    },
+    "typePermisC": {
+      "UE_AELE": "Permis C UE/AELE",
+      "CI_UE_AELE": "Permis Ci UE/AELE",
+      "CI": "Permis Ci",
+      "REFUGIE": "Permis C Refugié"
+    },
+    "typePermisF": {
+      "F": "Permis F",
+      "REFUGIE": "Permis F Refugié"
     },
     "typeEnfant": {
+      "LES_DEUX": "Notre enfant à tous les deux",
       "MOI": "Mon enfant",
       "AUTRE_PARENT": "Celui de {prenomAutreParent}",
-      "LES_DEUX": "Notre enfant à tous les deux",
       "AUTRES": "Autres"
     },
     "reponseBinaire": {
@@ -625,21 +637,18 @@
       "INCONNU": "Je ne sais pas"
     },
     "scolarite": {
-      "SCOLARITE_OBLIGATOIRE_1P_A_10P": "La scolarité obligatoire, de 1 P à 10 P",
-      "SCOLARITE_OBLIGATOIRE_11P": {
-        "label": "La scolarité obligatoire, en 11 P",
-        "help": "Scolarité obligatoire : De 1 P à 11 P (degré primaire et degré secondaire I)."
-      },
-      "FORMATION_DOCTORALE": {
-        "label": "Un doctorat",
-        "help": "Formation doctorale : Le doctorat est une formation, à la recherche et à l'innovation, qui peut être accomplie en formation initiale ou continue."
-      },
-      "FORMATION_CONTINUE": {
-        "label": "Une formation continue",
-        "help": "Formation continue à des fins professionnelles : Le but de la formation continue est l'amélioration et le renouvellement des connaissances et des compétences ainsi que leur élargissement vers de nouveaux domaines et vers la réalisation de nouvelles tâches. S'oppose à une formation continue de culture générale."
-      },
-      "AUCUNE": "Aucune de ces réponses",
-      "INCONNU": "Je ne sais pas"
+      "SCOLARITE_OBLIGATOIRE_1P_A_10P": "École obligatoire (primaire et cycle d'orientation, 1P - 10P)",
+      "SCOLARITE_OBLIGATOIRE_11P": "École obligatoire (11P)",
+      "COLLEGE_APRENTISSAGE": "Collège, école de culture générale (ECG), apprentissage (y compris école de commerce)",
+      "CLASSE_PREPARATOIRE": "Classe préparatoire",
+      "ECOLE_SUPERIEUR": "École supérieure (ES)",
+      "BREVET": "Brevet ou diplôme fédéral",
+      "UNIVERSITE_MASTER": "Université, haute école spécialisée HES (bachelor ou master)",
+      "UNIVERSITE_DOCTORAT": "Université, haute école spécialisée HES (doctorat)",
+      "FORMATION_CONTINUE_CERTIFIANTE": "Formation continue (CAS, DAS, MAS)",
+      "FORMATION_CONTINUE_COURTE": "Formation continue de moins d'une année",
+      "FORMATION_CONTINUE_AUTRE": "Formation continue (autre)",
+      "AUTRE_FORMATION": "Autre formation"
     },
     "typeRevenus": {
       "EMPLOI": "{who, select, me{Je suis} other{{membre} est}} employé",

@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Answer, OptionAnswer, StringAnswer } from './answer.model';
 import { QuestionVisitorModel } from './question-visitor.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
@@ -17,8 +17,10 @@ export interface QuestionSchema {
   dataCyIdentifier: string;
   label: I18nString | ((value: any) => I18nString);
   help?: I18nString | ((value: any) => I18nString);
-  preface?: I18nString | ((value: any) => I18nString);
+  introduction?: I18nString | ((value: any) => I18nString);
+  extraHelp?: I18nString | ((value: any) => I18nString);
   errorLabels?: { [key: string]: I18nString };
+  onValueChanged?: (control: FormGroup) => void;
   validators?: ValidatorFn[];
 }
 
@@ -63,15 +65,27 @@ export abstract class Question<T extends Answer> {
   help?: I18nString | ((value: any) => I18nString);
 
   /**
-   * Optionnellement, un texte qui précède la question une méthode qui génère le texte à partir des données déjà
-   * saisie dans le formulaire.
+   * Optionel. Un texte d'introduction à afficher avant la question.
    */
-  preface?: I18nString | ((value: any) => I18nString);
+  introduction?: I18nString | ((value: any) => I18nString);
+
+  /**
+   * Optionnellement, une section de texte d'aide supplementaire depliable ou une méthode qui génère le texte à partir
+   * des données déjà saisie dans le formulaire.
+   */
+  extraHelp?: I18nString | ((value: any) => I18nString);
 
   /**
    * Les libellés pour les messages d'erreurs qui sont lié à cette question
    */
   errorLabels: { [key: string]: I18nString };
+
+  /**
+   * Un callback permettant d'oobserver un changement dans la réponse de la quesiton.
+   *
+   * @param control le control subjacent.
+   */
+  onValueChanged?: (control: FormGroup) => void;
 
   private readonly _validators: ValidatorFn[] = [];
 
@@ -87,7 +101,10 @@ export abstract class Question<T extends Answer> {
     this.dataCyIdentifier = options.dataCyIdentifier;
     this.label = options.label;
     this.help = options.help;
+    this.introduction = options.introduction;
+    this.extraHelp = options.extraHelp;
     this.errorLabels = options.errorLabels || {};
+    this.onValueChanged = options.onValueChanged;
     this._validators = options.validators !== null && options.validators !== undefined ? options.validators : [];
   }
 

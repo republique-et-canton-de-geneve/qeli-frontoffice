@@ -12,11 +12,14 @@ import { HomeModule } from './home/home.module';
 import { MatomoModule } from 'ngx-matomo';
 import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
 import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
+import { CookieService } from 'ngx-cookie-service';
+import { COOKIE_EXPIRY_DAYS } from './service/cookie-status.utils';
 
 const cookieConfig: NgcCookieConsentConfig = {
   enabled: false,
   cookie: {
-    domain: 'localhost:4200'
+    domain: 'localhost:4200',
+    expiryDays: COOKIE_EXPIRY_DAYS
   },
   palette: {
     popup: {
@@ -49,7 +52,8 @@ registerLocaleData(localeFrCH);
   ],
   providers: [
     {provide: LOCALE_ID, useValue: "fr-CH"},
-    {provide: MESSAGE_FORMAT_CONFIG, useValue: {locales: ['fr']}}
+    {provide: MESSAGE_FORMAT_CONFIG, useValue: {locales: ['fr']}},
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

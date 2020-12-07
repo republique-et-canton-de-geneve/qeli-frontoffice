@@ -5,9 +5,9 @@ import ch.ge.social.qeli.service.api.answer.dto.Answer;
 import ch.ge.social.qeli.service.api.demandeur.dto.Demandeur;
 import ch.ge.social.qeli.service.api.demandeur.dto.MembreFamille;
 import ch.ge.social.qeli.service.api.demandeur.dto.Relation;
-import ch.ge.social.qeli.service.api.result.dto.Eligibilite;
-import ch.ge.social.qeli.service.api.result.dto.EligibiliteRefusee;
 import ch.ge.social.qeli.service.api.result.dto.QeliResult;
+import ch.ge.social.qeli.service.api.result.dto.Result;
+import ch.ge.social.qeli.service.api.result.dto.ResultByPrestation;
 import ch.ge.social.qeli.service.api.stats.CannotSaveStatsException;
 import ch.ge.social.qeli.service.api.stats.StatsService;
 import com.opencsv.CSVWriter;
@@ -21,6 +21,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class StatsServiceImpl implements StatsService {
   private static final Logger  logger         = LoggerFactory.getLogger(StatsServiceImpl.class);
 
   @Override
-  public void saveFormData(QeliResult result) {
+  public void saveFormData(QeliResult qeliResult) {
     StringWriter sw = new StringWriter();
 
     try (CSVWriter csvWriter = new CSVWriter(sw)) {
@@ -49,9 +50,16 @@ public class StatsServiceImpl implements StatsService {
         stats.getValue()
       });
 
-      answersToStatsDataLines(uuid, result.getAnswers(), result.getDemandeur()).forEach(writeNextLine);
-      refusToStatsDataLines(uuid, result.getEligibiliteRefusees(), result.getDemandeur()).forEach(writeNextLine);
-      eligibiliteToStatsDataLines(uuid, result.getEligibilites(), result.getDemandeur()).forEach(writeNextLine);
+      answersToStatsDataLines(uuid, qeliResult.getAnswers(), qeliResult.getDemandeur()).forEach(writeNextLine);
+      resultsByPrestationToStatsDataLines(
+        uuid, ResultStatus.ELIGIBLE, qeliResult.getResult().getPrestationsEligibles(), qeliResult.getDemandeur()
+      ).forEach(writeNextLine);
+      resultsByPrestationToStatsDataLines(
+        uuid, ResultStatus.DEJA_PERCUE, qeliResult.getResult().getPrestationsDejaPercues(), qeliResult.getDemandeur()
+      ).forEach(writeNextLine);
+      resultsByPrestationToStatsDataLines(
+        uuid, ResultStatus.REFUSE, qeliResult.getResult().getPrestationsRefusees(), qeliResult.getDemandeur()
+      ).forEach(writeNextLine);
 
       BufferedReader bufReader = new BufferedReader(new StringReader(sw.toString().trim()));
       bufReader.lines().forEach(logger::trace);
@@ -68,7 +76,7 @@ public class StatsServiceImpl implements StatsService {
                   .map(answer -> answer.getValue().accept(new ToAnswerValueVisitor(answer.getKey())))
                   .flatMap(List::stream)
                   .map(answerValue -> {
-                    if ("prestations".equals(answerValue.getKey())) {
+                    if ("prestations" .equals(answerValue.getKey())) {
                       return new AnswerValue(answerValue.getKey(),
                                              interpolateMembre(answerValue.getValue(), demandeur));
                     }
@@ -81,39 +89,28 @@ public class StatsServiceImpl implements StatsService {
                                                         answerValue.getValue()));
   }
 
-  private Stream<StatsDataLine> refusToStatsDataLines(String uuid,
-                                                      List<EligibiliteRefusee> eligibiliteRefusees,
-                                                      Demandeur demandeur) {
-    return eligibiliteRefusees
-      .stream()
-      .map(refus -> {
-        ResultStatus status = refus.isDejaPercue() ? ResultStatus.DEJA_PERCUE : ResultStatus.REFUSE;
-        Eligibilite eligibilite = refus.getEligibilite();
-        return new StatsDataLine(uuid,
-                                 StatsDataLineType.RESULTAT,
-                                 eligibilite.getPrestation().name(),
-                                 membreIdToRelation(eligibilite.getMembreId(), demandeur),
-                                 status.name());
-      });
-  }
-
-  private Stream<StatsDataLine> eligibiliteToStatsDataLines(String uuid,
-                                                            List<Eligibilite> eligibilites,
-                                                            Demandeur demandeur) {
-    return eligibilites.stream()
-                       .map(eligibilite -> new StatsDataLine(
-                         uuid,
-                         StatsDataLineType.RESULTAT,
-                         eligibilite.getPrestation().name(),
-                         membreIdToRelation(eligibilite.getMembreId(), demandeur),
-                         ResultStatus.ELIGIBLE.name())
-                       );
+  private Stream<StatsDataLine> resultsByPrestationToStatsDataLines(String uuid,
+                                                                    ResultStatus status,
+                                                                    List<ResultByPrestation> resultByPrestations,
+                                                                    Demandeur demandeur) {
+    return resultByPrestations.stream()
+                              .map(resultByPrestation -> {
+                                List<Result> results = resultByPrestation.getResults();
+                                return results.stream()
+                                              .map(result -> new StatsDataLine(
+                                                uuid,
+                                                StatsDataLineType.RESULTAT,
+                                                resultByPrestation.getPrestation().name(),
+                                                membreIdToRelation(result.getMembre().getId(), demandeur),
+                                                status.name())
+                                              ).collect(Collectors.toList());
+                              }).flatMap(List::stream);
   }
 
   private String membreIdToRelation(Integer id, Demandeur demandeur) {
     return demandeur.getId().equals(id) ?
            "DEMANDEUR" :
-           demandeur.getMembresFamille()
+           demandeur.fetchMembresFamille()
                     .stream()
                     .filter(membre -> membre.getId().equals(id))
                     .map(MembreFamille::getRelation)

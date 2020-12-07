@@ -19,7 +19,7 @@ Le questionnaire d'éligibilité aux prestations sociales est une e-démarche d�
  la planification foncière (OCLPF)](https://www.ge.ch/organisation/office-cantonal-du-logement-planification-fonciere).
  - Prestations complémentaires AVS/AI, délivrées par le [service des
  prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires).
- - Bourse d'études, délivrée par le [service des bourses et prêts d'étiudes
+ - Bourse d'études, délivrée par le [service des bourses et prêts d'études
  (SBPE)](https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage).
  - Prestations complémentaires familiales, délivrées par le [service des
  prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires).
@@ -246,3 +246,23 @@ registry=***REMOVED***/content/repositories/npmjs/
 
 En cas de problème avec node-sass, exécuter la commande suivante :
 `npm rebuild node-sass`.
+
+### Utiliser un domaine pour l'IHM
+
+Utile pour tester le partage de cookie entre le domaine principal et un sous-domaine.
+
+Configurer un host personnalisé, par exemple :
+
+```
+127.0.0.1   localqeli.etat-ge.ch
+```
+
+* *Windows : C:\Windows\System32\drivers\etc\hosts*
+* *Linux : /etc/hosts*
+
+Puis lancer l'IHM avec la commande :
+
+```bash
+cd qeli-frontoffice-ihm
+npm run start-host
+```

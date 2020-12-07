@@ -33,6 +33,7 @@
           'text-success': result.eligible,
           'text-danger': !result.eligible && !result.dejaPercue
          }">{{ translateResult(result) }}</span>
+          <span *ngIf="result.eligible || result.motifRefus"> : </span>
           <span *ngIf="result.motifRefus">{{ result.motifRefus.key | translate:result.motifRefus.parameters }}</span>
           <a *ngIf="result.eligible"
              href="{{ 'home.result.prestation.' + resultsByPrestation.prestation + '.demandeLink'  | translate }}"
@@ -55,10 +56,10 @@
          target="_blank">
         {{'home.result.demande'  | translate }}
       </a>
-      <p *ngIf="resultsByPrestation.prestation === 'PC_FAM'" class="help-block">
-        {{ ('home.result.prestation.' + resultsByPrestation.prestation + '.explication' | translate) }}
-      </p>
     </span>
 
+    <span *ngIf="informationMessage; let informationMsg" class="help-block">
+      {{(informationMsg?.key || informationMsg) | translate : informationMsg?.parameters}}
+    </span>
   </div>
 </div>
