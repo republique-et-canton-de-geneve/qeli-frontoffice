@@ -14,3 +14,9 @@ h2 {
 .row > div {
   margin-top: 0.5rem;
 }
+
+.remove-btn-col {
+  button[disabled] {
+    display: none;
+  }
+}
