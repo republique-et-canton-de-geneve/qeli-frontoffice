@@ -216,26 +216,32 @@ export class NationaliteQuestionService extends QuestionLoader {
         return [];
       }
 
+      const refus: EligibiliteRefusee[] = [];
+
       const dateArriveeSuisseAnswer = situationPermis['dateArriveeSuisse'] as DateAnswer;
       const isDateArriveeInconnu = this.isDateInconnu(dateArriveeSuisseAnswer);
       const dateArriveEnSuisse: Date = this.toDate(dateArriveeSuisseAnswer, membre);
 
-      // Si la personne habite en Suisse depuis plus de 10 ans (ou elle ne sait pas la date d'arrivée) pas de sortie
-      // d'éligibilité.
-      if (isDateArriveeInconnu || this.habiteEnSuisseDepuis(dateArriveEnSuisse, 10)) {
-        return [];
-      }
-
-      const refus: EligibiliteRefusee[] = [];
       const eligibiliteToMotifFn = eligibilite => ({
         key: `question.situationPermis.dateArriveeSuisse.motifRefus.${eligibilite.prestation}`,
         parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
       });
       const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
+      if (AnswerUtils.hasAnyPermis(formData, membre.id, [TypePermis.L, TypePermis.N, TypePermis.S])) {
+        QuestionUtils.createRefusByPrestationAndMembre(
+          eligibiliteGroup, Prestation.BOURSES, membre, eligibiliteToMotifFn
+        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+      }
+
       const anneesEnSuisse = moment().endOf('day').get('year') - moment(dateArriveEnSuisse).get('year');
       const isNationaliteConventionnee = AnswerUtils.isNationaliteIn(formData, membre, PAYS_CONVENTIONNES);
 
+      // Si la personne habite en Suisse depuis plus de 10 ans (ou elle ne sait pas la date d'arrivée) pas de sortie
+      // d'éligibilité.
+      if (isDateArriveeInconnu || this.habiteEnSuisseDepuis(dateArriveEnSuisse, 10)) {
+        return refus;
+      }
       if ((anneesEnSuisse < 5 && isNationaliteConventionnee) || (anneesEnSuisse < 10 && !isNationaliteConventionnee)) {
         // Si < 5 ans en Suisse et pays conventionné      -> refus PC AVS AI
         // Si < 10 ans en Suisse et pays non-conventionné -> refus PC AVS AI
@@ -244,11 +250,6 @@ export class NationaliteQuestionService extends QuestionLoader {
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       }
 
-      if (AnswerUtils.hasAnyPermis(formData, membre.id, [TypePermis.L, TypePermis.N, TypePermis.S])) {
-        QuestionUtils.createRefusByPrestationAndMembre(
-          eligibiliteGroup, Prestation.BOURSES, membre, eligibiliteToMotifFn
-        ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
-      }
       return refus;
     };
   }
