@@ -27,7 +27,7 @@ export class FormSetupComponent {
   errorLabels: { [key: string]: I18nString } = {};
 
   constructor(private fb: FormBuilder,
-              private translateService: TranslateService) {
+              private translate: TranslateService) {
     this.initForm();
     this.errorLabels = {
       uniquePrenom: {key: 'home.setup.errors.uniquePrenom'},
@@ -116,7 +116,7 @@ export class FormSetupComponent {
     const membreIndex = this.membresFoyerControls.map(control => control.value as MembreFoyerSchema).filter(
       other => other.id < membre.id && other.relation === membre.relation
     ).length + 1;
-    return this.translateService.instant(
+    return this.translate.instant(
       `home.setup.membre.prenom.placeholder.${membre.relation || 'DEFAULT'}`,
       {index: membreIndex}
     )
