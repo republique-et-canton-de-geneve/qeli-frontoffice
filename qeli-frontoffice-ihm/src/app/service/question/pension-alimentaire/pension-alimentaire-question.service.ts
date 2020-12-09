@@ -36,6 +36,7 @@ export class PensionAlimentaireQuestionService extends QuestionLoader {
         dataCyIdentifier: '1202_recoisEntierementPensionAlimentaire',
         label: {key: 'question.recoisEntierementPensionAlimentaire.label'},
         help: {key: 'question.recoisEntierementPensionAlimentaire.help'},
+        extraHelp: {key: 'question.recoisEntierementPensionAlimentaire.extraHelp'},
         errorLabels: {required: {key: 'question.recoisEntierementPensionAlimentaire.error.required'}},
         inline: true,
         radioOptions: REPONSE_BINAIRE_OPTIONS

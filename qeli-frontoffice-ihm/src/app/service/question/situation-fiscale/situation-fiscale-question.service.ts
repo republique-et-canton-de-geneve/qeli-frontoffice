@@ -44,6 +44,7 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
             } as I18nString;
           },
           help: {key: 'question.exempteImpot.help'},
+          extraHelp: {key: 'question.exempteImpot.extraHelp'},
           errorLabels: {required: {key: 'question.exempteImpot.error.required'}},
           inline: true,
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS
@@ -86,9 +87,9 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
             isShown: (value: any) => {
               const situationPermis = value[`situationPermis_${membre.id}`];
               return !situationPermis || !(
-                situationPermis['complementPermisB'] === TypePermisB.REFUGIE ||
-                situationPermis['complementPermisC'] === TypePermisC.REFUGIE ||
-                situationPermis['complementPermisF'] === TypePermisF.REFUGIE
+                     situationPermis['complementPermisB'] === TypePermisB.REFUGIE ||
+                     situationPermis['complementPermisC'] === TypePermisC.REFUGIE ||
+                     situationPermis['complementPermisF'] === TypePermisF.REFUGIE
               );
             }
           }))
