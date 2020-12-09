@@ -29,6 +29,7 @@ export class LogementQuestionService extends QuestionLoader {
           dataCyIdentifier: '1001_proprietaireOuLocataireLogement',
           label: {key: 'question.proprietaireOuLocataireLogement.label'},
           help: {key: 'question.proprietaireOuLocataireLogement.help'},
+          extraHelp: {key: 'question.proprietaireOuLocataireLogement.extraHelp'},
           errorLabels: {required: {key: 'question.proprietaireOuLocataireLogement.error.required'}},
           inline: true,
           radioOptions: Object.keys(Logement).map(logement => ({
@@ -58,6 +59,7 @@ export class LogementQuestionService extends QuestionLoader {
             key: 'question.bailLogementAVotreNom.help',
             parameters: translateParams
           },
+          extraHelp: {key: 'question.bailLogementAVotreNom.extraHelp'},
           errorLabels: {required: {key: 'question.bailLogementAVotreNom.error.required'}},
           inline: true,
           radioOptions: REPONSE_PROGRESSIVE_OPTIONS
@@ -78,6 +80,7 @@ export class LogementQuestionService extends QuestionLoader {
           dataCyIdentifier: '1004_nombreDePiecesLogement',
           label: {key: 'question.nombreDePiecesLogement.label'},
           help: {key: 'question.nombreDePiecesLogement.help'},
+          extraHelp: {key: 'question.nombreDePiecesLogement.extraHelp'},
           errorLabels: QuestionUtils.toErrorLabels('nombreDePiecesLogement', ['required', 'pattern', 'min', 'max']),
           min: 1,
           max: 20
