@@ -43,6 +43,10 @@ export class AnswerUtils {
     return choosenOption && choosenOption.value === value;
   }
 
+  static getCheckboxGroupAnswer(formData: FormData, key: string) {
+    return this.findAnswerByKey(formData, key) as CheckboxGroupAnswer;
+  }
+
   static isNationalite(formData: FormData, personne: Personne, pays: Pays) {
     return this.isNationaliteIn(formData, personne, [pays]);
   }
@@ -102,13 +106,13 @@ export class AnswerUtils {
   }
 
   static isRevenuInconnu(formData: FormData, personne: Personne) {
-    const answer = (formData[`revenus_${personne.id}`] as CheckboxGroupAnswer);
+    const answer = this.getCheckboxGroupAnswer(formData, `revenus_${personne.id}.situationRevenus`);
     return answer && answer.hasSome && answer.hasSome.value === 'INCONNU';
   }
 
   static hasAnyRevenus(formData: FormData, personne: Personne, revenus: TypeRevenus | TypeRevenus[]) {
     const _revenus = Array.isArray(revenus) ? revenus as TypeRevenus[] : [revenus as TypeRevenus];
-    const answer = (formData[`revenus_${personne.id}`] as CheckboxGroupAnswer);
+    const answer = this.getCheckboxGroupAnswer(formData, `revenus_${personne.id}.situationRevenus`);
     if (!answer || answer.hasSome.value !== 'OUI') {
       return false;
     }
