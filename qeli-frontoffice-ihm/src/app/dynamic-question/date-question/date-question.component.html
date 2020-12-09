@@ -7,6 +7,7 @@
        data-cy-question-input
        data-cy-question-type="date">
 
+    <hr *ngIf="question.hasShortcuts">
     <div class="radio" *ngIf="question.hasShortcuts">
       <label>
         <input type="radio"
