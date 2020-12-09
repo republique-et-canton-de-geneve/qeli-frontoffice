@@ -26,6 +26,10 @@
 
         <!-- Additional dependencies -->
         <dependency>
+            <groupId>com.captcha</groupId>
+            <artifactId>botdetect-servlet</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
