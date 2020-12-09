@@ -165,7 +165,8 @@ export class NationaliteQuestionService extends QuestionLoader {
                     parameters: translateParams
                   }
                 }))
-              })
+              }),
+              isShown: this.isNotPermisFn(membre, TypePermis.G).bind(this),
             }
           ]
         }),
@@ -175,6 +176,14 @@ export class NationaliteQuestionService extends QuestionLoader {
         categorie: Categorie.NATIONALITE
       };
     }));
+  }
+
+  private isNotPermisFn(membre: Personne, typePermis: TypePermis) {
+    return (value: any) => {
+      const situation = value[`situationPermis_${membre.id}`];
+      const selectedType = situation ? situation['typePermis'] : null;
+      return !selectedType || selectedType.value !== typePermis;
+    };
   }
 
   private isPermisFn(membre: Personne, typePermis: TypePermis) {
