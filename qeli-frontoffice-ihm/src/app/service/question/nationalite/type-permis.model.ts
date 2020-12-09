@@ -70,8 +70,6 @@ export function typePermisBOptions(): QuestionOption<string>[] {
  */
 export enum TypePermisC {
   UE_AELE    = 'UE_AELE',
-  CI_UE_AELE = 'CI_UE_AELE',
-  CI         = 'CI',
   REFUGIE    = 'REFUGIE'
 }
 
