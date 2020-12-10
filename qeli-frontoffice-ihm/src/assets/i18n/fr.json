@@ -340,6 +340,7 @@
       }
     },
     "revenus": {
+      "title": "Revenus",
       "label": "Quels types de revenus {who, select, me{recevez-vous} other{{membre} reçoit-il(elle)}} ?",
       "help": "Cas particulier<br>Si {who, select, me{vous avez} other{{membre} a}} d'autres revenus que ceux de la liste, pas besoin de les indiquer.",
       "some": "Sélectionnez chacun {who, select, me{de vos revenus} other{des revenus de {membre}}} :",
