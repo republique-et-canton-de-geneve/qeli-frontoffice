@@ -10,6 +10,7 @@ import { TypeRevenus } from './revenus/revenus.model';
 import { CheckboxGroupAnswer } from '../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 import { TypePermis, TypePermisB, TypePermisC, TypePermisF } from './nationalite/type-permis.model';
 import { Scolarite } from './formation/scolarite.model';
+import { DateAnswer } from '../../dynamic-question/date-question/date-question.model';
 
 /**
  * Une collection de méthodes permettant l'extraction des informations à partir des réponse de l'utilisateur.
@@ -38,13 +39,17 @@ export class AnswerUtils {
     return answer ? answer.value : null;
   }
 
-  private static checkOptionAnswer(formData: FormData, key: string, value: string) {
+  static checkOptionAnswer(formData: FormData, key: string, value: string) {
     const choosenOption = this.getOptionAnswer(formData, key);
     return choosenOption && choosenOption.value === value;
   }
 
   static getCheckboxGroupAnswer(formData: FormData, key: string) {
     return this.findAnswerByKey(formData, key) as CheckboxGroupAnswer;
+  }
+
+  static getDateAnswer(formData: FormData, key: string) {
+    return this.findAnswerByKey(formData, key) as DateAnswer;
   }
 
   static isNationalite(formData: FormData, personne: Personne, pays: Pays) {

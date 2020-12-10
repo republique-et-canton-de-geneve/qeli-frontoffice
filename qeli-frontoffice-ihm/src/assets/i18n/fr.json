@@ -305,6 +305,7 @@
       }
     },
     "domicileCantonGE": {
+      "title": "Domicile dans le canton de Genève",
       "label": "{who, select, me{Votre adresse officielle} other{L'adresse officielle de {membre}}} est-elle dans le canton de Genève ?",
       "help": "Adresse officielle : adresse enregistrée à l'office cantonal de la population et des migrations (OCPM). Pour les détenteur de permis, elle est indiquée sous \"Wohnort / Adresse / Indirizzo\".",
       "error": {
