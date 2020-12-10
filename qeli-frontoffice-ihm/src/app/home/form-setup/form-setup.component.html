@@ -1,6 +1,8 @@
 <div>
   <h2>{{ 'home.setup.title' | translate }}</h2>
-  <p class="help-block" [innerHtml]="'home.setup.subtitle' | translate"></p>
+
+  <app-help-block [text]="{key: 'home.setup.subtitle'}" [collapsable]="false"></app-help-block>
+  <app-help-block [text]="{key: 'home.setup.extraHelp'}" [collapsable]="true"></app-help-block>
 
   <div *ngIf="marieOuPartenaireSansConjoint"
        class="error-block text-danger"
