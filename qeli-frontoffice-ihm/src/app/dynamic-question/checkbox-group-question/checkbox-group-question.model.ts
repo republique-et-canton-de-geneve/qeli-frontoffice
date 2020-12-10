@@ -71,7 +71,13 @@ export interface CheckboxGroupQuestionSchema extends QuestionSchema {
    * S'il y a des options pour indiquer qu’aucun choix ne satisfait pas l'utilistauer ou ne réponds pas à la question
    * pour son cas.
    */
+
   hasSomeOptions?: QuestionOption<'OUI' | 'NON' | 'INCONNU'>[];
+  /**
+   * L'option séléctionné par défaut.
+   */
+  someOptionInitValue?: 'OUI' | 'NON' | 'INCONNU';
+
   /**
    * La liste des choix, sois des choix simples, sois des choix regroupés.
    */
@@ -88,6 +94,12 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
    * pour son cas.
    */
   hasSomeOptions: QuestionOption<'OUI' | 'NON' | 'INCONNU'>[];
+
+  /**
+   * L'option séléctionné par défaut.
+   */
+  someOptionInitValue: 'OUI' | 'NON' | 'INCONNU';
+
   /**
    * La liste des choix, sois des choix simples, sois des choix regroupés.
    */
@@ -97,6 +109,7 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
     super(options);
     this.checkboxOptions = options.checkboxOptions || [];
     this.hasSomeOptions = options.hasSomeOptions || [];
+    this.someOptionInitValue = options.someOptionInitValue || 'OUI';
   }
 
   protected requiredValidator(): ValidatorFn {
@@ -115,7 +128,7 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
     let group: any = {};
 
     if (this.hasNone || this.hasInconnu) {
-      group['hasSome'] = new FormControl(defaultValue ? defaultValue.hasSome.value : 'OUI');
+      group['hasSome'] = new FormControl(defaultValue ? defaultValue.hasSome.value : this.someOptionInitValue);
     }
 
     const defaultChoices = defaultValue ? defaultValue.choices || [] : [];

@@ -36,6 +36,8 @@ export class FormationQuestionService extends QuestionLoader {
           key: 'question.formation.label',
           parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
         },
+        help: {key: 'question.formation.help'},
+        extraHelp: {key: 'question.formation.extraHelp'},
         showErrors: false,
         items: membres.map(membre => ({
           question: new RadioQuestion({
@@ -69,7 +71,6 @@ export class FormationQuestionService extends QuestionLoader {
           key: `scolarite_${membre.id}`,
           dataCyIdentifier: `0701_scolarite_${membre.id}`,
           label: {key: 'question.scolarite.label', parameters: translateParams},
-          help: {key: 'question.scolarite.help', parameters: translateParams},
           errorLabels: {required: {key: 'question.scolarite.error.required'}},
           someOptions: [
             {

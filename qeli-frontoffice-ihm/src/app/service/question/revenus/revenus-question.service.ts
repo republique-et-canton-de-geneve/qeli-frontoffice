@@ -6,7 +6,7 @@ import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilit
 import {
   CheckboxGroupAnswer, CheckboxGroupQuestion
 } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
-import { Personne } from '../../configuration/demandeur.model';
+import { MembreFoyer, Personne, Relation } from '../../configuration/demandeur.model';
 import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Prestation } from '../../configuration/prestation.model';
 import { PAYS_NON_CONVENTIONNES } from '../../../dynamic-question/nationalite-question/pays.model';
@@ -24,6 +24,7 @@ export class RevenusQuestionService extends QuestionLoader {
       const translateParams = {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom};
       const isParent = membre.id === this.demandeur.id ||
                        (this.demandeur.partenaire && this.demandeur.partenaire.id === membre.id);
+      const isEnfant = membre.id !== this.demandeur.id && (membre as MembreFoyer).relation === Relation.ENFANT;
       const eligibilitesRevenus = (
         (isParent) ? eligibiliteGroup.findByPrestation(Prestation.PC_FAM) : []
       ).concat(
@@ -48,6 +49,7 @@ export class RevenusQuestionService extends QuestionLoader {
             },
             errorLabels: QuestionUtils.toErrorLabels('revenus', ['required', 'atLeastOneSelected']),
             hasSomeOptions: checkboxGroupNoneOptionsFor('revenus', membre),
+            someOptionInitValue: isEnfant ? 'NON' : 'OUI',
             checkboxOptions: typeRevenusToCheckboxOptions(membre)
           }),
           skip: (formData, skipEligibilites) => {

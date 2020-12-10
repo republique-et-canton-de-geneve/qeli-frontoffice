@@ -35,6 +35,7 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
           } as I18nString;
         },
         help: {key: 'question.taxationOffice.help'},
+        extraHelp: {key: 'question.taxationOffice.extraHelp'},
         errorLabels: {required: {key: 'question.taxationOffice.error.required'}},
         inline: true,
         radioOptions: REPONSE_PROGRESSIVE_OPTIONS
@@ -62,6 +63,10 @@ export class SituationProfesionelleQuestionService extends QuestionLoader {
             },
             help: {
               key: 'question.tauxActivite.help',
+              parameters: translateParams
+            },
+            extraHelp: {
+              key: 'question.tauxActivite.extraHelp',
               parameters: translateParams
             },
             errorLabels: QuestionUtils.toErrorLabels(
