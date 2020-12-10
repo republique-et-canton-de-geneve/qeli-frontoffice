@@ -125,20 +125,22 @@ export class RevenusQuestionService extends QuestionLoader {
           QuestionUtils.createRefusByPrestationAndMembre(
             eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibiliteToMotifRefus
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
-        }
+        } else {
+          // Calcul des refus pour la situation rente
+          const situationRenteAnswer = AnswerUtils.getCheckboxGroupAnswer(
+            formData,
+            `revenus_${membre.id}.situationRente`
+          );
 
-        // Calcul des refus pour la situation rente
-        const situationRenteAnswer = AnswerUtils.getCheckboxGroupAnswer(formData,
-          `revenus_${membre.id}.situationRente`);
-
-        if (situationRenteAnswer.hasSome.value === 'NON') {
-          QuestionUtils.createRefusByPrestationAndMembre(
-            // Refus PC AVS AI si aucune des options n'est pas coché.
-            eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibilite => ({
-              key: `question.situationRente.motifRefus.${eligibilite.prestation}`,
-              parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
-            })
-          ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+          if (situationRenteAnswer.hasSome.value === 'NON') {
+            QuestionUtils.createRefusByPrestationAndMembre(
+              // Refus PC AVS AI si aucune des options n'est pas coché.
+              eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibilite => ({
+                key: `question.situationRente.motifRefus.${eligibilite.prestation}`,
+                parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
+              })
+            ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+          }
         }
       }
 
