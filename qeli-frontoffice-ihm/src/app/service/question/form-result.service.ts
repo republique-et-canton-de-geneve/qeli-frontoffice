@@ -55,16 +55,18 @@ export class FormResultService {
         } else {
           results.push(result);
         }
-        if (!result.eligible && prestation === Prestation.BOURSES) {
-          (result as Result).enfants11P = state.demandeur.enfants.filter(
-            enfant => AnswerUtils.isScolarite(state.formData, enfant.id, Scolarite.SCOLARITE_OBLIGATOIRE_11P)
-          );
-        }
       });
 
       results
         .filter(result => result.membre.id === 0)
-        .forEach(result => result.conjointEnfantsPropres = conjointEnfantsPropres);
+        .forEach(result => {
+          result.conjointEnfantsPropres = conjointEnfantsPropres;
+          if (prestation === Prestation.BOURSES) {
+            (result as Result).enfants11P = state.demandeur.enfants.filter(
+              enfant => AnswerUtils.isScolarite(state.formData, enfant.id, Scolarite.SCOLARITE_OBLIGATOIRE_11P)
+            );
+          }
+        });
 
       if (results.some(result => result.eligible)) {
         formResult.prestationsEligibles.push({
