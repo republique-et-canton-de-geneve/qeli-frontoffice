@@ -3,9 +3,7 @@ import { QeliConfiguration } from '../../configuration/qeli-configuration.model'
 import { TYPE_REVENUS_AI, TYPE_REVENUS_AVS, TypeRevenus, typeRevenusToCheckboxOptions } from './revenus.model';
 import { Categorie, QeliQuestionDecorator, RefusEligibiliteFn } from '../qeli-question-decorator.model';
 import { Eligibilite, EligibiliteGroup, EligibiliteRefusee } from '../eligibilite.model';
-import {
-  CheckboxGroupAnswer, CheckboxGroupQuestion
-} from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
+import { CheckboxGroupQuestion } from '../../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 import { MembreFoyer, Personne, Relation } from '../../configuration/demandeur.model';
 import { FormData, QuestionOption } from '../../../dynamic-question/model/question.model';
 import { Prestation } from '../../configuration/prestation.model';
@@ -13,6 +11,8 @@ import { PAYS_NON_CONVENTIONNES } from '../../../dynamic-question/nationalite-qu
 import { situationRenteAsOptions } from './situation-rente.model';
 import { AnswerUtils } from '../answer-utils';
 import { QuestionUtils } from '../qeli-questions.utils';
+import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
+import * as _ from 'lodash';
 
 export class RevenusQuestionService extends QuestionLoader {
 
@@ -36,21 +36,50 @@ export class RevenusQuestionService extends QuestionLoader {
       );
       return [
         {
-          question: new CheckboxGroupQuestion({
+          question: new CompositeQuestion({
             key: `revenus_${membre.id}`,
-            dataCyIdentifier: `0601_revenus_${membre.id}`,
+            dataCyIdentifier: '0601_revenus',
             label: {
-              key: 'question.revenus.label',
-              parameters: translateParams
+              key: 'question.revenus.title'
             },
-            help: {
-              key: 'question.revenus.help',
-              parameters: translateParams
-            },
-            errorLabels: QuestionUtils.toErrorLabels('revenus', ['required', 'atLeastOneSelected']),
-            hasSomeOptions: checkboxGroupNoneOptionsFor('revenus', membre),
-            someOptionInitValue: isEnfant ? 'NON' : 'OUI',
-            checkboxOptions: typeRevenusToCheckboxOptions(membre)
+            items: [
+              {
+                question: new CheckboxGroupQuestion({
+                  key: 'situationRevenus',
+                  dataCyIdentifier: `0601_revenus_${membre.id}`,
+                  label: {
+                    key: 'question.revenus.label',
+                    parameters: translateParams
+                  },
+                  help: {
+                    key: 'question.revenus.help',
+                    parameters: translateParams
+                  },
+                  errorLabels: QuestionUtils.toErrorLabels('revenus', ['required', 'atLeastOneSelected']),
+                  hasSomeOptions: checkboxGroupNoneOptionsFor('revenus', membre),
+                  someOptionInitValue: isEnfant ? 'NON' : 'OUI',
+                  checkboxOptions: typeRevenusToCheckboxOptions(membre)
+                })
+              },
+              {
+                question: new CheckboxGroupQuestion({
+                  key: 'situationRente',
+                  dataCyIdentifier: `0602_situationRente_${membre.id}`,
+                  introduction: {key: 'question.situationRente.introduction'},
+                  label: {
+                    key: 'question.situationRente.label',
+                    parameters: translateParams
+                  },
+                  errorLabels: {
+                    required: {key: 'question.situationRente.error.required'},
+                    atLeastOneSelected: {key: 'question.situationRente.error.atLeastOneSelected'}
+                  },
+                  hasSomeOptions: checkboxGroupNoneOptionsFor('situationRente', membre, false),
+                  checkboxOptions: situationRenteAsOptions(membre)
+                }),
+                isShown: this.hasNotRevenusAVSOrAIFn(membre)
+              }
+            ]
           }),
           skip: (formData, skipEligibilites) => {
             if (skipEligibilites.filter(eligibilite => eligibilite.membreId === membre.id)
@@ -65,30 +94,15 @@ export class RevenusQuestionService extends QuestionLoader {
           calculateRefus: this.calculateRevenusRefusFn(membre).bind(this),
           eligibilites: eligibilitesRevenus,
           categorie: Categorie.REVENUS
-        },
-        {
-          question: new CheckboxGroupQuestion({
-            key: `situationRente_${membre.id}`,
-            dataCyIdentifier: `0602_situationRente_${membre.id}`,
-            introduction: {key: 'question.situationRente.introduction'},
-            label: {
-              key: 'question.situationRente.label',
-              parameters: translateParams
-            },
-            errorLabels: {
-              required: {key: 'question.situationRente.error.required'},
-              atLeastOneSelected: {key: 'question.situationRente.error.atLeastOneSelected'}
-            },
-            hasSomeOptions: checkboxGroupNoneOptionsFor('situationRente', membre, false),
-            checkboxOptions: situationRenteAsOptions(membre)
-          }),
-          skip: formData => this.hasAnyRevenusAVSOrAI(formData, membre),
-          calculateRefus: this.calculateSituationRenteRefusFn(membre).bind(this),
-          eligibilites: eligibiliteGroup.findByPrestationEtMembre(Prestation.PC_AVS_AI, membre),
-          categorie: Categorie.REVENUS
-        }
-      ];
+        }];
     }).reduce((result, current) => result.concat(current), []);
+  }
+
+  private hasNotRevenusAVSOrAIFn(membre) {
+    return value => {
+      const choices = _.get(value, `revenus_${membre.id}.situationRevenus.choices`);
+      return _.intersection(choices, TYPE_REVENUS_AVS.concat(TYPE_REVENUS_AI)).length === 0;
+    };
   }
 
   private hasAnyRevenusAVSOrAI(formData: FormData, membre: Personne) {
@@ -111,6 +125,22 @@ export class RevenusQuestionService extends QuestionLoader {
           QuestionUtils.createRefusByPrestationAndMembre(
             eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibiliteToMotifRefus
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+        } else {
+          // Calcul des refus pour la situation rente
+          const situationRenteAnswer = AnswerUtils.getCheckboxGroupAnswer(
+            formData,
+            `revenus_${membre.id}.situationRente`
+          );
+
+          if (situationRenteAnswer.hasSome.value === 'NON') {
+            QuestionUtils.createRefusByPrestationAndMembre(
+              // Refus PC AVS AI si aucune des options n'est pas coché.
+              eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibilite => ({
+                key: `question.situationRente.motifRefus.${eligibilite.prestation}`,
+                parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
+              })
+            ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
+          }
         }
       }
 
@@ -158,25 +188,6 @@ export class RevenusQuestionService extends QuestionLoader {
       }
 
       return refus;
-    };
-  }
-
-  private calculateSituationRenteRefusFn(membre: Personne): RefusEligibiliteFn {
-    return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
-      const situationRenteAnswer = formData[`situationRente_${membre.id}`] as CheckboxGroupAnswer;
-      const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
-
-
-      if (situationRenteAnswer.hasSome.value === 'NON') {
-        return QuestionUtils.createRefusByPrestationAndMembre(
-          // Refus PC AVS AI si aucune des options n'est pas coché.
-          eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibilite => ({
-            key: `question.situationRente.motifRefus.${eligibilite.prestation}`,
-            parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
-          })
-        );
-      }
-      return [];
     };
   }
 }
