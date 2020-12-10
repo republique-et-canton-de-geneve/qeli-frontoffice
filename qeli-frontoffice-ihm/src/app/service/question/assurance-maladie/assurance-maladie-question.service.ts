@@ -29,6 +29,7 @@ export class AssuranceMaladieQuestionService extends QuestionLoader {
           parameters: {numberOfMemebres: this.demandeur.membresFamille.length}
         },
         help: {key: 'question.assuranceMaladieSuisse.help'},
+        extraHelp: {key: 'question.assuranceMaladieSuisse.extraHelp'},
         showErrors: false,
         items: membres.map(membre => ({
           question: new RadioQuestion({

@@ -1,5 +1,5 @@
 h2 {
-  font-size: 16px;
+  font-size: 20px;
   margin: 0 0 5px 0;
 
   @media (max-width: 640px) {
@@ -13,4 +13,10 @@ h2 {
 
 .row > div {
   margin-top: 0.5rem;
+}
+
+.remove-btn-col {
+  button[disabled] {
+    display: none;
+  }
 }
