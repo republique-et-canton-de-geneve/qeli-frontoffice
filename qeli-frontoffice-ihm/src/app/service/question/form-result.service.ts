@@ -6,7 +6,6 @@ import { I18nString } from '../../core/i18n/i18nstring.model';
 import { QeliStateMachine } from './qeli-state.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
-import { Scolarite } from './formation/scolarite.model';
 
 @Injectable({
   providedIn: 'root'
@@ -59,14 +58,7 @@ export class FormResultService {
 
       results
         .filter(result => result.membre.id === 0)
-        .forEach(result => {
-          result.conjointEnfantsPropres = conjointEnfantsPropres;
-          if (prestation === Prestation.BOURSES) {
-            (result as Result).enfants11P = state.demandeur.enfants.filter(
-              enfant => AnswerUtils.isScolarite(state.formData, enfant.id, Scolarite.SCOLARITE_OBLIGATOIRE_11P)
-            );
-          }
-        });
+        .forEach(result => result.conjointEnfantsPropres = conjointEnfantsPropres);
 
       if (results.some(result => result.eligible)) {
         formResult.prestationsEligibles.push({
