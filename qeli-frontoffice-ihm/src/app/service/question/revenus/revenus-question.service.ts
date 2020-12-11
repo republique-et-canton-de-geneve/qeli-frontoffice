@@ -75,6 +75,7 @@ export class RevenusQuestionService extends QuestionLoader {
                     atLeastOneSelected: {key: 'question.situationRente.error.atLeastOneSelected'}
                   },
                   hasSomeOptions: checkboxGroupNoneOptionsFor('situationRente', membre, false),
+                  someOptionInitValue: 'NON',
                   checkboxOptions: situationRenteAsOptions(membre)
                 }),
                 isShown: this.hasNotRevenusAVSOrAIFn(membre)
