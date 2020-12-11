@@ -6,7 +6,6 @@ import { I18nString } from '../../core/i18n/i18nstring.model';
 import { QeliStateMachine } from './qeli-state.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Injectable } from '@angular/core';
-import { Scolarite } from './formation/scolarite.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,11 +53,6 @@ export class FormResultService {
           }
         } else {
           results.push(result);
-        }
-        if (!result.eligible && prestation === Prestation.BOURSES) {
-          (result as Result).enfants11P = state.demandeur.enfants.filter(
-            enfant => AnswerUtils.isScolarite(state.formData, enfant.id, Scolarite.SCOLARITE_OBLIGATOIRE_11P)
-          );
         }
       });
 
