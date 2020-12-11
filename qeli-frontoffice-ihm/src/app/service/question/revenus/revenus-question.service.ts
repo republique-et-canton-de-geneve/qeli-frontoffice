@@ -110,13 +110,20 @@ export class RevenusQuestionService extends QuestionLoader {
     return AnswerUtils.hasAnyRevenus(formData, membre, TYPE_REVENUS_AVS.concat(TYPE_REVENUS_AI));
   }
 
+  private eligibiliteToMotifRefusFn(membre: Personne, typeRevenus: string = '') {
+    return eligibilite => ({
+      key: `question.revenus.motifRefus.${eligibilite.prestation}`,
+      parameters: {
+        who: membre.id === 0 ? 'me' : 'them',
+        membre: membre.prenom,
+        typeRevenus
+      }
+    });
+  }
+
   private calculateRevenusRefusFn(membre: Personne): RefusEligibiliteFn {
     return (formData: FormData, eligibilites: Eligibilite[]): EligibiliteRefusee[] => {
       const refus: EligibiliteRefusee[] = [];
-      const eligibiliteToMotifRefus = eligibilite => ({
-        key: `question.revenus.motifRefus.${eligibilite.prestation}`,
-        parameters: {who: membre.id === 0 ? 'me' : 'them', membre: membre.prenom}
-      });
       const eligibiliteGroup = new EligibiliteGroup(eligibilites, this.demandeur);
 
       if (!this.hasAnyRevenusAVSOrAI(formData, membre)) {
@@ -124,7 +131,7 @@ export class RevenusQuestionService extends QuestionLoader {
         // sans convention.
         if (!membre.isMajeur || AnswerUtils.isNationaliteIn(formData, membre, PAYS_NON_CONVENTIONNES)) {
           QuestionUtils.createRefusByPrestationAndMembre(
-            eligibiliteGroup, Prestation.PC_AVS_AI, membre, eligibiliteToMotifRefus
+            eligibiliteGroup, Prestation.PC_AVS_AI, membre, this.eligibiliteToMotifRefusFn(membre)
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         } else {
           // Calcul des refus pour la situation rente
@@ -146,26 +153,27 @@ export class RevenusQuestionService extends QuestionLoader {
       }
 
       if (this.hasAnyRevenusAVSOrAI(formData, membre)) {
+        const typeRevenus = AnswerUtils.hasAnyRevenus(formData, membre, TYPE_REVENUS_AVS) ? 'AVS' : 'AI';
         // Refus PC FAM et Aide sociale si la personne touche une rente AVS / AI
         if (this.demandeur.id === membre.id ||
             this.demandeur.hasConjoint && this.demandeur.partenaire.id === membre.id) {
           // Refus PC FAM pour toute la famille si le benéficiaire des de la Rente est un des deux conjoints.
           QuestionUtils.createRefusByPrestation(
-            eligibiliteGroup, Prestation.PC_FAM, eligibiliteToMotifRefus
+            eligibiliteGroup, Prestation.PC_FAM, this.eligibiliteToMotifRefusFn(membre, typeRevenus)
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         } else {
           QuestionUtils.createRefusByPrestationAndMembre(
-            eligibiliteGroup, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
+            eligibiliteGroup, Prestation.PC_FAM, membre, this.eligibiliteToMotifRefusFn(membre, typeRevenus)
           ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
         }
 
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibiliteGroup, Prestation.AIDE_SOCIALE, membre, eligibiliteToMotifRefus
+          eligibiliteGroup, Prestation.AIDE_SOCIALE, membre, this.eligibiliteToMotifRefusFn(membre, typeRevenus)
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       } else if (AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.INDEPENDANT)) {
         // Refus PC FAM si la personne est indépendante.
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibiliteGroup, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
+          eligibiliteGroup, Prestation.PC_FAM, membre, this.eligibiliteToMotifRefusFn(membre, 'INDEPENDANT')
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       } else if (
         !AnswerUtils.isRevenuInconnu(formData, membre) &&
@@ -174,17 +182,25 @@ export class RevenusQuestionService extends QuestionLoader {
         // Refus PC FAM si la personne n'est ni employée, ni au chômage ni reçoit des indemnités journalières / perte
         // de gain.
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibiliteGroup, Prestation.PC_FAM, membre, eligibiliteToMotifRefus
+          eligibiliteGroup, Prestation.PC_FAM, membre, this.eligibiliteToMotifRefusFn(membre, 'AUCUN')
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       }
 
-
-      if (AnswerUtils.hasAnyRevenus(
-        formData, membre, [TypeRevenus.CHOMAGE, TypeRevenus.AVS_RETRAITE, TypeRevenus.AI_INVALIDITE])
-      ) {
+      const isRevenuChomage = AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.CHOMAGE);
+      const isRevenuRenteAVS = AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.AVS_RETRAITE);
+      const isRevenuRenteAI = AnswerUtils.hasAnyRevenus(formData, membre, TypeRevenus.AI_INVALIDITE);
+      let typeRevenus;
+      if (isRevenuChomage) {
+        typeRevenus = 'CHOMAGE';
+      } else if (isRevenuRenteAVS) {
+        typeRevenus = 'AVS';
+      } else if (isRevenuRenteAI) {
+        typeRevenus = 'AI';
+      }
+      if (typeRevenus) {
         // Refus BOURSES si la personne est au Chomage ou touche une rente AVS Retraite ou AVS Invalidité.
         QuestionUtils.createRefusByPrestationAndMembre(
-          eligibiliteGroup, Prestation.BOURSES, membre, eligibiliteToMotifRefus
+          eligibiliteGroup, Prestation.BOURSES, membre, this.eligibiliteToMotifRefusFn(membre, typeRevenus)
         ).forEach(eligibiliteRefusee => refus.push(eligibiliteRefusee));
       }
 
