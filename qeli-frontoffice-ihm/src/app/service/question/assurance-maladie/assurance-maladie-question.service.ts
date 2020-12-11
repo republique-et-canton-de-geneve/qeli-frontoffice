@@ -11,6 +11,7 @@ import { Personne } from '../../configuration/demandeur.model';
 import { REPONSE_PROGRESSIVE_OPTIONS, ReponseProgressive } from '../reponse-binaire.model';
 import { FormData } from '../../../dynamic-question/model/question.model';
 import { OptionAnswer } from '../../../dynamic-question/model/answer.model';
+import { FormControl, FormGroup } from '@angular/forms';
 
 export class AssuranceMaladieQuestionService extends QuestionLoader {
 
@@ -31,6 +32,16 @@ export class AssuranceMaladieQuestionService extends QuestionLoader {
         help: {key: 'question.assuranceMaladieSuisse.help'},
         extraHelp: {key: 'question.assuranceMaladieSuisse.extraHelp'},
         showErrors: false,
+        onValueChanged: (form: FormGroup) => {
+          const assuranceMalaieFormGroup = form.controls['assuranceMaladieSuisse'] as FormGroup;
+          const assuranceMaladieDemandeur = assuranceMalaieFormGroup.controls[`assuranceMaladieSuisse_${this.demandeur.id}`].value;
+          this.demandeur.membresFamille.forEach(membre => {
+            const formControl = assuranceMalaieFormGroup.controls[`assuranceMaladieSuisse_${membre.id}`] as FormControl;
+            if (formControl.pristine) {
+              formControl.setValue(assuranceMaladieDemandeur, {emitEvent: false});
+            }
+          });
+        },
         items: membres.map(membre => ({
           question: new RadioQuestion({
             key: `assuranceMaladieSuisse_${membre.id}`,
