@@ -347,10 +347,10 @@
       "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
       "inconnu": "Je ne sais pas",
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation (assurance-chômage, rente de viellesse (AVS) ou rente d'invalidité (AI))",
-        "PC_FAM": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation (rente AVS ou rente AI) ou aucun revenu",
-        "PC_AVS_AI": "Vous avez indiqué {who, select, me{ne recevoir} other{que {membre} ne reçoit}} aucune rente (AVS ou AI) ce qui  vous empêche de bénéficier de cette prestation",
-        "AIDE_SOCIALE": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui  vous empêche de bénéficier de cette prestation (rente AVS ou rente AI)"
+        "BOURSES": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation ({typeRevenus, select, AVS{rente de viellesse (AVS)} AI{rente d'invalidité (AI)} other{assurance-chômage}})",
+        "PC_FAM": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation ({typeRevenus, select, AVS{rente AVS} AI{rente AI} INDEPENDANT{independant} other{aucun revenu}})",
+        "PC_AVS_AI": "Vous avez indiqué {who, select, me{ne recevoir} other{que {membre} ne reçoit}} aucune rente (AVS ou AI) ce qui vous empêche de bénéficier de cette prestation",
+        "AIDE_SOCIALE": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation ({typeRevenus, select, AVS{rente AVS} other{rente AI}})"
       },
       "error": {
         "required": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} doivent être fournis",
