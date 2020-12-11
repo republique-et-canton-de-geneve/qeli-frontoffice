@@ -2,11 +2,19 @@ import { MessageEvaluator, ResultsByPrestation, TypeEligibilite } from '../resul
 import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { EvaluatorUtils } from '../evaluator-utils';
 import { FormData } from '../../../dynamic-question/model/question.model';
+import { Demandeur } from '../../configuration/demandeur.model';
+import { AnswerUtils } from '../answer-utils';
+import { Scolarite } from '../formation/scolarite.model';
 
 export class BoursesEvaluator implements MessageEvaluator {
 
   evaluate(type: TypeEligibilite, results: ResultsByPrestation, formData: FormData): string | I18nString {
-    const enfants11P = (EvaluatorUtils.getResultsDemandeur(results).enfants11P || []).map(enfant => enfant.prenom);
+    const demandeur = EvaluatorUtils.getResultsDemandeur(results).membre as Demandeur;
+    const enfants11P = demandeur
+      .enfants
+      .filter(enfant => AnswerUtils.isScolarite(formData, enfant.id, Scolarite.SCOLARITE_OBLIGATOIRE_11P))
+      .map(enfant => enfant.prenom);
+
     if (enfants11P && enfants11P.length) {
       return {
         key: 'home.result.prestation.BOURSES.information11P',
