@@ -132,7 +132,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (event.status === COOKIE_BANNER_STATUS_DISMISS &&
             !this.cookieService.get(COOKIE_AGREED)) {
           this.cookieService.set(COOKIE_AGREED, CookieAgreedStatus.ACCEPTED,
-            {expires: COOKIE_EXPIRY_DAYS, path: '/', domain: this.cookieDomain});
+            {expires: COOKIE_EXPIRY_DAYS, path: '/', secure: true, domain: this.cookieDomain});
           this.trackingService.setConsentGiven();
         }
       });
