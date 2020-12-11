@@ -17,6 +17,7 @@ import { I18nString } from '../../../core/i18n/i18nstring.model';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { QuestionUtils } from '../qeli-questions.utils';
 import { TypePermisB, TypePermisC, TypePermisF } from '../nationalite/type-permis.model';
+import { FormControl, FormGroup } from '@angular/forms';
 
 export class SituationFiscaleQuestionService extends QuestionLoader {
   loadQuestions(configuration: QeliConfiguration): QeliQuestionDecorator<any>[] {
@@ -69,6 +70,16 @@ export class SituationFiscaleQuestionService extends QuestionLoader {
           },
           help: {key: 'question.fonctionnaireInternational.help'},
           showErrors: false,
+          onValueChanged: (form: FormGroup) => {
+            const fonctIntFormGroup = form.controls['fonctionnaireInternational'] as FormGroup;
+            const fonctIntDemandeur = fonctIntFormGroup.controls[`fonctionnaireInternational_${this.demandeur.id}`].value;
+            this.demandeur.membresFamille.forEach(membre => {
+              const formControl = fonctIntFormGroup.controls[`fonctionnaireInternational_${membre.id}`] as FormControl;
+              if (formControl.pristine) {
+                formControl.setValue(fonctIntDemandeur, {emitEvent: false});
+              }
+            });
+          },
           items: membres.map(membre => ({
             question: new RadioQuestion({
               key: `fonctionnaireInternational_${membre.id}`,
