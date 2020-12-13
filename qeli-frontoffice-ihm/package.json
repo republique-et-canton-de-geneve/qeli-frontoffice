@@ -1,6 +1,6 @@
 {
   "name": "@ch.ge.social.tools/qeli-frontoffice-ihm",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --source-map=true",
@@ -27,6 +27,7 @@
     "cookieconsent": "~3.1.1",
     "core-js": "~3.6.4",
     "file-saver": "~2.0.2",
+    "lodash": "~4.17.15",
     "lzutf8": "~0.5.6",
     "messageformat": "~2.3.0",
     "moment": "~2.24.0",
