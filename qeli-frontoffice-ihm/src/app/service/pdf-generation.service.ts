@@ -15,12 +15,22 @@ export class PDFGenerationService {
 
   generatePDF(answers: FormData,
               result: FormResult,
-              demandeur: Demandeur): Observable<any> {
-    return this.httpClient.post('/socialqeli_pub/api/pdf', {
-      answers: answers,
-      result: result,
-      demandeur: demandeur
-    }, {responseType: 'blob'});
+              demandeur: Demandeur,
+              userEnteredCaptchaCode: string,
+              captchaId: string): Observable<any> {
+    return this.httpClient.post(
+      '/socialqeli_pub/api/pdf', {
+        answers: answers,
+        result: result,
+        demandeur: demandeur
+      }, {
+        responseType: 'blob',
+        params: {
+          userEnteredCaptchaCode: userEnteredCaptchaCode,
+          captchaId: captchaId
+        }
+      }
+    );
   }
 }
 
