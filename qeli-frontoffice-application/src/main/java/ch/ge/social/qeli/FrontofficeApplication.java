@@ -17,10 +17,9 @@ public class FrontofficeApplication extends SpringBootServletInitializer {
     SpringApplication.run(FrontofficeApplication.class, args);
   }
 
-
   @Override
   public void onStartup(ServletContext servletContext) throws ServletException {
-    servletContext.setInitParameter("BDC_configFileLocation", "/botdetect.xml");
+    servletContext.setInitParameter("BDC_configFileLocation", "/src/main/webapp/WEB-INF/botdetect.xml");
     super.onStartup(servletContext);
   }
 
