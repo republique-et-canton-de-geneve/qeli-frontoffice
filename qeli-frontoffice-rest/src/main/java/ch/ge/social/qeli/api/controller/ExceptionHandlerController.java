@@ -1,5 +1,6 @@
 package ch.ge.social.qeli.api.controller;
 
+import ch.ge.social.qeli.api.interceptor.InvalidCaptchaException;
 import ch.ge.social.qeli.service.api.answer.InvalidAnswerFormatException;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
 import ch.ge.social.qeli.service.api.stats.CannotSaveStatsException;
@@ -50,7 +51,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   @ExceptionHandler(
     {
       SecurityException.class,
-      AccessDeniedException.class
+      AccessDeniedException.class,
+      InvalidCaptchaException.class
     }
   )
   public ResponseEntity<ApiErrorDto> forbidden(RuntimeException ex) {

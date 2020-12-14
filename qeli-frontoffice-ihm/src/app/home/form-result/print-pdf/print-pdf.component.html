@@ -1,0 +1,9 @@
+<div>
+  <botdetect-captcha captchaStyleName="yourFirstCaptchaStyle"></botdetect-captcha>
+  <input id="yourFirstCaptchaUserInput"
+         name="yourFirstCaptchaUserInput"
+         type="text">
+  <button class="btn btn-primary" (click)="generatePDF()" type="button">
+    <i class="fa fa-file-pdf-o"></i> {{ 'home.result.pdf' | translate }}
+  </button>
+</div>

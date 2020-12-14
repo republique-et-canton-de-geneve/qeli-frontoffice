@@ -11,13 +11,16 @@ import { DynamicQuestionModule } from '../dynamic-question/dynamic-question.modu
 import { DeepLinkModule } from '../deep-link/deep-link.module';
 import { NavigationControlsComponent } from './navigation-controls/navigation-controls.component';
 import { QeliFormComponent } from './qeli-form/qeli-form.component';
+import { BotDetectCaptchaModule } from 'angular-captcha';
+import { PrintPdfComponent } from './form-result/print-pdf/print-pdf.component';
 
 @NgModule({
   imports: [
     CoreModule,
     GeFormsModule,
     DeepLinkModule,
-    DynamicQuestionModule
+    DynamicQuestionModule,
+    BotDetectCaptchaModule
   ],
   declarations: [
     HomeComponent,
@@ -27,13 +30,15 @@ import { QeliFormComponent } from './qeli-form/qeli-form.component';
     FormSetupComponent,
     ModalValidationComponent,
     NavigationControlsComponent,
-    QeliFormComponent
+    QeliFormComponent,
+    PrintPdfComponent
   ],
   entryComponents: [
     FormResultComponent,
     ResultBlockComponent,
     NavigationMenuComponent,
-    QeliFormComponent
+    QeliFormComponent,
+    PrintPdfComponent
   ]
 })
 export class HomeModule {
