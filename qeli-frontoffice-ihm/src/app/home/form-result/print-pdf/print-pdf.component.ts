@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { PDFGenerationService } from '../../../service/pdf-generation.service';
 import { FormData } from '../../../dynamic-question/model/question.model';
@@ -9,7 +9,8 @@ import { CaptchaComponent } from 'angular-captcha';
 @Component({
   selector: 'print-pdf',
   templateUrl: './print-pdf.component.html',
-  styleUrls: ['./print-pdf.component.scss']
+  styleUrls: ['./print-pdf.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class PrintPdfComponent implements OnInit {
   @Input() formData: FormData;
@@ -18,16 +19,15 @@ export class PrintPdfComponent implements OnInit {
 
   @ViewChild(CaptchaComponent, {static: true}) captchaComponent: CaptchaComponent;
 
+  inError: boolean = false;
 
-  constructor(private pdfGenerationService: PDFGenerationService) {
+  constructor(private pdfGenerationService: PDFGenerationService,
+              private ref: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
-    // set the captchaEndpoint property to point to
-    // the captcha endpoint path on your app's backend
     this.captchaComponent.captchaEndpoint = '/socialqeli_pub/api/captcha';
   }
-
 
   generatePDF() {
     const userEnteredCaptchaCode = this.captchaComponent.userEnteredCaptchaCode,
@@ -40,12 +40,15 @@ export class PrintPdfComponent implements OnInit {
       userEnteredCaptchaCode,
       captchaId
     ).subscribe(response => {
+      this.inError = false;
+      this.ref.markForCheck();
       const blob = new Blob([(response)], {type: 'application/pdf'});
       FileSaver.saveAs(blob, 'recapitulatif-questionaire-eligibilite.pdf');
-    }, err => {
       this.captchaComponent.reloadImage();
-      // TODO Montrer une popup avec l'erreur
-      console.log('error : ', err);
+    }, err => {
+      this.inError = true;
+      this.ref.markForCheck();
+      this.captchaComponent.reloadImage();
     });
   }
 }

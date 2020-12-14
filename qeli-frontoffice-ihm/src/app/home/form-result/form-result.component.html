@@ -42,7 +42,10 @@
   </div>
 
   <div class="row form-result-action" *ngIf="canSavePDF">
-    <print-pdf class="col-xs-12 col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6 text-right">
+    <print-pdf class="col-xs-12 col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6 text-right"
+               [formData]="formData"
+               [formResult]="formResult"
+               [demandeur]="demandeur">
     </print-pdf>
   </div>
 </div>

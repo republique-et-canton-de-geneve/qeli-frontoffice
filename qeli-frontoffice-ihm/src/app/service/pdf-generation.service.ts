@@ -18,13 +18,19 @@ export class PDFGenerationService {
               demandeur: Demandeur,
               userEnteredCaptchaCode: string,
               captchaId: string): Observable<any> {
-    return this.httpClient.post('/socialqeli_pub/api/pdf', {
-      answers: answers,
-      result: result,
-      demandeur: demandeur,
-      userEnteredCaptchaCode: userEnteredCaptchaCode,
-      captchaId: captchaId
-    }, {responseType: 'blob'});
+    return this.httpClient.post(
+      '/socialqeli_pub/api/pdf', {
+        answers: answers,
+        result: result,
+        demandeur: demandeur
+      }, {
+        responseType: 'blob',
+        params: {
+          userEnteredCaptchaCode: userEnteredCaptchaCode,
+          captchaId: captchaId
+        }
+      }
+    );
   }
 }
 

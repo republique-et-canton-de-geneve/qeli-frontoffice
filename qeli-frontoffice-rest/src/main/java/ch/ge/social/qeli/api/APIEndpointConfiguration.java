@@ -1,6 +1,7 @@
 package ch.ge.social.qeli.api;
 
 import ch.ge.social.qeli.api.formatter.UriEncodedAnnotationFormatterFactory;
+import ch.ge.social.qeli.api.interceptor.RegisterCaptchaHandlerInterceptor;
 import com.captcha.botdetect.web.servlet.SimpleCaptchaServlet;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -18,6 +20,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableAutoConfiguration
 public class APIEndpointConfiguration implements WebMvcConfigurer {
   @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(new RegisterCaptchaHandlerInterceptor());
+  }
+
+  @Override
   public void addFormatters(FormatterRegistry registry) {
     registry.addFormatterForFieldAnnotation(new UriEncodedAnnotationFormatterFactory());
   }
@@ -26,7 +33,7 @@ public class APIEndpointConfiguration implements WebMvcConfigurer {
   ServletRegistrationBean captchaServletRegistration() {
     ServletRegistrationBean<SimpleCaptchaServlet> srb = new ServletRegistrationBean<>();
     srb.setServlet(new SimpleCaptchaServlet());
-    srb.addUrlMappings("/api/captcha");
+    srb.addUrlMappings("/api/captcha", "/api/captcha-endpoint");
     return srb;
   }
 }

@@ -51,8 +51,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
   @ExceptionHandler(
     {
       SecurityException.class,
-      AccessDeniedException.class,
-      InvalidCaptchaException.class
+      AccessDeniedException.class
     }
   )
   public ResponseEntity<ApiErrorDto> forbidden(RuntimeException ex) {
@@ -75,7 +74,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
       ConstraintViolationException.class,
       MethodArgumentTypeMismatchException.class,
       UnsatisfiedServletRequestParameterException.class,
-      InvalidAnswerFormatException.class
+      InvalidAnswerFormatException.class,
+      InvalidCaptchaException.class
     }
   )
   public ResponseEntity<ApiErrorDto> badRequest(RuntimeException ex) {
