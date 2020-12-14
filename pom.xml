@@ -96,7 +96,7 @@
 
         <!-- Additional dependencies versions -->
         <ct_springmvc_theme_internet.version>2.0.4</ct_springmvc_theme_internet.version>
-        <botdetect-servlet.version>4.0.beta3.1</botdetect-servlet.version>
+        <botdetect-servlet.version>4.0.beta3.7</botdetect-servlet.version>
         <guava.version>27.0.1-jre</guava.version>
         <icu4j.version>68.1</icu4j.version>
         <javassist.version>3.23.1-GA</javassist.version>
