@@ -1,11 +1,11 @@
 .print-pdf-component {
   display: flex;
   flex-direction: column;
-  justify-content: right;
+  justify-content: flex-end;
 
   .captcha-image {
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
   }
 
   *:not(:last-child) {
