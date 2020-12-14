@@ -1,5 +1,6 @@
 package ch.ge.social.qeli.api.controller.pdf;
 
+import ch.ge.social.qeli.api.interceptor.Captcha;
 import ch.ge.social.qeli.service.api.pdf.PDFCreationService;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
 import ch.ge.social.qeli.service.api.result.dto.QeliResult;
@@ -36,6 +37,7 @@ public class PDFGenerationController {
    * @throws PDFGenerationException si un problème survient pendant la génération du PDF.
    */
   @PostMapping(value = "/pdf", consumes = {MediaType.APPLICATION_JSON_VALUE})
+  @Captcha
   public byte[] generatePDF(@RequestBody QeliResult result) {
     return this.pdfCreationService.generate(result);
   }

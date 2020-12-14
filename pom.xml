@@ -152,6 +152,11 @@
             <!-- Additional dependencies -->
             <dependency>
                 <groupId>com.captcha</groupId>
+                <artifactId>botdetect</artifactId>
+                <version>${botdetect-servlet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.captcha</groupId>
                 <artifactId>botdetect-servlet</artifactId>
                 <version>${botdetect-servlet.version}</version>
             </dependency>
