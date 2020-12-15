@@ -20,6 +20,7 @@ export class PrintPdfComponent implements OnInit {
   @ViewChild(CaptchaComponent, {static: true}) captchaComponent: CaptchaComponent;
 
   inError: boolean = false;
+  success: boolean = false;
 
   constructor(private pdfGenerationService: PDFGenerationService,
               private ref: ChangeDetectorRef) {
@@ -41,12 +42,14 @@ export class PrintPdfComponent implements OnInit {
       captchaId
     ).subscribe(response => {
       this.inError = false;
+      this.success = true;
       this.ref.markForCheck();
       const blob = new Blob([(response)], {type: 'application/pdf'});
       FileSaver.saveAs(blob, 'recapitulatif-questionaire-eligibilite.pdf');
       this.captchaComponent.reloadImage();
     }, err => {
       this.inError = true;
+      this.success = false;
       this.ref.markForCheck();
       this.captchaComponent.reloadImage();
     });

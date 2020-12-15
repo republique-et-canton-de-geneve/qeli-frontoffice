@@ -710,7 +710,8 @@
     },
     "captcha": {
       "label": "Veuillez ressaisir le texte ci-dessus :",
-      "error": "La validation a échoué, merci de le ressaisir à nouveau le texte ci-dessus"
+      "error": "La validation a échoué, merci de le ressaisir à nouveau le texte ci-dessus",
+      "success": "Saisie réussie. Votre téléchargement commence"
     },
     "pays": {
       "af": "Afghanistan",
