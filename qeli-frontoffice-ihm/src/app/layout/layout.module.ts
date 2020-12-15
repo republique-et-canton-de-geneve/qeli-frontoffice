@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
 import { CoreModule } from '../core/core.module';
 
 @NgModule({
@@ -10,13 +9,11 @@ import { CoreModule } from '../core/core.module';
   ],
   exports: [
     FooterComponent,
-    HeaderComponent,
-    ToolbarComponent
+    HeaderComponent
   ],
   declarations: [
     FooterComponent,
-    HeaderComponent,
-    ToolbarComponent
+    HeaderComponent
   ],
   entryComponents: [],
   providers: []

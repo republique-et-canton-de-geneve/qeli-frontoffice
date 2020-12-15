@@ -157,7 +157,7 @@
   "layout": {
     "footer": {
       "annuaire": "Annuaire",
-      "catalogueEdemarches": "Catalogue des e-démarches",
+      "aideFormulaire": "Aide pour remplir le formulaire",
       "conditionsGenerales": "Conditions générales",
       "informationsGenerales": "Informations générales",
       "titre": "République et canton de Genève",
@@ -165,10 +165,6 @@
     },
     "header": {
       "title": "République et canton de Genève"
-    },
-    "toolbar": {
-      "home": "Plus d'informations",
-      "link": "https://www.ge.ch/node/19715"
     }
   },
   "question": {
