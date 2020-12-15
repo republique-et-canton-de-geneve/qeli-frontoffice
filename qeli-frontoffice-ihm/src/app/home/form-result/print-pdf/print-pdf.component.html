@@ -28,5 +28,24 @@
       {{ 'common.captcha.error' | translate }}
     </p>
   </div>
+
+  <div *ngIf="inError"
+       class="error-block text-danger"
+       role="alert"
+       aria-describedby="qeliCaptchaUserInput_label">
+    <p>
+      {{ 'common.errorPrefix' | translate }}
+      {{ 'common.captcha.error' | translate }}
+    </p>
+  </div>
+
+  <div *ngIf="success"
+       class="error-block text-success"
+       role="alert"
+       aria-describedby="qeliCaptchaUserInput_label">
+    <p>
+      {{ 'common.captcha.success' | translate }}
+    </p>
+  </div>
 </div>
 
