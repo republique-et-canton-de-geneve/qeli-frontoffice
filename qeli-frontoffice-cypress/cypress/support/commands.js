@@ -79,6 +79,7 @@ Cypress.Commands.add('answerQuestion', (questionKey, answer, submit = true) => {
       } else {
         splitCommaSeparatedString(answer).forEach(
           value => {
+            cy.wrap($question[0]).find('input[data-cy-value=OUI]').check();
             if (questionKey === '0101_prestations') {
               cy.wrap($question[0]).find(`input[value=${interpolateMembreId(value)}]`).check();
             } else {

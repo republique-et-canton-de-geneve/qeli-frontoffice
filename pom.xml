@@ -11,7 +11,7 @@
 
     <groupId>ch.ge.social.qeli</groupId>
     <artifactId>qeli-frontoffice</artifactId>
-    <version>1.4.6</version>
+    <version>1.4.7</version>
     <packaging>pom</packaging>
 
     <name>qeli-frontoffice</name>
@@ -96,6 +96,7 @@
 
         <!-- Additional dependencies versions -->
         <ct_springmvc_theme_internet.version>2.0.4</ct_springmvc_theme_internet.version>
+        <botdetect-servlet.version>4.0.beta3.7</botdetect-servlet.version>
         <guava.version>27.0.1-jre</guava.version>
         <icu4j.version>68.1</icu4j.version>
         <javassist.version>3.23.1-GA</javassist.version>
@@ -117,38 +118,48 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-application</artifactId>
-                <version>1.4.6</version>
+                <version>1.4.7</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-cypress</artifactId>
-                <version>1.4.6</version>
+                <version>1.4.7</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-ihm</artifactId>
-                <version>1.4.6</version>
+                <version>1.4.7</version>
                 <type>war</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-rest</artifactId>
-                <version>1.4.6</version>
+                <version>1.4.7</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service</artifactId>
-                <version>1.4.6</version>
+                <version>1.4.7</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>qeli-frontoffice-service-api</artifactId>
-                <version>1.4.6</version>
+                <version>1.4.7</version>
             </dependency>
 
             <!-- Additional dependencies -->
+            <dependency>
+                <groupId>com.captcha</groupId>
+                <artifactId>botdetect</artifactId>
+                <version>${botdetect-servlet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.captcha</groupId>
+                <artifactId>botdetect-servlet</artifactId>
+                <version>${botdetect-servlet.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>

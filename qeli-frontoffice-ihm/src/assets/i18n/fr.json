@@ -157,7 +157,7 @@
   "layout": {
     "footer": {
       "annuaire": "Annuaire",
-      "catalogueEdemarches": "Catalogue des e-démarches",
+      "aideFormulaire": "Aide pour remplir le formulaire",
       "conditionsGenerales": "Conditions générales",
       "informationsGenerales": "Informations générales",
       "titre": "République et canton de Genève",
@@ -165,10 +165,6 @@
     },
     "header": {
       "title": "République et canton de Genève"
-    },
-    "toolbar": {
-      "home": "Plus d'informations",
-      "link": "https://www.ge.ch/node/19715"
     }
   },
   "question": {
@@ -347,10 +343,10 @@
       "none": "{who, select, me{Je ne reçois} other{{membre} ne reçoit}} aucun de ces revenus",
       "inconnu": "Je ne sais pas",
       "motifRefus": {
-        "BOURSES": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation (assurance-chômage, rente de viellesse (AVS) ou rente d'invalidité (AI))",
-        "PC_FAM": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui vous empêche de bénéficier de cette prestation (rente AVS ou rente AI) ou aucun revenu",
-        "PC_AVS_AI": "Vous avez indiqué {who, select, me{ne recevoir} other{que {membre} ne reçoit}} aucune rente (AVS ou AI) ce qui  vous empêche de bénéficier de cette prestation",
-        "AIDE_SOCIALE": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} un revenu qui  vous empêche de bénéficier de cette prestation (rente AVS ou rente AI)"
+        "BOURSES": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} {typeRevenus, select, AVS{une rente de vieillesse (AVS)} AI{une rente d'invalidité (AI)} other{l'assurance-chômage}} ce qui vous empêche de bénéficier de cette prestation",
+        "PC_FAM": "Vous avez indiqué {who, select, me{{typeRevenus, select, AUCUN{ne } other{}}recevoir} other{que {membre} {typeRevenus, select, AUCUN{ne } other{}}reçoit}} {typeRevenus, select, AVS{une rente AVS} AI{une rente AI} INDEPENDANT{un revenu d'indépendant} other{aucun revenu}} ce qui vous empêche de bénéficier de cette prestation",
+        "PC_AVS_AI": "Vous avez indiqué {who, select, me{ne recevoir} other{que {membre} ne reçoit}} aucune rente (AVS ou AI) ce qui vous empêche de bénéficier de cette prestation",
+        "AIDE_SOCIALE": "Vous avez indiqué {who, select, me{recevoir} other{que {membre} reçoit}} {typeRevenus, select, AVS{une rente AVS} other{une rente AI}} ce qui vous empêche de bénéficier de cette prestation"
       },
       "error": {
         "required": "{who, select, me{Vos revenus} other{Les revenus de {membre}}} doivent être fournis",
@@ -376,7 +372,7 @@
         "avecConcubin": "Votre dernière taxation ou celle de votre concubin est-elle une taxation d'office ?"
       },
       "help": "Impôts : administration fiscale cantonale (AFC).<br>Taxation d'office : vous n'avez pas rempli ou renvoyé votre déclaration d'impôts dans les délais et vous avez donc reçu une taxation qui s'appelle \"Taxation d'office\" au lieu de \"Taxation\".<br>ATTENTION : ce n'est PAS l'impôt à la source.",
-	  "extraHelp" : "Pour les concubins, si un seul des deux est taxé d'office, sélectionnez \"Oui\".<br> En cas de doute, cochez \"Non\".",
+      "extraHelp": "Pour les concubins, si un seul des deux est taxé d'office, sélectionnez \"Oui\".<br> En cas de doute, cochez \"Non\".",
       "motifRefus": {
         "PC_FAM": "Votre dernière taxation ou celle de votre concubin est une taxation d'office"
       },
@@ -387,7 +383,7 @@
     "tauxActivite": {
       "label": "Quel est {who, select, me{votre taux d'activité} other{le taux d'activité de {membre}}} ?",
       "help": "Taux d'activité : pourcentage (%) ou nombre d'heures de travail payé.<br>Le taux d'activité ou le nombre d'heures par semaine est souvent indiqué sur le contrat de travail.",
-	  "extraHelp" : "Si {who, select, me{vous avez} other{{membre} a}} plusieurs emplois, noter le total (la somme).<br>Si {who, select, me{vos} other{ses}} emplois sont irréguliers, estimer la moyenne d'heures totales par semaine.",
+      "extraHelp": "Si {who, select, me{vous avez} other{{membre} a}} plusieurs emplois, noter le total (la somme).<br>Si {who, select, me{vos} other{ses}} emplois sont irréguliers, estimer la moyenne d'heures totales par semaine.",
       "motifRefus": {
         "PC_FAM": "Votre taux d'activité est trop faible pour bénéficier des prestations complémentaires familiales"
       },
@@ -436,7 +432,7 @@
     "proprietaireOuLocataireLogement": {
       "label": "Etes-vous propriétaire ou locataire de votre logement ?",
       "help": "Logement : l'appartement ou la maison dans laquelle vous habitez (résidence principale).",
-	  "extraHelp": "Pour les colocations, cocher \"Locataire, sous-locataire\".",
+      "extraHelp": "Pour les colocations, cocher \"Locataire, sous-locataire\".",
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué que vous êtes propriétaire de votre logement"
       },
@@ -447,7 +443,7 @@
     "bailLogementAVotreNom": {
       "label": "Le bail de votre logement est-il à votre nom {hasPartenaire, select, no{} other{(ou celui de {partenaire})}} ?",
       "help": "Votre nom {hasPartenaire, select, no{} other{ou celui de {partenaire}}} figure sur le bail à loyer du logement que vous occupez.",
-	  "extraHelp" : "Si vous êtes un sous-locataire déclaré à la régie, vous êtes également considéré comme titulaire du bail. En cas de doute, demandez au locataire.<br>En cas de doute, cochez\"Oui\".",
+      "extraHelp": "Si vous êtes un sous-locataire déclaré à la régie, vous êtes également considéré comme titulaire du bail. En cas de doute, demandez au locataire.<br>En cas de doute, cochez\"Oui\".",
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Vous avez indiqué que le bail de votre logement n'est pas à votre nom"
       },
@@ -458,7 +454,7 @@
     "nombreDePiecesLogement": {
       "label": "Combien de pièces a votre logement ?",
       "help": "Le nombre de pièces est mentionné sur votre bail.",
-	  "extraHelp" : "En général, le nombre de pièces est la somme des pièces suivantes (ce n'est pas le nombre de chambres) :<br>- cuisine<br>- salon<br>- chambre.<br>Exemples :<br>- Studio : 1 pièce<br>- cuisine + chambre : 2 pièces<br>- cuisine + salon + 1 chambre : 3 pièces<br>cuisine + salon + 2 chambres : 4 pièces<br>Les salles d'eau (bain, douche, WC) et les balcons ne comptent pas comme pièce.<br>En cas de différence entre le nombre de pièces que vous avez calculé et le nombre de pièces sur le bail, c'est le nombre de pièces sur le bail qu'il faut noter.",
+      "extraHelp": "En général, le nombre de pièces est la somme des pièces suivantes (ce n'est pas le nombre de chambres) :<br>- cuisine<br>- salon<br>- chambre.<br>Exemples :<br>- Studio : 1 pièce<br>- cuisine + chambre : 2 pièces<br>- cuisine + salon + 1 chambre : 3 pièces<br>cuisine + salon + 2 chambres : 4 pièces<br>Les salles d'eau (bain, douche, WC) et les balcons ne comptent pas comme pièce.<br>En cas de différence entre le nombre de pièces que vous avez calculé et le nombre de pièces sur le bail, c'est le nombre de pièces sur le bail qu'il faut noter.",
       "motifRefus": {
         "ALLOCATION_LOGEMENT": "Le nombre de pièces de votre logement est trop important par rapport au nombre de personnes qui y vivent"
       },
@@ -482,7 +478,7 @@
     "assuranceMaladieSuisse": {
       "label": "Avez-vous{numberOfMemebres, select, 0{} other{, et les personnes de votre foyer,}} une assurance-maladie suisse (LAMal) ?",
       "help": "LAMal : assurance de base pour les soins en cas de maladie et d'accident.",
-	  "extraHelp" : "En Suisse, l'assurance de base est obligatoire. Toute personne, dès son arrivée en Suisse, doit s'assurer pour les soins en cas de maladie et d'accident, donc souscrire à une police d'assurance-maladie suisse. Par exemple : Assura, CSS, Helsana ou Mutuel.",
+      "extraHelp": "En Suisse, l'assurance de base est obligatoire. Toute personne, dès son arrivée en Suisse, doit s'assurer pour les soins en cas de maladie et d'accident, donc souscrire à une police d'assurance-maladie suisse. Par exemple : Assura, CSS, Helsana ou Mutuel.",
       "membre": "{who, select, me{J'ai} other{{membre} a}} une assurance-maladie suisse (LAMal) :",
       "error": {
         "required": "Ce champ est obligatoire"
@@ -504,7 +500,7 @@
     "recoisEntierementPensionAlimentaire": {
       "label": "Recevez-vous chaque mois la totalité du montant de la pension alimentaire ?",
       "help": "L'autre parent de votre enfant (par exemple : le père) vous verse-t-il tous les montants qui vous sont dus, tous les mois ?",
-	  "extraHelp" : "Si c'est le SCARPA qui vous verse la pension, répondre \"Non\" car ce n'est pas l'autre parent qui paye.",
+      "extraHelp": "Si c'est le SCARPA qui vous verse la pension, répondre \"Non\" car ce n'est pas l'autre parent qui paye.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -535,7 +531,7 @@
     "exempteImpot": {
       "label": "Etes-vous {hasPartenaire, select, no{} other{ou {partenaire}}} exempté de l'impôt (valable pour certains fonctionnaires internationaux et travailleurs détachés) ?",
       "help": "Exempté de l'impôt : vous n'êtes pas (exemption totale) ou moins (exemption partielle) taxé en raison de votre statut de fonctionnaire international ou de travailleur détaché par une société externe.",
-	  "extraHelp" : "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.",
+      "extraHelp": "ATTENTION : si vous payez la taxe personnelle (25.-), vous n'êtes pas exempté.",
       "error": {
         "required": "Ce champ est obligatoire"
       },
@@ -707,6 +703,11 @@
       "hourlyOption": "Saisissez le nombre d'heures travaillées par semaine :",
       "hourlySuffix": "heures / semaine",
       "calculatedTaux": "Votre taux d'activité est de : {weeklyTaux} %"
+    },
+    "captcha": {
+      "label": "Veuillez ressaisir le texte ci-dessus :",
+      "error": "La validation a échoué, merci de le ressaisir à nouveau le texte ci-dessus",
+      "success": "Saisie réussie. Votre téléchargement commence"
     },
     "pays": {
       "af": "Afghanistan",

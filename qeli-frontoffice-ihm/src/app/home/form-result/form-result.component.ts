@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { QeliStateMachine } from '../../service/question/qeli-state.model';
 import { TranslateService } from '@ngx-translate/core';
-import { PDFGenerationService } from '../../service/pdf-generation.service';
 import { FormData } from '../../dynamic-question/model/question.model';
-import * as FileSaver from 'file-saver';
 import { FormResult } from '../../service/question/result.model';
 import { FormResultService } from '../../service/question/form-result.service';
 import { Demandeur } from '../../service/configuration/demandeur.model';
@@ -23,8 +21,7 @@ export class FormResultComponent {
   @Input() disableDeepLink: boolean = false;
 
   constructor(private translateService: TranslateService,
-              private formResultService: FormResultService,
-              private pdfGenerationService: PDFGenerationService) {
+              private formResultService: FormResultService) {
 
   }
 
@@ -34,19 +31,5 @@ export class FormResultComponent {
     this.formResult = this.formResultService.toFormResult(qeliStateMachine);
     this.formData = state.formData;
     this.demandeur = state.demandeur;
-  }
-
-  generatePDF() {
-    this.pdfGenerationService.generatePDF(
-      this.formData,
-      this.formResult,
-      this.demandeur
-    ).subscribe(response => {
-      const blob = new Blob([(response)], {type: 'application/pdf'});
-      FileSaver.saveAs(blob, 'recapitulatif-questionaire-eligibilite.pdf');
-    }, err => {
-      // TODO Montrer une popup avec l'erreur
-      console.log('error : ', err);
-    });
   }
 }

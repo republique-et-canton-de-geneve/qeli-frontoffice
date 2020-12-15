@@ -1,0 +1,14 @@
+.print-pdf-component {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  .captcha-image {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  *:not(:last-child) {
+    margin-bottom: 5px;
+  }
+}
