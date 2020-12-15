@@ -1,5 +1,6 @@
 package ch.ge.social.qeli.api.controller;
 
+import ch.ge.social.qeli.api.interceptor.InvalidCaptchaException;
 import ch.ge.social.qeli.service.api.answer.InvalidAnswerFormatException;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
 import ch.ge.social.qeli.service.api.stats.CannotSaveStatsException;
@@ -73,7 +74,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
       ConstraintViolationException.class,
       MethodArgumentTypeMismatchException.class,
       UnsatisfiedServletRequestParameterException.class,
-      InvalidAnswerFormatException.class
+      InvalidAnswerFormatException.class,
+      InvalidCaptchaException.class
     }
   )
   public ResponseEntity<ApiErrorDto> badRequest(RuntimeException ex) {

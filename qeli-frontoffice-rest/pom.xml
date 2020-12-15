@@ -6,7 +6,7 @@
     <parent>
         <groupId>ch.ge.social.qeli</groupId>
         <artifactId>qeli-frontoffice</artifactId>
-        <version>1.4.6</version>
+        <version>1.4.7</version>
     </parent>
 
     <artifactId>qeli-frontoffice-rest</artifactId>
@@ -26,8 +26,16 @@
 
         <!-- Additional dependencies -->
         <dependency>
+            <groupId>com.captcha</groupId>
+            <artifactId>botdetect-servlet</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

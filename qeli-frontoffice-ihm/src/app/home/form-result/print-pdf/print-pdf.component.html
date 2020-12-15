@@ -1,0 +1,41 @@
+<div class="print-pdf-component">
+  <botdetect-captcha class="captcha-image" captchaStyleName="qeliCaptchaStyle"></botdetect-captcha>
+
+  <div>
+    <label class="control-label"
+           [ngClass]="inError ? 'text-danger' : ''"
+           for="qeliCaptchaUserInput"
+           id="qeliCaptchaUserInput_label"
+           data-cy-question-label>
+      {{ 'common.captcha.label' | translate }}
+    </label>
+    <input id="qeliCaptchaUserInput"
+           name="qeliCaptchaUserInput"
+           class="form-control"
+           type="text">
+  </div>
+
+  <button class="btn btn-primary" (click)="generatePDF()" type="button">
+    <i class="fa fa-file-pdf-o"></i> {{ 'home.result.pdf' | translate }}
+  </button>
+
+  <div *ngIf="inError"
+       class="error-block text-danger"
+       role="alert"
+       aria-describedby="qeliCaptchaUserInput_label">
+    <p>
+      {{ 'common.errorPrefix' | translate }}
+      {{ 'common.captcha.error' | translate }}
+    </p>
+  </div>
+
+  <div *ngIf="success"
+       class="error-block text-success"
+       role="alert"
+       aria-describedby="qeliCaptchaUserInput_label">
+    <p>
+      {{ 'common.captcha.success' | translate }}
+    </p>
+  </div>
+</div>
+
