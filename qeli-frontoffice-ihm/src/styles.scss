@@ -75,6 +75,10 @@ footer {
   }
 }
 
+.btn-link.remove-underline {
+  text-decoration: none !important;
+}
+
 .btn-info[disabled]:hover {
   color: #333 !important;
   background-color: #fff !important;

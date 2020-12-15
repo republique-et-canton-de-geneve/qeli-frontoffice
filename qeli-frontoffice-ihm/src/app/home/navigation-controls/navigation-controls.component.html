@@ -1,6 +1,6 @@
 <div class="navigation-controls row" (keyup)="$event.preventDefault()">
   <div *ngIf="!disablePrevious" class="previous-question col-xs-12 col-sm-6">
-    <button class="btn btn-primary"
+    <button class="btn btn-link remove-underline"
             data-cy='previousQuestion'
             [attr.aria-label]="'form.previous' | translate"
             (click)="onPreviousClicked.emit()"
