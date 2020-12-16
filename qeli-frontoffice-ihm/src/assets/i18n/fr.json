@@ -79,34 +79,34 @@
       "prestation": {
         "SUBSIDES": {
           "title": "Subsides d'assurance-maladie",
-          "plusInformationLink": "https://www.ge.ch/informations-generales-subside-assurance-maladie",
-          "demandeLink": "https://www.ge.ch/demander-subside-assurance-maladie-2020",
+          "plusInformationLink": "https://www.ge.ch/node/1878",
+          "demandeLink": "https://www.ge.ch/node/22803",
           "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçoit}} déjà cette prestation",
           "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}"
         },
         "AVANCES": {
           "title": "Avances de pensions alimentaires",
-          "plusInformationLink": "https://www.ge.ch/pensions-alimentaires-impayees",
-          "demandeLink": "https://www.ge.ch/pensions-alimentaires-impayees/creancier-aliments-deposer-demande-aupres-du-scarpa",
+          "plusInformationLink": "https://www.ge.ch/node/2439",
+          "demandeLink": "https://www.ge.ch/node/2440",
           "eligible": "Vous êtes éligible"
         },
         "ALLOCATION_LOGEMENT": {
           "title": "Allocation logement",
-          "plusInformationLink": "https://www.ge.ch/allocation-logement",
-          "demandeLink": "https://www.ge.ch/allocation-logement/demander-allocation-logement",
+          "plusInformationLink": "https://www.ge.ch/node/2483",
+          "demandeLink": "https://www.ge.ch/node/2484",
           "eligible": "Vous êtes éligible"
         },
         "PC_AVS_AI": {
           "title": "Prestations complémentaires AVS/AI",
-          "plusInformationLink": "https://www.ge.ch/prestations-complementaires-avs/ai",
-          "demandeLink": "https://www.ge.ch/prestations-complementaires-avs/ai/demander-prestations-complementaires-avs/ai",
+          "plusInformationLink": "https://www.ge.ch/node/2045",
+          "demandeLink": "https://www.ge.ch/node/6421",
           "eligible": "Vous êtes éligible"
         },
         "BOURSES": {
           "title": "Bourses d'études",
-          "plusInformationLink": "https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage",
-          "demandeLink": "https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage/procedure-demande-bourse-pret",
+          "plusInformationLink": "https://www.ge.ch/node/9840",
+          "demandeLink": "https://www.ge.ch/node/9843",
           "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçoit}} déjà cette prestation",
           "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}",
@@ -115,8 +115,8 @@
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
-          "plusInformationLink": "https://www.ge.ch/demander-prestations-complementaires-familiales",
-          "demandeLink": "https://www.ge.ch/demander-prestations-complementaires-familiales/faire-demande-prestations-complementaires",
+          "plusInformationLink": "https://www.ge.ch/node/1834",
+          "demandeLink": "https://www.ge.ch/node/2431",
           "eligible": "Votre foyer est éligible",
           "taxationOffice": "Pour avoir droit aux prestations complémentaires familiales, vous devrez d'abord régulariser votre situation auprès des impôts."
         },
@@ -177,7 +177,7 @@
       }
     },
     "prestations": {
-      "label": "Est-ce que vous{numberOfMemebres, select, 0{} other{, ou une autre personne de votre foyer,}} reçoit déjà des prestations sociales ? Si oui, lesquelles ? ",
+      "label": "Est-ce que vous {numberOfMemebres, select, 0{recevez} other{, ou une autre personne de votre foyer, reçoit}} déjà des prestations sociales ? Si oui, lesquelles ? ",
       "help": "Les prestations sociales sont toutes les aides financières apportées par l'Etat de Genève dans le domaine social et qui dépendent de vos revenus. Elles sont toutes nommées dans  la liste des réponses possibles. Les allocations familiales n'en font par exemple pas partie.",
       "extraHelp": "Cas particuliers<br>Si vous n'êtes pas sûr.e de toucher une prestation, laissez la case vide (NE PAS cocher la case).<br>Si vous pensez ne toucher aucune prestation, sélectionnez la case \"Non, je ne reçois aucune prestation sociale / Non, personne de mon foyer ne reçoit de prestation sociale\".",
       "option": {
