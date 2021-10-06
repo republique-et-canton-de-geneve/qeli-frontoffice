@@ -13,7 +13,6 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>stats/${HOSTNAME}-stats.%d{dd-MM-yyyy}.%i.csv</fileNamePattern>
             <maxFileSize>200KB</maxFileSize>
-            <maxHistory>-1</maxHistory>
             <totalSizeCap>20GB</totalSizeCap>
         </rollingPolicy>
     </appender>
