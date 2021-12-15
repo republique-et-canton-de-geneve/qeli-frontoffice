@@ -34,7 +34,7 @@ Le questionnaire d'éligibilité aux prestations sociales est une e-démarche d�
  aux prestations sociales. Son implémentation a été assurée par l'office cantonale
  des systèmes d'information et du numérique (OCSIN).
 
- ![application qeli](./assets/application-qeli.jpg)
+ ![application qeli](./assets/application-qeli.png)
 
 # Liste des modules
 

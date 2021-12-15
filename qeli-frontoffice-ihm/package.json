@@ -7,8 +7,7 @@
     "start-host": "ng serve --source-map=true --host \"localqeli.etat-ge.ch\"",
     "build": "ng build --prod --base-href=/socialqeli_pub/formulaire/ --no-progress",
     "test": "ng test --watch=false",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -58,7 +57,6 @@
     "karma-coverage-istanbul-reporter": "~2.1.1",
     "karma-jasmine": "~3.1.1",
     "karma-jasmine-html-reporter": "~1.5.2",
-    "protractor": "~5.4.0",
     "stream": "~0.0.2",
     "ts-node": "~8.6.2",
     "tslint": "~5.20.1",
