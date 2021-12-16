@@ -31,6 +31,10 @@
     <artifactId>qeli-frontoffice-application</artifactId>
     <packaging>war</packaging>
 
+    <properties>
+        <sonar.coverage.exclusions>**/SecurityDevelopmentConfiguration.java</sonar.coverage.exclusions>
+    </properties>
+
     <dependencies>
         <!-- Frontoffice modules -->
         <dependency>
@@ -188,6 +192,31 @@
 
     <profiles>
         <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>qeli-frontoffice-editique-mock</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>ocsin</id>
+
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>qeli-frontoffice-editique-impl</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
             <id>development</id>
             <build>
                 <plugins>
@@ -254,7 +283,6 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
 
 </project>

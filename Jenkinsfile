@@ -53,7 +53,7 @@ pipeline {
         sh "mvn clean verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
                              -pl '!qeli-frontoffice-cypress'                \
                              -Dihm.test.skip=true                           \
-                             -Pci"
+                             -Pci,ocsin"
 
         junit '**/target/surefire-reports/*.xml'
         step([$class: 'JacocoPublisher'])
@@ -129,7 +129,7 @@ pipeline {
         withSonarQubeEnv('Sonarqube') {
           sh "mvn ${env.SONAR_MAVEN_GOAL} -Dsonar.host.url=${env.SONAR_HOST_URL} \
                                           -pl '!qeli-frontoffice-cypress'        \
-                                          -Pci"
+                                          -Pci,ocsin"
         }
       }
     }
@@ -143,7 +143,7 @@ pipeline {
           sh "mvn verify -s ${env.USER_SETTINGS_DIR}social_settings.xml \
                          -Dihm.test.skip=true                           \
                          -Dsurefire.test.skip=true                      \
-                         -Pci"
+                         -Pci,ocsin"
         }
       }
     }
@@ -159,7 +159,7 @@ pipeline {
       steps {
         sh "mvn clean source:jar deploy -s ${env.USER_SETTINGS_DIR}social_settings.xml -DskipTests=true  \
                                         -pl '!qeli-frontoffice-cypress'                                  \
-                                        -Pci"
+                                        -Pci,ocsin"
       }
     }
   }

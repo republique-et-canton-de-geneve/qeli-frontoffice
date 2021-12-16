@@ -20,6 +20,7 @@
 package ch.ge.social.qeli;
 
 import ch.ge.social.qeli.api.APIEndpointConfiguration;
+import ch.ge.social.qeli.editique.EditiqueConfiguration;
 import ch.ge.social.qeli.security.SecurityConfiguration;
 import ch.ge.social.qeli.security.SecurityDevelopmentConfiguration;
 import ch.ge.social.qeli.service.ServiceConfiguration;
@@ -37,6 +38,7 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 @Import(
   {
     FrontofficeIHMConfiguration.class,
+    EditiqueConfiguration.class,
     ServiceConfiguration.class,
     APIEndpointConfiguration.class,
     SecurityConfiguration.class,

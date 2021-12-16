@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ch.ge.social.qeli.service.editique;
+package ch.ge.social.qeli.editique;
 
 import ch.ge.cti.fwk.cmp.dialogue.outils.rapport.OutilsRapportDialogue;
 import ch.ge.cti.fwk.cmp.dialogue.outils.rapport.Report;
@@ -30,31 +30,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.xml.transform.StringResult;
 import outils.exception.CtiException;
 
-/**
- * Un service pour la comunnication avec l'éditique.
- */
 @Component
-public class EditiqueClient {
+public class EditiqueClientImpl implements EditiqueClient {
 
   private final OutilsRapportDialogue outilsRapport;
   private final Jaxb2Marshaller       marshaller;
 
   @Autowired
-  public EditiqueClient(OutilsRapportDialogue outilsRapport,
-                        @Qualifier("editiqueJaxbMarshaller") Jaxb2Marshaller marshaller) {
+  public EditiqueClientImpl(OutilsRapportDialogue outilsRapport,
+                            @Qualifier("editiqueJaxbMarshaller") Jaxb2Marshaller marshaller) {
     this.outilsRapport = outilsRapport;
     this.marshaller = marshaller;
   }
 
-  /**
-   * Demande la génération d'un document à l'éditique pour le rapport en paramètre.
-   *
-   * @param rapport le rapport avec les contenus attendu dans le document resultant.
-   *
-   * @return le document.
-   *
-   * @throws EditiqueClientException si la communication avec l'éditique échoue.
-   */
+  @Override
   public byte[] generateDocument(RapportType rapport) {
     try {
       Report report = outilsRapport.createReport(toModel(rapport), toXmlString(rapport), ReportFormat.PDF);

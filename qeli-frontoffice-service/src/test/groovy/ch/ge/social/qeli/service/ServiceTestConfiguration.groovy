@@ -17,16 +17,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ch.ge.social.qeli.service;
+package ch.ge.social.qeli.service
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import ch.ge.social.qeli.editique.EditiqueClient
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
+import spock.mock.DetachedMockFactory
 
 /**
- * Classe de configuration Spring pour la couche de services.
+ * Déclarations des mock beans pour les tests unitaires.
  */
-@Configuration
-@ComponentScan("ch.ge.social.qeli.service")
-public class ServiceConfiguration {
+@TestConfiguration
+class ServiceTestConfiguration {
+  def detachedMockFactory = new DetachedMockFactory()
 
+  @Bean
+  EditiqueClient editiqueClient() {
+    detachedMockFactory.Mock(EditiqueClient)
+  }
 }

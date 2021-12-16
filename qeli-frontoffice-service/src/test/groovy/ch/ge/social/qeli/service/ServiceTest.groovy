@@ -37,8 +37,11 @@ import org.springframework.test.context.ContextConfiguration
 @Documented
 @Inherited
 @EnableAutoConfiguration
-@SpringBootTest
-@ContextConfiguration(classes = [ServiceConfiguration])
+@SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
+@ContextConfiguration(classes = [
+  ServiceConfiguration,
+  ServiceTestConfiguration
+])
 @interface ServiceTest {
 
 }

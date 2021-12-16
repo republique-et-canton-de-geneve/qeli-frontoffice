@@ -6,9 +6,9 @@ social.tools:
   editique.ws-location: ***REMOVED***
   qeli:
     matomo:
-      server: ***REMOVED***
-      site-id: 15
-      enabled: true
+      # server: ***REMOVED***
+      # site-id: 15
+      enabled: false
     cookie-banner-enabled: true
 
 server:
