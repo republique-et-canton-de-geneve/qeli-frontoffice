@@ -19,12 +19,12 @@
 
 package ch.ge.social.qeli.service.pdf;
 
+import ch.ge.social.qeli.editique.EditiqueClient;
+import ch.ge.social.qeli.editique.EditiqueClientException;
 import ch.ge.social.qeli.service.api.pdf.PDFCreationService;
 import ch.ge.social.qeli.service.api.pdf.PDFGenerationException;
 import ch.ge.social.qeli.service.api.result.dto.QeliResult;
 import ch.ge.social.qeli.service.common.VelocityTemplateLoader;
-import ch.ge.social.qeli.service.editique.EditiqueClient;
-import ch.ge.social.qeli.service.editique.EditiqueClientException;
 import ch.ge.social.qeli.xml.edition.DebutDocumentType;
 import ch.ge.social.qeli.xml.edition.DocumentType;
 import ch.ge.social.qeli.xml.edition.ExpediteurType;

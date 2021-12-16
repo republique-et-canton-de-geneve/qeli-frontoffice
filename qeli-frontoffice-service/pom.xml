@@ -42,6 +42,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>qeli-frontoffice-service-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>qeli-frontoffice-editique-api</artifactId>
+        </dependency>
 
         <!-- Additional dependencies -->
         <dependency>
@@ -60,10 +64,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.ge.cti.fwk.cmp.dialogue</groupId>
-            <artifactId>OutilsRapportDialogue</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -125,44 +125,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jvnet.jaxb2.maven2</groupId>
-                <artifactId>maven-jaxb2-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>editique-xsd</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <schemaDirectory>${project.basedir}/src/main/resources/editique</schemaDirectory>
-                            <args>
-                                <arg>-Xannotate</arg>
-                            </args>
-                            <plugins>
-                                <plugin>
-                                    <groupId>org.jvnet.jaxb2_commons</groupId>
-                                    <artifactId>jaxb2-basics</artifactId>
-                                    <version>${jaxb2-basics.version}</version>
-                                </plugin>
-                                <plugin>
-                                    <groupId>org.jvnet.jaxb2_commons</groupId>
-                                    <artifactId>jaxb2-basics-tools</artifactId>
-                                    <version>${jaxb2-basics.version}</version>
-                                </plugin>
-                                <plugin>
-                                    <groupId>org.jvnet.jaxb2_commons</groupId>
-                                    <artifactId>jaxb2-basics-annotate</artifactId>
-                                    <version>${jaxb2-basics-annotate.version}</version>
-                                </plugin>
-                            </plugins>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

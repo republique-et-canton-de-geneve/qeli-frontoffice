@@ -17,17 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ch.ge.social.qeli.service.editique;
+package ch.ge.social.qeli.editique;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * Une exception qui survienne lors d'un erreur de communication avec l'éditique,
+ * Classe de configuration Spring pour la couche de services.
  */
-public class EditiqueClientException extends RuntimeException {
-  /**
-   * @see RuntimeException#RuntimeException(String, Throwable)
-   */
-  public EditiqueClientException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
+@Configuration
+@ComponentScan("ch.ge.social.qeli.editique")
+public class EditiqueConfiguration {
 }

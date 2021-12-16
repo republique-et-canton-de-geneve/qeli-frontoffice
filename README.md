@@ -1,4 +1,4 @@
-# Frontoffice du questionnaire d'eligibilité (QELI)
+# Questionnaire d'éligibilité (QELI)
 
 - [Présentation de l'application](#prsentation-de-lapplication)
 - [Liste de modules](#liste-de-modules)
@@ -8,47 +8,53 @@
 - [Astuces](#astuces)
 
 # Présentation de l'application
+
 Le questionnaire d'éligibilité aux prestations sociales est une e-démarche développée
- par l'Etat de Genève pour permettre aux citoyens de déterminer en ligne leur potentielle
- éligiblité à différentes prestations sociales offertes par le canton :
- - Subside d'assurance-maladie, délivré par le [service d'assurance maladie
- (SAM)](https://www.ge.ch/organisation/service-assurance-maladie).
- - Avance de pensions alimentaires, délivrée par le [service d'avances et
- recouvrement de pensions alimentaires (SCARPA)](https://www.ge.ch/pensions-alimentaires-impayees).
- - Allocation logement, délivrée par [l'office cantonale du logement et de
- la planification foncière (OCLPF)](https://www.ge.ch/organisation/office-cantonal-du-logement-planification-fonciere).
- - Prestations complémentaires AVS/AI, délivrées par le [service des
- prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires).
- - Bourse d'études, délivrée par le [service des bourses et prêts d'études
- (SBPE)](https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage).
- - Prestations complémentaires familiales, délivrées par le [service des
- prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires).
- - Aide sociale, délivrée par [l'hospice général](https://www.hospicegeneral.ch/).
+par l'Etat de Genève pour permettre aux citoyens de déterminer en ligne leur
+potentielle éligibilité à différentes prestations sociales offertes par le canton :
 
- L'éligibilité aux prestations est déterminée par le formulaire en fonction de la
- situation des personnes constituant le foyer du demandeur, en suivant les règles
- métier définies par chacun des services délivrant des prestations.
+- Subside d'assurance-maladie, délivré par le [service d'assurance maladie
+  (SAM)](https://www.ge.ch/organisation/service-assurance-maladie).
+- Avance de pensions alimentaires, délivrée par
+  le [service d'avances et recouvrement de pensions alimentaires (SCARPA)](https://www.ge.ch/pensions-alimentaires-impayees)
+  .
+- Allocation logement, délivrée
+  par [l'office cantonale du logement et de la planification foncière (OCLPF)](https://www.ge.ch/organisation/office-cantonal-du-logement-planification-fonciere)
+  .
+- Prestations complémentaires AVS/AI, délivrées par
+  le [service des prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires)
+  .
+- Bourse d'études, délivrée par le [service des bourses et prêts d'études
+  (SBPE)](https://www.ge.ch/obtenir-bourse-pret-etudes-apprentissage).
+- Prestations complémentaires familiales, délivrées par
+  le [service des prestations complémentaires (SPC)](https://www.ge.ch/organisation/service-prestations-complementaires)
+  .
+- Aide sociale, délivrée par [l'hospice général](https://www.hospicegeneral.ch/).
 
- Le questionnaire a été développé à l'initiative de l'office de l'action, de
- l'insertion et de l'intégration sociales (OAIS) afin notamment de réduire le non-recours
- aux prestations sociales. Son implémentation a été assurée par l'office cantonale
- des systèmes d'information et du numérique (OCSIN).
+L'éligibilité aux prestations est déterminée par le formulaire en fonction de la
+situation des personnes constituant le foyer du demandeur, en suivant les règles
+métier définies par chacun des services délivrant des prestations.
 
- ![application qeli](./assets/application-qeli.png)
+Le questionnaire a été développé à l'initiative de l'office de l'action, de
+l'insertion et de l'intégration sociale (OAIS) afin notamment de réduire le
+non-recours aux prestations sociales. Son implémentation a été assurée par l'office
+cantonale des systèmes d'information et du numérique (OCSIN).
+
+![application qeli](./assets/application-qeli.png)
 
 # Liste des modules
 
-- [qeli-frontoffice-application](qeli-frontoffice-application) : construction
-et livraison du front office, en vue de son déploiement.
-- [qeli-frontoffice-cypress](qeli-frontoffice-cypress) : configuration
-des scenarii de tests d'intégration du front office.
+- [qeli-frontoffice-application](qeli-frontoffice-application) : construction et
+  livraison du front office, en vue de son déploiement.
+- [qeli-frontoffice-cypress](qeli-frontoffice-cypress) : configuration des scenarii
+  de tests d'intégration du front office.
 - [qeli-frontoffice-ihm](qeli-frontoffice-ihm) : IHM du front office, destiné aux
-gestionnaires.
+  gestionnaires.
 - [qeli-frontoffice-rest](qeli-frontoffice-rest) : services REST du front office.
 - [qeli-frontoffice-service](qeli-frontoffice-service) : implémentation de la couche
-métier du front office.
-- [qeli-frontoffice-service-api](qeli-frontoffice-service-api) : interface de la couche
-métier du front office.
+  métier du front office.
+- [qeli-frontoffice-service-api](qeli-frontoffice-service-api) : interface de la
+  couche métier du front office.
 
 # Construction
 
@@ -72,11 +78,13 @@ Build :
 mvn clean install
 ```
 
-En cas d'erreurs pour cause d'accès Internet, voir notamment le chapitre "Astuces" dans le fichier
-[README.md](./qeli-frontoffice-cypress/README.md) du module `qli-frontoffice-cypress`.
+En cas d'erreurs pour cause d'accès Internet, voir notamment le chapitre "Astuces"
+dans le fichier
+[README.md](./qeli-frontoffice-cypress/README.md) du module `qli-frontoffice-cypress`
+.
 
-Un rapport jacoco est généré pour chacun de modules, le rapport se trouve sous
-le dossier `./target/site/jacoco/` de chaque module.
+Un rapport jacoco est généré pour chacun de modules, le rapport se trouve sous le
+dossier `./target/site/jacoco/` de chaque module.
 
 **ATTENTION** : Le module `qeli-frontoffice-ihm` ne fournit pas de rapport de test
 jacoco.
@@ -123,15 +131,15 @@ Maven a été rajouté pour faciliter cette tâche.
 mvn gitflow:release-start
 ```
 
-- Une fois que le code est stable, on peut figer un tag et publier la nouvelle version
-en exécutant la commande suivante :
+- Une fois que le code est stable, on peut figer un tag et publier la nouvelle
+  version en exécutant la commande suivante :
 
 ```bash
 mvn gitflow:release-finish
 ```
 
 - Il est aussi possible de faire une release d'un coup (sans création de release
-branch) en exécutant la commande suivante :
+  branch) en exécutant la commande suivante :
 
  ```bash
 mvn gitflow:release
@@ -143,6 +151,11 @@ Pour le mode non-interactif, il faut rajouter l'argument `-B` ; si le paramètre
  ```bash
 mvn -B gitflow:release
 ```
+
+## Références
+
+- Gitflow cheatsheet : https://danielkummer.github.io/git-flow-cheatsheet/
+- Gitflow maven plugin : https://github.com/aleksandr-m/gitflow-maven-plugin
 
 ## Livrable standalone (Windows)
 
@@ -173,11 +186,14 @@ L'IHM est disponible sur: http://localhost:8080/socialqeli_pub/formulaire.
 
 Pour arrêter le server, fermer la fenêtre du terminal.
 
+## Livraison OCSIN
 
-## Références
+Pour construire le livrable interne à l'ocsin il suffit de désactivé le profile par
+défaut et activer le profile `ocsin` ainsi :
 
-- Gitflow cheatsheet : https://danielkummer.github.io/git-flow-cheatsheet/
-- Gitflow maven plugin : https://github.com/aleksandr-m/gitflow-maven-plugin
+```bash
+mvn clean package -Pocsin
+```
 
 ## Astuces
 
@@ -197,16 +213,16 @@ mvn clean install -DskipTests=true
 Il est aussi possible de désactiver les tests Java, IHM et Cypress individuellement :
 
 * `ihm.test.skip` : désactive les tests IHM. Exemple :
-`mvn clean install -Dihm.test.skip=true`
+  `mvn clean install -Dihm.test.skip=true`
 * `cypress.test.skip` : désactive les tests d'intégration Cypress. Exemple :
-`mvn clean install -Dcypress.test.skip=true`
+  `mvn clean install -Dcypress.test.skip=true`
 * `surefire.test.skip` : désactive les tests Java. Exemple :
-`mvn clean install -Dsurefire.test.skip=true`
+  `mvn clean install -Dsurefire.test.skip=true`
 
 ### Sauter la compilation de l'IHM
 
-Il est possible de construire l'application en sautant la compilation de l'IHM.
-Poour cela, exécuter la commande suivante :
+Il est possible de construire l'application en sautant la compilation de l'IHM. Poour
+cela, exécuter la commande suivante :
 
 ```bash
 # Sauter la compilation de l'ihm

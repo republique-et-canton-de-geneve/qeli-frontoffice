@@ -34,7 +34,7 @@
     <packaging>pom</packaging>
 
     <name>qeli-frontoffice</name>
-    <description>Frontoffice du questionnaire d'eligibilité (QELI).</description>
+    <description>Questionnaire d'eligibilité (QELI).</description>
     <url>***REMOVED***/DEVELOPPEUR-SOCIAL/10818-qeli/qeli-frontoffice</url>
     <licenses>
         <license>
@@ -57,6 +57,7 @@
     <modules>
         <module>qeli-frontoffice-application</module>
         <module>qeli-frontoffice-cypress</module>
+        <module>qeli-frontoffice-editique</module>
         <module>qeli-frontoffice-ihm</module>
         <module>qeli-frontoffice-rest</module>
         <module>qeli-frontoffice-service</module>
@@ -97,7 +98,12 @@
         <ihm.test.skip>${skipTests}</ihm.test.skip>
         <cypress.test.skip>${skipTests}</cypress.test.skip>
 
+        <sonar.coverage.jacoco.xmlReportPaths>
+            target/site/jacoco/jacoco.xml,../target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+
         <!-- Plugins versions -->
+        <OutilsRapportDialogue.version>1.5</OutilsRapportDialogue.version>
         <download-maven-plugin.version>1.6.0</download-maven-plugin.version>
         <gitflow-maven-plugin.version>1.11.0</gitflow-maven-plugin.version>
         <gmavenplus-plugin.version>1.6.2</gmavenplus-plugin.version>
@@ -122,7 +128,6 @@
         <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
         <xmlschema-core.version>2.2.4</xmlschema-core.version>
         <velocity.version>2.2</velocity.version>
-        <OutilsRapportDialogue.version>1.5</OutilsRapportDialogue.version>
 
         <!-- Test dependencies versions -->
         <cglib.version>3.2.9</cglib.version>
@@ -166,6 +171,26 @@
                 <artifactId>qeli-frontoffice-service-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>qeli-frontoffice-editique-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>qeli-frontoffice-editique-mock</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>qeli-frontoffice-editique-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.ge.cti.fwk.cmp.dialogue</groupId>
+                <artifactId>OutilsRapportDialogue</artifactId>
+                <version>${OutilsRapportDialogue.version}</version>
+            </dependency>
 
             <!-- Additional dependencies -->
             <dependency>
@@ -197,11 +222,6 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${mapstruct.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.ge.cti.fwk.cmp.dialogue</groupId>
-                <artifactId>OutilsRapportDialogue</artifactId>
-                <version>${OutilsRapportDialogue.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.velocity</groupId>
@@ -381,20 +401,26 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <configuration>
+                    <destFile>${sonar.jacoco.reportPath}</destFile>
                     <append>true</append>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>jacoco-prepare-agent</id>
+                        <id>jacoco-prepare-and-report</id>
                         <goals>
                             <goal>prepare-agent</goal>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>jacoco-report</id>
+                        <id>report-aggregate</id>
+                        <phase>verify</phase>
                         <goals>
-                            <goal>report</goal>
+                            <goal>report-aggregate</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}/../target/site/jacoco-aggregate</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

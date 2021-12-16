@@ -17,16 +17,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ch.ge.social.qeli.service;
+package ch.ge.social.qeli.editique;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import ch.ge.social.qeli.xml.edition.RapportType;
 
 /**
- * Classe de configuration Spring pour la couche de services.
+ * Client pour la génération des documents édtique.
  */
-@Configuration
-@ComponentScan("ch.ge.social.qeli.service")
-public class ServiceConfiguration {
-
+public interface EditiqueClient {
+  /**
+   * Génère un document éditique pour le rapport en paramètre.
+   *
+   * @param rapport le rapport avec les contenus attendu dans le document resultant.
+   *
+   * @return le document.
+   *
+   * @throws EditiqueClientException si la generation échoue.
+   */
+  byte[] generateDocument(RapportType rapport);
 }
