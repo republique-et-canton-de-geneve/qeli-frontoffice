@@ -1,3 +1,0 @@
-[submodule "qeli-frontoffice-cypress/cypress/integration/features-metier"]
-	path = qeli-frontoffice-cypress/cypress/integration/features-metier
-	url = ../qeli-scenarii-metier.git
