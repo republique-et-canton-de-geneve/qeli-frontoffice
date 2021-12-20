@@ -95,7 +95,6 @@
 
         <!-- Test parameters -->
         <surefire.test.skip>${skipTests}</surefire.test.skip>
-        <ihm.test.skip>${skipTests}</ihm.test.skip>
         <cypress.test.skip>${skipTests}</cypress.test.skip>
 
         <sonar.coverage.jacoco.xmlReportPaths>

@@ -66,14 +66,6 @@ cantonale des systèmes d'information et du numérique (OCSIN).
 
 ## Comment construire
 
-Récupérer la dernière version du sous-module des scenarii de test Cypress :
-
-```bash
-git submodule update --init
-```
-
-Build :
-
 ```bash
 mvn clean install
 ```
@@ -95,7 +87,7 @@ Pour démarrer l'application, exécuter la commande suivante :
 
 ```bash
 cd qeli-frontoffice-application
-mvn spring-boot:run -Pdevelopment
+mvn spring-boot:run -Pdevelopment,default
 ```
 
 #### Rest API
@@ -162,7 +154,7 @@ mvn -B gitflow:release
 Pour construire un livrable Windows, exécuter la commande suivante :
 
 ```bash
-mvn clean package -Pstandalone
+mvn clean package -Pstandalone,default
 ```
 
 Avec un proxy il faut éxecuter cette commande ainsi :
@@ -210,10 +202,8 @@ L'argument `skipTests` désactive tous les tests pendant la compilation :
 mvn clean install -DskipTests=true
 ```
 
-Il est aussi possible de désactiver les tests Java, IHM et Cypress individuellement :
+Il est aussi possible de désactiver les tests Java et Cypress individuellement :
 
-* `ihm.test.skip` : désactive les tests IHM. Exemple :
-  `mvn clean install -Dihm.test.skip=true`
 * `cypress.test.skip` : désactive les tests d'intégration Cypress. Exemple :
   `mvn clean install -Dcypress.test.skip=true`
 * `surefire.test.skip` : désactive les tests Java. Exemple :

@@ -136,23 +136,6 @@
                         </configuration>
                     </execution>
 
-                    <!-- Call `npm run test` to run the unit tests -->
-                    <execution>
-                        <id>npm-test</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>test</phase>
-                        <configuration>
-                            <skip>${ihm.test.skip}</skip>
-                            <executable>npm</executable>
-                            <arguments>
-                                <argument>run</argument>
-                                <argument>test</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-
                     <!-- Call `npm run start` to run the server -->
                     <execution>
                         <id>npm-start</id>
