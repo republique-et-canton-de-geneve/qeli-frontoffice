@@ -84,7 +84,7 @@ Fonctionnalité: Couple marié avec des enfants à charge
     Et à la question "0401_nationalite_Josep", je réponds "af" sans validation
     Et à la question "0401_nationalite_Léon", je réponds "fr" sans validation
     Et à la question "0401_nationalite_Antoine", je réponds "af" sans validation
-    Et à la question "0401_nationalite_Noémie", je réponds "fr" 
+    Et à la question "0401_nationalite_Noémie", je réponds "fr"
     Et à la question "0407_typePermis_Marion", je réponds "C" sans validation
     Et à la question "0408_complementPermisC_Marion", je réponds "UE_AELE" sans validation
     Et à la question "0409_dateArriveeSuisse_Marion", je réponds "03.12.2005"
@@ -100,7 +100,7 @@ Fonctionnalité: Couple marié avec des enfants à charge
     Et à la question "0407_typePermis_Antoine", je réponds "C" sans validation
     Et à la question "0408_complementPermisC_Antoine", je réponds "UE_AELE" sans validation
     Et à la question "0409_dateArriveeSuisse_Antoine", je réponds "03.12.2005"
-    # Et à la question "0409_dateArriveeSuisse_Antoine", je réponds 15 ans 
+    # Et à la question "0409_dateArriveeSuisse_Antoine", je réponds 15 ans
     Et à la question "0407_typePermis_Noémie", je réponds "C" sans validation
     Et à la question "0408_complementPermisC_Noémie", je réponds "UE_AELE" sans validation
     Et à la question "0409_dateArriveeSuisse_Noémie", je réponds "03.12.2005"
@@ -120,6 +120,9 @@ Fonctionnalité: Couple marié avec des enfants à charge
     Et à la question "0602_situationRente_Antoine", je réponds "NON"
     Et à la question "0601_revenus_Noémie", je réponds "NON" sans validation
     Et à la question "0602_situationRente_Noémie", je réponds "NON"
+    Et à la question "0901_taxationOffice", je réponds "NON"
+    Et à la question "0902_tauxActivite_Marion", je réponds "20"
+    Et à la question "0902_tauxActivite_Josep", je réponds "20"
     Et à la question "1001_proprietaireOuLocataireLogement", je réponds "LOCATAIRE_SOUS_LOCATAIRE"
     Et à la question "1002_bailLogementAVotreNom", je réponds "OUI"
     Et à la question "1004_nombreDePiecesLogement", je réponds "6"
@@ -168,7 +171,7 @@ Fonctionnalité: Couple marié avec des enfants à charge
     Et à la question "0701_scolarite_Léa", je réponds "ECOLE_SUPERIEUR"
     Et à la question "0401_nationalite_Marion", je réponds "af" sans validation
     Et à la question "0401_nationalite_Colin", je réponds "af" sans validation
-    Et à la question "0401_nationalite_Léa", je réponds "af" 
+    Et à la question "0401_nationalite_Léa", je réponds "af"
     Et à la question "0407_typePermis_Marion", je réponds "B" sans validation
     Et à la question "0408_complementPermisB_Marion", je réponds "REFUGIE" sans validation
     Et à la question "0409_dateArriveeSuisse_Marion", je réponds "03.12.2014"
@@ -466,7 +469,7 @@ Fonctionnalité: Couple marié avec des enfants à charge
     Et à la question "0408_complementPermisC_Caroline", je réponds "UE_AELE" sans validation
     Et à la question "0409_dateArriveeSuisse_Caroline", je réponds "03.12.2005"
     # Et à la question "0409_dateArriveeSuisse_Caroline", je réponds 15 ans
-     Et à la question "0407_typePermis_Baptiste", je réponds "C" sans validation
+    Et à la question "0407_typePermis_Baptiste", je réponds "C" sans validation
     Et à la question "0408_complementPermisC_Baptiste", je réponds "UE_AELE" sans validation
     Et à la question "0409_dateArriveeSuisse_Baptiste", je réponds "03.12.2005"
     # Et à la question "0409_dateArriveeSuisse_Baptiste", je réponds 15 ans
@@ -518,7 +521,7 @@ Fonctionnalité: Couple marié avec des enfants à charge
     Et à la question "0701_scolarite_Aglaé", je réponds "COLLEGE_APRENTISSAGE"
     Et à la question "0401_nationalite_Dorothée", je réponds "af" sans validation
     Et à la question "0401_nationalite_Thomas", je réponds "af" sans validation
-    Et à la question "0401_nationalite_Aglaé", je réponds "af" 
+    Et à la question "0401_nationalite_Aglaé", je réponds "af"
     Et à la question "0407_typePermis_Dorothée", je réponds "B" sans validation
     Et à la question "0408_complementPermisB_Dorothée", je réponds "REFUGIE" sans validation
     Et à la question "0409_dateArriveeSuisse_Dorothée", je réponds "03.12.2016"
@@ -582,7 +585,7 @@ Fonctionnalité: Couple marié avec des enfants à charge
     Et à la question "0407_typePermis_Philippe", je réponds "C" sans validation
     Et à la question "0408_complementPermisC_Philippe", je réponds "UE_AELE" sans validation
     Et à la question "0409_dateArriveeSuisse_Philippe", je réponds "03.12.2006"
-    # Et à la question "0409_dateArriveeSuisse_Philippe", je réponds 14 ans  
+    # Et à la question "0409_dateArriveeSuisse_Philippe", je réponds 14 ans
     Et à la question "0407_typePermis_Eva", je réponds "C" sans validation
     Et à la question "0408_complementPermisC_Eva", je réponds "UE_AELE" sans validation
     Et à la question "0409_dateArriveeSuisse_Eva", je réponds "03.12.2006"

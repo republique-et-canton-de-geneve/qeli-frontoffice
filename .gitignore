@@ -1,5 +1,3 @@
-target/
-
 ### STS ###
 .apt_generated
 .classpath
@@ -30,6 +28,7 @@ npm-debug.log
 yarn-error.log
 
 ### Compiled output ###
+target/
 dist/
 tmp/
 out-tsc/
@@ -41,4 +40,4 @@ overlays/
 .DS_Store
 Thumbs.db
 qeli-frontoffice-application/stats/*-stats.csv
-stats/*-stats.csv
+stats/

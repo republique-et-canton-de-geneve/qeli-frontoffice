@@ -25,10 +25,13 @@ Fonctionnalité: Céibataire avec enfant(s)
     Et à la question "0501_domicileCantonGE_Emmeline", je réponds "OUI" sans validation
     Et à la question "0502_dateArriveeGeneve_Emmeline", je réponds "12.01.2016"
     # Et à la question "0502_dateArriveeGeneve_Emmeline", je réponds 4 ans
-    Et à la question "0601_revenus_Emmeline", je réponds "INCONNU" sans validation
+    Et à la question "0601_revenus_Emmeline", je réponds "CHOMAGE" sans validation
     Et à la question "0602_situationRente_Emmeline", je réponds "NON"
     Et à la question "0601_revenus_Ruben", je réponds "INCONNU" sans validation
     Et à la question "0602_situationRente_Ruben", je réponds "NON"
+    Et à la question "0901_taxationOffice", je réponds "OUI"
+    Et à la question "0903_tauxActiviteDernierEmploi_Emmeline", je réponds "10"
+    Et à la question "0912_tauxActiviteVariable6DernierMois_Emmeline", je réponds "NON"
     Et à la question "1001_proprietaireOuLocataireLogement", je réponds "LOCATAIRE_SOUS_LOCATAIRE"
     Et à la question "1002_bailLogementAVotreNom", je réponds "OUI"
     Et à la question "1004_nombreDePiecesLogement", je réponds "4"
