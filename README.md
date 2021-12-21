@@ -75,19 +75,13 @@ dans le fichier
 [README.md](./qeli-frontoffice-cypress/README.md) du module `qli-frontoffice-cypress`
 .
 
-Un rapport jacoco est généré pour chacun de modules, le rapport se trouve sous le
-dossier `./target/site/jacoco/` de chaque module.
-
-**ATTENTION** : Le module `qeli-frontoffice-ihm` ne fournit pas de rapport de test
-jacoco.
-
 # Démarrage
 
 Pour démarrer l'application, exécuter la commande suivante :
 
 ```bash
 cd qeli-frontoffice-application
-mvn spring-boot:run -Pdevelopment,default
+mvn spring-boot:run
 ```
 
 #### Rest API
@@ -180,8 +174,8 @@ Pour arrêter le server, fermer la fenêtre du terminal.
 
 ## Livraison OCSIN
 
-Pour construire le livrable interne à l'ocsin il suffit de désactivé le profile par
-défaut et activer le profile `ocsin` ainsi :
+Pour construirer le livrable et démarrer l'application en interne il suffit d''
+activer le profile `ocsin`, par exemple :
 
 ```bash
 mvn clean package -Pocsin

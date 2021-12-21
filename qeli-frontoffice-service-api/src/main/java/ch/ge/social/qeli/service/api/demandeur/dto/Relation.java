@@ -28,13 +28,34 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Relation {
+  /**
+   * L'époux ou épouse du demandeur.
+   */
   EPOUX(true),
+  /**
+   * Le partenaire enregistré du demandeur.
+   */
   PARTENAIRE_ENREGISTRE(true),
+  /**
+   * Le concubin du demandeur.
+   */
   CONCUBIN(true),
+  /**
+   * Un enfant du foyer.
+   */
   ENFANT(true),
+  /**
+   * Un colocataire du foyer.
+   */
   COLOCATAIRE(false),
+  /**
+   * Un autre membre du foyer.
+   */
   AUTRE(false);
 
+  /**
+   * S'il s'agit d'un membre de la famille ou pas.
+   */
   private final boolean isMembreFamille;
 
 }

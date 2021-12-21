@@ -24,7 +24,7 @@ import ch.ge.social.qeli.service.api.result.dto.Prestation;
 import ch.ge.social.qeli.service.api.result.dto.Result;
 
 /**
- * Un service permettant de résoudre la traduction un objet de type {@link I18nString}.
+ * Un service permettant de résoudre la traduction d'un objet de type {@link I18nString}.
  */
 public interface I18nResolver {
   /**

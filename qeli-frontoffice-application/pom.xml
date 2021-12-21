@@ -167,6 +167,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <profiles>
+                        <profile>development</profile>
+                    </profiles>
+                </configuration>
+            </plugin>
         </plugins>
 
         <resources>
@@ -214,23 +224,6 @@
                     <artifactId>qeli-frontoffice-editique-impl</artifactId>
                 </dependency>
             </dependencies>
-        </profile>
-
-        <profile>
-            <id>development</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <configuration>
-                            <profiles>
-                                <profile>development</profile>
-                            </profiles>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
 
         <profile>
