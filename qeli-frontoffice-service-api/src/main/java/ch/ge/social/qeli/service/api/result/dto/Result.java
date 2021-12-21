@@ -21,12 +21,14 @@ package ch.ge.social.qeli.service.api.result.dto;
 
 import ch.ge.social.qeli.service.api.demandeur.dto.Personne;
 import ch.ge.social.qeli.service.api.i18n.dto.I18nString;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * Un model représentant le résultat d'une éligibilité.
  */
 @Data
+@AllArgsConstructor
 public class Result {
   private Personne membre;
   private boolean eligible;

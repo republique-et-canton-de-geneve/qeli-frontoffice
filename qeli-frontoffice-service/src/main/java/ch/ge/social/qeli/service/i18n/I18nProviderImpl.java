@@ -46,7 +46,7 @@ public class I18nProviderImpl implements I18nProvider {
       return new I18nResolverImpl(JsonPath.parse(resource.getURL()));
     } catch (IOException e) {
       throw new LanguageNotSupportedException(
-        String.format("La langue : %s n'est pas suporté", locale.getLanguage()), e
+        String.format("La langue : %s n'est pas supporté", locale.getLanguage()), e
       );
     }
   }

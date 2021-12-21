@@ -40,6 +40,13 @@ public class Demandeur extends Personne {
    */
   private List<MembreFamille> membresFoyer;
 
+  /**
+   * Retrouve tous les membres du foyer du demandeur qui font parti de la famille.
+   *
+   * @return tout les membres de la famille.
+   *
+   * @see Relation#isMembreFamille()
+   */
   public List<MembreFamille> fetchMembresFamille() {
     return this.membresFoyer.stream()
                             .filter(membre -> membre.getRelation().isMembreFamille())

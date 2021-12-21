@@ -1,0 +1,87 @@
+{
+  "home": {
+    "result": {
+      "prestation": {
+        "SUBSIDES": {
+          "title": "Subsides d'assurance-maladie",
+          "plusInformationLink": "https://www.ge.ch/node/1878",
+          "demandeLink": "https://www.ge.ch/node/22803",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
+          "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçoit}} déjà cette prestation",
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}"
+        },
+        "AVANCES": {
+          "title": "Avances de pensions alimentaires",
+          "plusInformationLink": "https://www.ge.ch/node/2439",
+          "demandeLink": "https://www.ge.ch/node/2440",
+          "eligible": "Vous êtes éligible"
+        },
+        "ALLOCATION_LOGEMENT": {
+          "title": "Allocation logement",
+          "plusInformationLink": "https://www.ge.ch/node/2483",
+          "demandeLink": "https://www.ge.ch/node/2484",
+          "eligible": "Vous êtes éligible"
+        },
+        "PC_AVS_AI": {
+          "title": "Prestations complémentaires AVS/AI",
+          "plusInformationLink": "https://www.ge.ch/node/2045",
+          "demandeLink": "https://www.ge.ch/node/6421",
+          "eligible": "Vous êtes éligible"
+        },
+        "BOURSES": {
+          "title": "Bourses d'études",
+          "plusInformationLink": "https://www.ge.ch/node/9840",
+          "demandeLink": "https://www.ge.ch/node/9843",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
+          "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçoit}} déjà cette prestation",
+          "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}",
+          "information11P": "Attention : l'année prochaine, {enfants11P} {nombreEnfants11P, select, 1{sera} other{seront}} potentiellement éligible aux bourses.",
+          "informationChomage": "Si votre droit au chômage s'arrête pendant la formation, vous pourriez avoir droit à une bourse."
+        },
+        "PC_FAM": {
+          "title": "Prestations complémentaires familiales",
+          "plusInformationLink": "https://www.ge.ch/node/1834",
+          "demandeLink": "https://www.ge.ch/node/2431",
+          "eligible": "Votre foyer est éligible",
+          "taxationOffice": "Pour avoir droit aux prestations complémentaires familiales, vous devrez d'abord régulariser votre situation auprès des impôts."
+        },
+        "AIDE_SOCIALE": {
+          "title": "Aide Sociale",
+          "plusInformationLink": "https://www.hospicegeneral.ch/fr/aide_financiere",
+          "demandeLink": "https://www.hospicegeneral.ch/fr/votre-centre-de-quartier",
+          "eligible": "Vous êtes éligible"
+        }
+      }
+    }
+  },
+  "question": {
+    "prestations": {
+      "motifRefus": {
+        "SUBSIDES": "Vous avez indiqué toucher une autre prestation qui inclue déjà les subsides",
+        "AVANCES": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "ALLOCATION_LOGEMENT": "Vous avez indiqué toucher une autre prestation (subvention HM ou prestation complémentaire AVS/AI) qui vous empêche de toucher celle-ci",
+        "PC_AVS_AI": "Vous avez indiqué toucher une autre prestation (prestation complémentaire famille) qui vous empêche de toucher celle-ci",
+        "PC_AVS_AI_ENFANT_AUTRE": "{prenomEnfant} n'est pas votre enfant ou celui de votre partenaire",
+        "PC_FAM": "Vous avez indiqué toucher une autre prestation (prestation complémentaire AVS/AI) qui vous empêche de toucher celle-ci",
+        "PC_FAM_SANS_ENFANTS": "Vous n'avez aucun enfant à charge",
+        "PC_FAM_SANS_ENFANTS_COMMUN": "Vous avez indiqué ne pas avoir d'enfant en commun avec {prenomAutreParent}",
+        "AIDE_SOCIALE": "D'autres prestations que vous touchez déjà vous empêchent de toucher celle-ci",
+        "AIDE_SOCIALE_MINEUR": "Vous êtes mineur. Vos parents doivent remplir ce questionnaire"
+      }
+    },
+    "formation": {
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous ne suivez} other{{membre} ne suit}} aucune formation",
+        "PC_FAM": "Vous n'avez plus d'enfants à charge",
+        "PC_AVS_AI": "{membre} n'est plus un enfant à votre charge"
+      }
+    },
+    "scolarite": {
+      "motifRefus": {
+        "BOURSES": "Vous avez indiqué que {who, select, me{vous suivez} other{{membre} suit}} une formation qui ne peut pas faire l'objet d'une bourse",
+        "PC_AVS_AI": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation",
+        "PC_FAM": "{who, select, me{vous avez} other{{membre} a}} indiqué que le foyer n'a pas d'enfant de moins de 25 ans en formation"
+      }
+    }
+  }
+}
