@@ -60,7 +60,7 @@ cantonale des systèmes d'information et du numérique (OCSIN).
 
 ## Pré-requis
 
-- JDK 8
+- JDK 8+
 - Maven
 - Node
 
