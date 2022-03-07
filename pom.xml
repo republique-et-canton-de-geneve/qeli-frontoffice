@@ -35,13 +35,7 @@
 
     <name>qeli-frontoffice</name>
     <description>Questionnaire d'eligibilité (QELI).</description>
-    <url>***REMOVED***/DEVELOPPEUR-SOCIAL/10818-qeli/qeli-frontoffice</url>
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
-        </license>
-    </licenses>
+    <url>https://github.com/republique-et-canton-de-geneve/qeli-frontoffice</url>
     <developers>
         <developer>
             <name>Action Sociale - État de Genève</name>
@@ -50,9 +44,6 @@
             <organizationUrl>https://www.ge.ch</organizationUrl>
         </developer>
     </developers>
-    <scm>
-        <url>***REMOVED***/DEVELOPPEUR-SOCIAL/10818-qeli/qeli-frontoffice</url>
-    </scm>
 
     <modules>
         <module>qeli-frontoffice-application</module>
@@ -80,9 +71,7 @@
 
         <site>
             <id>projects_Website</id>
-            <url>
-                dav:***REMOVED***/content/sites/projects_Website/ch/ge/cti/melusine/${project.artifactId}/${project.version}
-            </url>
+            <url>${projects_Website}/ch/ge/cti/melusine/${project.artifactId}/${project.version}</url>
         </site>
     </distributionManagement>
 

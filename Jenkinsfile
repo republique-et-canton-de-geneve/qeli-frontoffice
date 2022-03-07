@@ -17,23 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+def getCypressCacheFolder() {
+    configFileProvider([
+      configFile(fileId: 'a625574f-5000-45c1-8bce-929ea9eacf59', variable: 'PRIVATE_PROPERTIES')
+    ]) {
+      def privateProps = readProperties file: "$PRIVATE_PROPERTIES"
+      return privateProps['CYPRESS_CACHE_FOLDER'];
+    }
+}
+
 pipeline {
   agent { label 'master' }
 
   options {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
+
   environment {
     // Node
     NODEJS_HOME = tool name: 'NodeJS 11.15.0', type: 'nodejs'
 
-    // Proxy
-    HTTP_PROXY = '***REMOVED***'
-    HTTPS_PROXY = '***REMOVED***'
-    NO_PROXY = '***REMOVED***'
-
     // Cypress
-    CYPRESS_CACHE_FOLDER = '***REMOVED***'
+    CYPRESS_CACHE_FOLDER = getCypressCacheFolder()
     CYPRESS_INSTALL_BINARY = '3.8.2'
 
     // DEV credentials
