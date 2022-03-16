@@ -1,0 +1,33 @@
+variables:
+  BUILD_CONTAINER_VERSION: 1.0.0
+  BUILD_TOOLS_VERSION: 2.2.1  # 02/12/2020 Released 02/12/2020
+  # Parameters
+  IDENTIFIER: main
+
+default:
+  tags:
+    - 'for:container-image'
+    - 'host:privileged-container'
+    - 'net:gold-dev'
+  image:
+    name: docker-all.devops.etat-ge.ch/ch/ge/gde/lab/tools/build:${BUILD_CONTAINER_VERSION}
+    entrypoint: [/bin/bash, -c]
+
+stages:
+  - etape-1
+  - etape-2
+
+etape-1:
+  stage: etape-1
+  tags:
+    - 'host:restricted-container'
+    - 'net:gold-dev'
+  script: 
+    - echo "Hello World"
+etape-2:
+  stage: etape-2
+  tags:
+    - 'host:restricted-container'
+    - 'net:gold-dev'
+  script: 
+    - expr 1 + 1
