@@ -6,8 +6,7 @@ variables:
 
 default:
   tags:
-    - 'for:container-image'
-    - 'host:privileged-container'
+    - 'host:restricted-container'
     - 'net:gold-dev'
     - 'id:gitlab_runner_dev_10879-SOCIAL-2-environments'
   image:
@@ -20,15 +19,9 @@ stages:
 
 etape-1:
   stage: etape-1
-  tags:
-    - 'host:restricted-container'
-    - 'net:gold-dev'
   script: 
     - echo "Hello World"
 etape-2:
   stage: etape-2
-  tags:
-    - 'host:restricted-container'
-    - 'net:gold-dev'
   script: 
     - expr 1 + 1
