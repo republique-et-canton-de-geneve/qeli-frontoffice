@@ -8,7 +8,7 @@ default:
   tags:
     - 'host:restricted-container'
     - 'net:gold-dev'
-    - 'id:gitlab_runner_dev_10879-SOCIAL-2-environments'
+    - 'id:gitlab_runner_dev_10879-SOCIAL-1-environments'
   image:
     name: docker-all.devops.etat-ge.ch/ch/ge/gde/lab/tools/build:${BUILD_CONTAINER_VERSION}
     entrypoint: [/bin/bash, -c]
