@@ -75,14 +75,6 @@
         </site>
     </distributionManagement>
 
-    <repositories>
-        <!-- Added for open source CI on GitHub -->
-        <repository>
-            <id>captcha.com</id>
-            <url>https://git.captcha.com/botdetect-java-captcha.git</url>
-        </repository>
-    </repositories>
-
     <properties>
         <!-- Build parameters -->
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
