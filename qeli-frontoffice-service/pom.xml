@@ -125,4 +125,44 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-botdetect-to-the-maven-repository</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>../embedded/botdetect-${botdetect-servlet.version}.jar</file>
+                            <groupId>com.captcha</groupId>
+                            <artifactId>botdetect</artifactId>
+                            <version>${botdetect-servlet.version}</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-botdetect-servlet-to-the-maven-repository</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>../embedded/botdetect-servlet-${botdetect-servlet.version}.jar</file>
+                            <pomFile>../embedded/botdetect-servlet-${botdetect-servlet.version}.pom</pomFile>
+                            <groupId>com.captcha</groupId>
+                            <artifactId>botdetect-servlet</artifactId>
+                            <version>${botdetect-servlet.version}</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
