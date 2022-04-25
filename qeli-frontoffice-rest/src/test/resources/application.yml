@@ -11,7 +11,7 @@ social.tools.qeli:
   heures-travail-par-semaine: 40
 
   matomo:
-    server: ***REMOVED***
+    server: https://unServeurMatomo
     site-id: 15
     enabled: true
 

@@ -3,7 +3,7 @@ social.tools:
     ihm-resource-location: classpath:/formulaire
     send-error-message: true
 
-  editique.ws-location: ***REMOVED***
+  editique.ws-location: https://unServeurEditique/dialogue
   qeli:
     matomo:
       # server: ***REMOVED***
