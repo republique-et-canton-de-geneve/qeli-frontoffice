@@ -56,7 +56,7 @@ class QeliConfigurationPropertiesControllerTest extends Specification {
     content.taxationAfcYearsFromNow == 2
     content.heuresTravailParSemaine == 40
     content.matomo != null
-    content.matomo.server == "***REMOVED***"
+    content.matomo.server == "https://unServeurMatomo"
     content.matomo.siteId == 15
     content.matomo.enabled
     !content.cookieBannerEnabled
