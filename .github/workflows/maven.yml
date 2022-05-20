@@ -29,7 +29,7 @@ jobs:
           step: restore
       - name: Maven build and Sonar analysis
         run: >
-          mvn -B -U -pl '!qeli-frontoffice-cypress' -Pci,ocsin
+          mvn -B -U -pl '!qeli-frontoffice-cypress' -Pci
           verify sonar:sonar
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=etat-de-geneve-github
