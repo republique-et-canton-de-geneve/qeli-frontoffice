@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ch.ge.social.qeli; 
+package ch.ge.social.qeli;  
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
