@@ -37,6 +37,7 @@ import org.springframework.format.support.DefaultFormattingConversionService;
 @Configuration
 @Import(
   {
+    ApplicationConfigurationProperties.class,
     FrontofficeIHMConfiguration.class,
     EditiqueConfiguration.class,
     ServiceConfiguration.class,

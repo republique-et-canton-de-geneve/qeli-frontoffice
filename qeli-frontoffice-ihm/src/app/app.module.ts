@@ -28,11 +28,12 @@ import { LayoutModule } from './layout/layout.module';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
-import { MatomoModule } from 'ngx-matomo';
 import { MESSAGE_FORMAT_CONFIG } from 'ngx-translate-messageformat-compiler';
 import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
 import { CookieService } from 'ngx-cookie-service';
 import { COOKIE_EXPIRY_DAYS } from './service/cookie-status.utils';
+import { MatomoConsentMode, MatomoInitializationMode, NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
+import { NgxMatomoRouterModule } from '@ngx-matomo/router';
 
 const cookieConfig: NgcCookieConsentConfig = {
   enabled: false,
@@ -66,7 +67,11 @@ registerLocaleData(localeFrCH);
     LayoutModule,
     HomeModule,
     RouterModule,
-    MatomoModule,
+    NgxMatomoTrackerModule.forRoot({
+      mode: MatomoInitializationMode.AUTO_DEFERRED,
+      requireConsent: MatomoConsentMode.COOKIE
+    }),
+    NgxMatomoRouterModule,
     NgcCookieConsentModule.forRoot(cookieConfig)
   ],
   providers: [

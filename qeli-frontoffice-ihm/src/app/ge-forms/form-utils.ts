@@ -17,33 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 export class FormUtils {
 
   static markAllAsDirty(control: AbstractControl) {
     if (!control.hasOwnProperty('controls')) {
-      this.markControlDirty(control as FormControl);
+      this.markControlDirty(control as UntypedFormControl);
     } else if (Array.isArray(control['controls'])) {
-      this.markArrayDirty(control as FormArray);
+      this.markArrayDirty(control as UntypedFormArray);
     } else {
-      this.markGroupDirty(control as FormGroup);
+      this.markGroupDirty(control as UntypedFormGroup);
     }
   }
 
-  static markGroupDirty(formGroup: FormGroup) {
+  static markGroupDirty(formGroup: UntypedFormGroup) {
     Object.keys(formGroup.controls).forEach(key =>
       this.markAllAsDirty(formGroup.get(key))
     );
   }
 
-  static markArrayDirty(formArray: FormArray) {
+  static markArrayDirty(formArray: UntypedFormArray) {
     formArray.controls.forEach(control =>
       this.markAllAsDirty(control)
     );
   }
 
-  static markControlDirty(formControl: FormControl) {
+  static markControlDirty(formControl: UntypedFormControl) {
     formControl.markAsDirty();
     formControl.updateValueAndValidity();
   }

@@ -22,7 +22,7 @@ import { QuestionComponent } from '../model/question.component';
 import {
   CHECKBOX_GROUP_CONTROL_TYPE, CheckboxGroupAnswer, CheckboxGroupQuestion
 } from './checkbox-group-question.model';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 
 @RegisterQuestionComponent(CHECKBOX_GROUP_CONTROL_TYPE)
@@ -33,7 +33,7 @@ import { RegisterQuestionComponent } from '../model/question-registry.model';
 })
 export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionComponent<CheckboxGroupAnswer> {
   @Input() question: CheckboxGroupQuestion;
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean;
 
   @ViewChildren('optionCheckboxes') optionCheckboxes: ElementRef<HTMLInputElement>[];
@@ -56,9 +56,9 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
 
   onOptionChanged(value: string, checked: boolean) {
     if (checked) {
-      this.choicesControl.push(new FormControl(value));
+      this.choicesControl.push(new UntypedFormControl(value));
     } else {
-      this.choicesControl.controls.forEach((ctrl: FormControl, index: number) => {
+      this.choicesControl.controls.forEach((ctrl: UntypedFormControl, index: number) => {
         if (ctrl.value === value) {
           this.choicesControl.removeAt(index);
         }
@@ -79,7 +79,7 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
   }
 
   get formGroup() {
-    return this.form.controls[this.question.key] as FormGroup;
+    return this.form.controls[this.question.key] as UntypedFormGroup;
   }
 
   get isValid() {
@@ -88,7 +88,7 @@ export class CheckboxGroupQuestionComponent implements AfterViewInit, QuestionCo
   }
 
   private get choicesControl() {
-    return this.formGroup.controls['choices'] as FormArray;
+    return this.formGroup.controls['choices'] as UntypedFormArray;
   }
 
   get isNoneOrInconnuSelected() {

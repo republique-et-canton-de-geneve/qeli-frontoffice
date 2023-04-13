@@ -31,7 +31,7 @@ export class DeepLinkComponent implements OnInit {
   isCopied = false;
   showCopyPanel = false;
 
-  @ViewChild('deepLinkInput', {static: false}) deepLinkInput: ElementRef;
+  @ViewChild('deepLinkInput') deepLinkInput: ElementRef;
 
   constructor(private trackingService: TrackingService,
               private deepLinkService: DeepLinkService) {

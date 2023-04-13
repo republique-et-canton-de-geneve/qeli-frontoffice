@@ -21,7 +21,7 @@ import { QuestionVisitorModel } from '../model/question-visitor.model';
 import { Question, QuestionOption, QuestionSchema } from '../model/question.model';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 
 /**
  * Un string identifiant les questions et réponses de type dropdown.
@@ -88,12 +88,12 @@ export class DropdownQuestion extends Question<DropdownAnswer> {
     let group: any = {};
 
     if (this.hasInconnu) {
-      group['hasSome'] = new FormControl(defaultValue ? defaultValue.hasSome.value : 'OUI');
+      group['hasSome'] = new UntypedFormControl(defaultValue ? defaultValue.hasSome.value : 'OUI');
     }
 
-    group['value'] = new FormControl(defaultValue && defaultValue.value ? defaultValue.value.value : null);
+    group['value'] = new UntypedFormControl(defaultValue && defaultValue.value ? defaultValue.value.value : null);
 
-    return new FormGroup(group, this.validators);
+    return new UntypedFormGroup(group, this.validators);
   }
 
   accept<E>(visitor: QuestionVisitorModel<E>): E {

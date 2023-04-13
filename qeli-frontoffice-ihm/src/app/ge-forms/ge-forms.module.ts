@@ -25,28 +25,23 @@ import { CoreModule } from '../core/core.module';
 import { HelpBlockComponent } from './help-block/help-block.component';
 
 @NgModule({
-  imports: [
-    CoreModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  declarations: [
-    InputContainerComponent,
-    DateInputComponent,
-    HelpBlockComponent
-  ],
-  exports: [
-    FormsModule,
-    ReactiveFormsModule,
-    InputContainerComponent,
-    HelpBlockComponent,
-    DateInputComponent
-  ],
-  entryComponents: [
-    InputContainerComponent,
-    DateInputComponent,
-    HelpBlockComponent
-  ]
+    imports: [
+        CoreModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    declarations: [
+        InputContainerComponent,
+        DateInputComponent,
+        HelpBlockComponent
+    ],
+    exports: [
+        FormsModule,
+        ReactiveFormsModule,
+        InputContainerComponent,
+        HelpBlockComponent,
+        DateInputComponent
+    ]
 })
 export class GeFormsModule {
 }

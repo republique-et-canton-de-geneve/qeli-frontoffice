@@ -1,3 +1,5 @@
+target/
+
 ### STS ###
 .apt_generated
 .classpath
@@ -10,7 +12,6 @@
 .idea
 *.iml
 *.iws
-*.iml
 *.ipr
 
 ### NetBeans ###
@@ -28,16 +29,12 @@ npm-debug.log
 yarn-error.log
 
 ### Compiled output ###
-target/
-dist/
 tmp/
 out-tsc/
-target/
-node_modules/
 overlays/
+.angular/
 
 ### System Files ###
 .DS_Store
 Thumbs.db
-qeli-frontoffice-application/stats/*-stats.csv
 stats/

@@ -20,202 +20,188 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>ch.ge.social.qeli</groupId>
-        <artifactId>qeli-frontoffice</artifactId>
-        <version>1.5.1-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>ch.ge.social.qeli</groupId>
+    <artifactId>qeli-frontoffice</artifactId>
+    <version>1.5.1-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>qeli-frontoffice-ihm</artifactId>
-    <packaging>war</packaging>
+  <artifactId>qeli-frontoffice-ihm</artifactId>
+  <packaging>war</packaging>
 
-    <properties>
-        <npm.build.directory>dist/</npm.build.directory>
-    </properties>
+  <properties>
+    <npm.build.directory>dist/</npm.build.directory>
+  </properties>
 
-    <build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <webResources>
+            <resource>
+              <directory>${npm.build.directory}/${project.artifactId}</directory>
+              <targetPath>formulaire</targetPath>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+
+      <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
+
+          <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <directory>${project.basedir}</directory>
+                  <includes>
+                    <include>${npm.build.directory}</include>
+                  </includes>
+                </fileset>
+              </filesets>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>parse-version</id>
+                <goals>
+                  <goal>parse-version</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <!-- Output the npm configuration -->
+              <execution>
+                <id>npm-config-list</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>validate</phase>
                 <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${project.basedir}</directory>
-                            <includes>
-                                <include>${npm.build.directory}</include>
-                            </includes>
-                        </fileset>
-                    </filesets>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>config</argument>
+                    <argument>list</argument>
+                  </arguments>
                 </configuration>
-            </plugin>
+              </execution>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
+              <!-- Ensure `npm install` is called during the resource generation phase -->
+              <execution>
+                <id>npm-init</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>generate-resources</phase>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <webResources>
-                        <resource>
-                            <directory>${npm.build.directory}/${project.artifactId}</directory>
-                            <targetPath>formulaire</targetPath>
-                        </resource>
-                    </webResources>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>install</argument>
+                  </arguments>
                 </configuration>
-            </plugin>
+              </execution>
 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>parse-version</id>
-                        <goals>
-                            <goal>parse-version</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+              <!-- Call `npm version` to synchronize the package.json version -->
+              <execution>
+                <id>npm-sync-version</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>process-resources</phase>
+                <configuration>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>version</argument>
+                    <argument>--new-version</argument>
+                    <argument>
+                      ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}
+                    </argument>
+                    <argument>--no-git-tag-version</argument>
+                    <argument>--allow-same-version</argument>
+                  </arguments>
+                </configuration>
+              </execution>
 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <executions>
+              <!-- Call `npm run build` to build the Angular application -->
+              <execution>
+                <id>npm-build</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>compile</phase>
+                <configuration>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>build</argument>
+                  </arguments>
+                </configuration>
+              </execution>
 
-                    <!-- Output the npm configuration -->
-                    <execution>
-                        <id>npm-config-list</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>validate</phase>
-                        <configuration>
-                            <executable>npm</executable>
-                            <arguments>
-                                <argument>config</argument>
-                                <argument>list</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
+              <!-- Call `npm run test` to run the unit tests -->
+              <execution>
+                <id>npm-test</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <phase>test</phase>
+                <configuration>
+                  <skip>${ihm.test.skip}</skip>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>test</argument>
+                  </arguments>
+                </configuration>
+              </execution>
 
-                    <!-- Call `npm version` to synchronize the package.json version -->
-                    <execution>
-                        <id>npm-sync-version</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <executable>npm</executable>
-                            <arguments>
-                                <argument>version</argument>
-                                <argument>--new-version</argument>
-                                <argument>
-                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}
-                                </argument>
-                                <argument>--no-git-tag-version</argument>
-                                <argument>--allow-same-version</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-
-                    <!-- Call `npm run build` to build the Angular application -->
-                    <execution>
-                        <id>npm-build</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <executable>npm</executable>
-                            <arguments>
-                                <argument>run</argument>
-                                <argument>build</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-
-                    <!-- Call `npm run start` to run the server -->
-                    <execution>
-                        <id>npm-start</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>npm</executable>
-                            <arguments>
-                                <argument>run</argument>
-                                <argument>start</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+              <!-- Call `npm run start` to run the server -->
+              <execution>
+                <id>npm-start</id>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>npm</executable>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>start</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
-    </build>
+      </build>
+    </profile>
 
-
-    <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <!-- Ensure `npm install` is called during the resource generation phase -->
-                            <execution>
-                                <id>npm-init</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <executable>npm</executable>
-                                    <arguments>
-                                        <argument>install</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>ci</id>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <!-- Ensure `npm ci` is called during the resource generation phase -->
-                            <execution>
-                                <id>npm-init</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <executable>npm</executable>
-                                    <arguments>
-                                        <argument>ci</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+    <profile>
+      <id>ci</id>
+      <!-- Nothing to do, gitlab generates the dist directory in a previous step -->
+    </profile>
+  </profiles>
 </project>

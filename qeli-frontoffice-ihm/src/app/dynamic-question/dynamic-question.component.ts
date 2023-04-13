@@ -18,7 +18,7 @@
  */
 
 import { Component, ComponentFactoryResolver, ElementRef, Input, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { QuestionDirective } from './model/question.directive';
 import { QuestionComponent } from './model/question.component';
 import { QuestionRegistryModel } from './model/question-registry.model';
@@ -33,7 +33,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./dynamic-question.component.scss']
 })
 export class DynamicQuestionComponent {
-  @Input() form: FormGroup;
+  formGroup: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean = false;
   @Input() disableDeepLink: boolean = false;
 
@@ -64,50 +64,58 @@ export class DynamicQuestionComponent {
     this.loadComponent();
   }
 
+  @Input()
+  set form(form: UntypedFormGroup) {
+    this.formGroup = form;
+    this.loadComponent();
+  }
+
   private loadOnValueChangeSubscription() {
     if (this.questionValueChangeSubscription) {
       this.questionValueChangeSubscription.unsubscribe();
     }
     if (this.question.onValueChanged) {
-      this.questionValueChangeSubscription = this.form.valueChanges.subscribe(
-        () => this.question.onValueChanged(this.form)
+      this.questionValueChangeSubscription = this.formGroup.valueChanges.subscribe(
+        () => this.question.onValueChanged(this.formGroup)
       );
     }
   }
 
   get isValid() {
-    return this.form.controls[this.question.key].pristine ||
-           this.form.controls[this.question.key].valid;
+    return this.formGroup.controls[this.question.key].pristine ||
+           this.formGroup.controls[this.question.key].valid;
   }
 
   get errors() {
-    const errors = this.form.controls[this.question.key].errors;
+    const errors = this.formGroup.controls[this.question.key].errors;
     return errors ? Object.keys(errors) : [];
   }
 
   private resolveI18nString(stringOrFn: I18nString | ((value: any) => I18nString)): I18nString {
     if (typeof stringOrFn === 'function') {
-      return (stringOrFn as ((value: any) => I18nString))(this.form.value);
+      return (stringOrFn as ((value: any) => I18nString))(this.formGroup.value);
     }
 
     return stringOrFn as I18nString;
   }
 
   private loadComponent() {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      QuestionRegistryModel[this.question.controlType]
-    );
-    const viewContainerRef = this.questionDirective.viewContainerRef;
-    viewContainerRef.clear();
+    if (this.formGroup && this.question) {
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+        QuestionRegistryModel[this.question.controlType]
+      );
+      const viewContainerRef = this.questionDirective.viewContainerRef;
+      viewContainerRef.clear();
 
-    const componentRef = viewContainerRef.createComponent(componentFactory);
-    (<QuestionComponent<any>>componentRef.instance).form = this.form;
-    (<QuestionComponent<any>>componentRef.instance).question = this.question;
-    (<QuestionComponent<any>>componentRef.instance).disableFocusOnInit = this.disableFocusOnInit;
+      const componentRef = viewContainerRef.createComponent(componentFactory);
+      (<QuestionComponent<any>>componentRef.instance).form = this.formGroup;
+      (<QuestionComponent<any>>componentRef.instance).question = this.question;
+      (<QuestionComponent<any>>componentRef.instance).disableFocusOnInit = this.disableFocusOnInit;
+    }
   }
 
   displayErrors() {
-    FormUtils.markAllAsDirty(this.form.controls[this.question.key]);
+    FormUtils.markAllAsDirty(this.formGroup.controls[this.question.key]);
     setTimeout(() => {
       const formGroupInvalid = this.elementRef.nativeElement.querySelectorAll(
         'input[aria-invalid]:not([aria-invalid="false"]),' +

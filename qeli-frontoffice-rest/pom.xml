@@ -20,109 +20,53 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>ch.ge.social.qeli</groupId>
-        <artifactId>qeli-frontoffice</artifactId>
-        <version>1.5.1-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>ch.ge.social.qeli</groupId>
+    <artifactId>qeli-frontoffice</artifactId>
+    <version>1.5.1-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>qeli-frontoffice-rest</artifactId>
+  <artifactId>qeli-frontoffice-rest</artifactId>
 
-    <properties>
-        <sonar.coverage.exclusions>**/*Exception.java,
-            **/*Dto.java
-        </sonar.coverage.exclusions>
-    </properties>
+  <properties>
+    <sonar.coverage.exclusions>
+      **/*Exception.java,
+      **/*Dto.java
+    </sonar.coverage.exclusions>
+  </properties>
 
-    <dependencies>
-        <!-- Frontoffice modules -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>qeli-frontoffice-service</artifactId>
-        </dependency>
+  <dependencies>
+    <!-- Frontoffice modules -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>qeli-frontoffice-service</artifactId>
+    </dependency>
 
-        <!-- Additional dependencies -->
-        <dependency>
-            <groupId>com.captcha</groupId>
-            <artifactId>botdetect-servlet</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
+    <!-- Additional dependencies -->
+    <dependency>
+      <groupId>com.captcha</groupId>
+      <artifactId>botdetect-servlet</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.jayway.jsonpath</groupId>
+      <artifactId>json-path</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
 
-        <!-- Test dependencies -->
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-spring</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-configuration-processor</artifactId>
-                            <version>${spring-boot.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

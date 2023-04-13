@@ -18,7 +18,7 @@
  */
 
 import { QuestionVisitorModel } from '../model/question-visitor.model';
-import { AbstractControl, FormControl, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { Question, QuestionSchema } from '../model/question.model';
 import { NumberAnswer } from '../model/answer.model';
 
@@ -63,7 +63,7 @@ export class NumberQuestion extends Question<NumberAnswer> {
       numberValidators.push(Validators.min(this.min));
     }
 
-    return new FormControl(defaultValue ? defaultValue.value : null, this.validators.concat(numberValidators));
+    return new UntypedFormControl(defaultValue ? defaultValue.value : null, this.validators.concat(numberValidators));
   }
 
   accept<E>(visitor: QuestionVisitorModel<E>): E {

@@ -20,67 +20,67 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>ch.ge.social.qeli</groupId>
-        <artifactId>qeli-frontoffice</artifactId>
-        <version>1.5.1-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>ch.ge.social.qeli</groupId>
+    <artifactId>qeli-frontoffice</artifactId>
+    <version>1.5.1-SNAPSHOT</version>
+  </parent>
 
-    <artifactId>qeli-frontoffice-editique</artifactId>
-    <packaging>pom</packaging>
+  <artifactId>qeli-frontoffice-editique</artifactId>
+  <packaging>pom</packaging>
 
-    <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
 
-            <modules>
-                <module>qeli-frontoffice-editique-api</module>
-                <module>qeli-frontoffice-editique-mock</module>
-            </modules>
+      <modules>
+        <module>qeli-frontoffice-editique-api</module>
+        <module>qeli-frontoffice-editique-mock</module>
+      </modules>
 
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>qeli-frontoffice-editique-api</artifactId>
-                        <version>${project.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>qeli-frontoffice-editique-mock</artifactId>
-                        <version>${project.version}</version>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-        </profile>
+      <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>qeli-frontoffice-editique-api</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>qeli-frontoffice-editique-mock</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
+      </dependencyManagement>
+    </profile>
 
-        <profile>
-            <id>ocsin</id>
+    <profile>
+      <id>ocsin</id>
 
-            <modules>
-                <module>qeli-frontoffice-editique-api</module>
-                <module>qeli-frontoffice-editique-impl</module>
-            </modules>
+      <modules>
+        <module>qeli-frontoffice-editique-api</module>
+        <module>qeli-frontoffice-editique-impl</module>
+      </modules>
 
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>qeli-frontoffice-editique-api</artifactId>
-                        <version>${project.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>qeli-frontoffice-editique-impl</artifactId>
-                        <version>${project.version}</version>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-        </profile>
-    </profiles>
+      <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>qeli-frontoffice-editique-api</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>qeli-frontoffice-editique-impl</artifactId>
+            <version>${project.version}</version>
+          </dependency>
+        </dependencies>
+      </dependencyManagement>
+    </profile>
+  </profiles>
 </project>

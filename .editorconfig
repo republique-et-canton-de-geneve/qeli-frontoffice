@@ -9,7 +9,3 @@ trim_trailing_whitespace = true
 
 [{*.md, .gitignore, .editorconfig}]
 max_line_length = 85
-
-[*.xml]
-indent_size = 4
-

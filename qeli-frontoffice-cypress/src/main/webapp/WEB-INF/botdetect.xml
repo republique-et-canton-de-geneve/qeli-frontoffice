@@ -18,28 +18,20 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<botdetect xmlns="https://captcha.com/schema/java"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://captcha.com/schema/java
+                               https://captcha.com/schema/java/botdetect-4.0.beta3.7.xsd">
 
-  <parent>
-    <groupId>ch.ge.social.qeli</groupId>
-    <artifactId>qeli-frontoffice-editique</artifactId>
-    <version>1.5.1-SNAPSHOT</version>
-  </parent>
-
-  <artifactId>qeli-frontoffice-editique-mock</artifactId>
-
-
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>qeli-frontoffice-editique-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-    </dependency>
-  </dependencies>
-</project>
+    <captchaStyles>
+        <captchaStyle>
+            <name>qeliCaptchaStyle</name>
+            <userInputID>qeliCaptchaUserInput</userInputID>
+            <imageTooltip>Texte à saisir</imageTooltip>
+            <soundTooltip>Obtenir une version audio</soundTooltip>
+            <reloadTooltip>Générer un nouveau texte</reloadTooltip>
+            <helpLinkText>Custom Captcha help link text</helpLinkText>
+            <helpLinkEnabled>false</helpLinkEnabled>
+        </captchaStyle>
+    </captchaStyles>
+</botdetect>

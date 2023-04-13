@@ -22,18 +22,15 @@ import { DeepLinkComponent } from './deep-link.component';
 import { CoreModule } from '../core/core.module';
 
 @NgModule({
-  imports: [
-    CoreModule
-  ],
-  declarations: [
-    DeepLinkComponent
-  ],
-  exports: [
-    DeepLinkComponent
-  ],
-  entryComponents: [
-    DeepLinkComponent
-  ]
+    imports: [
+        CoreModule
+    ],
+    declarations: [
+        DeepLinkComponent
+    ],
+    exports: [
+        DeepLinkComponent
+    ]
 })
 export class DeepLinkModule {
 }

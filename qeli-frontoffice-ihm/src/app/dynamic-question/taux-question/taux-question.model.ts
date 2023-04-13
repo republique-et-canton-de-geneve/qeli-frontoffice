@@ -18,7 +18,7 @@
  */
 
 import { QuestionVisitorModel } from '../model/question-visitor.model';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Question, QuestionSchema } from '../model/question.model';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
@@ -81,12 +81,12 @@ export class TauxQuestion extends Question<TauxAnswer> {
   toFormControl(defaultValue: TauxAnswer): AbstractControl {
     let group: any = {};
 
-    group['value'] = new FormControl(
+    group['value'] = new UntypedFormControl(
       defaultValue ? defaultValue.value : null,
       [Validators.max(100), Validators.min(0), Validators.pattern(/-?\d+(,\d+)?/)]
     );
-    group['isHourly'] = new FormControl(defaultValue ? defaultValue.isHourly : false);
+    group['isHourly'] = new UntypedFormControl(defaultValue ? defaultValue.isHourly : false);
 
-    return new FormGroup(group, this.validators);
+    return new UntypedFormGroup(group, this.validators);
   }
 }

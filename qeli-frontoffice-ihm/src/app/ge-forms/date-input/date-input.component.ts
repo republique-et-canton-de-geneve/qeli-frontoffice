@@ -21,7 +21,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import * as moment from 'moment';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { BowserService } from '../../core/bowser/bowser.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { NgbDateTransformer } from './ngb-date.transformer';
 
 @Component({
@@ -31,7 +31,7 @@ import { NgbDateTransformer } from './ngb-date.transformer';
 })
 export class DateInputComponent implements OnInit, AfterViewInit {
 
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() controlName: string;
   @Input() minDate: Date = null;
   @Input() maxDate: Date = null;
@@ -40,7 +40,7 @@ export class DateInputComponent implements OnInit, AfterViewInit {
   @Input() focusOnInit: boolean = false;
   @Input() identifier: string;
 
-  @ViewChild('textInputDate', {static: false}) textInputDate: ElementRef<HTMLInputElement>;
+  @ViewChild('textInputDate') textInputDate: ElementRef<HTMLInputElement>;
 
   showDatePicker = false;
 
@@ -112,7 +112,7 @@ export class DateInputComponent implements OnInit, AfterViewInit {
   }
 
   get dateControl() {
-    return this.form.controls[this.controlName] as FormControl;
+    return this.form.controls[this.controlName] as UntypedFormControl;
   }
 
 }

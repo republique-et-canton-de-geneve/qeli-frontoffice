@@ -20,7 +20,7 @@
 import { Component, Input } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { NUMBER_GROUP_TYPE, NumberQuestion } from './number-question.model';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { NumberAnswer } from '../model/answer.model';
 
@@ -32,7 +32,7 @@ import { NumberAnswer } from '../model/answer.model';
 })
 export class NumberQuestionComponent implements QuestionComponent<NumberAnswer> {
   @Input() question: NumberQuestion;
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean;
 
   get isValid() {

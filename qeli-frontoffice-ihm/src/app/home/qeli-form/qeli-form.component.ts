@@ -18,7 +18,7 @@
  */
 
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ToAnswerVisitor } from '../../dynamic-question/model/to-answer.visitor.model';
 import { QeliStateMachine } from '../../service/question/qeli-state.model';
 import { DynamicQuestionComponent } from '../../dynamic-question/dynamic-question.component';
@@ -30,15 +30,15 @@ import { DynamicQuestionComponent } from '../../dynamic-question/dynamic-questio
 })
 export class QeliFormComponent implements OnInit {
 
-  @ViewChild('formElement', {static: false}) formElement: ElementRef;
-  @ViewChild('dynamicQuestionComponent', {static: false}) dynamicQuestionComponent: DynamicQuestionComponent;
+  @ViewChild('formElement') formElement: ElementRef;
+  @ViewChild('dynamicQuestionComponent') dynamicQuestionComponent: DynamicQuestionComponent;
 
   @Input() qeliStateMachine: QeliStateMachine;
   @Input() disableDeepLink: boolean = false;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit() {

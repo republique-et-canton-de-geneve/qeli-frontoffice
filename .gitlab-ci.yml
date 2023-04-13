@@ -1,27 +1,150 @@
+# ------------------------------------------------
+# - Définitions des variables                    -
+# ------------------------------------------------
 variables:
-  BUILD_CONTAINER_VERSION: 1.0.0
-  BUILD_TOOLS_VERSION: 2.2.1  # 02/12/2020 Released 02/12/2020
-  # Parameters
-  IDENTIFIER: main
+  MAVEN_SETTINGS: "--settings .m2/settings.xml -Dmaven.repo.local=.m2/repository"
+  MAVEN_CLI_OPTS: "$MAVEN_SETTINGS --no-transfer-progress --errors --show-version -DinstallAtEnd=true -DdeployAtEnd=true -Pci,ocsin"
+  SONAR_MAVEN_OPTS: "-Dsonar.host.url=$SONARQUBE_URL $MAVEN_SETTINGS -Dsonar.login=$SONARQUBE_TOKEN -Pci,ocsin"
+  SONAR_MAVEN_GOAL: "org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar"
+  DEV_DEPLOY_PATH: "$DEV_CATALINA_HOME/livraison"
 
 default:
   tags:
     - 'host:restricted-container'
     - 'net:gold-dev'
-    - 'id:gitlab_runner_dev_10879-SOCIAL-2-environments'
-  image:
-    name: docker-all.devops.etat-ge.ch/ch/ge/gde/lab/tools/build:${BUILD_CONTAINER_VERSION}
-    entrypoint: [/bin/bash, -c]
+    - 'id:gitlab_runner_dev_10879-SOCIAL-1-environments'
 
+# Cache par défaut des node_modules ainsi que des dépôts maven et npm
+cache:
+  key: "$CI_JOB_NAME"
+  paths:
+    - qeli-frontoffice-ihm/node_modules/
+    - .m2/repository
+    - .npm/
+
+# Les étapes du build
 stages:
-  - etape-1
-  - etape-2
+  - ihm     # Compilation de l'interface graphique.
+  - verify  # permet de vérifier que le projet compile bien et les tests passe sur des features branches.
+  - publish # Publication de l'artefact maven sur Nexus.
+  - run     # Déploiement sur les servers de DEV.
+  - analyze # Analyse sonar de l'application.
 
-etape-1:
-  stage: etape-1
-  script: 
-    - echo "Hello World"
-etape-2:
-  stage: etape-2
-  script: 
-    - expr 1 + 1
+##################################################
+# Définition des étapes
+##################################################
+
+# ------------------------------------------------
+# Compilation Frontend
+# ------------------------------------------------
+
+artifact:ihm:
+  image: $DOCKER_URL/node:16
+  stage: ihm
+  script:
+    - cd qeli-frontoffice-ihm
+    - npm ci
+    - npm run build
+  rules:
+    - allow_failure: false
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+    expire_in: 1 day
+    paths:
+      - qeli-frontoffice-ihm/dist
+
+# ------------------------------------------------
+# Compilation backend
+# ------------------------------------------------
+
+artifact:verify:
+  image: $DOCKER_URL/maven:3.8.4-openjdk-17
+  stage: verify
+  script:
+    - mvn clean source:jar verify ${MAVEN_CLI_OPTS}
+  rules:
+    - if: $CI_COMMIT_BRANCH != "main" && $CI_COMMIT_BRANCH != "develop"
+  dependencies:
+    - artifact:ihm
+
+# ------------------------------------------------
+# Publication de l'artefact
+# ------------------------------------------------
+
+artifact:publish:
+  image: $DOCKER_URL/maven:3.8.4-openjdk-17
+  stage: publish
+  script:
+    - mvn clean source:jar deploy ${MAVEN_CLI_OPTS}
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+    expire_in: 1 day
+    paths:
+      - qeli-frontoffice-application/target/qeli-frontoffice-application.war
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"
+  dependencies:
+    - artifact:ihm
+
+# ------------------------------------------------
+# Déploiement DEV
+# ------------------------------------------------
+
+# DEV Host A
+dev-a:run:
+  image: $DOCKER_URL/gotechnies/alpine-ssh:latest
+  stage: run
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "${DEV_PRIVATE_KEY}" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan ${DEV_HOST_A} >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - cd qeli-frontoffice-application/
+    - scp target/qeli-frontoffice-application.war ${DEV_USER}@${DEV_HOST_A}:${DEV_DEPLOY_PATH}/socialqeli_pub.war
+    - sed -i 's/%CATALINA_HOME%/${DEV_CATALINA_HOME}/' src/distrib/dev-deploy.sh
+    - scp src/distrib/dev-deploy.sh ${DEV_USER}@${DEV_HOST_A}:/home/${DEV_USER}/deploy.sh
+    - ssh -t ${DEV_USER}@${DEV_HOST_A} "cd /home/${DEV_USER}/ && sh ./deploy.sh"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+  dependencies:
+    - artifact:publish
+
+# DEV Host B
+dev-b:run:
+  image: $DOCKER_URL/gotechnies/alpine-ssh:latest
+  stage: run
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "${DEV_PRIVATE_KEY}" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan ${DEV_HOST_B} >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - cd qeli-frontoffice-application/
+    - scp target/qeli-frontoffice-application.war ${DEV_USER}@${DEV_HOST_B}:${DEV_DEPLOY_PATH}/socialqeli_pub.war
+    - sed -i 's/%CATALINA_HOME%/${DEV_CATALINA_HOME}/' src/distrib/dev-deploy.sh
+    - scp src/distrib/dev-deploy.sh ${DEV_USER}@${DEV_HOST_B}:/home/${DEV_USER}/deploy.sh
+    - ssh -t ${DEV_USER}@${DEV_HOST_B} "cd /home/${DEV_USER}/ && sh ./deploy.sh"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+  dependencies:
+    - artifact:publish
+
+# ------------------------------------------------
+# Analysis Sonar
+# ------------------------------------------------
+
+sonar:analyze:
+  image: $DOCKER_URL/maven:3.8.4-openjdk-17
+  stage: analyze
+  script:
+    - mvn clean package ${MAVEN_CLI_OPTS}
+    - mvn ${SONAR_MAVEN_GOAL} ${SONAR_MAVEN_OPTS}
+  rules:
+    - if: $CI_COMMIT_BRANCH == "develop"
+  dependencies:
+    - artifact:ihm

@@ -5,19 +5,10 @@ social.tools:
 
   editique.ws-location: https://unServeurEditique/dialogue
   qeli:
-    matomo:
-      # server: ***REMOVED***
-      # site-id: 15
-      enabled: false
+    matomo.enabled: false
     cookie-banner-enabled: true
 
 server:
   port: 8080
-
-  servlet:
-    context-path: /socialqeli_pub
-
-  ssl:
-    enabled: false
-
-logging.level.root: INFO
+  servlet.context-path: /socialqeli_pub
+  ssl.enabled: false

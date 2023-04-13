@@ -18,7 +18,6 @@
  */
 
 import { Injectable } from '@angular/core';
-import { MatomoInjector, MatomoTracker } from 'ngx-matomo';
 import { CheckboxGroupAnswer } from '../../dynamic-question/checkbox-group-question/checkbox-group-question.model';
 import { DateAnswer } from '../../dynamic-question/date-question/date-question.model';
 import { NationaliteAnswer } from '../../dynamic-question/nationalite-question/nationalite-question.model';
@@ -31,6 +30,7 @@ import { CompositeAnswer } from '../../dynamic-question/composite-question/compo
 import { QeliConfiguration } from '../configuration/qeli-configuration.model';
 import { TauxAnswer } from '../../dynamic-question/taux-question/taux-question.model';
 import { DropdownAnswer } from '../../dynamic-question/dropdown-question/dropdown-question.model';
+import { MatomoInitializerService, MatomoTracker } from '@ngx-matomo/tracker';
 
 const TRACK_FORM = 'Formulaire';
 const TRACK_QUESTION = 'question';
@@ -48,22 +48,8 @@ export class TrackingService {
   private enabled = true;
 
   constructor(private translateService: TranslateService,
-              private matomoInjector: MatomoInjector,
               private matomoTracker: MatomoTracker) {
   }
-
-  /**
-   * Injecte le code de traçage.
-   */
-  initMatomo(configuration: QeliConfiguration) {
-    this.enabled = configuration.matomo.enabled;
-    if (this.enabled) {
-      this.matomoInjector.init(configuration.matomo.server, configuration.matomo.siteId);
-      this.matomoTracker.setSecureCookie(true);
-      this.requireConsent();
-    }
-  }
-
   /**
    * Nécessite le consentement de l'utilisateur.
    * Aucune requête de traçage n'est envoyée à Matomo, et aucun cookie n'est écrit.

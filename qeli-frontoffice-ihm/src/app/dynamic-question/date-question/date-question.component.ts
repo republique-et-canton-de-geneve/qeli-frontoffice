@@ -20,7 +20,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { DATE_CONTROL_TYPE, DateAnswer, DateQuestion } from './date-question.model';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { DateInputComponent } from '../../ge-forms/date-input/date-input.component';
 import { QuestionOption } from '../model/question.model';
@@ -35,7 +35,7 @@ export class DateQuestionComponent implements QuestionComponent<DateAnswer> {
   @ViewChild('dateInputComponent', {static: true}) dateInputComponent: DateInputComponent;
 
   @Input() question: DateQuestion;
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean;
 
   onShortcutChanged(checked: boolean, shortcut: QuestionOption<string>) {
@@ -47,7 +47,7 @@ export class DateQuestionComponent implements QuestionComponent<DateAnswer> {
   }
 
   get formGroup() {
-    return this.form.controls[this.question.key] as FormGroup;
+    return this.form.controls[this.question.key] as UntypedFormGroup;
   }
 
   get dateControl() {

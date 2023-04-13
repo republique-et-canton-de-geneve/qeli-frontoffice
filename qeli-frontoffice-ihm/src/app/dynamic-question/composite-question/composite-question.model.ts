@@ -20,7 +20,7 @@
 import { QuestionVisitorModel } from '../model/question-visitor.model';
 import { Question, QuestionSchema } from '../model/question.model';
 import { Answer } from '../model/answer.model';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { AnswerVisitor } from '../model/answer-visitor.model';
 
 export const COMPOSITE_CONTROL_TYPE = 'composite';
@@ -105,6 +105,6 @@ export class CompositeQuestion extends Question<CompositeAnswer> {
 
     });
 
-    return new FormGroup(group, this.validators);
+    return new UntypedFormGroup(group, this.validators);
   }
 }

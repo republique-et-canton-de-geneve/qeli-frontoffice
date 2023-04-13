@@ -17,12 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Question } from './question.model';
 import { Answer } from './answer.model';
 
 export interface QuestionComponent<T extends Answer> {
   question: Question<T>;
-  form: FormGroup;
+  form: UntypedFormGroup;
   disableFocusOnInit: boolean;
 }

@@ -38,7 +38,7 @@ import {
   TypePermis, typePermisBOptions, typePermisCOptions, typePermisFOptions, typePermisOptions
 } from './type-permis.model';
 import { AnswerUtils } from '../answer-utils';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 export class NationaliteQuestionService extends QuestionLoader {
 
@@ -55,12 +55,12 @@ export class NationaliteQuestionService extends QuestionLoader {
         label: {key: 'question.nationalite.label'},
         help: {key: 'question.nationalite.help'},
         showErrors: false,
-        onValueChanged: (form: FormGroup) => {
-          const nationaliteFormGroup = form.controls['nationalite'] as FormGroup;
-          const formGroupDemandeur = nationaliteFormGroup.controls[`nationalite_${this.demandeur.id}`] as FormGroup;
+        onValueChanged: (form: UntypedFormGroup) => {
+          const nationaliteFormGroup = form.controls['nationalite'] as UntypedFormGroup;
+          const formGroupDemandeur = nationaliteFormGroup.controls[`nationalite_${this.demandeur.id}`] as UntypedFormGroup;
           const nationaliteDemandeur = formGroupDemandeur.controls['pays'].value;
           this.demandeur.enfants.forEach(enfant => {
-            const formGroupEnfant = nationaliteFormGroup.controls[`nationalite_${enfant.id}`] as FormGroup;
+            const formGroupEnfant = nationaliteFormGroup.controls[`nationalite_${enfant.id}`] as UntypedFormGroup;
             if (formGroupEnfant.pristine) {
               formGroupEnfant.controls['pays'].setValue(nationaliteDemandeur, {emitEvent: false});
             }

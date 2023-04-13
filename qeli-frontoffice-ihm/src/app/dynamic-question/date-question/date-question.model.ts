@@ -18,7 +18,7 @@
  */
 
 import { QuestionVisitorModel } from '../model/question-visitor.model';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { DateValidators } from '../../ge-forms/date.validators';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
@@ -99,7 +99,7 @@ export class DateQuestion extends Question<DateAnswer> {
     let group: any = {};
 
     if (this.shortcuts && this.shortcuts.length > 0) {
-      group['shortcut'] = new FormControl(
+      group['shortcut'] = new UntypedFormControl(
         defaultValue && defaultValue.shortcut ? defaultValue.shortcut.value : 'NO_SHORTCUT'
       );
     }
@@ -116,12 +116,12 @@ export class DateQuestion extends Question<DateAnswer> {
 
     dateValidators.push(DateValidators.date);
 
-    group['value'] = new FormControl(
+    group['value'] = new UntypedFormControl(
       defaultValue && defaultValue.value ? defaultValue.value : null,
       dateValidators
     );
 
-    return new FormGroup(group, this.validators);
+    return new UntypedFormGroup(group, this.validators);
   }
 
   accept<E>(visitor: QuestionVisitorModel<E>): E {

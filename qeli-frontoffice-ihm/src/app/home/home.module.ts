@@ -34,31 +34,24 @@ import { BotDetectCaptchaModule } from 'angular-captcha';
 import { PrintPdfComponent } from './form-result/print-pdf/print-pdf.component';
 
 @NgModule({
-  imports: [
-    CoreModule,
-    GeFormsModule,
-    DeepLinkModule,
-    DynamicQuestionModule,
-    BotDetectCaptchaModule
-  ],
-  declarations: [
-    HomeComponent,
-    FormResultComponent,
-    ResultBlockComponent,
-    NavigationMenuComponent,
-    FormSetupComponent,
-    ModalValidationComponent,
-    NavigationControlsComponent,
-    QeliFormComponent,
-    PrintPdfComponent
-  ],
-  entryComponents: [
-    FormResultComponent,
-    ResultBlockComponent,
-    NavigationMenuComponent,
-    QeliFormComponent,
-    PrintPdfComponent
-  ]
+    imports: [
+        CoreModule,
+        GeFormsModule,
+        DeepLinkModule,
+        DynamicQuestionModule,
+        BotDetectCaptchaModule
+    ],
+    declarations: [
+        HomeComponent,
+        FormResultComponent,
+        ResultBlockComponent,
+        NavigationMenuComponent,
+        FormSetupComponent,
+        ModalValidationComponent,
+        NavigationControlsComponent,
+        QeliFormComponent,
+        PrintPdfComponent
+    ]
 })
 export class HomeModule {
 }

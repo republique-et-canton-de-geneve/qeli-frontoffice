@@ -1,5 +1,4 @@
-application:
-  name: qeli-frontoffice
+application.name: qeli-frontoffice
 
 social.tools:
   frontoffice:
@@ -10,7 +9,7 @@ social.tools:
   qeli:
     min-years-from-now: 130
     max-enfants-a-charge: 20
-    min-taux-activite-seul:  40
+    min-taux-activite-seul: 40
     min-taux-activite-avec-conjoint: 90
     limite-fortune: 4000
     limite-fortune-per-enfant: 2000
@@ -24,30 +23,22 @@ social.tools:
     cookie-banner-enabled: true
 
 spring:
-  application:
-    admin:
-      enabled: false
-
-  jmx:
-    enabled: false
+  application.admin.enabled: false
+  jmx.enabled: false
 
 server:
   port: 443
-
   compression.enabled: true
   http2.enabled: true
-
-  error:
-    whitelabel:
-      enabled: false
+  error.whitelabel.enabled: false
 
   servlet:
     context-path: /
-    session:
-      cookie:
-        http-only: true
-        secure: true
+    session.cookie:
+      http-only: true
+      secure: true
 
   max-http-header-size: 100KB
 
-logging.level.root: INFO
+logging.level:
+  root: INFO

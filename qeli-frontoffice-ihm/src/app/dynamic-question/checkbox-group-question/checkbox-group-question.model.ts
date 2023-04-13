@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { Question, QuestionOption, QuestionSchema } from '../model/question.model';
 import { Answer } from '../model/answer.model';
 import { AnswerVisitor } from '../model/answer-visitor.model';
@@ -147,13 +147,13 @@ export class CheckboxGroupQuestion extends Question<CheckboxGroupAnswer> {
     let group: any = {};
 
     if (this.hasNone || this.hasInconnu) {
-      group['hasSome'] = new FormControl(defaultValue ? defaultValue.hasSome.value : this.someOptionInitValue);
+      group['hasSome'] = new UntypedFormControl(defaultValue ? defaultValue.hasSome.value : this.someOptionInitValue);
     }
 
     const defaultChoices = defaultValue ? defaultValue.choices || [] : [];
-    group['choices'] = new FormArray(defaultChoices.map(choice => new FormControl(choice.value)));
+    group['choices'] = new UntypedFormArray(defaultChoices.map(choice => new UntypedFormControl(choice.value)));
 
-    return new FormGroup(group, this.validators);
+    return new UntypedFormGroup(group, this.validators);
   }
 
   accept<E>(visitor: QuestionVisitorModel<E>): E {

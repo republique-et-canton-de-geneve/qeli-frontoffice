@@ -20,7 +20,7 @@
 import { Component, Input } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { TEXT_CONTROL_TYPE, TextQuestion } from './text-question.model';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { StringAnswer } from '../model/answer.model';
 
@@ -32,7 +32,7 @@ import { StringAnswer } from '../model/answer.model';
 })
 export class TextQuestionComponent implements QuestionComponent<StringAnswer> {
   @Input() question: TextQuestion;
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean;
 
   get isValid() {

@@ -34,39 +34,27 @@ import { DeepLinkModule } from '../deep-link/deep-link.module';
 import { CompositeQuestionComponent } from './composite-question/composite-question.component';
 
 @NgModule({
-  imports: [
-    CoreModule,
-    GeFormsModule,
-    DeepLinkModule
-  ],
-  exports: [
-    DynamicQuestionComponent
-  ],
-  declarations: [
-    CheckboxGroupQuestionComponent,
-    CompositeQuestionComponent,
-    DateQuestionComponent,
-    DropdownQuestionComponent,
-    DynamicQuestionComponent,
-    NationaliteQuestionComponent,
-    NumberQuestionComponent,
-    QuestionDirective,
-    RadioQuestionComponent,
-    TauxQuestionComponent,
-    TextQuestionComponent
-  ],
-  entryComponents: [
-    CheckboxGroupQuestionComponent,
-    CompositeQuestionComponent,
-    DateQuestionComponent,
-    DropdownQuestionComponent,
-    DynamicQuestionComponent,
-    NationaliteQuestionComponent,
-    NumberQuestionComponent,
-    RadioQuestionComponent,
-    TauxQuestionComponent,
-    TextQuestionComponent
-  ]
+    imports: [
+        CoreModule,
+        GeFormsModule,
+        DeepLinkModule
+    ],
+    exports: [
+        DynamicQuestionComponent
+    ],
+    declarations: [
+        CheckboxGroupQuestionComponent,
+        CompositeQuestionComponent,
+        DateQuestionComponent,
+        DropdownQuestionComponent,
+        DynamicQuestionComponent,
+        NationaliteQuestionComponent,
+        NumberQuestionComponent,
+        QuestionDirective,
+        RadioQuestionComponent,
+        TauxQuestionComponent,
+        TextQuestionComponent
+    ]
 })
 export class DynamicQuestionModule {
 }

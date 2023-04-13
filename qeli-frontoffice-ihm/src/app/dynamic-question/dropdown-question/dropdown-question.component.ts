@@ -20,7 +20,7 @@
 import { Component, Input } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { DROPDOWN_CONTROL_TYPE, DropdownQuestion } from './dropdown-question.model';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { OptionAnswer } from '../model/answer.model';
 
@@ -32,7 +32,7 @@ import { OptionAnswer } from '../model/answer.model';
 })
 export class DropdownQuestionComponent implements QuestionComponent<OptionAnswer<string>> {
   @Input() question: DropdownQuestion;
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean;
 
   onMainOptionChanged() {
@@ -44,7 +44,7 @@ export class DropdownQuestionComponent implements QuestionComponent<OptionAnswer
   }
 
   get formGroup() {
-    return this.form.controls[this.question.key] as FormGroup;
+    return this.form.controls[this.question.key] as UntypedFormGroup;
   }
 
   get dropdownControl() {

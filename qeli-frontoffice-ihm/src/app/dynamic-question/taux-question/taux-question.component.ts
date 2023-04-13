@@ -20,7 +20,7 @@
 import { Component, Input } from '@angular/core';
 import { QuestionComponent } from '../model/question.component';
 import { TAUX_CONTROL_TYPE, TauxQuestion } from './taux-question.model';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { NumberAnswer } from '../model/answer.model';
 
@@ -32,7 +32,7 @@ import { NumberAnswer } from '../model/answer.model';
 })
 export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
   @Input() question: TauxQuestion;
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean;
 
   onTypeOfInputChanged() {
@@ -56,7 +56,7 @@ export class TauxQuestionComponent implements QuestionComponent<NumberAnswer> {
   }
 
   private get formGroup() {
-    return this.form.controls[this.question.key] as FormGroup;
+    return this.form.controls[this.question.key] as UntypedFormGroup;
   }
 
   get isValid() {

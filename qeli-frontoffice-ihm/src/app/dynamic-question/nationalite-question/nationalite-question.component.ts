@@ -20,7 +20,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { QuestionComponent } from '../model/question.component';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { NATIONALITE_CONTROL_TYPE, NationaliteAnswer, NationaliteQuestion } from './nationalite-question.model';
 
 @RegisterQuestionComponent(NATIONALITE_CONTROL_TYPE)
@@ -32,7 +32,7 @@ import { NATIONALITE_CONTROL_TYPE, NationaliteAnswer, NationaliteQuestion } from
 })
 export class NationaliteQuestionComponent implements OnInit, QuestionComponent<NationaliteAnswer> {
   @Input() question: NationaliteQuestion;
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean;
 
   numberOfNationalites = 1;
@@ -57,8 +57,8 @@ export class NationaliteQuestionComponent implements OnInit, QuestionComponent<N
   }
 
   get paysArray() {
-    const nationaliteControl = (this.form.controls[this.question.key] as FormGroup);
-    return nationaliteControl.controls['pays'] as FormArray;
+    const nationaliteControl = (this.form.controls[this.question.key] as UntypedFormGroup);
+    return nationaliteControl.controls['pays'] as UntypedFormArray;
   }
 
   get isApatride() {
@@ -76,7 +76,7 @@ export class NationaliteQuestionComponent implements OnInit, QuestionComponent<N
 
   addPaysControl() {
     if (this.numberOfNationalites < this.maxNumberOfNationalites) {
-      this.paysArray.push(new FormControl());
+      this.paysArray.push(new UntypedFormControl());
       this.numberOfNationalites += 1;
     }
   }

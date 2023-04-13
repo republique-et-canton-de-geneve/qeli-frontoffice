@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TrackingService } from '../service/tracking/tracking.service';
 import { QeliConfigurationService } from '../service/configuration/qeli-configuration.service';
@@ -31,12 +31,6 @@ import { FromSchemaToAnswerVisitor } from '../dynamic-question/model/to-answer.v
 import { StatsService } from '../service/stats.service';
 import { DeepLinkService } from '../deep-link/deep-link.service';
 import { Subscription } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { NgcCookieConsentService, NgcInitializeEvent, NgcStatusChangeEvent } from 'ngx-cookieconsent';
-import { CookieService } from 'ngx-cookie-service';
-import {
-  COOKIE_AGREED, COOKIE_BANNER, COOKIE_BANNER_STATUS_DISMISS, COOKIE_EXPIRY_DAYS, CookieAgreedStatus, CookieStatusUtils
-} from '../service/cookie-status.utils';
 import { FormResultService } from '../service/question/form-result.service';
 
 
@@ -46,10 +40,10 @@ import { FormResultService } from '../service/question/form-result.service';
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
-  @ViewChild('qeliSetupForm', {static: false}) qeliSetupForm: FormSetupComponent;
-  @ViewChild('qeliForm', {static: false}) qeliForm: QeliFormComponent;
+  @ViewChild('qeliSetupForm') qeliSetupForm: FormSetupComponent;
+  @ViewChild('qeliForm') qeliForm: QeliFormComponent;
 
   demandeurData: Demandeur = null;
   qeliConfiguration: QeliConfiguration;
@@ -58,10 +52,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private _questionChangedSubscription: Subscription;
 
-  private cookieDomain: string;
-  private cookieInitializeSubscription: Subscription;
-  private cookieStatusChangeSubscription: Subscription;
-
   constructor(private route: ActivatedRoute,
               private trackingService: TrackingService,
               private qeliConfigurationService: QeliConfigurationService,
@@ -69,23 +59,12 @@ export class HomeComponent implements OnInit, OnDestroy {
               private formResultService: FormResultService,
               private deepLinkService: DeepLinkService,
               private ref: ChangeDetectorRef,
-              private statsService: StatsService,
-              private translate: TranslateService,
-              private ccService: NgcCookieConsentService,
-              private cookieService: CookieService) {
+              private statsService: StatsService) {
   }
 
   ngOnInit() {
-    this.subscribeToCookieConsent();
-
-    this.qeliConfigurationService.loadConfiguration().subscribe(configuration => {
+    this.qeliConfigurationService.configuration.subscribe(configuration => {
       this.qeliConfiguration = configuration;
-      this.trackingService.initMatomo(configuration);
-      this.initCookieBanner(configuration);
-
-      if (this.cookieService.get(COOKIE_AGREED) === CookieAgreedStatus.ACCEPTED) {
-        this.trackingService.setConsentGiven();
-      }
 
       this.deepLinkService.onStateUpdated(this.route).subscribe(state => {
         if (!state) {
@@ -104,57 +83,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       this.ref.markForCheck();
     });
-  }
-
-  ngOnDestroy() {
-    this.cookieInitializeSubscription.unsubscribe();
-    this.cookieStatusChangeSubscription.unsubscribe();
-  }
-
-  private initCookieBanner(configuration: QeliConfiguration) {
-    this.cookieDomain = CookieStatusUtils.generateCookieDomain(window.location.hostname);
-
-    this.translate.get([
-      'common.cookie.message', 'common.cookie.dismiss', 'common.cookie.link', 'common.cookie.href'
-    ]).subscribe(data => {
-      this.ccService.getConfig().content = this.ccService.getConfig().content || {};
-      // Override default messages with the translated ones
-      this.ccService.getConfig().content.message = data['common.cookie.message'];
-      this.ccService.getConfig().content.dismiss = data['common.cookie.dismiss'];
-      this.ccService.getConfig().content.link = data['common.cookie.link'];
-      this.ccService.getConfig().content.href = data['common.cookie.href'];
-      this.ccService.getConfig().cookie.name = COOKIE_BANNER;
-      this.ccService.getConfig().cookie.domain = this.cookieDomain;
-
-      // Banner enabled by configuration, and if cookie-agreed is not set :
-      this.ccService.getConfig().enabled = configuration.cookieBannerEnabled && !this.cookieService.get(COOKIE_AGREED)
-      this.ccService.destroy(); // remove previous cookie bar (with default messages)
-      this.ccService.init(this.ccService.getConfig()); // update config with translated messages
-    });
-  }
-
-  subscribeToCookieConsent() {
-    this.cookieInitializeSubscription = this.ccService.initialize$.subscribe(
-      (event: NgcInitializeEvent) => {
-        // init event : if cookie-agreed is not set but cookie-banner is, delete the cookie and reset the banner :
-        if (!CookieStatusUtils.isCookieAgreedSet(this.cookieService.get(COOKIE_AGREED)) &&
-            event.status === COOKIE_BANNER_STATUS_DISMISS) {
-          this.cookieService.delete(COOKIE_BANNER, '/', this.cookieDomain);
-          this.ccService.getConfig().enabled = true;
-          this.ccService.init(this.ccService.getConfig());
-        }
-      });
-
-    this.cookieStatusChangeSubscription = this.ccService.statusChange$.subscribe(
-      (event: NgcStatusChangeEvent) => {
-        // status change event : if the banner is dismissed, then set the global cookie as accepted and consent given :
-        if (event.status === COOKIE_BANNER_STATUS_DISMISS &&
-            !this.cookieService.get(COOKIE_AGREED)) {
-          this.cookieService.set(COOKIE_AGREED, CookieAgreedStatus.ACCEPTED,
-            {expires: COOKIE_EXPIRY_DAYS, path: '/', domain: this.cookieDomain});
-          this.trackingService.setConsentGiven();
-        }
-      });
   }
 
   private rebuildQeliStateMachine(state: QeliStateSchema) {

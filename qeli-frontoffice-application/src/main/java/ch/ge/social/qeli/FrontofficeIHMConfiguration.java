@@ -19,15 +19,12 @@
 
 package ch.ge.social.qeli;
 
-import com.google.common.base.CharMatcher;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
@@ -43,16 +40,15 @@ public class FrontofficeIHMConfiguration implements WebMvcConfigurer {
   @Autowired
   public FrontofficeIHMConfiguration(
     ApplicationContext applicationContext,
-    @Value("${social.tools.frontoffice.ihm-resource-location}") String ihmResourceLocation,
-    @Value("${social.tools.frontoffice.ihm-context-path}") String ihmContextPath) {
+    ApplicationConfigurationProperties applicationConfiguration) {
     this.applicationContext = applicationContext;
-    this.ihmResourceLocation = CharMatcher.is('/').trimTrailingFrom(ihmResourceLocation);
-    this.ihmContextPath = CharMatcher.is('/').trimTrailingFrom(ihmContextPath);
+    this.ihmResourceLocation = applicationConfiguration.getIhmResourceLocation();
+    this.ihmContextPath = applicationConfiguration.getIhmContextPath();
   }
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler(ihmContextPath + "/**")
+    registry.addResourceHandler(ihmContextPath, ihmContextPath + "/", ihmContextPath + "/**")
             .addResourceLocations(ihmResourceLocation + "/")
             .setCachePeriod(3600)
             .resourceChain(true)
@@ -64,11 +60,5 @@ public class FrontofficeIHMConfiguration implements WebMvcConfigurer {
                        applicationContext.getResource(ihmResourceLocation + "/index.html");
               }
             });
-  }
-
-  @Override
-  public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController(ihmContextPath).setViewName("forward:/" + ihmContextPath + "/");
-    registry.addViewController(ihmContextPath + "/").setViewName("forward:/" + ihmContextPath + "/index.html");
   }
 }

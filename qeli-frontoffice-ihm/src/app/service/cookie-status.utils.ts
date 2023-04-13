@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Nom du cookie global.
  */
+import { CookieService } from 'ngx-cookie-service';
+
 export const COOKIE_AGREED = 'cookie-agreed';
 
 /**
@@ -43,26 +44,24 @@ export const COOKIE_BANNER = 'cookie-banner';
 /**
  * Valeur du cookie de la bannière lorsque celle-ci est fermée.
  */
-export const COOKIE_BANNER_STATUS_DISMISS = 'dismiss'
+export const COOKIE_BANNER_STATUS_DISMISS = 'dismiss';
 
-export class CookieStatusUtils {
-
+  export class CookieUtils {
   /**
-   * Définit le nom de domaine du cookie au format ".domain.ch".
-   *
-   * @param hostname
+   * Le nom de domaine du cookie au format ".domain.ch".
    */
-  static generateCookieDomain(hostname: string): string {
-    return hostname.substring(hostname.lastIndexOf(".", hostname.length - 4), hostname.length);
+  static get domain(): string {
+    const hostname = window.location.hostname;
+    return hostname.substring(hostname.lastIndexOf('.', hostname.length - 4), hostname.length);
   }
 
   /**
-   * Si cookie agreed est défini
+   * Si le cookie agreed est défini.
    *
-   * @param cookieAgreed
-   * @return boolean
+   * @param cookieService le service des cookies.
    */
-  static isCookieAgreedSet(cookieAgreed: string): boolean {
+  static isCookieAgreedSet(cookieService: CookieService): boolean {
+    const cookieAgreed = cookieService.get(COOKIE_AGREED);
     return (cookieAgreed === CookieAgreedStatus.ACCEPTED || cookieAgreed === CookieAgreedStatus.REFUSED)
   }
 }

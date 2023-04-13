@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Answer, OptionAnswer, StringAnswer } from './answer.model';
 import { QuestionVisitorModel } from './question-visitor.model';
 import { I18nString } from '../../core/i18n/i18nstring.model';
@@ -39,7 +39,7 @@ export interface QuestionSchema {
   introduction?: I18nString | ((value: any) => I18nString);
   extraHelp?: I18nString | ((value: any) => I18nString);
   errorLabels?: { [key: string]: I18nString };
-  onValueChanged?: (control: FormGroup) => void;
+  onValueChanged?: (control: UntypedFormGroup) => void;
   validators?: ValidatorFn[];
 }
 
@@ -104,7 +104,7 @@ export abstract class Question<T extends Answer> {
    *
    * @param control le control subjacent.
    */
-  onValueChanged?: (control: FormGroup) => void;
+  onValueChanged?: (control: UntypedFormGroup) => void;
 
   private readonly _validators: ValidatorFn[] = [];
 
@@ -166,7 +166,7 @@ export abstract class Question<T extends Answer> {
  */
 export abstract class StringQuestion extends Question<StringAnswer> {
   toFormControl(defaultValue?: StringAnswer): AbstractControl {
-    return new FormControl(defaultValue ? defaultValue.value : null, this.validators);
+    return new UntypedFormControl(defaultValue ? defaultValue.value : null, this.validators);
   }
 }
 
@@ -175,7 +175,7 @@ export abstract class StringQuestion extends Question<StringAnswer> {
  */
 export abstract class OptionQuestion<T> extends Question<OptionAnswer<T>> {
   toFormControl(defaultValue?: OptionAnswer<T>): AbstractControl {
-    return new FormControl(defaultValue && defaultValue.value ? defaultValue.value.value : null, this.validators);
+    return new UntypedFormControl(defaultValue && defaultValue.value ? defaultValue.value.value : null, this.validators);
   }
 }
 

@@ -19,7 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QeliConfiguration } from './qeli-configuration.model';
 
@@ -28,12 +28,24 @@ import { QeliConfiguration } from './qeli-configuration.model';
 })
 export class QeliConfigurationService {
 
+  private readonly _resourceUrl = '/socialqeli_pub/api/configuration';
+  private _configuration$: Subject<QeliConfiguration>;
+
   constructor(private http: HttpClient) {
+
   }
 
-  loadConfiguration(): Observable<QeliConfiguration> {
-    return this.http.get('/socialqeli_pub/api/configuration', {}).pipe(
-      map((response: Response) => new QeliConfiguration(response))
-    );
+  /**
+   * La configuration de l'application.
+   */
+  get configuration(): Observable<QeliConfiguration> {
+    if (!this._configuration$) {
+      this._configuration$ = new ReplaySubject();
+      this.http
+          .get(this._resourceUrl, {})
+          .pipe(map((response: Response) => new QeliConfiguration(response)))
+          .subscribe(configuration => this._configuration$.next(configuration));
+    }
+    return this._configuration$;
   }
 }

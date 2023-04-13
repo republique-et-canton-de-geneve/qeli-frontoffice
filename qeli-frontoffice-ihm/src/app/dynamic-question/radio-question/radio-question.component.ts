@@ -19,7 +19,7 @@
 
 import { Component, Input } from '@angular/core';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { RADIO_CONTROL_TYPE, RadioQuestion } from './radio-question.model';
 import { QuestionComponent } from '../model/question.component';
 import { OptionAnswer } from '../model/answer.model';
@@ -32,7 +32,7 @@ import { OptionAnswer } from '../model/answer.model';
 })
 export class RadioQuestionComponent implements QuestionComponent<OptionAnswer<string>> {
   @Input() question: RadioQuestion;
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean;
 
   get isValid() {

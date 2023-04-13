@@ -18,7 +18,7 @@
  */
 
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DateValidators } from '../../ge-forms/date.validators';
 import * as moment from 'moment';
 import {
@@ -37,15 +37,15 @@ const MAX_NUMBER_OF_MEMBRES = 20;
 })
 export class FormSetupComponent {
 
-  @ViewChild('formElement', {static: false}) formElement: ElementRef;
+  @ViewChild('formElement') formElement: ElementRef;
 
-  setupForm: FormGroup;
+  setupForm: UntypedFormGroup;
   numberOfMembres = 0;
   etatCivilOptions = Object.keys(EtatCivil);
   relationOptionsByMember: Relation[][] = [];
   errorLabels: { [key: string]: I18nString } = {};
 
-  constructor(private fb: FormBuilder,
+  constructor(private fb: UntypedFormBuilder,
               private translate: TranslateService) {
     this.initForm();
     this.errorLabels = {
@@ -59,10 +59,10 @@ export class FormSetupComponent {
 
   private initForm(demandeur?: Demandeur) {
     this.setupForm = this.fb.group({
-      id: new FormControl(0),
-      prenom: new FormControl(demandeur ? demandeur.prenom : null, this.uniquePrenomValidator.bind(this)),
-      etatCivil: new FormControl(demandeur ? demandeur.etatCivil : null, Validators.required),
-      dateNaissance: new FormControl(demandeur ? demandeur.dateNaissance : null, this.dateNaissanceValidators),
+      id: new UntypedFormControl(0),
+      prenom: new UntypedFormControl(demandeur ? demandeur.prenom : null, this.uniquePrenomValidator.bind(this)),
+      etatCivil: new UntypedFormControl(demandeur ? demandeur.etatCivil : null, Validators.required),
+      dateNaissance: new UntypedFormControl(demandeur ? demandeur.dateNaissance : null, this.dateNaissanceValidators),
       membresFoyer: this.fb.array([])
     });
 
@@ -74,8 +74,8 @@ export class FormSetupComponent {
 
   private uniquePrenomValidator(control: AbstractControl) {
     if (control && control.value) {
-      const prenomControls: FormControl[] = [this.setupForm.controls['prenom'] as FormControl].concat(
-        this.membresFoyerControls.map(membreFoyerControl => membreFoyerControl.controls['prenom'] as FormControl)
+      const prenomControls: UntypedFormControl[] = [this.setupForm.controls['prenom'] as UntypedFormControl].concat(
+        this.membresFoyerControls.map(membreFoyerControl => membreFoyerControl.controls['prenom'] as UntypedFormControl)
       );
       const prenoms = prenomControls.filter(
         prenomControl => control.parent && (prenomControl.parent.value['id'] !== control.parent.value['id'])
@@ -109,11 +109,11 @@ export class FormSetupComponent {
       this.relationOptionsByMember[this.numberOfMembres] = this.availableRelationOptions();
       this.membresFoyer.push(
         this.fb.group({
-          id: new FormControl(membre ? membre.id : this.numberOfMembres + 1),
-          prenom: new FormControl(membre ? membre.prenom : null,
+          id: new UntypedFormControl(membre ? membre.id : this.numberOfMembres + 1),
+          prenom: new UntypedFormControl(membre ? membre.prenom : null,
             membre && !membre.isOptional ? this.uniquePrenomValidator.bind(this) : null),
-          relation: new FormControl(membre ? membre.relation : null, Validators.required),
-          dateNaissance: new FormControl(membre ? membre.dateNaissance : null,
+          relation: new UntypedFormControl(membre ? membre.relation : null, Validators.required),
+          dateNaissance: new UntypedFormControl(membre ? membre.dateNaissance : null,
             membre && !membre.isOptional ? this.dateNaissanceValidators : null)
         })
       );
@@ -194,11 +194,11 @@ export class FormSetupComponent {
   }
 
   get membresFoyer() {
-    return this.setupForm.controls['membresFoyer'] as FormArray;
+    return this.setupForm.controls['membresFoyer'] as UntypedFormArray;
   }
 
   get membresFoyerControls() {
-    return this.membresFoyer.controls as FormGroup[];
+    return this.membresFoyer.controls as UntypedFormGroup[];
   }
 
   get isValid() {

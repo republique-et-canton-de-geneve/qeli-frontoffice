@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { Pays } from './pays.model';
 import { QuestionVisitorModel } from '../model/question-visitor.model';
 import { Question, QuestionOption, QuestionSchema } from '../model/question.model';
@@ -75,13 +75,13 @@ export class NationaliteQuestion extends Question<NationaliteAnswer> {
   toFormControl(defaultValue: NationaliteAnswer): AbstractControl {
     let group: any = {};
 
-    group['apatride'] = new FormControl(defaultValue ? defaultValue.apatride : false);
-    group['pays'] = new FormArray(
+    group['apatride'] = new UntypedFormControl(defaultValue ? defaultValue.apatride : false);
+    group['pays'] = new UntypedFormArray(
       defaultValue && defaultValue.pays && defaultValue.pays.length > 0 ?
-      defaultValue.pays.map(pay => new FormControl(pay.value)) : [new FormControl()]
+      defaultValue.pays.map(pay => new UntypedFormControl(pay.value)) : [new UntypedFormControl()]
     );
 
-    return new FormGroup(group, this.validators);
+    return new UntypedFormGroup(group, this.validators);
   }
 
   accept<E>(visitor: QuestionVisitorModel<E>): E {

@@ -21,7 +21,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RegisterQuestionComponent } from '../model/question-registry.model';
 import { COMPOSITE_CONTROL_TYPE, CompositeAnswer, CompositeQuestion } from './composite-question.model';
 import { QuestionComponent } from '../model/question.component';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @RegisterQuestionComponent(COMPOSITE_CONTROL_TYPE)
 @Component({
@@ -31,7 +31,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class CompositeQuestionComponent implements QuestionComponent<CompositeAnswer>, OnInit {
   @Input() question: CompositeQuestion;
-  @Input() form: FormGroup;
+  @Input() form: UntypedFormGroup;
   @Input() disableFocusOnInit: boolean;
 
   ngOnInit(): void {
@@ -53,6 +53,6 @@ export class CompositeQuestionComponent implements QuestionComponent<CompositeAn
   }
 
   get formGroup() {
-    return this.form.controls[this.question.key] as FormGroup;
+    return this.form.controls[this.question.key] as UntypedFormGroup;
   }
 }
