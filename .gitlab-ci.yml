@@ -104,7 +104,7 @@ dev-a:run:
   script:
     - cd qeli-frontoffice-application/
     - scp target/qeli-frontoffice-application.war ${DEV_USER}@${DEV_HOST_A}:${DEV_DEPLOY_PATH}/socialqeli_pub.war
-    - sed -i "s/%CATALINA_HOME%/${DEV_CATALINA_HOME}/" src/distrib/dev-deploy.sh
+    - sed -i s/%CATALINA_HOME%/${DEV_CATALINA_HOME}/ ./src/distrib/dev-deploy.sh
     - scp src/distrib/dev-deploy.sh ${DEV_USER}@${DEV_HOST_A}:/home/${DEV_USER}/deploy.sh
     - ssh -t ${DEV_USER}@${DEV_HOST_A} "cd /home/${DEV_USER}/ && sh ./deploy.sh"
   rules:
@@ -126,7 +126,7 @@ dev-b:run:
   script:
     - cd qeli-frontoffice-application/
     - scp target/qeli-frontoffice-application.war ${DEV_USER}@${DEV_HOST_B}:${DEV_DEPLOY_PATH}/socialqeli_pub.war
-    - sed -i "s/%CATALINA_HOME%/${DEV_CATALINA_HOME}/" src/distrib/dev-deploy.sh
+    - sed -i s/%CATALINA_HOME%/${DEV_CATALINA_HOME}/ ./src/distrib/dev-deploy.sh
     - scp src/distrib/dev-deploy.sh ${DEV_USER}@${DEV_HOST_B}:/home/${DEV_USER}/deploy.sh
     - ssh -t ${DEV_USER}@${DEV_HOST_B} "cd /home/${DEV_USER}/ && sh ./deploy.sh"
   rules:
