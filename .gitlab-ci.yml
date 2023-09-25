@@ -12,7 +12,7 @@ default:
   tags:
     - 'host:restricted-container'
     - 'net:gold-dev'
-    - 'id:gitlab_runner_dev_10879-SOCIAL-1-environments'
+    - 'registered_endpoint:/DEVELOPPEUR-SOCIAL'
 
 # Cache par défaut des node_modules ainsi que des dépôts maven et npm
 cache:
