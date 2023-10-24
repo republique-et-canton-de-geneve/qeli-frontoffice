@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
-import { PrestationStatus } from "../../support/prestation-status";
+import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor';
+import { PrestationStatus } from "../../support/commands/prestation-status";
 
 // Given statements
 Given('Je/je suis sur le formulaire',

@@ -3,19 +3,20 @@
   "version": "1.5.1",
   "description": "Cypress avec Cucumber pour tester l'application web",
   "scripts": {
-    "cy:open": "cypress open",
-    "cy:run": "cypress run --spec **/*.features",
+    "cy:open": "cypress open --e2e",
+    "cy:run": "cypress run --e2e --spec **/*.feature",
     "cy:verify": "cypress verify",
     "cy:version": "cypress version"
   },
   "private": true,
   "dependencies": {
-    "cypress": "~3.8.2",
-    "cypress-cucumber-preprocessor": "~2.0.1",
-    "moment": "~2.29.4",
-    "neat-csv": "~5.1.0"
+    "cypress": "^12.17.4",
+    "@badeball/cypress-cucumber-preprocessor": "^18.0.6",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "moment": "^2.29.4",
+    "neat-csv": "^7.0.0"
   },
   "cypress-cucumber-preprocessor": {
-    "nonGlobalStepDefinitions": true
+    "stepDefinitions": "cypress/e2e/step_definitions/**/*.{js,ts}"
   }
 }

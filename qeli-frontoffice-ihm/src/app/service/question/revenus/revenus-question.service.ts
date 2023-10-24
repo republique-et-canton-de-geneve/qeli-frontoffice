@@ -31,7 +31,7 @@ import { situationRenteAsOptions } from './situation-rente.model';
 import { AnswerUtils } from '../answer-utils';
 import { QuestionUtils } from '../qeli-questions.utils';
 import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
-import * as _ from 'lodash';
+import { get, intersection } from 'lodash-es';
 
 export class RevenusQuestionService extends QuestionLoader {
 
@@ -120,8 +120,8 @@ export class RevenusQuestionService extends QuestionLoader {
 
   private hasNotRevenusAVSOrAIFn(membre) {
     return value => {
-      const choices = _.get(value, `revenus_${membre.id}.situationRevenus.choices`);
-      return _.intersection(choices, TYPE_REVENUS_AVS.concat(TYPE_REVENUS_AI)).length === 0;
+      const choices = get(value, `revenus_${membre.id}.situationRevenus.choices`);
+      return intersection(choices, TYPE_REVENUS_AVS.concat(TYPE_REVENUS_AI)).length === 0;
     };
   }
 

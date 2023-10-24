@@ -32,7 +32,7 @@ import { QuestionUtils } from '../qeli-questions.utils';
 import { AnswerUtils } from '../answer-utils';
 import { TypeEnfant } from '../enfants/type-enfant.model';
 import { CompositeQuestion } from '../../../dynamic-question/composite-question/composite-question.model';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 export class DomicileQuestionService extends QuestionLoader {
 

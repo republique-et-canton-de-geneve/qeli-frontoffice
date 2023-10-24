@@ -12,6 +12,9 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "allowedCommonJsDependencies": [
+            "bowser", "angular-captcha", "lzutf8"
+          ],
           "options": {
             "outputPath": "dist/qeli-frontoffice-ihm",
             "index": "src/index.html",

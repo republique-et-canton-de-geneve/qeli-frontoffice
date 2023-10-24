@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ComponentFactoryResolver, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { QuestionDirective } from './model/question.directive';
 import { QuestionComponent } from './model/question.component';
@@ -46,8 +46,7 @@ export class DynamicQuestionComponent {
 
   @ViewChild(QuestionDirective, {static: true}) questionDirective: QuestionDirective;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver,
-              private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef) {
 
   }
 
@@ -101,13 +100,10 @@ export class DynamicQuestionComponent {
 
   private loadComponent() {
     if (this.formGroup && this.question) {
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-        QuestionRegistryModel[this.question.controlType]
-      );
       const viewContainerRef = this.questionDirective.viewContainerRef;
       viewContainerRef.clear();
-
-      const componentRef = viewContainerRef.createComponent(componentFactory);
+      console.log(QuestionRegistryModel[this.question.controlType]);
+      const componentRef = viewContainerRef.createComponent(QuestionRegistryModel[this.question.controlType]);
       (<QuestionComponent<any>>componentRef.instance).form = this.formGroup;
       (<QuestionComponent<any>>componentRef.instance).question = this.question;
       (<QuestionComponent<any>>componentRef.instance).disableFocusOnInit = this.disableFocusOnInit;

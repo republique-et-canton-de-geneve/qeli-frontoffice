@@ -25,36 +25,41 @@ import { DropdownQuestionComponent } from './dropdown-question/dropdown-question
 import { DynamicQuestionComponent } from './dynamic-question.component';
 import { NationaliteQuestionComponent } from './nationalite-question/nationalite-question.component';
 import { NumberQuestionComponent } from './number-question/number-question.component';
-import { QuestionDirective } from './model/question.directive';
 import { RadioQuestionComponent } from './radio-question/radio-question.component';
 import { TauxQuestionComponent } from './taux-question/taux-question.component';
 import { TextQuestionComponent } from './text-question/text-question.component';
 import { CoreModule } from '../core/core.module';
 import { DeepLinkModule } from '../deep-link/deep-link.module';
 import { CompositeQuestionComponent } from './composite-question/composite-question.component';
+import { QuestionDirective } from './model/question.directive';
+
+// Force the reference of dynamic components so that they are not tree shaken during optimization
+const DYNAMIC_COMPONENTS = [
+  CheckboxGroupQuestionComponent,
+  CompositeQuestionComponent,
+  DateQuestionComponent,
+  DropdownQuestionComponent,
+  DynamicQuestionComponent,
+  NationaliteQuestionComponent,
+  NumberQuestionComponent,
+  RadioQuestionComponent,
+  TauxQuestionComponent,
+  TextQuestionComponent
+];
 
 @NgModule({
-    imports: [
-        CoreModule,
-        GeFormsModule,
-        DeepLinkModule
-    ],
-    exports: [
-        DynamicQuestionComponent
-    ],
-    declarations: [
-        CheckboxGroupQuestionComponent,
-        CompositeQuestionComponent,
-        DateQuestionComponent,
-        DropdownQuestionComponent,
-        DynamicQuestionComponent,
-        NationaliteQuestionComponent,
-        NumberQuestionComponent,
-        QuestionDirective,
-        RadioQuestionComponent,
-        TauxQuestionComponent,
-        TextQuestionComponent
-    ]
+  imports: [
+    CoreModule,
+    GeFormsModule,
+    DeepLinkModule
+  ],
+  exports: [
+    DynamicQuestionComponent
+  ],
+  declarations: [
+    ...DYNAMIC_COMPONENTS,
+    QuestionDirective
+  ]
 })
 export class DynamicQuestionModule {
 }
