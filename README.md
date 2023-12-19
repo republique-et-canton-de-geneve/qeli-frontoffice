@@ -180,6 +180,28 @@ activer le profile `ocsin`, par exemple :
 ```bash
 mvn clean package -Pocsin
 ```
+## Particularité open source ##
+
+Si vous avez cloné ce dépôt Git depuis la page GitHub de l'État de Genève
+et que vous vouliez construire l'application avec Maven, vous devez
+surmonter un écueil.
+En effet, pour fonctionner l'application a besoin des fichiers
+`botdetect-<VERSION>.jar` et `botdetect-servlet-<VERSION>.jar`.
+Or, si le
+[site de Captcha](https://captcha.com/java-captcha.html) précise
+"You can download BotDetect Java CAPTCHA library for free and use it immediately",
+Captcha ne met pas à disposition les deux fichiers JAR dans Maven Central ni dans
+un dépôt Maven maison.
+Par conséquent, avant de lancer votre commande `mvn`, vous devez télécharger
+puis installer dans votre dépôt Maven les deux fichiers JAR.
+La version à sélectionner est fournie par la propriété
+`botdetect-servlet.version` indiquée dans le fichier
+[pom.xml](./pom.xml)
+de ce projet-ci.
+
+Il est par ailleurs recommandé de prendre connaissance avec
+[licence](https://captcha.com/license/captcha-licensing.html)
+de BotDetect Captcha.
 
 ## Astuces
 
