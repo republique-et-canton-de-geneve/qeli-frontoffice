@@ -199,7 +199,7 @@ La version à sélectionner est fournie par la propriété
 [pom.xml](./pom.xml)
 de ce projet-ci.
 
-Il est par ailleurs recommandé de prendre connaissance avec
+Il est par ailleurs recommandé de prendre connaissance de la
 [licence](https://captcha.com/license/captcha-licensing.html)
 de BotDetect Captcha.
 
