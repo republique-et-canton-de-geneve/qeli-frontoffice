@@ -68,9 +68,9 @@
       "title": "Résultat",
       "pdf": "Obtenir un récapitulatif en PDF",
       "eligibilite": {
-        "oui": "D'après ce que vous avez répondu, vous pourriez bénéficier des prestations suivantes :",
-        "non": "D'après ce que vous avez répondu, vous ne pourrez probablement pas bénéficier des prestations suivantes :",
-        "deja": "D'après ce que vous avez répondu, vous bénéficiez déjà des prestations suivantes :"
+        "oui": "D'après vos réponses, vous pourriez peut-être bénéficier des prestations suivantes :",
+        "non": "D'après vos réponses, vous ne pourrez probablement pas bénéficier des prestations suivantes :",
+        "deja": "D'après vos réponses, vous bénéficiez déjà des prestations suivantes :"
       },
       "plusInformation": "+ Plus d'information",
       "demande": "Faire une demande",
@@ -81,7 +81,7 @@
           "title": "Subsides d'assurance-maladie",
           "plusInformationLink": "https://www.ge.ch/node/1878",
           "demandeLink": "https://www.ge.ch/node/22803",
-          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
+          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est peut-être éligible}}",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçoit}} déjà cette prestation",
           "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}"
         },
@@ -89,42 +89,42 @@
           "title": "Avances de pensions alimentaires",
           "plusInformationLink": "https://www.ge.ch/node/2439",
           "demandeLink": "https://www.ge.ch/node/2440",
-          "eligible": "Vous êtes éligible"
+          "eligible": "Vous êtes peut-être éligible"
         },
         "ALLOCATION_LOGEMENT": {
           "title": "Allocation logement",
           "plusInformationLink": "https://www.ge.ch/node/2483",
-          "demandeLink": "https://www.ge.ch/node/2484",
-          "eligible": "Vous êtes éligible"
+          "demandeLink": "https://www.ge.ch/node/2483",
+          "eligible": "Vous êtes peut-être éligible"
         },
         "PC_AVS_AI": {
           "title": "Prestations complémentaires AVS/AI",
           "plusInformationLink": "https://www.ge.ch/node/2045",
           "demandeLink": "https://www.ge.ch/node/6421",
-          "eligible": "Vous êtes éligible"
+          "eligible": "Vous êtes peut-être éligible"
         },
         "BOURSES": {
           "title": "Bourses d'études",
           "plusInformationLink": "https://www.ge.ch/node/9840",
           "demandeLink": "https://www.ge.ch/node/9843",
-          "eligible": "{who, select, me{Vous êtes éligible} other{{membre} est éligible}}",
+          "eligible": "{who, select, me{Vous êtes peut-être éligible} other{{membre} est peut-être éligible}}",
           "dejaPercue": "{who, select, me{Vous percevez} other{{membre} perçoit}} déjà cette prestation",
           "refusee": "{who, select, me{Vous n'êtes pas éligible} other{{membre} n'est pas éligible}}",
-          "information11P": "Attention : l'année prochaine, {enfants11P} {nombreEnfants11P, select, 1{sera} other{seront}} potentiellement éligible aux bourses.",
-          "informationChomage": "Si votre droit au chômage s'arrête pendant la formation, vous pourriez avoir droit à une bourse."
+          "information11P": "Attention : l'année prochaine, {enfants11P} {nombreEnfants11P, select, 1{sera} other{seront}} peut-être éligible aux bourses.",
+          "informationChomage": "Si votre droit au chômage s'arrête pendant la formation, vous pourriez peut-être avoir droit à une bourse."
         },
         "PC_FAM": {
           "title": "Prestations complémentaires familiales",
           "plusInformationLink": "https://www.ge.ch/node/1834",
           "demandeLink": "https://www.ge.ch/node/2431",
-          "eligible": "Votre foyer est éligible",
+          "eligible": "Votre foyer est peut-être éligible",
           "taxationOffice": "Pour avoir droit aux prestations complémentaires familiales, vous devrez d'abord régulariser votre situation auprès des impôts."
         },
         "AIDE_SOCIALE": {
           "title": "Aide Sociale",
           "plusInformationLink": "https://www.hospicegeneral.ch/fr/aide_financiere",
           "demandeLink": "https://www.hospicegeneral.ch/fr/votre-centre-de-quartier",
-          "eligible": "Vous êtes éligible"
+          "eligible": "Vous êtes peut-être éligible"
         }
       },
       "reponses": "Veuillez retrouver ci-dessous un résumé des réponses que vous avez donné au questionnaire :"
