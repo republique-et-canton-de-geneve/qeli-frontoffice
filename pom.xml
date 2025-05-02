@@ -320,9 +320,6 @@
             <versionDigitToIncrement>1</versionDigitToIncrement>
             <updateVersionDigitToIncrement>1</updateVersionDigitToIncrement>
             <hotfixVersionDigitToIncrement>2</hotfixVersionDigitToIncrement>
-            <gitFlowConfig>
-              <productionBranch>main</productionBranch>
-            </gitFlowConfig>
           </configuration>
         </plugin>
         <plugin>
